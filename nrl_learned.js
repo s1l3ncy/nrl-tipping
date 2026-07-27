@@ -58,6 +58,11 @@ window.NRL_LEARNED = {
       "date": "2026-07-27",
       "games": 7,
       "brier": 0.2609
+    },
+    {
+      "date": "2026-07-27",
+      "games": 7,
+      "brier": 0.2609
     }
   ],
   "results": [
