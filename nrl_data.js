@@ -26,7 +26,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Dylan Edwards Shoulder TBC; Shoulder"
+      "news": "Dylan Edwards (Shoulder); Mitch Kenny (Leg); Jack Cogger (Suspension) — back Round 22"
     },
     {
       "name": "Roosters",
@@ -40,7 +40,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Lindsay Collins Concussion Round 23; Concussion"
+      "news": "Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26"
     },
     {
       "name": "Warriors",
@@ -54,7 +54,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Tanah Boyd ACL Next Season"
+      "news": "Taine Tuaupiki (Foot); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -68,7 +68,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Thomas Hazelton Back Round 22; Round 22"
+      "news": "Thomas Hazelton (Back) — back Round 22"
     },
     {
       "name": "Dolphins",
@@ -82,7 +82,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Ray Stone Shoulder TBC; Shoulder"
+      "news": "Ray Stone (Shoulder); Jake Averillo (Ribs); Jack Bostock (Concussion) — back Round 22"
     },
     {
       "name": "Rabbitohs",
@@ -96,7 +96,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Dayne Jennings Knee TBC; Latrell Mitchell Calf Round 23"
+      "news": "Dayne Jennings (Knee); Brandon Smith (Calf); Latrell Mitchell (Calf) — back Round 23"
     },
     {
       "name": "Knights",
@@ -110,7 +110,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Jermaine McEwen Hamstring Round 22; Hamstring"
+      "news": "Dane Gagai (Calf); Kalyn Ponga (Quad); Jermaine McEwen (Hamstring) — back Round 22"
     },
     {
       "name": "Cowboys",
@@ -124,7 +124,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Tom Dearden Ankle TBC; Ankle"
+      "news": "Reed Mahoney (Head knock); Tom Dearden (Ankle); John Bateman (Hamstring)"
     },
     {
       "name": "Bulldogs",
@@ -138,7 +138,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Mitchell Woods Hamstring TBC; Hamstring"
+      "news": "Mitchell Woods (Hamstring); Jake Turpin (Biceps); Samuel Hughes (Neck)"
     },
     {
       "name": "Sea Eagles",
@@ -152,7 +152,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Clayton Faulalo Hamstring TBC; Hamstring"
+      "news": "Siosiua Taukeiaho (Leg); Clayton Faulalo (Hamstring); Jackson Shereb (Concussion)"
     },
     {
       "name": "Raiders",
@@ -166,7 +166,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Owen Pattie Suspension Round 22; Round 22"
+      "news": "Noah Martin (Quad); Owen Pattie (Suspension) — back Round 22; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Storm",
@@ -180,7 +180,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Cameron Munster Knee Round 24; Round 24"
+      "news": "Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Cameron Munster (Knee) — back Round 24"
     },
     {
       "name": "Titans",
@@ -194,7 +194,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Brock Gray ACL TBC; AJ Brimson Concussion Round 22"
+      "news": "Brock Gray (ACL); AJ Brimson (Concussion) — back Round 22; Kurtis Morrin (Leg) — back Round 22"
     },
     {
       "name": "Broncos",
@@ -208,7 +208,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Brendan Piakura Concussion TBC; Concussion"
+      "news": "Corey Jensen (Medical Episode); Brendan Piakura (Concussion); Aublix Tawha (Ankle) — back Round 23"
     },
     {
       "name": "Eels",
@@ -222,7 +222,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Junior Paulo Knee Round 22; Round 22"
+      "news": "Luca Moretti (Head knock); Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23"
     },
     {
       "name": "Wests Tigers",
@@ -236,7 +236,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Latu Fainu Suspension Round 25; Round 25"
+      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25"
     },
     {
       "name": "Dragons",
@@ -250,7 +250,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Player Reason Expected Return; Kade Reed Finger Round 22; Round 22"
+      "news": "Hame Sele (Achilles); Kade Reed (Finger) — back Round 22; Jaydn Su'A (Pectoral) — back Round 27"
     }
   ],
   "fixtures": [
@@ -271,7 +271,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Mon 27 Jul: 17°C, 41% rain chance, partly cloudy",
       "h2h": null
     },
     {
