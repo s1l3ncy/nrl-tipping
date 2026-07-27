@@ -257,9 +257,9 @@ window.NRL_DATA = {
     {
       "home": "NQL",
       "away": "SYD",
-      "venue": "QLD Country Bank Stadium",
+      "venue": "",
       "city": "Townsville",
-      "kickoff": "2026-07-30T19:50:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -267,9 +267,9 @@ window.NRL_DATA = {
     {
       "home": "STI",
       "away": "DOL",
-      "venue": "WIN Stadium",
+      "venue": "",
       "city": "Wollongong",
-      "kickoff": "2026-07-31T18:00:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -277,9 +277,9 @@ window.NRL_DATA = {
     {
       "home": "MEL",
       "away": "CAN",
-      "venue": "AAMI Park",
+      "venue": "",
       "city": "Melbourne",
-      "kickoff": "2026-07-31T20:00:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -287,9 +287,9 @@ window.NRL_DATA = {
     {
       "home": "GLD",
       "away": "NZW",
-      "venue": "Cbus Super Stadium",
+      "venue": "",
       "city": "Gold Coast",
-      "kickoff": "2026-08-01T15:00:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -297,9 +297,9 @@ window.NRL_DATA = {
     {
       "home": "PEN",
       "away": "CBR",
-      "venue": "Glen Willow Oval",
-      "city": "Mudgee",
-      "kickoff": "2026-08-01T17:30:00",
+      "venue": "",
+      "city": "Sydney",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -307,9 +307,9 @@ window.NRL_DATA = {
     {
       "home": "BRI",
       "away": "NEW",
-      "venue": "Suncorp Stadium",
+      "venue": "",
       "city": "Brisbane",
-      "kickoff": "2026-08-01T19:30:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -317,9 +317,9 @@ window.NRL_DATA = {
     {
       "home": "CRO",
       "away": "SOU",
-      "venue": "Ocean Protect Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-02T14:00:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
@@ -327,9 +327,9 @@ window.NRL_DATA = {
     {
       "home": "WST",
       "away": "PAR",
-      "venue": "CommBank Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-02T16:05:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null
