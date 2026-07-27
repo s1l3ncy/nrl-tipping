@@ -16,6 +16,10 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      # Runners are UTC; the 6am-Sydney cron fires the previous UTC day, which
+      # made date.today() stamp yesterday. Pin the whole job to Sydney time.
+      TZ: Australia/Sydney
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
