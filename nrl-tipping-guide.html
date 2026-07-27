@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NRL Tipping Guide</title>
+<style>
+:root{
+  --bg:#0b0f17; --bg2:#0e1420; --panel:#141b28; --panel2:#1b2434; --line:#26324a;
+  --text:#eef2f8; --muted:#9fb0c6; --muted2:#7c8ba3;
+  --accent:#39d98a; --accent-d:#0c2e20; --blue:#4c8dff; --amber:#ffb020; --red:#ff5d6c;
+  --roosters:#ff5d6c;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 500px at 50% -100px,#16233a 0,var(--bg) 60%);
+  color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5;padding-bottom:70px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* hero */
+header{padding:38px 0 26px;background:linear-gradient(160deg,#101a2e,#0b0f17 70%);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand .ball{font-size:30px}
+h1{margin:0;font-size:26px;letter-spacing:.2px;font-weight:750}
+.roundpill{margin-left:auto;background:var(--panel2);border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.roundpill b{color:var(--accent)}
+.metaline{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px;color:var(--muted);font-size:12.5px}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--accent);box-shadow:0 0 0 3px rgba(57,217,138,.15)}
+.dot.stale{background:var(--amber);box-shadow:0 0 0 3px rgba(255,176,32,.15)}
+.dot.sample{background:var(--red);box-shadow:0 0 0 3px rgba(255,93,108,.15)}
+
+/* locked hero card */
+.lockhero{margin-top:20px;border-radius:var(--radius);padding:18px 20px;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(255,93,108,.14),rgba(20,27,40,.6));display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.lockhero .rk{font-size:34px}
+.lockhero .txt{flex:1;min-width:220px}
+.lockhero h3{margin:0 0 3px;font-size:17px}
+.lockhero .verdict{font-weight:750}
+.verdict.safe{color:var(--accent)} .verdict.risk{color:var(--amber)}
+.lockhero .big{font-size:30px;font-weight:800;text-align:center;min-width:92px}
+.big .u{font-size:12px;color:var(--muted);display:block;font-weight:600}
+
+section{margin-top:26px}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.sec-h h2{font-size:15px;margin:0;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted)}
+.sec-h .hint{font-size:12.5px;color:var(--muted2)}
+
+/* game cards */
+.games{display:grid;gap:14px}
+.gcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  transition:border-color .15s}
+.gcard:hover{border-color:#33425f}
+.grow{display:grid;grid-template-columns:1fr 108px 1fr;gap:10px;align-items:stretch;padding:16px}
+.side{display:flex;flex-direction:column;gap:6px;padding:6px 4px;border-radius:12px;position:relative}
+.side.away{text-align:right}
+.side .club{display:flex;align-items:center;gap:9px;font-weight:750;font-size:17px}
+.side.away .club{flex-direction:row-reverse}
+.swatch{width:10px;height:22px;border-radius:3px;flex:none}
+.rec{font-size:12px;color:var(--muted)}
+.tipbadge{align-self:flex-start;margin-top:2px;font-size:11.5px;font-weight:800;letter-spacing:.4px;
+  padding:4px 10px;border-radius:999px}
+.side.away .tipbadge{align-self:flex-end}
+.tipbadge.model{background:rgba(57,217,138,.16);color:var(--accent);border:1px solid rgba(57,217,138,.4)}
+.tipbadge.locked{background:rgba(255,93,108,.16);color:var(--roosters);border:1px solid rgba(255,93,108,.45)}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.mid .pct{font-size:22px;font-weight:800;line-height:1}
+.mid .pl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.bar{width:78px;height:6px;border-radius:5px;background:var(--panel2);overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#8affc4)}
+.vsmini{font-size:11px;color:var(--muted2)}
+.rationale{padding:0 16px 12px;color:var(--muted);font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.rationale .k{color:var(--accent);font-weight:700}
+details.more{border-top:1px solid var(--line)}
+details.more>summary{list-style:none;cursor:pointer;padding:10px 16px;font-size:12.5px;color:var(--muted);
+  display:flex;align-items:center;gap:6px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary:hover{color:var(--text)}
+.chev{transition:transform .15s} details[open] .chev{transform:rotate(90deg)}
+.moregrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:4px 16px 16px}
+.mbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.mbox h4{margin:0 0 6px;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted2)}
+.mbox .row{display:flex;justify-content:space-between;font-size:13px;padding:2px 0}
+.tba{color:var(--muted2);font-style:italic;font-size:12.5px}
+.oddschip{display:inline-flex;gap:6px;align-items:center;font-size:12px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:8px;padding:3px 8px;color:var(--muted)}
+
+/* quick list */
+.quick{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.qhead h2{font-size:15px;margin:0;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.ql{display:grid;gap:6px}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:7px 10px;border-radius:9px;background:var(--bg2)}
+.qline .pick{font-weight:750}
+.qline .pick.rk{color:var(--roosters)}
+button{font:inherit;background:var(--accent);color:#052015;border:none;border-radius:10px;
+  padding:10px 15px;font-weight:700;cursor:pointer;min-height:42px}
+button:hover{filter:brightness(1.06)}
+button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+button.ghost:hover{color:var(--text);border-color:#3a4a67}
+.copied{color:var(--accent);font-size:13px;margin-left:8px}
+
+/* cards & controls */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.note{font-size:13px;color:var(--muted);margin:0 0 12px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.statbox{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.statbox .big{font-size:26px;font-weight:800}
+.statbox .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.statbox.lock .big{color:var(--roosters)} .statbox.model .big{color:var(--accent)}
+.samplenote{font-size:11.5px;color:var(--muted2);margin-top:8px;text-align:center}
+.bar-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label{font-size:13px;color:var(--muted)}
+input,select{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;
+  padding:9px 10px;font-size:14px;min-height:42px}
+input[type=number]{width:88px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+td.name{text-align:left;font-weight:700}
+tr.rk td{background:rgba(255,93,108,.06)}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px}
+.formdots{display:inline-flex;gap:3px}
+.formdots i{width:8px;height:8px;border-radius:50%;background:var(--muted2)}
+.formdots i.w{background:var(--accent)}
+details.plain>summary{cursor:pointer;color:var(--muted);font-size:13px;padding:6px 0}
+.banner{border-radius:12px;padding:11px 14px;font-size:13px;margin-top:12px;border:1px solid}
+.banner.warn{background:rgba(255,176,32,.1);border-color:rgba(255,176,32,.4);color:#ffd488}
+.banner.bad{background:rgba(255,93,108,.1);border-color:rgba(255,93,108,.4);color:#ffb3ba}
+.foot{margin-top:34px;color:var(--muted2);font-size:12px;text-align:center}
+
+@media(max-width:640px){
+  h1{font-size:22px}.roundpill{margin-left:0;width:100%;justify-content:center}
+  .grow{grid-template-columns:1fr;gap:14px}
+  .mid{flex-direction:row;gap:14px;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0}
+  .side.away{text-align:left}.side.away .club{flex-direction:row}.side.away .tipbadge{align-self:flex-start}
+  .moregrid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr}
+}
+@media print{
+  header,.card,.quick .actions,details,.foot,.bar-controls{display:none!important}
+  .games .gcard{break-inside:avoid;border-color:#bbb}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<script src="nrl_data.js"></script>
+<script src="nrl_learned.js"></script>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span class="ball" role="img" aria-label="Rugby ball">🏉</span>
+      <h1>NRL Tipping Guide</h1>
+      <div class="roundpill" id="roundPill">Round —</div>
+    </div>
+    <div class="metaline" id="metaline"></div>
+    <div id="dataBanners"></div>
+    <div class="lockhero" id="lockHero"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <div class="sec-h"><h2>This round's tips</h2><span class="hint">Tap a game for odds, form, injuries &amp; conditions</span></div>
+    <div class="games" id="games"></div>
+  </section>
+
+  <section>
+    <div class="quick">
+      <div class="qhead">
+        <h2>Quick list</h2>
+        <div class="actions" style="margin-left:auto;display:flex;align-items:center">
+          <button class="ghost" onclick="copyTips()">Copy tips</button>
+          <button class="ghost" onclick="window.print()">Print</button>
+          <span class="copied" id="copied"></span>
+        </div>
+      </div>
+      <div class="ql" id="quicklist"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <div class="sec-h"><h2 style="color:var(--muted)">How the model's doing</h2><span class="hint">updates itself — nothing to log</span></div>
+      <p class="note">As each game finishes, the app fetches the score automatically, re-rates every team and grades its own past tips. These numbers update on their own.</p>
+      <div class="statgrid">
+        <div class="statbox model"><div class="big" id="accModel">–</div><div class="lbl">Tips correct (season)</div></div>
+        <div class="statbox lock"><div class="big" id="accLock">–</div><div class="lbl">Roosters record</div></div>
+      </div>
+      <div class="samplenote" id="accNote"></div>
+      <div class="samplenote" id="rkTax" style="color:var(--amber);margin-top:6px"></div>
+    </div>
+  </section>
+
+  <section id="learningSection" style="display:none">
+    <div class="card">
+      <div class="sec-h"><h2 style="color:var(--muted)">What the model has learned</h2></div>
+      <div id="learningBody"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <div class="sec-h"><h2 style="color:var(--muted)">Power ratings &amp; ladder</h2></div>
+      <p class="note" id="ladderNote"></p>
+      <div class="tablewrap"><div id="ladder"></div></div>
+      <details class="plain" style="margin-top:10px"><summary>Advanced settings</summary>
+        <div class="bar-controls" style="margin-top:10px">
+          <label for="hga">Extra home-ground edge (pts)</label>
+          <input id="hga" type="number" step="0.5" value="2">
+          <label for="formW">Form nudge weight</label>
+          <input id="formW" type="number" step="0.1" value="0.4">
+          <label for="oddsW">Odds blend (0=model only, 1=market only)</label>
+          <input id="oddsW" type="number" step="0.1" min="0" max="1" value="0.5">
+          <label for="compMode">Comp format</label>
+          <select id="compMode" onchange="setCompMode(this.value)">
+            <option value="win">Win only</option>
+            <option value="margin">Margin</option>
+            <option value="confidence">Confidence</option>
+          </select>
+          <button onclick="render()">Recalculate</button>
+          <button class="ghost" onclick="resetAll()">Reset to loaded data</button>
+        </div>
+      </details>
+      <details class="plain"><summary>How the tips are worked out</summary>
+        <p class="note" id="howItWorks" style="margin-top:8px"></p>
+      </details>
+    </div>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+/* ---------- Fallback seed (used only if nrl_data.js is missing) ---------- */
+const SEED = {
+  updated:"2026-07-27", season:2026, round:22, source:"embedded sample (nrl_data.js not found)",
+  teams:[
+    ["Panthers","PEN","#0a0a0a",18,14,4,539,255,2],["Roosters","SYD","#e2231a",18,13,5,449,364,4],
+    ["Warriors","NZW","#231f20",18,12,6,496,306,3],["Sharks","CRO","#00a9e0",17,11,6,488,363,4],
+    ["Dolphins","DOL","#ee3524",18,11,7,488,404,3],["Rabbitohs","SOU","#00954c",18,10,8,510,432,3],
+    ["Knights","NEW","#00539b",19,11,8,481,445,3],["Cowboys","NQL","#002b5c",19,11,8,442,470,2],
+    ["Sea Eagles","MAN","#6f1a3c",18,9,9,473,347,2],["Bulldogs","CAN","#00337f",18,9,9,342,400,4],
+    ["Raiders","CBR","#8bc53f",19,9,10,435,470,3],["Storm","MEL","#4b2e83",19,8,11,446,458,3],
+    ["Broncos","BRI","#6c1d45",18,6,12,339,471,1],["Eels","PAR","#006eb5",18,6,12,349,531,2],
+    ["Wests Tigers","WST","#f68b1f",19,7,12,365,573,0],["Titans","GLD","#fbb040",17,5,12,335,441,2],
+    ["Dragons","STI","#e2231a",17,2,15,256,503,2]
+  ].map(r=>({name:r[0],short:r[1],colour:r[2],P:r[3],W:r[4],L:r[5],PF:r[6],PA:r[7],last5:r[8],home:null,away:null,news:null})),
+  fixtures:[["NQL","SYD"],["PEN","CBR"],["GLD","NZW"],["BRI","NEW"],["MEL","CAN"],["STI","DOL"],["CRO","SOU"],["PAR","WST"]]
+    .map(f=>({home:f[0],away:f[1],venue:"",city:"",kickoff:"",odds:null,weather:null,h2h:null})),
+  byeTeams:["MAN"]
+};
+const LOCK="SYD";
+
+/* ---------- Learned model (nrl_learned.js, optional sibling file) ---------- */
+// A teammate's build step may drop nrl_learned.js next to this page, setting
+// window.NRL_LEARNED with fitted params + Elo ratings. If the file is missing,
+// malformed, or flags itself lowConfidence (thin sample), we never touch the
+// original heuristic model — that's the guardrail.
+function validLearned(d){
+  return !!(d && typeof d==='object' && d.params &&
+    typeof d.params.homeAdv==='number' && typeof d.params.logisticScale==='number' &&
+    typeof d.params.oddsWeight==='number' && d.elo && typeof d.elo==='object');
+}
+const LEARNED = validLearned(window.NRL_LEARNED) ? window.NRL_LEARNED : null;
+const learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
+const ELO_PROB_BASE = 400; // standard Elo probability scale: P = 1/(1+10^(-diff/400))
+function eloGapToPoints(diff,scale){
+  // Converts an Elo rating gap into an equivalent points margin so it can flow through
+  // the same points-based pipeline (injury penalty, home-ground edge, logistic curve) as
+  // the heuristic model. Solves logistic(pts/scale) == 1/(1+10^(-diff/400)) for pts.
+  return diff*scale*Math.LN10/ELO_PROB_BASE;
+}
+function eloStrength(t){
+  if(!LEARNED||!LEARNED.elo) return null;
+  const e=LEARNED.elo[t.short];
+  return typeof e==='number' ? e : null;
+}
+function applyLearnedFieldDefaults(){
+  if(!learnedActive) return;
+  const hgaEl=document.getElementById('hga'); if(hgaEl) hgaEl.value=LEARNED.params.homeAdv;
+  const oddsWEl=document.getElementById('oddsW'); if(oddsWEl) oddsWEl.value=LEARNED.params.oddsWeight;
+}
+
+/* ---------- Load + validate + persist ---------- */
+function validData(d){
+  return d && Array.isArray(d.teams) && d.teams.length>0 && Array.isArray(d.fixtures)
+    && d.teams.every(t=>t&&t.short&&typeof t.PF==="number"&&typeof t.PA==="number"&&typeof t.P==="number");
+}
+let SRC = validData(window.NRL_DATA) ? window.NRL_DATA : SEED;
+const isSample = SRC===SEED || /sample/i.test(SRC.source||"");
+const KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}`;
+const ACC = `nrl_acc_v3`;
+let teams, fixtures, bye;
+
+function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
+function loadState(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){
+      const s=JSON.parse(raw);
+      if(s&&Array.isArray(s.teams)&&s.teams.length===SRC.teams.length&&Array.isArray(s.fixtures)){
+        teams=s.teams; fixtures=s.fixtures; bye=s.bye||SRC.byeTeams.slice(); return;
+      }
+    }
+  }catch(e){ localStorage.removeItem(KEY); }
+  resetState();
+}
+function resetState(){ teams=deepClone(SRC.teams); fixtures=deepClone(SRC.fixtures); bye=(SRC.byeTeams||[]).slice(); }
+function saveState(){ try{ localStorage.setItem(KEY,JSON.stringify({teams,fixtures,bye})); }catch(e){} }
+function resetAll(){ localStorage.removeItem(KEY); resetState(); render(); }
+function T(s){ return teams.find(t=>t.short===s); }
+
+
+/* ---------- Comp format setting (Win only / Margin / Confidence) ---------- */
+const COMPKEY="nrl_compformat_v1";
+function getCompMode(){ try{ return localStorage.getItem(COMPKEY)||"win"; }catch(e){ return "win"; } }
+function setCompMode(v){ try{ localStorage.setItem(COMPKEY,v); }catch(e){} render(); }
+
+/* ---------- Model ---------- */
+function avg(o){ return o&&o.P>0 ? (o.PF-o.PA)/o.P : null; }
+function overallMargin(t){ return (t.PF-t.PA)/Math.max(1,t.P); }
+function formNudge(t){ const w=num('formW',0.4); return Math.max(-2,Math.min(2,((t.last5||0)-2.5)*w)); }
+// Venue-adjusted strength: shrink the home/away split toward the overall margin based on sample size.
+// Small sample of home/away games -> lean on the overall average; more games -> more weight on the split
+// (weight = P/(P+6), capped at 0.5 so the split never dominates the overall record).
+function splitWeight(n){ return Math.min(0.5, (n||0)/((n||0)+6)); }
+function effRating(t,where){
+  const base=overallMargin(t);
+  const splitObj=t[where];
+  const split=avg(splitObj);
+  let blended;
+  if(split===null){ blended = base; }
+  else{
+    const w = splitWeight(splitObj.P);
+    blended = w*split + (1-w)*base;
+  }
+  return blended + formNudge(t);
+}
+function logistic(m){ const scale = learnedActive ? LEARNED.params.logisticScale : 7; return 1/(1+Math.exp(-m/scale)); }
+
+/* ---- Odds schema: supports null, legacy {home,away}, or {open:{home,away}, close:{home,away}} ---- */
+function resolveOdds(oddsRaw){
+  if(!oddsRaw) return {used:null, open:null, close:null, moved:false};
+  if(oddsRaw.open || oddsRaw.close){
+    const used = oddsRaw.close || oddsRaw.open;
+    const moved = !!(oddsRaw.open && oddsRaw.close &&
+      (oddsRaw.open.home!==oddsRaw.close.home || oddsRaw.open.away!==oddsRaw.close.away));
+    return {used: used||null, open: oddsRaw.open||null, close: oddsRaw.close||null, moved};
+  }
+  if(typeof oddsRaw.home==="number" && typeof oddsRaw.away==="number") return {used:oddsRaw, open:null, close:null, moved:false};
+  return {used:null, open:null, close:null, moved:false};
+}
+function marketProb(oddsRaw){ // decimal odds -> devigged home prob (uses close line when open+close both given)
+  const {used}=resolveOdds(oddsRaw);
+  if(!used||!(used.home>1)||!(used.away>1)) return null;
+  const h=1/used.home, a=1/used.away; return h/(h+a);
+}
+
+/* ---- Injury/news -> rating penalty, spine positions hit hardest, capped per team ---- */
+function injuryPenalty(news){
+  if(!news) return {penalty:0, note:""};
+  const text=String(news).toLowerCase();
+  const outRe=/(ruled out|late change|suspended|injured|\bout\b)/;
+  if(!outRe.test(text)) return {penalty:0, note:""};
+  const segments=text.split(/[,;]| and /).map(s=>s.trim()).filter(s=>outRe.test(s));
+  const parts=segments.length?segments:[text];
+  const spineMap=[
+    {re:/full[\s-]?back/, label:"fullback"},
+    {re:/five[\s-]?eighth|no\.?\s?6\b/, label:"five-eighth"},
+    {re:/half[\s-]?back|no\.?\s?7\b/, label:"halfback"},
+    {re:/hooker|no\.?\s?9\b/, label:"hooker"}
+  ];
+  let total=0; const notes=[];
+  parts.forEach(seg=>{
+    const spine=spineMap.find(s=>s.re.test(seg));
+    if(spine){ total+=4; notes.push(`${spine.label} out`); }
+    else if(/\bcaptain\b|\bstar\b|\bveteran\b|\borigin\b|\brep\b/.test(seg)){ total+=2; notes.push("key player out"); }
+    else{ total+=1.5; notes.push("player out"); }
+  });
+  total=Math.min(6,total);
+  return {penalty:total, note: notes[0]||"player out"};
+}
+
+function predict(fx){
+  const h=T(fx.home), a=T(fx.away);
+  const hga=num('hga', learnedActive?LEARNED.params.homeAdv:2);
+  const hInj=injuryPenalty(h.news), aInj=injuryPenalty(a.news);
+  const eloH=eloStrength(h), eloA=eloStrength(a);
+  const useElo = learnedActive && eloH!==null && eloA!==null;
+  let margin;
+  if(useElo){
+    const eloMargin = eloGapToPoints(eloH-eloA, LEARNED.params.logisticScale);
+    margin = eloMargin - hInj.penalty + aInj.penalty + hga;
+  }else{
+    margin = (effRating(h,'home')-hInj.penalty) - (effRating(a,'away')-aInj.penalty) + hga;
+  }
+  const modelP = logistic(margin);
+  const mkt = marketProb(fx.odds);
+  let pHome=modelP, blended=false;
+  if(mkt!==null){ const w=Math.max(0,Math.min(1,num('oddsW', learnedActive?LEARNED.params.oddsWeight:0.5))); pHome=(1-w)*modelP+w*mkt; blended=true; }
+  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,useElo};
+}
+function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt; const v=parseFloat(el.value); return isNaN(v)?dflt:v; }
+
+function injurySentence(p){
+  const bits=[];
+  const fmt=n=>n%1?n.toFixed(1):String(n);
+  if(p.hInj&&p.hInj.penalty>0) bits.push(`${p.h.short} −${fmt(p.hInj.penalty)}: ${p.hInj.note}`);
+  if(p.aInj&&p.aInj.penalty>0) bits.push(`${p.a.short} −${fmt(p.aInj.penalty)}: ${p.aInj.note}`);
+  return bits.join(" · ");
+}
+function rationale(p){
+  const fav = p.pHome>=0.5? p.h : p.a;
+  const conf = Math.max(p.pHome,1-p.pHome);
+  const band = conf>0.75 ? "clear favourite" : conf>0.575 ? "has the edge" : "slight lean — near coin-toss";
+  const reasons=[];
+  const hm=avg(p.h.home), aw=avg(p.a.away);
+  if(hm!==null&&aw!==null){
+    if(fav===p.h && hm>5) reasons.push("strong at home");
+    if(fav===p.a && aw>3) reasons.push("travels well");
+  }
+  const ff=(fav.last5||0); if(ff>=4) reasons.push("hot form"); else if(ff<=1) reasons.push("poor form");
+  if(p.blended){ reasons.push(agreeWord(p)); }
+  let s = `${fav.name} ${band}${reasons.length? " — "+reasons.join(", "):""}.`;
+  const inj=injurySentence(p);
+  if(inj) s += ` ${inj}.`;
+  return s;
+}
+function agreeWord(p){
+  if(p.mkt===null) return "";
+  const modelFav = p.modelP>=0.5, mktFav = p.mkt>=0.5;
+  return modelFav===mktFav ? "model & bookies agree" : "model disagrees with bookies";
+}
+
+/* ---------- Render ---------- */
+function render(){
+  saveState();
+  // round pill + meta + banners
+  document.getElementById('roundPill').innerHTML = `Round <b>${SRC.round}</b> · ${SRC.season}`;
+  const stale = daysSince(SRC.updated);
+  const dotClass = isSample?'sample':(stale>8?'stale':'');
+  const newsDate = SRC.newsUpdated || SRC.updated;
+  const newsStale = daysSince(newsDate);
+  document.getElementById('metaline').innerHTML =
+    `<span class="dot ${dotClass}"></span> Ladder updated ${fmtDate(SRC.updated)} `+
+    `<span>·</span> Team news checked ${fmtDate(newsDate)}${newsStale>1?` (${newsStale}d ago)`:''} `+
+    `<span>·</span> Source: ${esc(SRC.source)} <span>·</span> ${modeLabel()} model`;
+  let db="";
+  if(isSample) db+=`<div class="banner bad">⚠ Showing the built-in sample data — the live data file <b>nrl_data.js</b> wasn't found next to this page. Tips are based on the last known numbers.</div>`;
+  else if(stale>8) db+=`<div class="banner warn">⏳ This data is ${stale} days old. Reopen after the weekly refresh (Tuesdays) for the current round.</div>`;
+  document.getElementById('dataBanners').innerHTML=db;
+
+  // predictions
+  const preds = fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
+  const skipped = fixtures.length - preds.length;
+
+  // comp format mode + confidence ranking + upset-of-the-week
+  const compMode = getCompMode();
+  const ranked = preds.map((p,i)=>({i,conf:Math.max(p.pHome,1-p.pHome)})).sort((a,b)=>b.conf-a.conf);
+  const rankByIndex=new Array(preds.length);
+  ranked.forEach((r,idx)=>{ rankByIndex[r.i]=idx+1; });
+  let upsetIndex=-1, upsetDist=Infinity;
+  preds.forEach((p,i)=>{ const d=Math.abs(p.pHome-0.5); if(d<upsetDist){ upsetDist=d; upsetIndex=i; } });
+
+  // locked hero
+  renderLock(preds);
+
+  // game cards
+  document.getElementById('games').innerHTML = preds.map((p,i)=>cardHTML(p,{isUpset:i===upsetIndex, rank:rankByIndex[i], compMode})).join('') +
+    (skipped>0?`<div class="banner warn">${skipped} game(s) hidden — data references an unknown team.</div>`:'');
+
+  // quick list
+  document.getElementById('quicklist').innerHTML = preds.map((p,i)=>{
+    const tip = p.pHome>=0.5?p.h:p.a; const isRk=(p.h.short===LOCK||p.a.short===LOCK);
+    const conf=Math.max(p.pHome,1-p.pHome);
+    let extra='';
+    if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
+    else if(compMode==='confidence'){ extra=` · #${rankByIndex[i]}`; }
+    return `<div class="qline"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
+      `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(conf*100).toFixed(0)}%${extra}</span></div>`;
+  }).join('');
+
+  renderAcc(); renderLadder(); renderLearning();
+  const cmSel=document.getElementById('compMode'); if(cmSel) cmSel.value=compMode;
+  document.getElementById('ladderNote').textContent =
+    "Rating = points margin per game (shrunk toward that home/away split as the sample of games grows), plus a small recent-form nudge. Higher = stronger.";
+  document.getElementById('howItWorks').innerHTML = howText();
+  document.getElementById('foot').innerHTML =
+    `Data to end of Round ${SRC.round-1}, ${SRC.season}. Ladder rebuilds weekly; odds, injuries &amp; weather refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
+}
+function modeLabel(){
+  const base = learnedActive ? "self-learning (Elo)"
+    : LEARNED ? `learning (${LEARNED.gamesLearned||0} games)`
+    : "form + home/away splits";
+  return base + (fixtures.some(f=>marketProb(f.odds)!==null)?" + odds":"");
+}
+
+function renderLock(preds){
+  const el=document.getElementById('lockHero');
+  const p = preds.find(x=>x.h.short===LOCK||x.a.short===LOCK);
+  if(!p){ el.innerHTML=`<div class="rk">🐓</div><div class="txt"><h3>Roosters have the bye</h3>`+
+    `<div class="rec">No locked tip this round — your loyalty rule sits out this week.</div></div>`; return; }
+  const rkHome = p.h.short===LOCK;
+  const rkProb = rkHome? p.pHome : 1-p.pHome;
+  const opp = rkHome? p.a : p.h;
+  const modelTipRk = (p.pHome>=0.5)===rkHome;
+  const safe = rkProb>=0.5;
+  el.innerHTML =
+    `<div class="rk">🐓</div>
+     <div class="txt">
+       <h3>Locked pick: <span style="color:var(--roosters)">Roosters</span> vs ${esc(opp.name)} <span class="rec">(${rkHome?'home':'away'})</span></h3>
+       <div class="verdict ${safe?'safe':'risk'}">${safe?'✓ Safe pick this week':'⚠ Risky this week'} — ${modelTipRk?'the model tips them too':'the model favours '+esc(opp.name)}.</div>
+     </div>
+     <div class="big">${(rkProb*100).toFixed(0)}%<span class="u">win chance</span></div>`;
+}
+
+function cardHTML(p,meta){
+  meta=meta||{};
+  const tipHome = p.pHome>=0.5;
+  const rkHome=p.h.short===LOCK, rkAway=p.a.short===LOCK;
+  const conf=Math.max(p.pHome,1-p.pHome);
+  const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
+  const badge=(isTip,isRk)=> isRk?`<span class="tipbadge locked">🔒 TIP ROOSTERS</span>`
+      : isTip?`<span class="tipbadge model">★ TIP</span>`:'';
+  const side=(t,where,isTip,isRk)=>{
+    const rec=t.P?`${t.W}-${t.L} · ${(overallMargin(t)>=0?'+':'')}${overallMargin(t).toFixed(1)}/gm`:'';
+    return `<div class="side ${where}">
+      <div class="club"><span class="swatch" style="background:${esc(t.colour||'#888')}"></span>
+        <span>${esc(t.name)}${isRk?' 🐓':''}${isTip?'<span class="sr"> — tipped to win</span>':''}</span></div>
+      <div class="rec">${rec}</div>
+      <div class="rec">form ${winloss(t.last5)}</div>
+      ${badge(isTip,isRk)}
+    </div>`;
+  };
+  const favMargin = p.margin>=0? p.h : p.a;
+  const marginLine = `model margin: ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)}`;
+  const tags=[];
+  if(meta.isUpset) tags.push(`<span class="tipbadge" style="background:rgba(76,141,255,.16);color:var(--blue);border:1px solid rgba(76,141,255,.4)">🎯 Upset watch</span>`);
+  if(meta.compMode==='confidence'&&meta.rank) tags.push(`<span class="tipbadge" style="background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line)">Rank #${meta.rank}</span>`);
+  return `<div class="gcard">
+    <div class="grow">
+      ${side(p.h,'home',tipHome,rkHome)}
+      <div class="mid">
+        <div class="pct">${(conf*100).toFixed(0)}%</div>
+        <div class="pl">${(tipHome?p.h.short:p.a.short)} win</div>
+        <div class="bar"><i style="width:${(conf*100).toFixed(0)}%"></i></div>
+        <div class="vsmini">${p.blended?'model+odds':'model'}</div>
+        <div class="vsmini" style="font-weight:700;color:var(--text)">${esc(marginLine)}</div>
+      </div>
+      ${side(p.a,'away',!tipHome,rkAway)}
+    </div>
+    ${tags.length?`<div style="padding:0 16px 4px;display:flex;gap:8px;flex-wrap:wrap">${tags.join('')}</div>`:''}
+    ${meta.isUpset?`<div class="rationale" style="color:var(--blue)"><span class="k" style="color:var(--blue)">🎯</span><span>Closest to 50/50 this round — the best game to gamble on if you're chasing rivals.</span></div>`:''}
+    <div class="rationale"><span class="k">Why</span><span>${esc(rationale(p))}</span></div>
+    ${(p.h.news||p.a.news)?`<div class="rationale" style="color:var(--amber)"><span class="k" style="color:var(--amber)">⚠ News</span><span>${esc([p.h.news&&(p.h.name+': '+p.h.news), p.a.news&&(p.a.name+': '+p.a.news)].filter(Boolean).join(' · '))}</span></div>`:''}
+    <details class="more">
+      <summary><span class="chev">▸</span> Odds · form · injuries · conditions</summary>
+      <div class="moregrid">
+        <div class="mbox"><h4>Match odds</h4>${oddsHTML(p,fx)}</div>
+        <div class="mbox"><h4>Home / Away record</h4>
+          <div class="row"><span>${esc(p.h.name)} (home)</span><span>${splitStr(p.h.home)}</span></div>
+          <div class="row"><span>${esc(p.a.name)} (away)</span><span>${splitStr(p.a.away)}</span></div>
+        </div>
+        <div class="mbox"><h4>Team news / injuries</h4>${newsHTML(p.h)}${newsHTML(p.a)}</div>
+        <div class="mbox"><h4>Venue &amp; conditions</h4>
+          <div class="row"><span>${esc(fx.venue||'—')}</span><span>${esc(fx.city||'')}</span></div>
+          <div class="row"><span>Kick-off</span><span>${fmtKick(fx.kickoff)}</span></div>
+          <div class="row"><span>Weather</span><span>${fx.weather?esc(fx.weather):'<span class="tba">forecast closer to game day</span>'}</span></div>
+        </div>
+      </div>
+    </details>
+  </div>`;
+}
+function oddsHTML(p,fx){
+  const resolved = resolveOdds(fx.odds);
+  if(!resolved.used) return `<div class="tba">Bookmaker odds drop around Tuesday — this updates automatically.</div>
+    <div class="row" style="margin-top:6px"><span>Model win chance</span><span>${esc(p.h.name)} ${(p.modelP*100).toFixed(0)}% / ${esc(p.a.name)} ${((1-p.modelP)*100).toFixed(0)}%</span></div>`;
+  const mp=p.mkt;
+  const used=resolved.used;
+  const movedNote = resolved.moved?`<div class="row" style="color:var(--muted2);font-size:11.5px">line moved → open $${resolved.open.home.toFixed(2)}/$${resolved.open.away.toFixed(2)} · close $${resolved.close.home.toFixed(2)}/$${resolved.close.away.toFixed(2)}</div>`:'';
+  return `<div class="row"><span>${esc(p.h.name)}</span><span class="oddschip">$${used.home.toFixed(2)} · ${(mp*100).toFixed(0)}%</span></div>
+    <div class="row"><span>${esc(p.a.name)}</span><span class="oddschip">$${used.away.toFixed(2)} · ${((1-mp)*100).toFixed(0)}%</span></div>
+    ${movedNote}
+    <div class="row" style="border-top:1px solid var(--line);margin-top:4px;padding-top:6px"><span>Model</span><span>${(p.modelP*100).toFixed(0)}% / ${((1-p.modelP)*100).toFixed(0)}%</span></div>
+    <div class="row"><span>${agreeWord(p)}</span><span></span></div>`;
+}
+function newsHTML(t){ return `<div class="row"><span>${esc(t.name)}</span><span>${t.news?esc(t.news):'<span class="tba">team lists Tue</span>'}</span></div>`; }
+function splitStr(o){ return o&&o.P?`${o.W}-${o.L} · ${(avg(o)>=0?'+':'')}${avg(o).toFixed(0)}/gm`:'—'; }
+function winloss(l5){ l5=l5||0; let s='<span class="formdots" aria-label="'+l5+' of last 5 won">'; for(let i=0;i<5;i++) s+=`<i class="${i<l5?'w':''}"></i>`; return s+'</span>'; }
+
+// Brier score = mean((pTip - outcome)^2) where outcome is 1 if the tip won, else 0 (non-draw games only).
+function brierScore(entries){
+  if(!entries.length) return null;
+  const sum=entries.reduce((s,h)=>s+Math.pow(h.pTip-(h.modelCorrect?1:0),2),0);
+  return sum/entries.length;
+}
+function calibrationVerdict(entries){
+  if(!entries.length) return null;
+  const avgConf=entries.reduce((s,h)=>s+h.pTip,0)/entries.length*100;
+  const hitRate=entries.filter(h=>h.modelCorrect).length/entries.length*100;
+  const diff=avgConf-hitRate;
+  const verdict = diff>7?'a bit overconfident':diff<-7?'a bit underconfident':'well calibrated';
+  return {avgConf,hitRate,diff,verdict};
+}
+function renderAcc(){
+  const L = (typeof LEARNED!=='undefined' && LEARNED) ? LEARNED : null;
+  const res = (L && Array.isArray(L.results)) ? L.results : [];
+  const bt = (L && L.backtest) ? L.backtest : null;
+
+  // Season tip accuracy — straight from the auto-computed backtest.
+  document.getElementById('accModel').textContent =
+    (bt && typeof bt.hit==='number' && bt.games) ? `${Math.round(bt.hit*100)}%` : '–';
+
+  // Roosters record + loyalty cost — counted straight from the results memory.
+  let rw=0, rl=0, rkTot=0, modelRight=0;
+  res.forEach(r=>{
+    if(r.home!==LOCK && r.away!==LOCK) return;
+    if(r.hs===r.as) return; // ignore rare draws
+    rkTot++;
+    const rkHome = r.home===LOCK;
+    const rkPts = rkHome?r.hs:r.as, oppPts = rkHome?r.as:r.hs;
+    if(rkPts>oppPts) rw++; else rl++;
+    if(modelFavoursHome(r.home,r.away)===(r.hs>r.as)) modelRight++;
+  });
+  document.getElementById('accLock').textContent = rkTot ? `${rw}-${rl}` : '–';
+
+  const games = (L && L.gamesLearned) || 0;
+  let note='';
+  if(bt && typeof bt.brier==='number' && bt.games) note += `Model precision ${bt.brier.toFixed(3)} (lower is better, 0.25 = coin-flip) over ${bt.games} game(s). `;
+  note += games ? `Learning from ${games} game(s)${(L && L.lowConfidence)?' — still warming up, using the simple model until it has seen ~30.':'.'}`
+                : 'Results feed in automatically as games finish — nothing for you to enter.';
+  document.getElementById('accNote').textContent = note;
+
+  const el=document.getElementById('rkTax');
+  if(rkTot){
+    const tax = modelRight - rw; // model's correct picks minus Roosters' actual wins, on Roosters games
+    el.textContent = tax>0 ? `Loyalty cost: always tipping the Roosters has cost about ${tax} tip(s) vs the model over ${rkTot} Roosters game(s) this season.`
+      : tax<0 ? `Loyalty bonus: the Roosters rule is ${-tax} tip(s) ahead of the model over ${rkTot} game(s).`
+      : `The Roosters rule is level with the model over ${rkTot} game(s).`;
+  } else el.textContent='';
+}
+// Would the model favour the HOME side in this matchup? (uses learned Elo when active, else the heuristic)
+function modelFavoursHome(homeShort, awayShort){
+  const h=T(homeShort), a=T(awayShort);
+  if(!h||!a) return true;
+  if(typeof learnedActive!=='undefined' && learnedActive){
+    const gap = eloGapToPoints(eloStrength(h)-eloStrength(a), LEARNED.params.logisticScale);
+    return (gap + LEARNED.params.homeAdv) >= 0;
+  }
+  return (effRating(h,'home') - effRating(a,'away') + num('hga',3)) >= 0;
+}
+
+function renderLadder(){
+  const rows=teams.map(t=>({t,r:effRating(t,'home')})); // sort by home-context rating as a proxy strength
+  rows.sort((a,b)=>overallMargin(b.t)-overallMargin(a.t));
+  let h=`<table><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>PF</th><th>PA</th><th>Marg</th><th>Home</th><th>Away</th><th>Form</th></tr>`;
+  rows.forEach((o,i)=>{ const t=o.t;
+    h+=`<tr class="${t.short===LOCK?'rk':''}"><td>${i+1}</td>
+      <td class="name"><span class="swatch" style="display:inline-block;width:8px;height:14px;vertical-align:middle;background:${esc(t.colour||'#888')};border-radius:2px;margin-right:6px"></span>${esc(t.name)}${t.short===LOCK?' 🐓':''}</td>
+      <td>${t.P}</td><td>${t.W}</td><td>${t.L}</td><td>${t.PF}</td><td>${t.PA}</td>
+      <td>${overallMargin(t)>=0?'+':''}${overallMargin(t).toFixed(1)}</td>
+      <td>${t.home?`${t.home.W}-${t.home.L}`:'–'}</td><td>${t.away?`${t.away.W}-${t.away.L}`:'–'}</td>
+      <td>${winloss(t.last5)}</td></tr>`;
+  });
+  document.getElementById('ladder').innerHTML=h+'</table>';
+}
+
+/* ---------- Learning panel ("what the model has learned") ---------- */
+function sparkline(values){
+  if(!values||values.length<2) return '';
+  const w=140,h=32,pad=3;
+  const min=Math.min(...values), max=Math.max(...values);
+  const range=(max-min)||1;
+  const step=(w-pad*2)/(values.length-1);
+  const pts=values.map((v,i)=>{
+    const x=pad+i*step;
+    const y=pad+(1-(v-min)/range)*(h-pad*2); // lower brier (better) plots higher
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Precision trend, lower is better"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>`;
+}
+function renderLearning(){
+  const sec=document.getElementById('learningSection');
+  if(!sec) return;
+  if(!LEARNED){ sec.style.display='none'; return; }
+  sec.style.display='';
+  const games=LEARNED.gamesLearned||0;
+  const warm=LEARNED.lowConfidence===true;
+  let head=`Learning from ${games} game${games===1?'':'s'}`;
+  if(warm) head+=` <span style="color:var(--amber)">(still warming up — using the simple model until it's seen ~30 games)</span>`;
+
+  const hga=(LEARNED.params&&typeof LEARNED.params.homeAdv==='number')?LEARNED.params.homeAdv:null;
+  const hgaLine = hga!==null? `Home teams win by ~${hga.toFixed(1)} on average.` : '';
+
+  const bt=LEARNED.backtest||{};
+  let precLine='', hitLine='';
+  if(typeof bt.brier==='number'){
+    precLine = `Model precision: ${bt.brier.toFixed(3)}${bt.games?` over ${bt.games} game(s)`:''} — lower is better (0 = perfect, 0.25 = coin-flip guessing).`;
+    if(typeof bt.marketBrier==='number'){
+      const cmp = bt.brier<bt.marketBrier?'beating the bookies':bt.brier>bt.marketBrier?'trailing the bookies':'matching the bookies';
+      precLine += ` vs bookies ${bt.marketBrier.toFixed(3)} (${cmp}).`;
+    }
+  }
+  if(typeof bt.hit==='number'){
+    const pct = bt.hit<=1? bt.hit*100 : bt.hit;
+    hitLine = `Hit rate: ${pct.toFixed(0)}% of tips correct in backtesting.`;
+  }
+
+  const hist=Array.isArray(LEARNED.history)?LEARNED.history.filter(x=>x&&typeof x.brier==='number'):[];
+  let trendHTML='';
+  if(hist.length>=2){
+    const vals=hist.map(x=>x.brier);
+    const diff=vals[vals.length-1]-vals[0];
+    const trendWord = diff<-0.005?'getting sharper':diff>0.01?'cooling off':'holding steady';
+    const listHTML=hist.slice(-6).map(x=>`<div class="row"><span>${esc(x.date||'')}</span><span>${x.brier.toFixed(3)}</span></div>`).join('');
+    trendHTML=`<div class="mbox" style="margin-top:10px">
+      <h4>Precision over time — ${esc(trendWord)}</h4>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        ${sparkline(vals)}
+        <div style="flex:1;min-width:140px">${listHTML}</div>
+      </div>
+    </div>`;
+  }
+
+  const eloEntries = LEARNED.elo&&typeof LEARNED.elo==='object' ? Object.entries(LEARNED.elo).filter(e=>typeof e[1]==='number') : [];
+  eloEntries.sort((x,y)=>y[1]-x[1]);
+  const nameFor = s=>{ const t=T(s); return t?t.name:s; };
+  const top4=eloEntries.slice(0,4), bottom4=eloEntries.slice(-4).reverse();
+  const eloRow = arr => arr.length? arr.map(([s,v])=>`<div class="row"><span>${esc(nameFor(s))}</span><span>${Math.round(v)}</span></div>`).join('') : '<div class="tba">—</div>';
+
+  document.getElementById('learningBody').innerHTML = `
+    <p class="note" style="margin-top:0">${head}</p>
+    ${hgaLine?`<p class="samplenote" style="text-align:left">${esc(hgaLine)}</p>`:''}
+    ${hitLine?`<p class="samplenote" style="text-align:left">${esc(hitLine)}</p>`:''}
+    <details class="plain" style="margin-top:6px">
+      <summary>Model precision detail &amp; trend</summary>
+      ${precLine?`<div class="samplenote" style="text-align:left;margin-top:6px">${esc(precLine)}</div>`:'<div class="samplenote" style="text-align:left;margin-top:6px">No backtest figures yet.</div>'}
+      ${trendHTML}
+    </details>
+    <details class="plain" style="margin-top:6px">
+      <summary>Who it rates best / worst (Elo)</summary>
+      <div class="moregrid" style="margin-top:6px">
+        <div class="mbox"><h4>Top 4</h4>${eloRow(top4)}</div>
+        <div class="mbox"><h4>Bottom 4</h4>${eloRow(bottom4)}</div>
+      </div>
+    </details>
+  `;
+}
+
+/* ---------- Copy tips ---------- */
+function copyTips(){
+  const preds=fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
+  const lines=preds.map(p=>{ const tip=p.pHome>=0.5?p.h:p.a; const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
+    return `${p.h.name} v ${p.a.name} → ${tip.name}${rk}`; });
+  const txt=`NRL Round ${SRC.round} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
+  navigator.clipboard?.writeText(txt).then(()=>flash('Copied!'),()=>fallbackCopy(txt));
+}
+function fallbackCopy(txt){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+  try{document.execCommand('copy'); flash('Copied!');}catch(e){flash('Copy failed');} ta.remove(); }
+function flash(m){ const el=document.getElementById('copied'); el.textContent=m; setTimeout(()=>el.textContent='',1800); }
+
+/* ---------- utils ---------- */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function daysSince(d){ const t=Date.parse(d); if(isNaN(t)) return 0; return Math.floor((Date.now()-t)/86400000); }
+function fmtDate(d){ const t=Date.parse(d); if(isNaN(t)) return esc(d); return new Date(t).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}); }
+function fmtKick(k){ if(!k) return '<span class="tba">TBC</span>'; const t=Date.parse(k); if(isNaN(t)) return esc(k);
+  return new Date(t).toLocaleString(undefined,{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}); }
+function howText(){
+  return `Each team gets a <b>power rating</b> — its points margin per game this season, shrunk toward the record `+
+  `relevant to this game (a home team's <b>home</b> record, an away team's <b>away</b> record). The shrink weight grows with `+
+  `sample size (games played in that split ÷ (that + 6), capped at 50%), so a team with only 1-2 home games leans mostly on its `+
+  `overall margin, while a team with a long home/away history gets more credit for that specific record — this avoids double-counting `+
+  `small samples. A small recent-form nudge is added on top. `+
+  `If a team's news mentions a player <b>out / ruled out / injured / suspended / a late change</b>, a rating penalty is applied first: `+
+  `about −4 for a spine position (fullback, five-eighth, halfback, hooker), −2 for another named key player, −1.5 for a generic "out" `+
+  `with no position given, capped at about −6 per team — shown in the card's "Why" line. `+
+  `Predicted margin = home rating − away rating + a small home-ground edge, turned into a win chance with a logistic curve `+
+  `(about a 7-point edge ≈ 73%) — the expected margin is shown as a small "model margin" line on each card. `+
+  `When <b>bookmaker odds</b> are available they're de-vigged and blended with the model (adjust the mix in Advanced settings); `+
+  `odds can be a single quote or an open/close pair — the close line is used, and the card notes if the line moved. `+
+  `The single game closest to a 50/50 toss-up is flagged as the week's "🎯 Upset watch". `+
+  `The <b>Comp format</b> setting (Advanced settings) can switch the round view between win-only, margin-focused, or `+
+  `confidence-ranked. The accuracy tracker also scores the model's own confidence: a <b>Brier score</b> and a plain calibration `+
+  `verdict (well/over/under-confident), plus the "Roosters tax" — tips the loyalty rule has cost you vs. the model. `+
+  `Injuries and weather appear once published (around Tuesday). The <b>Roosters are always the locked tip</b> when they play — `+
+  `the tool just tells you how risky that is. Log results each week and every rating, split and accuracy figure updates.`+
+  (learnedActive?
+    ` Right now the app is running in <b>self-learning (Elo)</b> mode: each team's base strength comes from Elo ratings fitted `+
+    `to past results (see "What the model has learned" above), converted to an equivalent points margin so the home-ground edge, `+
+    `injury penalty and odds blend still apply exactly as described above before the logistic curve turns it into a win chance.`
+    : LEARNED?
+    ` A learning system is watching results in the background (${LEARNED.gamesLearned||0} game(s) so far) but hasn't seen enough `+
+    `yet — it'll switch itself on automatically once it has around 30 games.`
+    : '');
+}
+
+/* ---------- boot ---------- */
+applyLearnedFieldDefaults(); loadState(); render();
+</script>
+</body>
+</html>
