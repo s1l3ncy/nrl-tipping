@@ -7,7 +7,7 @@
 // entry per run. See sources.md ('Learning loop') for details.
 // lowConfidence: only 7 game(s) in memory (<30) — eloK/eloHGA/logisticScale held at conservative defaults, not grid-searched; front-end ignores these learned params entirely while lowConfidence=true. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
-  "updated": "2026-07-27",
+  "updated": "2026-07-28",
   "gamesLearned": 7,
   "lowConfidence": true,
   "params": {
@@ -101,6 +101,11 @@ window.NRL_LEARNED = {
     },
     {
       "date": "2026-07-27",
+      "games": 7,
+      "brier": 0.2609
+    },
+    {
+      "date": "2026-07-28",
       "games": 7,
       "brier": 0.2609
     }

@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NRL Tips">
-<meta name="theme-color" content="#050810">
+<meta name="theme-color" content="#05070E">
 <title>NRL Tipping Guide</title>
 <style>
 :root{
@@ -383,8 +383,8 @@ function validLearned(d){
     typeof d.params.homeAdv==='number' && typeof d.params.logisticScale==='number' &&
     typeof d.params.oddsWeight==='number' && d.elo && typeof d.elo==='object');
 }
-const LEARNED = validLearned(window.NRL_LEARNED) ? window.NRL_LEARNED : null;
-const learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
+let LEARNED = validLearned(window.NRL_LEARNED) ? window.NRL_LEARNED : null;
+let learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
 const ELO_PROB_BASE = 400; // standard Elo probability scale: P = 1/(1+10^(-diff/400))
 function eloGapToPoints(diff,scale){
   // Converts an Elo rating gap into an equivalent points margin so it can flow through
@@ -409,8 +409,8 @@ function validData(d){
     && d.teams.every(t=>t&&t.short&&typeof t.PF==="number"&&typeof t.PA==="number"&&typeof t.P==="number");
 }
 let SRC = validData(window.NRL_DATA) ? window.NRL_DATA : SEED;
-const isSample = SRC===SEED || /sample/i.test(SRC.source||"");
-const KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}`;
+let isSample = SRC===SEED || /sample/i.test(SRC.source||"");
+let KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}`;
 const ACC = `nrl_acc_v3`;
 let teams, fixtures, bye;
 
@@ -495,8 +495,8 @@ function normName(s){
   return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
     .replace(/[’]/g,"'").replace(/[^a-z\s'-]/g," ").replace(/\s+/g," ").trim();
 }
-const PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
-const HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
+let PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
+let HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
 const SPINE_POS = {"Fullback":1,"Halfback":1,"Five-eighth":1,"Hooker":1};
 const EDGE_POS  = {"Centre":1,"Winger":1,"Second-row":1};
 function playerImpact(name){
@@ -1013,8 +1013,47 @@ function howText(){
     : '');
 }
 
+/* ---------- Live freshness: defeat iOS home-screen caching ----------
+   Added-to-home-screen web apps on iOS keep their OWN aggressive cache, separate
+   from Safari, and a force-quit doesn't clear it — so the icon can keep replaying
+   stale data. On each launch, if we're online (http/https, not opened as a local
+   file), re-pull the three data files with a unique cache-busting query so the
+   webview can't serve its cached copies, then re-render with whatever's newest.
+   Opened as a local file, or offline, we skip this and keep the already-loaded
+   data — so the app still works with no network. */
+function hydrateData(){
+  // Recompute everything derived from the (possibly refreshed) global data files,
+  // so a live refresh behaves exactly like a fresh page load.
+  SRC = validData(window.NRL_DATA) ? window.NRL_DATA : SEED;
+  isSample = SRC===SEED || /sample/i.test(SRC.source||"");
+  KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}`;
+  LEARNED = validLearned(window.NRL_LEARNED) ? window.NRL_LEARNED : null;
+  learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
+  PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
+  HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
+}
+function refreshFromNetwork(){
+  if(!/^https?:$/.test(location.protocol)) return;      // file:// → keep offline data
+  const files=['nrl_data.js','nrl_learned.js','nrl_players.js'];
+  let done=0;
+  const finish=()=>{ if(++done===files.length){ hydrateData(); loadState(); render(); } };
+  files.forEach(f=>{
+    const s=document.createElement('script');
+    s.src=f+'?v='+Date.now();          // unique each launch → bypasses the stale cache
+    s.onload=finish; s.onerror=finish; // offline / missing file → just keep current data
+    document.head.appendChild(s);
+  });
+}
+
 /* ---------- boot ---------- */
-applyLearnedFieldDefaults(); loadState(); render();
+applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork();
+
+/* Register the service worker (hosted only) so the home-screen app auto-updates
+   the shell + data on every launch when online, and works offline from cache.
+   Guarded to http(s): opening the page as a local file skips this entirely. */
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
 </script>
 </body>
 </html>

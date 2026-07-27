@@ -9,7 +9,7 @@
 // Time-sensitive fields (odds, weather, news) stay null unless the optional
 // --odds/--injuries/--weather dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-07-27",
+  "updated": "2026-07-28",
   "season": 2026,
   "round": 22,
   "source": "zerotackle.com",
