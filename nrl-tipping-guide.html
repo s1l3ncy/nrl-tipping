@@ -408,9 +408,26 @@ function validData(d){
   return d && Array.isArray(d.teams) && d.teams.length>0 && Array.isArray(d.fixtures)
     && d.teams.every(t=>t&&t.short&&typeof t.PF==="number"&&typeof t.PA==="number"&&typeof t.P==="number");
 }
+// A short content signature so that when the official feed is regenerated with the SAME
+// `updated` date (the workflow runs twice a day → same date), any real change to the data
+// (form, scores, news, odds) yields a NEW localStorage key. Without it, an earlier same-day
+// snapshot (e.g. last5=0 before results were backfilled) is restored and overrides the fresh
+// data — showing stale form dots even though the file is current.
+function dataSig(d){
+  try{
+    const str = JSON.stringify((d.teams||[]).map(t=>[t.short,t.P,t.W,t.L,t.PF,t.PA,t.last5,t.news]))
+              + JSON.stringify((d.fixtures||[]).map(f=>[f.home,f.away,f.odds]));
+    let h=0; for(let i=0;i<str.length;i++){ h=(h*31 + str.charCodeAt(i))>>>0; }
+    return h.toString(36);
+  }catch(e){ return '0'; }
+}
+function pruneOldKeys(){   // keep localStorage from accumulating a key per data change
+  try{ for(let i=localStorage.length-1;i>=0;i--){ const k=localStorage.key(i);
+    if(k && k.indexOf('nrl_v3_')===0 && k!==KEY) localStorage.removeItem(k); } }catch(e){}
+}
 let SRC = validData(window.NRL_DATA) ? window.NRL_DATA : SEED;
 let isSample = SRC===SEED || /sample/i.test(SRC.source||"");
-let KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}`;
+let KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}_${dataSig(SRC)}`;
 const ACC = `nrl_acc_v3`;
 let teams, fixtures, bye;
 
@@ -428,7 +445,7 @@ function loadState(){
   resetState();
 }
 function resetState(){ teams=deepClone(SRC.teams); fixtures=deepClone(SRC.fixtures); bye=(SRC.byeTeams||[]).slice(); }
-function saveState(){ try{ localStorage.setItem(KEY,JSON.stringify({teams,fixtures,bye})); }catch(e){} }
+function saveState(){ try{ localStorage.setItem(KEY,JSON.stringify({teams,fixtures,bye})); pruneOldKeys(); }catch(e){} }
 function resetAll(){ localStorage.removeItem(KEY); resetState(); render(); }
 function T(s){ return teams.find(t=>t.short===s); }
 
@@ -1034,7 +1051,7 @@ function hydrateData(){
   // so a live refresh behaves exactly like a fresh page load.
   SRC = validData(window.NRL_DATA) ? window.NRL_DATA : SEED;
   isSample = SRC===SEED || /sample/i.test(SRC.source||"");
-  KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}`;
+  KEY = `nrl_v3_${SRC.season}_${SRC.round}_${SRC.updated}_${dataSig(SRC)}`;
   LEARNED = validLearned(window.NRL_LEARNED) ? window.NRL_LEARNED : null;
   learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
   PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
