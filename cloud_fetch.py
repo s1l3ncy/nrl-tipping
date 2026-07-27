@@ -2,35 +2,36 @@
 """
 cloud_fetch.py — runs on GitHub Actions (NOT on the Mac).
 
-Fetches the LIVE Zero Tackle NRL pages and rebuilds the clean dump files that
-parse_nrl.py expects (parse_nrl does its own <td>->pipe / tag handling, so it
-needs real tags, not flattened text — that was the original bug).
+Fetches the LIVE data the app needs and rebuilds the clean dump files that
+parse_nrl.py expects (parse_nrl does its own tag handling, so it needs real
+tags / the right line formats, not pre-flattened text).
 
-  * ladder_dump.html — the current standings (P/W/L, points for/against),
-    rebuilt from the live ladder table.
-  * draw_dump.html   — the NEXT round's fixtures, derived from the fixtures /
-    results page. The upcoming round = the lowest round number whose games are
-    not yet marked "fulltime". This auto-advances every week (incl. finals as
-    soon as Zero Tackle publishes the matchups) — nothing is hard-coded.
+  * ladder_dump.html   — current standings, from the live ladder table.
+  * draw_dump.html     — the NEXT round's fixtures (lowest round whose games
+                         aren't "fulltime" yet). Auto-advances every week.
+  * weather_dump.txt   — game-weekend forecast per host city, from the free
+                         Open-Meteo API (no key). "City: summary" lines.
+  * injuries_dump.html — best-effort team-news per club from Zero Tackle's
+                         injuries page. "Team: notes" lines. Falls back to the
+                         committed file if the page won't parse cleanly.
 
-If a page can't be parsed confidently it leaves the previous dump in place
-(never wipes good data) so the pipeline degrades gracefully.
-
-Network access is fine here because this runs on GitHub's servers.
+Anything that can't be parsed confidently is left as the previous committed
+file (never wipes good data). Network access is fine here (GitHub servers).
 """
+import datetime
 import re
 import sys
 
 import requests
 from bs4 import BeautifulSoup
 
-from parse_nrl import find_short, TEAMS  # side-effect free import (has __main__ guard)
+from parse_nrl import find_short, TEAMS, TEAM_HOME_CITY  # side-effect free import
 
 HEADERS = {"User-Agent": "footy-tipping-personal/1.0 (non-commercial; polite; low-frequency)"}
 LADDER_URL = "https://www.zerotackle.com/nrl/nrl-ladder/"
 FIXTURES_URL = "https://www.zerotackle.com/nrl/fixtures-results/"
+INJURIES_URL = "https://www.zerotackle.com/nrl/injuries-suspensions/"
 
-# Zero Tackle URL-slug nickname for each club short code.
 ZT_SLUG = {
     "PEN": "panthers", "SYD": "roosters", "NZW": "warriors", "CRO": "sharks",
     "DOL": "dolphins", "SOU": "rabbitohs", "NEW": "knights", "NQL": "cowboys",
@@ -39,10 +40,27 @@ ZT_SLUG = {
     "STI": "dragons",
 }
 SLUG_TO_SHORT = {v: k for k, v in ZT_SLUG.items()}
-# Longest slugs first so a shorter slug can't mis-split a compound one.
 SLUGS_BY_LEN = sorted(SLUG_TO_SHORT, key=len, reverse=True)
-
 MATCH_SLUG_RE = re.compile(r"/(fulltime-)?([a-z0-9-]+)-round-(\d+)-20\d\d", re.IGNORECASE)
+
+# Host-city coordinates for the weather lookup (matches parse_nrl TEAM_HOME_CITY / VENUE_CITY).
+CITY_COORDS = {
+    "Sydney": (-33.87, 151.21), "Brisbane": (-27.47, 153.03), "Melbourne": (-37.81, 144.96),
+    "Gold Coast": (-28.00, 153.43), "Newcastle": (-32.93, 151.78), "Townsville": (-19.26, 146.82),
+    "Canberra": (-35.28, 149.13), "Wollongong": (-34.42, 150.90), "Auckland": (-36.85, 174.76),
+    "Mudgee": (-32.60, 149.59), "Redcliffe": (-27.23, 153.11), "Rockhampton": (-23.38, 150.51),
+}
+WMO = {0: "clear", 1: "mainly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog",
+       51: "light drizzle", 53: "drizzle", 55: "heavy drizzle", 61: "light rain", 63: "rain",
+       65: "heavy rain", 66: "freezing rain", 67: "freezing rain", 71: "light snow", 73: "snow",
+       75: "heavy snow", 80: "showers", 81: "showers", 82: "heavy showers",
+       95: "thunderstorms", 96: "thunderstorms", 99: "thunderstorms"}
+
+
+def fetch(url):
+    resp = requests.get(url, headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    return resp.text
 
 
 # --------------------------------------------------------------------------- ladder
@@ -73,11 +91,11 @@ def extract_ladder(html):
         if not short or short in teams:
             continue
         nums = ints_in(cells)
-        big = [n for n in nums if n >= 100]        # PF, PA
+        big = [n for n in nums if n >= 100]
         if len(big) < 2:
             continue
         pf, pa = big[0], big[1]
-        smalls = [n for n in nums if 0 <= n < 100]  # rank, P, W, L, D, (B), PTS
+        smalls = [n for n in nums if 0 <= n < 100]
         cand = []
         if len(smalls) >= 5:
             cand.append((smalls[1], smalls[2], smalls[3], smalls[4]))
@@ -107,7 +125,6 @@ def emit_ladder(teams):
 
 # --------------------------------------------------------------------------- draw
 def split_matchup(teams_part):
-    """Split 'raiders-wests-tigers' -> ('CBR','WST') using the known slug set."""
     for home_slug in SLUGS_BY_LEN:
         prefix = home_slug + "-"
         if teams_part.startswith(prefix):
@@ -118,10 +135,8 @@ def split_matchup(teams_part):
 
 
 def extract_draw(html):
-    """Return (round_number, [(home_short, away_short), ...]) for the next
-    unplayed round, or (None, []) if it can't be determined."""
     soup = BeautifulSoup(html, "html.parser")
-    by_round = {}          # round -> {frozenset(pair): (home, away, played)}
+    by_round = {}
     for a in soup.find_all("a", href=True):
         m = MATCH_SLUG_RE.search(a["href"])
         if not m:
@@ -133,69 +148,166 @@ def extract_draw(html):
             continue
         key = frozenset((home, away))
         slot = by_round.setdefault(rnd, {})
-        # keep a "played" sighting over an unplayed one if both appear
         if key not in slot or played:
             slot[key] = (home, away, played)
-
     if not by_round:
         return None, []
-    # Next round = lowest round with at least one game NOT yet played.
-    unplayed_rounds = sorted(r for r, games in by_round.items() if any(not p for (_, _, p) in games.values()))
-    if not unplayed_rounds:
+    unplayed = sorted(r for r, games in by_round.items() if any(not p for (_, _, p) in games.values()))
+    if not unplayed:
         return None, []
-    rnd = unplayed_rounds[0]
-    fixtures = [(h, a) for (h, a, _played) in by_round[rnd].values()]
+    rnd = unplayed[0]
+    fixtures = [(h, a) for (h, a, _p) in by_round[rnd].values()]
     return rnd, fixtures
 
 
 def emit_draw(rnd, fixtures):
-    out = [f"<!-- rebuilt by cloud_fetch.py from the live Zero Tackle fixtures page -->",
+    out = ["<!-- rebuilt by cloud_fetch.py from the live Zero Tackle fixtures page -->",
            f"<h2>Round {rnd}</h2>"]
     for home, away in fixtures:
         out.append(f"<p>{TEAMS[home]['name']} v {TEAMS[away]['name']}</p>")
     return "\n".join(out) + "\n"
 
 
+# --------------------------------------------------------------------------- weather
+def fetch_weather(cities):
+    """Return {City: 'Day D Mon: 19C, 60% rain, showers'} for the wettest of the
+    next few days (a useful game-weekend read). Best-effort per city."""
+    out = {}
+    for city in sorted(cities):
+        co = CITY_COORDS.get(city)
+        if not co:
+            continue
+        try:
+            url = (f"https://api.open-meteo.com/v1/forecast?latitude={co[0]}&longitude={co[1]}"
+                   f"&daily=weather_code,temperature_2m_max,precipitation_probability_max"
+                   f"&timezone=auto&forecast_days=7")
+            d = requests.get(url, headers=HEADERS, timeout=30).json()["daily"]
+            dates = d["time"]
+            n = min(6, len(dates))
+            pops = [d["precipitation_probability_max"][i] or 0 for i in range(n)]
+            idx = max(range(n), key=lambda i: pops[i])  # wettest upcoming day
+            code = d["weather_code"][idx]
+            tmax = d["temperature_2m_max"][idx]
+            pop = d["precipitation_probability_max"][idx]
+            day = datetime.date.fromisoformat(dates[idx]).strftime("%a %-d %b")
+            desc = WMO.get(code, "")
+            out[city] = f"{day}: {round(tmax)}°C, {pop}% rain chance{(', ' + desc) if desc else ''}"
+        except Exception as exc:  # noqa: BLE001
+            print(f"[cloud_fetch] weather WARN {city}: {exc}", file=sys.stderr)
+    return out
+
+
+def emit_weather(weather_by_city):
+    lines = ["# game-weekend forecast per host city (Open-Meteo)"]
+    for city, txt in weather_by_city.items():
+        lines.append(f"{city}: {txt}")
+    return "\n".join(lines) + "\n"
+
+
+# --------------------------------------------------------------------------- injuries
+NOISE = ("news", "squad", "latest", "fixtures", "ladder", "draw", "tickets", "membership",
+         "highlights", "video", "signing", "contract", "team list", "preview", "wrap")
+
+
+def extract_injuries(html):
+    """Best-effort: walk the page, switch 'current team' on short headings that
+    resolve to a club, and collect nearby player-status lines for that club."""
+    soup = BeautifulSoup(html, "html.parser")
+    teams, current = {}, None
+    for el in soup.find_all(["h1", "h2", "h3", "h4", "strong", "li", "tr", "td", "p"]):
+        txt = el.get_text(" ", strip=True)
+        if not txt or len(txt) > 140:
+            continue
+        low = txt.lower()
+        s = find_short(txt)
+        # A short line that names a club and isn't obvious nav/news = a section header.
+        if s and len(txt) < 40 and not any(w in low for w in NOISE):
+            current = s
+            teams.setdefault(current, [])
+            continue
+        # Otherwise, if it looks like a player-status line, attach to current club.
+        if current and 4 < len(txt) < 140 and any(w in low for w in
+                ("out", "injury", "injured", "suspend", "doubt", "week", "round", "acl",
+                 "knee", "ankle", "hamstring", "shoulder", "concussion", "return")):
+            if txt not in teams[current]:
+                teams[current].append(txt)
+    out = {}
+    for s, items in teams.items():
+        if items:
+            out[s] = "; ".join(items[:3])
+    return out
+
+
+def emit_injuries(news_by_short):
+    lines = ["<!-- rebuilt by cloud_fetch.py from the live Zero Tackle injuries page -->"]
+    for short, txt in news_by_short.items():
+        lines.append(f"{TEAMS[short]['name']}: {txt}")
+    return "\n".join(lines) + "\n"
+
+
+def write(path, text):
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(text)
+
+
 # --------------------------------------------------------------------------- main
-def fetch(url):
-    resp = requests.get(url, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    return resp.text
-
-
 def main():
     # ----- ladder (critical) -----
     try:
-        ladder_html = fetch(LADDER_URL)
+        teams, debug = extract_ladder(fetch(LADDER_URL))
     except Exception as exc:  # noqa: BLE001
         print(f"ERROR: could not fetch ladder: {exc}", file=sys.stderr)
         sys.exit(1)
-    teams, debug = extract_ladder(ladder_html)
     print(f"[cloud_fetch] ladder: extracted {len(teams)} teams")
     for line in debug[:20]:
         print("    " + line)
     if len(teams) < 17:
         print("[cloud_fetch] WARNING: <17 teams — leaving ladder_dump.html untouched.", file=sys.stderr)
         sys.exit(1)
-    with open("ladder_dump.html", "w", encoding="utf-8") as fh:
-        fh.write(emit_ladder(teams))
+    write("ladder_dump.html", emit_ladder(teams))
     print("[cloud_fetch] wrote ladder_dump.html")
 
-    # ----- draw (best-effort; keep the committed file if it looks wrong) -----
+    # ----- draw (best-effort) -----
+    round_fixtures = []
     try:
-        fixtures_html = fetch(FIXTURES_URL)
-        rnd, fixtures = extract_draw(fixtures_html)
+        rnd, round_fixtures = extract_draw(fetch(FIXTURES_URL))
     except Exception as exc:  # noqa: BLE001
-        print(f"[cloud_fetch] WARNING: could not fetch/parse fixtures ({exc}); keeping existing draw_dump.html", file=sys.stderr)
-        rnd, fixtures = None, []
-    if rnd and 6 <= len(fixtures) <= 9:   # a sane full round (8 games, ±byes)
-        with open("draw_dump.html", "w", encoding="utf-8") as fh:
-            fh.write(emit_draw(rnd, fixtures))
-        print(f"[cloud_fetch] wrote draw_dump.html: Round {rnd}, {len(fixtures)} fixtures "
-              f"({', '.join(h + 'v' + a for h, a in fixtures)})")
+        print(f"[cloud_fetch] WARNING: fixtures fetch/parse failed ({exc}); keeping draw_dump.html", file=sys.stderr)
+        rnd = None
+    if rnd and 6 <= len(round_fixtures) <= 9:
+        write("draw_dump.html", emit_draw(rnd, round_fixtures))
+        print(f"[cloud_fetch] wrote draw_dump.html: Round {rnd}, {len(round_fixtures)} fixtures "
+              f"({', '.join(h + 'v' + a for h, a in round_fixtures)})")
     else:
-        print(f"[cloud_fetch] draw looked off (round={rnd}, {len(fixtures)} fixtures) — "
-              f"keeping the committed draw_dump.html so nothing breaks.", file=sys.stderr)
+        print(f"[cloud_fetch] draw looked off (round={rnd}, {len(round_fixtures)} fixtures) — "
+              f"keeping committed draw_dump.html.", file=sys.stderr)
+
+    # ----- weather (best-effort; always leaves a valid file) -----
+    home_shorts = {h for h, _a in round_fixtures} or set(TEAMS)
+    cities = {TEAM_HOME_CITY.get(s) for s in home_shorts if TEAM_HOME_CITY.get(s)}
+    weather = fetch_weather(cities)
+    if weather:
+        write("weather_dump.txt", emit_weather(weather))
+        print(f"[cloud_fetch] wrote weather_dump.txt for {len(weather)} cities: "
+              + " | ".join(f"{c}: {t}" for c, t in weather.items()))
+    else:
+        write("weather_dump.txt", "# no weather this run\n")
+        print("[cloud_fetch] WARNING: no weather fetched; wrote placeholder.", file=sys.stderr)
+
+    # ----- injuries (best-effort; keep committed file if parse looks thin) -----
+    try:
+        news = extract_injuries(fetch(INJURIES_URL))
+    except Exception as exc:  # noqa: BLE001
+        print(f"[cloud_fetch] WARNING: injuries fetch/parse failed ({exc}); keeping injuries_dump.html", file=sys.stderr)
+        news = {}
+    print(f"[cloud_fetch] injuries: parsed news for {len(news)} clubs")
+    for short, txt in list(news.items())[:20]:
+        print(f"    {short}: {txt[:80]}")
+    if len(news) >= 6:
+        write("injuries_dump.html", emit_injuries(news))
+        print("[cloud_fetch] wrote injuries_dump.html")
+    else:
+        print("[cloud_fetch] injuries parse thin (<6 clubs) — keeping committed injuries_dump.html.", file=sys.stderr)
 
 
 if __name__ == "__main__":
