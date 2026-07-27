@@ -1,10 +1,9 @@
 name: Update NRL tips
 
-# Runs on GitHub servers - the Mac does NOT need to be on.
 on:
   schedule:
-    - cron: "0 20 * * *"
-    - cron: "0 6 * * *"
+    - cron: "0 20 * * *"   # 6am AEST
+    - cron: "0 2 * * *"    # 12pm (noon) AEST
   workflow_dispatch: {}
 
 concurrency:
