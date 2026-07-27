@@ -301,31 +301,30 @@ def _clean_name(raw):
 
 def extract_ratings(html):
     """Parse the overall player-ratings page into {norm_name: {name,pos,pct}}.
-    Primary path: real table rows (player-profile anchor + a position cell + a
-    NN.NN% cell). Fallback: regex over the flattened page text. Either way we
-    only keep entries with a recognised position and a percentage."""
+    The table rows are: rank | Player Name | Team | Position | NN.NN% | pts | move.
+    Primary path reads the cells positionally (name = the cell after the rank).
+    Fallback: regex over the flattened page text if the table shape changes."""
     soup = BeautifulSoup(html, "html.parser")
     players = {}
 
-    # ---- primary: structured rows ----
+    # ---- primary: structured rows (name is the cell right after the rank) ----
     for tr in soup.find_all("tr"):
         cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
-        if len(cells) < 3:
+        cells = [c for c in cells if c]
+        if len(cells) < 5:
             continue
-        a = tr.find("a", href=re.compile(r"/rugby-league/players/"))
-        name = a.get_text(" ", strip=True) if a else None
         pos = next((_POS_CANON[c.lower()] for c in cells if c.lower() in _POS_CANON), None)
         pct = None
         for c in cells:
-            m = re.search(r"(\d{1,3}(?:\.\d+)?)\s*%", c)
+            m = re.match(r"^(\d{1,3}(?:\.\d+)?)\s*%$", c)
             if m:
                 pct = float(m.group(1))
                 break
-        if not name and pos and pct is not None:          # no anchor: derive from cells
-            blob = " ".join(cells)
-            blob = _POS_RE.split(blob)[0]
-            name = _clean_name(blob)
-        if not name or not pos or pct is None:
+        if pos is None or pct is None:
+            continue
+        name = cells[1] if re.fullmatch(r"\d+", cells[0]) else cells[0]
+        name = re.sub(r"\s+", " ", name).strip()
+        if not re.search(r"[A-Za-z]", name) or name.lower() in _POS_CANON:
             continue
         key = norm_name(name)
         if key and key not in players:
