@@ -175,6 +175,75 @@ def emit_draw(rnd, fixtures):
     return "\n".join(out) + "\n"
 
 
+# --------------------------------------------------------------------------- results
+def _nearest_int(lines, k, direction):
+    """First 1-3 digit integer scanning outward from index k in the given direction."""
+    j = k + direction
+    while 0 <= j < len(lines):
+        if re.fullmatch(r"\d{1,3}", lines[j]):
+            return int(lines[j])
+        j += direction
+    return None
+
+
+def extract_results(html):
+    """Parse finished-game scores from the Zero Tackle fixtures/results page.
+
+    Each played match links to a '/fulltime-<home>-<away>-round-N-...' match centre,
+    and within the same match card the two scores sit either side of an 'FT' marker
+    (home code, home score, FT, away score, away code). We take teams + round from the
+    slug (reliable) and the two scores from the card. Returns
+    [{round, home, away, hs, as}]; anything that doesn't resolve cleanly is skipped."""
+    soup = BeautifulSoup(html, "html.parser")
+    out, seen = [], set()
+    for a in soup.find_all("a", href=True):
+        m = MATCH_SLUG_RE.search(a["href"])
+        if not m or not m.group(1):            # only 'fulltime-' (i.e. played) links
+            continue
+        home, away = split_matchup(m.group(2).lower())
+        if not home or not away or home == away:
+            continue
+        rnd = int(m.group(3))
+        # Climb to the nearest ancestor whose text contains the 'FT' marker — that's
+        # this match's card. (Ancestors between the <a> and the card don't contain FT.)
+        lines = []
+        node = a
+        for _ in range(8):
+            node = node.parent
+            if node is None:
+                break
+            lines = [x.strip() for x in node.get_text("\n").split("\n") if x.strip()]
+            if "FT" in lines:
+                break
+        if "FT" not in lines:
+            continue
+        k = lines.index("FT")
+        hs = _nearest_int(lines, k, -1)        # score just before FT = home
+        aw = _nearest_int(lines, k, +1)        # score just after FT  = away
+        if hs is None or aw is None:
+            continue
+        key = (rnd, home, away)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({"round": rnd, "home": home, "away": away, "hs": hs, "as": aw})
+    return out
+
+
+def emit_results(results):
+    """Write finished games in the 'Round N' + 'Home hs - Away aws' format that
+    parse_nrl.py's parse_results()/--results already understands."""
+    by_round = {}
+    for r in results:
+        by_round.setdefault(r["round"], []).append(r)
+    out = ["<!-- rebuilt by cloud_fetch.py from the live Zero Tackle fixtures/results page -->"]
+    for rnd in sorted(by_round):
+        out.append(f"Round {rnd}")
+        for r in by_round[rnd]:
+            out.append(f"{TEAMS[r['home']]['name']} {r['hs']} - {TEAMS[r['away']]['name']} {r['as']}")
+    return "\n".join(out) + "\n"
+
+
 # --------------------------------------------------------------------------- weather
 def fetch_weather(cities):
     """Return {City: 'Day D Mon: 19C, 60% rain, showers'} for the wettest of the
@@ -379,10 +448,13 @@ def main():
     write("ladder_dump.html", emit_ladder(teams))
     print("[cloud_fetch] wrote ladder_dump.html")
 
-    # ----- draw (best-effort) -----
+    # ----- fixtures page: powers both the draw and the finished-results dump -----
+    fixtures_html = None
     round_fixtures = []
+    rnd = None
     try:
-        rnd, round_fixtures = extract_draw(fetch(FIXTURES_URL))
+        fixtures_html = fetch(FIXTURES_URL)
+        rnd, round_fixtures = extract_draw(fixtures_html)
     except Exception as exc:  # noqa: BLE001
         print(f"[cloud_fetch] WARNING: fixtures fetch/parse failed ({exc}); keeping draw_dump.html", file=sys.stderr)
         rnd = None
@@ -393,6 +465,23 @@ def main():
     else:
         print(f"[cloud_fetch] draw looked off (round={rnd}, {len(round_fixtures)} fixtures) — "
               f"keeping committed draw_dump.html.", file=sys.stderr)
+
+    # ----- finished results (best-effort): every played game's score -> results_dump.txt,
+    # which parse_nrl.py appends to the learning-loop memory. This is what makes recent
+    # form + home/away splits real and grows the model toward switching on Elo. -----
+    if fixtures_html is not None:
+        try:
+            results = extract_results(fixtures_html)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[cloud_fetch] WARNING: results parse failed ({exc}); keeping results_dump.txt", file=sys.stderr)
+            results = []
+        if len(results) >= 8:
+            write("results_dump.txt", emit_results(results))
+            rounds = sorted({r["round"] for r in results})
+            print(f"[cloud_fetch] wrote results_dump.txt: {len(results)} finished games "
+                  f"across rounds {rounds[0]}–{rounds[-1]}")
+        else:
+            print(f"[cloud_fetch] results parse thin ({len(results)} games) — keeping committed results_dump.txt.", file=sys.stderr)
 
     # ----- weather (best-effort; always leaves a valid file) -----
     home_shorts = {h for h, _a in round_fixtures} or set(TEAMS)
