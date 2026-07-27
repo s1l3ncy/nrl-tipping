@@ -138,6 +138,23 @@ import html
 import json
 import os
 import re
+
+# --- Home timezone for date stamping ---------------------------------------
+# GitHub's runners are UTC. The 6am-Sydney cron fires at ~20:00 UTC the PREVIOUS
+# day, so datetime.date.today() there returns yesterday and the site shows a date
+# one day behind. Stamp dates in the app's real home timezone instead.
+try:
+    from zoneinfo import ZoneInfo
+    _SYD_TZ = ZoneInfo("Australia/Sydney")
+except Exception:
+    _SYD_TZ = None
+
+def local_today_iso():
+    """Today's date in Australia/Sydney as ISO YYYY-MM-DD (UTC-safe).
+    Falls back to the runner's local date if tz data is unavailable."""
+    if _SYD_TZ is not None:
+        return datetime.datetime.now(_SYD_TZ).date().isoformat()
+    return datetime.date.today().isoformat()
 import sys
 from pathlib import Path
 
@@ -755,7 +772,7 @@ def append_finished_results(learned_path, new_results):
 
     if data is None:
         data = {
-            "updated": datetime.date.today().isoformat(),
+            "updated": local_today_iso(),
             "gamesLearned": len(existing),
             "lowConfidence": True,
             "params": dict(DEFAULT_LEARNED_PARAMS),
@@ -911,7 +928,7 @@ def run_merge(args):
         else:
             print(f"[parse_nrl] WARNING: --weather file not found: {weather_path}", file=sys.stderr)
 
-    news_updated = args.updated or datetime.date.today().isoformat()
+    news_updated = args.updated or local_today_iso()
     data["newsUpdated"] = news_updated
     # NOTE: `updated`, `round`, ladder numbers (P/W/L/PF/PA/last5/home/away)
     # and the fixtures list are all left exactly as loaded above — only the
@@ -979,7 +996,7 @@ def main():
     out_path_default = args.out or "nrl_data.js"
     args.out = out_path_default
 
-    updated = args.updated or datetime.date.today().isoformat()
+    updated = args.updated or local_today_iso()
 
     ladder_path = Path(args.ladder)
     draw_path = Path(args.draw)
