@@ -23,9 +23,15 @@ window.NRL_DATA = {
       "L": 4,
       "PF": 539,
       "PA": 255,
-      "last5": 0,
+      "last5": 1,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 24,
+        "PA": 18
+      },
       "news": "Dylan Edwards (Shoulder); Mitch Kenny (Leg); Jack Cogger (Suspension) — back Round 22"
     },
     {
@@ -37,9 +43,15 @@ window.NRL_DATA = {
       "L": 5,
       "PF": 449,
       "PA": 364,
-      "last5": 0,
+      "last5": 1,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 23,
+        "PA": 22
+      },
       "news": "Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
@@ -53,7 +65,13 @@ window.NRL_DATA = {
       "PA": 306,
       "last5": 0,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 6,
+        "PA": 18
+      },
       "news": "Taine Tuaupiki (Foot); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
@@ -93,8 +111,14 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 510,
       "PA": 432,
-      "last5": 0,
-      "home": null,
+      "last5": 1,
+      "home": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 28,
+        "PA": 26
+      },
       "away": null,
       "news": "Dayne Jennings (Knee); Brandon Smith (Calf); Latrell Mitchell (Calf) — back Round 23; Sean Keppie (Thumb) — back Round 23; David Fifita (Suspension) — back Round 23; Tallis Duncan (Hamstring) — back Round 23"
     },
@@ -108,7 +132,13 @@ window.NRL_DATA = {
       "PF": 481,
       "PA": 445,
       "last5": 0,
-      "home": null,
+      "home": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 22,
+        "PA": 23
+      },
       "away": null,
       "news": "Dane Gagai (Calf); Kalyn Ponga (Quad); Jermaine McEwen (Hamstring) — back Round 22; Asu Kepaoa (Suspension) — back Round 23; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25"
     },
@@ -121,8 +151,14 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 442,
       "PA": 470,
-      "last5": 0,
-      "home": null,
+      "last5": 1,
+      "home": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 18,
+        "PA": 10
+      },
       "away": null,
       "news": "Reed Mahoney (Head knock); Tom Dearden (Ankle); John Bateman (Hamstring); Griffin Neame (Suspension) — back Round 23"
     },
@@ -135,8 +171,14 @@ window.NRL_DATA = {
       "L": 9,
       "PF": 342,
       "PA": 400,
-      "last5": 0,
-      "home": null,
+      "last5": 1,
+      "home": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 18,
+        "PA": 6
+      },
       "away": null,
       "news": "Jake Turpin (Biceps); Samuel Hughes (Neck); Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring) — back Round 25"
     },
@@ -163,8 +205,14 @@ window.NRL_DATA = {
       "L": 10,
       "PF": 435,
       "PA": 470,
-      "last5": 0,
-      "home": null,
+      "last5": 1,
+      "home": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 56,
+        "PA": 10
+      },
       "away": null,
       "news": "Noah Martin (Quad); Owen Pattie (Suspension) — back Round 22; Hudson Young (Achilles) — back Next Season"
     },
@@ -179,7 +227,13 @@ window.NRL_DATA = {
       "PA": 458,
       "last5": 0,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 26,
+        "PA": 28
+      },
       "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle) — back Round 24; Cameron Munster (Knee) — back Round 24; Harry Grant (Hamstring) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
     },
     {
@@ -191,9 +245,15 @@ window.NRL_DATA = {
       "L": 12,
       "PF": 373,
       "PA": 459,
-      "last5": 0,
+      "last5": 1,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 1,
+        "L": 0,
+        "PF": 38,
+        "PA": 18
+      },
       "news": "Brock Gray (ACL); Kurtis Morrin (Leg) — back Round 22; AJ Brimson (Concussion) — back Round 22; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
@@ -207,7 +267,13 @@ window.NRL_DATA = {
       "PA": 471,
       "last5": 0,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 10,
+        "PA": 18
+      },
       "news": "Corey Jensen (Medical Episode); Brendan Piakura (Concussion); Aublix Tawha (Ankle) — back Round 23"
     },
     {
@@ -220,7 +286,13 @@ window.NRL_DATA = {
       "PF": 349,
       "PA": 531,
       "last5": 0,
-      "home": null,
+      "home": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 18,
+        "PA": 24
+      },
       "away": null,
       "news": "Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23; Bailey Simonsson (Ankle) — back Round 23; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
     },
@@ -235,7 +307,13 @@ window.NRL_DATA = {
       "PA": 573,
       "last5": 0,
       "home": null,
-      "away": null,
+      "away": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 10,
+        "PA": 56
+      },
       "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
@@ -248,7 +326,13 @@ window.NRL_DATA = {
       "PF": 274,
       "PA": 541,
       "last5": 0,
-      "home": null,
+      "home": {
+        "P": 1,
+        "W": 0,
+        "L": 1,
+        "PF": 18,
+        "PA": 38
+      },
       "away": null,
       "news": "Hame Sele (Achilles); Kade Reed (Finger) — back Round 22; Jaydn Su'A (Pectoral) — back Round 27"
     }
