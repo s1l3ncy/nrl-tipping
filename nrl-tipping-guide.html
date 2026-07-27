@@ -11,17 +11,21 @@
 <title>NRL Tipping Guide</title>
 <style>
 :root{
-  --bg0:#050810; --bg1:#0A0E18;
-  --panel:#11151F; --elevated:#171C29; --well:#0D111A;
-  --line:rgba(255,255,255,.06);
-  --text:#F5F7FA; --muted:#98A2B8; --muted2:#606B80;
-  --accent:#30D982; --accent2:#7CFFC0; --accent-glow:rgba(48,217,130,.35);
-  --amber:#FFB020; --amber-text:#ffd488;
-  --orange:#FF8A3D; --orange-text:#ffcfa8;
-  --roosters:#FF3B47; --red-text:#ffb3ba;
-  --blue:#4c8dff;
-  --radius-hero:28px; --radius-card:22px; --radius-pill:999px; --radius-mini:14px;
-  --shadow-lg:0 20px 40px rgba(0,0,0,.45);
+  /* Refined palette — one primary accent (green = the tip), red reserved
+     for the Roosters lock only, secondary hues desaturated so they support
+     rather than shout. Muted text lifted for cleaner contrast. */
+  --bg0:#05070E; --bg1:#0A0E17;
+  --panel:#12161F; --elevated:#1B212E; --well:#0D111A;
+  --line:rgba(255,255,255,.07); --line-soft:rgba(255,255,255,.045);
+  --text:#F3F6FB; --muted:#A2ACC0; --muted2:#78839A;
+  --accent:#2FD87F; --accent2:#7CFFC0; --accent-glow:rgba(47,216,127,.26);
+  --amber:#E0A24A; --amber-text:#e7c592;
+  --orange:#DD8A54; --orange-text:#e3b89b;
+  --roosters:#FF4954; --red-text:#ffb0b6;
+  --blue:#5F93EC; --blue-soft:rgba(95,147,236,.9);
+  --radius-hero:26px; --radius-card:20px; --radius-pill:999px; --radius-mini:13px;
+  --shadow-lg:0 14px 32px rgba(0,0,0,.36);
+  --gap:14px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg0)}
@@ -49,30 +53,30 @@ body{margin:0;
 /* page head */
 .pagehead{padding:22px 0 4px}
 h1{margin:0;font-size:34px;font-weight:800;letter-spacing:-.4px;color:var(--text)}
-.tagline{margin:5px 0 0;font-size:15px;font-weight:450;line-height:1.4;color:var(--muted)}
+.tagline{margin:6px 0 0;font-size:14.5px;font-weight:400;line-height:1.45;color:var(--muted)}
 .metaline{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px;color:var(--muted);font-size:12.5px;font-weight:500}
 .dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .dot.stale{background:var(--amber);box-shadow:0 0 0 3px rgba(255,176,32,.18)}
 .dot.sample{background:var(--blue);box-shadow:0 0 0 3px rgba(76,141,255,.2)}
 
 /* roosters hero */
-.rkhero{position:relative;margin-top:18px;border-radius:var(--radius-hero);padding:22px 20px;overflow:hidden;
+.rkhero{position:relative;margin-top:20px;border-radius:var(--radius-hero);padding:22px 22px;overflow:hidden;
   border:1px solid var(--line);
-  background:linear-gradient(160deg,rgba(255,59,71,.10),rgba(23,28,41,.88));
-  backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  background:linear-gradient(160deg,rgba(255,73,84,.075),rgba(24,29,42,.9));
+  backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
   display:flex;gap:16px;align-items:center;flex-wrap:wrap;box-shadow:var(--shadow-lg)}
-.rkhero::before{content:"";position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:220px;
-  background:radial-gradient(120px 120px at 50% 40%,rgba(255,59,71,.18),transparent 70%);pointer-events:none}
+.rkhero::before{content:"";position:absolute;top:-70px;left:50%;transform:translateX(-50%);width:280px;height:220px;
+  background:radial-gradient(120px 120px at 50% 40%,rgba(255,73,84,.12),transparent 70%);pointer-events:none}
 .rkhero::after{content:"";position:absolute;top:0;left:16px;right:16px;height:1px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),transparent)}
-.rkhero .rk{font-size:34px;position:relative}
+  background:linear-gradient(180deg,rgba(255,255,255,.06),transparent)}
+.rkhero .rk{font-size:32px;position:relative}
 .rkhero .txt{flex:1;min-width:200px;position:relative}
-.rkhero h3{margin:0 0 4px;font-size:17px;font-weight:750}
-.rkhero .verdict{font-weight:750;font-size:14px}
+.rkhero h3{margin:0 0 5px;font-size:16.5px;font-weight:700;letter-spacing:-.1px}
+.rkhero .verdict{font-weight:600;font-size:13.5px}
 .verdict.safe{color:var(--accent)} .verdict.risk{color:var(--amber-text)}
-.rkhero .big{font-size:44px;font-weight:850;text-align:center;min-width:110px;letter-spacing:-.5px;
+.rkhero .big{font-size:40px;font-weight:800;text-align:center;min-width:104px;letter-spacing:-.5px;
   font-variant-numeric:tabular-nums;position:relative}
-.big .u{font-size:12px;color:var(--muted);display:block;font-weight:600;margin-top:2px}
+.big .u{font-size:11.5px;color:var(--muted);display:block;font-weight:500;margin-top:3px}
 
 section{margin-top:26px}
 .sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
@@ -80,41 +84,41 @@ section{margin-top:26px}
 .sec-h .hint{font-size:12.5px;color:var(--muted2);font-weight:500}
 
 /* game cards */
-.games{display:grid;gap:12px;scroll-snap-type:y proximity}
+.games{display:grid;gap:var(--gap);scroll-snap-type:y proximity}
 .gcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-card);overflow:hidden;
   position:relative;box-shadow:var(--shadow-lg);transition:transform .08s ease;scroll-snap-align:start}
 .gcard::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),transparent);pointer-events:none}
+  background:linear-gradient(180deg,rgba(255,255,255,.055),transparent);pointer-events:none}
 .gcard:active{transform:scale(.98)}
-.grow{display:grid;grid-template-columns:1fr 112px 1fr;gap:8px;align-items:stretch;padding:18px 18px 4px}
+.grow{display:grid;grid-template-columns:1fr 116px 1fr;gap:10px;align-items:stretch;padding:20px 18px 8px}
 .side{display:flex;flex-direction:column;gap:8px;padding:4px;border-radius:var(--radius-mini);position:relative;min-width:0}
 .side.away{align-items:flex-end;text-align:right}
 .club{display:flex;align-items:center;gap:9px}
 .side.away .club{flex-direction:row-reverse}
 .crest{width:22px;height:22px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
 .crest.rk{box-shadow:0 0 0 2px var(--roosters)}
-.tname{font-size:17px;font-weight:750;letter-spacing:-.2px;color:var(--text)}
+.tname{font-size:16.5px;font-weight:700;letter-spacing:-.2px;color:var(--text)}
 .side.locked{outline:1.5px solid var(--roosters);outline-offset:-1.5px;
   background:linear-gradient(135deg,rgba(255,59,71,.10),transparent);padding:9px}
 .lockchip{position:absolute;top:4px;right:4px;font-size:11px;line-height:1;
   background:rgba(255,59,71,.16);border:1px solid rgba(255,59,71,.4);border-radius:var(--radius-pill);padding:3px 6px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .side.away .chips{justify-content:flex-end}
-.chip{font-size:12px;font-weight:500;color:var(--muted);background:var(--well);border:1px solid var(--line);
-  border-radius:var(--radius-pill);padding:3px 9px}
+.chip{font-size:11.5px;font-weight:500;color:var(--muted);background:transparent;border:1px solid var(--line-soft);
+  border-radius:var(--radius-pill);padding:3px 10px;font-variant-numeric:tabular-nums}
 .rec{font-size:12px;color:var(--muted)}
-.tipbadge{align-self:flex-start;font-size:11.5px;font-weight:800;letter-spacing:.4px;
+.tipbadge{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.3px;
   padding:4px 10px;border-radius:var(--radius-pill);display:inline-block}
 .side.away .tipbadge{align-self:flex-end}
-.tipbadge.model{background:rgba(48,217,130,.16);color:var(--accent);border:1px solid rgba(48,217,130,.4)}
+.tipbadge.model{background:rgba(47,216,127,.12);color:var(--accent);border:1px solid rgba(47,216,127,.32)}
 .tipbadge.locked{background:rgba(255,59,71,.16);color:var(--roosters);border:1px solid rgba(255,59,71,.45)}
 .formrow{display:flex}
 .side.away .formrow{justify-content:flex-end}
 .formdots{display:inline-flex;gap:3px}
 .formdots i{width:6px;height:6px;border-radius:50%;background:var(--muted2);display:inline-block}
 .formdots i.w{background:var(--accent)}
-.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-  border-left:1px solid var(--line);border-right:1px solid var(--line);padding:4px 2px;min-width:0}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  border-left:1px solid var(--line-soft);border-right:1px solid var(--line-soft);padding:4px 4px;min-width:0}
 .ringwrap{position:relative;width:72px;height:72px}
 .ringwrap svg{width:100%;height:100%;display:block}
 .ring-track{fill:none;stroke:var(--elevated);stroke-width:4}
@@ -122,11 +126,13 @@ section{margin-top:26px}
   filter:drop-shadow(0 0 6px var(--accent-glow))}
 .ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:15px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums}
-.mid .pl{font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:.6px;font-weight:700}
-.why1{font-size:13px;text-align:center;color:var(--muted);line-height:1.3}
-.why1 b{color:var(--accent);font-weight:750}
-.vsmini{font-size:11px;color:var(--muted2);text-align:center}
-.vsmini.strong{font-weight:700;color:var(--text)}
+.mid .pl{font-size:9.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+.tipline{font-size:12.5px;text-align:center;color:var(--text);font-weight:700;letter-spacing:.1px}
+.tipline b{color:var(--accent)}
+.why1{font-size:12.5px;text-align:center;color:var(--muted);line-height:1.3}
+.why1 b{color:var(--accent);font-weight:700}
+.vsmini{font-size:10.5px;color:var(--muted2);text-align:center;font-variant-numeric:tabular-nums}
+.vsmini.strong{font-weight:600;color:var(--muted)}
 .rationale{padding:0 18px 12px;color:var(--muted);font-size:13px;display:flex;gap:8px;align-items:flex-start}
 .rationale .k{color:var(--accent);font-weight:700}
 details.more{border-top:1px solid var(--line)}
@@ -167,7 +173,7 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .qhead h2{font-size:12px;margin:0;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted2);font-weight:700}
 .ql{display:grid;gap:6px}
 .qline{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:9px 12px;border-radius:12px;background:var(--well)}
-.qline .pick{font-weight:750}
+.qline .pick{font-weight:700}
 .qline .pick.rk{color:var(--roosters)}
 button{font:inherit;background:var(--accent);color:#052015;border:none;border-radius:12px;
   padding:11px 16px;font-weight:700;cursor:pointer;min-height:44px}
@@ -181,7 +187,7 @@ button.ghost:hover{color:var(--text);border-color:#3a4a67}
 .note{font-size:15px;font-weight:450;line-height:1.4;color:var(--muted);margin:0 0 12px}
 .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .statbox{background:var(--well);border:1px solid var(--line);border-radius:var(--radius-mini);padding:16px;text-align:center}
-.statbox .big{font-size:44px;font-weight:850;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.statbox .big{font-size:40px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
 .statbox .lbl{font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:.6px;margin-top:4px;font-weight:700}
 .statbox.lock .big{color:var(--roosters)} .statbox.model .big{color:var(--accent)}
 .samplenote{font-size:12.5px;font-weight:500;color:var(--muted2);margin-top:8px;text-align:center}
@@ -713,18 +719,17 @@ function cardHTML(p,meta){
   const side=(t,where,isTip,isRk)=>{
     const rec=t.P?`${t.W}-${t.L}`:'';
     const marg=t.P?`${(overallMargin(t)>=0?'+':'')}${overallMargin(t).toFixed(1)}/gm`:'';
+    const stat = rec ? (marg?`${rec} · ${marg}`:rec) : '';
     return `<div class="side ${where}${isRk?' locked':''}">
       ${isRk?'<span class="lockchip" aria-hidden="true">🔒</span>':''}
       <div class="club"><span class="crest${isRk?' rk':''}" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>
         <span class="tname">${esc(t.name)}${isRk?' 🐓':''}${isTip?'<span class="sr"> — tipped to win</span>':''}</span></div>
       ${badge(isTip,isRk)}
-      <div class="chips">${rec?`<span class="chip">${esc(rec)}</span>`:''}${marg?`<span class="chip">${esc(marg)}</span>`:''}</div>
+      <div class="chips">${stat?`<span class="chip">${esc(stat)}</span>`:''}</div>
       <div class="formrow">${winloss(t.last5)}</div>
     </div>`;
   };
   const favMargin = p.margin>=0? p.h : p.a;
-  const marginLine = `model margin: ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)}`;
-  const fav = tipHome? p.h : p.a;
   const band = bandFor(conf);
   const dash = (RING_C*conf).toFixed(2);
   const tags=[];
@@ -742,10 +747,9 @@ function cardHTML(p,meta){
           </svg>
           <div class="ring-pct">${pct}%</div>
         </div>
-        <div class="pl">${esc(tipHome?p.h.short:p.a.short)} win</div>
-        <div class="why1"><b>${esc(fav.name)}</b> ${esc(band)}</div>
-        <div class="vsmini">${p.blended?'model+odds':'model'}</div>
-        <div class="vsmini strong">${esc(marginLine)}</div>
+        <div class="tipline"><b>${esc(tipHome?p.h.short:p.a.short)}</b> to win</div>
+        <div class="why1">${esc(band)}</div>
+        <div class="vsmini">${p.blended?'model + odds':'model'} · ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)}</div>
       </div>
       ${side(p.a,'away',!tipHome,rkAway)}
     </div>
