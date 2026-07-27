@@ -32,6 +32,114 @@ jobs:
         run: python cloud_fetch.py
 
       - name: Rebuild data from the fetched pages
+        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --injuries injuries_dump.html --weather weather_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
+
+      - name: Re-learn from the results memory
+        run: python learn_model.py
+
+      - name: Validate before publishing
+        run: |
+          python validate_data.py nrl_data.js
+          python validate_learned.py nrl_learned.js
+
+      - name: Build the hosted page
+        run: cp nrl-tipping-guide.html index.html
+
+      - name: Commit and publish
+        run: |
+          git config user.name "nrl-tips-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Auto update NRL data" || echo "nothing changed"
+          git push
+name: Update NRL tips
+
+on:
+  schedule:
+    - cron: "0 20 * * *"   # 6am AEST
+    - cron: "0 2 * * *"    # 12pm (noon) AEST
+  workflow_dispatch: {}
+
+concurrency:
+  group: nrl-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Fetch source pages
+        run: python cloud_fetch.py
+
+      - name: Rebuild data from the fetched pages
+        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --injuries injuries_dump.html --weather weather_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
+
+      - name: Re-learn from the results memory
+        run: python learn_model.py
+
+      - name: Validate before publishing
+        run: |
+          python validate_data.py nrl_data.js
+          python validate_learned.py nrl_learned.js
+
+      - name: Build the hosted page
+        run: cp nrl-tipping-guide.html index.html
+
+      - name: Commit and publish
+        run: |
+          git config user.name "nrl-tips-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Auto update NRL data" || echo "nothing changed"
+          git push
+name: Update NRL tips
+
+on:
+  schedule:
+    - cron: "0 20 * * *"   # 6am AEST
+    - cron: "0 2 * * *"    # 12pm (noon) AEST
+  workflow_dispatch: {}
+
+concurrency:
+  group: nrl-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Fetch source pages
+        run: python cloud_fetch.py
+
+      - name: Rebuild data from the fetched pages
         run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --injuries injuries_dump.html --out nrl_data.js --season 2026 --source zerotackle.com
 
       - name: Re-learn from the results memory
