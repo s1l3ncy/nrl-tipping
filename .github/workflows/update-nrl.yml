@@ -36,7 +36,7 @@ jobs:
         run: python cloud_fetch.py
 
       - name: Rebuild data from the fetched pages
-        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --injuries injuries_dump.html --weather weather_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
+        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --injuries injuries_dump.html --weather weather_dump.txt --results results_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
 
       - name: Re-learn from the results memory
         run: python learn_model.py
