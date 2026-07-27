@@ -499,6 +499,10 @@ let PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_P
 let HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
 const SPINE_POS = {"Fullback":1,"Halfback":1,"Five-eighth":1,"Hooker":1};
 const EDGE_POS  = {"Centre":1,"Winger":1,"Second-row":1};
+// A player listed injured with no confirmed return (a bare "knock", no timeframe) is
+// only a doubt, not a confirmed absence — count them at reduced weight so an early-week
+// gametime-decision doesn't swing a tip like a season-ending injury does.
+const UNCONFIRMED_WEIGHT = 0.5;
 function playerImpact(name){
   const p = PLAYERS[normName(name)];
   if(!p){                                   // unranked -> fringe/squad player
@@ -517,15 +521,18 @@ function injuryPenalty(news, tipRound){
   const outs=[];
   entries.forEach(e=>{
     const rm=e.match(/back\s+round\s+(\d+)/i);          // "— back Round 25"
-    let isOut;
-    if(rm){ isOut = parseInt(rm[1],10) > round; }        // returns after this round => out
-    else if(/back\s+(finals|next\s+season|season|20\d\d)/i.test(e)) isOut=true; // long-term
-    else isOut=true;                                     // listed injured, TBC/unknown => assume out
+    let isOut, confirmed;
+    if(rm){ isOut = parseInt(rm[1],10) > round; confirmed=true; }                 // dated return => confirmed out until then
+    else if(/back\s+(finals|next\s+season|season|indefinite|20\d\d)/i.test(e)){ isOut=true; confirmed=true; } // long-term
+    else if(/suspen/i.test(e)){ isOut=true; confirmed=true; }                     // suspension => definite
+    else { isOut=true; confirmed=false; }                                         // listed knock, no timeframe => doubt only
     if(!isOut) return;
     let name=(e.split("(")[0]||e).replace(/\s+[—–-]\s+.*$/,"").trim(); // keep hyphenated surnames
     if(!name) return;
     const im=playerImpact(name);
-    outs.push({name, pts:im.pts, pos:im.pos});
+    // Confirmed absences count in full; unconfirmed early-week knocks are discounted.
+    const pts = confirmed ? im.pts : Math.round(im.pts*UNCONFIRMED_WEIGHT*10)/10;
+    outs.push({name, pts, pos:im.pos, confirmed});
   });
   if(!outs.length) return nil;
   outs.sort((a,b)=>b.pts-a.pts);                         // biggest losses first
@@ -534,9 +541,10 @@ function injuryPenalty(news, tipRound){
   outs.forEach((o,i)=>{ total += o.pts*(factors[i]!==undefined?factors[i]:0.08); });
   total=Math.min(6.5, Math.round(total*10)/10);         // hard team cap
   const top=outs[0];
+  const verb = top.confirmed ? "out" : "in doubt";
   const note = outs.length===1
-      ? `${top.name} out${top.pos?` (${top.pos})`:""}`
-      : `${top.name}${top.pos?` (${top.pos})`:""} +${outs.length-1} more out`;
+      ? `${top.name} ${verb}${top.pos?` (${top.pos})`:""}`
+      : `${top.name} ${verb}${top.pos?` (${top.pos})`:""} +${outs.length-1} more`;
   return {penalty:total, note, count:outs.length};
 }
 

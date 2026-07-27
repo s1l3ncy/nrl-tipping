@@ -793,6 +793,55 @@ def append_finished_results(learned_path, new_results):
     return added
 
 
+def load_results_memory(learned_path):
+    """Return the append-only results log from nrl_learned.js (or [] if missing/
+    unreadable). Used to derive form + home/away splits, which the ladder source
+    doesn't provide."""
+    try:
+        p = Path(learned_path)
+        if p.exists():
+            return load_learned(p).get("results", []) or []
+    except Exception:
+        pass
+    return []
+
+
+def derive_form_and_splits(teams, results):
+    """Fill each team's `last5` (wins in its last 5 games) and `home`/`away` split
+    records ({P,W,L,PF,PA}) from the results memory.
+
+    Why: the scraped ladder carries only season totals — no recent-form column and no
+    home/away split tables — so without this, `last5` stays 0 and `home`/`away` stay
+    null, and the front-end's form nudge + venue-adjustment silently do nothing.
+
+    Only games present in the memory count, so this is naturally partial early in the
+    season and sharpens as the log grows. That's safe: the front-end's splitWeight
+    (P/(P+6), capped 0.5) trusts a small split sample only lightly, leaning on the
+    overall season margin until enough home/away games accumulate."""
+    from collections import defaultdict
+    per = defaultdict(list)  # short -> list of (round, is_home, points_for, points_against, won)
+    for r in results or []:
+        try:
+            rnd = int(r["round"]); h = r["home"]; a = r["away"]
+            hs = int(r["hs"]); as_ = int(r["as"])
+        except (KeyError, ValueError, TypeError):
+            continue
+        per[h].append((rnd, True, hs, as_, hs > as_))
+        per[a].append((rnd, False, as_, hs, as_ > hs))
+    for t in teams:
+        gl = sorted(per.get(t["short"], []), key=lambda x: x[0])
+        if not gl:
+            continue
+        t["last5"] = sum(1 for g in gl[-5:] if g[4])       # wins in the last 5 games
+        for side, is_home in (("home", True), ("away", False)):
+            sub = [g for g in gl if g[1] == is_home]
+            if sub:
+                won = sum(1 for g in sub if g[4])
+                t[side] = {"P": len(sub), "W": won, "L": len(sub) - won,
+                           "PF": sum(g[2] for g in sub), "PA": sum(g[3] for g in sub)}
+    return teams
+
+
 # ---------------------------------------------------------------------------
 # Validation
 # ---------------------------------------------------------------------------
@@ -1059,6 +1108,14 @@ def main():
     if not teams:
         print("[parse_nrl] ERROR: no ladder data available — cannot build a valid nrl_data.js. Aborting.", file=sys.stderr)
         sys.exit(1)
+
+    # Recent form + home/away splits aren't in the scraped ladder — derive them from
+    # the results memory (which we may have just grown above). Without this, last5
+    # stays 0 and home/away stay null and the model's form/venue features are inert.
+    derive_form_and_splits(teams, load_results_memory(args.learned))
+    n_form = sum(1 for t in teams if t.get("last5"))
+    n_split = sum(1 for t in teams if t.get("home") or t.get("away"))
+    print(f"[parse_nrl] derived form for {n_form} team(s), home/away splits for {n_split} team(s) from results memory")
 
     errors = validate(teams, fixtures)
     if errors:

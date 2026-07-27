@@ -348,7 +348,19 @@ def main():
 
     updated = args.updated or datetime.date.today().isoformat()
     history = list(data.get("history", []))  # never lose prior entries
-    history.append({"date": updated, "games": games, "brier": backtest["brier"]})
+    # Self-heal: collapse consecutive identical points. A past bug appended one
+    # entry every run regardless of whether anything actually changed, so the
+    # "precision over time" trend filled up with duplicates.
+    deduped = []
+    for h in history:
+        if deduped and deduped[-1].get("games") == h.get("games") and deduped[-1].get("brier") == h.get("brier"):
+            continue
+        deduped.append(h)
+    history = deduped
+    # Only record a new trend point when the games learned or the brier changed.
+    entry = {"date": updated, "games": games, "brier": backtest["brier"]}
+    if not history or history[-1].get("games") != entry["games"] or history[-1].get("brier") != entry["brier"]:
+        history.append(entry)
 
     out = {
         "updated": updated,
