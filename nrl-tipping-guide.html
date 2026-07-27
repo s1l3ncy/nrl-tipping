@@ -254,6 +254,7 @@ details.plain>summary:hover{color:var(--text)}
 <body>
 <script src="nrl_data.js"></script>
 <script src="nrl_learned.js"></script>
+<script src="nrl_players.js"></script>
 
 <header class="topnav">
   <div class="wrap navrow">
@@ -472,34 +473,86 @@ function marketProb(oddsRaw){ // decimal odds -> devigged home prob (uses close 
 }
 
 /* ---- Injury/news -> rating penalty, spine positions hit hardest, capped per team ---- */
-function injuryPenalty(news){
-  if(!news) return {penalty:0, note:""};
-  const text=String(news).toLowerCase();
-  const outRe=/(ruled out|late change|suspended|injured|\bout\b)/;
-  if(!outRe.test(text)) return {penalty:0, note:""};
-  const segments=text.split(/[,;]| and /).map(s=>s.trim()).filter(s=>outRe.test(s));
-  const parts=segments.length?segments:[text];
-  const spineMap=[
-    {re:/full[\s-]?back/, label:"fullback"},
-    {re:/five[\s-]?eighth|no\.?\s?6\b/, label:"five-eighth"},
-    {re:/half[\s-]?back|no\.?\s?7\b/, label:"halfback"},
-    {re:/hooker|no\.?\s?9\b/, label:"hooker"}
-  ];
-  let total=0; const notes=[];
-  parts.forEach(seg=>{
-    const spine=spineMap.find(s=>s.re.test(seg));
-    if(spine){ total+=4; notes.push(`${spine.label} out`); }
-    else if(/\bcaptain\b|\bstar\b|\bveteran\b|\borigin\b|\brep\b/.test(seg)){ total+=2; notes.push("key player out"); }
-    else{ total+=1.5; notes.push("player out"); }
+/* Panel-agreed injury model (2026-07 expert consensus, position-aware version).
+   Each out player is weighted by WHO they are, using the live Zero Tackle player
+   ratings (nrl_players.js: name -> {pos, pct}):
+     • position sets the base — spine (fullback/halfback/five-eighth/hooker) hits
+       hardest, edges/centres/back-row next, front-row/lock least;
+     • the player's rating (pct) scales it, so a gun half out costs far more than
+       a squad player at the same position;
+     • a player not in the ratings list is treated as fringe (small).
+   Only players genuinely OUT for THIS round count (via the return round). Steep
+   diminishing returns + a per-team cap stop a long injury list running away, and
+   it feeds the model margin BEFORE the odds blend so books don't double-count.
+   If nrl_players.js is missing we fall back to a flat per-player cost. */
+function normName(s){
+  return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[’]/g,"'").replace(/[^a-z\s'-]/g," ").replace(/\s+/g," ").trim();
+}
+const PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
+const HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
+const SPINE_POS = {"Fullback":1,"Halfback":1,"Five-eighth":1,"Hooker":1};
+const EDGE_POS  = {"Centre":1,"Winger":1,"Second-row":1};
+function playerImpact(name){
+  const p = PLAYERS[normName(name)];
+  if(!p){                                   // unranked -> fringe/squad player
+    return {pts: HAVE_PLAYERS?0.6:1.2, pos:null};
+  }
+  const base = SPINE_POS[p.pos]?3.6 : EDGE_POS[p.pos]?2.1 : 1.2;
+  const pct  = (typeof p.pct==="number")?p.pct:55;
+  const q    = Math.max(0.55, Math.min(1.4, pct/70));   // rating scales impact
+  return {pts: Math.min(5, Math.round(base*q*10)/10), pos:p.pos};
+}
+function injuryPenalty(news, tipRound){
+  const nil={penalty:0, note:"", count:0};
+  if(!news) return nil;
+  const round = tipRound||0;
+  const entries=String(news).split(/;/).map(s=>s.trim()).filter(Boolean);
+  const outs=[];
+  entries.forEach(e=>{
+    const rm=e.match(/back\s+round\s+(\d+)/i);          // "— back Round 25"
+    let isOut;
+    if(rm){ isOut = parseInt(rm[1],10) > round; }        // returns after this round => out
+    else if(/back\s+(finals|next\s+season|season|20\d\d)/i.test(e)) isOut=true; // long-term
+    else isOut=true;                                     // listed injured, TBC/unknown => assume out
+    if(!isOut) return;
+    let name=(e.split("(")[0]||e).replace(/\s+[—–-]\s+.*$/,"").trim(); // keep hyphenated surnames
+    if(!name) return;
+    const im=playerImpact(name);
+    outs.push({name, pts:im.pts, pos:im.pos});
   });
-  total=Math.min(6,total);
-  return {penalty:total, note: notes[0]||"player out"};
+  if(!outs.length) return nil;
+  outs.sort((a,b)=>b.pts-a.pts);                         // biggest losses first
+  const factors=[1,0.65,0.4,0.25,0.12];                 // steep diminishing returns
+  let total=0;
+  outs.forEach((o,i)=>{ total += o.pts*(factors[i]!==undefined?factors[i]:0.08); });
+  total=Math.min(6.5, Math.round(total*10)/10);         // hard team cap
+  const top=outs[0];
+  const note = outs.length===1
+      ? `${top.name} out${top.pos?` (${top.pos})`:""}`
+      : `${top.name}${top.pos?` (${top.pos})`:""} +${outs.length-1} more out`;
+  return {penalty:total, note, count:outs.length};
+}
+
+/* Panel-agreed weather model: with no team-style data, weather never picks a
+   side — it only shrinks the model's margin toward a coin-toss as rain rises
+   (more chaos = less certainty). Sign is preserved, so it can't flip a tip;
+   applied to the model margin before the odds blend. */
+function weatherEffect(w){
+  const r={shrink:0, note:""};
+  if(!w) return r;
+  const m=String(w).match(/(\d+)\s*%\s*rain/i);
+  if(!m) return r;
+  const rain=parseInt(m[1],10)/100;                   // 0..1
+  const shrink=Math.max(0, Math.min(0.22, 0.30*(rain-0.20)/0.80)); // nil <20%, up to −22%
+  if(shrink>0.02){ r.shrink=shrink; r.note="wet — model less certain"; }
+  return r;
 }
 
 function predict(fx){
   const h=T(fx.home), a=T(fx.away);
   const hga=num('hga', learnedActive?LEARNED.params.homeAdv:2);
-  const hInj=injuryPenalty(h.news), aInj=injuryPenalty(a.news);
+  const hInj=injuryPenalty(h.news, SRC.round), aInj=injuryPenalty(a.news, SRC.round);
   const eloH=eloStrength(h), eloA=eloStrength(a);
   const useElo = learnedActive && eloH!==null && eloA!==null;
   let margin;
@@ -509,11 +562,14 @@ function predict(fx){
   }else{
     margin = (effRating(h,'home')-hInj.penalty) - (effRating(a,'away')-aInj.penalty) + hga;
   }
+  // Weather shrinks confidence toward a coin-toss (never picks a side), before the odds blend.
+  const wx = weatherEffect(fx.weather);
+  if(wx.shrink>0) margin = margin*(1-wx.shrink);
   const modelP = logistic(margin);
   const mkt = marketProb(fx.odds);
   let pHome=modelP, blended=false;
   if(mkt!==null){ const w=Math.max(0,Math.min(1,num('oddsW', learnedActive?LEARNED.params.oddsWeight:0.5))); pHome=(1-w)*modelP+w*mkt; blended=true; }
-  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,useElo};
+  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,wx,useElo};
 }
 function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt; const v=parseFloat(el.value); return isNaN(v)?dflt:v; }
 
@@ -522,6 +578,7 @@ function injurySentence(p){
   const fmt=n=>n%1?n.toFixed(1):String(n);
   if(p.hInj&&p.hInj.penalty>0) bits.push(`${p.h.short} −${fmt(p.hInj.penalty)}: ${p.hInj.note}`);
   if(p.aInj&&p.aInj.penalty>0) bits.push(`${p.a.short} −${fmt(p.aInj.penalty)}: ${p.aInj.note}`);
+  if(p.wx&&p.wx.shrink>0) bits.push(p.wx.note);
   return bits.join(" · ");
 }
 function bandFor(conf){
