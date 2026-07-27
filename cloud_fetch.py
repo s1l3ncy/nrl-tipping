@@ -210,31 +210,47 @@ NOISE = ("news", "squad", "latest", "fixtures", "ladder", "draw", "tickets", "me
 
 
 def extract_injuries(html):
-    """Best-effort: walk the page, switch 'current team' on short headings that
-    resolve to a club, and collect nearby player-status lines for that club."""
+    """Zero Tackle's injuries page lists each club as a heading followed by a
+    table of Player | Reason | Expected Return rows. Track the 'current club'
+    from headings and parse the following table's data rows into clean
+    'Player (reason) — back Return' entries (header rows / stray fragments
+    skipped). First few per club."""
     soup = BeautifulSoup(html, "html.parser")
     teams, current = {}, None
-    for el in soup.find_all(["h1", "h2", "h3", "h4", "strong", "li", "tr", "td", "p"]):
-        txt = el.get_text(" ", strip=True)
-        if not txt or len(txt) > 140:
+    for el in soup.find_all(["h1", "h2", "h3", "h4", "strong", "table"]):
+        if el.name != "table":
+            txt = el.get_text(" ", strip=True)
+            s = find_short(txt)
+            if s and len(txt) < 40 and not any(w in txt.lower() for w in NOISE):
+                current = s
+                teams.setdefault(current, [])
             continue
-        low = txt.lower()
-        s = find_short(txt)
-        # A short line that names a club and isn't obvious nav/news = a section header.
-        if s and len(txt) < 40 and not any(w in low for w in NOISE):
-            current = s
-            teams.setdefault(current, [])
+        if not current:
             continue
-        # Otherwise, if it looks like a player-status line, attach to current club.
-        if current and 4 < len(txt) < 140 and any(w in low for w in
-                ("out", "injury", "injured", "suspend", "doubt", "week", "round", "acl",
-                 "knee", "ankle", "hamstring", "shoulder", "concussion", "return")):
-            if txt not in teams[current]:
-                teams[current].append(txt)
+        for tr in el.find_all("tr"):
+            cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
+            cells = [c for c in cells if c]
+            if len(cells) < 2:
+                continue
+            joined = " ".join(cells).lower()
+            if cells[0].lower() in ("player", "name") or ("reason" in joined and "return" in joined):
+                continue  # header row
+            player, reason = cells[0], cells[1]
+            ret = cells[2] if len(cells) > 2 else ""
+            entry = player
+            if reason and reason.lower() != reason.upper():  # a word, not a stray code
+                entry += f" ({reason})"
+            if ret and ret.upper() not in ("TBC", "TBD", "UNKNOWN", "-"):
+                entry += f" — back {ret}"
+            teams[current].append(entry)
     out = {}
     for s, items in teams.items():
-        if items:
-            out[s] = "; ".join(items[:3])
+        seen = []
+        for it in items:
+            if it and it not in seen:
+                seen.append(it)
+        if seen:
+            out[s] = "; ".join(seen[:3])
     return out
 
 
