@@ -31,6 +31,13 @@ HEADERS = {"User-Agent": "footy-tipping-personal/1.0 (non-commercial; polite; lo
 LADDER_URL = "https://www.zerotackle.com/nrl/nrl-ladder/"
 FIXTURES_URL = "https://www.zerotackle.com/nrl/fixtures-results/"
 INJURIES_URL = "https://www.zerotackle.com/nrl/injuries-suspensions/"
+RATINGS_URL = "https://www.zerotackle.com/nrl-player-ratings/overall/"
+
+# Player positions as they appear on the ratings page (closed set).
+RATING_POSITIONS = ["Five-eighth", "Second-row", "Fullback", "Halfback", "Hooker",
+                    "Winger", "Centre", "Prop", "Lock"]
+_POS_RE = re.compile(r"\b(" + "|".join(RATING_POSITIONS) + r")\b", re.IGNORECASE)
+_POS_CANON = {p.lower(): p for p in RATING_POSITIONS}
 
 ZT_SLUG = {
     "PEN": "panthers", "SYD": "roosters", "NZW": "warriors", "CRO": "sharks",
@@ -250,7 +257,7 @@ def extract_injuries(html):
             if it and it not in seen:
                 seen.append(it)
         if seen:
-            out[s] = "; ".join(seen[:3])
+            out[s] = "; ".join(seen[:6])
     return out
 
 
@@ -259,6 +266,96 @@ def emit_injuries(news_by_short):
     for short, txt in news_by_short.items():
         lines.append(f"{TEAMS[short]['name']}: {txt}")
     return "\n".join(lines) + "\n"
+
+
+# --------------------------------------------------------------------------- player ratings
+def norm_name(s):
+    """Match the front-end normName(): lowercase, strip accents/punct, collapse
+    spaces. Keeps apostrophes and hyphens so 'Cherry-Evans' / \"Olakau'atu\" match."""
+    import unicodedata
+    s = unicodedata.normalize("NFD", str(s or ""))
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    s = s.lower().replace("’", "'")
+    s = re.sub(r"[^a-z\s'-]", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _clean_name(raw):
+    """Strip a trailing team block from a 'Player Name Team...' blob using the
+    same team recogniser the ladder uses. Prefer the longest team suffix that
+    still leaves a >=2-word name. Returns '' if nothing sensible left."""
+    words = raw.split()
+    n = len(words)
+    for k in range(2, n):                         # longest team suffix, name>=2 words
+        if find_short(" ".join(words[k:])):
+            cand = " ".join(words[:k]).strip(" -–—")
+            if 3 <= len(cand) <= 40:
+                return cand
+    for k in range(n - 1, 0, -1):                 # fallback: any trailing team
+        if find_short(" ".join(words[k:])):
+            cand = " ".join(words[:k]).strip(" -–—")
+            if 3 <= len(cand) <= 40:
+                return cand
+    return raw.strip(" -–—") if 3 <= len(raw) <= 40 else ""
+
+
+def extract_ratings(html):
+    """Parse the overall player-ratings page into {norm_name: {name,pos,pct}}.
+    Primary path: real table rows (player-profile anchor + a position cell + a
+    NN.NN% cell). Fallback: regex over the flattened page text. Either way we
+    only keep entries with a recognised position and a percentage."""
+    soup = BeautifulSoup(html, "html.parser")
+    players = {}
+
+    # ---- primary: structured rows ----
+    for tr in soup.find_all("tr"):
+        cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
+        if len(cells) < 3:
+            continue
+        a = tr.find("a", href=re.compile(r"/rugby-league/players/"))
+        name = a.get_text(" ", strip=True) if a else None
+        pos = next((_POS_CANON[c.lower()] for c in cells if c.lower() in _POS_CANON), None)
+        pct = None
+        for c in cells:
+            m = re.search(r"(\d{1,3}(?:\.\d+)?)\s*%", c)
+            if m:
+                pct = float(m.group(1))
+                break
+        if not name and pos and pct is not None:          # no anchor: derive from cells
+            blob = " ".join(cells)
+            blob = _POS_RE.split(blob)[0]
+            name = _clean_name(blob)
+        if not name or not pos or pct is None:
+            continue
+        key = norm_name(name)
+        if key and key not in players:
+            players[key] = {"name": name, "pos": pos, "pct": round(pct, 1)}
+
+    # ---- fallback: flattened text ----
+    if len(players) < 50:
+        text = soup.get_text(" ", strip=True)
+        pat = re.compile(r"([A-Za-zÀ-ÿ'’.\- ]{3,60}?)\s+(" + "|".join(RATING_POSITIONS) +
+                         r")\s+(\d{1,3}(?:\.\d+)?)\s*%", re.IGNORECASE)
+        for m in pat.finditer(text):
+            name = _clean_name(re.sub(r"^\d+\s+", "", m.group(1)).strip())
+            pos = _POS_CANON[m.group(2).lower()]
+            pct = float(m.group(3))
+            key = norm_name(name)
+            if key and key not in players:
+                players[key] = {"name": name, "pos": pos, "pct": round(pct, 1)}
+    return players
+
+
+def emit_players(players):
+    import json
+    body = ",\n".join(
+        f'  {json.dumps(k)}: {{"pos": {json.dumps(v["pos"])}, "pct": {v["pct"]}}}'
+        for k, v in sorted(players.items())
+    )
+    return ("/* rebuilt by cloud_fetch.py from the live Zero Tackle player ratings.\n"
+            "   name -> {pos, pct}. Used by the front-end to weight injuries by the\n"
+            "   real player: spine positions + higher rating = bigger tip impact. */\n"
+            "window.NRL_PLAYERS = {\n" + body + "\n};\n")
 
 
 def write(path, text):
@@ -324,6 +421,21 @@ def main():
         print("[cloud_fetch] wrote injuries_dump.html")
     else:
         print("[cloud_fetch] injuries parse thin (<6 clubs) — keeping committed injuries_dump.html.", file=sys.stderr)
+
+    # ----- player ratings -> nrl_players.js (best-effort; keep committed file if thin) -----
+    try:
+        players = extract_ratings(fetch(RATINGS_URL))
+    except Exception as exc:  # noqa: BLE001
+        print(f"[cloud_fetch] WARNING: ratings fetch/parse failed ({exc}); keeping nrl_players.js", file=sys.stderr)
+        players = {}
+    print(f"[cloud_fetch] ratings: parsed {len(players)} players")
+    for k, v in list(players.items())[:8]:
+        print(f"    {v['name']} — {v['pos']} {v['pct']}%")
+    if len(players) >= 100:
+        write("nrl_players.js", emit_players(players))
+        print("[cloud_fetch] wrote nrl_players.js")
+    else:
+        print("[cloud_fetch] ratings parse thin (<100 players) — keeping committed nrl_players.js.", file=sys.stderr)
 
 
 if __name__ == "__main__":
