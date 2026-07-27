@@ -23,21 +23,9 @@ window.NRL_DATA = {
       "L": 4,
       "PF": 539,
       "PA": 255,
-      "last5": 2,
-      "home": {
-        "P": 8,
-        "W": 7,
-        "L": 1,
-        "PF": 238,
-        "PA": 104
-      },
-      "away": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 301,
-        "PA": 151
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Cogger (suspension) due back; Papali'i (head knock) monitor."
     },
     {
@@ -49,21 +37,9 @@ window.NRL_DATA = {
       "L": 5,
       "PF": 449,
       "PA": 364,
-      "last5": 4,
-      "home": {
-        "P": 9,
-        "W": 7,
-        "L": 2,
-        "PF": 215,
-        "PA": 162
-      },
-      "away": {
-        "P": 9,
-        "W": 6,
-        "L": 3,
-        "PF": 234,
-        "PA": 202
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Crichton (foot) & Tedesco (head knock) in doubt; Ramsey due back. Team list Tue."
     },
     {
@@ -75,21 +51,9 @@ window.NRL_DATA = {
       "L": 6,
       "PF": 496,
       "PA": 306,
-      "last5": 3,
-      "home": {
-        "P": 9,
-        "W": 7,
-        "L": 2,
-        "PF": 252,
-        "PA": 148
-      },
-      "away": {
-        "P": 9,
-        "W": 5,
-        "L": 4,
-        "PF": 244,
-        "PA": 158
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "DWZ & Berry (hamstrings) in doubt; Ford (pec) long-term."
     },
     {
@@ -101,21 +65,9 @@ window.NRL_DATA = {
       "L": 6,
       "PF": 536,
       "PA": 375,
-      "last5": 4,
-      "home": {
-        "P": 9,
-        "W": 7,
-        "L": 2,
-        "PF": 290,
-        "PA": 182
-      },
-      "away": {
-        "P": 9,
-        "W": 5,
-        "L": 4,
-        "PF": 246,
-        "PA": 193
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "near full strength; Rudolf (knee) & Colquhoun (knee) easing back."
     },
     {
@@ -127,21 +79,9 @@ window.NRL_DATA = {
       "L": 7,
       "PF": 488,
       "PA": 404,
-      "last5": 3,
-      "home": {
-        "P": 10,
-        "W": 6,
-        "L": 4,
-        "PF": 270,
-        "PA": 267
-      },
-      "away": {
-        "P": 8,
-        "W": 5,
-        "L": 3,
-        "PF": 218,
-        "PA": 137
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Isaiya Katoa (wrist) due back around now; monitor."
     },
     {
@@ -153,21 +93,9 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 510,
       "PA": 432,
-      "last5": 3,
-      "home": {
-        "P": 9,
-        "W": 7,
-        "L": 2,
-        "PF": 264,
-        "PA": 188
-      },
-      "away": {
-        "P": 9,
-        "W": 3,
-        "L": 6,
-        "PF": 246,
-        "PA": 244
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Latrell & A. Johnston (calf) back; Tass (ACL) long-term."
     },
     {
@@ -179,21 +107,9 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 481,
       "PA": 445,
-      "last5": 3,
-      "home": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 223,
-        "PA": 233
-      },
-      "away": {
-        "P": 9,
-        "W": 4,
-        "L": 5,
-        "PF": 258,
-        "PA": 212
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Saifiti (hamstring) & Kepaoa (susp) sidelined."
     },
     {
@@ -205,21 +121,9 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 442,
       "PA": 470,
-      "last5": 2,
-      "home": {
-        "P": 9,
-        "W": 6,
-        "L": 3,
-        "PF": 228,
-        "PA": 225
-      },
-      "away": {
-        "P": 10,
-        "W": 5,
-        "L": 5,
-        "PF": 214,
-        "PA": 245
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Dearden (ankle) back from earlier layoff; otherwise near full strength."
     },
     {
@@ -231,21 +135,9 @@ window.NRL_DATA = {
       "L": 9,
       "PF": 342,
       "PA": 400,
-      "last5": 4,
-      "home": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 198,
-        "PA": 172
-      },
-      "away": {
-        "P": 8,
-        "W": 2,
-        "L": 6,
-        "PF": 144,
-        "PA": 228
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Kikau (pec) & Tupouniua (hamstring) sidelined longer-term."
     },
     {
@@ -257,21 +149,9 @@ window.NRL_DATA = {
       "L": 10,
       "PF": 485,
       "PA": 395,
-      "last5": 1,
-      "home": {
-        "P": 10,
-        "W": 5,
-        "L": 5,
-        "PF": 225,
-        "PA": 215
-      },
-      "away": {
-        "P": 9,
-        "W": 4,
-        "L": 5,
-        "PF": 260,
-        "PA": 180
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": null
     },
     {
@@ -283,21 +163,9 @@ window.NRL_DATA = {
       "L": 10,
       "PF": 435,
       "PA": 470,
-      "last5": 3,
-      "home": {
-        "P": 10,
-        "W": 5,
-        "L": 5,
-        "PF": 238,
-        "PA": 218
-      },
-      "away": {
-        "P": 9,
-        "W": 4,
-        "L": 5,
-        "PF": 197,
-        "PA": 252
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "settled squad; Kris (hamstring) in doubt."
     },
     {
@@ -309,21 +177,9 @@ window.NRL_DATA = {
       "L": 11,
       "PF": 446,
       "PA": 458,
-      "last5": 3,
-      "home": {
-        "P": 9,
-        "W": 6,
-        "L": 3,
-        "PF": 244,
-        "PA": 196
-      },
-      "away": {
-        "P": 10,
-        "W": 2,
-        "L": 8,
-        "PF": 202,
-        "PA": 262
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Coates (achilles) & E. Katoa done for year; several rotation forwards easing back."
     },
     {
@@ -335,21 +191,9 @@ window.NRL_DATA = {
       "L": 12,
       "PF": 373,
       "PA": 459,
-      "last5": 2,
-      "home": {
-        "P": 7,
-        "W": 3,
-        "L": 4,
-        "PF": 127,
-        "PA": 184
-      },
-      "away": {
-        "P": 11,
-        "W": 3,
-        "L": 8,
-        "PF": 246,
-        "PA": 275
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Gray (ACL), Taumoepeau & Jolliffe done for year."
     },
     {
@@ -361,21 +205,9 @@ window.NRL_DATA = {
       "L": 12,
       "PF": 339,
       "PA": 471,
-      "last5": 1,
-      "home": {
-        "P": 9,
-        "W": 2,
-        "L": 7,
-        "PF": 204,
-        "PA": 235
-      },
-      "away": {
-        "P": 9,
-        "W": 4,
-        "L": 5,
-        "PF": 135,
-        "PA": 236
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Reynolds (calf) & Mam (shoulder) in doubt; Piakura (head knock) monitor."
     },
     {
@@ -387,21 +219,9 @@ window.NRL_DATA = {
       "L": 12,
       "PF": 349,
       "PA": 531,
-      "last5": 2,
-      "home": {
-        "P": 10,
-        "W": 4,
-        "L": 6,
-        "PF": 188,
-        "PA": 266
-      },
-      "away": {
-        "P": 8,
-        "W": 2,
-        "L": 6,
-        "PF": 161,
-        "PA": 265
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Moses in doubt; Paulo & Penisini due back; Hopgood (ACL) long-term."
     },
     {
@@ -414,20 +234,8 @@ window.NRL_DATA = {
       "PF": 365,
       "PA": 573,
       "last5": 0,
-      "home": {
-        "P": 10,
-        "W": 5,
-        "L": 5,
-        "PF": 243,
-        "PA": 299
-      },
-      "away": {
-        "P": 9,
-        "W": 2,
-        "L": 7,
-        "PF": 122,
-        "PA": 274
-      },
+      "home": null,
+      "away": null,
       "news": "Koroisau (pec), Hunt (pec), May (shoulder) sidelined."
     },
     {
@@ -439,21 +247,9 @@ window.NRL_DATA = {
       "L": 16,
       "PF": 274,
       "PA": 541,
-      "last5": 1,
-      "home": {
-        "P": 8,
-        "W": 1,
-        "L": 7,
-        "PF": 118,
-        "PA": 290
-      },
-      "away": {
-        "P": 10,
-        "W": 1,
-        "L": 9,
-        "PF": 156,
-        "PA": 251
-      },
+      "last5": 0,
+      "home": null,
+      "away": null,
       "news": "Su'A (pec) long-term; Buchanan (shoulder) in doubt."
     }
   ],
@@ -464,16 +260,7 @@ window.NRL_DATA = {
       "venue": "QLD Country Bank Stadium",
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00",
-      "odds": {
-        "open": {
-          "home": 2.9,
-          "away": 1.53
-        },
-        "close": {
-          "home": 2.9,
-          "away": 1.53
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -483,16 +270,7 @@ window.NRL_DATA = {
       "venue": "WIN Stadium",
       "city": "Wollongong",
       "kickoff": "2026-07-31T18:00:00",
-      "odds": {
-        "open": {
-          "home": 3.8,
-          "away": 1.3
-        },
-        "close": {
-          "home": 3.8,
-          "away": 1.3
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -502,16 +280,7 @@ window.NRL_DATA = {
       "venue": "AAMI Park",
       "city": "Melbourne",
       "kickoff": "2026-07-31T20:00:00",
-      "odds": {
-        "open": {
-          "home": 2.05,
-          "away": 1.91
-        },
-        "close": {
-          "home": 2.05,
-          "away": 1.91
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -521,16 +290,7 @@ window.NRL_DATA = {
       "venue": "Cbus Super Stadium",
       "city": "Gold Coast",
       "kickoff": "2026-08-01T15:00:00",
-      "odds": {
-        "open": {
-          "home": 2.5,
-          "away": 1.58
-        },
-        "close": {
-          "home": 2.5,
-          "away": 1.58
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -540,16 +300,7 @@ window.NRL_DATA = {
       "venue": "Glen Willow Oval",
       "city": "Mudgee",
       "kickoff": "2026-08-01T17:30:00",
-      "odds": {
-        "open": {
-          "home": 1.33,
-          "away": 3.75
-        },
-        "close": {
-          "home": 1.33,
-          "away": 3.75
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -559,16 +310,7 @@ window.NRL_DATA = {
       "venue": "Suncorp Stadium",
       "city": "Brisbane",
       "kickoff": "2026-08-01T19:30:00",
-      "odds": {
-        "open": {
-          "home": 1.57,
-          "away": 2.7
-        },
-        "close": {
-          "home": 1.57,
-          "away": 2.7
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -578,16 +320,7 @@ window.NRL_DATA = {
       "venue": "Ocean Protect Stadium",
       "city": "Sydney",
       "kickoff": "2026-08-02T14:00:00",
-      "odds": {
-        "open": {
-          "home": 1.4,
-          "away": 3.25
-        },
-        "close": {
-          "home": 1.4,
-          "away": 3.25
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     },
@@ -597,22 +330,12 @@ window.NRL_DATA = {
       "venue": "CommBank Stadium",
       "city": "Sydney",
       "kickoff": "2026-08-02T16:05:00",
-      "odds": {
-        "open": {
-          "home": 2.88,
-          "away": 1.5
-        },
-        "close": {
-          "home": 2.88,
-          "away": 1.5
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null
     }
   ],
   "byeTeams": [
     "MAN"
-  ],
-  "newsUpdated": "2026-07-27"
+  ]
 };
