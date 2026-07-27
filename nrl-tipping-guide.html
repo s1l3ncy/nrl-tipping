@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NRL Tips">
+<meta name="theme-color" content="#0b0f17">
 <title>NRL Tipping Guide</title>
 <style>
 :root{
@@ -13,15 +18,16 @@
   --radius:16px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:radial-gradient(1200px 500px at 50% -100px,#16233a 0,var(--bg) 60%);
   color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.5;padding-bottom:70px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+  line-height:1.5;padding-bottom:calc(70px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+.wrap{max-width:1060px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
 /* hero */
-header{padding:38px 0 26px;background:linear-gradient(160deg,#101a2e,#0b0f17 70%);border-bottom:1px solid var(--line)}
+header{padding:calc(env(safe-area-inset-top) + 22px) 0 24px;background:linear-gradient(160deg,#101a2e,#0b0f17 70%);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .brand .ball{font-size:30px}
 h1{margin:0;font-size:26px;letter-spacing:.2px;font-weight:750}
@@ -116,7 +122,7 @@ button.ghost:hover{color:var(--text);border-color:#3a4a67}
 .bar-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 label{font-size:13px;color:var(--muted)}
 input,select{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;
-  padding:9px 10px;font-size:14px;min-height:42px}
+  padding:10px 12px;font-size:16px;min-height:44px;accent-color:var(--accent)}
 input[type=number]{width:88px}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:8px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -134,11 +140,23 @@ details.plain>summary{cursor:pointer;color:var(--muted);font-size:13px;padding:6
 .foot{margin-top:34px;color:var(--muted2);font-size:12px;text-align:center}
 
 @media(max-width:640px){
-  h1{font-size:22px}.roundpill{margin-left:0;width:100%;justify-content:center}
-  .grow{grid-template-columns:1fr;gap:14px}
-  .mid{flex-direction:row;gap:14px;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0}
+  h1{font-size:22px}
+  .roundpill{margin-left:0;width:100%;justify-content:center;font-size:16px;padding:10px 16px}
+  section{margin-top:20px}
+  .gcard{border-radius:18px}
+  .grow{grid-template-columns:1fr;gap:12px;padding:16px}
+  .side .club{font-size:19px}
+  .side .rec{font-size:12.5px}
+  .mid{flex-direction:row;justify-content:space-between;align-items:center;gap:12px;
+    border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 2px;margin:2px 0}
+  .mid .pct{font-size:27px}
+  .bar{width:120px}
   .side.away{text-align:left}.side.away .club{flex-direction:row}.side.away .tipbadge{align-self:flex-start}
+  .tipbadge{font-size:12.5px;padding:6px 12px}
   .moregrid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr}
+  .lockhero{gap:12px;padding:16px}.lockhero .big{min-width:auto}
+  button{min-height:46px;padding:12px 16px}
+  details.more>summary{padding:14px 16px}
 }
 @media print{
   header,.card,.quick .actions,details,.foot,.bar-controls{display:none!important}
