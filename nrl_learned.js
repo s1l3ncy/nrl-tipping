@@ -5,42 +5,42 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// lowConfidence: only 7 game(s) in memory (<30) — eloK/eloHGA/logisticScale held at conservative defaults, not grid-searched; front-end ignores these learned params entirely while lowConfidence=true. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.66 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
   "updated": "2026-07-28",
-  "gamesLearned": 7,
-  "lowConfidence": true,
+  "gamesLearned": 156,
+  "lowConfidence": false,
   "params": {
-    "homeAdv": 5.86,
-    "logisticScale": 7.0,
+    "homeAdv": 1.16,
+    "logisticScale": 5,
     "oddsWeight": 0.5,
-    "eloK": 20,
-    "eloHGA": 50
+    "eloK": 10,
+    "eloHGA": 100
   },
   "elo": {
-    "PEN": 1532.9,
-    "SYD": 1518.9,
-    "NZW": 1470.1,
-    "CRO": 1500.0,
-    "DOL": 1500.0,
-    "SOU": 1517.6,
-    "NEW": 1481.1,
-    "NQL": 1526.8,
-    "MAN": 1500.0,
-    "CAN": 1529.9,
-    "CBR": 1540.6,
-    "MEL": 1482.4,
-    "BRI": 1473.2,
-    "PAR": 1467.1,
-    "WST": 1459.4,
-    "GLD": 1545.2,
-    "STI": 1454.8
+    "PEN": 1630.2,
+    "SYD": 1592.7,
+    "NZW": 1582.7,
+    "CRO": 1604.8,
+    "DOL": 1569.9,
+    "SOU": 1523.5,
+    "NEW": 1532.0,
+    "NQL": 1526.0,
+    "MAN": 1498.1,
+    "CAN": 1482.1,
+    "CBR": 1488.4,
+    "MEL": 1481.8,
+    "BRI": 1410.3,
+    "PAR": 1409.4,
+    "WST": 1391.8,
+    "GLD": 1443.2,
+    "STI": 1333.0
   },
   "backtest": {
-    "games": 7,
-    "brier": 0.2609,
-    "logloss": 0.7185,
-    "hit": 0.5714,
+    "games": 156,
+    "brier": 0.2337,
+    "logloss": 0.66,
+    "hit": 0.6154,
     "marketBrier": null
   },
   "history": [
@@ -48,6 +48,11 @@ window.NRL_LEARNED = {
       "date": "2026-07-27",
       "games": 7,
       "brier": 0.2609
+    },
+    {
+      "date": "2026-07-28",
+      "games": 156,
+      "brier": 0.2337
     }
   ],
   "results": [
@@ -99,6 +104,1049 @@ window.NRL_LEARNED = {
       "away": "GLD",
       "hs": 18,
       "as": 38
+    },
+    {
+      "round": 1,
+      "home": "NEW",
+      "away": "NQL",
+      "hs": 28,
+      "as": 18
+    },
+    {
+      "round": 1,
+      "home": "CAN",
+      "away": "STI",
+      "hs": 15,
+      "as": 14
+    },
+    {
+      "round": 1,
+      "home": "MEL",
+      "away": "PAR",
+      "hs": 52,
+      "as": 4
+    },
+    {
+      "round": 1,
+      "home": "NZW",
+      "away": "SYD",
+      "hs": 42,
+      "as": 18
+    },
+    {
+      "round": 1,
+      "home": "BRI",
+      "away": "PEN",
+      "hs": 0,
+      "as": 26
+    },
+    {
+      "round": 1,
+      "home": "CRO",
+      "away": "GLD",
+      "hs": 50,
+      "as": 10
+    },
+    {
+      "round": 1,
+      "home": "MAN",
+      "away": "CBR",
+      "hs": 28,
+      "as": 29
+    },
+    {
+      "round": 1,
+      "home": "DOL",
+      "away": "SOU",
+      "hs": 30,
+      "as": 40
+    },
+    {
+      "round": 2,
+      "home": "BRI",
+      "away": "PAR",
+      "hs": 32,
+      "as": 40
+    },
+    {
+      "round": 2,
+      "home": "NZW",
+      "away": "CBR",
+      "hs": 40,
+      "as": 6
+    },
+    {
+      "round": 2,
+      "home": "SYD",
+      "away": "SOU",
+      "hs": 26,
+      "as": 18
+    },
+    {
+      "round": 2,
+      "home": "WST",
+      "away": "NQL",
+      "hs": 44,
+      "as": 16
+    },
+    {
+      "round": 2,
+      "home": "STI",
+      "away": "MEL",
+      "hs": 20,
+      "as": 46
+    },
+    {
+      "round": 2,
+      "home": "PEN",
+      "away": "CRO",
+      "hs": 26,
+      "as": 6
+    },
+    {
+      "round": 2,
+      "home": "MAN",
+      "away": "NEW",
+      "hs": 16,
+      "as": 36
+    },
+    {
+      "round": 2,
+      "home": "DOL",
+      "away": "GLD",
+      "hs": 18,
+      "as": 14
+    },
+    {
+      "round": 3,
+      "home": "CBR",
+      "away": "CAN",
+      "hs": 10,
+      "as": 14
+    },
+    {
+      "round": 3,
+      "home": "SYD",
+      "away": "PEN",
+      "hs": 4,
+      "as": 40
+    },
+    {
+      "round": 3,
+      "home": "MEL",
+      "away": "BRI",
+      "hs": 14,
+      "as": 18
+    },
+    {
+      "round": 3,
+      "home": "NEW",
+      "away": "NZW",
+      "hs": 12,
+      "as": 38
+    },
+    {
+      "round": 3,
+      "home": "CRO",
+      "away": "DOL",
+      "hs": 10,
+      "as": 38
+    },
+    {
+      "round": 3,
+      "home": "SOU",
+      "away": "WST",
+      "hs": 20,
+      "as": 16
+    },
+    {
+      "round": 3,
+      "home": "PAR",
+      "away": "STI",
+      "hs": 30,
+      "as": 20
+    },
+    {
+      "round": 3,
+      "home": "NQL",
+      "away": "GLD",
+      "hs": 30,
+      "as": 16
+    },
+    {
+      "round": 4,
+      "home": "MAN",
+      "away": "SYD",
+      "hs": 16,
+      "as": 33
+    },
+    {
+      "round": 4,
+      "home": "NZW",
+      "away": "WST",
+      "hs": 14,
+      "as": 32
+    },
+    {
+      "round": 4,
+      "home": "BRI",
+      "away": "DOL",
+      "hs": 26,
+      "as": 12
+    },
+    {
+      "round": 4,
+      "home": "CAN",
+      "away": "NEW",
+      "hs": 16,
+      "as": 24
+    },
+    {
+      "round": 4,
+      "home": "PEN",
+      "away": "PAR",
+      "hs": 48,
+      "as": 20
+    },
+    {
+      "round": 4,
+      "home": "NQL",
+      "away": "MEL",
+      "hs": 28,
+      "as": 24
+    },
+    {
+      "round": 4,
+      "home": "CBR",
+      "away": "CRO",
+      "hs": 22,
+      "as": 34
+    },
+    {
+      "round": 4,
+      "home": "GLD",
+      "away": "STI",
+      "hs": 22,
+      "as": 14
+    },
+    {
+      "round": 5,
+      "home": "DOL",
+      "away": "MAN",
+      "hs": 18,
+      "as": 52
+    },
+    {
+      "round": 5,
+      "home": "SOU",
+      "away": "CAN",
+      "hs": 32,
+      "as": 24
+    },
+    {
+      "round": 5,
+      "home": "PEN",
+      "away": "MEL",
+      "hs": 50,
+      "as": 10
+    },
+    {
+      "round": 5,
+      "home": "STI",
+      "away": "NQL",
+      "hs": 0,
+      "as": 32
+    },
+    {
+      "round": 5,
+      "home": "GLD",
+      "away": "BRI",
+      "hs": 12,
+      "as": 26
+    },
+    {
+      "round": 5,
+      "home": "CRO",
+      "away": "NZW",
+      "hs": 36,
+      "as": 22
+    },
+    {
+      "round": 5,
+      "home": "NEW",
+      "away": "CBR",
+      "hs": 32,
+      "as": 12
+    },
+    {
+      "round": 5,
+      "home": "PAR",
+      "away": "WST",
+      "hs": 20,
+      "as": 22
+    },
+    {
+      "round": 6,
+      "home": "CAN",
+      "away": "PEN",
+      "hs": 32,
+      "as": 16
+    },
+    {
+      "round": 6,
+      "home": "STI",
+      "away": "MAN",
+      "hs": 18,
+      "as": 28
+    },
+    {
+      "round": 6,
+      "home": "BRI",
+      "away": "NQL",
+      "hs": 31,
+      "as": 35
+    },
+    {
+      "round": 6,
+      "home": "SOU",
+      "away": "CBR",
+      "hs": 34,
+      "as": 36
+    },
+    {
+      "round": 6,
+      "home": "CRO",
+      "away": "SYD",
+      "hs": 22,
+      "as": 34
+    },
+    {
+      "round": 6,
+      "home": "MEL",
+      "away": "NZW",
+      "hs": 14,
+      "as": 38
+    },
+    {
+      "round": 6,
+      "home": "PAR",
+      "away": "GLD",
+      "hs": 10,
+      "as": 52
+    },
+    {
+      "round": 6,
+      "home": "WST",
+      "away": "NEW",
+      "hs": 42,
+      "as": 22
+    },
+    {
+      "round": 7,
+      "home": "NQL",
+      "away": "MAN",
+      "hs": 6,
+      "as": 38
+    },
+    {
+      "round": 7,
+      "home": "CBR",
+      "away": "MEL",
+      "hs": 26,
+      "as": 22
+    },
+    {
+      "round": 7,
+      "home": "DOL",
+      "away": "PEN",
+      "hs": 22,
+      "as": 23
+    },
+    {
+      "round": 7,
+      "home": "NZW",
+      "away": "GLD",
+      "hs": 28,
+      "as": 20
+    },
+    {
+      "round": 7,
+      "home": "SOU",
+      "away": "STI",
+      "hs": 30,
+      "as": 12
+    },
+    {
+      "round": 7,
+      "home": "WST",
+      "away": "BRI",
+      "hs": 20,
+      "as": 21
+    },
+    {
+      "round": 7,
+      "home": "SYD",
+      "away": "NEW",
+      "hs": 38,
+      "as": 24
+    },
+    {
+      "round": 7,
+      "home": "PAR",
+      "away": "CAN",
+      "hs": 38,
+      "as": 20
+    },
+    {
+      "round": 8,
+      "home": "WST",
+      "away": "CBR",
+      "hs": 33,
+      "as": 14
+    },
+    {
+      "round": 8,
+      "home": "NQL",
+      "away": "CRO",
+      "hs": 46,
+      "as": 34
+    },
+    {
+      "round": 8,
+      "home": "BRI",
+      "away": "CAN",
+      "hs": 32,
+      "as": 12
+    },
+    {
+      "round": 8,
+      "home": "STI",
+      "away": "SYD",
+      "hs": 16,
+      "as": 62
+    },
+    {
+      "round": 8,
+      "home": "NZW",
+      "away": "DOL",
+      "hs": 20,
+      "as": 18
+    },
+    {
+      "round": 8,
+      "home": "MEL",
+      "away": "SOU",
+      "hs": 6,
+      "as": 48
+    },
+    {
+      "round": 8,
+      "home": "NEW",
+      "away": "PEN",
+      "hs": 12,
+      "as": 44
+    },
+    {
+      "round": 8,
+      "home": "MAN",
+      "away": "PAR",
+      "hs": 33,
+      "as": 18
+    },
+    {
+      "round": 9,
+      "home": "CAN",
+      "away": "NQL",
+      "hs": 12,
+      "as": 28
+    },
+    {
+      "round": 9,
+      "home": "DOL",
+      "away": "MEL",
+      "hs": 28,
+      "as": 10
+    },
+    {
+      "round": 9,
+      "home": "GLD",
+      "away": "CBR",
+      "hs": 12,
+      "as": 28
+    },
+    {
+      "round": 9,
+      "home": "PAR",
+      "away": "NZW",
+      "hs": 14,
+      "as": 36
+    },
+    {
+      "round": 9,
+      "home": "SYD",
+      "away": "BRI",
+      "hs": 38,
+      "as": 24
+    },
+    {
+      "round": 9,
+      "home": "NEW",
+      "away": "SOU",
+      "hs": 42,
+      "as": 38
+    },
+    {
+      "round": 9,
+      "home": "CRO",
+      "away": "WST",
+      "hs": 52,
+      "as": 10
+    },
+    {
+      "round": 9,
+      "home": "PEN",
+      "away": "MAN",
+      "hs": 18,
+      "as": 16
+    },
+    {
+      "round": 10,
+      "home": "DOL",
+      "away": "CAN",
+      "hs": 44,
+      "as": 12
+    },
+    {
+      "round": 10,
+      "home": "SYD",
+      "away": "GLD",
+      "hs": 28,
+      "as": 12
+    },
+    {
+      "round": 10,
+      "home": "NQL",
+      "away": "PAR",
+      "hs": 30,
+      "as": 33
+    },
+    {
+      "round": 10,
+      "home": "STI",
+      "away": "NEW",
+      "hs": 10,
+      "as": 44
+    },
+    {
+      "round": 10,
+      "home": "SOU",
+      "away": "CRO",
+      "hs": 36,
+      "as": 12
+    },
+    {
+      "round": 10,
+      "home": "MAN",
+      "away": "BRI",
+      "hs": 32,
+      "as": 4
+    },
+    {
+      "round": 10,
+      "home": "MEL",
+      "away": "WST",
+      "hs": 44,
+      "as": 16
+    },
+    {
+      "round": 10,
+      "home": "CBR",
+      "away": "PEN",
+      "hs": 18,
+      "as": 30
+    },
+    {
+      "round": 11,
+      "home": "CRO",
+      "away": "CAN",
+      "hs": 38,
+      "as": 16
+    },
+    {
+      "round": 11,
+      "home": "SOU",
+      "away": "DOL",
+      "hs": 10,
+      "as": 32
+    },
+    {
+      "round": 11,
+      "home": "WST",
+      "away": "MAN",
+      "hs": 18,
+      "as": 46
+    },
+    {
+      "round": 11,
+      "home": "SYD",
+      "away": "NQL",
+      "hs": 12,
+      "as": 18
+    },
+    {
+      "round": 11,
+      "home": "PAR",
+      "away": "MEL",
+      "hs": 8,
+      "as": 34
+    },
+    {
+      "round": 11,
+      "home": "GLD",
+      "away": "NEW",
+      "hs": 12,
+      "as": 36
+    },
+    {
+      "round": 11,
+      "home": "NZW",
+      "away": "BRI",
+      "hs": 42,
+      "as": 12
+    },
+    {
+      "round": 11,
+      "home": "PEN",
+      "away": "STI",
+      "hs": 28,
+      "as": 6
+    },
+    {
+      "round": 12,
+      "home": "CBR",
+      "away": "DOL",
+      "hs": 22,
+      "as": 30
+    },
+    {
+      "round": 12,
+      "home": "CAN",
+      "away": "MEL",
+      "hs": 30,
+      "as": 20
+    },
+    {
+      "round": 12,
+      "home": "STI",
+      "away": "NZW",
+      "hs": 12,
+      "as": 30
+    },
+    {
+      "round": 12,
+      "home": "MAN",
+      "away": "GLD",
+      "hs": 12,
+      "as": 10
+    },
+    {
+      "round": 12,
+      "home": "NQL",
+      "away": "SOU",
+      "hs": 30,
+      "as": 18
+    },
+    {
+      "round": 13,
+      "home": "CRO",
+      "away": "MAN",
+      "hs": 28,
+      "as": 22
+    },
+    {
+      "round": 13,
+      "home": "NEW",
+      "away": "PAR",
+      "hs": 28,
+      "as": 22
+    },
+    {
+      "round": 13,
+      "home": "WST",
+      "away": "CAN",
+      "hs": 22,
+      "as": 16
+    },
+    {
+      "round": 13,
+      "home": "MEL",
+      "away": "SYD",
+      "hs": 18,
+      "as": 4
+    },
+    {
+      "round": 13,
+      "home": "BRI",
+      "away": "STI",
+      "hs": 26,
+      "as": 30
+    },
+    {
+      "round": 13,
+      "home": "CBR",
+      "away": "NQL",
+      "hs": 26,
+      "as": 12
+    },
+    {
+      "round": 13,
+      "home": "PEN",
+      "away": "NZW",
+      "hs": 20,
+      "as": 18
+    },
+    {
+      "round": 14,
+      "home": "MAN",
+      "away": "SOU",
+      "hs": 28,
+      "as": 14
+    },
+    {
+      "round": 14,
+      "home": "MEL",
+      "away": "NEW",
+      "hs": 32,
+      "as": 30
+    },
+    {
+      "round": 14,
+      "home": "CBR",
+      "away": "SYD",
+      "hs": 0,
+      "as": 26
+    },
+    {
+      "round": 14,
+      "home": "NQL",
+      "away": "DOL",
+      "hs": 14,
+      "as": 40
+    },
+    {
+      "round": 14,
+      "home": "BRI",
+      "away": "GLD",
+      "hs": 23,
+      "as": 28
+    },
+    {
+      "round": 14,
+      "home": "WST",
+      "away": "PEN",
+      "hs": 0,
+      "as": 68
+    },
+    {
+      "round": 14,
+      "home": "CRO",
+      "away": "STI",
+      "hs": 34,
+      "as": 12
+    },
+    {
+      "round": 14,
+      "home": "CAN",
+      "away": "PAR",
+      "hs": 14,
+      "as": 12
+    },
+    {
+      "round": 15,
+      "home": "SOU",
+      "away": "BRI",
+      "hs": 48,
+      "as": 6
+    },
+    {
+      "round": 15,
+      "home": "DOL",
+      "away": "SYD",
+      "hs": 48,
+      "as": 10
+    },
+    {
+      "round": 15,
+      "home": "NZW",
+      "away": "CRO",
+      "hs": 8,
+      "as": 10
+    },
+    {
+      "round": 15,
+      "home": "PAR",
+      "away": "CBR",
+      "hs": 15,
+      "as": 12
+    },
+    {
+      "round": 15,
+      "home": "WST",
+      "away": "GLD",
+      "hs": 36,
+      "as": 28
+    },
+    {
+      "round": 16,
+      "home": "NEW",
+      "away": "STI",
+      "hs": 22,
+      "as": 20
+    },
+    {
+      "round": 16,
+      "home": "WST",
+      "away": "DOL",
+      "hs": 22,
+      "as": 36
+    },
+    {
+      "round": 16,
+      "home": "GLD",
+      "away": "PEN",
+      "hs": 19,
+      "as": 18
+    },
+    {
+      "round": 16,
+      "home": "CAN",
+      "away": "MAN",
+      "hs": 13,
+      "as": 12
+    },
+    {
+      "round": 16,
+      "home": "NZW",
+      "away": "NQL",
+      "hs": 38,
+      "as": 20
+    },
+    {
+      "round": 16,
+      "home": "MEL",
+      "away": "CBR",
+      "hs": 42,
+      "as": 20
+    },
+    {
+      "round": 16,
+      "home": "SYD",
+      "away": "CRO",
+      "hs": 27,
+      "as": 8
+    },
+    {
+      "round": 17,
+      "home": "PAR",
+      "away": "SOU",
+      "hs": 12,
+      "as": 32
+    },
+    {
+      "round": 17,
+      "home": "GLD",
+      "away": "CAN",
+      "hs": 12,
+      "as": 30
+    },
+    {
+      "round": 17,
+      "home": "BRI",
+      "away": "SYD",
+      "hs": 18,
+      "as": 24
+    },
+    {
+      "round": 17,
+      "home": "DOL",
+      "away": "NZW",
+      "hs": 26,
+      "as": 24
+    },
+    {
+      "round": 17,
+      "home": "NQL",
+      "away": "PEN",
+      "hs": 26,
+      "as": 12
+    },
+    {
+      "round": 17,
+      "home": "MAN",
+      "away": "MEL",
+      "hs": 30,
+      "as": 4
+    },
+    {
+      "round": 17,
+      "home": "CBR",
+      "away": "STI",
+      "hs": 24,
+      "as": 16
+    },
+    {
+      "round": 17,
+      "home": "NEW",
+      "away": "WST",
+      "hs": 12,
+      "as": 6
+    },
+    {
+      "round": 18,
+      "home": "PEN",
+      "away": "SOU",
+      "hs": 36,
+      "as": 14
+    },
+    {
+      "round": 18,
+      "home": "STI",
+      "away": "WST",
+      "hs": 24,
+      "as": 10
+    },
+    {
+      "round": 18,
+      "home": "BRI",
+      "away": "CRO",
+      "hs": 16,
+      "as": 28
+    },
+    {
+      "round": 18,
+      "home": "PAR",
+      "away": "MAN",
+      "hs": 23,
+      "as": 14
+    },
+    {
+      "round": 18,
+      "home": "NEW",
+      "away": "DOL",
+      "hs": 13,
+      "as": 12
+    },
+    {
+      "round": 19,
+      "home": "WST",
+      "away": "NZW",
+      "hs": 6,
+      "as": 32
+    },
+    {
+      "round": 19,
+      "home": "DOL",
+      "away": "CRO",
+      "hs": 0,
+      "as": 66
+    },
+    {
+      "round": 19,
+      "home": "CAN",
+      "away": "CBR",
+      "hs": 16,
+      "as": 40
+    },
+    {
+      "round": 19,
+      "home": "SYD",
+      "away": "PAR",
+      "hs": 28,
+      "as": 12
+    },
+    {
+      "round": 19,
+      "home": "SOU",
+      "away": "NEW",
+      "hs": 26,
+      "as": 24
+    },
+    {
+      "round": 19,
+      "home": "MAN",
+      "away": "NQL",
+      "hs": 18,
+      "as": 19
+    },
+    {
+      "round": 19,
+      "home": "MEL",
+      "away": "GLD",
+      "hs": 22,
+      "as": 18
+    },
+    {
+      "round": 20,
+      "home": "PEN",
+      "away": "BRI",
+      "hs": 12,
+      "as": 14
+    },
+    {
+      "round": 20,
+      "home": "CRO",
+      "away": "NEW",
+      "hs": 20,
+      "as": 18
+    },
+    {
+      "round": 20,
+      "home": "SYD",
+      "away": "MEL",
+      "hs": 14,
+      "as": 6
+    },
+    {
+      "round": 20,
+      "home": "CBR",
+      "away": "SOU",
+      "hs": 34,
+      "as": 24
+    },
+    {
+      "round": 20,
+      "home": "NZW",
+      "away": "STI",
+      "hs": 20,
+      "as": 12
+    },
+    {
+      "round": 20,
+      "home": "CAN",
+      "away": "WST",
+      "hs": 32,
+      "as": 0
+    },
+    {
+      "round": 20,
+      "home": "GLD",
+      "away": "MAN",
+      "hs": 38,
+      "as": 32
+    },
+    {
+      "round": 20,
+      "home": "DOL",
+      "away": "NQL",
+      "hs": 36,
+      "as": 16
+    },
+    {
+      "round": 21,
+      "home": "MAN",
+      "away": "CRO",
+      "hs": 12,
+      "as": 48
     }
   ]
 };

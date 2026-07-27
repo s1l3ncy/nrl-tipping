@@ -1,9 +1,178 @@
+<!-- rebuilt by cloud_fetch.py from the live Zero Tackle fixtures/results page -->
+Round 1
+Knights 28 - Cowboys 18
+Bulldogs 15 - Dragons 14
+Storm 52 - Eels 4
+Warriors 42 - Roosters 18
+Broncos 0 - Panthers 26
+Sharks 50 - Titans 10
+Sea Eagles 28 - Raiders 29
+Dolphins 30 - Rabbitohs 40
+Round 2
+Broncos 32 - Eels 40
+Warriors 40 - Raiders 6
+Roosters 26 - Rabbitohs 18
+Wests Tigers 44 - Cowboys 16
+Dragons 20 - Storm 46
+Panthers 26 - Sharks 6
+Sea Eagles 16 - Knights 36
+Dolphins 18 - Titans 14
+Round 3
+Raiders 10 - Bulldogs 14
+Roosters 4 - Panthers 40
+Storm 14 - Broncos 18
+Knights 12 - Warriors 38
+Sharks 10 - Dolphins 38
+Rabbitohs 20 - Wests Tigers 16
+Eels 30 - Dragons 20
+Cowboys 30 - Titans 16
+Round 4
+Sea Eagles 16 - Roosters 33
+Warriors 14 - Wests Tigers 32
+Broncos 26 - Dolphins 12
+Bulldogs 16 - Knights 24
+Panthers 48 - Eels 20
+Cowboys 28 - Storm 24
+Raiders 22 - Sharks 34
+Titans 22 - Dragons 14
+Round 5
+Dolphins 18 - Sea Eagles 52
+Rabbitohs 32 - Bulldogs 24
+Panthers 50 - Storm 10
+Dragons 0 - Cowboys 32
+Titans 12 - Broncos 26
+Sharks 36 - Warriors 22
+Knights 32 - Raiders 12
+Eels 20 - Wests Tigers 22
+Round 6
+Bulldogs 32 - Panthers 16
+Dragons 18 - Sea Eagles 28
+Broncos 31 - Cowboys 35
+Rabbitohs 34 - Raiders 36
+Sharks 22 - Roosters 34
+Storm 14 - Warriors 38
+Eels 10 - Titans 52
+Wests Tigers 42 - Knights 22
+Round 7
+Cowboys 6 - Sea Eagles 38
+Raiders 26 - Storm 22
+Dolphins 22 - Panthers 23
+Warriors 28 - Titans 20
+Rabbitohs 30 - Dragons 12
+Wests Tigers 20 - Broncos 21
+Roosters 38 - Knights 24
+Eels 38 - Bulldogs 20
+Round 8
+Wests Tigers 33 - Raiders 14
+Cowboys 46 - Sharks 34
+Broncos 32 - Bulldogs 12
+Dragons 16 - Roosters 62
+Warriors 20 - Dolphins 18
+Storm 6 - Rabbitohs 48
+Knights 12 - Panthers 44
+Sea Eagles 33 - Eels 18
+Round 9
+Bulldogs 12 - Cowboys 28
+Dolphins 28 - Storm 10
+Titans 12 - Raiders 28
+Eels 14 - Warriors 36
+Roosters 38 - Broncos 24
+Knights 42 - Rabbitohs 38
+Sharks 52 - Wests Tigers 10
+Panthers 18 - Sea Eagles 16
+Round 10
+Dolphins 44 - Bulldogs 12
+Roosters 28 - Titans 12
+Cowboys 30 - Eels 33
+Dragons 10 - Knights 44
+Rabbitohs 36 - Sharks 12
+Sea Eagles 32 - Broncos 4
+Storm 44 - Wests Tigers 16
+Raiders 18 - Panthers 30
+Round 11
+Sharks 38 - Bulldogs 16
+Rabbitohs 10 - Dolphins 32
+Wests Tigers 18 - Sea Eagles 46
+Roosters 12 - Cowboys 18
+Eels 8 - Storm 34
+Titans 12 - Knights 36
+Warriors 42 - Broncos 12
+Panthers 28 - Dragons 6
+Round 12
+Raiders 22 - Dolphins 30
+Bulldogs 30 - Storm 20
+Dragons 12 - Warriors 30
+Sea Eagles 12 - Titans 10
+Cowboys 30 - Rabbitohs 18
+Round 13
+Sharks 28 - Sea Eagles 22
+Knights 28 - Eels 22
+Wests Tigers 22 - Bulldogs 16
+Storm 18 - Roosters 4
+Broncos 26 - Dragons 30
+Raiders 26 - Cowboys 12
+Panthers 20 - Warriors 18
+Round 14
+Sea Eagles 28 - Rabbitohs 14
+Storm 32 - Knights 30
+Raiders 0 - Roosters 26
+Cowboys 14 - Dolphins 40
+Broncos 23 - Titans 28
+Wests Tigers 0 - Panthers 68
+Sharks 34 - Dragons 12
+Bulldogs 14 - Eels 12
+Round 15
+Rabbitohs 48 - Broncos 6
+Dolphins 48 - Roosters 10
+Warriors 8 - Sharks 10
+Eels 15 - Raiders 12
+Wests Tigers 36 - Titans 28
+Round 16
+Knights 22 - Dragons 20
+Wests Tigers 22 - Dolphins 36
+Titans 19 - Panthers 18
+Bulldogs 13 - Sea Eagles 12
+Warriors 38 - Cowboys 20
+Storm 42 - Raiders 20
+Roosters 27 - Sharks 8
+Round 17
+Eels 12 - Rabbitohs 32
+Titans 12 - Bulldogs 30
+Broncos 18 - Roosters 24
+Dolphins 26 - Warriors 24
+Cowboys 26 - Panthers 12
+Sea Eagles 30 - Storm 4
+Raiders 24 - Dragons 16
+Knights 12 - Wests Tigers 6
+Round 18
+Panthers 36 - Rabbitohs 14
+Dragons 24 - Wests Tigers 10
+Broncos 16 - Sharks 28
+Eels 23 - Sea Eagles 14
+Knights 13 - Dolphins 12
+Round 19
+Wests Tigers 6 - Warriors 32
+Dolphins 0 - Sharks 66
+Bulldogs 16 - Raiders 40
+Roosters 28 - Eels 12
+Rabbitohs 26 - Knights 24
+Sea Eagles 18 - Cowboys 19
+Storm 22 - Titans 18
+Round 20
+Panthers 12 - Broncos 14
+Sharks 20 - Knights 18
+Roosters 14 - Storm 6
+Raiders 34 - Rabbitohs 24
+Warriors 20 - Dragons 12
+Bulldogs 32 - Wests Tigers 0
+Titans 38 - Sea Eagles 32
+Dolphins 36 - Cowboys 16
 Round 21
-Eels 18-24 Panthers
-Knights 22-23 Roosters
-Rabbitohs 28-26 Storm
-Raiders 56-10 Wests Tigers
-Bulldogs 18-6 Warriors
-Cowboys 18-10 Broncos
-Dragons 18-38 Titans
-Sea Eagles 12-48 Sharks
+Eels 18 - Panthers 24
+Knights 22 - Roosters 23
+Rabbitohs 28 - Storm 26
+Raiders 56 - Wests Tigers 10
+Bulldogs 18 - Warriors 6
+Cowboys 18 - Broncos 10
+Dragons 18 - Titans 38
+Sea Eagles 12 - Sharks 48
