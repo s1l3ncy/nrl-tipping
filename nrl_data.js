@@ -40,7 +40,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26"
+      "news": "Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -82,7 +82,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Ray Stone (Shoulder); Jake Averillo (Ribs); Jack Bostock (Concussion) — back Round 22"
+      "news": "Ray Stone (Shoulder); Jake Averillo (Ribs); Jack Bostock (Concussion) — back Round 22; Isaiya Katoa (Wrist) — back Round 23"
     },
     {
       "name": "Rabbitohs",
@@ -96,7 +96,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Dayne Jennings (Knee); Brandon Smith (Calf); Latrell Mitchell (Calf) — back Round 23"
+      "news": "Dayne Jennings (Knee); Brandon Smith (Calf); Latrell Mitchell (Calf) — back Round 23; Sean Keppie (Thumb) — back Round 23; David Fifita (Suspension) — back Round 23; Tallis Duncan (Hamstring) — back Round 23"
     },
     {
       "name": "Knights",
@@ -110,7 +110,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Dane Gagai (Calf); Kalyn Ponga (Quad); Jermaine McEwen (Hamstring) — back Round 22"
+      "news": "Dane Gagai (Calf); Kalyn Ponga (Quad); Jermaine McEwen (Hamstring) — back Round 22; Asu Kepaoa (Suspension) — back Round 23; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25"
     },
     {
       "name": "Cowboys",
@@ -124,7 +124,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Reed Mahoney (Head knock); Tom Dearden (Ankle); John Bateman (Hamstring)"
+      "news": "Reed Mahoney (Head knock); Tom Dearden (Ankle); John Bateman (Hamstring); Griffin Neame (Suspension) — back Round 23"
     },
     {
       "name": "Bulldogs",
@@ -138,7 +138,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Jake Turpin (Biceps); Samuel Hughes (Neck); Mitchell Woods (Hamstring)"
+      "news": "Jake Turpin (Biceps); Samuel Hughes (Neck); Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring) — back Round 25"
     },
     {
       "name": "Sea Eagles",
@@ -152,7 +152,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Siosiua Taukeiaho (Leg)"
+      "news": "Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Siosiua Taukeiaho (Leg); Ben Trbojevic (Head knock); Tom Trbojevic (Hamstring); Brandon Wakeham (Calf)"
     },
     {
       "name": "Raiders",
@@ -180,7 +180,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle) — back Round 24"
+      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle) — back Round 24; Cameron Munster (Knee) — back Round 24; Harry Grant (Hamstring) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
     },
     {
       "name": "Titans",
@@ -194,7 +194,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Brock Gray (ACL); Kurtis Morrin (Leg) — back Round 22; AJ Brimson (Concussion) — back Round 22"
+      "news": "Brock Gray (ACL); Kurtis Morrin (Leg) — back Round 22; AJ Brimson (Concussion) — back Round 22; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -222,7 +222,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23"
+      "news": "Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23; Bailey Simonsson (Ankle) — back Round 23; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -236,7 +236,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25"
+      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Dragons",
