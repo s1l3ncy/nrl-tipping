@@ -138,7 +138,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Mitchell Woods (Hamstring); Jake Turpin (Biceps); Samuel Hughes (Neck)"
+      "news": "Jake Turpin (Biceps); Samuel Hughes (Neck); Mitchell Woods (Hamstring)"
     },
     {
       "name": "Sea Eagles",
@@ -152,7 +152,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Siosiua Taukeiaho (Leg); Clayton Faulalo (Hamstring); Jackson Shereb (Concussion)"
+      "news": "Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Siosiua Taukeiaho (Leg)"
     },
     {
       "name": "Raiders",
@@ -180,7 +180,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Cameron Munster (Knee) — back Round 24"
+      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle) — back Round 24"
     },
     {
       "name": "Titans",
@@ -194,7 +194,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Brock Gray (ACL); AJ Brimson (Concussion) — back Round 22; Kurtis Morrin (Leg) — back Round 22"
+      "news": "Brock Gray (ACL); Kurtis Morrin (Leg) — back Round 22; AJ Brimson (Concussion) — back Round 22"
     },
     {
       "name": "Broncos",
@@ -222,7 +222,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Luca Moretti (Head knock); Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23"
+      "news": "Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23"
     },
     {
       "name": "Wests Tigers",
