@@ -261,7 +261,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 24°C, 20% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 25°C, 10% rain chance, overcast",
       "h2h": null
     },
     {
@@ -271,7 +271,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 38% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 27% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -281,7 +281,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 15°C, 99% rain chance, showers",
+      "weather": "Tue 28 Jul: 15°C, 100% rain chance, showers",
       "h2h": null
     },
     {
@@ -291,7 +291,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 19°C, 94% rain chance, drizzle",
+      "weather": "Tue 28 Jul: 19°C, 96% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -301,7 +301,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Fri 31 Jul: 15°C, 41% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -311,7 +311,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 20°C, 37% rain chance, light drizzle",
+      "weather": "Tue 28 Jul: 20°C, 45% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -321,7 +321,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Fri 31 Jul: 15°C, 41% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -331,7 +331,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Fri 31 Jul: 15°C, 41% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
       "h2h": null
     }
   ],

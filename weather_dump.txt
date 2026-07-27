@@ -1,7 +1,7 @@
 # game-weekend forecast per host city (Open-Meteo)
-Brisbane: Tue 28 Jul: 20°C, 37% rain chance, light drizzle
-Gold Coast: Tue 28 Jul: 19°C, 94% rain chance, drizzle
-Melbourne: Tue 28 Jul: 15°C, 99% rain chance, showers
-Sydney: Fri 31 Jul: 15°C, 41% rain chance, drizzle
-Townsville: Sat 1 Aug: 24°C, 20% rain chance, light drizzle
-Wollongong: Sat 1 Aug: 15°C, 38% rain chance, light drizzle
+Brisbane: Tue 28 Jul: 20°C, 45% rain chance, drizzle
+Gold Coast: Tue 28 Jul: 19°C, 96% rain chance, drizzle
+Melbourne: Tue 28 Jul: 15°C, 100% rain chance, showers
+Sydney: Sat 1 Aug: 16°C, 43% rain chance, drizzle
+Townsville: Sat 1 Aug: 25°C, 10% rain chance, overcast
+Wollongong: Sat 1 Aug: 15°C, 27% rain chance, light drizzle
