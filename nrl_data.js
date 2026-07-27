@@ -26,7 +26,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Cogger (suspension) due back; Papali'i (head knock) monitor."
+      "news": "Player Reason Expected Return; Dylan Edwards Shoulder TBC; Shoulder"
     },
     {
       "name": "Roosters",
@@ -40,7 +40,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Crichton (foot) & Tedesco (head knock) in doubt; Ramsey due back. Team list Tue."
+      "news": "Player Reason Expected Return; Lindsay Collins Concussion Round 23; Concussion"
     },
     {
       "name": "Warriors",
@@ -54,7 +54,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "DWZ & Berry (hamstrings) in doubt; Ford (pec) long-term."
+      "news": "Player Reason Expected Return; Tanah Boyd ACL Next Season"
     },
     {
       "name": "Sharks",
@@ -68,7 +68,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "near full strength; Rudolf (knee) & Colquhoun (knee) easing back."
+      "news": "Player Reason Expected Return; Thomas Hazelton Back Round 22; Round 22"
     },
     {
       "name": "Dolphins",
@@ -82,7 +82,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Isaiya Katoa (wrist) due back around now; monitor."
+      "news": "Player Reason Expected Return; Ray Stone Shoulder TBC; Shoulder"
     },
     {
       "name": "Rabbitohs",
@@ -96,7 +96,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Latrell & A. Johnston (calf) back; Tass (ACL) long-term."
+      "news": "Player Reason Expected Return; Dayne Jennings Knee TBC; Latrell Mitchell Calf Round 23"
     },
     {
       "name": "Knights",
@@ -110,7 +110,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Saifiti (hamstring) & Kepaoa (susp) sidelined."
+      "news": "Player Reason Expected Return; Jermaine McEwen Hamstring Round 22; Hamstring"
     },
     {
       "name": "Cowboys",
@@ -124,7 +124,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Dearden (ankle) back from earlier layoff; otherwise near full strength."
+      "news": "Player Reason Expected Return; Tom Dearden Ankle TBC; Ankle"
     },
     {
       "name": "Bulldogs",
@@ -138,7 +138,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Kikau (pec) & Tupouniua (hamstring) sidelined longer-term."
+      "news": "Player Reason Expected Return; Mitchell Woods Hamstring TBC; Hamstring"
     },
     {
       "name": "Sea Eagles",
@@ -152,7 +152,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": null
+      "news": "Player Reason Expected Return; Clayton Faulalo Hamstring TBC; Hamstring"
     },
     {
       "name": "Raiders",
@@ -166,7 +166,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "settled squad; Kris (hamstring) in doubt."
+      "news": "Player Reason Expected Return; Owen Pattie Suspension Round 22; Round 22"
     },
     {
       "name": "Storm",
@@ -180,7 +180,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Coates (achilles) & E. Katoa done for year; several rotation forwards easing back."
+      "news": "Player Reason Expected Return; Cameron Munster Knee Round 24; Round 24"
     },
     {
       "name": "Titans",
@@ -194,7 +194,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Gray (ACL), Taumoepeau & Jolliffe done for year."
+      "news": "Player Reason Expected Return; Brock Gray ACL TBC; AJ Brimson Concussion Round 22"
     },
     {
       "name": "Broncos",
@@ -208,7 +208,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Reynolds (calf) & Mam (shoulder) in doubt; Piakura (head knock) monitor."
+      "news": "Player Reason Expected Return; Brendan Piakura Concussion TBC; Concussion"
     },
     {
       "name": "Eels",
@@ -222,7 +222,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Moses in doubt; Paulo & Penisini due back; Hopgood (ACL) long-term."
+      "news": "Player Reason Expected Return; Junior Paulo Knee Round 22; Round 22"
     },
     {
       "name": "Wests Tigers",
@@ -236,7 +236,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Koroisau (pec), Hunt (pec), May (shoulder) sidelined."
+      "news": "Player Reason Expected Return; Latu Fainu Suspension Round 25; Round 25"
     },
     {
       "name": "Dragons",
@@ -250,7 +250,7 @@ window.NRL_DATA = {
       "last5": 0,
       "home": null,
       "away": null,
-      "news": "Su'A (pec) long-term; Buchanan (shoulder) in doubt."
+      "news": "Player Reason Expected Return; Kade Reed Finger Round 22; Round 22"
     }
   ],
   "fixtures": [
@@ -261,7 +261,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Sat 1 Aug: 24°C, 11% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -281,7 +281,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Tue 28 Jul: 15°C, 92% rain chance, showers",
       "h2h": null
     },
     {
@@ -291,7 +291,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Mon 27 Jul: 20°C, 94% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -301,7 +301,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Sat 1 Aug: 16°C, 53% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -311,7 +311,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Mon 27 Jul: 20°C, 71% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -321,7 +321,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Sat 1 Aug: 16°C, 53% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -331,7 +331,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": null,
+      "weather": "Sat 1 Aug: 16°C, 53% rain chance, light drizzle",
       "h2h": null
     }
   ],
