@@ -142,7 +142,7 @@ window.NRL_DATA = {
         "PF": 218,
         "PA": 137
       },
-      "news": "Ray Stone (Shoulder) — back Round 22; Jake Averillo (Ribs) — back Round 22; Jack Bostock (Concussion) — back Round 22; Isaiya Katoa (Wrist) — back Round 23"
+      "news": "Ray Stone (Shoulder) — back Round 22; Jake Averillo (Ribs) — back Round 22; Jack Bostock (Concussion) — back Round 22; Isaiya Katoa (Wrist) — back Round 23; P (W) — back L; 1 (PEN) — back 18"
     },
     {
       "name": "Rabbitohs",
