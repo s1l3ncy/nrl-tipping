@@ -1,0 +1,30 @@
+name: Keep schedules alive
+
+# GitHub DISABLES scheduled workflows after 60 days of repository inactivity —
+# and commits pushed by GITHUB_TOKEN (i.e. everything nrl-tips-bot does) do NOT
+# count as activity. So a repo that updates itself twice a day still goes quiet
+# after two months unless a human touches it. GitHub emails the owner first.
+#
+# This job re-enables the update workflow every fortnight via the API, which
+# resets the clock without needing Josh to remember anything.
+
+on:
+  schedule:
+    - cron: "41 21 */13 * *"   # ~every 13 days, 07:41 Sydney
+  workflow_dispatch: {}
+
+permissions:
+  actions: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-enable the update workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api --method PUT \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${GITHUB_REPOSITORY}/actions/workflows/update-nrl.yml/enable" \
+            && echo "update-nrl.yml enabled (or already was)"
