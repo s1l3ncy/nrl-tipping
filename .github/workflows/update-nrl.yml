@@ -76,25 +76,34 @@ jobs:
       - name: Stamp the heartbeat
         run: |
           python - <<'PY'
-          import datetime, json, re, pathlib, os
+          import datetime, json, re, pathlib, os, zoneinfo
 
+          # Every pattern here is MULTILINE. The first version wasn't, so `^` only
+          # matched at position 0 and every count came back 0 while the log showed
+          # 524 players and 16 clubs — a broken health check is worse than none.
           def count(path, pattern):
               p = pathlib.Path(path)
               if not p.exists():
                   return 0
-              return len(re.findall(pattern, p.read_text(encoding="utf-8", errors="ignore")))
+              return len(re.findall(pattern, p.read_text(encoding="utf-8", errors="ignore"),
+                                    re.MULTILINE))
 
-          players = count("nrl_players.js", r'^\s*"[^"]+":\s*\{', )
-          full = count("nrl_players.js", r'^\s*"[^"\s]+ [^"]+":\s*\{')
+          syd = datetime.datetime.now(zoneinfo.ZoneInfo("Australia/Sydney"))
           json.dump({
-              "sydney": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %Z"),
+              "sydney": syd.strftime("%Y-%m-%d %H:%M:%S %Z"),
               "utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
               "trigger": os.environ.get("GITHUB_EVENT_NAME", "?"),
               "runNumber": os.environ.get("GITHUB_RUN_NUMBER", "?"),
-              "playersRated": players,
-              "playersRatedFullName": full,
+              # playersRated should be ~500 and playersRatedFullName should EQUAL it.
+              # If they diverge, the ratings scrape has regressed to first-name keys
+              # and injuries have silently stopped affecting tips.
+              "playersRated": count("nrl_players.js", r'^\s*"[^"]+":\s*\{'),
+              "playersRatedFullName": count("nrl_players.js", r'^\s*"[^"\s]+ [^"]+":\s*\{'),
               "clubsWithLineups": count("nrl_lineups.js", r'^\s*"[A-Z]{3}":'),
-              "clubsWithNews": count("injuries_dump.html", r"(?m)^[A-Z][^:\n]{3,40}:"),
+              "lineupRound": (re.search(r'"round":\s*(\d+)',
+                              pathlib.Path("nrl_lineups.js").read_text(encoding="utf-8", errors="ignore"))
+                              or [None, None])[1] if pathlib.Path("nrl_lineups.js").exists() else None,
+              "clubsWithNews": count("injuries_dump.html", r"^[A-Z][^:\n]{3,40}:"),
           }, open("last_run.json", "w"), indent=2)
           PY
           cat last_run.json
