@@ -14,6 +14,13 @@ tags / the right line formats, not pre-flattened text).
   * injuries_dump.html — best-effort team-news per club from Zero Tackle's
                          injuries page. "Team: notes" lines. Falls back to the
                          committed file if the page won't parse cleanly.
+  * nrl_players.js     — player -> {position, rating} from the NINE per-position
+                         ratings pages (the /overall/ page splits the name across
+                         two cells, which is what produced the first-name-only
+                         keys that silently disabled every injury lookup).
+  * nrl_lineups.js     — the named 1-17 per club from the current round's team-lists
+                         article. The front-end uses it to cancel an injury-table
+                         entry for anyone who is actually named in the side.
 
 Anything that can't be parsed confidently is left as the previous committed
 file (never wipes good data). Network access is fine here (GitHub servers).
@@ -31,13 +38,31 @@ HEADERS = {"User-Agent": "footy-tipping-personal/1.0 (non-commercial; polite; lo
 LADDER_URL = "https://www.zerotackle.com/nrl/nrl-ladder/"
 FIXTURES_URL = "https://www.zerotackle.com/nrl/fixtures-results/"
 INJURIES_URL = "https://www.zerotackle.com/nrl/injuries-suspensions/"
-RATINGS_URL = "https://www.zerotackle.com/nrl-player-ratings/overall/"
+TEAMLISTS_INDEX_URL = "https://www.zerotackle.com/nrl/team-lists/"
 
 # Player positions as they appear on the ratings page (closed set).
 RATING_POSITIONS = ["Five-eighth", "Second-row", "Fullback", "Halfback", "Hooker",
                     "Winger", "Centre", "Prop", "Lock"]
 _POS_RE = re.compile(r"\b(" + "|".join(RATING_POSITIONS) + r")\b", re.IGNORECASE)
 _POS_CANON = {p.lower(): p for p in RATING_POSITIONS}
+
+# Ratings come from the nine PER-POSITION pages, not /overall/. Two reasons:
+#   1. the position is implied by the URL, so there's no position column to
+#      mis-read; and
+#   2. /overall/ renders a player's name across two table cells, so reading
+#      "the cell after the rank" yields a FIRST NAME ONLY. That is exactly how
+#      nrl_players.js ended up keyed "nathan"/"harry"/"payne", which made every
+#      front-end lookup miss and quietly reduced every injured player — Munster,
+#      Grant, anyone — to the 0.6pt fringe fallback. Do not switch back.
+RATING_POS_BY_SLUG = {
+    "fullback": "Fullback", "winger": "Winger", "centre": "Centre",
+    "five-eighth": "Five-eighth", "halfback": "Halfback", "hooker": "Hooker",
+    "prop": "Prop", "second-row": "Second-row", "lock": "Lock",
+}
+RATINGS_URL_TPL = "https://www.zerotackle.com/nrl-player-ratings/{}/"
+PLAYER_HREF_RE = re.compile(r"/players/([a-z0-9'-]+)/?$", re.IGNORECASE)
+TEAM_HREF_RE = re.compile(r"/teams/([a-z0-9-]+)/?$", re.IGNORECASE)
+TEAMLIST_ARTICLE_RE = re.compile(r"/round-(\d+)-team-lists-(20\d\d)-(\d+)/?", re.IGNORECASE)
 
 ZT_SLUG = {
     "PEN": "panthers", "SYD": "roosters", "NZW": "warriors", "CRO": "sharks",
@@ -282,15 +307,39 @@ def emit_weather(weather_by_city):
 
 # --------------------------------------------------------------------------- injuries
 NOISE = ("news", "squad", "latest", "fixtures", "ladder", "draw", "tickets", "membership",
-         "highlights", "video", "signing", "contract", "team list", "preview", "wrap")
+         "highlights", "video", "signing", "contract", "preview", "wrap")
+
+
+def team_from_link(a):
+    """Resolve a Zero Tackle team link to our short code. Handles both
+    /nrl/teams/<slug>/ and /rugby-league/teams/<slug>/. Falls back to the link
+    text ('Broncos') when the slug doesn't resolve."""
+    m = TEAM_HREF_RE.search((a.get("href") or "").split("?")[0].rstrip("/") + "/")
+    if m:
+        s = find_short(m.group(1).replace("-", " "))
+        if s:
+            return s
+    txt = a.get_text(" ", strip=True)
+    return find_short(txt) if txt and len(txt) < 40 else None
+
+
+def club_before(table):
+    """Nearest preceding team link — the injuries page labels each club with a
+    bare <a> to its team page, NOT a heading, so heading-tracking silently found
+    zero clubs and the whole injuries parse returned {}. Scan backwards instead."""
+    for a in table.find_all_previous("a", href=True):
+        s = team_from_link(a)
+        if s:
+            return s
+    return None
 
 
 def extract_injuries(html):
-    """Zero Tackle's injuries page lists each club as a heading followed by a
-    table of Player | Reason | Expected Return rows. Track the 'current club'
-    from headings and parse the following table's data rows into clean
-    'Player (reason) — back Return' entries (header rows / stray fragments
-    skipped). First few per club."""
+    """Zero Tackle's injuries page lists each club as a link followed by a table
+    of Player | Reason | Expected Return rows. Attribute each table to the
+    nearest club label above it and parse its data rows into clean
+    'Player (reason) — back Return' entries (header rows / photo cells / stray
+    fragments skipped). First few per club."""
     soup = BeautifulSoup(html, "html.parser")
     teams, current = {}, None
     for el in soup.find_all(["h1", "h2", "h3", "h4", "strong", "table"]):
@@ -301,8 +350,13 @@ def extract_injuries(html):
                 current = s
                 teams.setdefault(current, [])
             continue
-        if not current:
+        # A club link immediately above the table beats whatever heading we last
+        # saw; headings are only a fallback for a future page redesign.
+        club = club_before(el) or current
+        if not club:
             continue
+        current = club
+        teams.setdefault(current, [])
         for tr in el.find_all("tr"):
             cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
             cells = [c for c in cells if c]
@@ -368,49 +422,97 @@ def _clean_name(raw):
     return raw.strip(" -–—") if 3 <= len(raw) <= 40 else ""
 
 
-def extract_ratings(html):
-    """Parse the overall player-ratings page into {norm_name: {name,pos,pct}}.
-    The table rows are: rank | Player Name | Team | Position | NN.NN% | pts | move.
-    Primary path reads the cells positionally (name = the cell after the rank).
-    Fallback: regex over the flattened page text if the table shape changes."""
+def _letters(s):
+    return re.sub(r"[^a-z]", "", str(s or "").lower())
+
+
+def name_from_anchor(a):
+    """Zero Tackle renders a player's name TWICE inside the <a> (desktop + mobile
+    variants) with no separator: 'Isaiah IongiIsaiah Iongi', or abbreviated+full
+    'K. Leuluai-GoingKalani Leuluai-Going'. The href slug is canonical, so use it
+    to pick the variant whose letters match — which also preserves real
+    punctuation (Papali'i, Addo-Carr). Returns (display_name, slug_name)."""
+    m = PLAYER_HREF_RE.search((a.get("href") or "").split("?")[0].rstrip("/") + "/")
+    if not m:
+        return "", ""
+    slug = m.group(1)
+    slug_name = " ".join(w.capitalize() for w in slug.split("-"))
+    txt = re.sub(r"\s+", " ", a.get_text(" ", strip=True)).strip()
+    target = _letters(slug)
+    if _letters(txt) == target:
+        return txt, slug_name
+    for i in range(1, len(txt)):
+        right = txt[i:].strip()
+        if _letters(right) == target:
+            return right, slug_name
+        left = txt[:i].strip()
+        if _letters(left) == target:
+            return left, slug_name
+    return slug_name, slug_name                       # last resort: title-cased slug
+
+
+def extract_ratings(html, pos=None):
+    """Zero Tackle player-ratings page -> {norm_name: {name, pos, pct}}.
+
+    Built for the PER-POSITION pages: rows are rank | Player | Team | Win % |
+    Rating | move, with no position column because the position is implied by the
+    URL — pass it in as `pos`. Still works on /overall/, where it reads a position
+    cell instead. The name always comes from the /players/<slug>/ anchor, never
+    from a cell index, and a one-word key is never emitted (see the note on
+    RATING_POS_BY_SLUG — that bug disabled injuries entirely).
+
+    Each page carries a season table then a monthly one; the season table comes
+    first and setdefault keeps the first, which is what we want."""
     soup = BeautifulSoup(html, "html.parser")
     players = {}
-
-    # ---- primary: structured rows (name is the cell right after the rank) ----
     for tr in soup.find_all("tr"):
         cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
         cells = [c for c in cells if c]
-        if len(cells) < 5:
+        if len(cells) < 4:
             continue
-        pos = next((_POS_CANON[c.lower()] for c in cells if c.lower() in _POS_CANON), None)
         pct = None
         for c in cells:
             m = re.match(r"^(\d{1,3}(?:\.\d+)?)\s*%$", c)
             if m:
                 pct = float(m.group(1))
                 break
-        if pos is None or pct is None:
+        if pct is None:
+            continue                                   # header / non-data row
+        row_pos = pos or next((_POS_CANON[c.lower()] for c in cells
+                               if c.lower() in _POS_CANON), None)
+        if row_pos is None:
             continue
-        name = cells[1] if re.fullmatch(r"\d+", cells[0]) else cells[0]
-        name = re.sub(r"\s+", " ", name).strip()
-        if not re.search(r"[A-Za-z]", name) or name.lower() in _POS_CANON:
+        anchors = [a for a in tr.find_all("a", href=True)
+                   if PLAYER_HREF_RE.search((a.get("href") or "").rstrip("/") + "/")]
+        if not anchors:
             continue
+        name, slug_name = name_from_anchor(anchors[0])
         key = norm_name(name)
-        if key and key not in players:
-            players[key] = {"name": name, "pos": pos, "pct": round(pct, 1)}
+        if len(key.split()) < 2:                       # never emit a first-name-only key
+            key = norm_name(slug_name)
+            if len(key.split()) < 2:
+                continue
+            name = slug_name
+        rec = {"name": name, "pos": row_pos, "pct": round(pct, 1)}
+        players.setdefault(key, rec)
+        alias = norm_name(slug_name)                   # punctuation-free alias, free matching
+        if len(alias.split()) >= 2:
+            players.setdefault(alias, rec)
+    return players
 
-    # ---- fallback: flattened text ----
-    if len(players) < 50:
-        text = soup.get_text(" ", strip=True)
-        pat = re.compile(r"([A-Za-zÀ-ÿ'’.\- ]{3,60}?)\s+(" + "|".join(RATING_POSITIONS) +
-                         r")\s+(\d{1,3}(?:\.\d+)?)\s*%", re.IGNORECASE)
-        for m in pat.finditer(text):
-            name = _clean_name(re.sub(r"^\d+\s+", "", m.group(1)).strip())
-            pos = _POS_CANON[m.group(2).lower()]
-            pct = float(m.group(3))
-            key = norm_name(name)
-            if key and key not in players:
-                players[key] = {"name": name, "pos": pos, "pct": round(pct, 1)}
+
+def fetch_all_ratings():
+    """Merge the nine per-position ratings pages into one {norm_name: {...}}."""
+    players = {}
+    for slug, pos in RATING_POS_BY_SLUG.items():
+        try:
+            got = extract_ratings(fetch(RATINGS_URL_TPL.format(slug)), pos)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[cloud_fetch] ratings WARN {slug}: {exc}", file=sys.stderr)
+            continue
+        print(f"[cloud_fetch] ratings {slug}: {len(got)} keys")
+        for k, v in got.items():
+            players.setdefault(k, v)
     return players
 
 
@@ -424,6 +526,91 @@ def emit_players(players):
             "   name -> {pos, pct}. Used by the front-end to weight injuries by the\n"
             "   real player: spine positions + higher rating = bigger tip impact. */\n"
             "window.NRL_PLAYERS = {\n" + body + "\n};\n")
+
+
+# --------------------------------------------------------------------------- team lists
+def latest_teamlists_url(index_html):
+    """The team-lists section index links to ROOT-level articles, not children of
+    /nrl/team-lists/ — e.g. /round-21-team-lists-2026-236116/. Return the URL for
+    the highest round number found, or (None, None)."""
+    soup = BeautifulSoup(index_html, "html.parser")
+    best = (None, None)
+    for a in soup.find_all("a", href=True):
+        m = TEAMLIST_ARTICLE_RE.search(a["href"])
+        if not m:
+            continue
+        rnd = int(m.group(1))
+        if best[0] is None or rnd > best[0]:
+            href = a["href"]
+            if href.startswith("/"):
+                href = "https://www.zerotackle.com" + href
+            best = (rnd, href)
+    return best
+
+
+def extract_teamlists(html):
+    """Round team-lists article -> {short: {"round": N, "opp": SHORT, "players": [...]}}.
+
+    Layout: an <h2> per game ('Eels vs Panthers Team Lists: Round 21') followed by
+    two <ul>s of '<li>NN <a href=/players/slug/>Name</a></li>' — the home side puts
+    the jersey number first, the away side last, with INTERCHANGE / RESERVES marker
+    <li>s between. There are no 'Ins:'/'Outs:' labels on the page; this is the
+    named squad, which is all the front-end needs to cancel a stale injury entry."""
+    soup = BeautifulSoup(html, "html.parser")
+    out = {}
+    heads = [h for h in soup.find_all(["h1", "h2", "h3", "h4"])
+             if re.search(r"\bvs\.?\b.*team list", h.get_text(" ", strip=True), re.I)]
+    for h in heads:
+        title = h.get_text(" ", strip=True)
+        m = re.match(r"^(.*?)\s+vs\.?\s+(.*?)\s+Team List", title, re.I)
+        if not m:
+            continue
+        home, away = find_short(m.group(1)), find_short(m.group(2))
+        rm = re.search(r"Round\s+(\d+)", title, re.I)
+        rnd = int(rm.group(1)) if rm else None
+        squads = []
+        for el in h.find_all_next(["h1", "h2", "h3", "h4", "ul"]):
+            if el.name != "ul":
+                if re.search(r"\bvs\.?\b.*team list", el.get_text(" ", strip=True), re.I):
+                    break                              # we've reached the next game
+                continue
+            names = []
+            for li in el.find_all("li"):
+                a = next((x for x in li.find_all("a", href=True)
+                          if PLAYER_HREF_RE.search((x.get("href") or "").rstrip("/") + "/")), None)
+                if a is None:
+                    continue                           # INTERCHANGE / RESERVES marker
+                nm, slug_nm = name_from_anchor(a)
+                if nm:
+                    names.append(nm)
+                    if slug_nm and slug_nm != nm:
+                        names.append(slug_nm)          # punctuation-free alias
+            if len(names) >= 13:                       # ignore nav / sidebar <ul>s
+                squads.append(names)
+            if len(squads) == 2:
+                break
+        for short, squad, opp in ((home, squads[0] if squads else None, away),
+                                  (away, squads[1] if len(squads) > 1 else None, home)):
+            if short and squad:
+                out.setdefault(short, {"round": rnd, "opp": opp, "players": squad})
+    return out
+
+
+def emit_lineups(lineups, rnd):
+    import json
+    body = ",\n".join(
+        f'    {json.dumps(s)}: {json.dumps(v["players"], ensure_ascii=False)}'
+        for s, v in sorted(lineups.items())
+    )
+    return ("/* rebuilt by cloud_fetch.py from the live Zero Tackle team lists.\n"
+            "   The named squad per club for the round below. The front-end uses this to\n"
+            "   cancel an injury-table entry for a player who is actually named in the\n"
+            "   side — without it, a season-long 'TBC' keeps a fit player half-out\n"
+            "   forever. Empty/stale is safe: the model just falls back to the\n"
+            "   injury table alone. */\n"
+            "window.NRL_LINEUPS = {\n"
+            f'  "round": {json.dumps(rnd)},\n'
+            '  "teams": {\n' + body + "\n  }\n};\n")
 
 
 def write(path, text):
@@ -512,18 +699,47 @@ def main():
 
     # ----- player ratings -> nrl_players.js (best-effort; keep committed file if thin) -----
     try:
-        players = extract_ratings(fetch(RATINGS_URL))
+        players = fetch_all_ratings()
     except Exception as exc:  # noqa: BLE001
         print(f"[cloud_fetch] WARNING: ratings fetch/parse failed ({exc}); keeping nrl_players.js", file=sys.stderr)
         players = {}
-    print(f"[cloud_fetch] ratings: parsed {len(players)} players")
+    multiword = sum(1 for k in players if " " in k)
+    share = (multiword / len(players)) if players else 0.0
+    print(f"[cloud_fetch] ratings: parsed {len(players)} players "
+          f"({multiword} full-name keys, {share:.0%})")
     for k, v in list(players.items())[:8]:
         print(f"    {v['name']} — {v['pos']} {v['pct']}%")
-    if len(players) >= 100:
+    # Two gates, not one. Volume alone let a page of FIRST-NAME-ONLY keys through
+    # and silently neutered every injury lookup for weeks; a name key that isn't
+    # a full name can never match the front-end, so treat it as a failed parse.
+    if len(players) >= 100 and share >= 0.8:
         write("nrl_players.js", emit_players(players))
         print("[cloud_fetch] wrote nrl_players.js")
     else:
-        print("[cloud_fetch] ratings parse thin (<100 players) — keeping committed nrl_players.js.", file=sys.stderr)
+        why = "thin (<100 players)" if len(players) < 100 else f"malformed ({share:.0%} full-name keys, need 80%)"
+        print(f"[cloud_fetch] ERROR: ratings parse {why}. Keeping the committed nrl_players.js, "
+              f"but injuries will NOT be weighted correctly until this is fixed.", file=sys.stderr)
+
+    # ----- team lists -> nrl_lineups.js (best-effort; released ~4pm Tue AEST) -----
+    lineups, tl_round = {}, None
+    try:
+        tl_round, tl_url = latest_teamlists_url(fetch(TEAMLISTS_INDEX_URL))
+        if tl_url:
+            print(f"[cloud_fetch] team lists: newest article is Round {tl_round} — {tl_url}")
+            lineups = extract_teamlists(fetch(tl_url))
+        else:
+            print("[cloud_fetch] WARNING: no round team-lists article found on the index.", file=sys.stderr)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[cloud_fetch] WARNING: team-lists fetch/parse failed ({exc}); keeping nrl_lineups.js", file=sys.stderr)
+        lineups = {}
+    for s, v in list(lineups.items())[:20]:
+        print(f"    {s}: {len(v['players'])} named v {v['opp']}")
+    if len(lineups) >= 6:
+        write("nrl_lineups.js", emit_lineups(lineups, tl_round))
+        print(f"[cloud_fetch] wrote nrl_lineups.js: Round {tl_round}, {len(lineups)} clubs")
+    else:
+        print(f"[cloud_fetch] team lists thin ({len(lineups)} clubs) — keeping committed nrl_lineups.js. "
+              f"Normal on Mon/Tue morning: lists drop ~4pm Tuesday AEST.", file=sys.stderr)
 
 
 if __name__ == "__main__":
