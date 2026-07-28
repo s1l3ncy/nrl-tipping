@@ -9,7 +9,7 @@
 // Time-sensitive fields (odds, weather, news) stay null unless the optional
 // --odds/--injuries/--weather dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-07-28",
+  "updated": "2026-07-29",
   "season": 2026,
   "round": 22,
   "source": "zerotackle.com",
@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 25°C, 17% rain chance, overcast",
+      "weather": "Sat 1 Aug: 24°C, 16% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -475,7 +475,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 38% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 46% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -485,7 +485,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 16°C, 100% rain chance, showers",
+      "weather": "Wed 29 Jul: 12°C, 96% rain chance, heavy drizzle",
       "h2h": null
     },
     {
@@ -495,7 +495,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 20°C, 96% rain chance, light drizzle",
+      "weather": "Mon 3 Aug: 19°C, 42% rain chance, partly cloudy",
       "h2h": null
     },
     {
@@ -505,7 +505,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 17°C, 73% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 16°C, 63% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -515,7 +515,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 21°C, 43% rain chance, drizzle",
+      "weather": "Mon 3 Aug: 19°C, 37% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -525,7 +525,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 17°C, 73% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 16°C, 63% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -535,7 +535,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 17°C, 73% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 16°C, 63% rain chance, drizzle",
       "h2h": null
     }
   ],

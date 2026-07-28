@@ -7,7 +7,7 @@
 // entry per run. See sources.md ('Learning loop') for details.
 // fitted via grid search: walk-forward logloss=0.66 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
-  "updated": "2026-07-28",
+  "updated": "2026-07-29",
   "gamesLearned": 156,
   "lowConfidence": false,
   "params": {
