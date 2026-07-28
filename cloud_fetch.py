@@ -30,7 +30,7 @@ import re
 import sys
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 
 from parse_nrl import find_short, TEAMS, TEAM_HOME_CITY  # side-effect free import
 
@@ -548,49 +548,149 @@ def latest_teamlists_url(index_html):
     return best
 
 
+GAME_HEAD_RE = re.compile(r"\bvs\.?\b.*team list", re.I)
+RESERVES_RE = re.compile(r"^\s*RESERVES?\s*$", re.I)
+
+
+def _squad_tokens(box):
+    """Ordered token stream for a candidate squad container.
+
+    Zero Tackle leaves <tr> UNCLOSED on every player row, so html.parser nests
+    the rows inside one another and per-row parsing is unreliable. Walking
+    .descendants sidesteps that entirely: it is plain document order whatever
+    the nesting. Yields ('num', int) for a bare jersey-number cell,
+    ('player', <a>) for a /players/ link, ('mark', text) for an
+    INTERCHANGE / RESERVES separator."""
+    toks = []
+    for node in box.descendants:
+        if isinstance(node, NavigableString):
+            s = str(node).replace("\xa0", " ").strip()
+            if not s:
+                continue
+            if s.isdigit() and len(s) <= 2:
+                toks.append(("num", int(s)))
+            elif RESERVES_RE.match(s) or re.match(r"^\s*INTERCHANGE\s*$", s, re.I):
+                toks.append(("mark", s.upper()))
+        elif getattr(node, "name", None) == "a" and node.get("href"):
+            if PLAYER_HREF_RE.search(node["href"].split("?")[0].rstrip("/") + "/"):
+                toks.append(("player", node))
+    return toks
+
+
+def _is_squad(toks):
+    """A real squad has both a pile of player links and a pile of jersey
+    numbers. The site nav / footer mega-menu has /players/<slug>/ links too
+    (Oldest & Youngest, Player Birthdays, OFF CONTRACT ...) but no numbers —
+    that is what stops a menu being mistaken for a team list."""
+    return (sum(1 for k, _ in toks if k == "player") >= 13
+            and sum(1 for k, _ in toks if k == "num") >= 13)
+
+
+def _home_first(toks):
+    """True when the jersey number precedes the name (the home column)."""
+    before = after = 0
+    for i, (kind, _) in enumerate(toks):
+        if kind != "player":
+            continue
+        if i and toks[i - 1][0] == "num":
+            before += 1
+        if i + 1 < len(toks) and toks[i + 1][0] == "num":
+            after += 1
+    return before >= after
+
+
+def _squad_names(toks, drop_reserves=True):
+    """Names in listed order. Stops at the RESERVES separator: 20-22 are
+    emergencies who are NOT in the match-day squad, so counting them would
+    wrongly cancel a genuine injury flag. Everything above it (the 13 starters
+    plus the full interchange bench) is really named to play.
+
+    Do NOT filter on jersey number <= 17 instead — the number is not a selection
+    signal. Parramatta named #22 at centre in Round 21 while #11 and #14 sat on
+    the bench. The structural separator is the only reliable cut."""
+    names, seen = [], set()
+    for kind, val in toks:
+        if kind == "mark" and drop_reserves and RESERVES_RE.match(val):
+            break
+        if kind != "player":
+            continue
+        nm, slug_nm = name_from_anchor(val)
+        for cand in (nm, slug_nm):
+            if cand and cand not in seen:
+                seen.add(cand)
+                names.append(cand)
+    return names
+
+
 def extract_teamlists(html):
     """Round team-lists article -> {short: {"round": N, "opp": SHORT, "players": [...]}}.
 
-    Layout: an <h2> per game ('Eels vs Panthers Team Lists: Round 21') followed by
-    two <ul>s of '<li>NN <a href=/players/slug/>Name</a></li>' — the home side puts
-    the jersey number first, the away side last, with INTERCHANGE / RESERVES marker
-    <li>s between. There are no 'Ins:'/'Outs:' labels on the page; this is the
-    named squad, which is all the front-end needs to cancel a stale injury entry."""
+    Layout: an <h2> per game ('Eels vs Panthers Team Lists: Round 21') followed
+    by THREE <table width='100%'> blocks — home squad, a positions-only table,
+    then the away squad. The home table puts the jersey number in the first
+    <td> and the name in the second; the away table reverses them. INTERCHANGE
+    and RESERVES separators are <td colspan='3'> rows. There are NO <ul>/<li>
+    elements anywhere in the article — an earlier version of this function
+    looked for <ul>s, found only the site's footer mega-menu, and published
+    "Off Contract 2026" as a Wests Tigers player. The page renders as bullets
+    in a markdown view, which is what caused that mistake; trust the DOM.
+
+    Traversal is inverted deliberately: find the squad tables first by what they
+    CONTAIN (>=13 player links AND >=13 jersey numbers), then attach each to its
+    nearest preceding game heading. Scanning forward from a heading is what let
+    the last game run off the end of the article into the nav menus.
+
+    There are no 'Ins:'/'Outs:' labels on the page; this is the named squad,
+    which is all the front-end needs to cancel a stale injury entry."""
     soup = BeautifulSoup(html, "html.parser")
+
+    # 1. every container that really looks like a squad, in document order.
+    cands = []
+    for box in soup.find_all(["table", "ul", "ol"]):
+        toks = _squad_tokens(box)
+        if _is_squad(toks):
+            cands.append((box, toks))
+    # drop outer wrappers when a nested container already qualified
+    inner = [(b, t) for b, t in cands
+             if not any(o is not b and o in b.descendants for o, _ in cands)]
+
+    # 2. attach each squad to its nearest preceding game heading.
+    by_head = {}
+    for box, toks in inner:
+        head = next((h for h in box.find_all_previous(["h1", "h2", "h3", "h4"])
+                     if GAME_HEAD_RE.search(h.get_text(" ", strip=True))), None)
+        if head is not None:
+            by_head.setdefault(id(head), (head, []))[1].append((box, toks))
+
     out = {}
-    heads = [h for h in soup.find_all(["h1", "h2", "h3", "h4"])
-             if re.search(r"\bvs\.?\b.*team list", h.get_text(" ", strip=True), re.I)]
-    for h in heads:
-        title = h.get_text(" ", strip=True)
+    for head, boxes in by_head.values():
+        title = head.get_text(" ", strip=True)
         m = re.match(r"^(.*?)\s+vs\.?\s+(.*?)\s+Team List", title, re.I)
         if not m:
             continue
         home, away = find_short(m.group(1)), find_short(m.group(2))
         rm = re.search(r"Round\s+(\d+)", title, re.I)
         rnd = int(rm.group(1)) if rm else None
-        squads = []
-        for el in h.find_all_next(["h1", "h2", "h3", "h4", "ul"]):
-            if el.name != "ul":
-                if re.search(r"\bvs\.?\b.*team list", el.get_text(" ", strip=True), re.I):
-                    break                              # we've reached the next game
-                continue
-            names = []
-            for li in el.find_all("li"):
-                a = next((x for x in li.find_all("a", href=True)
-                          if PLAYER_HREF_RE.search((x.get("href") or "").rstrip("/") + "/")), None)
-                if a is None:
-                    continue                           # INTERCHANGE / RESERVES marker
-                nm, slug_nm = name_from_anchor(a)
-                if nm:
-                    names.append(nm)
-                    if slug_nm and slug_nm != nm:
-                        names.append(slug_nm)          # punctuation-free alias
-            if len(names) >= 13:                       # ignore nav / sidebar <ul>s
-                squads.append(names)
-            if len(squads) == 2:
-                break
-        for short, squad, opp in ((home, squads[0] if squads else None, away),
-                                  (away, squads[1] if len(squads) > 1 else None, home)):
+
+        # 3. home vs away: the number-first column is the home side. Document
+        #    order breaks the tie if the two columns somehow look alike, and
+        #    the orientation alone decides it when only one side has been
+        #    published yet (lists trickle out on Tuesday afternoon).
+        picked = boxes[:2]
+        h_squad = a_squad = None
+        if len(picked) == 2:
+            if _home_first(picked[1][1]) and not _home_first(picked[0][1]):
+                picked = [picked[1], picked[0]]
+            h_squad, a_squad = (_squad_names(picked[0][1]),
+                                _squad_names(picked[1][1]))
+        elif picked:
+            if _home_first(picked[0][1]):
+                h_squad = _squad_names(picked[0][1])
+            else:
+                a_squad = _squad_names(picked[0][1])
+
+        for short, squad, opp in ((home, h_squad, away),
+                                  (away, a_squad, home)):
             if short and squad:
                 out.setdefault(short, {"round": rnd, "opp": opp, "players": squad})
     return out
