@@ -17,8 +17,9 @@
  * file (file://) bypasses this entirely and uses the baked-in data, exactly as
  * before — so the offline-as-a-local-file guarantee is preserved.
  */
-const CACHE = 'nrl-tips-v1';
-const CORE = ['./', './index.html', './nrl_data.js', './nrl_learned.js', './nrl_players.js'];
+const CACHE = 'nrl-tips-v2';
+const CORE = ['./', './index.html', './nrl_data.js', './nrl_learned.js', './nrl_players.js',
+              './nrl_lineups.js'];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
