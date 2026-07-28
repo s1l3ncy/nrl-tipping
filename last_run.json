@@ -1,10 +1,11 @@
 {
-  "sydney": "2026-07-28 19:53:27 ",
-  "utc": "2026-07-28T09:53:27+00:00",
+  "sydney": "2026-07-28 19:58:36 AEST",
+  "utc": "2026-07-28T09:58:36+00:00",
   "trigger": "workflow_dispatch",
-  "runNumber": "22",
-  "playersRated": 0,
-  "playersRatedFullName": 0,
-  "clubsWithLineups": 0,
+  "runNumber": "23",
+  "playersRated": 524,
+  "playersRatedFullName": 524,
+  "clubsWithLineups": 16,
+  "lineupRound": "22",
   "clubsWithNews": 17
 }
