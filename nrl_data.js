@@ -38,7 +38,7 @@ window.NRL_DATA = {
         "PF": 301,
         "PA": 151
       },
-      "news": "Dylan Edwards (Shoulder); Mitch Kenny (Leg); Jack Cogger (Suspension) — back Round 22"
+      "news": "Mitch Kenny (Leg); Dylan Edwards (Shoulder); Jack Cogger (Suspension) — back Round 22"
     },
     {
       "name": "Roosters",
@@ -142,7 +142,7 @@ window.NRL_DATA = {
         "PF": 218,
         "PA": 137
       },
-      "news": "Ray Stone (Shoulder); Jake Averillo (Ribs); Jack Bostock (Concussion) — back Round 22; Isaiya Katoa (Wrist) — back Round 23"
+      "news": "Jake Averillo (Ribs); Ray Stone (Shoulder); Jack Bostock (Concussion) — back Round 22; Isaiya Katoa (Wrist) — back Round 23"
     },
     {
       "name": "Rabbitohs",
@@ -168,7 +168,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 244
       },
-      "news": "Dayne Jennings (Knee); Brandon Smith (Calf); Latrell Mitchell (Calf) — back Round 23; Sean Keppie (Thumb) — back Round 23; David Fifita (Suspension) — back Round 23; Tallis Duncan (Hamstring) — back Round 23"
+      "news": "Dayne Jennings (Knee); Brandon Smith (Calf); Tallis Duncan (Hamstring) — back Round 23; Latrell Mitchell (Calf) — back Round 23; Sean Keppie (Thumb) — back Round 23; David Fifita (Suspension) — back Round 23"
     },
     {
       "name": "Knights",
@@ -220,7 +220,7 @@ window.NRL_DATA = {
         "PF": 214,
         "PA": 245
       },
-      "news": "Reed Mahoney (Head knock); Tom Dearden (Ankle); John Bateman (Hamstring); Griffin Neame (Suspension) — back Round 23"
+      "news": "John Bateman (Hamstring); Tom Dearden (Ankle); Reed Mahoney (Head knock); Griffin Neame (Suspension) — back Round 23"
     },
     {
       "name": "Bulldogs",
@@ -246,7 +246,7 @@ window.NRL_DATA = {
         "PF": 144,
         "PA": 228
       },
-      "news": "Jake Turpin (Biceps); Samuel Hughes (Neck); Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring) — back Round 25"
+      "news": "Mitchell Woods (Hamstring); Jake Turpin (Biceps); Samuel Hughes (Neck); Kurt Mann (Facial injury) — back Round 22; Sitili Tupouniua (Hamstring) — back Round 25"
     },
     {
       "name": "Sea Eagles",
@@ -272,7 +272,7 @@ window.NRL_DATA = {
         "PF": 260,
         "PA": 180
       },
-      "news": "Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Siosiua Taukeiaho (Leg); Ben Trbojevic (Head knock); Tom Trbojevic (Hamstring); Brandon Wakeham (Calf)"
+      "news": "Brandon Wakeham (Calf); Tom Trbojevic (Hamstring); Ben Trbojevic (Head knock); Siosiua Taukeiaho (Leg); Jackson Shereb (Concussion); Clayton Faulalo (Hamstring)"
     },
     {
       "name": "Raiders",
@@ -298,7 +298,7 @@ window.NRL_DATA = {
         "PF": 197,
         "PA": 252
       },
-      "news": "Noah Martin (Quad); Owen Pattie (Suspension) — back Round 22; Hudson Young (Achilles) — back Next Season"
+      "news": "Owen Pattie (Suspension) — back Round 22; Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Storm",
@@ -324,7 +324,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle) — back Round 24; Cameron Munster (Knee) — back Round 24; Harry Grant (Hamstring) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
+      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Cameron Munster (Knee) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
     },
     {
       "name": "Titans",
@@ -350,7 +350,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 275
       },
-      "news": "Brock Gray (ACL); Kurtis Morrin (Leg) — back Round 22; AJ Brimson (Concussion) — back Round 22; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": "Brock Gray (ACL); AJ Brimson (Concussion) — back Round 22; Kurtis Morrin (Leg) — back Round 22; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -376,7 +376,7 @@ window.NRL_DATA = {
         "PF": 135,
         "PA": 236
       },
-      "news": "Corey Jensen (Medical Episode); Brendan Piakura (Concussion); Aublix Tawha (Ankle) — back Round 23"
+      "news": "Corey Jensen (Medical Episode); Brendan Piakura (Concussion); Preston Riki (Ankle); Aublix Tawha (Ankle) — back Round 23"
     },
     {
       "name": "Eels",
@@ -402,7 +402,7 @@ window.NRL_DATA = {
         "PF": 161,
         "PA": 265
       },
-      "news": "Junior Paulo (Knee) — back Round 22; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23; Bailey Simonsson (Ankle) — back Round 23; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
+      "news": "Junior Paulo (Knee) — back Round 22; Bailey Simonsson (Ankle) — back Round 23; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -428,7 +428,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
+      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 25°C, 16% rain chance, overcast",
+      "weather": "Sat 1 Aug: 25°C, 17% rain chance, overcast",
       "h2h": null
     },
     {
@@ -475,7 +475,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 37% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 38% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -485,7 +485,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 15°C, 100% rain chance, showers",
+      "weather": "Tue 28 Jul: 16°C, 100% rain chance, showers",
       "h2h": null
     },
     {
@@ -495,7 +495,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 19°C, 100% rain chance, drizzle",
+      "weather": "Tue 28 Jul: 20°C, 96% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -505,7 +505,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 57% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 17°C, 73% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -515,7 +515,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "",
       "odds": null,
-      "weather": "Tue 28 Jul: 20°C, 60% rain chance, drizzle",
+      "weather": "Tue 28 Jul: 21°C, 43% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -525,7 +525,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 57% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 17°C, 73% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -535,7 +535,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 57% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 17°C, 73% rain chance, light drizzle",
       "h2h": null
     }
   ],
