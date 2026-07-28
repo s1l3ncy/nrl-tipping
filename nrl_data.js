@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 24°C, 16% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 25°C, 29% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -475,7 +475,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 46% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 50% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -485,7 +485,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "",
       "odds": null,
-      "weather": "Wed 29 Jul: 12°C, 96% rain chance, heavy drizzle",
+      "weather": "Wed 29 Jul: 12°C, 95% rain chance, drizzle",
       "h2h": null
     },
     {
@@ -495,7 +495,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "",
       "odds": null,
-      "weather": "Mon 3 Aug: 19°C, 42% rain chance, partly cloudy",
+      "weather": "Sun 2 Aug: 18°C, 65% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -505,7 +505,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 63% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 15°C, 61% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -515,7 +515,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "",
       "odds": null,
-      "weather": "Mon 3 Aug: 19°C, 37% rain chance, light drizzle",
+      "weather": "Mon 3 Aug: 20°C, 51% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -525,7 +525,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 63% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 15°C, 61% rain chance, light drizzle",
       "h2h": null
     },
     {
@@ -535,7 +535,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 63% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 15°C, 61% rain chance, light drizzle",
       "h2h": null
     }
   ],
