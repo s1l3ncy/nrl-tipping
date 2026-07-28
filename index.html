@@ -162,6 +162,31 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .oddsbar-track i.market{background:var(--blue)}
 .oddsbar-track .tick{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(255,255,255,.25)}
 .oddsbar-pct{font-size:11px;color:var(--muted);width:30px;text-align:right;flex:none;font-variant-numeric:tabular-nums}
+/* injuries: compact card-front strip + structured panel (replaces the old wall of amber prose) */
+.injstrip{padding:0 18px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.injpill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;
+  color:var(--amber-text);background:rgba(224,162,74,.10);border:1px solid rgba(224,162,74,.32);
+  border-radius:999px;padding:3px 10px;font-variant-numeric:tabular-nums}
+.injpill.quiet{color:var(--muted2);background:transparent;border-color:var(--line);font-weight:500}
+.injpill .t{color:var(--text);font-weight:700}
+.injteam+.injteam{margin-top:12px;padding-top:10px;border-top:1px solid var(--line-soft)}
+.injhead{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.injhead .crest{width:12px;height:12px;border-radius:3px;flex:none}
+.injhead .nm{font-size:12.5px;font-weight:700;color:var(--text);min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.injhead .cost{margin-left:auto;flex:none;font-size:11.5px;font-weight:700;
+  color:var(--amber-text);font-variant-numeric:tabular-nums}
+.injhead .cost.nil{color:var(--muted2);font-weight:500}
+.injrow{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px}
+.injrow .who{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.injrow .who b{font-weight:600;color:var(--text);overflow-wrap:anywhere}
+.injrow .who .pos{font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.injrow .st{flex:none;font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 8px;
+  border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--elevated)}
+.injrow .st.out{color:var(--amber-text);background:rgba(224,162,74,.12);border-color:rgba(224,162,74,.34)}
+.injnote{font-size:11.5px;color:var(--muted2);padding-top:3px;line-height:1.35}
+.injsrc{margin-top:8px;padding-top:8px;border-top:1px solid var(--line-soft);
+  font-size:11.5px;line-height:1.45;color:var(--muted2)}
 .sparkbar{display:inline-flex;align-items:center;vertical-align:middle;margin-left:5px}
 .spark-track{fill:rgba(255,255,255,.12)}
 .spark-pos{fill:var(--accent)}
@@ -261,6 +286,7 @@ details.plain>summary:hover{color:var(--text)}
 <script src="nrl_data.js"></script>
 <script src="nrl_learned.js"></script>
 <script src="nrl_players.js"></script>
+<script src="nrl_lineups.js"></script>
 
 <header class="topnav">
   <div class="wrap navrow">
@@ -530,12 +556,38 @@ function playerImpact(name){
   const q    = Math.max(0.55, Math.min(1.4, pct/70));   // rating scales impact
   return {pts: Math.min(5, Math.round(base*q*10)/10), pos:p.pos};
 }
-function injuryPenalty(news, tipRound){
-  const nil={penalty:0, note:"", count:0};
+/* Named team lists (nrl_lineups.js, optional sibling file, rebuilt Tuesdays).
+   The injury TABLE is season-long and full of "TBC" returns, so without this a
+   player who is fit and named in the 17 stays permanently half-out. If the file
+   is missing, or is for an older round, we ignore it entirely and fall back to
+   the injury table alone — stale lineups are worse than none. */
+const LINEUPS = (typeof window!=="undefined" && window.NRL_LINEUPS) ? window.NRL_LINEUPS : null;
+function namedSquad(short){
+  if(!LINEUPS || !LINEUPS.teams || !short) return null;
+  if(typeof SRC!=="undefined" && SRC && SRC.round && LINEUPS.round && LINEUPS.round!==SRC.round) return null;
+  const list = LINEUPS.teams[short];
+  if(!list || !list.length) return null;
+  const set = Object.create(null);
+  list.forEach(n=>{ const k=normName(n); if(k) set[k]=1; });
+  return set;
+}
+/* The news string is semicolon-separated and mixes real players with prose
+   ("near full strength", "settled squad", "Team list Tue"). Left unfiltered,
+   every one of those became a phantom doubtful player worth ~0.3pts. */
+function looksLikePlayer(n){
+  if(!n) return false;
+  const s=n.trim();
+  if(s.split(/\s+/).length>3) return false;
+  if(/^(near|settled|otherwise|several|team|no|full|squad|rotation|plenty|mostly)\b/i.test(s)) return false;
+  return /^[A-Z]/.test(s);
+}
+function injuryPenalty(news, tipRound, short){
+  const nil={penalty:0, note:"", count:0, outs:[], backs:[], named:[]};
   if(!news) return nil;
   const round = tipRound||0;
+  const squad = namedSquad(short);
   const entries=String(news).split(/;/).map(s=>s.trim()).filter(Boolean);
-  const outs=[];
+  const outs=[], backs=[], named=[];
   entries.forEach(e=>{
     const rm=e.match(/back\s+round\s+(\d+)/i);          // "— back Round 25"
     let isOut, confirmed;
@@ -543,15 +595,17 @@ function injuryPenalty(news, tipRound){
     else if(/back\s+(finals|next\s+season|season|indefinite|20\d\d)/i.test(e)){ isOut=true; confirmed=true; } // long-term
     else if(/suspen/i.test(e)){ isOut=true; confirmed=true; }                     // suspension => definite
     else { isOut=true; confirmed=false; }                                         // listed knock, no timeframe => doubt only
-    if(!isOut) return;
     let name=(e.split("(")[0]||e).replace(/\s+[—–-]\s+.*$/,"").trim(); // keep hyphenated surnames
-    if(!name) return;
+    if(!looksLikePlayer(name)) return;
+    if(!isOut){ backs.push(name); return; }
+    // Named in this round's 17 beats anything the season-long injury table says.
+    if(squad && squad[normName(name)]){ named.push(name); return; }
     const im=playerImpact(name);
     // Confirmed absences count in full; unconfirmed early-week knocks are discounted.
     const pts = confirmed ? im.pts : Math.round(im.pts*UNCONFIRMED_WEIGHT*10)/10;
     outs.push({name, pts, pos:im.pos, confirmed});
   });
-  if(!outs.length) return nil;
+  if(!outs.length) return {...nil, backs, named};
   outs.sort((a,b)=>b.pts-a.pts);                         // biggest losses first
   const factors=[1,0.65,0.4,0.25,0.12];                 // steep diminishing returns
   let total=0;
@@ -562,7 +616,7 @@ function injuryPenalty(news, tipRound){
   const note = outs.length===1
       ? `${top.name} ${verb}${top.pos?` (${top.pos})`:""}`
       : `${top.name} ${verb}${top.pos?` (${top.pos})`:""} +${outs.length-1} more`;
-  return {penalty:total, note, count:outs.length};
+  return {penalty:total, note, count:outs.length, outs, backs, named};
 }
 
 /* Panel-agreed weather model: with no team-style data, weather never picks a
@@ -583,7 +637,7 @@ function weatherEffect(w){
 function predict(fx){
   const h=T(fx.home), a=T(fx.away);
   const hga=num('hga', learnedActive?LEARNED.params.homeAdv:2);
-  const hInj=injuryPenalty(h.news, SRC.round), aInj=injuryPenalty(a.news, SRC.round);
+  const hInj=injuryPenalty(h.news, SRC.round, h.short), aInj=injuryPenalty(a.news, SRC.round, a.short);
   const eloH=eloStrength(h), eloA=eloStrength(a);
   const useElo = learnedActive && eloH!==null && eloA!==null;
   let margin;
@@ -780,7 +834,7 @@ function cardHTML(p,meta){
     </div>
     ${tags.length?`<div style="padding:0 18px 4px;display:flex;gap:8px;flex-wrap:wrap">${tags.join('')}</div>`:''}
     ${meta.isUpset?`<div class="rationale" style="color:var(--blue)"><span class="k" style="color:var(--blue)">🎯</span><span>Closest to 50/50 this round — the best game to gamble on if you're chasing rivals.</span></div>`:''}
-    ${(p.h.news||p.a.news)?`<div class="rationale" style="color:var(--amber-text)"><span class="k" style="color:var(--amber-text)">⚠ News</span><span>${esc([p.h.news&&(p.h.name+': '+p.h.news), p.a.news&&(p.a.name+': '+p.a.news)].filter(Boolean).join(' · '))}</span></div>`:''}
+    ${injuryStrip(p)}
     <details class="more">
       <summary><span class="chev">▸</span> Odds · form · injuries · conditions</summary>
       <div class="moreouter"><div class="moregrid">
@@ -789,7 +843,7 @@ function cardHTML(p,meta){
           <div class="row"><span>${esc(p.h.name)} (home)</span><span>${splitStr(p.h.home)}</span></div>
           <div class="row"><span>${esc(p.a.name)} (away)</span><span>${splitStr(p.a.away)}</span></div>
         </div>
-        <div class="mbox"><h4>Team news / injuries</h4>${newsHTML(p.h)}${newsHTML(p.a)}</div>
+        <div class="mbox"><h4>Team news / injuries</h4>${injuriesHTML(p)}</div>
         <div class="mbox"><h4>Venue &amp; conditions</h4>
           <div class="row"><span>${esc(fx.venue||'—')}</span><span>${esc(fx.city||'')}</span></div>
           <div class="row"><span>Kick-off</span><span>${fmtKick(fx.kickoff)}</span></div>
@@ -824,7 +878,54 @@ function oddsHTML(p,fx){
     <div class="row" style="border-top:1px solid var(--line);margin-top:4px;padding-top:6px"><span>Model</span><span>${(p.modelP*100).toFixed(0)}% / ${((1-p.modelP)*100).toFixed(0)}%</span></div>
     <div class="row"><span>${agreeWord(p)}</span><span></span></div>`;
 }
-function newsHTML(t){ return `<div class="row"><span>${esc(t.name)}</span><span>${t.news?esc(t.news):'<span class="tba">team lists Tue</span>'}</span></div>`; }
+/* Injuries UI. injuryPenalty() already ranks every out player by impact and knows
+   their position and whether the absence is confirmed — the old UI threw all of
+   that away and printed the raw news string twice per card, which is what made it
+   a wall of amber prose. Render the structured list instead: one number per team,
+   biggest loss first, status as a pill. The raw source string is kept once, at the
+   bottom, so nothing is lost — just demoted from headline to footnote. */
+function injFmt(n){ return n%1?n.toFixed(1):String(n); }
+function injTeamHTML(t, inj){
+  const outs=(inj&&inj.outs)||[], backs=(inj&&inj.backs)||[], named=(inj&&inj.named)||[];
+  const cost = (inj&&inj.penalty>0)
+    ? `<span class="cost">−${injFmt(inj.penalty)} pts</span>`
+    : `<span class="cost nil">no model impact</span>`;
+  const head = `<div class="injhead">`+
+    `<span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
+    `<span class="nm">${esc(t.name)}</span>${cost}</div>`;
+  if(!t.news) return `<div class="injteam">${head}<div class="tba">team list drops Tuesday</div></div>`;
+  const SHOW=4;
+  const rows = outs.slice(0,SHOW).map(o=>
+    `<div class="injrow"><span class="who"><b>${esc(o.name)}</b>`+
+    `${o.pos?`<span class="pos">${esc(o.pos)}</span>`:''}</span>`+
+    `<span class="st ${o.confirmed?'out':''}">${o.confirmed?'OUT':'DOUBT'}</span></div>`).join('');
+  const more = outs.length>SHOW ? `<div class="injnote">+${outs.length-SHOW} more listed</div>` : '';
+  const back = backs.length ? `<div class="injnote">↩ due back: ${esc(backs.slice(0,3).join(', '))}</div>` : '';
+  const fit  = named.length ? `<div class="injnote">✓ named in the 17 despite the injury list: ${esc(named.slice(0,3).join(', '))}</div>` : '';
+  const body = rows || `<div class="injnote">nothing that moves the model</div>`;
+  return `<div class="injteam">${head}${body}${more}${fit}${back}</div>`;
+}
+function injuriesHTML(p){
+  const src=[p.h.news&&`${p.h.short}: ${p.h.news}`, p.a.news&&`${p.a.short}: ${p.a.news}`]
+    .filter(Boolean).join(' · ');
+  return injTeamHTML(p.h,p.hInj)+injTeamHTML(p.a,p.aInj)+
+    (src?`<div class="injsrc">${esc(src)}</div>`:'');
+}
+/* Card front: one compact pill per affected team, plus weather. Shows nothing at
+   all when the injuries don't actually move the model — a settled squad no longer
+   gets the same amber treatment as a season-ending ACL. */
+function injuryStrip(p){
+  const pill=(t,inj)=>{
+    if(!inj||!(inj.penalty>0)) return '';
+    const top=inj.outs&&inj.outs[0];
+    const extra=inj.count>1?` +${inj.count-1}`:'';
+    return `<span class="injpill"><span class="t">${esc(t.short)}</span> −${injFmt(inj.penalty)}`+
+      `${top?` · ${esc(top.name)}${extra}`:''}</span>`;
+  };
+  let s=pill(p.h,p.hInj)+pill(p.a,p.aInj);
+  if(p.wx&&p.wx.shrink>0) s+=`<span class="injpill quiet">🌧 ${esc(p.wx.note)}</span>`;
+  return s?`<div class="injstrip">${s}</div>`:'';
+}
 function splitStr(o){ return o&&o.P?`${o.W}-${o.L} · ${(avg(o)>=0?'+':'')}${avg(o).toFixed(0)}/gm`:'—'; }
 function winloss(l5){ l5=l5||0; let s='<span class="formdots" aria-label="'+l5+' of last 5 won">'; for(let i=0;i<5;i++) s+=`<i class="${i<l5?'w':''}"></i>`; return s+'</span>'; }
 
@@ -1059,7 +1160,7 @@ function hydrateData(){
 }
 function refreshFromNetwork(){
   if(!/^https?:$/.test(location.protocol)) return;      // file:// → keep offline data
-  const files=['nrl_data.js','nrl_learned.js','nrl_players.js'];
+  const files=['nrl_data.js','nrl_learned.js','nrl_players.js','nrl_lineups.js'];
   let done=0;
   const finish=()=>{ if(++done===files.length){ hydrateData(); loadState(); render(); } };
   files.forEach(f=>{
