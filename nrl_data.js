@@ -9,7 +9,7 @@
 // Time-sensitive fields (odds, weather, news) stay null unless the optional
 // --odds/--injuries/--weather dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-07-29",
+  "updated": "2026-07-30",
   "season": 2026,
   "round": 22,
   "source": "zerotackle.com",
@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 25°C, 16% rain chance, overcast",
+      "weather": "Tue 4 Aug: 24°C, 10% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -476,7 +476,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 57% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 53% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -487,7 +487,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "2026-07-31T20:00:00+10:00",
       "odds": null,
-      "weather": "Wed 29 Jul: 12°C, 94% rain chance, light drizzle",
+      "weather": "Tue 4 Aug: 12°C, 39% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Melbourne"
     },
@@ -498,7 +498,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "2026-08-01T15:00:00+10:00",
       "odds": null,
-      "weather": "Wed 29 Jul: 22°C, 60% rain chance, showers",
+      "weather": "Sat 1 Aug: 19°C, 55% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -509,7 +509,7 @@ window.NRL_DATA = {
       "city": "Mudgee",
       "kickoff": "2026-08-01T17:30:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 16°C, 22% rain chance, drizzle",
+      "weather": "Mon 3 Aug: 13°C, 21% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -520,7 +520,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "2026-08-01T19:35:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 20°C, 55% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 20°C, 55% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -531,7 +531,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "2026-08-02T14:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 16°C, 59% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -542,7 +542,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "2026-08-02T16:05:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 16°C, 59% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -550,7 +550,32 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-29T21:26:26+10:00",
-  "changes": [],
+  "generatedAt": "2026-07-30T02:55:20+10:00",
+  "changes": [
+    {
+      "id": "r22-MEL-CAN-wx-1",
+      "fixture": "MEL-CAN",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Melbourne updated — Tue 4 Aug: 12°C, 39% rain chance, light drizzle (was 94% rain).",
+      "pts": null,
+      "ts": "2026-07-30T02:55:20+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-GLD-NZW-wx-2",
+      "fixture": "GLD-NZW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 55% rain chance, light drizzle (was 60% rain).",
+      "pts": null,
+      "ts": "2026-07-30T02:55:20+10:00",
+      "rnd": 22
+    }
+  ],
   "changesSince": "2026-07-29T21:26:26+10:00"
 };
