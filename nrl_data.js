@@ -461,85 +461,96 @@ window.NRL_DATA = {
     {
       "home": "NQL",
       "away": "SYD",
-      "venue": "",
+      "venue": "Queensland Country Bank Stadium",
       "city": "Townsville",
-      "kickoff": "",
+      "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Wed 29 Jul: 26°C, 18% rain chance, overcast",
-      "h2h": null
+      "weather": "Sat 1 Aug: 25°C, 16% rain chance, overcast",
+      "h2h": null,
+      "tz": "Australia/Brisbane"
     },
     {
       "home": "STI",
       "away": "DOL",
-      "venue": "",
+      "venue": "WIN Stadium",
       "city": "Wollongong",
-      "kickoff": "",
+      "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 37% rain chance, light drizzle",
-      "h2h": null
+      "weather": "Sat 1 Aug: 15°C, 57% rain chance, light drizzle",
+      "h2h": null,
+      "tz": "Australia/Sydney"
     },
     {
       "home": "MEL",
       "away": "CAN",
-      "venue": "",
+      "venue": "AAMI Park",
       "city": "Melbourne",
-      "kickoff": "",
+      "kickoff": "2026-07-31T20:00:00+10:00",
       "odds": null,
-      "weather": "Wed 29 Jul: 12°C, 100% rain chance, light drizzle",
-      "h2h": null
+      "weather": "Wed 29 Jul: 12°C, 94% rain chance, light drizzle",
+      "h2h": null,
+      "tz": "Australia/Melbourne"
     },
     {
       "home": "GLD",
       "away": "NZW",
-      "venue": "",
+      "venue": "Cbus Super Stadium",
       "city": "Gold Coast",
-      "kickoff": "",
+      "kickoff": "2026-08-01T15:00:00+10:00",
       "odds": null,
       "weather": "Wed 29 Jul: 22°C, 60% rain chance, showers",
-      "h2h": null
+      "h2h": null,
+      "tz": "Australia/Brisbane"
     },
     {
       "home": "PEN",
       "away": "CBR",
-      "venue": "",
-      "city": "Sydney",
-      "kickoff": "",
+      "venue": "Glen Willow Oval",
+      "city": "Mudgee",
+      "kickoff": "2026-08-01T17:30:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 44% rain chance, drizzle",
-      "h2h": null
+      "weather": "Mon 3 Aug: 16°C, 22% rain chance, drizzle",
+      "h2h": null,
+      "tz": "Australia/Sydney"
     },
     {
       "home": "BRI",
       "away": "NEW",
-      "venue": "",
+      "venue": "Suncorp Stadium",
       "city": "Brisbane",
-      "kickoff": "",
+      "kickoff": "2026-08-01T19:35:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 20°C, 48% rain chance, light drizzle",
-      "h2h": null
+      "weather": "Sat 1 Aug: 20°C, 55% rain chance, light drizzle",
+      "h2h": null,
+      "tz": "Australia/Brisbane"
     },
     {
       "home": "CRO",
       "away": "SOU",
-      "venue": "",
+      "venue": "Ocean Protect Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-02T14:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 44% rain chance, drizzle",
-      "h2h": null
+      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
+      "h2h": null,
+      "tz": "Australia/Sydney"
     },
     {
       "home": "WST",
       "away": "PAR",
-      "venue": "",
+      "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-02T16:05:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 44% rain chance, drizzle",
-      "h2h": null
+      "weather": "Sat 1 Aug: 16°C, 43% rain chance, drizzle",
+      "h2h": null,
+      "tz": "Australia/Sydney"
     }
   ],
   "byeTeams": [
     "MAN"
-  ]
+  ],
+  "generatedAt": "2026-07-29T21:26:26+10:00",
+  "changes": [],
+  "changesSince": "2026-07-29T21:26:26+10:00"
 };
