@@ -550,7 +550,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-30T08:44:08+10:00",
+  "generatedAt": "2026-07-30T09:45:49+10:00",
   "changes": [
     {
       "id": "r22-MEL-CAN-wx-2",
