@@ -55,8 +55,12 @@ jobs:
       - name: Fetch source pages
         run: python cloud_fetch.py
 
+      # --odds and --draw-meta are what make fixture.odds / venue / kick-off real.
+      # They were missing from this line for months, which is the entire reason
+      # the app said "Bookmaker odds drop around Tuesday" every day of the week
+      # and showed "—" for every venue. If you edit this command, keep them.
       - name: Rebuild data from the fetched pages
-        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --injuries injuries_dump.html --weather weather_dump.txt --results results_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
+        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --draw-meta draw_meta.json --odds odds_dump.txt --injuries injuries_dump.html --weather weather_dump.txt --results results_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
 
       - name: Re-learn from the results memory
         run: python learn_model.py
@@ -88,6 +92,41 @@ jobs:
               return len(re.findall(pattern, p.read_text(encoding="utf-8", errors="ignore"),
                                     re.MULTILINE))
 
+          def nrl_data_counters():
+              """Read the generated nrl_data.js and count the fields the newer
+              feeds fill in. Parsed properly rather than regex-counted, because a
+              regex over a JS file is exactly how the counters above once all
+              read 0 while the log said everything was fine."""
+              blank = {"fixtures": 0, "fixturesWithOdds": 0, "fixturesWithKickoff": 0,
+                       "fixturesWithTz": 0, "fixturesWithVenue": 0,
+                       "changeEntries": 0, "changesSince": None, "dataRound": None}
+              p = pathlib.Path("nrl_data.js")
+              if not p.exists():
+                  return blank
+              try:
+                  text = p.read_text(encoding="utf-8", errors="ignore")
+                  body = "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("//"))
+                  data = json.loads(body.split("=", 1)[1].rsplit(";", 1)[0])
+              except Exception:
+                  return blank
+              fx = data.get("fixtures") or []
+              def priced(o):
+                  if not isinstance(o, dict):
+                      return False
+                  use = o.get("close") or o.get("open") or o
+                  return isinstance(use, dict) and isinstance(use.get("home"), (int, float)) \
+                      and isinstance(use.get("away"), (int, float))
+              return {
+                  "fixtures": len(fx),
+                  "fixturesWithOdds": sum(1 for f in fx if priced(f.get("odds"))),
+                  "fixturesWithKickoff": sum(1 for f in fx if f.get("kickoff")),
+                  "fixturesWithTz": sum(1 for f in fx if f.get("tz")),
+                  "fixturesWithVenue": sum(1 for f in fx if f.get("venue")),
+                  "changeEntries": len(data.get("changes") or []),
+                  "changesSince": data.get("changesSince"),
+                  "dataRound": data.get("round"),
+              }
+
           syd = datetime.datetime.now(zoneinfo.ZoneInfo("Australia/Sydney"))
           json.dump({
               "sydney": syd.strftime("%Y-%m-%d %H:%M:%S %Z"),
@@ -104,6 +143,13 @@ jobs:
                               pathlib.Path("nrl_lineups.js").read_text(encoding="utf-8", errors="ignore"))
                               or [None, None])[1] if pathlib.Path("nrl_lineups.js").exists() else None,
               "clubsWithNews": count("injuries_dump.html", r"^[A-Z][^:\n]{3,40}:"),
+              # --- the odds / venue / kick-off / change feeds -------------------
+              # These exist for the same reason as the counters above: a scraper
+              # that silently stops producing is invisible in a green run. If
+              # fixturesWithOdds sits at 0 from Wednesday on, or fixturesWithKickoff
+              # or fixturesWithTz is below fixtures, the nrl.com draw fetch has
+              # regressed and the app is back to "odds drop around Tuesday".
+              **nrl_data_counters(),
           }, open("last_run.json", "w"), indent=2)
           PY
           cat last_run.json
