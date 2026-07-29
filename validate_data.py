@@ -273,6 +273,23 @@ def validate(data, rep: Reporter):
         else:
             rep.info(f"fixtures[{idx}] ({home} v {away}): no 'kickoff' set (optional field)")
 
+        # kickoff should carry a UTC offset: a naive string is read by the
+        # browser as the READER's local wall clock, which renders a Townsville
+        # game at the wrong time everywhere outside AEST. A warning, not a
+        # failure — a best-effort field must never block a publish.
+        if kickoff and isinstance(kickoff, str) and not re.search(r"(?:[Zz]|[+-]\d{2}:?\d{2})$", kickoff):
+            rep.warn(f"fixtures[{idx}] ({home} v {away}): 'kickoff' has no UTC offset "
+                     f"({kickoff!r}) — the app has to assume Sydney time")
+
+        # tz: optional IANA zone name for the ground.
+        tz = f.get("tz")
+        if tz is None or tz == "":
+            rep.info(f"fixtures[{idx}] ({home} v {away}): no 'tz' set (optional field)")
+        elif not isinstance(tz, str):
+            rep.fail(f"fixtures[{idx}] ({home} v {away}): 'tz' must be a string when present, got {tz!r}")
+        elif "/" not in tz:
+            rep.warn(f"fixtures[{idx}] ({home} v {away}): 'tz' does not look like an IANA zone: {tz!r}")
+
         venue = f.get("venue")
         if not venue:
             rep.info(f"fixtures[{idx}] ({home} v {away}): no 'venue' set (optional field)")
@@ -334,6 +351,69 @@ def validate(data, rep: Reporter):
     # a normal 17-team competition has exactly one bye per round
     if len(teams) == EXPECTED_TEAM_COUNT and len(bye_teams) != 1:
         rep.warn(f"Expected exactly 1 bye team for a 17-team comp, found {len(bye_teams)}: {bye_teams}")
+
+    # --- changes[] / changesSince (optional; DESIGN_SPEC.md §2.1) ---
+    # ALL of this is optional and an EMPTY array is valid — "nothing changed
+    # today" is the normal case, and ARCHITECTURE.md is explicit that a
+    # best-effort feed must never block a publish. Only a malformed entry that
+    # the front-end could not render is a hard failure.
+    fixture_keys = {f"{f.get('home')}-{f.get('away')}" for f in fixtures if isinstance(f, dict)}
+    changes = data.get("changes")
+    if changes is None:
+        rep.info("no 'changes' feed in this payload (optional field)")
+    elif not isinstance(changes, list):
+        rep.fail(f"'changes' must be a list when present, got {type(changes).__name__}")
+    else:
+        if not changes:
+            rep.info("'changes' is an empty list — a quiet day, which is valid")
+        ids = {}
+        for idx, c in enumerate(changes):
+            if not isinstance(c, dict):
+                rep.fail(f"changes[{idx}] is not an object")
+                continue
+            cid = c.get("id")
+            if not isinstance(cid, str) or not cid.strip():
+                rep.fail(f"changes[{idx}] missing a non-empty string 'id'")
+            else:
+                ids[cid] = ids.get(cid, 0) + 1
+            if not isinstance(c.get("text"), str) or not c["text"].strip():
+                rep.fail(f"changes[{idx}] ('{cid}') missing a non-empty 'text'")
+            sev = c.get("sev")
+            if sev is not None and sev not in (1, 2, 3):
+                rep.warn(f"changes[{idx}] ('{cid}'): 'sev' should be 1, 2 or 3, got {sev!r} "
+                         f"(front-end will default it to 2)")
+            direction = c.get("dir")
+            if direction is not None and direction not in ("up", "down", "neutral"):
+                rep.warn(f"changes[{idx}] ('{cid}'): 'dir' should be up/down/neutral, got {direction!r}")
+            cat = c.get("cat")
+            if cat is not None and cat not in ("in", "out", "injury", "line", "weather",
+                                               "time", "venue", "other"):
+                rep.warn(f"changes[{idx}] ('{cid}'): unknown 'cat' {cat!r} "
+                         f"(front-end will treat it as 'other')")
+            fx = c.get("fixture")
+            if fx is not None and fx not in fixture_keys:
+                rep.warn(f"changes[{idx}] ('{cid}'): 'fixture' {fx!r} isn't a fixture this round "
+                         f"(front-end will show it as round-wide)")
+            team = c.get("team")
+            if team is not None and known_shorts and team not in known_shorts:
+                rep.warn(f"changes[{idx}] ('{cid}'): unknown team short {team!r}")
+            pts = c.get("pts")
+            if pts is not None and (not isinstance(pts, (int, float)) or isinstance(pts, bool)):
+                rep.fail(f"changes[{idx}] ('{cid}'): 'pts' must be a number or null, got {pts!r}")
+        dupe_ids = [i for i, n in ids.items() if n > 1]
+        if dupe_ids:
+            rep.fail(f"duplicate change 'id'(s) — the rolling window must dedupe: {dupe_ids}")
+
+    since = data.get("changesSince")
+    if since is None:
+        rep.info("no 'changesSince' stamp (optional field)")
+    elif not isinstance(since, str):
+        rep.fail(f"'changesSince' must be an ISO datetime string when present, got {since!r}")
+    else:
+        try:
+            datetime.datetime.fromisoformat(since.replace("Z", "+00:00"))
+        except ValueError:
+            rep.fail(f"'changesSince' is not a valid ISO datetime: {since!r}")
 
     # --- results[] (optional) ---
     results = data.get("results")
