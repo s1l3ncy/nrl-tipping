@@ -1,8 +1,8 @@
 {
-  "sydney": "2026-07-30 02:55:20 AEST",
-  "utc": "2026-07-29T16:55:20+00:00",
+  "sydney": "2026-07-30 08:44:08 AEST",
+  "utc": "2026-07-29T22:44:08+00:00",
   "trigger": "schedule",
-  "runNumber": "29",
+  "runNumber": "30",
   "playersRated": 524,
   "playersRatedFullName": 524,
   "clubsWithLineups": 16,
@@ -13,7 +13,7 @@
   "fixturesWithKickoff": 8,
   "fixturesWithTz": 8,
   "fixturesWithVenue": 8,
-  "changeEntries": 2,
-  "changesSince": "2026-07-29T21:26:26+10:00",
+  "changeEntries": 3,
+  "changesSince": "2026-07-30T02:55:20+10:00",
   "dataRound": 22
 }
