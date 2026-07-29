@@ -153,15 +153,41 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .tba{color:var(--muted2);font-style:italic;font-size:12.5px}
 .oddschip{display:inline-flex;gap:6px;align-items:center;font-size:12px;background:var(--elevated);
   border:1px solid var(--line);border-radius:8px;padding:3px 8px;color:var(--muted)}
-.oddsbars{display:flex;flex-direction:column;gap:6px;margin:2px 0 8px}
-.oddsbar-row{display:flex;align-items:center;gap:8px}
-.oddsbar-lbl{font-size:11px;color:var(--muted2);width:42px;flex:none}
-.oddsbar-track{position:relative;flex:1;height:6px;border-radius:5px;background:var(--elevated)}
-.oddsbar-track i{display:block;height:100%;border-radius:5px}
-.oddsbar-track i.model{background:linear-gradient(90deg,var(--accent),var(--accent2))}
-.oddsbar-track i.market{background:var(--blue)}
-.oddsbar-track .tick{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(255,255,255,.25)}
-.oddsbar-pct{font-size:11px;color:var(--muted);width:30px;text-align:right;flex:none;font-variant-numeric:tabular-nums}
+/* model vs market split bars */
+.oddsbars{display:flex;flex-direction:column;margin:2px 0 10px}
+.oddsbar-row{display:flex;flex-direction:column;gap:5px}
+.oddsbar-head{display:flex;align-items:baseline;gap:8px}
+.oddsbar-lbl{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  color:var(--muted2);flex:none}
+.oddsbar-ends{flex:1;display:flex;justify-content:space-between;gap:8px;
+  font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:0}
+.oddsbar-ends b{color:var(--text);font-weight:700}
+.oddsbar-ends i{font-style:normal;color:var(--muted2)}
+.oddsbar-track{position:relative;height:10px;border-radius:5px;background:rgba(255,255,255,.10);
+  overflow:hidden}
+.oddsbar-track i{position:absolute;left:0;top:0;bottom:0;display:block;border-radius:5px 0 0 5px}
+.oddsbar-row.model .oddsbar-track i{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.oddsbar-row.market .oddsbar-track i{background:var(--blue)}
+.oddsbar-seam{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;
+  background:rgba(255,255,255,.55)}
+.oddsbar-open{position:absolute;top:0;bottom:0;width:1px;margin-left:-.5px;
+  background:rgba(255,255,255,.30)}
+.oddsbar-row.ghost .oddsbar-track{background:transparent;border:1px dashed var(--line);
+  border-radius:5px}
+/* the divergence wedge */
+.oddsbar-gap{display:block;width:100%;height:16px}
+.og-wedge{fill:rgba(255,255,255,.09)}
+.oddsbar-gap.clash .og-wedge{fill:rgba(224,162,74,.26)}
+.og-slope{stroke:rgba(255,255,255,.28);stroke-width:1}
+.oddsbar-gap.clash .og-slope{stroke:var(--amber)}
+.og-blend{stroke:var(--text);stroke-width:1.5;opacity:.85}
+.oddsbar-verdict{margin-top:9px;font-size:11.5px;line-height:1.4;color:var(--muted)}
+.oddsbar-verdict b{color:var(--text)}
+.oddsbar-verdict.clash{color:var(--amber-text)}
+.oddsbar-verdict.clash b{color:var(--amber-text)}
+.oddsbar-move{margin-top:6px;font-size:11px;line-height:1.4;color:var(--muted2);
+  font-variant-numeric:tabular-nums}
+.oddsbar-move b{color:var(--muted)}
 /* injuries: compact card-front strip + structured panel (replaces the old wall of amber prose) */
 .injstrip{padding:0 18px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .injpill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;
@@ -187,6 +213,105 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .injnote{font-size:11.5px;color:var(--muted2);padding-top:3px;line-height:1.35}
 .injsrc{margin-top:8px;padding-top:8px;border-top:1px solid var(--line-soft);
   font-size:11.5px;line-height:1.45;color:var(--muted2)}
+
+/* what changed today */
+.chgpanel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:16px 18px;box-shadow:var(--shadow-lg)}
+.chghead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.chghead h2{font-size:12px;margin:0;text-transform:uppercase;letter-spacing:1.2px;
+  color:var(--muted2);font-weight:700}
+.chgcount{margin-left:auto;font-size:11.5px;color:var(--muted2);font-weight:500}
+.chggroup{margin-top:10px;scroll-margin-top:76px}
+.chggroup:first-child{margin-top:0}
+.chggroup:target{outline:1.5px solid var(--accent);outline-offset:6px;border-radius:10px}
+.chgfx{font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  color:var(--muted2);margin-bottom:5px}
+.chgrow{display:flex;gap:9px;align-items:flex-start;padding:7px 10px;border-radius:10px;
+  border-left:3px solid var(--line);font-size:13px;line-height:1.35;color:var(--muted)}
+.chgrow+.chgrow{margin-top:4px}
+.chgrow .g{flex:none;font-size:12px;line-height:1.35;width:14px;text-align:center}
+.chgrow .tx{flex:1;min-width:0;overflow-wrap:anywhere}
+.chgrow .tx b{color:var(--text);font-weight:700}
+.chgrow .pts{flex:none;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--muted2)}
+/* category hue */
+.chgrow.c-in{border-left-color:var(--accent)}      .chgrow.c-in .g{color:var(--accent)}
+.chgrow.c-out{border-left-color:var(--amber)}      .chgrow.c-out .g{color:var(--amber)}
+.chgrow.c-line{border-left-color:var(--blue)}      .chgrow.c-line .g{color:var(--blue)}
+.chgrow.c-when{border-left-color:var(--orange)}    .chgrow.c-when .g{color:var(--orange)}
+.chgrow.c-wx{border-left-color:var(--muted2)}      .chgrow.c-wx .g{color:var(--muted2)}
+.chgrow.c-misc{border-left-color:var(--line)}      .chgrow.c-misc .g{color:var(--muted2)}
+/* severity weight */
+.chgrow.s3{color:var(--text);font-weight:500}
+.chgrow.s3.c-in{background:rgba(47,216,127,.09)}
+.chgrow.s3.c-out{background:rgba(224,162,74,.10)}
+.chgrow.s3.c-line{background:rgba(95,147,236,.10)}
+.chgrow.s3.c-when{background:rgba(221,138,84,.10)}
+.chgrow.s3 .pts{color:var(--text)}
+.chgrow.s1{font-size:12px;color:var(--muted2);padding:4px 10px;border-left-color:var(--line-soft)}
+.chgminor{margin-top:10px;padding-top:9px;border-top:1px solid var(--line-soft);
+  font-size:11.5px;color:var(--muted2);line-height:1.4}
+.chgempty{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}
+.chgempty .dot{background:var(--muted2);box-shadow:0 0 0 3px rgba(120,131,154,.16)}
+/* per-card badge */
+.chgbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
+  letter-spacing:.3px;padding:4px 10px;border-radius:var(--radius-pill);text-decoration:none;
+  background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line)}
+.chgbadge.b-out{background:rgba(224,162,74,.14);color:var(--amber-text);border-color:rgba(224,162,74,.36)}
+.chgbadge.b-in{background:rgba(47,216,127,.12);color:var(--accent);border-color:rgba(47,216,127,.32)}
+.chgbadge.b-line{background:rgba(95,147,236,.14);color:var(--blue);border-color:rgba(95,147,236,.36)}
+.chgbadge.b-when{background:rgba(221,138,84,.14);color:var(--orange-text);border-color:rgba(221,138,84,.36)}
+
+/* venue & conditions */
+.mbox.venuebox{display:flex;flex-direction:column;gap:2px}
+.vstadium{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.1px;line-height:1.25}
+.vcity{font-size:11.5px;color:var(--muted2);font-weight:500}
+.vkick{margin-top:9px;font-size:15px;font-weight:700;color:var(--text);
+  font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.vkick .day{display:block;font-size:11px;font-weight:700;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--muted2);margin-bottom:1px}
+.vkick .z{font-size:11.5px;font-weight:600;color:var(--muted2);margin-left:5px}
+.vsub{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.vsub .rel{color:var(--accent);font-weight:600}
+.vsub .rel.soon{color:var(--amber-text)}
+.vsub .rel.past{color:var(--muted2);font-weight:500}
+.vyours{font-size:11.5px;color:var(--muted2);margin-top:2px;font-variant-numeric:tabular-nums}
+.vwx{margin-top:10px;padding-top:9px;border-top:1px solid var(--line-soft);
+  display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.vchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;
+  color:var(--muted);background:var(--elevated);border:1px solid var(--line);
+  border-radius:var(--radius-pill);padding:3px 9px;font-variant-numeric:tabular-nums}
+.vchip.wet{color:var(--amber-text);background:rgba(224,162,74,.10);border-color:rgba(224,162,74,.30)}
+.vchip.dry{color:var(--muted2)}
+
+/* why the model leans this way */
+.mbox.whybox{grid-column:1/-1}
+.whylead{font-size:13px;line-height:1.4;color:var(--text);margin:0 0 3px}
+.whylead b{color:var(--accent);font-weight:700}
+.whyeng{font-size:11px;color:var(--muted2);margin-bottom:9px;letter-spacing:.2px}
+.ledrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline;
+  padding:6px 0 6px 9px;border-left:3px solid var(--line);font-size:12.5px;color:var(--muted)}
+.ledrow+.ledrow{border-top:1px solid var(--line-soft)}
+.ledrow .lab{min-width:0}
+.ledrow .lab b{color:var(--text);font-weight:600}
+.ledrow .sub{display:block;font-size:11px;color:var(--muted2);line-height:1.35;margin-top:1px}
+.ledrow .val{flex:none;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--muted);white-space:nowrap}
+.ledrow .val em{font-style:normal;font-weight:700;margin-right:4px}
+.ledrow.for{border-left-color:var(--accent)}
+.ledrow.for .val{color:var(--accent)}
+.ledrow.against{border-left-color:var(--amber)}
+.ledrow.against .val{color:var(--amber-text)}
+.ledrow.mod{border-left-color:var(--line-soft)}
+.ledrow.mod .val{color:var(--muted2)}
+.ledsplit{margin-top:8px;padding-top:2px;border-top:1px solid var(--line)}
+.ledtotal{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--text);line-height:1.4;font-variant-numeric:tabular-nums}
+.ledtotal b{color:var(--accent);font-weight:700}
+.ledcheck{font-size:11px;color:var(--muted2);margin-top:3px;font-variant-numeric:tabular-nums}
+.ledlock{margin-top:9px;padding-top:8px;border-top:1px solid var(--line-soft);
+  font-size:12px;line-height:1.4;color:var(--red-text)}
+.ledlock b{color:var(--roosters);font-weight:700}
 .sparkbar{display:inline-flex;align-items:center;vertical-align:middle;margin-left:5px}
 .spark-track{fill:rgba(255,255,255,.12)}
 .spark-pos{fill:var(--accent)}
@@ -273,7 +398,7 @@ details.plain>summary:hover{color:var(--text)}
   details.more>summary{padding:14px 18px}
 }
 @media print{
-  .topnav,.card,details.ladder-card,.quick .actions,details,.foot,.bar-controls{display:none!important}
+  .topnav,.card,details.ladder-card,.quick .actions,details,.foot,.bar-controls,.chgpanel{display:none!important}
   .games .gcard{break-inside:avoid;border-color:#bbb}
   body{background:#fff;color:#000}
 }
@@ -304,6 +429,16 @@ details.plain>summary:hover{color:var(--text)}
   </div>
 
   <div class="rkhero" id="lockHero"></div>
+
+  <section id="changesSection" style="display:none">
+    <div class="chgpanel">
+      <div class="chghead">
+        <h2>What changed today</h2>
+        <span class="chgcount" id="chgCount"></span>
+      </div>
+      <div id="changeFeed"></div>
+    </div>
+  </section>
 
   <section>
     <div class="sec-h"><h2>This round's tips</h2><span class="hint">Tap a game for odds, form, injuries &amp; conditions</span></div>
@@ -442,7 +577,8 @@ function validData(d){
 function dataSig(d){
   try{
     const str = JSON.stringify((d.teams||[]).map(t=>[t.short,t.P,t.W,t.L,t.PF,t.PA,t.last5,t.news]))
-              + JSON.stringify((d.fixtures||[]).map(f=>[f.home,f.away,f.odds]));
+              + JSON.stringify((d.fixtures||[]).map(f=>[f.home,f.away,f.odds]))
+              + JSON.stringify((d.changes||[]).map(c=>c&&c.id));
     let h=0; for(let i=0;i<str.length;i++){ h=(h*31 + str.charCodeAt(i))>>>0; }
     return h.toString(36);
   }catch(e){ return '0'; }
@@ -489,30 +625,38 @@ function formNudge(t){ const w=num('formW',0.4); return Math.max(-2,Math.min(2,(
 // Small sample of home/away games -> lean on the overall average; more games -> more weight on the split
 // (weight = P/(P+6), capped at 0.5 so the split never dominates the overall record).
 function splitWeight(n){ return Math.min(0.5, (n||0)/((n||0)+6)); }
-function effRating(t,where){
+// effParts() exposes the same arithmetic effRating() has always done, but keeps the
+// intermediate terms so the per-card ledger can name the rating gap and the form nudge
+// as separate lines using the EXACT numbers predict() used. effRating() keeps its
+// signature and value, so renderLadder()/modelFavoursHome() are untouched.
+function effParts(t,where){
   const base=overallMargin(t);
   const splitObj=t[where];
   const split=avg(splitObj);
-  let blended;
-  if(split===null){ blended = base; }
-  else{
-    const w = splitWeight(splitObj.P);
-    blended = w*split + (1-w)*base;
-  }
-  return blended + formNudge(t);
+  let blended=base, w=0;
+  if(split!==null){ w=splitWeight(splitObj.P); blended=w*split+(1-w)*base; }
+  const form=formNudge(t);
+  return {base, split, w, blended, form, total:blended+form};
 }
+function effRating(t,where){ return effParts(t,where).total; }
 function logistic(m){ const scale = learnedActive ? LEARNED.params.logisticScale : 7; return 1/(1+Math.exp(-m/scale)); }
 
 /* ---- Odds schema: supports null, legacy {home,away}, or {open:{home,away}, close:{home,away}} ---- */
+/* A price is only usable if BOTH sides are real decimal odds. Validate before
+   preferring the close: `close || open` handed back a half-written or nulled-out
+   close and threw away a perfectly good open, which silently dropped the market
+   from the blend (and mislabelled the bar "Bookies" instead of "Bookies (open)"). */
+function okPrice(o){ return !!o && typeof o.home==="number" && typeof o.away==="number" && o.home>1 && o.away>1; }
 function resolveOdds(oddsRaw){
   if(!oddsRaw) return {used:null, open:null, close:null, moved:false};
   if(oddsRaw.open || oddsRaw.close){
-    const used = oddsRaw.close || oddsRaw.open;
-    const moved = !!(oddsRaw.open && oddsRaw.close &&
-      (oddsRaw.open.home!==oddsRaw.close.home || oddsRaw.open.away!==oddsRaw.close.away));
-    return {used: used||null, open: oddsRaw.open||null, close: oddsRaw.close||null, moved};
+    const open = okPrice(oddsRaw.open) ? oddsRaw.open : null;
+    const close = okPrice(oddsRaw.close) ? oddsRaw.close : null;
+    const used = close || open;
+    const moved = !!(open && close && (open.home!==close.home || open.away!==close.away));
+    return {used: used||null, open, close, moved};
   }
-  if(typeof oddsRaw.home==="number" && typeof oddsRaw.away==="number") return {used:oddsRaw, open:null, close:null, moved:false};
+  if(okPrice(oddsRaw)) return {used:oddsRaw, open:null, close:null, moved:false};
   return {used:null, open:null, close:null, moved:false};
 }
 function marketProb(oddsRaw){ // decimal odds -> devigged home prob (uses close line when open+close both given)
@@ -634,62 +778,202 @@ function weatherEffect(w){
   return r;
 }
 
+/* predict() keeps its working in `parts` so the "why" ledger can itemise the exact
+   terms that produced the margin rather than recomputing them a second way (which is
+   how two views of the same number drift apart). The maths is unchanged.
+   Identities the ledger relies on:
+     parts.ratingGap + parts.formGap + parts.hga − parts.hInjPts + parts.aInjPts === parts.preWx
+     parts.preWx + parts.wxDelta === margin                                                   */
 function predict(fx){
   const h=T(fx.home), a=T(fx.away);
   const hga=num('hga', learnedActive?LEARNED.params.homeAdv:2);
   const hInj=injuryPenalty(h.news, SRC.round, h.short), aInj=injuryPenalty(a.news, SRC.round, a.short);
   const eloH=eloStrength(h), eloA=eloStrength(a);
   const useElo = learnedActive && eloH!==null && eloA!==null;
-  let margin;
+  let ratingGap, formGap=0, hParts=null, aParts=null, preWx;
+  // preWx is summed in the ORIGINAL operation order so this refactor is bit-identical
+  // to the pre-ledger version; the itemised terms are exposed alongside it and still
+  // reconcile to it (to floating-point precision).
   if(useElo){
-    const eloMargin = eloGapToPoints(eloH-eloA, LEARNED.params.logisticScale);
-    margin = eloMargin - hInj.penalty + aInj.penalty + hga;
+    ratingGap = eloGapToPoints(eloH-eloA, LEARNED.params.logisticScale);
+    preWx = ratingGap - hInj.penalty + aInj.penalty + hga;
   }else{
-    margin = (effRating(h,'home')-hInj.penalty) - (effRating(a,'away')-aInj.penalty) + hga;
+    hParts=effParts(h,'home'); aParts=effParts(a,'away');
+    ratingGap = hParts.blended - aParts.blended;
+    formGap   = hParts.form   - aParts.form;
+    preWx = (hParts.total - hInj.penalty) - (aParts.total - aInj.penalty) + hga;
   }
   // Weather shrinks confidence toward a coin-toss (never picks a side), before the odds blend.
   const wx = weatherEffect(fx.weather);
-  if(wx.shrink>0) margin = margin*(1-wx.shrink);
+  const margin = wx.shrink>0 ? preWx*(1-wx.shrink) : preWx;
   const modelP = logistic(margin);
   const mkt = marketProb(fx.odds);
-  let pHome=modelP, blended=false;
-  if(mkt!==null){ const w=Math.max(0,Math.min(1,num('oddsW', learnedActive?LEARNED.params.oddsWeight:0.5))); pHome=(1-w)*modelP+w*mkt; blended=true; }
-  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,wx,useElo};
+  let pHome=modelP, blended=false, oddsW=0;
+  if(mkt!==null){ oddsW=Math.max(0,Math.min(1,num('oddsW', learnedActive?LEARNED.params.oddsWeight:0.5)));
+    pHome=(1-oddsW)*modelP+oddsW*mkt; blended=true; }
+  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,wx,useElo,oddsW,
+          parts:{ratingGap, formGap, hga, hInjPts:hInj.penalty, aInjPts:aInj.penalty,
+                 preWx, wxDelta:margin-preWx, eloH, eloA, hParts, aParts}};
 }
 function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt; const v=parseFloat(el.value); return isNaN(v)?dflt:v; }
 
-function injurySentence(p){
-  const bits=[];
-  const fmt=n=>n%1?n.toFixed(1):String(n);
-  if(p.hInj&&p.hInj.penalty>0) bits.push(`${p.h.short} −${fmt(p.hInj.penalty)}: ${p.hInj.note}`);
-  if(p.aInj&&p.aInj.penalty>0) bits.push(`${p.a.short} −${fmt(p.aInj.penalty)}: ${p.aInj.note}`);
-  if(p.wx&&p.wx.shrink>0) bits.push(p.wx.note);
-  return bits.join(" · ");
+/* ---------- The tip vs the model's favourite (KEEP THESE APART) ----------
+   modelFav(p) — the side the numbers like. Used only to REPORT what the model
+     thinks (lockHero's risky/safe verdict, the ledger lead, the odds box).
+   tipSide(p)  — the side actually tipped. The Roosters are ALWAYS tipped in
+     their own game (CLAUDE.md golden rule #1, docs/MODEL.md §6), so every
+     surface that names a tip — quicklist, card tipline/badges, "Copy tips",
+     the ledger's for/against colouring — must go through here.
+   Before this existed each of those surfaces recomputed `pHome>=0.5?h:a` and
+   merely ANNOTATED the Roosters game, so "Copy tips" could paste the Roosters'
+   opponent labelled "(locked)" whenever the model disagreed, and the Roosters
+   tax measured a lock that wasn't actually being applied. */
+function modelFav(p){ return p.pHome>=0.5?p.h:p.a; }
+function tipSide(p){
+  if(p.h.short===LOCK) return p.h;
+  if(p.a.short===LOCK) return p.a;
+  return modelFav(p);
 }
 function bandFor(conf){
   return conf>0.75 ? "clear favourite" : conf>0.575 ? "has the edge" : "slight lean — near coin-toss";
 }
+/* One-sentence headline for the ledger below it. NOTE: this now returns HTML (it
+   contains <b>), so it must NOT be wrapped in esc() at the call site — every piece of
+   DATA inside it is escaped individually instead. */
 function rationale(p){
-  const fav = p.pHome>=0.5? p.h : p.a;
+  const fav = p.pHome>=0.5?p.h:p.a;
   const conf = Math.max(p.pHome,1-p.pHome);
   const band = bandFor(conf);
-  const reasons=[];
-  const hm=avg(p.h.home), aw=avg(p.a.away);
-  if(hm!==null&&aw!==null){
-    if(fav===p.h && hm>5) reasons.push("strong at home");
-    if(fav===p.a && aw>3) reasons.push("travels well");
-  }
-  const ff=(fav.last5||0); if(ff>=4) reasons.push("hot form"); else if(ff<=1) reasons.push("poor form");
-  if(p.blended){ reasons.push(agreeWord(p)); }
-  let s = `${fav.name} ${band}${reasons.length? " — "+reasons.join(", "):""}.`;
-  const inj=injurySentence(p);
-  if(inj) s += ` ${inj}.`;
+  const n = Math.abs(p.margin), pct=(conf*100).toFixed(0);
+  const npt = `${absFmt(n)} point${absFmt(n)==='1.0'||absFmt(n)==='1'?'':'s'}`;
+  if(band.indexOf('slight lean')===0)
+    return `<b>${esc(fav.name)}</b> by a whisker — about ${npt}, ${pct}%. This one's near a coin-toss.`;
+  return `<b>${esc(fav.name)}</b> ${band} — about ${npt}, ${pct}%.`;
+}
+function ledRow(cls,lab,sub,who,val){
+  return `<div class="ledrow ${cls}"><span class="lab">${lab}`+
+    `${sub?`<span class="sub">${sub}</span>`:''}</span>`+
+    `<span class="val">${who?`<em>${esc(who)}</em>`:''}${val}</span></div>`;
+}
+/* Up to two named absentees with their RAW per-player cost, then a remainder count.
+   The ×0.65 is the real diminishing-returns factor from injuryPenalty(), shown from
+   the second player on — it's why the row total is less than the sum of the parts. */
+function injSub(inj){
+  const o=(inj&&inj.outs)||[];
+  if(!o.length) return '';
+  const bits=[o[0].name+(o[0].pos?` (${o[0].pos})`:'')+` −${injFmt(o[0].pts)}`];
+  if(o[1]) bits.push(o[1].name+(o[1].pos?` (${o[1].pos})`:'')+` −${injFmt(o[1].pts)} ×0.65`);
+  let s=esc(bits.join(', '));
+  if(o.length>2) s+=`, +${o.length-2} more`;
   return s;
+}
+/* The itemised "why". Every number comes from p.parts, so the ledger sums by
+   construction: ratingGap + formGap + hga − hInjPts + aInjPts === preWx, and
+   preWx + wxDelta === margin. Weather and the odds blend sit below the rule because
+   they TRANSFORM the total rather than adding to it. */
+function whyHTML(p,fx){
+  const P=p.parts, tip = tipSide(p);   // the TIPPED side (the lock wins here), not the model's favourite
+  const nm=s=>s.name, sh=s=>s.short;
+  const rows=[];
+  const push=(pts,lab,sub)=>{
+    if(Math.abs(pts)<0.15) return;
+    const who = pts>=0?p.h:p.a;
+    rows.push({pts, lab, sub, who, cls: who===tip?'for':'against'});
+  };
+  // ratings
+  if(p.useElo){
+    const gap=Math.abs(Math.round((P.eloH||0)-(P.eloA||0)));
+    push(P.ratingGap, `<b>Ratings</b> — Elo has ${esc(nm(P.ratingGap>=0?p.h:p.a))} ${gap} points clear`,
+      `${esc(sh(p.h))} ${Math.round(P.eloH)} vs ${esc(sh(p.a))} ${Math.round(P.eloA)}`);
+  }else{
+    const hb=P.hParts?P.hParts.blended:0, ab=P.aParts?P.aParts.blended:0;
+    push(P.ratingGap, `<b>Ratings</b> — ${esc(nm(P.ratingGap>=0?p.h:p.a))} are the stronger side on season margin`,
+      `${esc(sh(p.h))} ${ptsFmt(hb)}/gm at home vs ${esc(sh(p.a))} ${ptsFmt(ab)}/gm away`);
+    push(P.formGap, `<b>Recent form</b> — ${esc(nm(P.formGap>=0?p.h:p.a))} are the hotter side`,
+      `${esc(sh(p.h))} won ${p.h.last5||0} of last 5, ${esc(sh(p.a))} won ${p.a.last5||0}`);
+  }
+  // home ground
+  push(P.hga, `<b>Home ground</b> — ${fx&&fx.venue?`playing at ${esc(fx.venue)}`:`${esc(nm(p.h))} at home`}`,
+    learnedActive?`home sides win by ~${absFmt(LEARNED.params.homeAdv)} on average`:`your home-ground setting`);
+  // team news — kept as two separate rows so you can see which side took the hit
+  if(P.hInjPts>0){
+    const top=p.hInj.outs[0], doubt=!!(top&&top.confirmed===false);
+    push(-P.hInjPts, `<b>Team news</b> — ${esc(nm(p.h))}${top?(doubt?`: ${esc(top.name)} in doubt`:` missing ${esc(top.name)}`):''}`, injSub(p.hInj));
+  }
+  if(P.aInjPts>0){
+    const top=p.aInj.outs[0], doubt=!!(top&&top.confirmed===false);
+    push(P.aInjPts, `<b>Team news</b> — ${esc(nm(p.a))}${top?(doubt?`: ${esc(top.name)} in doubt`:` missing ${esc(top.name)}`):''}`, injSub(p.aInj));
+  }
+  rows.sort((x,y)=>Math.abs(y.pts)-Math.abs(x.pts));
+  let body = rows.length
+    ? rows.map(r=>ledRow(r.cls,r.lab,r.sub,sh(r.who),'+'+ledFmt(r.pts))).join('')
+    : ledRow('mod','<b>Nothing separates them</b> — same ratings, same news, no home edge','','','0.0');
+  // modifiers
+  let mods='';
+  if(p.wx&&p.wx.shrink>0){
+    const rm=String((fx&&fx.weather)||'').match(/(\d+)\s*%\s*rain/i);
+    const shr=Math.round(p.wx.shrink*100);
+    mods+=ledRow('mod',`<b>Weather</b> — ${rm?`${esc(rm[1])}% rain, so `:''}${shr}% of the edge is shaved off`,
+      'wet games are more random; this never picks a side', '', '−'+ledFmt(P.wxDelta));
+  }
+  if(p.blended){
+    const k=p.mkt*100, w=Math.round(p.oddsW*100), d=(p.pHome-p.modelP)*100;
+    mods+=ledRow('mod',`<b>The bookies</b> — they make it ${esc(nm(k>=50?p.h:p.a))} ${(k>=50?k:100-k).toFixed(0)}%`,
+      `blended ${w}/${100-w} with the model`, '', (d>=0?'+':'−')+Math.abs(d).toFixed(0)+'pp');
+  }
+  if(mods) mods=`<div class="ledsplit"></div>`+mods;
+  // totals
+  const conf = Math.max(p.pHome,1-p.pHome);
+  const total = `<div class="ledtotal">Net: <b>${esc((p.margin>=0?p.h:p.a).name)} by about `+
+    `${absFmt(p.margin)}</b> → ${(conf*100).toFixed(0)}% win chance.</div>`;
+  let check='';
+  if(rows.length>=2){
+    // DESIGN_SPEC §4.5: sumH/sumA are the sums of the .val figures ACTUALLY ON
+    // SCREEN. Two things used to break that: rows below the 0.15 display filter
+    // were counted in the total but never shown, and each side was rounded on its
+    // own against an independently-rounded preWx — which printed arithmetic that
+    // didn't balance (+0.1 − 4.3 = −4.1). Sum the values exactly as they are
+    // printed, then subtract THOSE, so the one line whose whole job is to prove
+    // the ledger is honest always adds up.
+    // Re-read each row's own printed string (ledFmt/toFixed), never a second
+    // rounding of the raw number: 65.35 prints "65.3" but Math.round(x*10)/10
+    // gives 65.4, and that half-a-tenth is enough to make the check line
+    // disagree with the rows directly above it.
+    const shown=r=>Number(ledFmt(r.pts));
+    const sumH=rows.filter(r=>r.pts>0).reduce((s,r)=>s+shown(r),0);
+    const sumA=rows.filter(r=>r.pts<0).reduce((s,r)=>s+shown(r),0);
+    const net =Math.round((sumH-sumA)*10)/10;
+    // The rows balance against each other exactly, but each one is printed to 0.1,
+    // so their total can sit up to ~0.2 away from the model's raw pre-weather
+    // margin — which is the number the "Net:" line above is derived from. Saying
+    // "=" in that case prints two different totals a few lines apart and makes the
+    // ledger look broken when it is merely rounded. Say "≈" and name the cause.
+    const exact=Math.abs(net-(Math.round(P.preWx*10)/10))<0.05;
+    check=`<div class="ledcheck">Add the ${esc(sh(p.h))} column, subtract the ${esc(sh(p.a))} column: `+
+      `+${ledFmt(sumH)} − ${ledFmt(sumA)} ${exact?'=':'≈'} ${ledSigned(net)} before weather`+
+      `${exact?'':' (each figure rounded to 0.1)'}.</div>`;
+  }
+  // engine caption
+  const eng = p.useElo ? `Ratings: Elo, self-learned from ${(LEARNED&&LEARNED.gamesLearned)||0} games.`
+    : LEARNED ? `Ratings: season margin and home/away splits — the Elo model is still warming up (${LEARNED.gamesLearned||0} games).`
+    : `Ratings: season margin and home/away splits.`;
+  // the lock — shown whenever the Roosters are in this game, agree or disagree
+  let lock='';
+  if(p.h.short===LOCK||p.a.short===LOCK){
+    const rkHome=p.h.short===LOCK, opp=rkHome?p.a:p.h;
+    const modelLikesRk=(p.pHome>=0.5)===rkHome;
+    lock = modelLikesRk
+      ? `<div class="ledlock">🔒 <b>Locked:</b> the Roosters are always tipped here — and the model agrees this week.</div>`
+      : `<div class="ledlock">🔒 <b>Locked:</b> the Roosters are tipped in this game whatever the model says. `+
+        `Right now the model leans ${esc(opp.name)} — this is a loyalty pick.</div>`;
+  }
+  return `<p class="whylead">${rationale(p)}</p><div class="whyeng">${esc(eng)}</div>`+
+    body+mods+total+check+lock;
 }
 function agreeWord(p){
   if(p.mkt===null) return "";
-  const modelFav = p.modelP>=0.5, mktFav = p.mkt>=0.5;
-  return modelFav===mktFav ? "model & bookies agree" : "model disagrees with bookies";
+  const modelLikesHome = p.modelP>=0.5, mktLikesHome = p.mkt>=0.5;   // named so as not to shadow modelFav()
+  return modelLikesHome===mktLikesHome ? "model & bookies agree" : "model disagrees with bookies";
 }
 
 /* ---------- Render ---------- */
@@ -722,6 +1006,9 @@ function render(){
   else if(stale>8) db+=`<div class="banner warn">⏳ This data is ${stale} days old. Reopen after the weekly refresh (Tuesdays) for the current round.</div>`;
   document.getElementById('dataBanners').innerHTML=db;
 
+  // what changed today (also yields the per-fixture badge map for the cards)
+  const chgByFx = renderChanges();
+
   // predictions
   const preds = fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
   const skipped = fixtures.length - preds.length;
@@ -738,12 +1025,15 @@ function render(){
   renderLock(preds);
 
   // game cards
-  document.getElementById('games').innerHTML = preds.map((p,i)=>cardHTML(p,{isUpset:i===upsetIndex, rank:rankByIndex[i], compMode})).join('') +
+  document.getElementById('games').innerHTML = preds.map((p,i)=>cardHTML(p,{
+    isUpset:i===upsetIndex, rank:rankByIndex[i], compMode,
+    chg: chgByFx[p.h.short+'-'+p.a.short] || null
+  })).join('') +
     (skipped>0?`<div class="banner warn">${skipped} game(s) hidden — data references an unknown team.</div>`:'');
 
   // quick list
   document.getElementById('quicklist').innerHTML = preds.map((p,i)=>{
-    const tip = p.pHome>=0.5?p.h:p.a; const isRk=(p.h.short===LOCK||p.a.short===LOCK);
+    const tip = tipSide(p); const isRk=(p.h.short===LOCK||p.a.short===LOCK);
     const conf=Math.max(p.pHome,1-p.pHome);
     let extra='';
     if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
@@ -788,7 +1078,7 @@ function renderLock(preds){
 
 function cardHTML(p,meta){
   meta=meta||{};
-  const tipHome = p.pHome>=0.5;
+  const tipHome = tipSide(p)===p.h;   // the tip, so the ★/🔒 badge and the tipline can't name the opponent
   const rkHome=p.h.short===LOCK, rkAway=p.a.short===LOCK;
   const conf=Math.max(p.pHome,1-p.pHome);
   const pct=(conf*100).toFixed(0);
@@ -814,6 +1104,13 @@ function cardHTML(p,meta){
   const tags=[];
   if(meta.isUpset) tags.push(`<span class="tipbadge" style="background:rgba(76,141,255,.16);color:var(--blue);border:1px solid rgba(76,141,255,.4)">🎯 Upset watch</span>`);
   if(meta.compMode==='confidence'&&meta.rank) tags.push(`<span class="tipbadge" style="background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line)">Rank #${meta.rank}</span>`);
+  // Anchor, not an expander: the detail already exists once in the panel above, and
+  // 390px can't hold both copies. Tapping scrolls to this fixture's group.
+  if(meta.chg){
+    const k=chgCat(meta.chg.cat);
+    tags.push(`<a class="chgbadge ${k.badge}" href="#chg-${esc(p.h.short+'-'+p.a.short)}">`+
+      `⟳ ${meta.chg.n} change${meta.chg.n===1?'':'s'}</a>`);
+  }
   return `<div class="gcard">
     <div class="grow">
       ${side(p.h,'home',tipHome,rkHome)}
@@ -844,39 +1141,102 @@ function cardHTML(p,meta){
           <div class="row"><span>${esc(p.a.name)} (away)</span><span>${splitStr(p.a.away)}</span></div>
         </div>
         <div class="mbox"><h4>Team news / injuries</h4>${injuriesHTML(p)}</div>
-        <div class="mbox"><h4>Venue &amp; conditions</h4>
-          <div class="row"><span>${esc(fx.venue||'—')}</span><span>${esc(fx.city||'')}</span></div>
-          <div class="row"><span>Kick-off</span><span>${fmtKick(fx.kickoff)}</span></div>
-          <div class="row"><span>Weather</span><span>${fx.weather?esc(fx.weather):'<span class="tba">forecast closer to game day</span>'}</span></div>
-        </div>
-        <div class="mbox" style="grid-column:1/-1"><h4>Why the model leans this way</h4>
-          <p style="margin:0;font-size:13px;color:var(--muted);line-height:1.4">${esc(rationale(p))}</p>
-        </div>
+        <div class="mbox venuebox"><h4>Venue &amp; conditions</h4>${venueHTML(fx)}</div>
+        <div class="mbox whybox"><h4>Why the model leans this way</h4>${whyHTML(p,fx)}</div>
       </div></div>
     </details>
   </div>`;
 }
-function oddsBars(modelPct,mktPct){
-  const row=(lbl,cls,val)=>`<div class="oddsbar-row"><span class="oddsbar-lbl">${lbl}</span>`+
-    `<span class="oddsbar-track"><i class="${cls}" style="width:${val.toFixed(0)}%"></i><span class="tick"></span></span>`+
-    `<span class="oddsbar-pct">${val.toFixed(0)}%</span></div>`;
-  return `<div class="oddsbars">${row('Model','model',modelPct)}${mktPct!==null?row('Market','market',mktPct):''}</div>`;
+/* Model vs market as two LEFT-ANCHORED split bars sharing one horizontal scale, so the
+   two split points can be compared on a single vertical axis. Between them sits a wedge
+   whose area IS the disagreement (read before any number is parsed) plus a tick at the
+   blended split — the number the ring on the card front actually shows. The market row
+   always renders, as a dashed ghost when there's no price, so the card never jumps and
+   "no odds yet" is stated rather than invisible. */
+function obRow(kind,lbl,hp,hs,as,openHp){
+  if(hp===null){
+    return `<div class="oddsbar-row ${kind} ghost">
+      <div class="oddsbar-head"><span class="oddsbar-lbl">${esc(lbl)}</span>
+        <span class="oddsbar-ends"><i>no price published yet</i></span></div>
+      <span class="oddsbar-track"></span></div>`;
+  }
+  const w=Math.max(0,Math.min(100,hp)), ap=100-w;
+  return `<div class="oddsbar-row ${kind}">
+    <div class="oddsbar-head"><span class="oddsbar-lbl">${esc(lbl)}</span>
+      <span class="oddsbar-ends"><b>${esc(hs)} ${w.toFixed(0)}%</b><b>${ap.toFixed(0)}% ${esc(as)}</b></span></div>
+    <span class="oddsbar-track" role="img" aria-label="${esc(lbl)}: ${esc(hs)} ${w.toFixed(0)} percent, ${esc(as)} ${ap.toFixed(0)} percent">
+      <i style="width:${w.toFixed(1)}%"></i><span class="oddsbar-seam" style="left:${w.toFixed(1)}%"></span>
+      ${openHp!==null&&openHp!==undefined?`<span class="oddsbar-open" style="left:${openHp.toFixed(1)}%"></span>`:''}
+    </span></div>`;
 }
+// preserveAspectRatio="none" makes the viewBox x-axis a literal percentage axis, so the
+// split points line up with the bars above and below; vector-effect keeps the strokes
+// hairline despite the horizontal stretch.
+function obGap(m,k,b,clash){
+  const M=m.toFixed(1), K=k.toFixed(1), B=b.toFixed(1);
+  return `<svg class="oddsbar-gap${clash?' clash':''}" viewBox="0 0 100 16" preserveAspectRatio="none" aria-hidden="true">
+    <polygon class="og-wedge" points="${M},0 ${K},16 ${M},16"></polygon>
+    <line class="og-slope" x1="${M}" y1="0" x2="${K}" y2="16" vector-effect="non-scaling-stroke"></line>
+    <line class="og-blend" x1="${B}" y1="2" x2="${B}" y2="14" vector-effect="non-scaling-stroke"></line>
+  </svg>`;
+}
+function devig(o){ if(!o||!(o.home>1)||!(o.away>1)) return null; const h=1/o.home,a=1/o.away; return h/(h+a); }
 function oddsHTML(p,fx){
-  const resolved = resolveOdds(fx.odds);
-  const modelPct = p.modelP*100;
-  if(!resolved.used) return `<div class="tba">Bookmaker odds drop around Tuesday — this updates automatically.</div>
-    ${oddsBars(modelPct,null)}
-    <div class="row"><span>Model win chance</span><span>${esc(p.h.name)} ${(p.modelP*100).toFixed(0)}% / ${esc(p.a.name)} ${((1-p.modelP)*100).toFixed(0)}%</span></div>`;
-  const mp=p.mkt;
-  const used=resolved.used;
-  const movedNote = resolved.moved?`<div class="row" style="color:var(--muted2);font-size:11.5px">line moved → open $${resolved.open.home.toFixed(2)}/$${resolved.open.away.toFixed(2)} · close $${resolved.close.home.toFixed(2)}/$${resolved.close.away.toFixed(2)}</div>`:'';
-  return `${oddsBars(modelPct,mp*100)}
-    <div class="row"><span>${esc(p.h.name)}</span><span class="oddschip">$${used.home.toFixed(2)} · ${(mp*100).toFixed(0)}%</span></div>
-    <div class="row"><span>${esc(p.a.name)}</span><span class="oddschip">$${used.away.toFixed(2)} · ${((1-mp)*100).toFixed(0)}%</span></div>
-    ${movedNote}
-    <div class="row" style="border-top:1px solid var(--line);margin-top:4px;padding-top:6px"><span>Model</span><span>${(p.modelP*100).toFixed(0)}% / ${((1-p.modelP)*100).toFixed(0)}%</span></div>
-    <div class="row"><span>${agreeWord(p)}</span><span></span></div>`;
+  fx=fx||{};
+  const r=resolveOdds(fx.odds);
+  const m=p.modelP*100, hs=p.h.short, as=p.a.short;
+  const k=(p.mkt!==null)?p.mkt*100:null;
+  const b=p.pHome*100;
+  const lbl = !r.used ? 'Bookies' : (r.close&&r.open&&r.moved) ? 'Bookies (close)'
+            : (!r.close&&r.open) ? 'Bookies (open)' : 'Bookies';
+  const openP = (r.moved&&r.open) ? devig(r.open) : null;
+  const openHp = openP!==null ? openP*100 : null;
+  const clash = (k!==null) && ((m>=50)!==(k>=50));
+  const d = (k!==null) ? Math.abs(m-k) : 0;
+  const wpct = Math.round((p.oddsW||0)*100);
+  /* m/k/b are all HOME-win percentages, but the sentence names a team — so every
+     number is restated from THAT team's point of view. Quoting the home share next to
+     an away team's name is how you get "keener on the Roosters (40%)" when 40% is the
+     Cowboys' number. `own(b)` is also the tip's win chance, i.e. the ring on the card
+     front, so the odds box and the card can never contradict each other. */
+  const own = v => Math.max(v,100-v);
+  const tipPct = own(b);
+  const shared = (m>=50?p.h:p.a);          // the favourite both agree on (no-clash branches)
+  const keen   = (m>=k?p.h:p.a);           // the side the model rates ABOVE the book
+  let verdict;
+  if(k===null) verdict=`No bookmaker price yet — this tip is pure model. Prices usually land Tuesday.`;
+  else if(clash) verdict=`Model and the book disagree — model likes <b>${esc((m>=50?p.h:p.a).name)}</b> (${own(m).toFixed(0)}%), `+
+      `the book likes <b>${esc((k>=50?p.h:p.a).name)}</b> (${own(k).toFixed(0)}%). Your tip blends them at ${wpct}% market → <b>${tipPct.toFixed(0)}%</b>.`;
+  else if(d<4) verdict=`In line with the book — both make <b>${esc(shared.name)}</b> the pick `+
+      `(${(shared===p.h?m:100-m).toFixed(0)}% model, ${(shared===p.h?k:100-k).toFixed(0)}% market). `+
+      `Your tip blends them at ${wpct}% market → <b>${tipPct.toFixed(0)}%</b>.`;
+  else verdict=`Model is <b>${d.toFixed(0)}pp</b> keener on <b>${esc(keen.name)}</b> than the book `+
+      `(${(keen===p.h?m:100-m).toFixed(0)}% vs ${(keen===p.h?k:100-k).toFixed(0)}%). `+
+      `Your tip blends them at ${wpct}% market → <b>${tipPct.toFixed(0)}%</b>.`;
+  let move='';
+  if(r.moved&&r.open&&r.close){
+    const dh=r.close.home-r.open.home, da=r.close.away-r.open.away;
+    if(Math.abs(dh)>=0.02||Math.abs(da)>=0.02){
+      // Money came for the side whose price SHORTENED — but only one side can have
+      // shortened for that to be true. `dh<da` asserted a direction even when both
+      // prices lengthened (a margin/vig change, nobody's money), so the claim is
+      // now made only when exactly one side firmed; otherwise the move is reported
+      // without a story attached to it.
+      const hIn = dh<0, aIn = da<0;
+      const drift = (hIn&&!aIn) ? hs : (aIn&&!hIn) ? as : null;
+      move=`<div class="oddsbar-move">Line moved: ${esc(hs)} <b>$${r.open.home.toFixed(2)}</b> → <b>$${r.close.home.toFixed(2)}</b> · `+
+           `${esc(as)} <b>$${r.open.away.toFixed(2)}</b> → <b>$${r.close.away.toFixed(2)}</b>`+
+           `${drift?` — money came for ${esc(drift)}.`:'.'}</div>`;
+    }
+  }
+  const bars=`<div class="oddsbars">${obRow('model','Model',m,hs,as,null)}`+
+    `${k!==null?obGap(m,k,b,clash):''}`+
+    `${obRow('market',lbl,k,hs,as,openHp)}`+
+    `<div class="oddsbar-verdict${clash?' clash':''}">${verdict}</div>${move}</div>`;
+  if(!r.used||p.mkt===null) return bars;
+  return bars+
+    `<div class="row"><span>${esc(p.h.name)}</span><span class="oddschip">$${r.used.home.toFixed(2)} · ${(p.mkt*100).toFixed(0)}%</span></div>`+
+    `<div class="row"><span>${esc(p.a.name)}</span><span class="oddschip">$${r.used.away.toFixed(2)} · ${((1-p.mkt)*100).toFixed(0)}%</span></div>`;
 }
 /* Injuries UI. injuryPenalty() already ranks every out player by impact and knows
    their position and whether the absence is confirmed — the old UI threw all of
@@ -885,6 +1245,15 @@ function oddsHTML(p,fx){
    biggest loss first, status as a pill. The raw source string is kept once, at the
    bottom, so nothing is lost — just demoted from headline to footnote. */
 function injFmt(n){ return n%1?n.toFixed(1):String(n); }
+// Signed / unsigned points, U+2212 MINUS SIGN to match the existing −${injFmt(...)} strings.
+function ptsFmt(n){ const v=Math.abs(n); return (n<0?'−':'+')+(v<10?v.toFixed(1):v.toFixed(0)); }
+function absFmt(n){ const v=Math.abs(n); return v<10?v.toFixed(1):v.toFixed(0); }
+/* The ledger's numbers are meant to be ADDED by the reader, so they hold one fixed
+   precision throughout. absFmt()'s "0 dp once you pass 10" rule is right for prose
+   ("about 11 points") but prints arithmetic that visibly doesn't balance
+   ("2.6 − 27 = −25"), which is the one thing this component must never do. */
+function ledFmt(n){ return Math.abs(n).toFixed(1); }
+function ledSigned(n){ return (n<0?'−':'+')+Math.abs(n).toFixed(1); }
 function injTeamHTML(t, inj){
   const outs=(inj&&inj.outs)||[], backs=(inj&&inj.backs)||[], named=(inj&&inj.named)||[];
   const cost = (inj&&inj.penalty>0)
@@ -925,6 +1294,105 @@ function injuryStrip(p){
   let s=pill(p.h,p.hInj)+pill(p.a,p.aInj);
   if(p.wx&&p.wx.shrink>0) s+=`<span class="injpill quiet">🌧 ${esc(p.wx.note)}</span>`;
   return s?`<div class="injstrip">${s}</div>`:'';
+}
+/* ---------- "What changed today" feed ----------
+   Reads NRL_DATA.changes (see docs/DATA_PIPELINE.md). Every field is optional: the
+   whole feed degrades to an empty-state panel when the data file predates it. The
+   panel is NEVER hidden — "nothing changed" is information. Severity controls
+   typographic weight and whether an entry earns a row at all; category controls hue,
+   so a spine player ruled out can't look like a 2°C weather tweak.
+   No "seen" state and no localStorage key: the feed is already scoped to "since the
+   last run", so a seen-flag would only hide changes not yet acted on. */
+const CHG_CAT = {
+  in:     {g:'✓', cls:'c-in',   badge:'b-in',   noun:['squad update','squad updates']},
+  out:    {g:'⚑', cls:'c-out',  badge:'b-out',  noun:['injury note','injury notes']},
+  injury: {g:'✚', cls:'c-out',  badge:'b-out',  noun:['injury note','injury notes']},
+  line:   {g:'⇄', cls:'c-line', badge:'b-line', noun:['line move','line moves']},
+  weather:{g:'🌧',cls:'c-wx',   badge:'b-line', noun:['weather tweak','weather tweaks']},
+  time:   {g:'🕒',cls:'c-when', badge:'b-when', noun:['time change','time changes']},
+  venue:  {g:'📍',cls:'c-when', badge:'b-when', noun:['venue change','venue changes']},
+  other:  {g:'•', cls:'c-misc', badge:'',       noun:['other update','other updates']}
+};
+const CHG_ORDER = {out:0,in:1,injury:2,time:3,venue:4,line:5,weather:6,other:7};
+function chgCat(c){ return CHG_CAT[c] || CHG_CAT.other; }
+function fxKey(f){ return f.home+'-'+f.away; }
+function chgList(){
+  const raw = Array.isArray(SRC.changes) ? SRC.changes : [];
+  const valid = {}; fixtures.forEach(f=>{ valid[fxKey(f)]=f; });
+  return raw.filter(c=>c && typeof c.text==='string' && c.text.trim())
+    .map((c,i)=>({
+      id: c.id || ('c'+i),
+      fx: (c.fixture && valid[c.fixture]) ? c.fixture : null,   // unknown fixture => comp-wide
+      team: c.team || null,
+      cat: CHG_CAT[c.cat] ? c.cat : 'other',
+      sev: (c.sev===1||c.sev===2||c.sev===3) ? c.sev : 2,
+      dir: (c.dir==='up'||c.dir==='down') ? c.dir : 'neutral',
+      text: String(c.text).trim(),
+      pts: (typeof c.pts==='number' && c.pts>0) ? c.pts : null
+    }));
+}
+function chgRow(c){
+  const k=chgCat(c.cat);
+  const pts = c.pts!==null && c.dir!=='neutral'
+    ? `<span class="pts">${c.dir==='down'?'−':'+'}${injFmt(c.pts)}</span>` : '';
+  return `<div class="chgrow s${c.sev} ${k.cls}"><span class="g" aria-hidden="true">${k.g}</span>`+
+    `<span class="tx">${esc(c.text)}</span>${pts}</div>`;
+}
+function fmtClock(iso){ const t=Date.parse(iso); if(isNaN(t)) return null;
+  return new Date(t).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}).toLowerCase(); }
+function renderChanges(){
+  const sec=document.getElementById('changesSection');
+  const body=document.getElementById('changeFeed');
+  const cnt=document.getElementById('chgCount');
+  if(!sec||!body) return {};
+  sec.style.display='';
+  const all=chgList();
+  const major=all.filter(c=>c.sev>=2), minor=all.filter(c=>c.sev===1);
+  const when = SRC.changesSince ? fmtClock(SRC.changesSince) : null;
+
+  // per-fixture badge map, returned for cardHTML()
+  const byFx={};
+  all.forEach(c=>{ if(!c.fx) return;
+    const e=byFx[c.fx]||(byFx[c.fx]={n:0,sev:0,cat:'other'});
+    e.n++; if(c.sev>e.sev){ e.sev=c.sev; e.cat=c.cat; } });
+
+  if(!all.length){
+    if(cnt) cnt.textContent = when?`checked ${when}`:'just checked';
+    // `== null` on purpose: a data file that carries `changes:null` has no feed at
+    // all, exactly like one that predates the field, and must not claim "nothing
+    // has changed" — that's a statement we can't make without a previous window.
+    body.innerHTML = (SRC.changes==null)
+      ? `<div class="chgempty"><span class="dot"></span>Change tracking starts from the next data refresh.</div>`
+      : `<div class="chgempty"><span class="dot"></span>Nothing's changed since the last check — same teams, same prices, same forecast.</div>`;
+    return byFx;
+  }
+  if(cnt) cnt.textContent = `${all.length} update${all.length===1?'':'s'} since ${when||'the last check'}`;
+
+  const order = fixtures.map(fxKey);
+  const groups = {};
+  major.forEach(c=>{ const key=c.fx||'__round'; (groups[key]||(groups[key]=[])).push(c); });
+  const keys = Object.keys(groups).sort((x,y)=>{
+    if(x==='__round') return -1; if(y==='__round') return 1;
+    const sx=Math.max.apply(null,groups[x].map(c=>c.sev)), sy=Math.max.apply(null,groups[y].map(c=>c.sev));
+    return sy-sx || order.indexOf(x)-order.indexOf(y);
+  });
+  let html = keys.map(key=>{
+    const list=groups[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat]);
+    let label='Round-wide';
+    if(key!=='__round'){ const f=fixtures.find(f=>fxKey(f)===key);
+      const h=f&&T(f.home), a=f&&T(f.away);
+      label = (h&&a)? `${esc(h.name)} v ${esc(a.name)}` : esc(key); }
+    return `<div class="chggroup" id="chg-${esc(key)}"><div class="chgfx">${label}</div>`+
+      list.map(chgRow).join('')+`</div>`;
+  }).join('');
+  if(minor.length){
+    const tally={};
+    minor.forEach(c=>{ tally[c.cat]=(tally[c.cat]||0)+1; });
+    const parts=Object.keys(tally).map(k=>{ const n=chgCat(k).noun; return `${tally[k]} ${tally[k]===1?n[0]:n[1]}`; });
+    html += `<div class="chgminor">Also: ${minor.length} minor update${minor.length===1?'':'s'} (${esc(parts.join(', '))}).</div>`;
+  }
+  body.innerHTML=html;
+  return byFx;
 }
 function splitStr(o){ return o&&o.P?`${o.W}-${o.L} · ${(avg(o)>=0?'+':'')}${avg(o).toFixed(0)}/gm`:'—'; }
 function winloss(l5){ l5=l5||0; let s='<span class="formdots" aria-label="'+l5+' of last 5 won">'; for(let i=0;i<5;i++) s+=`<i class="${i<l5?'w':''}"></i>`; return s+'</span>'; }
@@ -1095,7 +1563,7 @@ function renderLearning(){
 /* ---------- Copy tips ---------- */
 function copyTips(){
   const preds=fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
-  const lines=preds.map(p=>{ const tip=p.pHome>=0.5?p.h:p.a; const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
+  const lines=preds.map(p=>{ const tip=tipSide(p); const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
     return `${p.h.name} v ${p.a.name} → ${tip.name}${rk}`; });
   const txt=`NRL Round ${SRC.round} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
   navigator.clipboard?.writeText(txt).then(()=>flash('Copied!'),()=>fallbackCopy(txt));
@@ -1108,8 +1576,91 @@ function flash(m){ const el=document.getElementById('copied'); el.textContent=m;
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function daysSince(d){ const t=Date.parse(d); if(isNaN(t)) return 0; return Math.floor((Date.now()-t)/86400000); }
 function fmtDate(d){ const t=Date.parse(d); if(isNaN(t)) return esc(d); return new Date(t).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}); }
-function fmtKick(k){ if(!k) return '<span class="tba">TBC</span>'; const t=Date.parse(k); if(isNaN(t)) return esc(k);
-  return new Date(t).toLocaleString(undefined,{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}); }
+/* Kick-off time. The feed's ISO string may be naive (no offset) — Date.parse() would
+   then read it as the READER's local wall clock, so a phone outside Australia shows a
+   wrong time with no warning. Resolve the instant explicitly against the ground's zone
+   and always print a zone abbreviation. */
+const KICK_TZ_DEFAULT='Australia/Sydney';   // the NRL draw is published in AEST/AEDT
+function tzOffsetMs(date,tz){
+  try{
+    const f=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour12:false,
+      year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const p={}; f.formatToParts(date).forEach(x=>{ p[x.type]=x.value; });
+    return Date.UTC(+p.year,+p.month-1,+p.day,(+p.hour)%24,+p.minute,+p.second)-date.getTime();
+  }catch(e){ return null; }
+}
+function kickInfo(fx){
+  const raw=fx.kickoff;
+  if(!raw) return {ok:false};
+  const tz=fx.tz||KICK_TZ_DEFAULT;
+  const hasZone=/[Zz]$|[+-]\d\d:?\d\d$/.test(raw);
+  let ms;
+  if(hasZone){ ms=Date.parse(raw); }
+  else{
+    const guess=Date.parse(raw+'Z');            // read the wall time as if it were UTC
+    if(isNaN(guess)) return {ok:false};
+    const o1=tzOffsetMs(new Date(guess),tz);
+    if(o1===null){ ms=Date.parse(raw); }        // no Intl tz support → fall back to device local
+    else{ const o2=tzOffsetMs(new Date(guess-o1),tz); ms=guess-(o2===null?o1:o2); }
+  }
+  if(isNaN(ms)) return {ok:false};
+  const d=new Date(ms);
+  const fmt=(opts,zone)=>{ try{ return new Intl.DateTimeFormat(undefined,
+      zone?Object.assign({timeZone:zone},opts):opts).format(d); }catch(e){
+      return new Intl.DateTimeFormat(undefined,opts).format(d); } };
+  const zoneOK = tzOffsetMs(d,tz)!==null;
+  const gz = zoneOK?tz:undefined;
+  const day  = fmt({weekday:'long',day:'numeric',month:'long'},gz);
+  const time = fmt({hour:'numeric',minute:'2-digit'},gz);
+  const abbr = zoneOK ? (fmt({timeZoneName:'short',hour:'numeric'},gz).split(' ').pop()) : '';
+  let mine=null;
+  try{
+    const rz=Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if(zoneOK && rz && rz!==tz){
+      const mt=fmt({weekday:'short',hour:'numeric',minute:'2-digit'});
+      const ma=fmt({timeZoneName:'short',hour:'numeric'}).split(' ').pop();
+      const gtxt=fmt({weekday:'short',hour:'numeric',minute:'2-digit'},gz);
+      if(mt!==gtxt) mine=`${mt} your time (${ma})`;
+    }
+  }catch(e){}
+  const diff=ms-Date.now(), h=diff/3600000;
+  let rel, relCls='';
+  if(h>=47) rel=`in ${Math.round(h/24)} days`;
+  else if(h>=24) rel='tomorrow';
+  else if(h>=1) rel=`in ${Math.round(h)} hour${Math.round(h)===1?'':'s'}`;
+  else if(h>=0) { rel='kicks off within the hour'; relCls='soon'; }
+  else if(h>-3) { rel='under way'; relCls='soon'; }
+  else { rel='played'; relCls='past'; }
+  return {ok:true, day, time, abbr, mine, rel, relCls, zoneOK};
+}
+function wxChips(w){
+  if(!w) return `<span class="tba">forecast lands about 3 days out</span>`;
+  const s=String(w);
+  const t=s.match(/(-?\d+)\s*°\s*C/i);
+  const r=s.match(/(\d+)\s*%\s*rain/i);
+  const desc=s.split(',').map(x=>x.trim()).filter(x=>!/°|%/.test(x)).join(', ');
+  if(!t&&!r&&!desc) return `<span class="vchip">${esc(s)}</span>`;
+  const rain=r?parseInt(r[1],10):null;
+  return (t?`<span class="vchip">${esc(t[1])}°C</span>`:'')+
+    (rain!==null?`<span class="vchip ${rain>=40?'wet':'dry'}">${rain>=40?'🌧 ':'☁ '}${rain}% rain</span>`:'')+
+    (desc?`<span class="vchip">${esc(desc)}</span>`:'');
+}
+function venueHTML(fx){
+  fx=fx||{};
+  const k=kickInfo(fx);
+  const stadium = fx.venue ? `<div class="vstadium">${esc(fx.venue)}</div>`
+    : `<div class="vstadium"><span class="tba">${fx.city?'Venue TBC':'Venue to be confirmed'}</span></div>`;
+  const city = fx.city ? `<div class="vcity">${esc(fx.city)}</div>` : '';
+  const kick = k.ok
+    ? `<div class="vkick"><span class="day">${esc(k.day)}</span>${esc(k.time)}`+
+      `${k.abbr?`<span class="z">${esc(k.abbr)}</span>`:''}</div>`+
+      `<div class="vsub"><span class="rel ${k.relCls}">${esc(k.rel)}</span>`+
+      `${k.mine?' · local at the ground':''}</div>`+
+      `${k.mine?`<div class="vyours">${esc(k.mine)}</div>`:''}`+
+      `${k.zoneOK?'':`<div class="vyours">(your device's time)</div>`}`
+    : `<div class="vkick"><span class="tba">Kick-off time to be confirmed</span></div>`;
+  return stadium+city+kick+`<div class="vwx">${wxChips(fx.weather)}</div>`;
+}
 function howText(){
   return `Each team gets a <b>power rating</b> — its points margin per game this season, shrunk toward the record `+
   `relevant to this game (a home team's <b>home</b> record, an away team's <b>away</b> record). The shrink weight grows with `+
