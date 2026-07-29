@@ -15,10 +15,23 @@ nrl_data.js matching the SPEC.md / schema-v3 contract:
              home: {P,W,L,PF,PA} | null, away: {P,W,L,PF,PA} | null,
              news: string | null }
 
-    fixture = { home, away, venue, city, kickoff,
+    fixture = { home, away, venue, city, kickoff, tz,
                 odds: {open:{home,away}|null, close:{home,away}|null}
                       | {home,away} (legacy flat, still accepted) | null,
                 weather: string | null, h2h: null }
+
+`fixture.kickoff` is ISO WITH a UTC offset and `fixture.tz` is the IANA zone
+of the ground (Australia/Brisbane for Townsville, Australia/Sydney for Sydney,
+Pacific/Auckland for Mt Smart, ...). A naive kickoff string is read by
+Date.parse() as the READER's local wall clock, so a phone outside AEST renders
+a Townsville game at the wrong time with no warning. Queensland doesn't observe
+daylight saving, which is why the offset is derived per-ground via zoneinfo
+rather than hardcoded to +10:00.
+
+The payload also carries `generatedAt`, `changes[]` and `changesSince` — the
+"what changed today" feed described in DESIGN_SPEC.md §2.1. It is a ROLLING
+window (default 36h), not a per-run diff, because the workflow runs every four
+hours and Josh should still see at breakfast what moved overnight.
 
 `fixture.odds` carries both the FIRST odds seen (`open`) and the LATEST
 odds seen (`close`) so the app can compute closing-line-value (CLV) —
@@ -147,6 +160,7 @@ try:
     from zoneinfo import ZoneInfo
     _SYD_TZ = ZoneInfo("Australia/Sydney")
 except Exception:
+    ZoneInfo = None
     _SYD_TZ = None
 
 def local_today_iso():
@@ -155,6 +169,14 @@ def local_today_iso():
     if _SYD_TZ is not None:
         return datetime.datetime.now(_SYD_TZ).date().isoformat()
     return datetime.date.today().isoformat()
+
+def now_local():
+    """Timezone-AWARE 'now' in Australia/Sydney. The change feed's rolling
+    window compares timestamps across runs, so a naive datetime here would
+    blow up the moment one run stamped an offset and another didn't."""
+    if _SYD_TZ is not None:
+        return datetime.datetime.now(_SYD_TZ)
+    return datetime.datetime.now(datetime.timezone.utc)
 import sys
 from pathlib import Path
 
@@ -224,6 +246,13 @@ VENUE_CITY = {
     "aami park": "Melbourne",
     "win stadium": "Wollongong",
     "sharks stadium": "Sydney",
+    "ocean protect stadium": "Sydney",     # Cronulla's current naming-rights name
+    "pointsbet stadium": "Sydney",         # ditto, earlier sponsor
+    "queensland country bank stadium": "Townsville",
+    "industree group stadium": "Gosford",
+    "netstrata jubilee stadium": "Sydney",
+    "leichhardt oval": "Sydney",
+    "kogarah": "Sydney",
     "commbank stadium": "Sydney",
     "bluebet stadium": "Canberra",
     "4 pines park": "Sydney",
@@ -241,6 +270,51 @@ VENUE_CITY = {
 }
 
 
+# Host city -> IANA timezone for the GROUND. The front-end needs this (and an ISO
+# kickoff carrying a real UTC offset) because Date.parse() reads a naive string as
+# the READER's local wall clock — a phone in London would render a Townsville 7:50pm
+# game as 7:50pm BST with no warning.
+#
+# Do NOT collapse this to a single "+10:00": Queensland does not observe daylight
+# saving, so Townsville/Brisbane/Gold Coast/Redcliffe/Rockhampton are +10:00 all year
+# while Sydney/Melbourne swing to +11:00 in AEDT. A hardcoded offset is wrong for
+# roughly half the season on one side or the other.
+CITY_TZ = {
+    "sydney": "Australia/Sydney",
+    "newcastle": "Australia/Sydney",
+    "wollongong": "Australia/Sydney",
+    "canberra": "Australia/Sydney",
+    "mudgee": "Australia/Sydney",
+    "gosford": "Australia/Sydney",
+    "bathurst": "Australia/Sydney",
+    "wagga wagga": "Australia/Sydney",
+    "dubbo": "Australia/Sydney",
+    "tamworth": "Australia/Sydney",
+    "coffs harbour": "Australia/Sydney",
+    "brisbane": "Australia/Brisbane",
+    "gold coast": "Australia/Brisbane",
+    "townsville": "Australia/Brisbane",
+    "redcliffe": "Australia/Brisbane",
+    "rockhampton": "Australia/Brisbane",
+    "cairns": "Australia/Brisbane",
+    "mackay": "Australia/Brisbane",
+    "toowoomba": "Australia/Brisbane",
+    "sunshine coast": "Australia/Brisbane",
+    "melbourne": "Australia/Melbourne",
+    "geelong": "Australia/Melbourne",
+    "adelaide": "Australia/Adelaide",
+    "perth": "Australia/Perth",
+    "darwin": "Australia/Darwin",
+    "auckland": "Pacific/Auckland",
+    "wellington": "Pacific/Auckland",
+    "christchurch": "Pacific/Auckland",
+    "dunedin": "Pacific/Auckland",
+    "port moresby": "Pacific/Port_Moresby",
+    "las vegas": "America/Los_Angeles",
+}
+DEFAULT_TZ = "Australia/Sydney"   # the NRL draw is published in AEST/AEDT
+
+
 def resolve_city(venue, home_short):
     """Best-effort host city for a fixture: match the venue name against
     VENUE_CITY (substring, case-insensitive); fall back to the home team's
@@ -251,6 +325,67 @@ def resolve_city(venue, home_short):
             if key in v:
                 return city
     return TEAM_HOME_CITY.get(home_short, "")
+
+
+def resolve_tz(city, home_short):
+    """IANA timezone name for the ground. Falls back to the home club's usual
+    city, then to Sydney (stating the assumption beats a silent wrong answer)."""
+    for candidate in (city, TEAM_HOME_CITY.get(home_short)):
+        key = (candidate or "").strip().lower()
+        if key in CITY_TZ:
+            return CITY_TZ[key]
+    return DEFAULT_TZ
+
+
+def _zone(tz_name):
+    """ZoneInfo for a name, or None if tzdata isn't available on this box."""
+    if ZoneInfo is None or not tz_name:
+        return None
+    try:
+        return ZoneInfo(tz_name)
+    except Exception:
+        return None
+
+
+def utc_iso_to_local(utc_iso, tz_name):
+    """'2026-07-30T09:50:00Z' + 'Australia/Brisbane' -> '2026-07-30T19:50:00+10:00'.
+
+    Returns "" if the input isn't a parseable instant. If tzdata is missing the
+    UTC form is returned unchanged — still a correct instant with an explicit
+    offset, which is the property the front-end actually depends on."""
+    if not utc_iso:
+        return ""
+    try:
+        dt = datetime.datetime.fromisoformat(str(utc_iso).replace("Z", "+00:00"))
+    except ValueError:
+        return ""
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=datetime.timezone.utc)
+    zone = _zone(tz_name)
+    if zone is None:
+        return dt.astimezone(datetime.timezone.utc).isoformat()
+    return dt.astimezone(zone).isoformat()
+
+
+def localise_naive_iso(naive_iso, tz_name):
+    """A naive '2026-07-30T19:50:00' is a WALL time at the ground. Attach the
+    ground's real offset so the front-end (and validate_data.py) get an instant
+    instead of an ambiguous string. Already-offset strings pass through."""
+    if not naive_iso:
+        return ""
+    s = str(naive_iso)
+    if re.search(r"(?:[Zz]|[+-]\d{2}:?\d{2})$", s):
+        return s
+    try:
+        dt = datetime.datetime.fromisoformat(s)
+    except ValueError:
+        return s
+    if dt.tzinfo is not None:
+        return dt.isoformat()
+    zone = _zone(tz_name) or _SYD_TZ
+    if zone is None:
+        return s
+    return dt.replace(tzinfo=zone).isoformat()
 
 
 def strip_html(text):
@@ -264,6 +399,22 @@ def strip_html(text):
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n\s*\n+", "\n", text)
     return text
+
+
+def norm_name(s):
+    """Canonical player-name key. MUST stay byte-identical in behaviour to
+    normName() in nrl-tipping-guide.html — lowercase, strip accents, keep
+    apostrophes and hyphens, collapse whitespace. If the two drift, every
+    nrl_players.js lookup silently falls through to the fringe fallback.
+
+    Lives here (not in cloud_fetch.py) so there is exactly ONE Python copy;
+    cloud_fetch.py imports it."""
+    import unicodedata
+    s = unicodedata.normalize("NFD", str(s or ""))
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    s = s.lower().replace("’", "'")
+    s = re.sub(r"[^a-z\s'-]", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
 
 
 def find_short(fragment):
@@ -508,6 +659,87 @@ def parse_draw(raw_text, season):
         seen_teams.add(away_short)
 
     return round_num, fixtures
+
+
+# ---------------------------------------------------------------------------
+# Draw metadata (--draw-meta, default draw_meta.json) — venue / city / kick-off.
+#
+# WHY A STRUCTURED SIDECAR AND NOT MORE PROSE IN draw_dump.html:
+# parse_draw() above scans the lines *after* a matchup line for anything that
+# looks like a venue ("...Stadium") or a time ("Thu 30 Jul, 7:50pm"). That works
+# only if some upstream step happens to render those strings in that order, and
+# cloud_fetch.py's emit_draw() never did — which is exactly why every fixture
+# shipped venue:"" and kickoff:"" for months. GOTCHAS.md's repeated lesson on
+# this project is to trust structured data over a rendered-text illusion, so the
+# kick-off and venue now travel as JSON straight from nrl.com's own draw payload,
+# with the prose scanner kept only as a fallback for a hand-made dump.
+# ---------------------------------------------------------------------------
+def parse_draw_meta(raw_text):
+    """Parse a draw_meta.json sidecar. Returns {} on any problem — this feed is
+    best-effort and must never block a publish."""
+    try:
+        data = json.loads(raw_text)
+    except (ValueError, TypeError):
+        return {}
+    if not isinstance(data, dict) or not isinstance(data.get("fixtures"), dict):
+        return {}
+    return data
+
+
+def apply_draw_meta(fixtures, meta, round_num):
+    """Fill venue / city / kickoff / tz from the structured draw metadata.
+
+    Keyed on "HOME-AWAY" short codes, with a home/away-agnostic fallback so a
+    disagreement about which side is home doesn't silently drop the venue.
+    Skipped entirely when the metadata is for a different round than the one
+    being built — stale metadata is worse than none."""
+    if not meta:
+        return 0
+    meta_round = meta.get("round")
+    if round_num and meta_round and int(meta_round) != int(round_num):
+        print(f"[parse_nrl] WARNING: draw metadata is for round {meta_round} but this build is "
+              f"round {round_num} — ignoring it (venue/kick-off will fall back).", file=sys.stderr)
+        return 0
+    by_key = meta.get("fixtures") or {}
+    by_pair = {}
+    for key, val in by_key.items():
+        parts = str(key).split("-")
+        if len(parts) == 2:
+            by_pair.setdefault(frozenset(parts), val)
+    applied = 0
+    for f in fixtures:
+        rec = by_key.get(f"{f['home']}-{f['away']}") or by_pair.get(frozenset((f["home"], f["away"])))
+        if not isinstance(rec, dict):
+            continue
+        venue = (rec.get("venue") or "").strip()
+        city = (rec.get("city") or "").strip()
+        if venue:
+            f["venue"] = venue
+        if not city:
+            city = resolve_city(f.get("venue") or "", f["home"])
+        if city:
+            f["city"] = city
+        tz_name = (rec.get("tz") or "").strip() or resolve_tz(f.get("city"), f["home"])
+        f["tz"] = tz_name
+        kickoff = utc_iso_to_local(rec.get("kickoffUtc"), tz_name)
+        if kickoff:
+            f["kickoff"] = kickoff
+        applied += 1
+    return applied
+
+
+def finalise_fixture_times(fixtures):
+    """Guarantee every fixture carries a `tz` and, when it has a kick-off at all,
+    an ISO string with a real UTC offset. Runs after every other source so it also
+    repairs the naive strings the prose scanner produces and any naive value
+    inherited from an older nrl_data.js."""
+    for f in fixtures:
+        if not f.get("city"):
+            f["city"] = resolve_city(f.get("venue") or "", f.get("home"))
+        tz_name = (f.get("tz") or "").strip() or resolve_tz(f.get("city"), f.get("home"))
+        f["tz"] = tz_name
+        if f.get("kickoff"):
+            f["kickoff"] = localise_naive_iso(f["kickoff"], tz_name)
 
 
 # ---------------------------------------------------------------------------
@@ -843,6 +1075,475 @@ def derive_form_and_splits(teams, results):
 
 
 # ---------------------------------------------------------------------------
+# "What changed today" feed  (NRL_DATA.changes / NRL_DATA.changesSince)
+#
+# Contract: DESIGN_SPEC.md §2.1. Each entry is
+#   {id, fixture, team, cat, sev, dir, text, pts}
+# plus two fields the front-end ignores but this script needs:
+#   ts   — ISO timestamp of first sighting, for the rolling window
+#   rnd  — the round the entry belongs to, so last week's noise is purged
+#
+# ROLLING WINDOW, NOT "SINCE THE LAST RUN". The workflow runs every 4 hours, so
+# a feed that only diffed against the immediately previous run would show Josh a
+# 4-hour slice: anything that changed overnight would already be gone by
+# breakfast. Instead entries accumulate, dedupe on `id`, and age out after
+# CHANGES_WINDOW_HOURS. `id` therefore has to be stable for "the same change"
+# and distinct for "a new change" — odds ids embed the new price, weather ids a
+# hash of the new forecast, so a second, different line move is a new entry
+# while a re-observation of the same one is not.
+# ---------------------------------------------------------------------------
+CHANGES_WINDOW_HOURS = 36
+CHANGES_MAX = 60                 # hard cap so a pathological diff can't bloat the file
+SQUAD_CHANGES_PER_CLUB = 5       # a wholesale re-list collapses into a summary line
+
+# Mirrors playerImpact() in nrl-tipping-guide.html. Kept deliberately simple: it
+# only has to be good enough to RANK a change's importance and print a points
+# figure, and it uses the same nrl_players.js the front-end does, so the numbers
+# agree with the card. If the front-end weights ever change, change these too.
+SPINE_POS = {"Fullback", "Halfback", "Five-eighth", "Hooker"}
+EDGE_POS = {"Centre", "Winger", "Second-row"}
+BIG_SWING_PTS = 2.5              # DESIGN_SPEC §2.4: at/above this a change is sev 3
+
+
+def load_js_assignment(path, var_name):
+    """Read a `window.<VAR> = {...};` data file into a dict. Returns {} for any
+    problem — every caller treats this as best-effort."""
+    try:
+        p = Path(path)
+        if not p.exists():
+            return {}
+        text = p.read_text(encoding="utf-8", errors="ignore")
+        body = "\n".join(l for l in text.splitlines() if not l.lstrip().startswith("//"))
+        body = re.sub(r"/\*.*?\*/", "", body, flags=re.DOTALL)
+        m = re.search(r"window\.%s\s*=\s*(\{.*\})\s*;?\s*$" % re.escape(var_name), body, re.DOTALL)
+        if not m:
+            return {}
+        return json.loads(m.group(1))
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def player_impact(name, players):
+    """(points, position) for a player, mirroring the front-end's weighting.
+    An unrated player is the same low-impact 'fringe' fallback the app uses."""
+    rec = players.get(norm_name(name)) if players else None
+    if not isinstance(rec, dict):
+        return (0.6 if players else 1.2), None
+    pos = rec.get("pos")
+    base = 3.6 if pos in SPINE_POS else 2.1 if pos in EDGE_POS else 1.2
+    pct = rec.get("pct")
+    pct = pct if isinstance(pct, (int, float)) and not isinstance(pct, bool) else 55
+    q = max(0.55, min(1.4, pct / 70.0))
+    return min(5.0, round(base * q, 1)), pos
+
+
+def looks_like_player(name):
+    """Same guard as the front-end's looksLikePlayer(): the news string mixes
+    real names with prose ('near full strength', 'Team list Tue')."""
+    s = (name or "").strip()
+    if not s or len(s.split()) > 3:
+        return False
+    if re.match(r"^(near|settled|otherwise|several|team|no|full|squad|rotation|plenty|mostly)\b", s, re.I):
+        return False
+    return bool(re.match(r"^[A-Z]", s))
+
+
+def news_entries(news):
+    """Split a team-news string into its semicolon-separated entries."""
+    return [e.strip() for e in str(news or "").split(";") if e.strip()]
+
+
+def entry_player(entry):
+    """'Tom Dearden (Hamstring) — back Round 24' -> 'Tom Dearden'."""
+    name = (entry.split("(")[0] or entry)
+    name = re.sub(r"\s+[—–-]\s+.*$", "", name).strip()
+    return name
+
+
+def _odds_used(odds):
+    """Mirror of resolveOdds(): the price the app actually uses (close, else open,
+    else the legacy flat shape). Returns {'home':x,'away':y} or None."""
+    def ok(price):
+        if not isinstance(price, dict):
+            return None
+        h, a = price.get("home"), price.get("away")
+        if (isinstance(h, (int, float)) and not isinstance(h, bool)
+                and isinstance(a, (int, float)) and not isinstance(a, bool)
+                and h > 1 and a > 1):
+            return {"home": float(h), "away": float(a)}
+        return None
+
+    if not isinstance(odds, dict):
+        return None
+    if odds.get("open") or odds.get("close"):
+        # Validate BEFORE preferring the close, exactly as resolveOdds() in the
+        # app now does: a half-written close must not discard a good open.
+        return ok(odds.get("close")) or ok(odds.get("open"))
+    return ok(odds)
+
+
+def _market_home_prob(used):
+    if not used:
+        return None
+    h, a = 1.0 / used["home"], 1.0 / used["away"]
+    return h / (h + a)
+
+
+def _slug(text):
+    return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", str(text or "").lower())).strip("-") or "x"
+
+
+def _rain_pct(weather):
+    m = re.search(r"(\d+)\s*%\s*rain", str(weather or ""), re.I)
+    return int(m.group(1)) if m else None
+
+
+RAIN_BAND = 20                   # weatherEffect()'s dead zone, and the band width
+
+
+def _rain_band(pct):
+    """Which 20-point rain band a forecast sits in, or None if unreadable.
+
+    weatherEffect() in the app is flat below 20% rain and scales linearly above
+    it, so a move INSIDE a band barely touches the tip while a move ACROSS one is
+    the part worth reporting. Bands are what the weather change feed keys on, so
+    "62% rain" becoming "65% rain" is not a change and cannot mint a new entry."""
+    if pct is None:
+        return None
+    return max(0, min(5, int(pct) // RAIN_BAND))
+
+
+def _instant(iso, tz_name):
+    """Absolute UTC instant for a kick-off string, resolving a naive one against
+    the ground's zone. Returns None if it can't be read."""
+    if not iso:
+        return None
+    resolved = localise_naive_iso(iso, tz_name)
+    try:
+        dt = datetime.datetime.fromisoformat(str(resolved).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        return None
+    return dt.astimezone(datetime.timezone.utc)
+
+
+def _fmt_kick(iso):
+    """'2026-07-30T19:50:00+10:00' -> 'Thu 30 Jul 7:50pm' (in its own offset)."""
+    if not iso:
+        return "TBC"
+    try:
+        dt = datetime.datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+    except ValueError:
+        return str(iso)
+    hour = dt.hour % 12 or 12
+    ap = "am" if dt.hour < 12 else "pm"
+    return f"{dt.strftime('%a')} {dt.day} {dt.strftime('%b')} {hour}:{dt.strftime('%M')}{ap}"
+
+
+def _tname(short):
+    info = TEAMS.get(short)
+    return info["name"] if info else short
+
+
+def _fx_index(data):
+    """{short: (fixture_key, fixture_dict)} for every team playing this round."""
+    out = {}
+    for f in (data.get("fixtures") or []):
+        key = f"{f.get('home')}-{f.get('away')}"
+        out[f.get("home")] = (key, f)
+        out[f.get("away")] = (key, f)
+    return out
+
+
+def _sev_for_pts(pts):
+    return 3 if (pts or 0) >= BIG_SWING_PTS else 2
+
+
+def build_changes(prev_data, data, prev_lineups, lineups, players, now_iso, round_num):
+    """Diff the previous published payload against the one about to be written.
+
+    `prev_data` may be None (first ever run) — in that case nothing is emitted,
+    because "everything is new" is not information."""
+    out = []
+    if not isinstance(prev_data, dict):
+        return out
+    if not prev_data.get("generatedAt"):
+        # The previous payload predates the change feed, so it has no honest
+        # "when was this true" stamp — everything would diff, and a first screen
+        # of 100+ rows is noise, not news. The front-end has a designed state for
+        # exactly this ("Change tracking starts from the next data refresh").
+        print("[parse_nrl] previous payload has no generatedAt stamp — skipping the first "
+              "diff rather than reporting the whole file as 'changed'.", file=sys.stderr)
+        return out
+
+    def add(fixture, team, cat, sev, direction, text, pts=None, ident=None):
+        out.append({
+            "id": ident or f"r{round_num}-{fixture or 'all'}-{cat}-{_slug(text)[:40]}",
+            "fixture": fixture,
+            "team": team,
+            "cat": cat,
+            "sev": sev,
+            "dir": direction,
+            "text": text,
+            "pts": pts,
+            "ts": now_iso,
+            "rnd": round_num,
+        })
+
+    prev_fx = {f"{f.get('home')}-{f.get('away')}": f for f in (prev_data.get("fixtures") or [])}
+    prev_fx_pair = {frozenset((f.get("home"), f.get("away"))): f
+                    for f in (prev_data.get("fixtures") or [])}
+
+    # ---- per-fixture: odds, weather, kick-off, venue -----------------------
+    for f in (data.get("fixtures") or []):
+        key = f"{f.get('home')}-{f.get('away')}"
+        old = prev_fx.get(key) or prev_fx_pair.get(frozenset((f.get("home"), f.get("away"))))
+        if not old:
+            continue
+        h, a = f.get("home"), f.get("away")
+        hn, an = _tname(h), _tname(a)
+
+        # odds -------------------------------------------------------------
+        new_used, old_used = _odds_used(f.get("odds")), _odds_used(old.get("odds"))
+        if new_used and not old_used:
+            add(key, None, "line", 2, "neutral",
+                f"Bookies opened this game — {hn} ${new_used['home']:.2f}, {an} ${new_used['away']:.2f}.",
+                ident=f"r{round_num}-{key}-line-open-{new_used['home']:.2f}-{new_used['away']:.2f}")
+        elif new_used and old_used and (abs(new_used["home"] - old_used["home"]) >= 0.01
+                                        or abs(new_used["away"] - old_used["away"]) >= 0.01):
+            p_new, p_old = _market_home_prob(new_used), _market_home_prob(old_used)
+            swing = abs(p_new - p_old) * 100
+            firming = h if new_used["home"] < old_used["home"] else a
+            add(key, firming, "line", 2 if swing >= 5 else 1, "up",
+                f"Line moved — {hn} ${old_used['home']:.2f} → ${new_used['home']:.2f}, "
+                f"{an} ${old_used['away']:.2f} → ${new_used['away']:.2f}. "
+                f"Market now {p_new * 100:.0f}% {hn} (was {p_old * 100:.0f}%).",
+                ident=f"r{round_num}-{key}-line-{new_used['home']:.2f}-{new_used['away']:.2f}")
+
+        # weather ----------------------------------------------------------
+        # Only a move that changes what the MODEL does with the forecast is news.
+        # Emitting on any string difference (a 1°C wobble) and id-ing by a hash of
+        # that string minted a brand-new entry on every run: eight fixtures × six
+        # runs a day = up to 48 sev-1 rows a day against a 60-slot window, which
+        # is what pushed a "Cleary is out of the 17" entry off the feed inside its
+        # window. Now: emit only on a rain-band crossing (or a ≥25pp jump, or the
+        # first forecast published for a fixture), and key the id on the BAND so a
+        # re-forecast inside the same band collapses onto the entry already there
+        # instead of adding another.
+        new_wx, old_wx = (f.get("weather") or ""), (old.get("weather") or "")
+        if new_wx and new_wx != old_wx:
+            rain_new, rain_old = _rain_pct(new_wx), _rain_pct(old_wx)
+            # A forecast that carries no rain figure at all ("Fine, 22°C") is band
+            # 0 to the model — weatherEffect() shrinks nothing — so a forecast that
+            # LOSES its rain figure is a real crossing, not a silent no-op.
+            band_new = _rain_band(rain_new) if rain_new is not None else (0 if new_wx else None)
+            band_old = _rain_band(rain_old) if rain_old is not None else (0 if old_wx else None)
+            crossed = (band_new is not None and band_old is not None and band_new != band_old)
+            big = (rain_new is not None and rain_old is not None
+                   and abs(rain_new - rain_old) >= 25)
+            first = not old_wx
+            if crossed or big or first:
+                was = f" (was {rain_old}% rain)" if rain_old is not None else ""
+                add(key, None, "weather", 2 if (crossed or big) else 1, "neutral",
+                    f"Forecast for {f.get('city') or hn} updated — {new_wx}{was}.",
+                    ident=f"r{round_num}-{key}-wx-{'new' if first else band_new}")
+
+        # kick-off ---------------------------------------------------------
+        # Compare INSTANTS, not strings. The first run after this change ships
+        # rewrites every naive "…T19:50:00" as "…T19:50:00+10:00"; string-diffing
+        # would report a kick-off move for all eight games on that run alone.
+        tz_name = f.get("tz") or resolve_tz(f.get("city"), h)
+        new_kick = _instant(f.get("kickoff"), tz_name)
+        old_kick = _instant(old.get("kickoff"), old.get("tz") or tz_name)
+        if new_kick and old_kick and new_kick != old_kick:
+            add(key, None, "time", 2, "neutral",
+                f"Kick-off moved — {_fmt_kick(old.get('kickoff'))} → {_fmt_kick(f.get('kickoff'))} "
+                f"(local at the ground).",
+                ident=f"r{round_num}-{key}-time-{_slug(f.get('kickoff'))}")
+
+        # venue ------------------------------------------------------------
+        if (f.get("venue") or "") != (old.get("venue") or "") and f.get("venue") and old.get("venue"):
+            add(key, None, "venue", 2, "neutral",
+                f"Venue moved — {old.get('venue')} → {f.get('venue')}"
+                + (f", {f.get('city')}" if f.get("city") else "") + ".",
+                ident=f"r{round_num}-{key}-venue-{_slug(f.get('venue'))}")
+
+    # ---- per-team: injury-table churn ------------------------------------
+    idx = _fx_index(data)
+    prev_news = {t.get("short"): t.get("news") for t in (prev_data.get("teams") or [])}
+    for t in (data.get("teams") or []):
+        short = t.get("short")
+        if short not in idx:
+            continue                       # bye team — nothing to tip, nothing to report
+        fixture_key = idx[short][0]
+        new_set = news_entries(t.get("news"))
+        old_set = news_entries(prev_news.get(short))
+        if new_set == old_set:
+            continue
+        new_by_player = {norm_name(entry_player(e)): e for e in new_set if looks_like_player(entry_player(e))}
+        old_by_player = {norm_name(entry_player(e)): e for e in old_set if looks_like_player(entry_player(e))}
+        for k in sorted(set(new_by_player) - set(old_by_player)):
+            entry = new_by_player[k]
+            name = entry_player(entry)
+            pts, pos = player_impact(name, players)
+            add(fixture_key, short, "injury", _sev_for_pts(pts), "down",
+                f"{_tname(short)}: {entry} — new on the injury list.", pts,
+                ident=f"r{round_num}-{short}-inj-{_slug(name)}")
+        for k in sorted(set(old_by_player) - set(new_by_player)):
+            name = entry_player(old_by_player[k])
+            pts, pos = player_impact(name, players)
+            add(fixture_key, short, "injury", 2, "up",
+                f"{_tname(short)}: {name} is off the injury list.", pts,
+                ident=f"r{round_num}-{short}-fit-{_slug(name)}")
+
+    # ---- per-team: named 17 in / out -------------------------------------
+    # Only diffed when BOTH lineup files describe the round being tipped. On the
+    # Tuesday the lists first drop, the previous file is still last week's, so
+    # this correctly emits nothing instead of 34 "named in the 17" rows per game.
+    lu_round = (lineups or {}).get("round")
+    prev_lu_round = (prev_lineups or {}).get("round")
+    if (lineups and prev_lineups and lu_round and prev_lu_round
+            and int(lu_round) == int(prev_lu_round)
+            and (not round_num or int(lu_round) == int(round_num))):
+        cur_teams = (lineups.get("teams") or {})
+        old_teams = (prev_lineups.get("teams") or {})
+        cur_news = {t.get("short"): {norm_name(entry_player(e)) for e in news_entries(t.get("news"))}
+                    for t in (data.get("teams") or [])}
+        for short, squad in sorted(cur_teams.items()):
+            old_squad = old_teams.get(short)
+            if short not in idx or not isinstance(squad, list) or not isinstance(old_squad, list):
+                continue
+            fixture_key = idx[short][0]
+            cur_names = {norm_name(n): n for n in squad if n}
+            old_names = {norm_name(n): n for n in old_squad if n}
+            ins = sorted(set(cur_names) - set(old_names))
+            outs = sorted(set(old_names) - set(cur_names))
+            scored = []
+            for k in ins:
+                name = cur_names[k]
+                pts, pos = player_impact(name, players)
+                was_doubt = k in (cur_news.get(short) or set())
+                scored.append((pts, "in", name, pos, was_doubt))
+            for k in outs:
+                name = old_names[k]
+                pts, pos = player_impact(name, players)
+                scored.append((pts, "out", name, pos, False))
+            scored.sort(key=lambda x: -x[0])
+            for pts, kind, name, pos, was_doubt in scored[:SQUAD_CHANGES_PER_CLUB]:
+                where = f" ({pos})" if pos else ""
+                if kind == "in":
+                    text = (f"{name}{where} named in the {_tname(short)} 17"
+                            + (" — was on the injury list." if was_doubt else "."))
+                    add(fixture_key, short, "in", _sev_for_pts(pts), "up", text, pts,
+                        ident=f"r{round_num}-{short}-in-{_slug(name)}")
+                else:
+                    add(fixture_key, short, "out", _sev_for_pts(pts), "down",
+                        f"{name}{where} is out of the {_tname(short)} 17.", pts,
+                        ident=f"r{round_num}-{short}-out-{_slug(name)}")
+            spill = len(scored) - SQUAD_CHANGES_PER_CLUB
+            if spill > 0:
+                add(fixture_key, short, "other", 1, "neutral",
+                    f"{_tname(short)}: {spill} further squad change{'' if spill == 1 else 's'}.",
+                    ident=f"r{round_num}-{short}-squad-spill-{len(scored)}")
+    return out
+
+
+def merge_changes(prev_changes, new_changes, now, round_num, window_hours=CHANGES_WINDOW_HOURS):
+    """Roll the previous window forward: keep entries from this round that are
+    younger than `window_hours`, dedupe on `id` (the FIRST sighting's timestamp
+    wins, so a persistent condition still ages out), then append what's new."""
+    cutoff = now - datetime.timedelta(hours=window_hours)
+    kept, seen = [], set()
+    for c in (prev_changes or []):
+        if not isinstance(c, dict) or not c.get("id") or not str(c.get("text", "")).strip():
+            continue
+        if round_num and c.get("rnd") is not None and int(c["rnd"]) != int(round_num):
+            continue                                   # last round's news is not news
+        ts = c.get("ts")
+        try:
+            when = datetime.datetime.fromisoformat(str(ts).replace("Z", "+00:00"))
+        except (ValueError, TypeError):
+            continue                                   # unstampable -> can never expire; drop
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=now.tzinfo)
+        if when < cutoff:
+            continue
+        if c["id"] in seen:
+            continue
+        seen.add(c["id"])
+        kept.append(c)
+    for c in new_changes or []:
+        if c["id"] in seen:
+            continue
+        seen.add(c["id"])
+        kept.append(c)
+    # SEVERITY FIRST, then newest first — because of the CHANGES_MAX truncation
+    # below. Sorting on `ts` first made severity a tie-break within the same
+    # second, i.e. no protection at all: a run that produced 60 trivial entries
+    # evicted a sev-3 "Cleary is out of the 17" half an hour into its 36-hour
+    # window. With severity leading, the cap sheds trivia and keeps signal.
+    # The front-end re-sorts for display (groups by fixture, orders by highest
+    # severity then fixture order, and tallies the sev-1s into one footnote),
+    # so this ordering is free to serve the truncation instead.
+    kept.sort(key=lambda c: (int(c.get("sev") or 2), str(c.get("ts") or "")), reverse=True)
+    return kept[:CHANGES_MAX]
+
+
+def changes_since(changes, prev_data, now_iso, window_hours=CHANGES_WINDOW_HOURS):
+    """The instant the window opens, for the header's "{n} updates since {time}".
+
+    The oldest entry still on show is the floor, but it is NOT the answer on its
+    own: on a busy run every entry was first seen a second ago, so min(ts) is
+    "now" and the header read "18 updates since 8:42 pm" at 8:42 pm. Everything
+    in the feed was in fact detected at or after the PREVIOUS run, so that stamp
+    is the honest window opening — clamped to the rolling window so a workflow
+    outage can't advertise a since-time older than anything on show."""
+    stamps = sorted(str(c.get("ts")) for c in changes if c.get("ts"))
+    oldest = stamps[0] if stamps else None
+    prev_stamp = None
+    if isinstance(prev_data, dict):
+        prev_stamp = prev_data.get("generatedAt") or prev_data.get("changesSince")
+    if prev_stamp:
+        try:
+            prev_dt = datetime.datetime.fromisoformat(str(prev_stamp).replace("Z", "+00:00"))
+            now_dt = datetime.datetime.fromisoformat(str(now_iso).replace("Z", "+00:00"))
+            if prev_dt.tzinfo is None:
+                prev_dt = prev_dt.replace(tzinfo=now_dt.tzinfo)
+            floor = now_dt - datetime.timedelta(hours=window_hours)
+            if prev_dt < floor:
+                prev_stamp = floor.isoformat(timespec="seconds")
+        except (ValueError, TypeError):
+            pass
+    if oldest and prev_stamp:
+        return min(oldest, str(prev_stamp))
+    return oldest or prev_stamp or now_iso
+
+
+def attach_changes(data, prev_data, args, round_num, now):
+    """Compute this run's change feed and stamp it onto `data`. Best-effort in
+    every direction: any failure leaves the previous window untouched rather
+    than blanking a feed Josh may not have read yet."""
+    now_iso = now.isoformat(timespec="seconds")
+    data["generatedAt"] = now_iso
+    try:
+        players = load_js_assignment(args.players, "NRL_PLAYERS")
+        lineups = load_js_assignment(args.lineups, "NRL_LINEUPS")
+        prev_lineups = load_js_assignment(args.lineups_prev, "NRL_LINEUPS")
+        fresh = build_changes(prev_data, data, prev_lineups, lineups, players, now_iso, round_num)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[parse_nrl] WARNING: change-feed diff failed ({exc}); "
+              f"carrying the previous window forward.", file=sys.stderr)
+        fresh = []
+    prev_changes = (prev_data or {}).get("changes") if isinstance(prev_data, dict) else []
+    data["changes"] = merge_changes(prev_changes, fresh, now, round_num, args.changes_window)
+    data["changesSince"] = changes_since(data["changes"], prev_data, now_iso, args.changes_window)
+    print(f"[parse_nrl] change feed: {len(fresh)} new, {len(data['changes'])} in the "
+          f"{args.changes_window}h window (since {data['changesSince']})")
+    return len(fresh)
+
+
+# ---------------------------------------------------------------------------
 # Validation
 # ---------------------------------------------------------------------------
 def validate(teams, fixtures):
@@ -942,10 +1643,23 @@ def run_merge(args):
               file=sys.stderr)
         sys.exit(1)
 
+    # Snapshot BEFORE anything is mutated — this is what the change feed diffs
+    # against. Merge mode is the fast reactive path, so it has to produce changes
+    # too; without this snapshot it would compare the file to itself.
+    prev_data = json.loads(json.dumps(data))
+
     teams = data["teams"]
     fixtures = data["fixtures"]
 
-    n_odds = n_injuries = n_weather = 0
+    n_odds = n_injuries = n_weather = n_meta = 0
+
+    if args.draw_meta:
+        meta_path = Path(args.draw_meta)
+        if meta_path.exists():
+            meta = parse_draw_meta(meta_path.read_text(encoding="utf-8", errors="ignore"))
+            n_meta = apply_draw_meta(fixtures, meta, data.get("round"))
+            print(f"[parse_nrl] MERGE: refreshed venue/city/kick-off on {n_meta} fixture(s) "
+                  f"from {meta_path}")
 
     if args.odds:
         odds_path = Path(args.odds)
@@ -977,8 +1691,11 @@ def run_merge(args):
         else:
             print(f"[parse_nrl] WARNING: --weather file not found: {weather_path}", file=sys.stderr)
 
+    finalise_fixture_times(fixtures)
+
     news_updated = args.updated or local_today_iso()
     data["newsUpdated"] = news_updated
+    attach_changes(data, prev_data, args, data.get("round"), now_local())
     # NOTE: `updated`, `round`, ladder numbers (P/W/L/PF/PA/last5/home/away)
     # and the fixtures list are all left exactly as loaded above — only the
     # reactive fields mutated in place (odds/news/weather) and newsUpdated
@@ -1027,6 +1744,21 @@ def main():
     ap.add_argument("--results", default=None,
                      help="optional local results/completed-scores dump (see sources.md); the "
                           "--draw dump is also always scanned for finished-game scores")
+    ap.add_argument("--draw-meta", dest="draw_meta", default="draw_meta.json",
+                     help="structured venue/city/kick-off sidecar written by cloud_fetch.py from "
+                          "nrl.com's own draw payload. Defaults to draw_meta.json and is skipped "
+                          "silently if absent — it defaults ON deliberately: this feed being wired "
+                          "up by an easily-forgotten flag is exactly how odds stayed null for months.")
+    ap.add_argument("--players", default="nrl_players.js",
+                     help="player ratings map, used to size a change's model-points swing")
+    ap.add_argument("--lineups", default="nrl_lineups.js", help="this run's named 17s")
+    ap.add_argument("--lineups-prev", dest="lineups_prev", default="nrl_lineups.prev.js",
+                     help="the PREVIOUS run's named 17s, preserved by cloud_fetch.py, so "
+                          "named/omitted players can be diffed")
+    ap.add_argument("--changes-window", dest="changes_window", type=int, default=CHANGES_WINDOW_HOURS,
+                     help="hours a change stays in the 'what changed' feed (default %(default)s). "
+                          "The workflow runs every 4h, so a per-run feed would hide anything that "
+                          "moved overnight.")
     ap.add_argument("--learned", default="nrl_learned.js",
                      help="learning-loop memory file to append newly-finished results to "
                           "(default: nrl_learned.js)")
@@ -1089,21 +1821,36 @@ def main():
     if teams and len(teams) != 17:
         print(f"[parse_nrl] WARNING: ladder source only yielded {len(teams)}/17 teams", file=sys.stderr)
 
+    # The previously published payload: the baseline the change feed diffs
+    # against, and the fallback when the draw won't parse.
+    out_path = Path(args.out)
+    prev_data = None
+    if out_path.exists():
+        try:
+            prev_data = load_existing_data(out_path)
+        except Exception as e:  # noqa: BLE001
+            print(f"[parse_nrl] WARNING: existing {out_path} unreadable ({e}) — "
+                  f"no change feed this run.", file=sys.stderr)
+
     # Degrade gracefully: if fixtures couldn't be parsed but an existing
     # nrl_data.js is present, keep its fixtures/round/bye rather than
     # emitting an empty round.
-    out_path = Path(args.out)
-    if not fixtures and out_path.exists():
-        try:
-            old_text = out_path.read_text(encoding="utf-8")
-            _ob = "\n".join(l for l in old_text.splitlines() if not l.lstrip().startswith("//"))
-            old_json = _ob.split("=", 1)[1].rsplit(";", 1)[0]
-            old = json.loads(old_json)
-            fixtures = old.get("fixtures", [])
-            round_num = round_num or old.get("round")
-            print("[parse_nrl] draw missing — reused fixtures/round from existing nrl_data.js", file=sys.stderr)
-        except Exception:
-            pass
+    if not fixtures and prev_data:
+        fixtures = json.loads(json.dumps(prev_data.get("fixtures", [])))  # detached copy
+        round_num = round_num or prev_data.get("round")
+        print("[parse_nrl] draw missing — reused fixtures/round from existing nrl_data.js", file=sys.stderr)
+
+    # Venue / host city / kick-off, from the structured nrl.com sidecar.
+    if fixtures and args.draw_meta:
+        meta_path = Path(args.draw_meta)
+        if meta_path.exists():
+            meta = parse_draw_meta(meta_path.read_text(encoding="utf-8", errors="ignore"))
+            n_meta = apply_draw_meta(fixtures, meta, round_num)
+            print(f"[parse_nrl] applied venue/city/kick-off metadata to {n_meta}/{len(fixtures)} "
+                  f"fixture(s) from {meta_path}")
+        else:
+            print(f"[parse_nrl] NOTE: no draw metadata at {meta_path} — venue/kick-off fall back "
+                  f"to whatever the draw dump's text carries.", file=sys.stderr)
 
     if not teams:
         print("[parse_nrl] ERROR: no ladder data available — cannot build a valid nrl_data.js. Aborting.", file=sys.stderr)
@@ -1154,6 +1901,9 @@ def main():
         else:
             print(f"[parse_nrl] WARNING: --weather file not found: {weather_path}", file=sys.stderr)
 
+    # Every fixture ends up with a `tz` and an offset-bearing `kickoff`.
+    finalise_fixture_times(fixtures)
+
     bye_teams = compute_bye(teams, fixtures) if fixtures else []
     data = {
         "updated": updated,
@@ -1164,6 +1914,8 @@ def main():
         "fixtures": fixtures,
         "byeTeams": bye_teams,
     }
+
+    attach_changes(data, prev_data, args, data["round"], now_local())
 
     emit_js(data, out_path)
     print(f"[parse_nrl] wrote {out_path} — {len(teams)} teams, round {data['round']}, "

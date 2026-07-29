@@ -21,24 +21,44 @@ tags / the right line formats, not pre-flattened text).
   * nrl_lineups.js     — the named 1-17 per club from the current round's team-lists
                          article. The front-end uses it to cancel an injury-table
                          entry for anyone who is actually named in the side.
+  * nrl_lineups.prev.js— the PREVIOUS run's copy of the above, kept so parse_nrl.py
+                         can diff it and tell Josh who was named / who dropped out.
+  * odds_dump.txt      — bookmaker head-to-head prices per fixture, from nrl.com's
+                         own draw payload. In parse_nrl.parse_odds()'s existing
+                         "Home v Away: 1.85 / 1.95" format.
+  * draw_meta.json     — venue / host city / UTC kick-off per fixture, also from
+                         nrl.com's draw payload. Structured on purpose: the old
+                         path emitted prose and hoped a regex would find a venue
+                         in it, which is why every fixture shipped venue:"".
 
 Anything that can't be parsed confidently is left as the previous committed
 file (never wipes good data). Network access is fine here (GitHub servers).
 """
 import datetime
+import html as html_mod
+import json
+import os
 import re
+import shutil
 import sys
 
 import requests
 from bs4 import BeautifulSoup, NavigableString
 
-from parse_nrl import find_short, TEAMS, TEAM_HOME_CITY  # side-effect free import
+# Shared with the parser so there is exactly ONE alias table and ONE name
+# normaliser in the project (see docs/GOTCHAS.md — a second, parallel mapping is
+# how feeds drift apart). Side-effect free import.
+from parse_nrl import find_short, norm_name, TEAMS, TEAM_HOME_CITY  # noqa: F401
 
 HEADERS = {"User-Agent": "footy-tipping-personal/1.0 (non-commercial; polite; low-frequency)"}
 LADDER_URL = "https://www.zerotackle.com/nrl/nrl-ladder/"
 FIXTURES_URL = "https://www.zerotackle.com/nrl/fixtures-results/"
 INJURIES_URL = "https://www.zerotackle.com/nrl/injuries-suspensions/"
 TEAMLISTS_INDEX_URL = "https://www.zerotackle.com/nrl/team-lists/"
+
+# The NRL season is the calendar year (Mar–Oct), so today's year is right all
+# season. NRL_SEASON overrides it for a replay/backfill run.
+SEASON = int(os.environ.get("NRL_SEASON") or datetime.date.today().year)
 
 # Player positions as they appear on the ratings page (closed set).
 RATING_POSITIONS = ["Five-eighth", "Second-row", "Fullback", "Halfback", "Hooker",
@@ -198,6 +218,219 @@ def emit_draw(rnd, fixtures):
     for home, away in fixtures:
         out.append(f"<p>{TEAMS[home]['name']} v {TEAMS[away]['name']}</p>")
     return "\n".join(out) + "\n"
+
+
+# --------------------------------------------------------------------------- nrl.com draw
+# THE OFFICIAL DRAW, as structured data.
+#
+# Zero Tackle gives us which fixtures exist and which round is next, but nothing
+# else: extract_draw() returns bare (home, away) pairs and emit_draw() wrote only
+# "<h2>Round 22</h2>" + "<p>Cowboys v Roosters</p>". parse_nrl.parse_draw() then
+# hunted those lines for a venue and a kick-off time that were never written, so
+# every fixture published venue:"" and kickoff:"" — and the odds field had no
+# source at all and had been null since the app was built.
+#
+# nrl.com's /draw/ page embeds the entire round as JSON in a `q-data` attribute
+# on the #vue-draw element: venue, venueCity, a Z-suffixed UTC kickOffTimeLong,
+# and each side's decimal head-to-head price. We read that blob rather than the
+# rendered page — GOTCHAS.md's recurring lesson on this project is that the
+# rendered text is an illusion and the underlying data is the truth.
+NRL_COMPETITION_ID = 111                     # NRL Telstra Premiership
+NRL_DRAW_URL = "https://www.nrl.com/draw/?competition={comp}&round={rnd}&season={season}"
+NRL_DRAW_URL_CURRENT = "https://www.nrl.com/draw/?competition={comp}&season={season}"
+QDATA_RE = re.compile(r'id="vue-draw"[^>]*\bq-data="([^"]*)"')
+ROUND_TITLE_RE = re.compile(r"round\s+(\d{1,2})", re.IGNORECASE)
+
+
+def fetch_nrl_draw(season, rnd=None):
+    """Fetch and decode nrl.com's draw payload for a round (or the current round
+    when `rnd` is None). Returns the decoded dict, or None on any failure —
+    every caller degrades rather than aborting."""
+    url = (NRL_DRAW_URL.format(comp=NRL_COMPETITION_ID, rnd=int(rnd), season=int(season))
+           if rnd else NRL_DRAW_URL_CURRENT.format(comp=NRL_COMPETITION_ID, season=int(season)))
+    try:
+        page = fetch(url)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[cloud_fetch] WARNING: nrl.com draw fetch failed ({exc}) — "
+              f"no odds/venue/kick-off this run.", file=sys.stderr)
+        return None
+    m = QDATA_RE.search(page)
+    if not m:
+        print("[cloud_fetch] WARNING: nrl.com draw page carried no q-data blob "
+              "(page redesign?) — no odds/venue/kick-off this run.", file=sys.stderr)
+        return None
+    try:
+        data = json.loads(html_mod.unescape(m.group(1)))
+    except (ValueError, TypeError) as exc:
+        print(f"[cloud_fetch] WARNING: nrl.com q-data blob would not decode ({exc}).", file=sys.stderr)
+        return None
+    if not isinstance(data, dict) or not isinstance(data.get("fixtures"), list):
+        print("[cloud_fetch] WARNING: nrl.com payload has no fixtures list.", file=sys.stderr)
+        return None
+    return data
+
+
+def _odds_value(team_block):
+    """nrl.com ships odds as a STRING, and omits/blanks/nulls it before the
+    market opens. Return a float > 1 or None; never a placeholder."""
+    raw = (team_block or {}).get("odds")
+    if raw in (None, "", "-"):
+        return None
+    try:
+        val = float(str(raw).strip())
+    except (TypeError, ValueError):
+        return None
+    return val if val > 1 else None
+
+
+def parse_nrl_draw(data):
+    """Decoded nrl.com payload -> (round, fixtures, byes, show_odds).
+
+    fixtures is a list of dicts:
+      {home, away, venue, city, kickoffUtc, homeOdds, awayOdds}
+    with `home`/`away` as this project's short codes. A fixture whose two teams
+    don't both resolve is skipped and logged rather than guessed at."""
+    fixtures, rounds, unresolved = [], [], []
+    for fx in data.get("fixtures") or []:
+        if (fx.get("type") or "Match") != "Match":
+            continue
+        hb, ab = fx.get("homeTeam") or {}, fx.get("awayTeam") or {}
+        home, away = find_short(hb.get("nickName") or ""), find_short(ab.get("nickName") or "")
+        if not home or not away or home == away:
+            unresolved.append(f"{hb.get('nickName')!r} v {ab.get('nickName')!r}")
+            continue
+        rm = ROUND_TITLE_RE.search(fx.get("roundTitle") or "")
+        if rm:
+            rounds.append(int(rm.group(1)))
+        fixtures.append({
+            "home": home, "away": away,
+            "venue": (fx.get("venue") or "").strip(),
+            "city": (fx.get("venueCity") or "").strip(),
+            "kickoffUtc": ((fx.get("clock") or {}).get("kickOffTimeLong") or "").strip(),
+            "homeOdds": _odds_value(hb),
+            "awayOdds": _odds_value(ab),
+        })
+    byes = []
+    for b in data.get("byes") or []:
+        s = find_short(b.get("teamNickName") or "")
+        if s:
+            byes.append(s)
+        elif b.get("teamNickName"):
+            unresolved.append(f"bye {b.get('teamNickName')!r}")
+    if unresolved:
+        # A nickname nrl.com uses that our alias table doesn't know is a real
+        # defect: the fix is a new alias in parse_nrl.TEAMS, never a second
+        # parallel mapping in this file.
+        print("[cloud_fetch] ERROR: nrl.com nickname(s) did not resolve to a short code — "
+              "add the alias to TEAMS in parse_nrl.py: " + "; ".join(unresolved), file=sys.stderr)
+    rnd = max(set(rounds), key=rounds.count) if rounds else None
+    return rnd, fixtures, byes, bool(data.get("showOdds"))
+
+
+def reconcile_draw(zt_round, zt_fixtures, nrl_round, nrl_fixtures):
+    """Agree on one fixture list.
+
+    Zero Tackle drives WHICH round is next (it's what the ladder/results feeds are
+    keyed to, and it's the behaviour everything downstream already depends on), so
+    a round disagreement is resolved in Zero Tackle's favour and shouted about.
+
+    nrl.com is the OFFICIAL listing, so it wins on home/away designation. GOTCHAS
+    records a past "Eels v Tigers looks swapped" report that turned out to be
+    correct per the official listing — hence: prefer nrl.com, but log every flip
+    loudly rather than reordering in silence.
+
+    Returns (round, [(home, away), ...], flips)."""
+    if not zt_fixtures:
+        if nrl_fixtures:
+            print(f"[cloud_fetch] Zero Tackle draw unusable — falling back to nrl.com's "
+                  f"round {nrl_round} ({len(nrl_fixtures)} fixtures).", file=sys.stderr)
+            return nrl_round, [(f["home"], f["away"]) for f in nrl_fixtures], []
+        return zt_round, [], []
+    if nrl_round and zt_round and int(nrl_round) != int(zt_round):
+        print(f"[cloud_fetch] WARNING: round disagreement — Zero Tackle says round {zt_round}, "
+              f"nrl.com says round {nrl_round}. Using {zt_round} (Zero Tackle drives the ladder, "
+              f"results and injuries feeds); nrl.com odds/venues for this round will be dropped.",
+              file=sys.stderr)
+        return zt_round, list(zt_fixtures), []
+    orient = {frozenset((f["home"], f["away"])): (f["home"], f["away"]) for f in nrl_fixtures}
+    out, flips = [], []
+    for home, away in zt_fixtures:
+        official = orient.get(frozenset((home, away)))
+        if official and official != (home, away):
+            flips.append(f"{home} v {away} -> {official[0]} v {official[1]}")
+            out.append(official)
+        else:
+            out.append((home, away))
+    if flips:
+        print("[cloud_fetch] NOTE: home/away designation taken from nrl.com (the official "
+              "listing) over Zero Tackle for: " + "; ".join(flips), file=sys.stderr)
+    zt_pairs = {frozenset(p) for p in zt_fixtures}
+    only_nrl = [f"{f['home']} v {f['away']}" for f in nrl_fixtures
+                if frozenset((f["home"], f["away"])) not in zt_pairs]
+    only_zt = [f"{h} v {a}" for h, a in zt_fixtures if frozenset((h, a)) not in orient]
+    if only_nrl:
+        print(f"[cloud_fetch] NOTE: on nrl.com but not Zero Tackle: {'; '.join(only_nrl)}",
+              file=sys.stderr)
+    if only_zt:
+        print(f"[cloud_fetch] NOTE: on Zero Tackle but not nrl.com: {'; '.join(only_zt)}",
+              file=sys.stderr)
+    return zt_round, out, flips
+
+
+def emit_odds(rnd, fixtures, pairs):
+    """Head-to-head prices in the EXACT line format parse_nrl.parse_odds()
+    already reads: "Home v Away: 1.85 / 1.95". Nothing new is invented here —
+    the parser and its {open, close} CLV handling are untouched.
+
+    `pairs` is the reconciled [(home, away)] list, so the line is written in the
+    same orientation the draw dump uses. (parse_odds keys on an unordered pair
+    anyway, but a dump a human can read against the draw is worth the care.)"""
+    by_pair = {frozenset((f["home"], f["away"])): f for f in fixtures}
+    lines = [f"# Round {rnd} head-to-head odds, from nrl.com's own draw payload.",
+             f"# Fetched {datetime.datetime.now().isoformat(timespec='seconds')}. "
+             f"Decimal odds; a fixture is omitted entirely until its market opens."]
+    n = 0
+    for home, away in pairs:
+        f = by_pair.get(frozenset((home, away)))
+        if not f or f["homeOdds"] is None or f["awayOdds"] is None:
+            continue
+        ho, ao = (f["homeOdds"], f["awayOdds"]) if f["home"] == home else (f["awayOdds"], f["homeOdds"])
+        lines.append(f"{TEAMS[home]['name']} v {TEAMS[away]['name']}: {ho:.2f} / {ao:.2f}")
+        n += 1
+    return "\n".join(lines) + "\n", n
+
+
+def emit_draw_meta(season, rnd, fixtures, pairs):
+    """Venue / host city / UTC kick-off per fixture, as JSON keyed "HOME-AWAY".
+
+    A sidecar rather than more prose in draw_dump.html: parse_draw()'s venue and
+    kick-off hints are regexes over rendered text, which is the exact pattern
+    GOTCHAS.md blames for the team-list footer bug. The timezone conversion is
+    left to parse_nrl.py (it owns VENUE_CITY / CITY_TZ and is the pure, testable
+    half of the pipeline), so what travels here is the raw UTC instant."""
+    by_pair = {frozenset((f["home"], f["away"])): f for f in fixtures}
+    out = {}
+    for home, away in pairs:
+        f = by_pair.get(frozenset((home, away)))
+        if not f:
+            continue
+        out[f"{home}-{away}"] = {
+            "venue": f["venue"],
+            "city": f["city"],
+            "kickoffUtc": f["kickoffUtc"],
+        }
+    doc = {
+        "_comment": ("Venue / host city / kick-off for the round below, from nrl.com's own draw "
+                     "payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the "
+                     "ground's local time and emits fixture.tz. Regenerated every run by "
+                     "cloud_fetch.py — do not hand-edit."),
+        "season": int(season),
+        "round": rnd,
+        "source": "nrl.com",
+        "fetched": datetime.datetime.now().isoformat(timespec="seconds"),
+        "fixtures": out,
+    }
+    return json.dumps(doc, indent=2, ensure_ascii=False) + "\n", len(out)
 
 
 # --------------------------------------------------------------------------- results
@@ -392,15 +625,9 @@ def emit_injuries(news_by_short):
 
 
 # --------------------------------------------------------------------------- player ratings
-def norm_name(s):
-    """Match the front-end normName(): lowercase, strip accents/punct, collapse
-    spaces. Keeps apostrophes and hyphens so 'Cherry-Evans' / \"Olakau'atu\" match."""
-    import unicodedata
-    s = unicodedata.normalize("NFD", str(s or ""))
-    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
-    s = s.lower().replace("’", "'")
-    s = re.sub(r"[^a-z\s'-]", " ", s)
-    return re.sub(r"\s+", " ", s).strip()
+# norm_name() lives in parse_nrl.py and is imported at the top of this file — it
+# must stay identical to normName() in the HTML, and one copy is easier to keep
+# honest than two.
 
 
 def _clean_name(raw):
@@ -714,8 +941,73 @@ def emit_lineups(lineups, rnd):
 
 
 def write(path, text):
-    with open(path, "w", encoding="utf-8") as fh:
+    """Atomic write: temp file then os.replace, so an interrupted or crashing
+    run can never leave a half-written dump that clobbers a good one."""
+    tmp = str(path) + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
         fh.write(text)
+    os.replace(tmp, path)
+
+
+def preserve(path, backup_path):
+    """Keep the outgoing copy of a generated file so the next stage can diff it.
+    Used for nrl_lineups.js: it is rewritten in place every run, so without a
+    snapshot there is nothing to compare 'who is named this time' against."""
+    try:
+        if os.path.exists(path):
+            shutil.copyfile(path, backup_path)
+            return True
+    except OSError as exc:
+        print(f"[cloud_fetch] WARNING: could not preserve {path} -> {backup_path}: {exc}",
+              file=sys.stderr)
+    return False
+
+
+def existing_draw(path):
+    """(round, fixture_count) of the COMMITTED draw dump, or (None, 0).
+
+    The publish gate needs the committed dump's own fixture count, not a bare
+    range: if Zero Tackle's draw fails and nrl.com only resolves 6 of 8
+    nicknames, "6 <= n <= 9" happily overwrites a good 8-fixture dump with a
+    short one. ARCHITECTURE.md's promise is the opposite — a source that won't
+    parse confidently leaves the committed dump untouched."""
+    rnd, pairs = None, set()
+    try:
+        with open(path, "r", encoding="utf-8", errors="ignore") as fh:
+            for line in fh:
+                if rnd is None:
+                    m = re.search(r"<h2>\s*Round\s+(\d{1,2})", line, re.IGNORECASE)
+                    if m:
+                        rnd = int(m.group(1))
+                        continue
+                m = re.match(r"\s*<p>(.+?)\s+v\s+(.+?)</p>", line, re.IGNORECASE)
+                if not m:
+                    continue
+                # find_short(), not an exact name match: the committed dump may
+                # carry fuller club names ("North Queensland Cowboys") than
+                # emit_draw() writes today.
+                home, away = find_short(m.group(1)), find_short(m.group(2))
+                if home and away and home != away:
+                    pairs.add(frozenset((home, away)))
+    except OSError:
+        return None, 0
+    return rnd, len(pairs)
+
+
+def existing_odds_round(path):
+    """The round a committed odds dump was written for, or None."""
+    try:
+        with open(path, "r", encoding="utf-8", errors="ignore") as fh:
+            for _ in range(3):
+                line = fh.readline()
+                if not line:
+                    break
+                m = re.search(r"round\s+(\d{1,2})", line, re.IGNORECASE)
+                if m:
+                    return int(m.group(1))
+    except OSError:
+        pass
+    return None
 
 
 # --------------------------------------------------------------------------- main
@@ -745,13 +1037,77 @@ def main():
     except Exception as exc:  # noqa: BLE001
         print(f"[cloud_fetch] WARNING: fixtures fetch/parse failed ({exc}); keeping draw_dump.html", file=sys.stderr)
         rnd = None
-    if rnd and 6 <= len(round_fixtures) <= 9:
+
+    # ----- the official nrl.com draw: odds + venue + kick-off -----------------
+    zt_round, zt_fixtures = rnd, list(round_fixtures)
+    nrl_payload = fetch_nrl_draw(SEASON, zt_round)
+    nrl_round, nrl_fixtures, nrl_byes, show_odds = None, [], [], False
+    if nrl_payload is not None:
+        nrl_round, nrl_fixtures, nrl_byes, show_odds = parse_nrl_draw(nrl_payload)
+        print(f"[cloud_fetch] nrl.com: round {nrl_round}, {len(nrl_fixtures)} fixtures, "
+              f"bye={nrl_byes or '-'}, showOdds={show_odds}")
+        for f in nrl_fixtures:
+            print(f"    {f['home']} v {f['away']} @ {f['venue'] or '?'} ({f['city'] or '?'}) "
+                  f"{f['kickoffUtc'] or '?'} odds {f['homeOdds']}/{f['awayOdds']}")
+    rnd, round_fixtures, _flips = reconcile_draw(zt_round, zt_fixtures, nrl_round, nrl_fixtures)
+
+    # nrl.com data is only usable if it describes the round we're actually
+    # publishing — stale metadata is worse than none.
+    nrl_usable = bool(nrl_fixtures) and (not rnd or not nrl_round or int(nrl_round) == int(rnd))
+
+    # Publish gate: a plausible count AND — for the round already on disk — never
+    # fewer fixtures than the committed dump already has. A partial parse (Zero
+    # Tackle down + nrl.com nicknames unresolved) is exactly the case that used to
+    # slip through the bare 6..9 range and shrink a good 8-fixture dump.
+    committed_round, committed_n = existing_draw("draw_dump.html")
+    plausible = bool(rnd) and 6 <= len(round_fixtures) <= 9
+    shrinks = (plausible and committed_n and committed_round == rnd
+               and len(round_fixtures) < committed_n)
+    if plausible and not shrinks:
         write("draw_dump.html", emit_draw(rnd, round_fixtures))
         print(f"[cloud_fetch] wrote draw_dump.html: Round {rnd}, {len(round_fixtures)} fixtures "
               f"({', '.join(h + 'v' + a for h, a in round_fixtures)})")
+    elif shrinks:
+        print(f"[cloud_fetch] draw parse came back short (round {rnd}: {len(round_fixtures)} "
+              f"fixtures vs {committed_n} already committed for that round) — keeping the "
+              f"committed draw_dump.html rather than shrinking it.", file=sys.stderr)
     else:
         print(f"[cloud_fetch] draw looked off (round={rnd}, {len(round_fixtures)} fixtures) — "
               f"keeping committed draw_dump.html.", file=sys.stderr)
+
+    # ----- odds dump (best-effort; prices land around Tuesday) ----------------
+    if nrl_usable and round_fixtures:
+        if not show_odds:
+            print("[cloud_fetch] nrl.com has showOdds=false this round — not publishing prices.",
+                  file=sys.stderr)
+        else:
+            text, n_odds = emit_odds(rnd, nrl_fixtures, round_fixtures)
+            if n_odds:
+                write("odds_dump.txt", text)
+                print(f"[cloud_fetch] wrote odds_dump.txt: {n_odds}/{len(round_fixtures)} fixtures priced")
+            elif existing_odds_round("odds_dump.txt") not in (None, rnd):
+                # No prices yet AND the committed dump is for a different round.
+                # Leaving it would let last round's price attach to a repeat
+                # matchup, so clear it down to the header instead.
+                write("odds_dump.txt", text)
+                print(f"[cloud_fetch] no prices yet for round {rnd} — cleared the stale "
+                      f"odds_dump.txt from an earlier round.", file=sys.stderr)
+            else:
+                print(f"[cloud_fetch] no prices published yet for round {rnd} — keeping the "
+                      f"committed odds_dump.txt. Normal before Tuesday.", file=sys.stderr)
+    elif nrl_fixtures:
+        print(f"[cloud_fetch] nrl.com data is for round {nrl_round}, not {rnd} — skipping "
+              f"odds and venue/kick-off metadata this run.", file=sys.stderr)
+
+    # ----- venue / city / kick-off metadata ----------------------------------
+    if nrl_usable and round_fixtures:
+        text, n_meta = emit_draw_meta(SEASON, rnd, nrl_fixtures, round_fixtures)
+        if n_meta >= max(1, len(round_fixtures) - 1):
+            write("draw_meta.json", text)
+            print(f"[cloud_fetch] wrote draw_meta.json: {n_meta} fixtures with venue/kick-off")
+        else:
+            print(f"[cloud_fetch] draw metadata thin ({n_meta}/{len(round_fixtures)}) — keeping "
+                  f"the committed draw_meta.json.", file=sys.stderr)
 
     # ----- finished results (best-effort): every played game's score -> results_dump.txt,
     # which parse_nrl.py appends to the learning-loop memory. This is what makes recent
@@ -771,8 +1127,21 @@ def main():
             print(f"[cloud_fetch] results parse thin ({len(results)} games) — keeping committed results_dump.txt.", file=sys.stderr)
 
     # ----- weather (best-effort; always leaves a valid file) -----
+    # Forecast the city the game is ACTUALLY in. Deriving it from the home club
+    # instead gives Penrith's Sydney forecast for a game in Mudgee — and now that
+    # fixture.city comes from nrl.com's venueCity, parse_nrl's city-keyed lookup
+    # would find no line at all for it and publish weather:null.
     home_shorts = {h for h, _a in round_fixtures} or set(TEAMS)
     cities = {TEAM_HOME_CITY.get(s) for s in home_shorts if TEAM_HOME_CITY.get(s)}
+    if nrl_usable:
+        venue_cities = {f["city"] for f in nrl_fixtures
+                        if f["city"] and frozenset((f["home"], f["away"]))
+                        in {frozenset(p) for p in round_fixtures}}
+        unknown = {c for c in venue_cities if c not in CITY_COORDS}
+        if unknown:
+            print(f"[cloud_fetch] NOTE: no coordinates for host city/cities {sorted(unknown)} — "
+                  f"add them to CITY_COORDS for a real forecast.", file=sys.stderr)
+        cities = (cities | venue_cities)
     weather = fetch_weather(cities)
     if weather:
         write("weather_dump.txt", emit_weather(weather))
@@ -835,8 +1204,14 @@ def main():
     for s, v in list(lineups.items())[:20]:
         print(f"    {s}: {len(v['players'])} named v {v['opp']}")
     if len(lineups) >= 6:
+        # Snapshot the outgoing copy FIRST. nrl_lineups.js is rewritten in place,
+        # so without this there is nothing for parse_nrl.py to diff and the
+        # "named in the 17" / "out of the 17" half of the change feed can never
+        # fire. Losing the snapshot is harmless — the diff just goes quiet.
+        preserve("nrl_lineups.js", "nrl_lineups.prev.js")
         write("nrl_lineups.js", emit_lineups(lineups, tl_round))
-        print(f"[cloud_fetch] wrote nrl_lineups.js: Round {tl_round}, {len(lineups)} clubs")
+        print(f"[cloud_fetch] wrote nrl_lineups.js: Round {tl_round}, {len(lineups)} clubs "
+              f"(previous copy kept as nrl_lineups.prev.js for the change feed)")
     else:
         print(f"[cloud_fetch] team lists thin ({len(lineups)} clubs) — keeping committed nrl_lineups.js. "
               f"Normal on Mon/Tue morning: lists drop ~4pm Tuesday AEST.", file=sys.stderr)
