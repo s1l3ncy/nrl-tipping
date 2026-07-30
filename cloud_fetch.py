@@ -9,8 +9,10 @@ tags / the right line formats, not pre-flattened text).
   * ladder_dump.html   — current standings, from the live ladder table.
   * draw_dump.html     — the NEXT round's fixtures (lowest round whose games
                          aren't "fulltime" yet). Auto-advances every week.
-  * weather_dump.txt   — game-weekend forecast per host city, from the free
-                         Open-Meteo API (no key). "City: summary" lines.
+  * weather_dump.txt   — per-game-day forecast per host city, from the free
+                         Open-Meteo API (no key). "City|YYYY-MM-DD: summary"
+                         lines (the game's local date) plus a legacy
+                         "City: summary" fallback line per city.
   * injuries_dump.html — best-effort team-news per club from Zero Tackle's
                          injuries page. "Team: notes" lines. Falls back to the
                          committed file if the page won't parse cleanly.
@@ -23,9 +25,15 @@ tags / the right line formats, not pre-flattened text).
                          entry for anyone who is actually named in the side.
   * nrl_lineups.prev.js— the PREVIOUS run's copy of the above, kept so parse_nrl.py
                          can diff it and tell Josh who was named / who dropped out.
-  * odds_dump.txt      — bookmaker head-to-head prices per fixture, from nrl.com's
-                         own draw payload. In parse_nrl.parse_odds()'s existing
-                         "Home v Away: 1.85 / 1.95" format.
+  * odds_dump.txt      — bookmaker head-to-head prices per fixture, in
+                         parse_nrl.parse_odds()'s existing "Home v Away: 1.85 / 1.95"
+                         format. Sourced from The Odds API (median of the AU books)
+                         first, nrl.com's own draw payload second. nrl.com WITHHOLDS
+                         its prices from non-Australian IPs, so on a US GitHub runner
+                         that path yields nothing — see docs/GOTCHAS.md.
+  * odds_api_status.json — one small JSON blob recording how the odds call went and
+                         what's left of the monthly quota. The workflow folds it into
+                         last_run.json. NEVER contains the API key.
   * draw_meta.json     — venue / host city / UTC kick-off per fixture, also from
                          nrl.com's draw payload. Structured on purpose: the old
                          path emitted prose and hoped a regex would find a venue
@@ -377,27 +385,47 @@ def reconcile_draw(zt_round, zt_fixtures, nrl_round, nrl_fixtures):
     return zt_round, out, flips
 
 
-def emit_odds(rnd, fixtures, pairs):
+def emit_odds_lines(rnd, priced, pairs, source_note, extra_note=None):
     """Head-to-head prices in the EXACT line format parse_nrl.parse_odds()
     already reads: "Home v Away: 1.85 / 1.95". Nothing new is invented here —
     the parser and its {open, close} CLV handling are untouched.
 
-    `pairs` is the reconciled [(home, away)] list, so the line is written in the
-    same orientation the draw dump uses. (parse_odds keys on an unordered pair
-    anyway, but a dump a human can read against the draw is worth the care.)"""
-    by_pair = {frozenset((f["home"], f["away"])): f for f in fixtures}
-    lines = [f"# Round {rnd} head-to-head odds, from nrl.com's own draw payload.",
+    `priced` maps frozenset({home, away}) -> {short: decimal_price}, so prices
+    travel attached to a TEAM and can never be transposed by an orientation
+    disagreement between two sources. `pairs` is the reconciled [(home, away)]
+    list, so the line is written in the same orientation the draw dump uses.
+    (parse_odds keys on an unordered pair anyway, but a dump a human can read
+    against the draw is worth the care.)
+
+    The header's first line must keep the words "Round N" — existing_odds_round()
+    reads it back to spot a dump left over from a previous round. No header line
+    may look like "X v Y: n / n" or parse_odds would read it as a fixture."""
+    lines = [f"# Round {rnd} head-to-head odds, {source_note}.",
              f"# Fetched {datetime.datetime.now().isoformat(timespec='seconds')}. "
              f"Decimal odds; a fixture is omitted entirely until its market opens."]
+    if extra_note:
+        lines.append("# " + extra_note)
     n = 0
     for home, away in pairs:
-        f = by_pair.get(frozenset((home, away)))
-        if not f or f["homeOdds"] is None or f["awayOdds"] is None:
+        p = priced.get(frozenset((home, away)))
+        if not p or p.get(home) is None or p.get(away) is None:
             continue
-        ho, ao = (f["homeOdds"], f["awayOdds"]) if f["home"] == home else (f["awayOdds"], f["homeOdds"])
-        lines.append(f"{TEAMS[home]['name']} v {TEAMS[away]['name']}: {ho:.2f} / {ao:.2f}")
+        lines.append(f"{TEAMS[home]['name']} v {TEAMS[away]['name']}: {p[home]:.2f} / {p[away]:.2f}")
         n += 1
     return "\n".join(lines) + "\n", n
+
+
+def emit_odds(rnd, fixtures, pairs):
+    """nrl.com's draw payload -> the shared odds-dump format. Fallback source:
+    nrl.com only serves prices to Australian traffic, so this returns nothing at
+    all on a US GitHub runner (docs/GOTCHAS.md). Kept because it costs nothing,
+    needs no key, and is correct when it does answer."""
+    priced = {}
+    for f in fixtures:
+        if f["homeOdds"] is None or f["awayOdds"] is None:
+            continue
+        priced[frozenset((f["home"], f["away"]))] = {f["home"]: f["homeOdds"], f["away"]: f["awayOdds"]}
+    return emit_odds_lines(rnd, priced, pairs, "from nrl.com's own draw payload")
 
 
 def emit_draw_meta(season, rnd, fixtures, pairs):
@@ -431,6 +459,317 @@ def emit_draw_meta(season, rnd, fixtures, pairs):
         "fixtures": out,
     }
     return json.dumps(doc, indent=2, ensure_ascii=False) + "\n", len(out)
+
+
+# --------------------------------------------------------------------------- The Odds API
+# THE PRIMARY ODDS SOURCE — and the reason there are now two.
+#
+# nrl.com's draw payload carries head-to-head prices, and every one of them was
+# verified working from an Australian machine. It produced NOTHING in production.
+# Workflow run #28 committed a perfect draw_meta.json (venue + kick-off, 8/8) and
+# no odds_dump.txt at all, from the same code against the same endpoint in the
+# same minute. The only difference is the egress IP: GitHub's runners are US-based
+# and nrl.com withholds bookmaker odds from non-Australian traffic — which is what
+# Australia's gambling-advertising rules require of it. An Australian sandbox
+# cannot see this failure; it will show a full set of prices and a green tick.
+#
+# So odds come from The Odds API, which is geo-independent, aggregates the AU
+# books, and needs a key. The key is read from the ODDS_API_KEY environment
+# variable (a GitHub Actions secret) and must NEVER be hardcoded, logged, or
+# written to a file — this repo is public. Everything printed from this section
+# goes through _redact() for that reason: requests puts the full request URL,
+# query string and all, into its own exception messages.
+#
+# Quota: the free tier is 500 requests/month and the workflow runs ~8x/day (~240).
+# That fits with room to spare, but only if this stays at EXACTLY ONE request per
+# run — no retries, no per-fixture calls. The response's x-requests-remaining /
+# x-requests-used headers are recorded in odds_api_status.json so quota burn is
+# visible in last_run.json before it bites.
+ODDS_API_URL = "https://api.the-odds-api.com/v4/sports/rugbyleague_nrl/odds/"
+ODDS_API_REGIONS = "au"                 # Australian books; the market Josh actually tips into
+ODDS_API_TIMEOUT = 30
+ODDS_API_STATUS_FILE = "odds_api_status.json"
+# How far a listed commence_time may sit from the draw's own kick-off before the
+# event is assumed to belong to a different round. Generous enough for a book
+# listing a provisional time, far tighter than the ~7 days to the next round.
+ODDS_API_KICKOFF_TOL_H = 12
+# Fallback window when the draw gave us no kick-off for a fixture (i.e. nrl.com
+# failed too): accept the EARLIEST event for that pair that hasn't already been
+# played. Two rounds can hold the same matchup, so "earliest upcoming" is the
+# only defensible pick without a kick-off to compare against.
+ODDS_API_MAX_AHEAD_D = 9
+ODDS_API_MAX_BEHIND_H = 6
+
+
+def _redact(text):
+    """Remove the API key from anything about to be printed or written.
+
+    Two independent belts: the literal key from the environment, and any
+    `apiKey=...` query parameter (which is how it would arrive — requests
+    embeds the full URL in ConnectionError/Timeout messages). If this function
+    is ever bypassed the key ends up in a public Actions log."""
+    s = str(text)
+    key = (os.environ.get("ODDS_API_KEY") or "").strip()
+    if key:
+        s = s.replace(key, "<ODDS_API_KEY>")
+    return re.sub(r"(?i)(apikey=)[^&\s\"']+", r"\1<ODDS_API_KEY>", s)
+
+
+def _header_int(resp, name):
+    try:
+        return int(float(resp.headers.get(name)))
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_odds_api():
+    """One request. Returns (events | None, status dict).
+
+    `events` is the decoded list on success; None on every failure, which always
+    means "fall through to the next source", never "abort the run". The status
+    dict is written to odds_api_status.json and folded into last_run.json — it
+    carries the quota counters and a state string, and never the key."""
+    status = {"state": "unknown", "httpStatus": None, "remaining": None, "used": None,
+              "events": None, "fetched": datetime.datetime.now().isoformat(timespec="seconds")}
+    key = (os.environ.get("ODDS_API_KEY") or "").strip()
+    if not key:
+        print("[cloud_fetch] ODDS_API_KEY is not set — skipping The Odds API and falling "
+              "back to nrl.com's prices. NOTE: nrl.com serves odds to Australian IPs only, "
+              "so on a GitHub runner that fallback will publish no prices at all. Add the "
+              "ODDS_API_KEY repo secret (docs/DEPLOY_AND_OPS.md).", file=sys.stderr)
+        status["state"] = "no-key"
+        return None, status
+    params = {"regions": ODDS_API_REGIONS, "markets": "h2h",
+              "oddsFormat": "decimal", "apiKey": key}
+    try:
+        resp = requests.get(ODDS_API_URL, params=params, headers=HEADERS, timeout=ODDS_API_TIMEOUT)
+    except Exception as exc:  # noqa: BLE001  (timeout, DNS, TLS — all the same to us)
+        print(f"[cloud_fetch] WARNING: The Odds API request failed ({_redact(exc)}) — "
+              f"falling back to nrl.com. NOT retried: one request per run is what keeps "
+              f"the free quota safe.", file=sys.stderr)
+        status["state"] = "network-error"
+        return None, status
+    status["httpStatus"] = resp.status_code
+    status["remaining"] = _header_int(resp, "x-requests-remaining")
+    status["used"] = _header_int(resp, "x-requests-used")
+    if resp.status_code == 401:
+        print("[cloud_fetch] ERROR: The Odds API rejected the key (401 INVALID_KEY). Odds will "
+              "fall back to nrl.com (which returns none from a US runner). Check the "
+              "ODDS_API_KEY repo secret — the run continues, odds are best-effort.",
+              file=sys.stderr)
+        status["state"] = "bad-key"
+        return None, status
+    if resp.status_code == 429:
+        print(f"[cloud_fetch] ERROR: The Odds API monthly quota is exhausted (429). "
+              f"remaining={status['remaining']} used={status['used']}. Keeping the committed "
+              f"odds_dump.txt; prices will go stale until the quota resets. If this recurs, "
+              f"thin the workflow schedule.", file=sys.stderr)
+        status["state"] = "quota-exhausted"
+        return None, status
+    if resp.status_code != 200:
+        print(f"[cloud_fetch] WARNING: The Odds API returned HTTP {resp.status_code} — "
+              f"falling back to nrl.com.", file=sys.stderr)
+        status["state"] = f"http-{resp.status_code}"
+        return None, status
+    try:
+        events = resp.json()
+    except ValueError as exc:
+        print(f"[cloud_fetch] WARNING: The Odds API response would not decode ({_redact(exc)}).",
+              file=sys.stderr)
+        status["state"] = "bad-json"
+        return None, status
+    if not isinstance(events, list):
+        print("[cloud_fetch] WARNING: The Odds API response was not a list of events.", file=sys.stderr)
+        status["state"] = "bad-shape"
+        return None, status
+    status["state"] = "ok"
+    status["events"] = len(events)
+    print(f"[cloud_fetch] The Odds API: {len(events)} events, quota "
+          f"used={status['used']} remaining={status['remaining']}")
+    return events, status
+
+
+def _parse_iso_utc(s):
+    """ISO instant (usually Z-suffixed) -> aware UTC datetime, or None."""
+    t = str(s or "").strip().replace("Z", "+00:00")
+    if not t:
+        return None
+    try:
+        dt = datetime.datetime.fromisoformat(t)
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=datetime.timezone.utc)
+    return dt.astimezone(datetime.timezone.utc)
+
+
+def _median(values):
+    vals = sorted(values)
+    n = len(vals)
+    if not n:
+        return None
+    mid = n // 2
+    return vals[mid] if n % 2 else (vals[mid - 1] + vals[mid]) / 2.0
+
+
+def event_prices(event):
+    """One Odds API event -> ({short: median_price}, book_count, reject_reason).
+
+    The MEDIAN across books, not the first and not the best. Several AU books
+    price every game; taking book[0] makes the dump hostage to whichever one the
+    API happens to list first, and taking the best price turns a scrape into a
+    shopping exercise that systematically overstates both sides' chances. The
+    median is the one that a single stale or outlying line cannot move.
+
+    A book counts only if it prices BOTH sides of the h2h market at > 1. The two
+    medians are then sanity-checked for a real overround (1/home + 1/away > 1):
+    an implied total under 100% is a free-money line, i.e. a parse error or a
+    mismatched pair, and publishing it would hand the model a fictitious edge."""
+    home, away = find_short(event.get("home_team") or ""), find_short(event.get("away_team") or "")
+    if not home or not away or home == away:
+        return None, 0, "teams did not resolve"
+    by_team, books = {home: [], away: []}, 0
+    for bk in event.get("bookmakers") or []:
+        for mk in bk.get("markets") or []:
+            if (mk.get("key") or "") != "h2h":
+                continue
+            got = {}
+            for oc in mk.get("outcomes") or []:
+                s = find_short(oc.get("name") or "")
+                if s not in (home, away):
+                    continue                      # a Draw line, or another comp's team
+                try:
+                    price = float(oc.get("price"))
+                except (TypeError, ValueError):
+                    continue
+                if price > 1:
+                    got[s] = price
+            if len(got) == 2:                     # both sides priced, or the book doesn't count
+                by_team[home].append(got[home])
+                by_team[away].append(got[away])
+                books += 1
+            break                                 # one h2h market per bookmaker
+    if not books:
+        return None, 0, "no bookmaker priced both sides"
+    hm, am = _median(by_team[home]), _median(by_team[away])
+    implied = 1.0 / hm + 1.0 / am
+    if implied <= 1.0:
+        return None, books, (f"implied probability {implied:.3f} <= 1 across {books} books "
+                             f"({hm:.2f}/{am:.2f}) — impossible, treating as unpriced")
+    return {home: hm, away: am}, books, None
+
+
+def odds_api_prices(events, pairs, kickoffs=None, now=None):
+    """Events + the round's reconciled fixtures -> (priced, book_counts, notes).
+
+    `pairs`    : [(home, away)] in the draw's orientation.
+    `kickoffs` : {frozenset(pair): "ISO UTC"} from nrl.com, when available.
+
+    Only events whose TEAM PAIR is in this round's draw are used, and each one
+    must also line up in TIME — otherwise the same fixture in a later round
+    (books list weeks ahead) would overwrite this round's price. With a kick-off
+    from the draw the test is |commence_time - kickoff| <= 12h; without one we
+    take the earliest not-yet-played event for the pair.
+
+    Orientation is REPORTED, never silently applied: prices are carried per team
+    short code, so a home/away disagreement can't transpose them. The draw stays
+    authoritative on which side is home (GOTCHAS.md, "Eels v Tigers looks
+    swapped"), and any disagreement is logged loudly."""
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    kickoffs = kickoffs or {}
+    wanted = {frozenset(p): p for p in pairs}
+    best, notes, book_counts = {}, [], {}
+    unresolved, rejected = [], []
+    for ev in events or []:
+        api_home = find_short(ev.get("home_team") or "")
+        api_away = find_short(ev.get("away_team") or "")
+        if not api_home or not api_away or api_home == api_away:
+            unresolved.append(f"{ev.get('home_team')!r} v {ev.get('away_team')!r}")
+            continue
+        key = frozenset((api_home, api_away))
+        if key not in wanted:
+            continue                              # a later round, or another comp
+        start = _parse_iso_utc(ev.get("commence_time"))
+        if start is None:
+            rejected.append(f"{api_home} v {api_away}: unreadable commence_time "
+                            f"{ev.get('commence_time')!r}")
+            continue
+        ko = _parse_iso_utc(kickoffs.get(key))
+        if ko is not None:
+            gap_h = abs((start - ko).total_seconds()) / 3600.0
+            if gap_h > ODDS_API_KICKOFF_TOL_H:
+                rejected.append(f"{api_home} v {api_away}: starts {start.isoformat()} but the "
+                                f"draw says {ko.isoformat()} ({gap_h:.0f}h apart) — different round")
+                continue
+            rank = gap_h
+        else:
+            if start < now - datetime.timedelta(hours=ODDS_API_MAX_BEHIND_H):
+                rejected.append(f"{api_home} v {api_away}: {start.isoformat()} is in the past")
+                continue
+            if start > now + datetime.timedelta(days=ODDS_API_MAX_AHEAD_D):
+                rejected.append(f"{api_home} v {api_away}: {start.isoformat()} is more than "
+                                f"{ODDS_API_MAX_AHEAD_D} days out — different round")
+                continue
+            rank = (start - now).total_seconds() / 3600.0
+        prices, books, why = event_prices(ev)
+        if prices is None:
+            rejected.append(f"{api_home} v {api_away}: {why}")
+            continue
+        prev = best.get(key)
+        if prev is not None and prev[0] <= rank:
+            continue                              # already have a closer-matching event
+        best[key] = (rank, prices, books)
+        draw_home = wanted[key][0]
+        if api_home != draw_home:
+            notes.append(f"{api_home} v {api_away} (The Odds API) vs {draw_home} v "
+                         f"{wanted[key][1]} (the draw)")
+    priced = {k: v[1] for k, v in best.items()}
+    for k, v in best.items():
+        book_counts[k] = v[2]
+    if unresolved:
+        # Same rule as nrl.com's nicknames: a name we can't resolve is a defect,
+        # and the fix is an alias in parse_nrl.TEAMS, never a second mapping here.
+        print("[cloud_fetch] ERROR: The Odds API team name(s) did not resolve to a short code — "
+              "add the alias to TEAMS in parse_nrl.py: " + "; ".join(sorted(set(unresolved))),
+              file=sys.stderr)
+    for line in rejected:
+        print(f"[cloud_fetch] odds: skipped {line}", file=sys.stderr)
+    if notes:
+        print("[cloud_fetch] WARNING: home/away disagreement between The Odds API and the draw "
+              "for: " + "; ".join(notes) + ". Keeping the draw's orientation (it follows nrl.com, "
+              "the official listing); prices are carried per team so nothing is transposed.",
+              file=sys.stderr)
+    return priced, book_counts, notes
+
+
+def emit_odds_api(rnd, priced, book_counts, pairs):
+    """The Odds API prices -> the shared dump format, with the book count in the
+    header so a thin week (one book, or two) is visible to a human reading the
+    file rather than buried in a log."""
+    counts = [book_counts.get(frozenset((h, a))) for h, a in pairs
+              if frozenset((h, a)) in priced]
+    counts = [c for c in counts if c]
+    if counts:
+        span = f"{min(counts)}" if min(counts) == max(counts) else f"{min(counts)}–{max(counts)}"
+        note = (f"Median of {span} Australian bookmaker(s) per price "
+                f"({sum(counts)} book quotes across {len(counts)} fixtures).")
+    else:
+        note = "No bookmaker quotes available."
+    return emit_odds_lines(rnd, priced, pairs,
+                           "median of the Australian books via The Odds API", note)
+
+
+def write_odds_api_status(status, fixtures_priced=None, books=None):
+    """Record how the odds call went, for last_run.json. Deliberately tiny and
+    key-free: state, HTTP status, the two quota counters, and what came out."""
+    doc = dict(status)
+    doc.pop("events", None)
+    doc["eventsReturned"] = status.get("events")
+    doc["fixturesPriced"] = fixtures_priced
+    doc["bookQuotes"] = books
+    doc["_comment"] = ("How the odds fetch went this run. Regenerated every run by "
+                       "cloud_fetch.py — do not hand-edit. Contains NO API key.")
+    write(ODDS_API_STATUS_FILE, _redact(json.dumps(doc, indent=2, ensure_ascii=False)) + "\n")
 
 
 # --------------------------------------------------------------------------- results
@@ -503,9 +842,19 @@ def emit_results(results):
 
 
 # --------------------------------------------------------------------------- weather
-def fetch_weather(cities):
-    """Return {City: 'Day D Mon: 19C, 60% rain, showers'} for the wettest of the
-    next few days (a useful game-weekend read). Best-effort per city."""
+def fetch_weather(cities, game_kicks=None):
+    """Return {City: [(date_iso | None, 'Sat 1 Aug: 19C, 60% rain, showers'), ...]}.
+
+    `game_kicks` maps city -> UTC kick-off instants ("…Z") of that city's games
+    this round. Each kick-off that falls inside the forecast window yields THAT
+    day's forecast (date_iso = the game's local date at the ground, resolved via
+    the API's own utc_offset_seconds — no tz table needed). A city with no usable
+    kick-off falls back to the pre-2026-07-30 behaviour, the wettest of the next
+    ~6 days (date_iso None). That old behaviour was the bug this fixes: with real
+    kick-offs on every fixture, a Thursday game was still being shown — and the
+    model still being shrunk by — SATURDAY's rain, because "wettest of the next 6
+    days" was designed when kick-off times didn't exist yet."""
+    game_kicks = game_kicks or {}
     out = {}
     for city in sorted(cities):
         co = CITY_COORDS.get(city)
@@ -514,27 +863,84 @@ def fetch_weather(cities):
         try:
             url = (f"https://api.open-meteo.com/v1/forecast?latitude={co[0]}&longitude={co[1]}"
                    f"&daily=weather_code,temperature_2m_max,precipitation_probability_max"
-                   f"&timezone=auto&forecast_days=7")
-            d = requests.get(url, headers=HEADERS, timeout=30).json()["daily"]
+                   f"&timezone=auto&forecast_days=10")
+            resp = requests.get(url, headers=HEADERS, timeout=30).json()
+            d = resp["daily"]
+            offset = int(resp.get("utc_offset_seconds") or 0)
             dates = d["time"]
-            n = min(6, len(dates))
-            pops = [d["precipitation_probability_max"][i] or 0 for i in range(n)]
-            idx = max(range(n), key=lambda i: pops[i])  # wettest upcoming day
-            code = d["weather_code"][idx]
-            tmax = d["temperature_2m_max"][idx]
-            pop = d["precipitation_probability_max"][idx]
-            day = datetime.date.fromisoformat(dates[idx]).strftime("%a %-d %b")
-            desc = WMO.get(code, "")
-            out[city] = f"{day}: {round(tmax)}°C, {pop}% rain chance{(', ' + desc) if desc else ''}"
+
+            def day_line(idx):
+                code = d["weather_code"][idx]
+                tmax = d["temperature_2m_max"][idx]
+                pop = d["precipitation_probability_max"][idx] or 0
+                day = datetime.date.fromisoformat(dates[idx]).strftime("%a %-d %b")
+                desc = WMO.get(code, "")
+                return f"{day}: {round(tmax)}°C, {pop}% rain chance{(', ' + desc) if desc else ''}"
+
+            entries, seen_days = [], set()
+            for kick in sorted({k for k in (game_kicks.get(city) or []) if k}):
+                try:
+                    utc = datetime.datetime.fromisoformat(str(kick).replace("Z", "+00:00"))
+                except ValueError:
+                    continue
+                local_date = (utc + datetime.timedelta(seconds=offset)).date().isoformat()
+                # two games in one city on the same local day share one forecast line
+                if local_date in seen_days:
+                    continue
+                if local_date in dates:
+                    seen_days.add(local_date)
+                    entries.append((local_date, day_line(dates.index(local_date))))
+            if not entries:
+                n = min(6, len(dates))
+                idx = max(range(n), key=lambda i: d["precipitation_probability_max"][i] or 0)
+                entries.append((None, day_line(idx)))
+            out[city] = entries
         except Exception as exc:  # noqa: BLE001
             print(f"[cloud_fetch] weather WARN {city}: {exc}", file=sys.stderr)
     return out
 
 
+def reuse_weather_lines(missing_cities):
+    """Lines from the committed weather_dump.txt for cities whose fetch just
+    failed. Every other dump keeps its committed copy when a parse comes back
+    thin; weather dropped the city instead — so one 30s Open-Meteo timeout
+    blanked its forecast for the next 4 hours AND re-fired the change feed's
+    "first forecast published" entry when the line came back. Stale-but-recent
+    beats absent for a best-effort field."""
+    try:
+        with open("weather_dump.txt", encoding="utf-8", errors="ignore") as fh:
+            raw = fh.read()
+    except OSError:
+        return []
+    low = {c.lower() for c in missing_cities}
+    kept = []
+    for line in raw.splitlines():
+        if line.startswith("#") or ":" not in line:
+            continue
+        label = line.split(":", 1)[0].split("|", 1)[0].strip().lower()
+        if label in low:
+            kept.append(line)
+    if kept:
+        cities = sorted({ln.split(":", 1)[0].split("|", 1)[0] for ln in kept})
+        print(f"[cloud_fetch] weather: fetch failed for {cities} — keeping their "
+              f"committed dump line(s) rather than blanking them.", file=sys.stderr)
+    return kept
+
+
 def emit_weather(weather_by_city):
-    lines = ["# game-weekend forecast per host city (Open-Meteo)"]
-    for city, txt in weather_by_city.items():
-        lines.append(f"{city}: {txt}")
+    """One "City|YYYY-MM-DD: <forecast>" line per city+game-day — the date is the
+    game's LOCAL date at the ground, which parse_nrl matches against each
+    fixture's kick-off date. A dateless "City: <forecast>" line is ALSO written
+    per city (first game-day's text) so an older parse_nrl reading this dump, or
+    a fixture whose kick-off didn't resolve, still gets a forecast — the legacy
+    city-wide shape remains valid on both sides."""
+    lines = ["# per-game-day forecast per host city (Open-Meteo)"]
+    for city, entries in weather_by_city.items():
+        for date_iso, txt in entries:
+            if date_iso:
+                lines.append(f"{city}|{date_iso}: {txt}")
+        # legacy / fallback line, once per city
+        lines.append(f"{city}: {entries[0][1]}")
     return "\n".join(lines) + "\n"
 
 
@@ -1054,6 +1460,9 @@ def main():
     # nrl.com data is only usable if it describes the round we're actually
     # publishing — stale metadata is worse than none.
     nrl_usable = bool(nrl_fixtures) and (not rnd or not nrl_round or int(nrl_round) == int(rnd))
+    if nrl_fixtures and not nrl_usable:
+        print(f"[cloud_fetch] nrl.com data is for round {nrl_round}, not {rnd} — skipping its "
+              f"odds, venue/kick-off metadata and kick-off cross-check this run.", file=sys.stderr)
 
     # Publish gate: a plausible count AND — for the round already on disk — never
     # fewer fixtures than the committed dump already has. A partial parse (Zero
@@ -1076,28 +1485,66 @@ def main():
               f"keeping committed draw_dump.html.", file=sys.stderr)
 
     # ----- odds dump (best-effort; prices land around Tuesday) ----------------
-    if nrl_usable and round_fixtures:
+    # Order: The Odds API, then nrl.com, then whatever is already committed.
+    # A source that fails NEVER wipes a good committed dump (ARCHITECTURE.md's
+    # graceful-degradation promise) — the only thing that clears the file is a
+    # live source telling us this round genuinely has no market yet while the
+    # dump on disk belongs to a DIFFERENT round, which would otherwise let last
+    # round's price attach to a repeat matchup.
+    odds_status = {"state": "not-attempted", "httpStatus": None, "remaining": None,
+                   "used": None, "events": None,
+                   "fetched": datetime.datetime.now().isoformat(timespec="seconds")}
+    n_odds, n_books, blank_text, source_answered = 0, 0, None, False
+    if round_fixtures and rnd:
+        events, odds_status = fetch_odds_api()
+        if events is not None:
+            source_answered = True
+            kickoffs = ({frozenset((f["home"], f["away"])): f["kickoffUtc"] for f in nrl_fixtures}
+                        if nrl_usable else {})
+            priced, book_counts, _notes = odds_api_prices(events, round_fixtures, kickoffs)
+            text, n_odds = emit_odds_api(rnd, priced, book_counts, round_fixtures)
+            n_books = sum(book_counts.get(k, 0) for k in priced)
+            if n_odds:
+                write("odds_dump.txt", text)
+                print(f"[cloud_fetch] wrote odds_dump.txt from The Odds API: "
+                      f"{n_odds}/{len(round_fixtures)} fixtures priced from {n_books} book quotes")
+            else:
+                blank_text = text
+                print(f"[cloud_fetch] The Odds API returned no usable price for any round {rnd} "
+                      f"fixture — trying nrl.com.", file=sys.stderr)
+    else:
+        print("[cloud_fetch] no fixtures for this round — skipping the odds fetch entirely "
+              "(one API request per run is the quota budget).", file=sys.stderr)
+
+    if not n_odds and nrl_usable and round_fixtures:
         if not show_odds:
             print("[cloud_fetch] nrl.com has showOdds=false this round — not publishing prices.",
                   file=sys.stderr)
         else:
+            source_answered = True
             text, n_odds = emit_odds(rnd, nrl_fixtures, round_fixtures)
             if n_odds:
                 write("odds_dump.txt", text)
-                print(f"[cloud_fetch] wrote odds_dump.txt: {n_odds}/{len(round_fixtures)} fixtures priced")
-            elif existing_odds_round("odds_dump.txt") not in (None, rnd):
-                # No prices yet AND the committed dump is for a different round.
-                # Leaving it would let last round's price attach to a repeat
-                # matchup, so clear it down to the header instead.
-                write("odds_dump.txt", text)
-                print(f"[cloud_fetch] no prices yet for round {rnd} — cleared the stale "
-                      f"odds_dump.txt from an earlier round.", file=sys.stderr)
+                print(f"[cloud_fetch] wrote odds_dump.txt from nrl.com: "
+                      f"{n_odds}/{len(round_fixtures)} fixtures priced")
             else:
-                print(f"[cloud_fetch] no prices published yet for round {rnd} — keeping the "
-                      f"committed odds_dump.txt. Normal before Tuesday.", file=sys.stderr)
-    elif nrl_fixtures:
-        print(f"[cloud_fetch] nrl.com data is for round {nrl_round}, not {rnd} — skipping "
-              f"odds and venue/kick-off metadata this run.", file=sys.stderr)
+                blank_text = blank_text or text
+
+    if not n_odds:
+        stale_round = existing_odds_round("odds_dump.txt")
+        if source_answered and blank_text is not None and stale_round not in (None, rnd):
+            write("odds_dump.txt", blank_text)
+            print(f"[cloud_fetch] no prices yet for round {rnd} — cleared the stale "
+                  f"odds_dump.txt from round {stale_round}.", file=sys.stderr)
+        elif source_answered:
+            print(f"[cloud_fetch] no prices published yet for round {rnd} — keeping the "
+                  f"committed odds_dump.txt. Normal before Tuesday.", file=sys.stderr)
+        else:
+            print(f"[cloud_fetch] every odds source failed this run "
+                  f"(The Odds API: {odds_status.get('state')}) — keeping the committed "
+                  f"odds_dump.txt untouched. Odds are best-effort; the run continues.",
+                  file=sys.stderr)
+    write_odds_api_status(odds_status, fixtures_priced=n_odds, books=n_books)
 
     # ----- venue / city / kick-off metadata ----------------------------------
     if nrl_usable and round_fixtures:
@@ -1133,20 +1580,30 @@ def main():
     # would find no line at all for it and publish weather:null.
     home_shorts = {h for h, _a in round_fixtures} or set(TEAMS)
     cities = {TEAM_HOME_CITY.get(s) for s in home_shorts if TEAM_HOME_CITY.get(s)}
+    game_kicks = {}     # city -> [kickoffUtc, ...] so each game gets ITS day's forecast
     if nrl_usable:
-        venue_cities = {f["city"] for f in nrl_fixtures
-                        if f["city"] and frozenset((f["home"], f["away"]))
-                        in {frozenset(p) for p in round_fixtures}}
+        round_pairs = {frozenset(p) for p in round_fixtures}
+        for f in nrl_fixtures:
+            if f["city"] and frozenset((f["home"], f["away"])) in round_pairs:
+                game_kicks.setdefault(f["city"], []).append(f.get("kickoffUtc") or "")
+        venue_cities = set(game_kicks)
         unknown = {c for c in venue_cities if c not in CITY_COORDS}
         if unknown:
             print(f"[cloud_fetch] NOTE: no coordinates for host city/cities {sorted(unknown)} — "
                   f"add them to CITY_COORDS for a real forecast.", file=sys.stderr)
         cities = (cities | venue_cities)
-    weather = fetch_weather(cities)
-    if weather:
-        write("weather_dump.txt", emit_weather(weather))
-        print(f"[cloud_fetch] wrote weather_dump.txt for {len(weather)} cities: "
-              + " | ".join(f"{c}: {t}" for c, t in weather.items()))
+    weather = fetch_weather(cities, game_kicks)
+    kept_lines = reuse_weather_lines({c for c in cities if c in CITY_COORDS and c not in weather})
+    if weather or kept_lines:
+        content = emit_weather(weather) if weather else "# per-game-day forecast per host city (Open-Meteo)\n"
+        if kept_lines:
+            content += "\n".join(kept_lines) + "\n"
+        write("weather_dump.txt", content)
+        n_dated = sum(1 for entries in weather.values() for d, _t in entries if d)
+        print(f"[cloud_fetch] wrote weather_dump.txt for {len(weather)} cities "
+              f"({n_dated} game-day forecasts): "
+              + " | ".join(f"{c}: {'; '.join(t for _d, t in entries)}"
+                           for c, entries in weather.items()))
     else:
         write("weather_dump.txt", "# no weather this run\n")
         print("[cloud_fetch] WARNING: no weather fetched; wrote placeholder.", file=sys.stderr)

@@ -1,19 +1,25 @@
 # Data sources — NRL Tipping App
 
-Dev A's weekly job needs raw page dumps, saved to disk by the orchestrator
-(the web-fetch tools), which `parse_nrl.py` then parses offline. It makes no
-network calls itself. Two sources (ladder + draw) are REQUIRED every week;
-three more (odds, injuries, weather) are OPTIONAL — the schema-v3 fields
-they feed (`fixture.odds`, `team.news`, `fixture.weather`) simply stay
-`null` if a dump isn't provided or can't be parsed that week.
+> **Read this first.** This doc originally described a *manual* job: a human or
+> orchestrator fetching pages with web-fetch tools and saving dumps to disk. **That is
+> no longer how it works.** `cloud_fetch.py` scrapes every source automatically on
+> GitHub Actions, every 4 hours, and writes all the dumps itself. The per-source URLs and
+> formats below are still accurate and worth keeping — treat them as *what the scraper
+> targets*, not as a checklist for you. Where this file and `docs/DATA_PIPELINE.md`
+> disagree, the pipeline doc and the code win.
 
-**Timing note:** odds and team-lists/injury news for the upcoming round
-typically aren't published until around **Tuesday** each week (bookmakers
-release match odds early in the week; NRL clubs release official team
-lists / "late mail" progressively from Tuesday through to game day). The
-ladder and draw can be fetched any day; if you're doing the full refresh
-earlier in the week, expect `--odds`/`--injuries` to have thinner coverage
-and re-run later in the week to backfill them.
+`parse_nrl.py` still parses offline and makes no network calls itself — only
+`cloud_fetch.py` touches the network. Two sources (ladder + draw) are REQUIRED;
+the rest (odds, injuries, weather, team lists, player ratings) are best-effort — the
+fields they feed (`fixture.odds`, `team.news`, `fixture.weather`) simply stay `null` if
+a dump can't be parsed that run. That is normal, not a failure.
+
+**Timing note:** bookmakers open NRL markets early in the week and NRL clubs release
+official team lists / "late mail" from ~4pm Tuesday through to game day, so a Monday run
+legitimately has thinner odds and injury coverage. It backfills on its own — the job runs
+every 4 hours, with an extra 16:23 Tuesday slot specifically to catch team lists.
+**But note:** thin coverage early in the week is *not* the reason odds were missing
+before 2026-07-29. There was simply no odds source at all. See §3.
 
 ## 1. Ladder (+ Home/Away splits) — Zero Tackle
 
@@ -84,14 +90,31 @@ and re-run later in the week to backfill them.
   team's usual city if the venue isn't one we've mapped yet — no separate
   source needed for this field.
 
-## 3. Match odds — a bookmaker / odds-aggregator page
+## 3. Match odds, venue and kick-off — nrl.com's draw payload (AUTOMATED)
 
-- Any odds-aggregator page works, e.g. `https://www.oddschecker.com/au/rugby-league/nrl`
-  or a single bookmaker's NRL page (e.g. `https://www.sportsbet.com.au/betting/rugby-league/nrl`).
-  Pick whichever is reachable that week; the exact source isn't tracked in
-  `nrl_data.js`, only the odds numbers themselves.
-- Save the fetched page as plain text to a local file, e.g. `odds_dump.txt`,
-  reformatted (by hand or by a small pre-pass) into one line per match:
+> **Changed 2026-07-29 — this section used to describe a manual process. It's automated
+> now; don't hand-build `odds_dump.txt` any more, `cloud_fetch.py` overwrites it.**
+>
+> The old text told you to save an odds-aggregator page and reformat it by hand. Nobody
+> ever did, and nothing automated filled the gap — so `fixture.odds` was `null` on every
+> run the app ever made, and the UI promised prices "around Tuesday" that never came.
+> That is the bug this section caused.
+
+- **Source:** `https://www.nrl.com/draw/?competition=111&round=<N>&season=<YYYY>`
+- The page embeds a JSON blob in the `q-data` attribute of `#vue-draw`. Per fixture it
+  carries `homeTeam.odds` / `awayTeam.odds` (decimal, as **strings**, absent until the
+  market opens), plus `venue`, `venueCity` and `clock.kickOffTimeLong` (UTC).
+- `cloud_fetch.py` writes two files from it: `odds_dump.txt` (the format below) and
+  `draw_meta.json` (venue / city / kick-off). The workflow passes both to `parse_nrl.py`
+  as `--odds` and `--draw-meta`.
+- **Caveats:** it's one book's line (Sportsbet-derived), not a market average. The
+  payload's own `showOdds` flag is respected. A fixture with no price is omitted rather
+  than given a placeholder.
+- Zero Tackle still decides **which round** is being tipped; nrl.com decides **home/away**
+  (it's the official listing). Conflicts are logged, never applied silently.
+
+The generated `odds_dump.txt` looks like this — one line per match, and if you ever do
+need to hand-make one, match this shape:
   ```
   Cowboys v Roosters: 1.85 / 1.95
   Panthers v Raiders: 1.20 / 4.50

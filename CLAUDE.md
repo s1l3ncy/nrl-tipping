@@ -23,6 +23,22 @@ the owner's Mac off.
 4. **Front-end stays single-file and dependency-free** (no CDNs, `localStorage` only) —
    it must work offline.
 5. **Best-effort fields (odds/news/weather) may be `null`** — that's normal, not a bug.
+6. **`update docs for upload/` is a staging folder, not an archive. WIPE IT FIRST.**
+   Any time you finish work that needs uploading: delete everything in it, then stage the
+   current batch. Do this automatically — Josh should never have to ask. A folder that
+   accumulates batches is worse than useless: he can't tell which files are the new ones,
+   and a leftover file from a previous batch gets uploaded by mistake. (This has already
+   happened once — a stale `nrl_lineups.js`, a generated data file that must never be
+   uploaded, sat in the folder across batches.) Then rewrite `READ ME FIRST.md` from
+   scratch for the new batch; never leave the old one in place.
+   - **Stage only files that genuinely differ from what's live.** Check each against
+     `https://raw.githubusercontent.com/s1l3ncy/nrl-tipping/main/<path>` — don't assume.
+   - **Never stage a generated file**: `index.html`, `nrl_data.js`, `nrl_learned.js`,
+     `nrl_players.js`, `nrl_lineups.js`, or any `*_dump.*`. The workflow rebuilds them,
+     and the live copies are usually ahead of the local ones.
+   - Mirror the repo layout: `repo-root/`, `docs/`, `github-workflows/`.
+   - If `rm` fails with "Operation not permitted", call `allow_cowork_file_delete` —
+     don't report it as impossible or work around it by leaving files behind.
 
 ## Where things live
 - `nrl-tipping-guide.html` — the app (HTML + CSS + all model JS). Source of truth.
@@ -55,24 +71,26 @@ NRL tips" → Run workflow. 5. Verify via raw file URLs with a `?v=N` cache-bust
 live site. Full detail in `docs/DEPLOY_AND_OPS.md`.
 
 ## Current state
-Live and self-updating. Injuries move the tip, weighted by each player's real position ×
-rating (from `nrl_players.js`); weather shrinks confidence; both applied before the odds
-blend. The learning loop is **past** `lowConfidence` (156 games as of 2026-07-29), so the
-Elo engine is live — the heuristic path is now the fallback, not the default.
+Live and self-updating. The Elo engine is live (156+ games, `lowConfidence: false`);
+the heuristic path is the fallback. Injuries move the tip (position × rating); the
+round's team list both clears named players and rules out unnamed doubts; weather (for
+the game's own day) shrinks confidence — all before the odds blend.
 
-**Changed 2026-07-29** (needs a workflow run to reach the live site):
-- **Bookmaker odds now exist.** They never had a source — `cloud_fetch.py` wrote no odds
-  dump and the workflow passed no `--odds`, so `fixture.odds` was permanently `null` and
-  the UI promised prices "around Tuesday" that could never arrive. Now scraped from
-  nrl.com's draw payload, along with the real stadium and an offset-bearing kick-off
-  (both of which `extract_draw()` used to discard).
-- **A "what changed today" feed**, diffed each run over a rolling 36h window.
-- **"Why the model leans this way"** is now a full itemised ledger that reconciles to the
-  displayed margin.
-- **The Roosters lock is now actually enforced.** It was cosmetic: `copyTips`, the
-  quicklist and the card tipline all computed `pHome>=0.5?h:a` and merely *annotated* the
-  Roosters game, so with the model disagreeing "Copy tips" emitted the **opponent**
-  labelled `(locked)`. All tip-naming now routes through `tipSide()`. `lockHero` still
-  reports honestly when the model disagrees — that part was always right.
+**Changed 2026-07-30** (needs upload + a workflow run, AND the `ODDS_API_KEY` secret):
+- **Odds actually work now — via The Odds API.** nrl.com geo-blocks prices from
+  non-Australian IPs, so the 2026-07-29 scrape that tested perfectly from Australia
+  published nothing from GitHub's US runners. The Odds API (free tier, `ODDS_API_KEY`
+  repo secret, non-fatal without it) is primary; nrl.com stays as fallback. Quota and
+  state are visible in `last_run.json`.
+- **A doubt becomes an OUT once the team list is published** and the player isn't in his
+  club's 17 (badge: NOT NAMED, full weight). Tom Dearden was showing as a half-weight
+  "doubt" during a game he wasn't playing in.
+- **Weather is for the game's own day** (matched on kick-off date; dump lines are now
+  `City|YYYY-MM-DD:`), not "wettest of the next ~6 days" — which was shrinking a
+  Thursday game by Saturday's rain. Failed city fetches keep their committed line.
+- **Feed/wording polish:** same-city-same-day forecasts emit one comp-wide entry, not
+  two identical rows; the odds box stops promising "Tuesday" once kick-off is <48h out.
+- **Also:** the 2026-07-29 batch's `docs/` pack, CLAUDE.md and HANDOFF.md never actually
+  made it to GitHub — this batch re-carries them.
 
 If anything here looks stale, trust the code and update these docs.

@@ -121,11 +121,13 @@ line, "TeamName: free text", e.g.:
     Panthers: Nathan Cleary (calf) test, expected to play.
 Unmatched lines are ignored; teams with no line get `news: null`.
 
-WEATHER (optional, --weather): plain text, one city per line,
-"City: free text", e.g.:
+WEATHER (optional, --weather): plain text, one line per city or per
+city+game-day:
+    Townsville|2026-07-30: Thu 30 Jul: 26°C, 14% rain chance, overcast
     Townsville: Fine, 26C, light breeze.
-Matched to each fixture by its resolved `city`. Cities with no line get
-`weather: null`.
+The dated form is that city's forecast for a game's LOCAL date and is matched
+to each fixture by resolved `city` + the date of its kick-off; the dateless
+form is the legacy city-wide fallback. Cities with no line get `weather: null`.
 
 RESULTS / LEARNING-LOOP MEMORY (optional, --results; the draw dump is also
 scanned automatically). Once a round's games are finished, the draw page (or
@@ -188,21 +190,31 @@ TEAMS = {
     "PEN": {"name": "Panthers", "aliases": ["penrith panthers", "penrith", "panthers"]},
     "SYD": {"name": "Roosters", "aliases": ["sydney roosters", "roosters"]},
     "NZW": {"name": "Warriors", "aliases": ["new zealand warriors", "nz warriors", "warriors"]},
-    "CRO": {"name": "Sharks", "aliases": ["cronulla sharks", "cronulla-sutherland", "cronulla", "sharks"]},
-    "DOL": {"name": "Dolphins", "aliases": ["the dolphins", "dolphins"]},
+    "CRO": {"name": "Sharks", "aliases": ["cronulla-sutherland sharks", "cronulla sutherland sharks",
+                                          "cronulla sharks", "cronulla-sutherland", "cronulla", "sharks"]},
+    "DOL": {"name": "Dolphins", "aliases": ["redcliffe dolphins", "the dolphins", "dolphins"]},
     "SOU": {"name": "Rabbitohs", "aliases": ["south sydney rabbitohs", "south sydney", "rabbitohs", "souths"]},
     "NEW": {"name": "Knights", "aliases": ["newcastle knights", "newcastle", "knights"]},
     "NQL": {"name": "Cowboys", "aliases": ["north queensland cowboys", "north queensland", "cowboys"]},
-    "MAN": {"name": "Sea Eagles", "aliases": ["manly warringah sea eagles", "manly sea eagles", "manly", "sea eagles"]},
-    "CAN": {"name": "Bulldogs", "aliases": ["canterbury-bankstown bulldogs", "canterbury bulldogs", "canterbury", "bulldogs"]},
+    "MAN": {"name": "Sea Eagles", "aliases": ["manly-warringah sea eagles", "manly warringah sea eagles",
+                                             "manly sea eagles", "manly", "sea eagles"]},
+    "CAN": {"name": "Bulldogs", "aliases": ["canterbury-bankstown bulldogs", "canterbury bankstown bulldogs",
+                                            "canterbury bulldogs", "canterbury", "bulldogs"]},
     "CBR": {"name": "Raiders", "aliases": ["canberra raiders", "canberra", "raiders"]},
     "MEL": {"name": "Storm", "aliases": ["melbourne storm", "melbourne", "storm"]},
     "BRI": {"name": "Broncos", "aliases": ["brisbane broncos", "brisbane", "broncos"]},
     "PAR": {"name": "Eels", "aliases": ["parramatta eels", "parramatta", "eels"]},
     "WST": {"name": "Wests Tigers", "aliases": ["wests tigers", "west tigers", "tigers"]},
     "GLD": {"name": "Titans", "aliases": ["gold coast titans", "gold coast", "titans"]},
-    "STI": {"name": "Dragons", "aliases": ["st george illawarra dragons", "st george illawarra", "st. george illawarra", "dragons"]},
+    "STI": {"name": "Dragons", "aliases": ["st. george illawarra dragons", "st george-illawarra dragons",
+                                           "st george illawarra dragons", "st george illawarra",
+                                           "st. george illawarra", "dragons"]},
 }
+# The longer full-club-name aliases above exist for The Odds API, which names teams
+# in full ("Cronulla Sutherland Sharks", "Canterbury Bankstown Bulldogs" — often
+# without the hyphen the club itself uses). They all used to resolve anyway, but only
+# via find_short()'s loose substring pass; an exact alias is deterministic and cheap.
+# Add new source names HERE — never build a second mapping in a fetcher (GOTCHAS.md).
 
 # Build alias -> short lookup, longest alias first so "sea eagles" beats "eagles".
 ALIAS_TO_SHORT = []
@@ -844,7 +856,10 @@ def parse_injuries(raw_text):
 
 
 def parse_weather(raw_text):
-    """Return {city_lower: weather_text}."""
+    """Return {key: weather_text} where key is either "city" (legacy city-wide
+    line) or "city|YYYY-MM-DD" (that city's forecast for a game's LOCAL date —
+    cloud_fetch emits one per game-day since 2026-07-30). Both shapes come
+    through the same lowercasing pass; apply_weather() prefers the dated one."""
     return parse_line_dump(raw_text, lambda s: s.strip().lower() or None)
 
 
@@ -855,10 +870,20 @@ def apply_injuries(teams, news_by_short):
 
 
 def apply_weather(fixtures, weather_by_city):
+    """Dated key first — "city|YYYY-MM-DD", the game's local date, read straight
+    off the fixture's kick-off (already local-at-the-ground with offset, so the
+    first 10 chars ARE the date). Falls back to the legacy city-wide key so an
+    old-format dump, or a fixture with no kick-off, still gets a forecast."""
     for f in fixtures:
         city = (f.get("city") or "").strip().lower()
-        if city in weather_by_city:
-            f["weather"] = weather_by_city[city]
+        if not city:
+            continue
+        day = (f.get("kickoff") or "")[:10]
+        hit = weather_by_city.get(f"{city}|{day}") if day else None
+        if hit is None:
+            hit = weather_by_city.get(city)
+        if hit is not None:
+            f["weather"] = hit
 
 
 # ---------------------------------------------------------------------------
@@ -1295,6 +1320,18 @@ def build_changes(prev_data, data, prev_lineups, lineups, players, now_iso, roun
     prev_fx_pair = {frozenset((f.get("home"), f.get("away"))): f
                     for f in (prev_data.get("fixtures") or [])}
 
+    # Two fixtures in the same city on the same LOCAL day share one forecast, so a
+    # per-fixture weather entry would print the identical sentence twice (the doubled
+    # "Forecast for Sydney updated" rows, 2026-07-30). Count the sharers up front;
+    # a shared forecast is emitted ONCE, comp-wide (fixture=null), keyed on the city
+    # + day + band rather than on either fixture.
+    wx_share = {}
+    for f in (data.get("fixtures") or []):
+        ck = ((f.get("city") or "").strip().lower(), (f.get("kickoff") or "")[:10])
+        if ck[0]:
+            wx_share[ck] = wx_share.get(ck, 0) + 1
+    wx_emitted = set()
+
     # ---- per-fixture: odds, weather, kick-off, venue -----------------------
     for f in (data.get("fixtures") or []):
         key = f"{f.get('home')}-{f.get('away')}"
@@ -1345,9 +1382,17 @@ def build_changes(prev_data, data, prev_lineups, lineups, players, now_iso, roun
             first = not old_wx
             if crossed or big or first:
                 was = f" (was {rain_old}% rain)" if rain_old is not None else ""
-                add(key, None, "weather", 2 if (crossed or big) else 1, "neutral",
-                    f"Forecast for {f.get('city') or hn} updated — {new_wx}{was}.",
-                    ident=f"r{round_num}-{key}-wx-{'new' if first else band_new}")
+                ck = ((f.get("city") or "").strip().lower(), (f.get("kickoff") or "")[:10])
+                shared = bool(ck[0]) and wx_share.get(ck, 0) > 1
+                if not (shared and ck in wx_emitted):
+                    if shared:
+                        wx_emitted.add(ck)
+                    add(None if shared else key, None, "weather",
+                        2 if (crossed or big) else 1, "neutral",
+                        f"Forecast for {f.get('city') or hn} updated — {new_wx}{was}.",
+                        ident=(f"r{round_num}-wx-{_slug(ck[0])}-{ck[1]}-{'new' if first else band_new}"
+                               if shared else
+                               f"r{round_num}-{key}-wx-{'new' if first else band_new}"))
 
         # kick-off ---------------------------------------------------------
         # Compare INSTANTS, not strings. The first run after this change ships
