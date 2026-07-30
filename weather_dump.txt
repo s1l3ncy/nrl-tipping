@@ -1,14 +1,14 @@
 # per-game-day forecast per host city (Open-Meteo)
-Brisbane|2026-08-01: Sat 1 Aug: 20°C, 39% rain chance, light drizzle
-Brisbane: Sat 1 Aug: 20°C, 39% rain chance, light drizzle
-Gold Coast|2026-08-01: Sat 1 Aug: 19°C, 53% rain chance, light drizzle
-Gold Coast: Sat 1 Aug: 19°C, 53% rain chance, light drizzle
+Brisbane|2026-08-01: Sat 1 Aug: 20°C, 39% rain chance, drizzle
+Brisbane: Sat 1 Aug: 20°C, 39% rain chance, drizzle
+Gold Coast|2026-08-01: Sat 1 Aug: 19°C, 53% rain chance, drizzle
+Gold Coast: Sat 1 Aug: 19°C, 53% rain chance, drizzle
 Melbourne|2026-07-31: Fri 31 Jul: 12°C, 0% rain chance, mainly clear
 Melbourne: Fri 31 Jul: 12°C, 0% rain chance, mainly clear
-Mudgee|2026-08-01: Sat 1 Aug: 15°C, 0% rain chance, clear
-Mudgee: Sat 1 Aug: 15°C, 0% rain chance, clear
-Sydney|2026-08-02: Sun 2 Aug: 18°C, 10% rain chance, light drizzle
-Sydney: Sun 2 Aug: 18°C, 10% rain chance, light drizzle
-Townsville: Wed 5 Aug: 25°C, 10% rain chance, overcast
-Wollongong|2026-07-31: Fri 31 Jul: 16°C, 0% rain chance, clear
-Wollongong: Fri 31 Jul: 16°C, 0% rain chance, clear
+Mudgee|2026-08-01: Sat 1 Aug: 15°C, 0% rain chance, mainly clear
+Mudgee: Sat 1 Aug: 15°C, 0% rain chance, mainly clear
+Sydney|2026-08-02: Sun 2 Aug: 17°C, 10% rain chance, overcast
+Sydney: Sun 2 Aug: 17°C, 10% rain chance, overcast
+Townsville: Wed 5 Aug: 25°C, 10% rain chance, mainly clear
+Wollongong|2026-07-31: Fri 31 Jul: 15°C, 0% rain chance, clear
+Wollongong: Fri 31 Jul: 15°C, 0% rain chance, clear
