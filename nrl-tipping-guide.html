@@ -481,6 +481,40 @@ details.plain>summary:hover{color:var(--text)}
   color:var(--sub);border:1px solid var(--hairline-soft)}
 .gtag.blue{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.36)}
 
+/* full-time card state */
+.gwhen.ft{color:var(--good);font-weight:800}
+.gscore{display:flex;align-items:center;justify-content:center;gap:10px;align-self:center;
+  font-variant-numeric:tabular-nums}
+.gscore b{font-size:38px;font-weight:850;letter-spacing:-1.5px;color:var(--faint);line-height:1}
+.gscore b.w{color:var(--text)}
+.gscore .dash{font-size:22px;color:var(--faint);font-weight:600}
+.gfinal{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 18px 16px}
+.gcard.final .gtippill{background:rgba(255,255,255,.07);color:var(--text);border-color:var(--hairline)}
+.gcard.final .gtippill.gold{background:rgba(245,196,81,.15);color:var(--roosters);border-color:rgba(245,196,81,.5)}
+.gconf .ok{color:var(--good);font-weight:700}
+.gconf .no{color:var(--amber-text);font-weight:700}
+.qline.done{opacity:.85}
+.qline .ok{color:var(--good);font-weight:800}
+.qline .no{color:var(--amber-text);font-weight:800}
+
+/* duo probability bar — each team's colour owns its share */
+.gbar.duo{display:flex;background:rgba(255,255,255,.06)}
+.gbar.duo i{position:static;flex:none;border-radius:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:none}
+.gbar.duo .gh{border-radius:7px 0 0 7px;border-right:2px solid rgba(255,255,255,.92)}
+.gbar.duo .ga{flex:1;border-radius:0 7px 7px 0}
+.gbar .gmid{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;
+  background:rgba(255,255,255,.35);pointer-events:none}
+.gends .gkey{display:inline-block;width:8px;height:8px;border-radius:3px;vertical-align:baseline;
+  margin:0 5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.gbar.duo i.lift,.gends .gkey.lift{filter:brightness(1.7) saturate(1.15)}
+.gbar.duo .ga.alt,.gends .gkey.alt{filter:brightness(.45) saturate(.8)}
+.gends span{display:inline-flex;align-items:center}
+
+/* monogram crests on the cards */
+.gteam .crest{display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;font-weight:850;letter-spacing:.4px;color:#fff;
+  text-shadow:0 1px 2px rgba(0,0,0,.6)}
+
 /* learning sparkline */
 .spark-dot{fill:var(--accent2)}
 .spark-dot.min{fill:var(--good)}
@@ -1225,6 +1259,13 @@ function render(){
   // quick list
   document.getElementById('quicklist').innerHTML = preds.map((p,i)=>{
     const tip = tipSide(p); const isRk=(p.h.short===LOCK||p.a.short===LOCK);
+    const fin=fixtureResult(p);
+    if(fin){
+      const good=fin.winner? (tip===fin.winner) : null;
+      return `<div class="qline done"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
+        `<span class="pick ${isRk?'rk':''}">${fin.winner?esc(fin.winner.short):'Draw'} ${fin.hs}–${fin.as} `+
+        `${good===null?'':good?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</span></div>`;
+    }
     const conf=Math.max(p.pHome,1-p.pHome);
     let extra='';
     if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
@@ -1256,6 +1297,20 @@ function renderLock(preds){
   const rkHome = p.h.short===LOCK;
   const rkProb = rkHome? p.pHome : 1-p.pHome;
   const opp = rkHome? p.a : p.h;
+  const fin = fixtureResult(p);
+  if(fin){
+    const won=!!(fin.winner&&fin.winner.short===LOCK);
+    const draw=!fin.winner;
+    const rkScore=rkHome?`${fin.hs}–${fin.as}`:`${fin.as}–${fin.hs}`;   // Roosters first
+    el.innerHTML =
+      `<div class="rk">🐓</div>
+       <div class="txt">
+         <h3>Full time: <span style="color:var(--roosters)">Roosters</span> ${draw?'drew with':won?'beat':'went down to'} ${esc(opp.name)}</h3>
+         <div class="verdict ${won?'safe':'risk'}">${won?'✓ Winners — the lock delivered this week.':draw?'A draw — the tip washes.':'The lock didn\'t land this week — it happens.'}</div>
+       </div>
+       <div class="big">${rkScore}<span class="u">final score</span></div>`;
+    return;
+  }
   const modelTipRk = (p.pHome>=0.5)===rkHome;
   const safe = rkProb>=0.5;
   el.innerHTML =
@@ -1267,6 +1322,19 @@ function renderLock(preds){
      <div class="big">${(rkProb*100).toFixed(0)}%<span class="u">win chance</span></div>`;
 }
 
+/* Final score for a fixture in the round being tipped, if it's already been
+   played. The append-only results memory (nrl_learned.js) is the source of
+   truth — parse_nrl appends each finished game within hours of full time.
+   Returns {hs, as, winner} oriented to the prediction's home side, or null. */
+function fixtureResult(p){
+  const pool=[].concat((SRC&&SRC.results)||[], (LEARNED&&LEARNED.results)||[]);
+  const r=pool.find(x=>x && x.round===SRC.round &&
+    ((x.home===p.h.short&&x.away===p.a.short)||(x.home===p.a.short&&x.away===p.h.short)));
+  if(!r) return null;
+  const flip=r.home!==p.h.short;
+  const hs=flip?r.as:r.hs, as=flip?r.hs:r.as;
+  return {hs:hs, as:as, winner: hs>as?p.h : as>hs?p.a : null};
+}
 function kickShort(fx){
   if(!fx||!fx.kickoff) return '';
   const t=Date.parse(fx.kickoff); if(isNaN(t)) return '';
@@ -1288,15 +1356,51 @@ function cardHTML(p,meta){
   const pct=(conf*100).toFixed(0);
   const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
   const team=(t,isTip,isRk)=>`<div class="gteam${isRk?' locked':''}${isTip?' tipd':''}">
-      <span class="crest${isRk?' rk':''}" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>
+      <span class="crest${isRk?' rk':''}" style="background:${esc(t.colour||'#888')}" aria-hidden="true">${esc(t.short)}</span>
       <span class="gtname">${esc(t.name)}${isRk?' 🐓':''}${isTip?'<span class="sr"> — tipped to win</span>':''}</span>
       <span class="grec">${t.P?`${t.W}-${t.L} · ${(overallMargin(t)>=0?'+':'')}${overallMargin(t).toFixed(1)}/gm`:''}</span>
       <span class="gform">${winloss(t.last5)}</span>
     </div>`;
+  // Two clubs can share a colour (Dragons v Dolphins: both red). When the two
+  // hexes are too close to tell apart, the AWAY share is shade-shifted (darker,
+  // less saturated) and its legend dot shifts with it, so the bar always reads
+  // as two sides even in a red-v-red game.
+  const cdist=(a,b)=>{ const v=c=>{ c=String(c||'').replace('#','');
+      if(c.length===3) c=c.replace(/(.)/g,'$1$1');
+      const n=parseInt(c,16); return isNaN(n)?null:[(n>>16)&255,(n>>8)&255,n&255]; };
+    const x=v(a),y=v(b); if(!x||!y) return 999;
+    return Math.abs(x[0]-y[0])+Math.abs(x[1]-y[1])+Math.abs(x[2]-y[2]); };
+  const clash = cdist(p.h.colour,p.a.colour) < 140;
+  // Some club colours are near-navy (Bulldogs, Cowboys, Knights) and sink into
+  // the app's own background — those segments get a brightness lift so a 60%
+  // share never looks like an empty track. (The away side skips the lift when
+  // it's already shade-shifted for a colour clash.)
+  const lum=c=>{ const v=String(c||'').replace('#',''); const h=v.length===3?v.replace(/(.)/g,'$1$1'):v;
+    const n=parseInt(h,16); if(isNaN(n)) return 255;
+    return .2126*((n>>16)&255)+.7152*((n>>8)&255)+.0722*(n&255); };
+  const liftH=lum(p.h.colour)<70, liftA=!clash&&lum(p.a.colour)<70;
+  // ---- FULL TIME state: score + winner + how the tip went, nothing else ----
+  const fin=fixtureResult(p);
+  if(fin){
+    const tip=tipSide(p);
+    const correct=fin.winner? (tip===fin.winner) : null;
+    const rkWon=!!(fin.winner&&fin.winner.short===LOCK);
+    return `<div class="gcard final${(rkHome||rkAway)?' haslock':''}">
+      <div class="gtop"><span class="gwhen ft">Full time</span>${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>
+      <div class="gmatch">
+        ${team(p.h,false,rkHome)}
+        <div class="gscore"><b class="${fin.winner===p.h?'w':''}">${fin.hs}</b><span class="dash">–</span><b class="${fin.winner===p.a?'w':''}">${fin.as}</b></div>
+        ${team(p.a,false,rkAway)}
+      </div>
+      <div class="gfinal">
+        <span class="gtippill${rkWon?' gold':''}">${fin.winner?`${esc(fin.winner.name)} won`:'Draw'}${rkWon?' 🐓':''}</span>
+        <span class="gconf">${correct===null?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(tip.name)} — got it</span>`:`<span class="no">✗ tipped ${esc(tip.name)}</span>`}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
+      </div>
+    </div>`;
+  }
   const favMargin = p.margin>=0? p.h : p.a;
   const band = bandFor(conf);
   const hPct=p.pHome*100, aPct=100-hPct;
-  const tipShare=(tipHome?hPct:aPct).toFixed(1);
   const when=kickShort(fx);
   const tags=[];
   if(meta.isUpset) tags.push(`<span class="gtag blue">🎯 Upset watch</span>`);
@@ -1314,10 +1418,14 @@ function cardHTML(p,meta){
       ${team(p.a,!tipHome,rkAway)}
     </div>
     <div class="gprob" role="img" aria-label="${pct}% win chance to ${esc(tipHome?p.h.name:p.a.name)}">
-      <div class="gbar${tipHome?'':' rev'}${lockTip?' gold':''}"><i style="width:${tipShare}%"></i></div>
+      <div class="gbar duo">
+        <i class="gh${liftH?' lift':''}" style="width:${hPct.toFixed(1)}%;background:${esc(p.h.colour||'#888')}"></i>
+        <i class="ga${clash?' alt':''}${liftA?' lift':''}" style="background:${esc(p.a.colour||'#888')}"></i>
+        <span class="gmid" aria-hidden="true"></span>
+      </div>
       <div class="gends">
-        <span class="${hPct>=50?'lead':''}">${esc(p.h.short)} ${hPct.toFixed(0)}%</span>
-        <span class="${aPct>50?'lead':''}">${aPct.toFixed(0)}% ${esc(p.a.short)}</span>
+        <span class="${hPct>=50?'lead':''}"><i class="gkey${liftH?' lift':''}" style="background:${esc(p.h.colour||'#888')}"></i>${esc(p.h.short)} ${hPct.toFixed(0)}%</span>
+        <span class="${aPct>50?'lead':''}">${aPct.toFixed(0)}% ${esc(p.a.short)}<i class="gkey${clash?' alt':''}${liftA?' lift':''}" style="background:${esc(p.a.colour||'#888')}"></i></span>
       </div>
     </div>
     <div class="gtipline">
@@ -1532,7 +1640,8 @@ function chgList(){
       sev: (c.sev===1||c.sev===2||c.sev===3) ? c.sev : 2,
       dir: (c.dir==='up'||c.dir==='down') ? c.dir : 'neutral',
       text: String(c.text).trim(),
-      pts: (typeof c.pts==='number' && c.pts>0) ? c.pts : null
+      pts: (typeof c.pts==='number' && c.pts>0) ? c.pts : null,
+      ts: c.ts || null
     }));
 }
 function chgRow(c){
@@ -1570,12 +1679,26 @@ function renderChanges(){
   const cnt=document.getElementById('chgCount');
   if(!sec||!body) return {};
   sec.style.display='';
-  const all=chgList();
+  // TODAY ONLY (2026-07-31 — Josh: "clear all of yesterday's updates"). The data
+  // file still carries the rolling 36h window, but the feed shows just entries
+  // whose first sighting was today in Sydney, and the clock is the earliest of
+  // those. Yesterday's news ages out of the DATA on its own; it simply no longer
+  // clutters the screen. Note the trade-off this accepts: a late-Tuesday
+  // team-list drop won't be on screen Wednesday morning.
+  const sydDay=t=>{ try{ return new Date(t).toLocaleDateString('en-CA',{timeZone:'Australia/Sydney'}); }
+                    catch(e){ return new Date(t).toDateString(); } };
+  const todayStr=sydDay(Date.now());
+  const all=chgList().filter(c=>{ if(!c.ts) return false;
+    const t=Date.parse(c.ts); return !isNaN(t) && sydDay(t)===todayStr; });
   // tab-bar badge: how many updates are waiting on the What's-new screen
   const tb=document.getElementById('tabNewBadge');
   if(tb){ const n=all.length; tb.hidden=!n; tb.textContent=n>99?'99+':String(n); }
   const major=all.filter(c=>c.sev>=2), minor=all.filter(c=>c.sev===1);
-  const when = SRC.changesSince ? fmtClock(SRC.changesSince) : null;
+  let when=null;
+  if(all.length){
+    const first=all.reduce((m,c)=>{ const t=Date.parse(c.ts); return (m===null||t<m)?t:m; },null);
+    when = fmtClock(new Date(first).toISOString());
+  }
 
   // per-fixture badge map, returned for cardHTML()
   const byFx={};
@@ -1584,16 +1707,16 @@ function renderChanges(){
     e.n++; if(c.sev>e.sev){ e.sev=c.sev; e.cat=c.cat; } });
 
   if(!all.length){
-    if(cnt) cnt.textContent = when?`checked ${when}`:'just checked';
+    if(cnt) cnt.textContent = 'nothing yet today';
     // `== null` on purpose: a data file that carries `changes:null` has no feed at
     // all, exactly like one that predates the field, and must not claim "nothing
     // has changed" — that's a statement we can't make without a previous window.
     body.innerHTML = (SRC.changes==null)
       ? `<div class="chgempty"><span class="dot"></span>Change tracking starts from the next data refresh.</div>`
-      : `<div class="chgempty"><span class="dot"></span>Nothing's changed since the last check — same teams, same prices, same forecast.</div>`;
+      : `<div class="chgempty"><span class="dot"></span>Nothing's changed yet today — same teams, same prices, same forecast.</div>`;
     return byFx;
   }
-  if(cnt) cnt.textContent = `${all.length} update${all.length===1?'':'s'} since ${when||'the last check'}`;
+  if(cnt) cnt.textContent = `${all.length} update${all.length===1?'':'s'} today${when?` · since ${when}`:''}`;
 
   const order = fixtures.map(fxKey);
   const groups = {};
