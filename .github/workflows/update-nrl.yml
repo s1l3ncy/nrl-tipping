@@ -52,7 +52,15 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
+      # ODDS_API_KEY is a repo secret (Settings → Secrets and variables → Actions).
+      # It is a NON-FATAL dependency on purpose: with no secret configured the fetch
+      # logs why, skips The Odds API and falls back to nrl.com, and the run still
+      # publishes a valid nrl_data.js with fixture.odds left null. Best-effort fields
+      # never block a publish. Never echo this value — the repo is public, and
+      # cloud_fetch.py redacts it from its own log lines for the same reason.
       - name: Fetch source pages
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python cloud_fetch.py
 
       # --odds and --draw-meta are what make fixture.odds / venue / kick-off real.
@@ -127,6 +135,24 @@ jobs:
                   "dataRound": data.get("round"),
               }
 
+          def odds_api_status():
+              """cloud_fetch.py's key-free sidecar on how the odds call went.
+              oddsApiRemaining is the free tier's 500/month counter — watch it,
+              because a quota that runs out mid-month silently freezes prices
+              rather than failing the run."""
+              blank = {"oddsApiState": None, "oddsApiRemaining": None, "oddsApiUsed": None,
+                       "oddsApiHttp": None, "oddsApiBookQuotes": None}
+              p = pathlib.Path("odds_api_status.json")
+              if not p.exists():
+                  return blank
+              try:
+                  d = json.loads(p.read_text(encoding="utf-8", errors="ignore"))
+              except Exception:
+                  return blank
+              return {"oddsApiState": d.get("state"), "oddsApiRemaining": d.get("remaining"),
+                      "oddsApiUsed": d.get("used"), "oddsApiHttp": d.get("httpStatus"),
+                      "oddsApiBookQuotes": d.get("bookQuotes")}
+
           syd = datetime.datetime.now(zoneinfo.ZoneInfo("Australia/Sydney"))
           json.dump({
               "sydney": syd.strftime("%Y-%m-%d %H:%M:%S %Z"),
@@ -147,9 +173,11 @@ jobs:
               # These exist for the same reason as the counters above: a scraper
               # that silently stops producing is invisible in a green run. If
               # fixturesWithOdds sits at 0 from Wednesday on, or fixturesWithKickoff
-              # or fixturesWithTz is below fixtures, the nrl.com draw fetch has
+              # or fixturesWithTz is below fixtures, the odds/draw fetch has
               # regressed and the app is back to "odds drop around Tuesday".
+              # oddsApiState "no-key"/"bad-key"/"quota-exhausted" tells you which.
               **nrl_data_counters(),
+              **odds_api_status(),
           }, open("last_run.json", "w"), indent=2)
           PY
           cat last_run.json
