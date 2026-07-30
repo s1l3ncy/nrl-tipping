@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Wed 5 Aug: 25°C, 10% rain chance, overcast",
+      "weather": "Wed 5 Aug: 25°C, 10% rain chance, mainly clear",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -477,15 +477,15 @@ window.NRL_DATA = {
       "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": {
         "open": {
-          "home": 4.3,
-          "away": 1.22
+          "home": 4.6,
+          "away": 1.2
         },
         "close": {
-          "home": 4.3,
-          "away": 1.22
+          "home": 4.6,
+          "away": 1.2
         }
       },
-      "weather": "Fri 31 Jul: 16°C, 0% rain chance, clear",
+      "weather": "Fri 31 Jul: 15°C, 0% rain chance, clear",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -525,7 +525,7 @@ window.NRL_DATA = {
           "away": 1.57
         }
       },
-      "weather": "Sat 1 Aug: 19°C, 53% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 19°C, 53% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -545,7 +545,7 @@ window.NRL_DATA = {
           "away": 3.15
         }
       },
-      "weather": "Sat 1 Aug: 15°C, 0% rain chance, clear",
+      "weather": "Sat 1 Aug: 15°C, 0% rain chance, mainly clear",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -565,7 +565,7 @@ window.NRL_DATA = {
           "away": 2.55
         }
       },
-      "weather": "Sat 1 Aug: 20°C, 39% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 20°C, 39% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -585,7 +585,7 @@ window.NRL_DATA = {
           "away": 3.7
         }
       },
-      "weather": "Sun 2 Aug: 18°C, 10% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 17°C, 10% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -605,7 +605,7 @@ window.NRL_DATA = {
           "away": 1.42
         }
       },
-      "weather": "Sun 2 Aug: 18°C, 10% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 17°C, 10% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -613,7 +613,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-31T03:11:10+10:00",
+  "generatedAt": "2026-07-31T07:42:03+10:00",
   "changes": [
     {
       "id": "r22-SYD-inj-james-tedesco",
@@ -1177,6 +1177,18 @@ window.NRL_DATA = {
       "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 55% rain chance, light drizzle (was 60% rain).",
       "pts": null,
       "ts": "2026-07-30T02:55:20+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-DOL-line-4.60-1.20",
+      "fixture": "STI-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $4.30 → $4.60, Dolphins $1.22 → $1.20. Market now 21% Dragons (was 22%).",
+      "pts": null,
+      "ts": "2026-07-31T07:42:03+10:00",
       "rnd": 22
     },
     {
