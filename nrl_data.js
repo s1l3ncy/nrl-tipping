@@ -64,7 +64,7 @@ window.NRL_DATA = {
         "PF": 234,
         "PA": 202
       },
-      "news": "Billy Smith (Illness) — back Round 23; Lindsay Collins (Concussion) — back Round 23; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "Billy Smith (Illness) — back Round 23; Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -142,7 +142,7 @@ window.NRL_DATA = {
         "PF": 218,
         "PA": 137
       },
-      "news": "Jack Bostock (Concussion) — back Round 22; Ray Stone (Shoulder) — back Round 22; Jake Averillo (Ribs) — back Round 22; Isaiya Katoa (Wrist) — back Round 23"
+      "news": "Ray Stone (Shoulder) — back Round 22; Jake Averillo (Ribs) — back Round 22; Jack Bostock (Concussion) — back Round 22; Isaiya Katoa (Wrist) — back Round 23"
     },
     {
       "name": "Rabbitohs",
@@ -168,7 +168,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 244
       },
-      "news": "Dayne Jennings (Knee); Brandon Smith (Calf) — back Round 22; Sean Keppie (Thumb) — back Round 22; Adam Elliott (Ankle) — back Round 22; Latrell Mitchell (Calf) — back Round 23; Tallis Duncan (Hamstring) — back Round 23"
+      "news": "Dayne Jennings (Knee); Adam Elliott (Ankle) — back Round 22; Sean Keppie (Thumb) — back Round 22; Brandon Smith (Calf) — back Round 22; David Fifita (Suspension) — back Round 23; Latrell Mitchell (Calf) — back Round 23"
     },
     {
       "name": "Knights",
@@ -194,7 +194,7 @@ window.NRL_DATA = {
         "PF": 258,
         "PA": 212
       },
-      "news": "Kalyn Ponga (Quad) — back Round 22; Jermaine McEwen (Hamstring) — back Round 22; Dane Gagai (Calf) — back Round 22; Asu Kepaoa (Suspension) — back Round 23; James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25"
+      "news": "Kalyn Ponga (Quad) — back Round 22; Jermaine McEwen (Hamstring) — back Round 22; Dane Gagai (Calf) — back Round 22; Asu Kepaoa (Suspension) — back Round 23; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25"
     },
     {
       "name": "Cowboys",
@@ -220,7 +220,7 @@ window.NRL_DATA = {
         "PF": 214,
         "PA": 245
       },
-      "news": "Tom Dearden (Ankle); Griffin Neame (Suspension) — back Round 23; Reed Mahoney (Head knock) — back Round 23; John Bateman (Hamstring) — back Round 23"
+      "news": "Tom Dearden (Ankle); Reed Mahoney (Head knock) — back Round 23; John Bateman (Hamstring) — back Round 23; Griffin Neame (Suspension) — back Round 23"
     },
     {
       "name": "Bulldogs",
@@ -246,7 +246,7 @@ window.NRL_DATA = {
         "PF": 144,
         "PA": 228
       },
-      "news": "Samuel Hughes (Neck); Mitchell Woods (Hamstring); Kurt Mann (Facial injury) — back Round 22; Jake Turpin (Biceps) — back Round 22; Sitili Tupouniua (Hamstring) — back Round 23"
+      "news": "Samuel Hughes (Neck); Mitchell Woods (Hamstring); Jake Turpin (Biceps) — back Round 22; Kurt Mann (Facial injury) — back Round 22; Sitili Tupouniua (Hamstring) — back Round 23"
     },
     {
       "name": "Sea Eagles",
@@ -324,7 +324,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Tui Kamikamica (Medical Episode); Jack Howarth (Shoulder); Marion Seve (Triceps); Ativalu Lisati (Ankle) — back Round 24; Cameron Munster (Knee) — back Round 24; Harry Grant (Hamstring) — back Round 25"
+      "news": "Jack Howarth (Shoulder); Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Cameron Munster (Knee) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Titans",
@@ -350,7 +350,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 275
       },
-      "news": "Brock Gray (ACL); Kurtis Morrin (Leg) — back Round 22; AJ Brimson (Concussion) — back Round 22; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": "Brock Gray (ACL); AJ Brimson (Concussion) — back Round 22; Kurtis Morrin (Leg) — back Round 22; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -428,7 +428,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
+      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -454,7 +454,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Hame Sele (Achilles); Blake Lawrie (Leg) — back Round 22; Kade Reed (Finger) — back Round 22; Jaydn Su'A (Pectoral) — back Round 27"
+      "news": "Hame Sele (Achilles); Blake Lawrie (Leg) — back Round 23; Kade Reed (Finger) — back Round 23; David Fale (Leg) — back Round 23; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
     }
   ],
   "fixtures": [
@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 25°C, 10% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 25°C, 14% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -476,7 +476,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 51% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 43% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -487,7 +487,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "2026-07-31T20:00:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 13°C, 48% rain chance, heavy drizzle",
+      "weather": "Mon 3 Aug: 13°C, 51% rain chance, showers",
       "h2h": null,
       "tz": "Australia/Melbourne"
     },
@@ -498,7 +498,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "2026-08-01T15:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 19°C, 51% rain chance, drizzle",
+      "weather": "Sun 2 Aug: 19°C, 45% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -509,7 +509,7 @@ window.NRL_DATA = {
       "city": "Mudgee",
       "kickoff": "2026-08-01T17:30:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 15°C, 27% rain chance, light drizzle",
+      "weather": "Mon 3 Aug: 15°C, 26% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -520,7 +520,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "2026-08-01T19:35:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 20°C, 43% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 19°C, 47% rain chance, partly cloudy",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -531,7 +531,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "2026-08-02T14:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 40% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 16°C, 27% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -542,7 +542,7 @@ window.NRL_DATA = {
       "city": "Sydney",
       "kickoff": "2026-08-02T16:05:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 16°C, 40% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 16°C, 27% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -550,8 +550,80 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-30T09:45:49+10:00",
+  "generatedAt": "2026-07-30T19:44:05+10:00",
   "changes": [
+    {
+      "id": "r22-CRO-SOU-wx-1",
+      "fixture": "CRO-SOU",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Sydney updated — Sat 1 Aug: 16°C, 27% rain chance, light drizzle (was 40% rain).",
+      "pts": null,
+      "ts": "2026-07-30T19:44:05+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-WST-PAR-wx-1",
+      "fixture": "WST-PAR",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Sydney updated — Sat 1 Aug: 16°C, 27% rain chance, light drizzle (was 40% rain).",
+      "pts": null,
+      "ts": "2026-07-30T19:44:05+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-SOU-inj-david-fifita",
+      "fixture": "CRO-SOU",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Rabbitohs: David Fifita (Suspension) — back Round 23 — new on the injury list.",
+      "pts": 2.0,
+      "ts": "2026-07-30T19:44:05+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-SOU-fit-tallis-duncan",
+      "fixture": "CRO-SOU",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Rabbitohs: Tallis Duncan is off the injury list.",
+      "pts": 1.1,
+      "ts": "2026-07-30T19:44:05+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-inj-david-fale",
+      "fixture": "STI-DOL",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Dragons: David Fale (Leg) — back Round 23 — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-07-30T19:44:05+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-inj-hayden-buchanan",
+      "fixture": "STI-DOL",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Dragons: Hayden Buchanan (Shoulder) — back Next Season — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-07-30T19:44:05+10:00",
+      "rnd": 22
+    },
     {
       "id": "r22-MEL-CAN-wx-2",
       "fixture": "MEL-CAN",
