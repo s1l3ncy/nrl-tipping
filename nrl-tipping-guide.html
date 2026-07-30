@@ -252,6 +252,12 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .chgminor{margin-top:10px;padding-top:9px;border-top:1px solid var(--line-soft);
   font-size:11.5px;color:var(--muted2);line-height:1.4}
 .chgempty{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}
+details.chgmore{margin-top:8px}
+details.chgmore>summary{cursor:pointer;list-style:none;font-size:12px;font-weight:600;color:var(--muted);
+  padding:7px 0 2px;border-top:1px solid var(--line-soft);user-select:none;-webkit-user-select:none}
+details.chgmore>summary::-webkit-details-marker{display:none}
+details.chgmore>summary::after{content:" ▾"}
+details.chgmore[open]>summary::after{content:" ▴"}
 .chgempty .dot{background:var(--muted2);box-shadow:0 0 0 3px rgba(120,131,154,.16)}
 /* per-card badge */
 .chgbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
@@ -287,6 +293,13 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 /* why the model leans this way */
 .mbox.whybox{grid-column:1/-1}
 .whylead{font-size:13px;line-height:1.4;color:var(--text);margin:0 0 3px}
+.whysum{font-size:12.5px;line-height:1.45;color:var(--muted);margin:0 0 8px}
+.whysum b{color:var(--text);font-weight:600}
+details.whymath>summary{cursor:pointer;list-style:none;font-size:12px;font-weight:600;color:var(--muted);
+  padding:2px 0 6px;user-select:none;-webkit-user-select:none}
+details.whymath>summary::-webkit-details-marker{display:none}
+details.whymath>summary::after{content:" ▾"}
+details.whymath[open]>summary::after{content:" ▴"}
 .whylead b{color:var(--accent);font-weight:700}
 .whyeng{font-size:11px;color:var(--muted2);margin-bottom:9px;letter-spacing:.2px}
 .ledrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline;
@@ -874,6 +887,48 @@ function injSub(inj){
   if(o.length>2) s+=`, +${o.length-2} more`;
   return s;
 }
+/* Plain-English digest of the ledger (added 2026-07-30): one or two sentences
+   naming the biggest drivers IN WORDS — strength, form, home ground, team news,
+   weather, the market — so the card reads like a reason, not a spreadsheet. The
+   itemised ledger still exists below it, folded behind "show the working". */
+function whySummary(p,fx){
+  const P=p.parts, fav=modelFav(p);
+  const drivers=[];
+  const add=(pts,txt)=>{ if(Math.abs(pts)>=0.5) drivers.push({n:Math.abs(pts), backsFav:(pts>=0?p.h:p.a)===fav, txt}); };
+  if(p.useElo){
+    add(P.ratingGap, `<b>${esc((P.ratingGap>=0?p.h:p.a).name)}</b> rating the stronger side`);
+  }else{
+    add(P.ratingGap, `<b>${esc((P.ratingGap>=0?p.h:p.a).name)}</b> having the better season record`);
+    add(P.formGap, `<b>${esc((P.formGap>=0?p.h:p.a).name)}</b> coming in hotter`);
+  }
+  add(P.hga, `the home-ground edge`);
+  const injTxt=(team,inj)=>{ const t=inj.outs[0]; if(!t) return `<b>${esc(team.name)}</b> carrying injuries`;
+    const verb=t.notNamed?`being without ${esc(t.name)} (not named)`:t.confirmed===false?`sweating on ${esc(t.name)}`:`missing ${esc(t.name)}`;
+    return `<b>${esc(team.name)}</b> ${verb}${inj.count>1?` and ${inj.count-1} more`:``}`; };
+  if(P.hInjPts>0) add(-P.hInjPts, injTxt(p.h,p.hInj));
+  if(P.aInjPts>0) add(P.aInjPts, injTxt(p.a,p.aInj));
+  drivers.sort((x,y)=>y.n-x.n);
+  const pro=drivers.filter(d=>d.backsFav), con=drivers.filter(d=>!d.backsFav);
+  let sen;
+  if(!drivers.length){
+    sen=`Nothing much separates these two — no ratings gap, no big news.`;
+  }else{
+    const mostly = drivers.length>1 && drivers[0].n >= 2*(drivers[1].n||0.1);
+    sen = (pro.length?`${mostly&&pro[0]===drivers[0]?`Mostly `:`Built on `}${pro.slice(0,2).map(d=>d.txt).join(', plus ')}`
+                     :`The lean is thin`) + `.`;
+    if(con.length){
+      const capd=con[0].txt.startsWith('<b>')?con[0].txt
+        :con[0].txt.charAt(0).toUpperCase()+con[0].txt.slice(1);
+      sen+=` ${capd} pulls it back${con.length>1?` (and more)`:``}.`;
+    }
+  }
+  if(p.wx&&p.wx.shrink>0) sen+=` Rain in the forecast trims the confidence.`;
+  if(p.blended&&p.mkt!==null){
+    const agree=(p.modelP>=0.5)===(p.mkt>=0.5);
+    sen+=agree?` The bookies read it the same way.`:` The bookies lean the other way, which reins the tip in.`;
+  }
+  return sen;
+}
 /* The itemised "why". Every number comes from p.parts, so the ledger sums by
    construction: ratingGap + formGap + hga − hInjPts + aInjPts === preWx, and
    preWx + wxDelta === margin. Weather and the odds blend sit below the rule because
@@ -974,8 +1029,13 @@ function whyHTML(p,fx){
       : `<div class="ledlock">🔒 <b>Locked:</b> the Roosters are tipped in this game whatever the model says. `+
         `Right now the model leans ${esc(opp.name)} — this is a loyalty pick.</div>`;
   }
-  return `<p class="whylead">${rationale(p)}</p><div class="whyeng">${esc(eng)}</div>`+
-    body+mods+total+check+lock;
+  // The lead + the plain-English summary are the card; the number ledger is the
+  // receipt, folded away (2026-07-30 — Josh: "a short summary should be better").
+  // The lock line stays OUTSIDE the fold: it must never be hidden.
+  return `<p class="whylead">${rationale(p)}</p>`+
+    `<p class="whysum">${whySummary(p,fx)}</p>`+
+    `<details class="whymath"><summary>Show the working</summary>`+
+    `<div class="whyeng">${esc(eng)}</div>`+body+mods+total+check+`</details>`+lock;
 }
 function agreeWord(p){
   if(p.mkt===null) return "";
@@ -1354,8 +1414,28 @@ function chgRow(c){
   return `<div class="chgrow s${c.sev} ${k.cls}"><span class="g" aria-hidden="true">${k.g}</span>`+
     `<span class="tx">${esc(c.text)}</span>${pts}</div>`;
 }
+/* Always Sydney time, always labelled (2026-07-30). It used to render in the
+   VIEWER's local zone with no label — right for Josh at home, silently wrong on
+   any device set elsewhere, and untrustworthy everywhere ("is that AEST?").
+   Falls back to unzoned local time only if the runtime lacks tz data. */
 function fmtClock(iso){ const t=Date.parse(iso); if(isNaN(t)) return null;
-  return new Date(t).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}).toLowerCase(); }
+  const d=new Date(t), TZ='Australia/Sydney';
+  try{
+    const time=d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit',timeZone:TZ}).toLowerCase();
+    const parts=new Intl.DateTimeFormat('en-AU',{timeZone:TZ,timeZoneName:'short'}).formatToParts(d);
+    const zone=(parts.find(x=>x.type==='timeZoneName')||{}).value||'AEST';
+    const day=d.toLocaleDateString('en-AU',{timeZone:TZ});
+    const today=new Date().toLocaleDateString('en-AU',{timeZone:TZ});
+    let dayw='';
+    if(day!==today){
+      const yest=new Date(Date.now()-864e5).toLocaleDateString('en-AU',{timeZone:TZ});
+      dayw = day===yest ? 'yesterday ' : d.toLocaleDateString('en-AU',{weekday:'short',timeZone:TZ})+' ';
+    }
+    return `${dayw}${time} ${zone}`;
+  }catch(e){
+    return d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}).toLowerCase();
+  }
+}
 function renderChanges(){
   const sec=document.getElementById('changesSection');
   const body=document.getElementById('changeFeed');
@@ -1392,20 +1472,44 @@ function renderChanges(){
     const sx=Math.max.apply(null,groups[x].map(c=>c.sev)), sy=Math.max.apply(null,groups[y].map(c=>c.sev));
     return sy-sx || order.indexOf(x)-order.indexOf(y);
   });
-  let html = keys.map(key=>{
-    const list=groups[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat]);
+  // Compact by default (2026-07-30 — 44-row bursts were burying the signal).
+  // The groups are already sorted most-important-first and rows within them
+  // sev-first, so "the first N rows" IS the top of the feed. Everything past
+  // the cap folds behind a native <details> — no state, works offline.
+  const CHG_COMPACT_ROWS = 8;
+  const groupHTML=(key,list)=>{
     let label='Round-wide';
     if(key!=='__round'){ const f=fixtures.find(f=>fxKey(f)===key);
       const h=f&&T(f.home), a=f&&T(f.away);
       label = (h&&a)? `${esc(h.name)} v ${esc(a.name)}` : esc(key); }
     return `<div class="chggroup" id="chg-${esc(key)}"><div class="chgfx">${label}</div>`+
       list.map(chgRow).join('')+`</div>`;
-  }).join('');
+  };
+  let shown=0; const compactParts=[], moreParts=[]; let moreRows=0;
+  keys.forEach(key=>{
+    const list=groups[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat]);
+    const room=Math.max(0, CHG_COMPACT_ROWS-shown);
+    const head=list.slice(0,room), tail=list.slice(room);
+    if(head.length){ compactParts.push(groupHTML(key,head)); shown+=head.length; }
+    if(tail.length){ moreParts.push(groupHTML(key,tail)); moreRows+=tail.length; }
+  });
+  let minorLine='';
   if(minor.length){
     const tally={};
     minor.forEach(c=>{ tally[c.cat]=(tally[c.cat]||0)+1; });
     const parts=Object.keys(tally).map(k=>{ const n=chgCat(k).noun; return `${tally[k]} ${tally[k]===1?n[0]:n[1]}`; });
-    html += `<div class="chgminor">Also: ${minor.length} minor update${minor.length===1?'':'s'} (${esc(parts.join(', '))}).</div>`;
+    minorLine = `<div class="chgminor">Also: ${minor.length} minor update${minor.length===1?'':'s'} (${esc(parts.join(', '))}).</div>`;
+  }
+  let html = compactParts.join('');
+  const hidden = moreRows + minor.length;
+  // Not worth a fold for a couple of rows — just show them.
+  if(hidden && moreRows<=2 && !minor.length){
+    html += moreParts.join('');
+  }else if(hidden){
+    html += `<details class="chgmore"><summary>${hidden} more update${hidden===1?'':'s'} — show</summary>`+
+      moreParts.join('')+minorLine+`</details>`;
+  }else{
+    html += minorLine;
   }
   body.innerHTML=html;
   return byFx;
