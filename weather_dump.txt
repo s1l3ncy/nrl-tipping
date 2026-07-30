@@ -1,8 +1,13 @@
-# game-weekend forecast per host city (Open-Meteo)
-Brisbane: Sun 2 Aug: 19°C, 47% rain chance, partly cloudy
-Gold Coast: Sun 2 Aug: 19°C, 45% rain chance, light drizzle
-Melbourne: Mon 3 Aug: 13°C, 51% rain chance, showers
-Mudgee: Mon 3 Aug: 15°C, 26% rain chance, light drizzle
-Sydney: Sat 1 Aug: 16°C, 27% rain chance, light drizzle
-Townsville: Sat 1 Aug: 25°C, 14% rain chance, overcast
-Wollongong: Sat 1 Aug: 15°C, 43% rain chance, light drizzle
+# per-game-day forecast per host city (Open-Meteo)
+Brisbane|2026-08-01: Sat 1 Aug: 20°C, 45% rain chance, light drizzle
+Brisbane: Sat 1 Aug: 20°C, 45% rain chance, light drizzle
+Gold Coast|2026-08-01: Sat 1 Aug: 19°C, 40% rain chance, heavy drizzle
+Gold Coast: Sat 1 Aug: 19°C, 40% rain chance, heavy drizzle
+Melbourne|2026-07-31: Fri 31 Jul: 12°C, 0% rain chance, partly cloudy
+Melbourne: Fri 31 Jul: 12°C, 0% rain chance, partly cloudy
+Mudgee|2026-08-01: Sat 1 Aug: 15°C, 0% rain chance, clear
+Mudgee: Sat 1 Aug: 15°C, 0% rain chance, clear
+Sydney|2026-08-02: Sun 2 Aug: 17°C, 4% rain chance, overcast
+Sydney: Sun 2 Aug: 17°C, 4% rain chance, overcast
+Wollongong|2026-07-31: Fri 31 Jul: 16°C, 0% rain chance, clear
+Wollongong: Fri 31 Jul: 16°C, 0% rain chance, clear

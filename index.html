@@ -744,10 +744,17 @@ function injuryPenalty(news, tipRound, short){
     if(!isOut){ backs.push(name); return; }
     // Named in this round's 17 beats anything the season-long injury table says.
     if(squad && squad[normName(name)]){ named.push(name); return; }
+    // The team list cuts BOTH ways (added 2026-07-30). Once this round's squad is
+    // published, a "doubtful" player (a bare knock, no timeframe) who is NOT in it
+    // has had his gametime decision made: he's out. Leaving him at half weight after
+    // Tuesday showed Tom Dearden as a mere doubt during a game he wasn't playing in.
+    // Without a squad (pre-Tuesday, or a stale/missing lineups file) nothing changes.
+    let notNamed=false;
+    if(squad && !confirmed){ confirmed=true; notNamed=true; }
     const im=playerImpact(name);
     // Confirmed absences count in full; unconfirmed early-week knocks are discounted.
     const pts = confirmed ? im.pts : Math.round(im.pts*UNCONFIRMED_WEIGHT*10)/10;
-    outs.push({name, pts, pos:im.pos, confirmed});
+    outs.push({name, pts, pos:im.pos, confirmed, notNamed});
   });
   if(!outs.length) return {...nil, backs, named};
   outs.sort((a,b)=>b.pts-a.pts);                         // biggest losses first
@@ -756,7 +763,7 @@ function injuryPenalty(news, tipRound, short){
   outs.forEach((o,i)=>{ total += o.pts*(factors[i]!==undefined?factors[i]:0.08); });
   total=Math.min(6.5, Math.round(total*10)/10);         // hard team cap
   const top=outs[0];
-  const verb = top.confirmed ? "out" : "in doubt";
+  const verb = top.notNamed ? "out (not named)" : top.confirmed ? "out" : "in doubt";
   const note = outs.length===1
       ? `${top.name} ${verb}${top.pos?` (${top.pos})`:""}`
       : `${top.name} ${verb}${top.pos?` (${top.pos})`:""} +${outs.length-1} more`;
@@ -1204,7 +1211,16 @@ function oddsHTML(p,fx){
   const shared = (m>=50?p.h:p.a);          // the favourite both agree on (no-clash branches)
   const keen   = (m>=k?p.h:p.a);           // the side the model rates ABOVE the book
   let verdict;
-  if(k===null) verdict=`No bookmaker price yet — this tip is pure model. Prices usually land Tuesday.`;
+  if(k===null){
+    // Only promise "Tuesday" while Tuesday is still plausible. With kick-off less
+    // than ~48h away (or gone), a price that hasn't arrived isn't coming — saying
+    // "usually lands Tuesday" on a Thursday just reads as broken.
+    const ko=fx.kickoff?Date.parse(fx.kickoff):NaN;
+    const hrsToKo=isFinite(ko)?(ko-Date.now())/36e5:null;
+    verdict = (hrsToKo!==null && hrsToKo<48)
+      ? `No bookmaker price for this game — this tip is pure model.`
+      : `No bookmaker price yet — this tip is pure model. Prices usually land around Tuesday.`;
+  }
   else if(clash) verdict=`Model and the book disagree — model likes <b>${esc((m>=50?p.h:p.a).name)}</b> (${own(m).toFixed(0)}%), `+
       `the book likes <b>${esc((k>=50?p.h:p.a).name)}</b> (${own(k).toFixed(0)}%). Your tip blends them at ${wpct}% market → <b>${tipPct.toFixed(0)}%</b>.`;
   else if(d<4) verdict=`In line with the book — both make <b>${esc(shared.name)}</b> the pick `+
@@ -1267,7 +1283,7 @@ function injTeamHTML(t, inj){
   const rows = outs.slice(0,SHOW).map(o=>
     `<div class="injrow"><span class="who"><b>${esc(o.name)}</b>`+
     `${o.pos?`<span class="pos">${esc(o.pos)}</span>`:''}</span>`+
-    `<span class="st ${o.confirmed?'out':''}">${o.confirmed?'OUT':'DOUBT'}</span></div>`).join('');
+    `<span class="st ${o.confirmed?'out':''}">${o.notNamed?'NOT NAMED':o.confirmed?'OUT':'DOUBT'}</span></div>`).join('');
   const more = outs.length>SHOW ? `<div class="injnote">+${outs.length-SHOW} more listed</div>` : '';
   const back = backs.length ? `<div class="injnote">↩ due back: ${esc(backs.slice(0,3).join(', '))}</div>` : '';
   const fit  = named.length ? `<div class="injnote">✓ named in the 17 despite the injury list: ${esc(named.slice(0,3).join(', '))}</div>` : '';
