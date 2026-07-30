@@ -5,6 +5,35 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-07-30 (pm) — The feed and the "why" box read like logs; now they read like sentences
+
+Josh, after the odds/weather ship went live: the change feed is "a very long list…
+clutters things up", the "since 2:55am" clock isn't visibly AEST, and "why the model
+leans this way" is too much roster arithmetic — "a short summary should be better".
+All three in `nrl-tipping-guide.html`; no data-format changes.
+
+- **The feed folds.** The top ~8 rows (already sorted severity-first, so the fold can't
+  hide a sev-3) render as before; everything else — including the minor-updates tally —
+  sits behind a native `<details>` ("36 more updates — show"). No JS state, no
+  localStorage, works offline. A leftover of ≤2 rows just shows rather than folding.
+- **The clock is pinned to Sydney and says so.** `fmtClock()` used the *viewer's* local
+  zone with no label — right for Josh at home, silently wrong on any device set
+  elsewhere. Now `Australia/Sydney` via `Intl`, labelled AEST/AEDT (DST-correct), with
+  "yesterday"/weekday prefixes when the window opened on an earlier day.
+- **The "why" box leads with words, not rows.** New `whySummary()` writes one–two
+  sentences naming the biggest drivers by size — strength/form, home ground, team news,
+  weather trim, and whether the bookies agree — e.g. *"Mostly Storm rating the stronger
+  side, plus the home-ground edge. The bookies read it the same way."* The full itemised
+  ledger (engine caption, rows, weather/odds modifiers, net line, check line) is intact
+  behind "Show the working". **The 🔒 lock line stays outside the fold** — it must never
+  be hidden.
+
+Tested: `node --check` clean; harnessed `whySummary`/`fmtClock` across engines, doubt
+states and zones; full headless-Chromium render against the live data files — 8 cards,
+8 summaries, ledger folded, feed capped at 8 rows, zero console errors.
+
+---
+
 ## 2026-07-30 — Odds were geo-blocked; weather was for the wrong day; a doubt during a live game
 
 Josh's Thursday-night report: "no bookmaker price yet, usually drops Tuesday" (on a

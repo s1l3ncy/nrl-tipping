@@ -58,7 +58,7 @@ Bump `CACHE` in `sw.js` to force-invalidate every cached copy.
 | `weatherEffect` | Rain → margin-shrink factor. |
 | `resolveOdds`, `marketProb` | Odds `{open,close}` handling + de-vig to a home prob. |
 | `predict(fx)` | Assembles margin → `modelP` → blends odds → returns the per-game prediction object. |
-| `rationale`, `bandFor`, `whyHTML` | The plain-English "why this tip" lead + the itemised ledger. (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
+| `rationale`, `bandFor`, `whySummary`, `whyHTML` | The plain-English "why this tip" lead, the 1–2 sentence driver summary (2026-07-30), and the itemised ledger folded behind "Show the working" (lock line stays outside the fold). (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
 | `modelFav(p)` / `tipSide(p)` | **Keep these apart.** `modelFav` = the side the numbers like (reporting only). `tipSide` = the side actually tipped, and it returns the Roosters in their own game. Anything that names a tip must call `tipSide`. |
 | `render` | Master render: fills every section by element ID. |
 | `copyTips`, `flash` | "Copy tips" button. |
