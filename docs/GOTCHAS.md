@@ -1,0 +1,198 @@
+# Gotchas — landmines already hit (read before deploying)
+
+Real problems encountered on this project and how to avoid repeating them.
+
+---
+
+## Deploy / hosting
+
+- **The live site is `index.html`, a *copy* of `nrl-tipping-guide.html`.** Editing the
+  guide does nothing until the workflow runs `cp … index.html`. Symptom: "I changed the
+  HTML but the site looks the same." Fix: run the workflow (or edit `index.html` too).
+- **Raw/CDN caching hides fresh commits.** `raw.githubusercontent.com` and the Pages CDN
+  serve stale copies for a while. Add `?v=<n>` to raw URLs when verifying, and hard-
+  refresh the site. A "the file didn't change" panic is usually just cache.
+- **Public repo is required** for free Actions + Pages. Don't make it private.
+- **Schedules pause after 60 days of repo inactivity — and the bot's own commits DON'T
+  count.** Pushes made with `GITHUB_TOKEN` do not reset the timer, so a repo that updates
+  itself six times a day still goes quiet after two months. `keepalive.yml` now re-enables
+  the workflow fortnightly via the API. GitHub emails the owner before disabling.
+- **Scheduled runs are best-effort: routinely hours late, sometimes dropped entirely.**
+  Measured on this repo: the 06:00-Sydney slot ran **3h44m late**; the noon slot **never
+  fired**. Never schedule on minute `:00` (most congested), and never rely on one or two
+  slots a day — run often instead (a full run is ~25s and free on a public repo).
+  Corollary: **"the site didn't update" is not evidence the workflow is broken.** Check
+  `last_run.json` first — it changes every run, so if its timestamp is fresh the job ran
+  and the problem is in the data, not the schedule.
+- **A green run can publish nothing.** `git commit … || echo "nothing changed"` means
+  success ≠ published. That's why the heartbeat exists.
+- **Editing files via the GitHub web editor / paste can corrupt large files.** Past
+  incidents: a workflow YAML got *doubled* (paste appended instead of replacing →
+  "'name' is already defined" / invalid workflow), and a base64 blob picked up a stray
+  Cyrillic character that broke decoding. Prefer **drag-drop upload of the whole file**
+  over in-browser paste for anything non-trivial, and verify with a raw fetch after.
+
+## The sandbox may or may not have network — CHECK, don't assume
+- This used to say flatly "the sandbox has no network". **On 2026-07-29 a full live run of
+  `cloud_fetch.py` (nrl.com + zerotackle.com) succeeded from the local sandbox**, so the
+  blanket claim is wrong and cost at least one session's worth of "I can't test that".
+  Try one fetch first. If it fails with 403/tunnel errors you're in a sandbox without
+  egress: test scraper **parsing** against saved or synthetic HTML and leave the live
+  fetch to GitHub. The pure scripts (parse/learn/validate) run fine either way.
+- When you do test the pipeline locally, run it in a scratch directory (copy the `.py`
+  files and the dumps into `/tmp`), never in the project folder: `parse_nrl.py` appends to
+  `nrl_learned.js`, which is **append-only, unrecoverable match history**.
+
+## Odds are GEO-BLOCKED — a green run from Australia proves nothing (2026-07-30)
+- **nrl.com withholds bookmaker prices from non-Australian IPs.** The 2026-07-29 odds
+  scrape was verified end-to-end from an Australian machine — 8/8 fixtures priced — and
+  published **nothing** from GitHub's US runners: run #28 committed a perfect
+  `draw_meta.json` and no `odds_dump.txt`, same code, same endpoint, same minute. If an
+  odds source works locally but `fixturesWithOdds` is 0 in `last_run.json`, suspect the
+  egress IP before the code.
+- **The Odds API is the primary source for exactly this reason** (geo-independent; needs
+  the `ODDS_API_KEY` repo secret). nrl.com remains a fallback because it costs nothing
+  and is correct when it answers. `last_run.json`'s `oddsApiState`
+  (`no-key`/`bad-key`/`quota-exhausted`/`ok`) says which path a run took and why.
+- **Never log, echo, or commit the key.** The repo is public. `cloud_fetch.py` redacts it
+  from its own error output; keep it that way.
+- **The free quota (500/month) fails silently when exhausted** — prices freeze rather
+  than the run failing (best-effort by design). Watch `oddsApiRemaining` in
+  `last_run.json`; if it hits 0 mid-month, thin the schedule.
+
+## Weather must describe the game's day, not the week (2026-07-30)
+- "Wettest of the next ~6 days" was designed before kick-off times existed. Once they
+  did, every fixture could carry a forecast for a day it wasn't played on (a Thursday
+  game shrunk by Saturday's rain) — and it did, all round. The dump is now
+  `City|YYYY-MM-DD:` lines matched on the fixture's kick-off date; the dateless `City:`
+  line is the legacy fallback and both sides still accept it.
+- **A per-city fetch timeout must not blank that city.** Dropping the city re-nulled
+  `fixture.weather` for 4 hours AND re-fired the change feed's "first forecast published"
+  entry when it came back. Failed cities keep their committed dump line
+  (`reuse_weather_lines()`), same as every other dump keeps itself on a thin parse.
+
+## The player-ratings scrape (`cloud_fetch.py: extract_ratings`)
+- **⚠ This section previously said the opposite, and that advice caused a real outage.**
+  It claimed the ratings table has no player links and that names must be read from cells
+  **positionally**. Both are wrong. The links are at `/players/<slug>/` — *not*
+  `/rugby-league/players/…`, which is why an early version looked in the wrong place and
+  concluded they didn't exist. Positional reading is what produced the **first-name-only
+  keys** (`"nathan"`, `"harry"`, `"payne"`) that disabled every injury lookup for weeks:
+  the `/overall/` page splits a player's name across **two cells**, so "the cell after the
+  rank" is just the given name.
+- **Scrape the nine PER-POSITION pages, not `/overall/`.** `/nrl-player-ratings/halfback/`
+  etc. are real `<table>`s (`rank | Player | Team | Win % | Rating | move`) and the
+  position is implied by the URL, which removes a whole class of column-order error.
+  Take the name from the `/players/<slug>/` **anchor**, never a cell index.
+- **The name is rendered TWICE inside the anchor**, unseparated — `Isaiah IongiIsaiah
+  Iongi`, or abbreviated+full `K. Leuluai-GoingKalani Leuluai-Going`. `name_from_anchor()`
+  uses the href slug as the canonical form to pick the right half. Same trick works on the
+  team-lists pages.
+- **A one-word key must never be emitted, and volume alone is not a valid publish gate.**
+  `len(players) >= 100` passed happily on a file of pure garbage. The guard now also
+  requires **≥80% of keys to contain a space** — a key that isn't a full name can never
+  match the front-end, so it *is* a failed parse. Each page has a season table then a
+  monthly one; the season table comes first and `setdefault` keeps it.
+- **Name matching must line up across two feeds.** Injury names (injuries page) and
+  rating names (ratings page) both come from Zero Tackle, so `norm_name()` (Python) and
+  `normName()` (JS) must stay identical (lowercase, strip accents, keep apostrophes/
+  hyphens). If you change one, change the other, or lookups silently fall through to
+  "fringe player".
+- **Only rated players are in the map** (roughly the top few hundred). Fringe/reserve
+  players legitimately won't be found and are treated as low-impact by design — that's
+  not a bug. But if *everyone* is scoring the 0.6pt fringe fallback, the map is broken —
+  check `last_run.json`'s `playersRatedFullName` against `playersRated`.
+
+## The injuries page and team lists
+- **Club labels on the injuries page are bare `<a>` links, not headings.** Heading-based
+  tracking found zero clubs, so `extract_injuries()` returned `{}` every run and the
+  committed dump was silently reused forever. Attribute each table to the **nearest
+  preceding team link** instead (`club_before()`). The team href can be either
+  `/nrl/teams/<slug>/` or `/rugby-league/teams/<slug>/`.
+- **Team lists live at ROOT level, not under `/nrl/team-lists/`.** The section index links
+  out to `/round-21-team-lists-2026-236116/`. Fetch the index, take the highest round.
+- **The squads are `<table>`s. There is not a single `<ul>`/`<li>` in the article.** A
+  markdown/reader view of the page renders the rows as `- ` bullets, and a first version
+  of `extract_teamlists()` was written against that illusion. It found no `<ul>` under any
+  heading, so seven of eight games returned nothing — and the last heading, having no next
+  heading to stop it, scanned off the end of the article into the **footer mega-menu**,
+  whose `/players/oldest-youngest/`-style links look like player links. Result: "Off
+  Contract 2026" was published as a Wests Tigers player. **Trust the DOM, not the rendered
+  text.**
+- **`<tr>` is left unclosed on every player row**, so `html.parser` nests the rows inside
+  one another and `tr.find_all("td")` returns every descendant row's cells. Walk
+  `.descendants` for a flat document-order token stream instead of parsing rows.
+- **Identify a squad by what it CONTAINS, not by where it sits.** ≥13 player links *and*
+  ≥13 bare jersey numbers. The number requirement is what makes a nav menu impossible to
+  mistake for a team list — menus have links but never numbers. Then attach each squad to
+  its *nearest preceding* heading. Scanning forward from a heading is the pattern that
+  caused the footer bug.
+- **There are no "Ins:"/"Outs:" labels** on the round article — it's squads only. The home
+  table puts the jersey number *before* the name, the away table *after*; decide home/away
+  from that orientation, not from document order (it also survives a half-published game).
+- **Never cut the squad at "jersey number ≤ 17".** The number is not a selection signal —
+  Parramatta named #22 at centre in Round 21 while #11 and #14 were on the bench. Cut at
+  the `RESERVES` separator row instead. Reserves 20–22 are emergencies who may not travel,
+  so counting them would wrongly cancel a genuine injury flag.
+- **Team lists drop ~4pm Tuesday AEST.** Any cron that stops at noon will never see them
+  on the day they're released. There's a dedicated Tuesday 16:23 slot for this.
+- **A thin team-list parse on Mon/Tue morning is normal, not a failure** — the article for
+  the upcoming round simply doesn't exist yet. `nrl_lineups.js` is left as-is, and
+  `namedSquad()` ignores any lineup whose round ≠ the round being tipped.
+
+## Data / model correctness
+- **Injuries/weather are applied to the model margin *before* the odds blend** on
+  purpose — so when odds already price them in, the blend discounts them (no double-
+  counting). Don't move them after the blend or add a second discount.
+- **Weather never picks a side**, it only shrinks confidence. Keep the sign of the margin
+  intact.
+- **"Out this week" depends on the return round vs the round being tipped.** A player
+  "back Round N" with N ≤ current round is *available* (0 penalty). Off-by-one here
+  silently mutes or over-applies injuries.
+- **Home/away designation matters and can look "wrong".** The app trusts the source's
+  designated home team (e.g. a neutral/heritage venue). A past "Eels vs Tigers looks
+  swapped" report turned out correct per the official listing. Verify against NRL.com
+  before "fixing".
+- **Best-effort fields are legitimately `null`.** odds/news/weather missing for a game is
+  normal; the UI just omits them. Don't treat null as an error.
+
+## Learning loop
+- **`lowConfidence` intentionally ignores the learned model** under ~30 games. If tips
+  look "too heuristic," check `nrl_learned.js.lowConfidence` — it's the guardrail, not a
+  failure.
+- **Never hand-edit `nrl_learned.js`.** It's the append-only match memory; corruption or
+  a bad edit makes the generators abort (by design) to protect history.
+
+## The Roosters lock and the change feed (2026-07-29)
+- **The lock is applied in exactly ONE place: `tipSide()`.** Any surface that names a tip
+  must call it. Four of them once recomputed `pHome>=0.5?h:a` and only *annotated* the
+  Roosters game, so `copyTips()` pasted `Cowboys v Roosters → Cowboys (locked)` whenever
+  the model disagreed — and the whole "Roosters tax" measured a rule that wasn't applied.
+  The bug is **latent on the heuristic engine** whenever it happens to like the Roosters;
+  test with `lowConfidence:false` (the Elo path) before believing a lock change works.
+- **The team list cuts both ways on doubts (2026-07-30).** `namedSquad()` clears an
+  injury-table entry for a player who IS named — and upgrades an undated doubt to a
+  full-weight absence (badged NOT NAMED) for a player who ISN'T, once this round's list
+  exists. Don't re-soften that: a doubtful player left at half weight after Tuesday is
+  how Tom Dearden read as a mere "doubt" during a game he wasn't playing in. Pre-release
+  (or a stale lineups file) `namedSquad()` returns null and doubts stay doubts.
+- **`predict()` must stay lock-free.** `lockHero`'s "⚠ Risky this week", the ledger's
+  loyalty-pick line and the tax all depend on the model's own, unlocked opinion.
+- **The change feed's sort order IS the truncation policy.** `merge_changes()` sorts
+  `(sev, ts)` desc before `kept[:CHANGES_MAX]`. Put `ts` first and severity becomes a
+  same-second tie-break: 60 trivia entries then evict a spine player's "out of the 17"
+  inside its own window. Display order is the front-end's job, not this list's.
+- **Never emit a change entry for a difference the model can't feel.** Weather is emitted
+  only when the rain figure crosses a 20-point band (what `weatherEffect()` keys on), and
+  the id embeds the band, not the forecast string — otherwise every 1°C wobble is a new
+  entry and eight fixtures × six runs a day fills the window with nothing.
+
+## Front-end
+- **No CDNs, no `sessionStorage`/external storage** — must work offline as a local file;
+  `localStorage` only.
+- **Preserve the render element IDs and the Roosters lock** (see `FRONTEND.md`).
+- **The service worker is network-first on purpose.** `sw.js` tries the network first and
+  only falls back to cache when offline, so it can't get "stuck" serving a stale shell —
+  the classic cache-first SW trap that this was built to avoid. To nuke all caches, bump
+  `CACHE` (`nrl-tips-vN`). SWs run only over http(s); `file://` use is unaffected. Don't
+  switch it to cache-first "for speed" without a version-bump story, or staleness returns.
