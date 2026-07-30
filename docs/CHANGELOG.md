@@ -5,6 +5,37 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-07-31 — Finished games show the score; the feed is today-only; the bar tells two teams apart
+
+Morning-after fixes from Josh (Roosters 82–12 over the Cowboys overnight — the lock's
+finest hour). All in `nrl-tipping-guide.html`; no pipeline changes.
+
+- **A played game is a result, not a tip.** New `fixtureResult(p)` reads the append-only
+  results memory for the round being tipped; when a fixture has a score the card renders
+  a FULL TIME state — big score, "<Winner> won" pill (gold + 🐓 when it's the Roosters),
+  and "✓ tipped X — got it" / "✗ tipped X" — with the odds/injury detail dropped as
+  stale. The lock hero flips to "Full time: Roosters beat …" with the score, and the
+  quick list swaps the percentage for the result + ✓/✗. Draws wash.
+- **What's new shows TODAY only** (Sydney). The card said "56 updates since yesterday
+  2:55 am" — technically the 36h window doing its job, practically clutter. The data
+  file still carries the rolling window (nothing is lost), but the feed, badge and
+  header now cover entries first seen today: "7 updates today · since 3:11 am AEST".
+  Accepted trade-off, per Josh: a late-night drop won't be on screen after midnight.
+- **The probability bar is a two-colour split, not all red.** Each team's share is
+  painted in its own club colour with a white seam at the split, a 50% tick, and
+  colour-key dots beside the percentages. Same-colour matchups (Dragons v Dolphins —
+  both red) shade-shift the away side darker; near-navy clubs (Bulldogs) get a
+  brightness lift so their share can't sink into the background.
+- **Crests are monogram roundels** — the club colour dot now carries the team code
+  (white, shadowed) so you know who's who without relying on colour alone. Real club
+  logos were considered and skipped deliberately: they're trademarked artwork and the
+  app is on a public repo.
+
+Tested: smoke 60/60, injury logic 9/9, `node --check` clean, headless render against
+live data (final card 12–82 with ✓, 7 duo bars incl. clash + lift cases, feed 56→7).
+
+---
+
 ## 2026-07-30 (pm2) — Full UI rebuild: tab-bar app, new cards, a real app icon
 
 Josh: "full redesign… a proper full rebuild that looks more modern and different…

@@ -83,8 +83,13 @@ anchor scrolls; `#tabNewBadge` is fed by `renderChanges()`). Hidden screens stil
 receive their innerHTML — `render()` is unaware tabs exist. Keep it that way: new
 surfaces go INSIDE a screen, and the render pipeline must never depend on which
 screen is visible. `cardHTML()` builds the 2026 card: `gtop` (kick-off/venue),
-`gmatch`/`gteam`, `gprob`/`gbar` (probability bar, `.gold` = the locked Roosters
-game, `.rev` = away-side tip), `gtippill`, then the unchanged `details.more` fold.
+`gmatch`/`gteam` (monogram crests carry the team code), `gprob`/`gbar.duo` (two
+club-colour shares, `.alt` = shade-shift for same-colour matchups, `.lift` =
+brightness floor for near-navy clubs), `gtippill`, then the `details.more` fold.
+A fixture with a score in the results memory (`fixtureResult()`) renders the
+FULL TIME state instead — score, winner pill, tip verdict — and the hero and
+quick list follow suit. The change feed displays TODAY (Sydney) only; the data
+file still carries the rolling 36h window.
 
 ## Element IDs the render targets
 
