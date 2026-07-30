@@ -5,6 +5,40 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-07-30 (pm2) — Full UI rebuild: tab-bar app, new cards, a real app icon
+
+Josh: "full redesign… a proper full rebuild that looks more modern and different…
+happy with a different layout altogether", plus "the home-screen icon is a black N".
+All in `nrl-tipping-guide.html` + `sw.js` + two new PNGs; the render pipeline, model
+maths, element IDs and all data files are untouched.
+
+- **It's an app now, not a page.** Four screens behind a fixed bottom tab bar — Tips
+  (hero, game cards, quick list), What's new (the change feed, with a red unread-count
+  badge on the tab), Ladder (table + advanced settings, no longer collapsed), Model
+  (accuracy, Roosters tax, learning panel). Screens are plain show/hide wrappers; every
+  `render()` target ID is where it always was, so the whole render pipeline is
+  untouched. Last tab remembered in localStorage (`nrl_tab_v1`); a card's "⟳ N changes"
+  badge switches to What's new and anchors to that game; print flattens all screens.
+- **The game card is rebuilt.** Kick-off + venue topline, crest-led matchup, and a
+  full-width win-probability bar that fills from the TIPPED side — **gold for the locked
+  Roosters game, red otherwise** — then a TIP pill and one confidence line. The
+  ring/three-column layout is gone (its CSS remains as dead rules; the classes left the
+  markup). Below the fold nothing changed: odds bars, injuries, venue, the why ledger.
+- **Visual system**: aurora-lit navy, frosted-glass surfaces, tricolour hairlines, big
+  gradient display titles. Colour meaning is strict: red = tip/brand, gold = the lock
+  only, green = genuinely good news, blue = market, amber = doubt.
+- **A real app icon.** Geometric rooster head (red comb/wattle, white face, gold beak,
+  navy field, tricolour base hoop) drawn as SVG, shipped as `apple-touch-icon.png`
+  (180px) + `favicon-32.png` and linked from the HTML — replaces iOS's fallback letter
+  tile. `sw.js` CACHE bumped v3→v4 and precaches both; existing home-screen installs
+  may need a remove/re-add to refresh the icon (iOS caches them).
+
+Tested: 60/60 smoke, 9/9 injury-logic assertions, both script blocks `node --check`
+clean, headless-Chromium pass over all four screens (8 cards, 8 bars, 1 gold, badge
+= feed count, zero console errors).
+
+---
+
 ## 2026-07-30 (pm) — The feed and the "why" box read like logs; now they read like sentences
 
 Josh, after the odds/weather ship went live: the change feed is "a very long list…

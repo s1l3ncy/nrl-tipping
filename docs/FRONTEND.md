@@ -73,6 +73,19 @@ when the model disagrees with the lock.
 
 ---
 
+## App structure (2026-07-30 rebuild)
+
+The page is a four-screen app behind a fixed bottom tab bar: `#scr-tips`,
+`#scr-new`, `#scr-ladder`, `#scr-model` — plain `.screen` wrappers toggled by a
+small standalone `<script>` at the end of the body (`nrl_tab_v1` in localStorage
+remembers the tab; `a.chgbadge` clicks switch to What's new before the `#chg-…`
+anchor scrolls; `#tabNewBadge` is fed by `renderChanges()`). Hidden screens still
+receive their innerHTML — `render()` is unaware tabs exist. Keep it that way: new
+surfaces go INSIDE a screen, and the render pipeline must never depend on which
+screen is visible. `cardHTML()` builds the 2026 card: `gtop` (kick-off/venue),
+`gmatch`/`gteam`, `gprob`/`gbar` (probability bar, `.gold` = the locked Roosters
+game, `.rev` = away-side tip), `gtippill`, then the unchanged `details.more` fold.
+
 ## Element IDs the render targets
 
 `render()` writes into these IDs — keep them intact if you restyle:
