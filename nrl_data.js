@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Wed 5 Aug: 25°C, 10% rain chance, mainly clear",
+      "weather": "Tue 4 Aug: 25°C, 12% rain chance, partly cloudy",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -525,7 +525,7 @@ window.NRL_DATA = {
           "away": 1.57
         }
       },
-      "weather": "Sat 1 Aug: 19°C, 53% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 19°C, 63% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -565,7 +565,7 @@ window.NRL_DATA = {
           "away": 2.55
         }
       },
-      "weather": "Sat 1 Aug: 20°C, 39% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 20°C, 55% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -585,7 +585,7 @@ window.NRL_DATA = {
           "away": 3.7
         }
       },
-      "weather": "Sun 2 Aug: 17°C, 10% rain chance, overcast",
+      "weather": "Sun 2 Aug: 17°C, 1% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -605,7 +605,7 @@ window.NRL_DATA = {
           "away": 1.42
         }
       },
-      "weather": "Sun 2 Aug: 17°C, 10% rain chance, overcast",
+      "weather": "Sun 2 Aug: 17°C, 1% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -613,7 +613,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-31T07:42:03+10:00",
+  "generatedAt": "2026-07-31T09:34:40+10:00",
   "changes": [
     {
       "id": "r22-SYD-inj-james-tedesco",
@@ -637,6 +637,30 @@ window.NRL_DATA = {
       "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
       "pts": 3.3,
       "ts": "2026-07-30T21:11:52+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-GLD-NZW-wx-3",
+      "fixture": "GLD-NZW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 63% rain chance, drizzle (was 53% rain).",
+      "pts": null,
+      "ts": "2026-07-31T09:34:40+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-BRI-NEW-wx-2",
+      "fixture": "BRI-NEW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Brisbane updated — Sat 1 Aug: 20°C, 55% rain chance, drizzle (was 39% rain).",
+      "pts": null,
+      "ts": "2026-07-31T09:34:40+10:00",
       "rnd": 22
     },
     {
