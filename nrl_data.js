@@ -47,8 +47,8 @@ window.NRL_DATA = {
       "P": 19,
       "W": 14,
       "L": 5,
-      "PF": 479,
-      "PA": 370,
+      "PF": 507,
+      "PA": 376,
       "last5": 5,
       "home": {
         "P": 9,
@@ -203,8 +203,8 @@ window.NRL_DATA = {
       "P": 20,
       "W": 11,
       "L": 9,
-      "PF": 448,
-      "PA": 500,
+      "PF": 454,
+      "PA": 528,
       "last5": 3,
       "home": {
         "P": 9,
@@ -478,11 +478,11 @@ window.NRL_DATA = {
       "odds": {
         "open": {
           "home": 4.1,
-          "away": 1.24
+          "away": 1.23
         },
         "close": {
           "home": 4.1,
-          "away": 1.24
+          "away": 1.23
         }
       },
       "weather": "Fri 31 Jul: 16°C, 0% rain chance, clear",
@@ -613,7 +613,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-30T21:30:04+10:00",
+  "generatedAt": "2026-07-30T22:00:14+10:00",
   "changes": [
     {
       "id": "r22-NEW-inj-dylan-brown",
@@ -1141,6 +1141,18 @@ window.NRL_DATA = {
       "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 55% rain chance, light drizzle (was 60% rain).",
       "pts": null,
       "ts": "2026-07-30T02:55:20+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-DOL-line-4.10-1.23",
+      "fixture": "STI-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $4.10 → $4.10, Dolphins $1.24 → $1.23. Market now 23% Dragons (was 23%).",
+      "pts": null,
+      "ts": "2026-07-30T22:00:14+10:00",
       "rnd": 22
     }
   ],
