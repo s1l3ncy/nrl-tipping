@@ -5,13 +5,13 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.66 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6635 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
-  "updated": "2026-07-30",
-  "gamesLearned": 156,
+  "updated": "2026-07-31",
+  "gamesLearned": 157,
   "lowConfidence": false,
   "params": {
-    "homeAdv": 1.16,
+    "homeAdv": 0.71,
     "logisticScale": 5,
     "oddsWeight": 0.5,
     "eloK": 10,
@@ -19,13 +19,13 @@ window.NRL_LEARNED = {
   },
   "elo": {
     "PEN": 1630.2,
-    "SYD": 1592.7,
+    "SYD": 1621.1,
     "NZW": 1582.7,
     "CRO": 1604.8,
     "DOL": 1569.9,
     "SOU": 1523.5,
     "NEW": 1532.0,
-    "NQL": 1526.0,
+    "NQL": 1497.6,
     "MAN": 1498.1,
     "CAN": 1482.1,
     "CBR": 1488.4,
@@ -37,10 +37,10 @@ window.NRL_LEARNED = {
     "STI": 1333.0
   },
   "backtest": {
-    "games": 156,
-    "brier": 0.2337,
-    "logloss": 0.66,
-    "hit": 0.6154,
+    "games": 157,
+    "brier": 0.2353,
+    "logloss": 0.6635,
+    "hit": 0.6051,
     "marketBrier": null
   },
   "history": [
@@ -53,6 +53,11 @@ window.NRL_LEARNED = {
       "date": "2026-07-28",
       "games": 156,
       "brier": 0.2337
+    },
+    {
+      "date": "2026-07-31",
+      "games": 157,
+      "brier": 0.2353
     }
   ],
   "results": [
@@ -1147,6 +1152,13 @@ window.NRL_LEARNED = {
       "away": "CRO",
       "hs": 12,
       "as": 48
+    },
+    {
+      "round": 22,
+      "home": "NQL",
+      "away": "SYD",
+      "hs": 12,
+      "as": 82
     }
   ]
 };
