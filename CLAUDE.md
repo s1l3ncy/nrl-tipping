@@ -76,7 +76,12 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts; weather (for
 the game's own day) shrinks confidence — all before the odds blend.
 
-**Changed 2026-07-30** (needs upload + a workflow run, AND the `ODDS_API_KEY` secret):
+**Changed 2026-07-30 (later)**: full UI rebuild — bottom tab bar (Tips / What's new /
+Ladder / Model), rebuilt game cards (win-probability bar, gold = the lock), aurora/glass
+visual system, and a real rooster app icon (`apple-touch-icon.png` + `favicon-32.png`,
+`sw.js` CACHE v4). Render pipeline and element IDs untouched — see `docs/FRONTEND.md`.
+
+**Changed 2026-07-30** (shipped, live, `ODDS_API_KEY` secret set):
 - **Odds actually work now — via The Odds API.** nrl.com geo-blocks prices from
   non-Australian IPs, so the 2026-07-29 scrape that tested perfectly from Australia
   published nothing from GitHub's US runners. The Odds API (free tier, `ODDS_API_KEY`
