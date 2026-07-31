@@ -1,8 +1,8 @@
 # Round 22 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-01T03:13:41. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-01T09:28:41. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (55 book quotes across 5 fixtures).
 Titans v Warriors: 2.42 / 1.56
 Panthers v Raiders: 1.35 / 3.25
-Broncos v Knights: 1.51 / 2.55
-Sharks v Rabbitohs: 1.27 / 3.80
+Broncos v Knights: 1.50 / 2.55
+Sharks v Rabbitohs: 1.25 / 3.90
 Wests Tigers v Eels: 2.85 / 1.43

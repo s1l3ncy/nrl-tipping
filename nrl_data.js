@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Sun 2 Aug: 24°C, 14% rain chance, light drizzle",
+      "weather": "Wed 5 Aug: 25°C, 14% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -476,7 +476,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": null,
-      "weather": "Sat 1 Aug: 15°C, 89% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 15°C, 96% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -487,7 +487,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "2026-07-31T20:00:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 14°C, 53% rain chance, heavy drizzle",
+      "weather": "Mon 3 Aug: 14°C, 57% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Melbourne"
     },
@@ -507,7 +507,7 @@ window.NRL_DATA = {
           "away": 1.56
         }
       },
-      "weather": "Sat 1 Aug: 19°C, 41% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 19°C, 29% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -527,7 +527,7 @@ window.NRL_DATA = {
           "away": 3.25
         }
       },
-      "weather": "Sat 1 Aug: 15°C, 0% rain chance, partly cloudy",
+      "weather": "Sat 1 Aug: 15°C, 0% rain chance, clear",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -539,15 +539,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-01T19:35:00+10:00",
       "odds": {
         "open": {
-          "home": 1.51,
+          "home": 1.5,
           "away": 2.55
         },
         "close": {
-          "home": 1.51,
+          "home": 1.5,
           "away": 2.55
         }
       },
-      "weather": "Sat 1 Aug: 20°C, 61% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 20°C, 33% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -559,15 +559,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-02T14:00:00+10:00",
       "odds": {
         "open": {
-          "home": 1.27,
-          "away": 3.8
+          "home": 1.25,
+          "away": 3.9
         },
         "close": {
-          "home": 1.27,
-          "away": 3.8
+          "home": 1.25,
+          "away": 3.9
         }
       },
-      "weather": "Sun 2 Aug: 17°C, 2% rain chance, overcast",
+      "weather": "Sun 2 Aug: 17°C, 4% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -587,7 +587,7 @@ window.NRL_DATA = {
           "away": 1.43
         }
       },
-      "weather": "Sun 2 Aug: 17°C, 2% rain chance, overcast",
+      "weather": "Sun 2 Aug: 17°C, 4% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -595,7 +595,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-08-01T03:13:57+10:00",
+  "generatedAt": "2026-08-01T09:28:56+10:00",
   "changes": [
     {
       "id": "r22-MEL-inj-jahrome-hughes",
@@ -643,18 +643,6 @@ window.NRL_DATA = {
       "text": "Roosters: James Tedesco (Ankle) — new on the injury list.",
       "pts": 3.6,
       "ts": "2026-07-31T03:11:10+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NEW-inj-dylan-brown",
-      "fixture": "BRI-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
-      "pts": 3.3,
-      "ts": "2026-07-30T21:11:52+10:00",
       "rnd": 22
     },
     {
@@ -946,377 +934,29 @@ window.NRL_DATA = {
       "rnd": 22
     },
     {
-      "id": "r22-STI-DOL-line-open-4.10-1.24",
-      "fixture": "STI-DOL",
-      "team": null,
-      "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Dragons $4.10, Dolphins $1.24.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-DOL-wx-0",
-      "fixture": "STI-DOL",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Wollongong updated — Fri 31 Jul: 16°C, 0% rain chance, clear (was 43% rain).",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-MEL-CAN-line-open-2.60-1.50",
-      "fixture": "MEL-CAN",
-      "team": null,
-      "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Storm $2.60, Bulldogs $1.50.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-MEL-CAN-wx-0",
-      "fixture": "MEL-CAN",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Melbourne updated — Fri 31 Jul: 12°C, 0% rain chance, partly cloudy (was 51% rain).",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-GLD-NZW-line-open-2.40-1.57",
-      "fixture": "GLD-NZW",
-      "team": null,
-      "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Titans $2.40, Warriors $1.57.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-PEN-CBR-line-open-1.36-3.15",
-      "fixture": "PEN-CBR",
-      "team": null,
-      "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Panthers $1.36, Raiders $3.15.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-PEN-CBR-wx-0",
-      "fixture": "PEN-CBR",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Mudgee updated — Sat 1 Aug: 15°C, 0% rain chance, clear (was 26% rain).",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-BRI-NEW-line-open-1.50-2.58",
+      "id": "r22-BRI-NEW-line-1.50-2.55",
       "fixture": "BRI-NEW",
-      "team": null,
+      "team": "BRI",
       "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Broncos $1.50, Knights $2.58.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CRO-SOU-line-open-1.28-3.70",
-      "fixture": "CRO-SOU",
-      "team": null,
-      "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Sharks $1.28, Rabbitohs $3.70.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-wx-sydney-2026-08-02-0",
-      "fixture": null,
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Sydney updated — Sun 2 Aug: 17°C, 4% rain chance, overcast (was 27% rain).",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-WST-PAR-line-open-2.90-1.42",
-      "fixture": "WST-PAR",
-      "team": null,
-      "cat": "line",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Bookies opened this game — Wests Tigers $2.90, Eels $1.42.",
-      "pts": null,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-PEN-fit-jack-cogger",
-      "fixture": "PEN-CBR",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
+      "sev": 1,
       "dir": "up",
-      "text": "Panthers: Jack Cogger is off the injury list.",
-      "pts": 2.4,
-      "ts": "2026-07-30T21:11:52+10:00",
+      "text": "Line moved — Broncos $1.51 → $1.50, Knights $2.55 → $2.55. Market now 63% Broncos (was 63%).",
+      "pts": null,
+      "ts": "2026-08-01T09:28:56+10:00",
       "rnd": 22
     },
     {
-      "id": "r22-CRO-fit-thomas-hazelton",
+      "id": "r22-CRO-SOU-line-1.25-3.90",
       "fixture": "CRO-SOU",
       "team": "CRO",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Sharks: Thomas Hazelton is off the injury list.",
-      "pts": 1.0,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-DOL-fit-jack-bostock",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dolphins: Jack Bostock is off the injury list.",
-      "pts": 1.8,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-DOL-fit-jake-averillo",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dolphins: Jake Averillo is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-DOL-fit-ray-stone",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dolphins: Ray Stone is off the injury list.",
-      "pts": 1.0,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-inj-cameron-murray",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Cameron Murray (Calf) — back Round 24 — new on the injury list.",
-      "pts": 1.3,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-inj-talanoa-penitani",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Talanoa Penitani (Hamstring) — back Round 26 — new on the injury list.",
-      "pts": 0.6,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-inj-tallis-duncan",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Tallis Duncan (Hamstring) — back Round 23 — new on the injury list.",
-      "pts": 1.1,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-fit-adam-elliott",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Adam Elliott is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-fit-brandon-smith",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Brandon Smith is off the injury list.",
-      "pts": 3.0,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-fit-sean-keppie",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Sean Keppie is off the injury list.",
-      "pts": 0.8,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NEW-inj-dylan-lucas",
-      "fixture": "BRI-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Knights: Dylan Lucas (Ankle) — back Next Season — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NEW-fit-dane-gagai",
-      "fixture": "BRI-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Dane Gagai is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NEW-fit-jermaine-mcewen",
-      "fixture": "BRI-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Jermaine McEwen is off the injury list.",
-      "pts": 1.4,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NEW-fit-kalyn-ponga",
-      "fixture": "BRI-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Kalyn Ponga is off the injury list.",
-      "pts": 3.6,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CAN-fit-jake-turpin",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Bulldogs: Jake Turpin is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CAN-fit-kurt-mann",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Bulldogs: Kurt Mann is off the injury list.",
-      "pts": 1.0,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CBR-fit-owen-pattie",
-      "fixture": "PEN-CBR",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Raiders: Owen Pattie is off the injury list.",
-      "pts": 2.5,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-GLD-fit-aj-brimson",
-      "fixture": "GLD-NZW",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: AJ Brimson is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-GLD-fit-kurtis-morrin",
-      "fixture": "GLD-NZW",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Kurtis Morrin is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-07-30T21:11:52+10:00",
+      "text": "Line moved — Sharks $1.27 → $1.25, Rabbitohs $3.80 → $3.90. Market now 76% Sharks (was 75%).",
+      "pts": null,
+      "ts": "2026-08-01T09:28:56+10:00",
       "rnd": 22
     }
   ],
-  "changesSince": "2026-07-30T21:11:52+10:00"
+  "changesSince": "2026-07-31T03:11:10+10:00"
 };
