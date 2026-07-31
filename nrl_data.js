@@ -64,7 +64,7 @@ window.NRL_DATA = {
         "PF": 316,
         "PA": 214
       },
-      "news": "James Tedesco (Ankle); Billy Smith (Illness) — back Round 23; Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "James Tedesco (Ankle); Lindsay Collins (Concussion) — back Round 23; Billy Smith (Illness) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -122,11 +122,11 @@ window.NRL_DATA = {
       "name": "Dolphins",
       "short": "DOL",
       "colour": "#ee3524",
-      "P": 18,
-      "W": 11,
+      "P": 19,
+      "W": 12,
       "L": 7,
-      "PF": 488,
-      "PA": 404,
+      "PF": 516,
+      "PA": 420,
       "last5": 3,
       "home": {
         "P": 10,
@@ -168,7 +168,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 244
       },
-      "news": "Dayne Jennings (Knee); David Fifita (Suspension) — back Round 23; Latrell Mitchell (Calf) — back Round 23; Tallis Duncan (Hamstring) — back Round 23; Cameron Murray (Calf) — back Round 24; Talanoa Penitani (Hamstring) — back Round 26"
+      "news": "Dayne Jennings (Knee); Latrell Mitchell (Calf) — back Round 23; David Fifita (Suspension) — back Round 23; Tallis Duncan (Hamstring) — back Round 23; Cameron Murray (Calf) — back Round 24; Talanoa Penitani (Hamstring) — back Round 26"
     },
     {
       "name": "Knights",
@@ -220,7 +220,7 @@ window.NRL_DATA = {
         "PF": 214,
         "PA": 245
       },
-      "news": "Tom Dearden (Ankle); Griffin Neame (Suspension) — back Round 23; Reed Mahoney (Concussion) — back Round 23; John Bateman (Hamstring) — back Round 23"
+      "news": "Tom Dearden (Ankle); Reed Mahoney (Concussion) — back Round 23; John Bateman (Hamstring) — back Round 23; Griffin Neame (Suspension) — back Round 23"
     },
     {
       "name": "Sea Eagles",
@@ -246,7 +246,7 @@ window.NRL_DATA = {
         "PF": 260,
         "PA": 180
       },
-      "news": "Siosiua Taukeiaho (Leg); Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Tom Trbojevic (Hamstring); Brandon Wakeham (Calf); Corey Waddell (Ankle) — back Round 23"
+      "news": "Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Siosiua Taukeiaho (Leg); Tom Trbojevic (Hamstring); Brandon Wakeham (Calf); Corey Waddell (Ankle) — back Round 23"
     },
     {
       "name": "Bulldogs",
@@ -272,7 +272,7 @@ window.NRL_DATA = {
         "PF": 144,
         "PA": 228
       },
-      "news": "Mitchell Woods (Hamstring); Samuel Hughes (Neck); Sitili Tupouniua (Hamstring) — back Round 23"
+      "news": "Samuel Hughes (Neck); Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring) — back Round 23"
     },
     {
       "name": "Raiders",
@@ -298,7 +298,7 @@ window.NRL_DATA = {
         "PF": 197,
         "PA": 252
       },
-      "news": "Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
+      "news": "Simi Sasagi (Hamstring); Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Storm",
@@ -324,7 +324,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Jack Howarth (Shoulder); Cameron Munster (Knee) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
+      "news": "Marion Seve (Triceps); Jack Howarth (Shoulder); Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle) — back Round 24; Cameron Munster (Knee) — back Round 24"
     },
     {
       "name": "Titans",
@@ -350,7 +350,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 275
       },
-      "news": "Brock Gray (ACL); Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": "Brock Gray (ACL); Jaimin Jolliffe (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -402,7 +402,7 @@ window.NRL_DATA = {
         "PF": 161,
         "PA": 265
       },
-      "news": "Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23; Bailey Simonsson (Ankle) — back Round 23; J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season"
+      "news": "Bailey Simonsson (Ankle) — back Round 23; Sean Russell (Quad) — back Round 23; Luca Moretti (Concussion) — back Round 23; J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -434,11 +434,11 @@ window.NRL_DATA = {
       "name": "Dragons",
       "short": "STI",
       "colour": "#e2231a",
-      "P": 18,
+      "P": 19,
       "W": 2,
-      "L": 16,
-      "PF": 274,
-      "PA": 541,
+      "L": 17,
+      "PF": 290,
+      "PA": 569,
       "last5": 1,
       "home": {
         "P": 8,
@@ -465,27 +465,18 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Tue 4 Aug: 25°C, 12% rain chance, partly cloudy",
+      "weather": "Tue 4 Aug: 25°C, 10% rain chance, partly cloudy",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
     {
       "home": "STI",
       "away": "DOL",
-      "venue": "WIN Stadium",
+      "venue": "",
       "city": "Wollongong",
-      "kickoff": "2026-07-31T18:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 4.6,
-          "away": 1.2
-        },
-        "close": {
-          "home": 4.6,
-          "away": 1.2
-        }
-      },
-      "weather": "Fri 31 Jul: 15°C, 0% rain chance, clear",
+      "kickoff": "",
+      "odds": null,
+      "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -497,15 +488,15 @@ window.NRL_DATA = {
       "kickoff": "2026-07-31T20:00:00+10:00",
       "odds": {
         "open": {
-          "home": 2.6,
-          "away": 1.5
+          "home": 2.84,
+          "away": 1.29
         },
         "close": {
-          "home": 2.6,
-          "away": 1.5
+          "home": 2.84,
+          "away": 1.29
         }
       },
-      "weather": "Fri 31 Jul: 12°C, 0% rain chance, mainly clear",
+      "weather": "Fri 31 Jul: 12°C, 0% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Melbourne"
     },
@@ -525,7 +516,7 @@ window.NRL_DATA = {
           "away": 1.57
         }
       },
-      "weather": "Sat 1 Aug: 19°C, 63% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 19°C, 29% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -545,7 +536,7 @@ window.NRL_DATA = {
           "away": 3.15
         }
       },
-      "weather": "Sat 1 Aug: 15°C, 0% rain chance, mainly clear",
+      "weather": "Sat 1 Aug: 15°C, 0% rain chance, clear",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -565,7 +556,7 @@ window.NRL_DATA = {
           "away": 2.55
         }
       },
-      "weather": "Sat 1 Aug: 20°C, 55% rain chance, drizzle",
+      "weather": "Sat 1 Aug: 20°C, 22% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -577,15 +568,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-02T14:00:00+10:00",
       "odds": {
         "open": {
-          "home": 1.28,
-          "away": 3.7
+          "home": 1.27,
+          "away": 3.8
         },
         "close": {
-          "home": 1.28,
-          "away": 3.7
+          "home": 1.27,
+          "away": 3.8
         }
       },
-      "weather": "Sun 2 Aug: 17°C, 1% rain chance, overcast",
+      "weather": "Sun 2 Aug: 18°C, 4% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -597,15 +588,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-02T16:05:00+10:00",
       "odds": {
         "open": {
-          "home": 2.88,
-          "away": 1.42
+          "home": 2.85,
+          "away": 1.43
         },
         "close": {
-          "home": 2.88,
-          "away": 1.42
+          "home": 2.85,
+          "away": 1.43
         }
       },
-      "weather": "Sun 2 Aug: 17°C, 1% rain chance, overcast",
+      "weather": "Sun 2 Aug: 18°C, 4% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -613,8 +604,44 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-31T09:43:45+10:00",
+  "generatedAt": "2026-07-31T20:11:16+10:00",
   "changes": [
+    {
+      "id": "r22-MEL-inj-jahrome-hughes",
+      "fixture": "MEL-CAN",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Storm: Jahrome Hughes (Hamstring) — new on the injury list.",
+      "pts": 3.3,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-DOL-in-isaiya-katoa",
+      "fixture": "STI-DOL",
+      "team": "DOL",
+      "cat": "in",
+      "sev": 3,
+      "dir": "up",
+      "text": "Isaiya Katoa (Halfback) named in the Dolphins 17.",
+      "pts": 3.3,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-MEL-out-jahrome-hughes",
+      "fixture": "MEL-CAN",
+      "team": "MEL",
+      "cat": "out",
+      "sev": 3,
+      "dir": "down",
+      "text": "Jahrome Hughes (Halfback) is out of the Storm 17.",
+      "pts": 3.3,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
     {
       "id": "r22-SYD-inj-james-tedesco",
       "fixture": "NQL-SYD",
@@ -637,6 +664,174 @@ window.NRL_DATA = {
       "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
       "pts": 3.3,
       "ts": "2026-07-30T21:11:52+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-MEL-CAN-line-2.84-1.29",
+      "fixture": "MEL-CAN",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 2,
+      "dir": "up",
+      "text": "Line moved — Storm $2.60 → $2.84, Bulldogs $1.50 → $1.29. Market now 31% Storm (was 37%).",
+      "pts": null,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-GLD-NZW-wx-1",
+      "fixture": "GLD-NZW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 29% rain chance, light drizzle (was 63% rain).",
+      "pts": null,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-CBR-inj-simi-sasagi",
+      "fixture": "PEN-CBR",
+      "team": "CBR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Raiders: Simi Sasagi (Hamstring) — new on the injury list.",
+      "pts": 1.9,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-MEL-fit-harry-grant",
+      "fixture": "MEL-CAN",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Harry Grant is off the injury list.",
+      "pts": 4.4,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-CAN-out-jake-turpin",
+      "fixture": "MEL-CAN",
+      "team": "CAN",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Jake Turpin (Hooker) is out of the Bulldogs 17.",
+      "pts": 2.0,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-CAN-in-jonathan-sua",
+      "fixture": "MEL-CAN",
+      "team": "CAN",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jonathan Sua (Winger) named in the Bulldogs 17.",
+      "pts": 1.2,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-CBR-out-simi-sasagi",
+      "fixture": "PEN-CBR",
+      "team": "CBR",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Simi Sasagi (Centre) is out of the Raiders 17.",
+      "pts": 1.9,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-CBR-in-savelio-tamale",
+      "fixture": "PEN-CBR",
+      "team": "CBR",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Savelio Tamale (Winger) named in the Raiders 17.",
+      "pts": 1.8,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-DOL-out-jake-averillo",
+      "fixture": "STI-DOL",
+      "team": "DOL",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Jake Averillo (Centre) is out of the Dolphins 17.",
+      "pts": 1.9,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-MEL-in-jai-bowden",
+      "fixture": "MEL-CAN",
+      "team": "MEL",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jai Bowden named in the Storm 17.",
+      "pts": 0.6,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-NZW-out-demitric-vaimauga",
+      "fixture": "GLD-NZW",
+      "team": "NZW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Demitric Vaimauga (Prop) is out of the Warriors 17.",
+      "pts": 0.9,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-NZW-in-riley-price",
+      "fixture": "GLD-NZW",
+      "team": "NZW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Riley Price named in the Warriors 17.",
+      "pts": 0.6,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-out-mathew-feagai",
+      "fixture": "STI-DOL",
+      "team": "STI",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Mathew Feagai (Winger) is out of the Dragons 17.",
+      "pts": 1.2,
+      "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-in-emre-guler",
+      "fixture": "STI-DOL",
+      "team": "STI",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Emre Guler (Prop) named in the Dragons 17.",
+      "pts": 0.7,
+      "ts": "2026-07-31T20:11:16+10:00",
       "rnd": 22
     },
     {
@@ -1130,151 +1325,7 @@ window.NRL_DATA = {
       "pts": 2.0,
       "ts": "2026-07-30T19:44:05+10:00",
       "rnd": 22
-    },
-    {
-      "id": "r22-SOU-fit-tallis-duncan",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Tallis Duncan is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-07-30T19:44:05+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-inj-david-fale",
-      "fixture": "STI-DOL",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dragons: David Fale (Leg) — back Round 23 — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-07-30T19:44:05+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-inj-hayden-buchanan",
-      "fixture": "STI-DOL",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dragons: Hayden Buchanan (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-07-30T19:44:05+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-MEL-CAN-wx-2",
-      "fixture": "MEL-CAN",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Melbourne updated — Mon 3 Aug: 13°C, 48% rain chance, heavy drizzle (was 39% rain).",
-      "pts": null,
-      "ts": "2026-07-30T08:44:08+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-MEL-CAN-wx-1",
-      "fixture": "MEL-CAN",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Melbourne updated — Tue 4 Aug: 12°C, 39% rain chance, light drizzle (was 94% rain).",
-      "pts": null,
-      "ts": "2026-07-30T02:55:20+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-GLD-NZW-wx-2",
-      "fixture": "GLD-NZW",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 55% rain chance, light drizzle (was 60% rain).",
-      "pts": null,
-      "ts": "2026-07-30T02:55:20+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-DOL-line-4.60-1.20",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $4.30 → $4.60, Dolphins $1.22 → $1.20. Market now 21% Dragons (was 22%).",
-      "pts": null,
-      "ts": "2026-07-31T07:42:03+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NQL-SYD-wx-new",
-      "fixture": "NQL-SYD",
-      "team": null,
-      "cat": "weather",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Forecast for Townsville updated — Wed 5 Aug: 25°C, 10% rain chance, overcast.",
-      "pts": null,
-      "ts": "2026-07-31T03:11:10+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-DOL-line-4.30-1.22",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $4.10 → $4.30, Dolphins $1.23 → $1.22. Market now 22% Dragons (was 23%).",
-      "pts": null,
-      "ts": "2026-07-31T03:11:10+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-BRI-NEW-line-1.50-2.55",
-      "fixture": "BRI-NEW",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $1.50 → $1.50, Knights $2.58 → $2.55. Market now 63% Broncos (was 63%).",
-      "pts": null,
-      "ts": "2026-07-31T03:11:10+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-WST-PAR-line-2.88-1.42",
-      "fixture": "WST-PAR",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Wests Tigers $2.90 → $2.88, Eels $1.42 → $1.42. Market now 33% Wests Tigers (was 33%).",
-      "pts": null,
-      "ts": "2026-07-31T03:11:10+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-DOL-line-4.10-1.23",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $4.10 → $4.10, Dolphins $1.24 → $1.23. Market now 23% Dragons (was 23%).",
-      "pts": null,
-      "ts": "2026-07-30T22:00:14+10:00",
-      "rnd": 22
     }
   ],
-  "changesSince": "2026-07-30T02:55:20+10:00"
+  "changesSince": "2026-07-30T19:44:05+10:00"
 };
