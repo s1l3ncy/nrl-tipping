@@ -9,7 +9,7 @@
 // Time-sensitive fields (odds, weather, news) stay null unless the optional
 // --odds/--injuries/--weather dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-07-31",
+  "updated": "2026-08-01",
   "season": 2026,
   "round": 22,
   "source": "zerotackle.com",
@@ -64,7 +64,7 @@ window.NRL_DATA = {
         "PF": 316,
         "PA": 214
       },
-      "news": "James Tedesco (Ankle); Lindsay Collins (Concussion) — back Round 23; Billy Smith (Illness) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "James Tedesco (Ankle); Billy Smith (Illness) — back Round 23; Lindsay Collins (Concussion) — back Round 23; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -126,7 +126,7 @@ window.NRL_DATA = {
       "W": 12,
       "L": 7,
       "PF": 516,
-      "PA": 420,
+      "PA": 426,
       "last5": 3,
       "home": {
         "P": 10,
@@ -136,11 +136,11 @@ window.NRL_DATA = {
         "PA": 267
       },
       "away": {
-        "P": 8,
-        "W": 5,
+        "P": 9,
+        "W": 6,
         "L": 3,
-        "PF": 218,
-        "PA": 137
+        "PF": 246,
+        "PA": 159
       },
       "news": null
     },
@@ -197,6 +197,32 @@ window.NRL_DATA = {
       "news": "Asu Kepaoa (Suspension) — back Round 23; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
+      "name": "Bulldogs",
+      "short": "CAN",
+      "colour": "#00337f",
+      "P": 19,
+      "W": 10,
+      "L": 9,
+      "PF": 378,
+      "PA": 422,
+      "last5": 4,
+      "home": {
+        "P": 10,
+        "W": 7,
+        "L": 3,
+        "PF": 198,
+        "PA": 172
+      },
+      "away": {
+        "P": 9,
+        "W": 3,
+        "L": 6,
+        "PF": 180,
+        "PA": 250
+      },
+      "news": "Mitchell Woods (Hamstring); Samuel Hughes (Neck); Sitili Tupouniua (Hamstring) — back Round 23"
+    },
+    {
       "name": "Cowboys",
       "short": "NQL",
       "colour": "#002b5c",
@@ -220,7 +246,7 @@ window.NRL_DATA = {
         "PF": 214,
         "PA": 245
       },
-      "news": "Tom Dearden (Ankle); Reed Mahoney (Concussion) — back Round 23; John Bateman (Hamstring) — back Round 23; Griffin Neame (Suspension) — back Round 23"
+      "news": "Tom Dearden (Ankle); John Bateman (Hamstring) — back Round 23; Reed Mahoney (Concussion) — back Round 23; Griffin Neame (Suspension) — back Round 23"
     },
     {
       "name": "Sea Eagles",
@@ -247,32 +273,6 @@ window.NRL_DATA = {
         "PA": 180
       },
       "news": "Clayton Faulalo (Hamstring); Jackson Shereb (Concussion); Siosiua Taukeiaho (Leg); Tom Trbojevic (Hamstring); Brandon Wakeham (Calf); Corey Waddell (Ankle) — back Round 23"
-    },
-    {
-      "name": "Bulldogs",
-      "short": "CAN",
-      "colour": "#00337f",
-      "P": 18,
-      "W": 9,
-      "L": 9,
-      "PF": 342,
-      "PA": 400,
-      "last5": 4,
-      "home": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 198,
-        "PA": 172
-      },
-      "away": {
-        "P": 8,
-        "W": 2,
-        "L": 6,
-        "PF": 144,
-        "PA": 228
-      },
-      "news": "Samuel Hughes (Neck); Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring) — back Round 23"
     },
     {
       "name": "Raiders",
@@ -304,18 +304,18 @@ window.NRL_DATA = {
       "name": "Storm",
       "short": "MEL",
       "colour": "#4b2e83",
-      "P": 19,
+      "P": 20,
       "W": 8,
-      "L": 11,
-      "PF": 446,
-      "PA": 458,
-      "last5": 2,
+      "L": 12,
+      "PF": 468,
+      "PA": 494,
+      "last5": 1,
       "home": {
-        "P": 9,
+        "P": 10,
         "W": 6,
-        "L": 3,
-        "PF": 244,
-        "PA": 196
+        "L": 4,
+        "PF": 266,
+        "PA": 232
       },
       "away": {
         "P": 10,
@@ -376,7 +376,7 @@ window.NRL_DATA = {
         "PF": 135,
         "PA": 236
       },
-      "news": "Corey Jensen (Medical Episode); Brendan Piakura (Concussion); Preston Riki (Ankle); Aublix Tawha (Ankle) — back Round 23"
+      "news": "Brendan Piakura (Concussion); Preston Riki (Ankle); Aublix Tawha (Ankle) — back Round 23"
     },
     {
       "name": "Eels",
@@ -437,15 +437,15 @@ window.NRL_DATA = {
       "P": 19,
       "W": 2,
       "L": 17,
-      "PF": 290,
+      "PF": 296,
       "PA": 569,
       "last5": 1,
       "home": {
-        "P": 8,
+        "P": 9,
         "W": 1,
-        "L": 7,
-        "PF": 118,
-        "PA": 290
+        "L": 8,
+        "PF": 140,
+        "PA": 318
       },
       "away": {
         "P": 10,
@@ -454,7 +454,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Hame Sele (Achilles); David Fale (Leg) — back Round 23; Blake Lawrie (Leg) — back Round 23; Kade Reed (Finger) — back Round 23; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
+      "news": "Toby Couchman (Head knock); Hame Sele (Achilles); David Fale (Leg) — back Round 23; Blake Lawrie (Leg) — back Round 23; Kade Reed (Finger) — back Round 23; Jaydn Su'A (Pectoral) — back Round 27"
     }
   ],
   "fixtures": [
@@ -465,18 +465,18 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Tue 4 Aug: 25°C, 10% rain chance, partly cloudy",
+      "weather": "Sun 2 Aug: 24°C, 14% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
     {
       "home": "STI",
       "away": "DOL",
-      "venue": "",
+      "venue": "WIN Stadium",
       "city": "Wollongong",
-      "kickoff": "",
+      "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": null,
-      "weather": null,
+      "weather": "Sat 1 Aug: 15°C, 89% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -486,17 +486,8 @@ window.NRL_DATA = {
       "venue": "AAMI Park",
       "city": "Melbourne",
       "kickoff": "2026-07-31T20:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 2.84,
-          "away": 1.29
-        },
-        "close": {
-          "home": 2.84,
-          "away": 1.29
-        }
-      },
-      "weather": "Fri 31 Jul: 12°C, 0% rain chance, overcast",
+      "odds": null,
+      "weather": "Mon 3 Aug: 14°C, 53% rain chance, heavy drizzle",
       "h2h": null,
       "tz": "Australia/Melbourne"
     },
@@ -508,15 +499,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-01T15:00:00+10:00",
       "odds": {
         "open": {
-          "home": 2.4,
-          "away": 1.57
+          "home": 2.42,
+          "away": 1.56
         },
         "close": {
-          "home": 2.4,
-          "away": 1.57
+          "home": 2.42,
+          "away": 1.56
         }
       },
-      "weather": "Sat 1 Aug: 19°C, 29% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 19°C, 41% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -528,15 +519,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-01T17:30:00+10:00",
       "odds": {
         "open": {
-          "home": 1.36,
-          "away": 3.15
+          "home": 1.35,
+          "away": 3.25
         },
         "close": {
-          "home": 1.36,
-          "away": 3.15
+          "home": 1.35,
+          "away": 3.25
         }
       },
-      "weather": "Sat 1 Aug: 15°C, 0% rain chance, clear",
+      "weather": "Sat 1 Aug: 15°C, 0% rain chance, partly cloudy",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -548,15 +539,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-01T19:35:00+10:00",
       "odds": {
         "open": {
-          "home": 1.5,
+          "home": 1.51,
           "away": 2.55
         },
         "close": {
-          "home": 1.5,
+          "home": 1.51,
           "away": 2.55
         }
       },
-      "weather": "Sat 1 Aug: 20°C, 22% rain chance, light drizzle",
+      "weather": "Sat 1 Aug: 20°C, 61% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -576,7 +567,7 @@ window.NRL_DATA = {
           "away": 3.8
         }
       },
-      "weather": "Sun 2 Aug: 18°C, 4% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 17°C, 2% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -596,7 +587,7 @@ window.NRL_DATA = {
           "away": 1.43
         }
       },
-      "weather": "Sun 2 Aug: 18°C, 4% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 17°C, 2% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     }
@@ -604,7 +595,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-07-31T20:11:16+10:00",
+  "generatedAt": "2026-08-01T03:13:57+10:00",
   "changes": [
     {
       "id": "r22-MEL-inj-jahrome-hughes",
@@ -664,6 +655,78 @@ window.NRL_DATA = {
       "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
       "pts": 3.3,
       "ts": "2026-07-30T21:11:52+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-MEL-CAN-wx-2",
+      "fixture": "MEL-CAN",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Melbourne updated — Mon 3 Aug: 14°C, 53% rain chance, heavy drizzle (was 0% rain).",
+      "pts": null,
+      "ts": "2026-08-01T03:13:57+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-GLD-NZW-wx-2",
+      "fixture": "GLD-NZW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 41% rain chance, light drizzle (was 29% rain).",
+      "pts": null,
+      "ts": "2026-08-01T03:13:57+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-BRI-NEW-wx-3",
+      "fixture": "BRI-NEW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Brisbane updated — Sat 1 Aug: 20°C, 61% rain chance, drizzle (was 22% rain).",
+      "pts": null,
+      "ts": "2026-08-01T03:13:57+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-BRI-fit-corey-jensen",
+      "fixture": "BRI-NEW",
+      "team": "BRI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Broncos: Corey Jensen is off the injury list.",
+      "pts": 1.0,
+      "ts": "2026-08-01T03:13:57+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-inj-toby-couchman",
+      "fixture": "STI-DOL",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Dragons: Toby Couchman (Head knock) — new on the injury list.",
+      "pts": 1.0,
+      "ts": "2026-08-01T03:13:57+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-STI-fit-hayden-buchanan",
+      "fixture": "STI-DOL",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Hayden Buchanan is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-01T03:13:57+10:00",
       "rnd": 22
     },
     {
@@ -1253,79 +1316,7 @@ window.NRL_DATA = {
       "pts": 0.7,
       "ts": "2026-07-30T21:11:52+10:00",
       "rnd": 22
-    },
-    {
-      "id": "r22-PAR-fit-junior-paulo",
-      "fixture": "WST-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Junior Paulo is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CAN-in-jake-turpin",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jake Turpin (Hooker) named in the Bulldogs 17.",
-      "pts": 2.0,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CAN-out-jed-reardon",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jed Reardon is out of the Bulldogs 17.",
-      "pts": 0.6,
-      "ts": "2026-07-30T21:11:52+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CRO-SOU-wx-1",
-      "fixture": "CRO-SOU",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Sydney updated — Sat 1 Aug: 16°C, 27% rain chance, light drizzle (was 40% rain).",
-      "pts": null,
-      "ts": "2026-07-30T19:44:05+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-WST-PAR-wx-1",
-      "fixture": "WST-PAR",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Sydney updated — Sat 1 Aug: 16°C, 27% rain chance, light drizzle (was 40% rain).",
-      "pts": null,
-      "ts": "2026-07-30T19:44:05+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-SOU-inj-david-fifita",
-      "fixture": "CRO-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: David Fifita (Suspension) — back Round 23 — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-07-30T19:44:05+10:00",
-      "rnd": 22
     }
   ],
-  "changesSince": "2026-07-30T19:44:05+10:00"
+  "changesSince": "2026-07-30T21:11:52+10:00"
 };

@@ -1,11 +1,11 @@
 {
   "state": "ok",
   "httpStatus": 200,
-  "remaining": 492,
-  "used": 8,
-  "fetched": "2026-07-31T20:11:06",
-  "eventsReturned": 14,
-  "fixturesPriced": 6,
-  "bookQuotes": 66,
+  "remaining": 491,
+  "used": 9,
+  "fetched": "2026-08-01T03:13:41",
+  "eventsReturned": 13,
+  "fixturesPriced": 5,
+  "bookQuotes": 55,
   "_comment": "How the odds fetch went this run. Regenerated every run by cloud_fetch.py — do not hand-edit. Contains NO API key."
 }
