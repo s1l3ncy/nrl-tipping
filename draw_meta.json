@@ -3,17 +3,12 @@
   "season": 2026,
   "round": 22,
   "source": "nrl.com",
-  "fetched": "2026-07-31T09:43:31",
+  "fetched": "2026-07-31T20:11:06",
   "fixtures": {
     "NQL-SYD": {
       "venue": "Queensland Country Bank Stadium",
       "city": "Townsville",
       "kickoffUtc": "2026-07-30T09:50:00Z"
-    },
-    "STI-DOL": {
-      "venue": "WIN Stadium",
-      "city": "Wollongong",
-      "kickoffUtc": "2026-07-31T08:00:00Z"
     },
     "MEL-CAN": {
       "venue": "AAMI Park",
