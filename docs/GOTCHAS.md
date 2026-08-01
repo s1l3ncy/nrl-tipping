@@ -163,6 +163,22 @@ Real problems encountered on this project and how to avoid repeating them.
 - **Never hand-edit `nrl_learned.js`.** It's the append-only match memory; corruption or
   a bad edit makes the generators abort (by design) to protect history.
 
+## Grading tips: never grade a recomputed tip (2026-08-02)
+- **The model's opinion of a finished game is contaminated by that game.** After full
+  time, `learn_model` refits the Elo WITH the result, and the market price disappears —
+  so `tipSide()` recomputed post-game can flip to the winner and "grade" itself ✓ for a
+  tip that was never shown (BRI v NEW R22: pre-game blend said Broncos, post-game
+  recompute said Knights, Knights won, card claimed "got it"). Any ✓/✗ must come from
+  the **pre-kick-off snapshot** (`nrl_snap_v1` in localStorage, written by `snapTips()`
+  on every render before kick-off) or from the lock rule (the Roosters tip needs no
+  snapshot — it's a constant). No snapshot, no lock → say "no pre-game tip on record",
+  never guess.
+- **"Season accuracy" numbers are three different things — label which.** The 64% is
+  the walk-forward *backtest* (what the model would have tipped across the whole results
+  memory); 14-5 is the *team's* W-L; "your tips" is only what was frozen before
+  kick-off. Presenting any of them as one of the others reads as a bug to the user —
+  because it is one.
+
 ## The Roosters lock and the change feed (2026-07-29)
 - **The lock is applied in exactly ONE place: `tipSide()`.** Any surface that names a tip
   must call it. Four of them once recomputed `pHome>=0.5?h:a` and only *annotated* the

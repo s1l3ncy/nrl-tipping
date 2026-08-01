@@ -5,6 +5,37 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-02 — The full-time card graded a hindsight tip; the stats wore the wrong labels
+
+Josh, Sunday morning: the Broncos v Knights card claimed "✓ tipped Knights" when the
+app's pre-game blend had said *Broncos* (who lost); and the Model tab's "64% correct
+(season)" + "14-5 Roosters record" made no sense in his first week of tipping.
+
+**1. Tips are now frozen at kick-off and graded only against the frozen pick
+(`nrl-tipping-guide.html`).** The final card used to call `tipSide()` at render time —
+after `learn_model` had folded the game's own result into the Elo and the market price
+had vanished — so a tip that flipped post-game graded itself ✓ with hindsight. Now
+`snapTips()` writes the displayed tip for every not-yet-started game into
+`nrl_snap_v1` (localStorage) on each render, and full-time grading reads ONLY that
+snapshot. The Roosters lock needs no snapshot (the rule is the tip). No snapshot and
+no lock → the card says "final — no pre-game tip on record" — including, honestly,
+for BRI v NEW itself, which predates the feature and whose real pre-game tip the app
+has no record of.
+
+**2. The Model tab now says what each number is.** "Your tips (graded)" — frozen picks
+plus lock games, graded against the results memory; starts from when the app is
+actually used, never back-filled. "Model backtest (whole season)" — the walk-forward
+would-have-tipped rate over all 156 results (the old, mislabelled 64%). "Roosters
+season W-L (the team)" — the club's record (the old 14-5). The loyalty tax is
+reworded as backtest ("would have cost"). Full post-mortem in `GOTCHAS.md`.
+
+Tested: scenario harness froze a deliberate wrong tip for a finished game — card
+graded ✗ against the snapshot while the post-game recompute would have claimed ✓;
+lock game ✓ by rule; unsnapshotted finals claim nothing; smoke 60/60; zero console
+errors.
+
+---
+
 ## 2026-07-31 — Finished games show the score; the feed is today-only; the bar tells two teams apart
 
 Morning-after fixes from Josh (Roosters 82–12 over the Cowboys overnight — the lock's
