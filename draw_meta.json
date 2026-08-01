@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 22,
   "source": "nrl.com",
-  "fetched": "2026-08-01T18:42:16",
+  "fetched": "2026-08-02T01:44:18",
   "fixtures": {
     "NQL-SYD": {
       "venue": "Queensland Country Bank Stadium",
@@ -24,6 +24,11 @@
       "venue": "Cbus Super Stadium",
       "city": "Gold Coast",
       "kickoffUtc": "2026-08-01T05:00:00Z"
+    },
+    "PEN-CBR": {
+      "venue": "Glen Willow Oval",
+      "city": "Mudgee",
+      "kickoffUtc": "2026-08-01T07:30:00Z"
     },
     "BRI-NEW": {
       "venue": "Suncorp Stadium",

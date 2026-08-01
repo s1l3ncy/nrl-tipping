@@ -5,10 +5,10 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6639 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6605 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
-  "updated": "2026-08-01",
-  "gamesLearned": 160,
+  "updated": "2026-08-02",
+  "gamesLearned": 162,
   "lowConfidence": false,
   "params": {
     "homeAdv": 0.34,
@@ -18,29 +18,29 @@ window.NRL_LEARNED = {
     "eloHGA": 100
   },
   "elo": {
-    "PEN": 1630.2,
+    "PEN": 1637.8,
     "SYD": 1621.1,
     "NZW": 1602.8,
     "CRO": 1604.8,
     "DOL": 1578.5,
     "SOU": 1523.5,
-    "NEW": 1532.0,
+    "NEW": 1551.6,
     "NQL": 1497.6,
     "MAN": 1498.1,
     "CAN": 1504.8,
-    "CBR": 1488.4,
+    "CBR": 1480.8,
     "MEL": 1459.2,
-    "BRI": 1410.3,
+    "BRI": 1390.7,
     "PAR": 1409.4,
     "WST": 1391.8,
     "GLD": 1423.1,
     "STI": 1324.4
   },
   "backtest": {
-    "games": 160,
-    "brier": 0.2355,
-    "logloss": 0.6639,
-    "hit": 0.6375,
+    "games": 162,
+    "brier": 0.2339,
+    "logloss": 0.6605,
+    "hit": 0.642,
     "marketBrier": null
   },
   "history": [
@@ -68,6 +68,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-01",
       "games": 160,
       "brier": 0.2355
+    },
+    {
+      "date": "2026-08-02",
+      "games": 162,
+      "brier": 0.2339
     }
   ],
   "results": [
@@ -1190,6 +1195,20 @@ window.NRL_LEARNED = {
       "away": "NZW",
       "hs": 6,
       "as": 42
+    },
+    {
+      "round": 22,
+      "home": "PEN",
+      "away": "CBR",
+      "hs": 42,
+      "as": 18
+    },
+    {
+      "round": 22,
+      "home": "BRI",
+      "away": "NEW",
+      "hs": 6,
+      "as": 30
     }
   ]
 };
