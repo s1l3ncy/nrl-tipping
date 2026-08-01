@@ -19,7 +19,7 @@ the owner's Mac off.
    Editing the guide changes nothing live until the workflow runs `cp … index.html`.
    So after any HTML change, **run the workflow**.
 3. **Never hand-edit generated files:** `index.html`, `nrl_data.js`, `nrl_learned.js`,
-   `nrl_players.js` — they're overwritten each run.
+   `nrl_players.js`, `nrl_tiplog.js` — they're overwritten each run.
 4. **Front-end stays single-file and dependency-free** (no CDNs, `localStorage` only) —
    it must work offline.
 5. **Best-effort fields (odds/news/weather) may be `null`** — that's normal, not a bug.
@@ -34,7 +34,7 @@ the owner's Mac off.
    - **Stage only files that genuinely differ from what's live.** Check each against
      `https://raw.githubusercontent.com/s1l3ncy/nrl-tipping/main/<path>` — don't assume.
    - **Never stage a generated file**: `index.html`, `nrl_data.js`, `nrl_learned.js`,
-     `nrl_players.js`, `nrl_lineups.js`, or any `*_dump.*`. The workflow rebuilds them,
+     `nrl_players.js`, `nrl_lineups.js`, `nrl_tiplog.js`, or any `*_dump.*`. The workflow rebuilds them,
      and the live copies are usually ahead of the local ones.
    - Mirror the repo layout: `repo-root/`, `docs/`, `github-workflows/`.
    - If `rm` fails with "Operation not permitted", call `allow_cowork_file_delete` —
