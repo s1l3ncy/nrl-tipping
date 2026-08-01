@@ -88,9 +88,10 @@ club-colour shares, `.alt` = shade-shift for same-colour matchups, `.lift` =
 brightness floor for near-navy clubs), `gtippill`, then the `details.more` fold.
 A fixture with a score in the results memory (`fixtureResult()`) renders the
 FULL TIME state instead — score, winner pill, tip verdict — and the hero and
-quick list follow suit. The verdict grades the PRE-KICK-OFF snapshot
-(`snapTips()`/`gradedTip()`/`nrl_snap_v1`) — never a recomputed tip; see the
-2026-08-02 entry in `GOTCHAS.md` before touching this. The change feed displays TODAY (Sydney) only; the data
+quick list follow suit. The verdict grades the PRE-KICK-OFF tip — never a recomputed one — in strict
+precedence: the pipeline's `nrl_tiplog.js` (server-frozen, identical on every
+device), then this browser's `nrl_snap_v1` snapshot, then the lock rule. See the
+2026-08-02 entries in `GOTCHAS.md` before touching this. The change feed displays TODAY (Sydney) only; the data
 file still carries the rolling 36h window.
 
 ## Element IDs the render targets

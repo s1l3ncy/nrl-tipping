@@ -179,6 +179,19 @@ Sane ranges enforced by the validator: `homeAdv ∈ [-5,20]`, `logisticScale ∈
 `eloK ∈ (0,100]`, `eloHGA ∈ [-50,400]`, elo ratings `∈ [0,4000]`, probabilities
 `∈ [0,1]`.
 
+### `nrl_tiplog.js` → `window.NRL_TIPLOG`
+```
+{ updated: ISO,
+  tips: [ {season, round, home, away, tip, ko: ISO|null, ts: ISO}, ... ] }  // ≤250, sorted
+```
+The **official pre-kick-off tip** per game, frozen by `freeze_tips.mjs` (workflow,
+after `learn_model.py`): it runs the real `nrl-tipping-guide.html` + fresh data in
+jsdom and records `tipSide(predict(fx))` for every game whose kick-off is still in
+the future — last pre-kick-off run wins, entries never change after kick-off. This
+is what full-time grading and "Your tips" read on every device. Generated — never
+hand-edit, never upload. Not gate-validated (best-effort; front-end degrades to its
+localStorage snapshot + the lock rule).
+
 ### `nrl_players.js` → `window.NRL_PLAYERS`
 ```
 { "player name (normalised)": { pos: "Halfback", pct: 84.1 }, ... }

@@ -5,6 +5,37 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-02 (pm) — Tips are frozen by the PIPELINE now: same record on every device
+
+Josh, after the localStorage freeze shipped: "I want it to work on all devices and do
+it automatically… not rely on the device to store it." Right call — per-device
+snapshots meant your record lived on whichever phone happened to be open pre-game.
+
+- **New `freeze_tips.mjs`** runs in the workflow after `learn_model.py`. It does NOT
+  reimplement the model (a second implementation is exactly the drift risk
+  `GOTCHAS.md` warns about) — it loads the real `nrl-tipping-guide.html` with the
+  run's fresh data into **jsdom** and asks the page's own `predict()`/`tipSide()`
+  what it is telling users, then writes `nrl_tiplog.js`
+  (`window.NRL_TIPLOG = {updated, tips:[{season,round,home,away,tip,ko,ts}]}`).
+  An entry is rewritten on every run until its kick-off (last pre-kick-off run wins,
+  worst case ~4h before kick-off on the current schedule) and never touched after.
+  Pruned to 250 entries. Best-effort: a freeze failure keeps the committed log and
+  never blocks a publish.
+- **The front-end loads `nrl_tiplog.js` as a fifth data file** and grades in strict
+  precedence: pipeline log (identical everywhere) → this browser's own pre-kick-off
+  snapshot (covers a tip shown here between runs) → the lock rule. "Your tips"
+  accumulates from the log automatically — no device needs to have been open.
+- `sw.js` CACHE v5, log precached; `refreshFromNetwork()` + `hydrateData()` re-pull
+  and re-read the log on each launch; workflow gains the freeze step (`npm install
+  jsdom`, non-fatal).
+- `nrl_tiplog.js` joins the never-hand-edit / never-upload generated-files list.
+
+Tested: freeze run against live data froze the real CRO + PAR tips for today's two
+games; a scenario with a deliberately wrong server tip AND a conflicting local
+snapshot graded from the SERVER log (✗) as required; smoke 60/60; zero console errors.
+
+---
+
 ## 2026-08-02 — The full-time card graded a hindsight tip; the stats wore the wrong labels
 
 Josh, Sunday morning: the Broncos v Knights card claimed "✓ tipped Knights" when the

@@ -173,6 +173,12 @@ Real problems encountered on this project and how to avoid repeating them.
   on every render before kick-off) or from the lock rule (the Roosters tip needs no
   snapshot — it's a constant). No snapshot, no lock → say "no pre-game tip on record",
   never guess.
+- **Freeze server-side, and never by reimplementing the model.** `freeze_tips.mjs`
+  exists so the frozen tip is the same on every device — and it deliberately runs
+  the REAL page in jsdom rather than mirroring the math in Python/Node, because a
+  second implementation silently drifts (see the smoke-test WARN that's been firing
+  for exactly that reason). If you change the front-end model, the freeze follows
+  automatically; don't "optimise" it into a reimplementation.
 - **"Season accuracy" numbers are three different things — label which.** The 64% is
   the walk-forward *backtest* (what the model would have tipped across the whole results
   memory); 14-5 is the *team's* W-L; "your tips" is only what was frozen before
