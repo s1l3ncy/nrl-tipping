@@ -73,6 +73,17 @@ jobs:
       - name: Re-learn from the results memory
         run: python learn_model.py
 
+      # Freeze the pre-kick-off tip for every upcoming game into nrl_tiplog.js by
+      # running the REAL page headlessly (jsdom) — not a reimplementation, so it
+      # can never drift from what users see. This is what makes full-time grading
+      # identical on every device and immune to hindsight (docs/GOTCHAS.md,
+      # 2026-08-02). Best-effort: a failure keeps the committed log and the run
+      # continues — the front-end falls back to local snapshots + the lock rule.
+      - name: Freeze pre-kick-off tips
+        run: |
+          npm install --no-save jsdom >/dev/null 2>&1 || true
+          node freeze_tips.mjs || echo "tip freeze failed (non-fatal)"
+
       - name: Validate before publishing
         run: |
           python validate_data.py nrl_data.js
