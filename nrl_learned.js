@@ -5,13 +5,13 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6629 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6639 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
   "updated": "2026-08-01",
-  "gamesLearned": 159,
+  "gamesLearned": 160,
   "lowConfidence": false,
   "params": {
-    "homeAdv": 0.57,
+    "homeAdv": 0.34,
     "logisticScale": 5,
     "oddsWeight": 0.5,
     "eloK": 10,
@@ -20,7 +20,7 @@ window.NRL_LEARNED = {
   "elo": {
     "PEN": 1630.2,
     "SYD": 1621.1,
-    "NZW": 1582.7,
+    "NZW": 1602.8,
     "CRO": 1604.8,
     "DOL": 1578.5,
     "SOU": 1523.5,
@@ -33,14 +33,14 @@ window.NRL_LEARNED = {
     "BRI": 1410.3,
     "PAR": 1409.4,
     "WST": 1391.8,
-    "GLD": 1443.2,
+    "GLD": 1423.1,
     "STI": 1324.4
   },
   "backtest": {
-    "games": 159,
-    "brier": 0.2351,
-    "logloss": 0.6629,
-    "hit": 0.6164,
+    "games": 160,
+    "brier": 0.2355,
+    "logloss": 0.6639,
+    "hit": 0.6375,
     "marketBrier": null
   },
   "history": [
@@ -63,6 +63,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-01",
       "games": 159,
       "brier": 0.2351
+    },
+    {
+      "date": "2026-08-01",
+      "games": 160,
+      "brier": 0.2355
     }
   ],
   "results": [
@@ -1178,6 +1183,13 @@ window.NRL_LEARNED = {
       "away": "CAN",
       "hs": 22,
       "as": 36
+    },
+    {
+      "round": 22,
+      "home": "GLD",
+      "away": "NZW",
+      "hs": 6,
+      "as": 42
     }
   ]
 };
