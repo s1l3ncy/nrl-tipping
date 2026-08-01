@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Sun 2 Aug: 25°C, 18% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 25°C, 18% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -509,7 +509,7 @@ window.NRL_DATA = {
       "city": "Mudgee",
       "kickoff": "2026-08-01T17:30:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 16°C, 66% rain chance, light drizzle",
+      "weather": "Mon 3 Aug: 15°C, 66% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -532,12 +532,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-02T14:00:00+10:00",
       "odds": {
         "open": {
-          "home": 1.22,
-          "away": 4.25
+          "home": 1.23,
+          "away": 4.17
         },
         "close": {
-          "home": 1.22,
-          "away": 4.25
+          "home": 1.23,
+          "away": 4.17
         }
       },
       "weather": "Sun 2 Aug: 17°C, 0% rain chance, overcast",
@@ -552,12 +552,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-02T16:05:00+10:00",
       "odds": {
         "open": {
-          "home": 2.88,
-          "away": 1.43
+          "home": 2.85,
+          "away": 1.44
         },
         "close": {
-          "home": 2.88,
-          "away": 1.43
+          "home": 2.85,
+          "away": 1.44
         }
       },
       "weather": "Sun 2 Aug: 17°C, 0% rain chance, overcast",
@@ -568,7 +568,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-08-02T01:44:33+10:00",
+  "generatedAt": "2026-08-02T06:14:45+10:00",
   "changes": [
     {
       "id": "r22-BRI-inj-adam-reynolds",
@@ -1048,6 +1048,30 @@ window.NRL_DATA = {
       "text": "Emre Guler (Prop) named in the Dragons 17.",
       "pts": 0.7,
       "ts": "2026-07-31T20:11:16+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-CRO-SOU-line-1.23-4.17",
+      "fixture": "CRO-SOU",
+      "team": "SOU",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $1.22 → $1.23, Rabbitohs $4.25 → $4.17. Market now 77% Sharks (was 78%).",
+      "pts": null,
+      "ts": "2026-08-02T06:14:45+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-WST-PAR-line-2.85-1.44",
+      "fixture": "WST-PAR",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Wests Tigers $2.88 → $2.85, Eels $1.43 → $1.44. Market now 34% Wests Tigers (was 33%).",
+      "pts": null,
+      "ts": "2026-08-02T06:14:45+10:00",
       "rnd": 22
     },
     {
