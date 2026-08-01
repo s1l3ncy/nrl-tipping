@@ -465,7 +465,7 @@ window.NRL_DATA = {
       "city": "Townsville",
       "kickoff": "2026-07-30T19:50:00+10:00",
       "odds": null,
-      "weather": "Sun 2 Aug: 25°C, 18% rain chance, overcast",
+      "weather": "Fri 7 Aug: 26°C, 18% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -476,7 +476,7 @@ window.NRL_DATA = {
       "city": "Wollongong",
       "kickoff": "2026-07-31T18:00:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 20°C, 31% rain chance, light drizzle",
+      "weather": "Mon 3 Aug: 20°C, 22% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -487,7 +487,7 @@ window.NRL_DATA = {
       "city": "Melbourne",
       "kickoff": "2026-07-31T20:00:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 14°C, 75% rain chance, drizzle",
+      "weather": "Mon 3 Aug: 14°C, 88% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Melbourne"
     },
@@ -498,7 +498,7 @@ window.NRL_DATA = {
       "city": "Gold Coast",
       "kickoff": "2026-08-01T15:00:00+10:00",
       "odds": null,
-      "weather": "Sun 2 Aug: 19°C, 51% rain chance, drizzle",
+      "weather": "Sun 2 Aug: 19°C, 85% rain chance, drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -509,7 +509,7 @@ window.NRL_DATA = {
       "city": "Mudgee",
       "kickoff": "2026-08-01T17:30:00+10:00",
       "odds": null,
-      "weather": "Mon 3 Aug: 15°C, 66% rain chance, light drizzle",
+      "weather": "Mon 3 Aug: 15°C, 80% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -520,7 +520,7 @@ window.NRL_DATA = {
       "city": "Brisbane",
       "kickoff": "2026-08-01T19:35:00+10:00",
       "odds": null,
-      "weather": "Sun 2 Aug: 19°C, 30% rain chance, light drizzle",
+      "weather": "Sun 2 Aug: 19°C, 80% rain chance, light drizzle",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -533,11 +533,11 @@ window.NRL_DATA = {
       "odds": {
         "open": {
           "home": 1.23,
-          "away": 4.17
+          "away": 4.25
         },
         "close": {
           "home": 1.23,
-          "away": 4.17
+          "away": 4.25
         }
       },
       "weather": "Sun 2 Aug: 17°C, 0% rain chance, overcast",
@@ -552,12 +552,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-02T16:05:00+10:00",
       "odds": {
         "open": {
-          "home": 2.85,
-          "away": 1.44
+          "home": 2.75,
+          "away": 1.45
         },
         "close": {
-          "home": 2.85,
-          "away": 1.44
+          "home": 2.75,
+          "away": 1.45
         }
       },
       "weather": "Sun 2 Aug: 17°C, 0% rain chance, overcast",
@@ -568,7 +568,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-08-02T06:14:45+10:00",
+  "generatedAt": "2026-08-02T08:47:44+10:00",
   "changes": [
     {
       "id": "r22-BRI-inj-adam-reynolds",
@@ -583,39 +583,51 @@ window.NRL_DATA = {
       "rnd": 22
     },
     {
-      "id": "r22-MEL-inj-jahrome-hughes",
+      "id": "r22-MEL-CAN-wx-4",
       "fixture": "MEL-CAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Storm: Jahrome Hughes (Hamstring) — new on the injury list.",
-      "pts": 3.3,
-      "ts": "2026-07-31T20:11:16+10:00",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Melbourne updated — Mon 3 Aug: 14°C, 88% rain chance, drizzle (was 75% rain).",
+      "pts": null,
+      "ts": "2026-08-02T08:47:44+10:00",
       "rnd": 22
     },
     {
-      "id": "r22-DOL-in-isaiya-katoa",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "in",
-      "sev": 3,
-      "dir": "up",
-      "text": "Isaiya Katoa (Halfback) named in the Dolphins 17.",
-      "pts": 3.3,
-      "ts": "2026-07-31T20:11:16+10:00",
+      "id": "r22-GLD-NZW-wx-4",
+      "fixture": "GLD-NZW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Gold Coast updated — Sun 2 Aug: 19°C, 85% rain chance, drizzle (was 51% rain).",
+      "pts": null,
+      "ts": "2026-08-02T08:47:44+10:00",
       "rnd": 22
     },
     {
-      "id": "r22-MEL-out-jahrome-hughes",
-      "fixture": "MEL-CAN",
-      "team": "MEL",
-      "cat": "out",
-      "sev": 3,
-      "dir": "down",
-      "text": "Jahrome Hughes (Halfback) is out of the Storm 17.",
-      "pts": 3.3,
-      "ts": "2026-07-31T20:11:16+10:00",
+      "id": "r22-PEN-CBR-wx-4",
+      "fixture": "PEN-CBR",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Mudgee updated — Mon 3 Aug: 15°C, 80% rain chance, light drizzle (was 66% rain).",
+      "pts": null,
+      "ts": "2026-08-02T08:47:44+10:00",
+      "rnd": 22
+    },
+    {
+      "id": "r22-BRI-NEW-wx-4",
+      "fixture": "BRI-NEW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Brisbane updated — Sun 2 Aug: 19°C, 80% rain chance, light drizzle (was 30% rain).",
+      "pts": null,
+      "ts": "2026-08-02T08:47:44+10:00",
       "rnd": 22
     },
     {
@@ -883,171 +895,15 @@ window.NRL_DATA = {
       "rnd": 22
     },
     {
-      "id": "r22-MEL-CAN-line-2.84-1.29",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
+      "id": "r22-WST-PAR-line-2.75-1.45",
+      "fixture": "WST-PAR",
+      "team": "WST",
       "cat": "line",
-      "sev": 2,
+      "sev": 1,
       "dir": "up",
-      "text": "Line moved — Storm $2.60 → $2.84, Bulldogs $1.50 → $1.29. Market now 31% Storm (was 37%).",
+      "text": "Line moved — Wests Tigers $2.85 → $2.75, Eels $1.44 → $1.45. Market now 35% Wests Tigers (was 34%).",
       "pts": null,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-GLD-NZW-wx-1",
-      "fixture": "GLD-NZW",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Gold Coast updated — Sat 1 Aug: 19°C, 29% rain chance, light drizzle (was 63% rain).",
-      "pts": null,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CBR-inj-simi-sasagi",
-      "fixture": "PEN-CBR",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Raiders: Simi Sasagi (Hamstring) — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-MEL-fit-harry-grant",
-      "fixture": "MEL-CAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Harry Grant is off the injury list.",
-      "pts": 4.4,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CAN-out-jake-turpin",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jake Turpin (Hooker) is out of the Bulldogs 17.",
-      "pts": 2.0,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CAN-in-jonathan-sua",
-      "fixture": "MEL-CAN",
-      "team": "CAN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jonathan Sua (Winger) named in the Bulldogs 17.",
-      "pts": 1.2,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CBR-out-simi-sasagi",
-      "fixture": "PEN-CBR",
-      "team": "CBR",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Simi Sasagi (Centre) is out of the Raiders 17.",
-      "pts": 1.9,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-CBR-in-savelio-tamale",
-      "fixture": "PEN-CBR",
-      "team": "CBR",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Savelio Tamale (Winger) named in the Raiders 17.",
-      "pts": 1.8,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-DOL-out-jake-averillo",
-      "fixture": "STI-DOL",
-      "team": "DOL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jake Averillo (Centre) is out of the Dolphins 17.",
-      "pts": 1.9,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-MEL-in-jai-bowden",
-      "fixture": "MEL-CAN",
-      "team": "MEL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jai Bowden named in the Storm 17.",
-      "pts": 0.6,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NZW-out-demitric-vaimauga",
-      "fixture": "GLD-NZW",
-      "team": "NZW",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Demitric Vaimauga (Prop) is out of the Warriors 17.",
-      "pts": 0.9,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-NZW-in-riley-price",
-      "fixture": "GLD-NZW",
-      "team": "NZW",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Riley Price named in the Warriors 17.",
-      "pts": 0.6,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-out-mathew-feagai",
-      "fixture": "STI-DOL",
-      "team": "STI",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Mathew Feagai (Winger) is out of the Dragons 17.",
-      "pts": 1.2,
-      "ts": "2026-07-31T20:11:16+10:00",
-      "rnd": 22
-    },
-    {
-      "id": "r22-STI-in-emre-guler",
-      "fixture": "STI-DOL",
-      "team": "STI",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Emre Guler (Prop) named in the Dragons 17.",
-      "pts": 0.7,
-      "ts": "2026-07-31T20:11:16+10:00",
+      "ts": "2026-08-02T08:47:44+10:00",
       "rnd": 22
     },
     {
@@ -1147,5 +1003,5 @@ window.NRL_DATA = {
       "rnd": 22
     }
   ],
-  "changesSince": "2026-07-31T20:11:16+10:00"
+  "changesSince": "2026-08-01T03:13:57+10:00"
 };
