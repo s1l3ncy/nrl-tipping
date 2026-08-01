@@ -557,6 +557,7 @@ details.plain>summary:hover{color:var(--text)}
 <script src="nrl_learned.js"></script>
 <script src="nrl_players.js"></script>
 <script src="nrl_lineups.js"></script>
+<script src="nrl_tiplog.js"></script>
 
 <header class="topnav">
   <div class="wrap navrow">
@@ -1381,7 +1382,19 @@ function snapTips(preds,fxList){
   });
   if(dirty) saveSnaps();
 }
+/* The pipeline's server-side freeze (nrl_tiplog.js, same on every device) is
+   the source of truth; this browser's own pre-kick-off snapshot is the backup
+   (covers a tip shown here between two workflow runs); the lock rule always
+   grades a Roosters game. */
+let TIPLOG=(typeof window!=="undefined" && window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips))
+  ? window.NRL_TIPLOG.tips : [];
+function tiplogFind(season,round,h,a){
+  return TIPLOG.find(t=>t && t.season===season && t.round===round &&
+    ((t.home===h&&t.away===a)||(t.home===a&&t.away===h))) || null;
+}
 function gradedTip(p){
+  const srv=tiplogFind(SRC.season,SRC.round,p.h.short,p.a.short);
+  if(srv && srv.tip && T(srv.tip)) return {short:srv.tip, known:true, locked:srv.tip===LOCK};
   const snap=SNAPS[snapId(p)];
   if(snap && snap.tip && T(snap.tip)) return {short:snap.tip, known:true, locked:snap.tip===LOCK};
   if(p.h.short===LOCK||p.a.short===LOCK) return {short:LOCK, known:true, locked:true}; // the rule IS the tip
@@ -1400,6 +1413,9 @@ function myRecord(){
     const winner=r.hs>r.as?r.home:r.away;
     if(winner===tipShort) w++; else l++;
   };
+  // the pipeline's log first (identical on every device, auto-accumulating)…
+  TIPLOG.forEach(t=>{ if(t && t.season===SRC.season && T(t.tip)) grade(t.round,t.home,t.away,t.tip); });
+  // …then anything only this browser saw between workflow runs…
   Object.keys(SNAPS).forEach(k=>{
     const m=k.match(/^(\d+)-(\d+)-([A-Z]{3})-([A-Z]{3})$/);
     if(!m||+m[1]!==SRC.season) return;
@@ -2167,10 +2183,11 @@ function hydrateData(){
   learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
   PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
   HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
+  TIPLOG = (window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips)) ? window.NRL_TIPLOG.tips : TIPLOG;
 }
 function refreshFromNetwork(){
   if(!/^https?:$/.test(location.protocol)) return;      // file:// → keep offline data
-  const files=['nrl_data.js','nrl_learned.js','nrl_players.js','nrl_lineups.js'];
+  const files=['nrl_data.js','nrl_learned.js','nrl_players.js','nrl_lineups.js','nrl_tiplog.js'];
   let done=0;
   const finish=()=>{ if(++done===files.length){ hydrateData(); loadState(); render(); } };
   files.forEach(f=>{

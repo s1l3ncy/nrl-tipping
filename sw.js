@@ -17,9 +17,9 @@
  * file (file://) bypasses this entirely and uses the baked-in data, exactly as
  * before — so the offline-as-a-local-file guarantee is preserved.
  */
-const CACHE = 'nrl-tips-v4';   // v4: 2026-07-30 Roosters redesign + app icons
+const CACHE = 'nrl-tips-v5';   // v5: 2026-08-02 server-side tip log (nrl_tiplog.js)
 const CORE = ['./', './index.html', './nrl_data.js', './nrl_learned.js', './nrl_players.js',
-              './nrl_lineups.js', './apple-touch-icon.png', './favicon-32.png'];
+              './nrl_lineups.js', './nrl_tiplog.js', './apple-touch-icon.png', './favicon-32.png'];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
