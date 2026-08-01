@@ -568,7 +568,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MAN"
   ],
-  "generatedAt": "2026-08-02T09:17:16+10:00",
+  "generatedAt": "2026-08-02T09:38:06+10:00",
   "changes": [
     {
       "id": "r22-BRI-inj-adam-reynolds",
