@@ -384,7 +384,7 @@ button.ghost:hover{color:var(--text);border-color:rgba(255,70,85,.5)}
 .statbox .big{font-size:44px;font-weight:850;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1}
 .statbox .lbl{font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:1px;
   margin-top:7px;font-weight:750}
-.statbox.lock .big{color:var(--roosters)} .statbox.model .big{color:var(--accent2)}
+.statbox.you .big{color:var(--text)} .statbox.lock .big{color:var(--roosters)} .statbox.model .big{color:var(--accent2)}
 .samplenote{font-size:12.5px;font-weight:500;color:var(--faint);margin-top:8px;text-align:center}
 .bar-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 label{font-size:13px;color:var(--sub)}
@@ -653,8 +653,9 @@ details.plain>summary:hover{color:var(--text)}
         <div class="sec-h"><h2>How it's doing</h2><span class="hint">updates itself</span></div>
         <p class="note">As each game finishes, the app fetches the score, re-rates every team and grades its own past tips.</p>
         <div class="statgrid">
-          <div class="statbox model"><div class="big" id="accModel">–</div><div class="lbl">Tips correct (season)</div></div>
-          <div class="statbox lock"><div class="big" id="accLock">–</div><div class="lbl">Roosters record</div></div>
+          <div class="statbox you"><div class="big" id="accYou">–</div><div class="lbl">Your tips (graded)</div></div>
+          <div class="statbox model"><div class="big" id="accModel">–</div><div class="lbl">Model backtest (whole season)</div></div>
+          <div class="statbox lock"><div class="big" id="accLock">–</div><div class="lbl">Roosters season W-L (the team)</div></div>
         </div>
         <div class="samplenote" id="accNote"></div>
         <div class="samplenote" id="rkTax" style="color:var(--amber-text);margin-top:6px"></div>
@@ -1235,8 +1236,12 @@ function render(){
   const chgByFx = renderChanges();
 
   // predictions
-  const preds = fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
+  const fxList = fixtures.filter(f=>T(f.home)&&T(f.away));
+  const preds = fxList.map(predict);
   const skipped = fixtures.length - preds.length;
+  // Freeze the tip being displayed for every game that hasn't kicked off —
+  // this is what full-time grading reads. See the snapshot block above.
+  snapTips(preds,fxList);
 
   // comp format mode + confidence ranking + upset-of-the-week
   const compMode = getCompMode();
@@ -1261,7 +1266,8 @@ function render(){
     const tip = tipSide(p); const isRk=(p.h.short===LOCK||p.a.short===LOCK);
     const fin=fixtureResult(p);
     if(fin){
-      const good=fin.winner? (tip===fin.winner) : null;
+      const g=gradedTip(p);
+      const good=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
       return `<div class="qline done"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
         `<span class="pick ${isRk?'rk':''}">${fin.winner?esc(fin.winner.short):'Draw'} ${fin.hs}–${fin.as} `+
         `${good===null?'':good?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</span></div>`;
@@ -1335,6 +1341,76 @@ function fixtureResult(p){
   const hs=flip?r.as:r.hs, as=flip?r.hs:r.as;
   return {hs:hs, as:as, winner: hs>as?p.h : as>hs?p.a : null};
 }
+/* ---------- pre-kick-off tip snapshots (2026-08-02) ----------
+   THE bug this fixes: the full-time card used to grade tipSide() recomputed
+   TODAY — after learn_model had already folded the game's own result into the
+   Elo, and after the market's price disappeared — so a tip that flipped
+   post-game was "graded" with hindsight and claimed ✓ for a pick that was
+   never shown. (BRI v NEW, R22: the blend said Broncos before kick-off; the
+   post-game recompute said Knights; Knights won; the card said "got it".)
+   Now: every render BEFORE a game's kick-off freezes the tip it is actually
+   displaying into localStorage, and grading only ever reads that frozen pick.
+   The one exception that needs no snapshot is the Roosters lock — that tip is
+   a rule, not a computation, so it is always known. No snapshot, no lock →
+   no ✓/✗ claim at all. */
+const SNAP_KEY='nrl_snap_v1';
+let SNAPS={};
+try{ SNAPS=JSON.parse(localStorage.getItem(SNAP_KEY)||'{}')||{}; }catch(e){ SNAPS={}; }
+function snapId(p){ return `${SRC.season}-${SRC.round}-${p.h.short}-${p.a.short}`; }
+function saveSnaps(){
+  try{
+    const keys=Object.keys(SNAPS);
+    if(keys.length>200){ keys.sort((a,b)=>(SNAPS[a].ts||0)-(SNAPS[b].ts||0))
+      .slice(0,keys.length-200).forEach(k=>{ delete SNAPS[k]; }); }
+    localStorage.setItem(SNAP_KEY,JSON.stringify(SNAPS));
+  }catch(e){}
+}
+function snapTips(preds,fxList){
+  let dirty=false;
+  preds.forEach((p,i)=>{
+    const fx=fxList[i]||{};
+    if(fixtureResult(p)) return;                                    // already played
+    const ko=fx.kickoff?Date.parse(fx.kickoff):NaN;
+    if(!isNaN(ko) && Date.now()>=ko) return;                        // under way — too late to change
+    const tip=tipSide(p);
+    const cur=SNAPS[snapId(p)];
+    if(!cur || cur.tip!==tip.short){
+      SNAPS[snapId(p)]={tip:tip.short, ts:Date.now(), ko:fx.kickoff||null};
+      dirty=true;
+    }
+  });
+  if(dirty) saveSnaps();
+}
+function gradedTip(p){
+  const snap=SNAPS[snapId(p)];
+  if(snap && snap.tip && T(snap.tip)) return {short:snap.tip, known:true, locked:snap.tip===LOCK};
+  if(p.h.short===LOCK||p.a.short===LOCK) return {short:LOCK, known:true, locked:true}; // the rule IS the tip
+  return {known:false};
+}
+/* Your actual record: every frozen tip (any round) graded against the results
+   memory, plus lock games in the current round (tip known by rule). */
+function myRecord(){
+  const res=(LEARNED&&LEARNED.results)||[];
+  const done={}; let w=0,l=0;
+  const grade=(rnd,h,a,tipShort)=>{
+    const k=`${rnd}-${h}-${a}`; if(done[k]) return; 
+    const r=res.find(x=>x.round===rnd&&((x.home===h&&x.away===a)||(x.home===a&&x.away===h)));
+    if(!r||r.hs===r.as) return;
+    done[k]=1;
+    const winner=r.hs>r.as?r.home:r.away;
+    if(winner===tipShort) w++; else l++;
+  };
+  Object.keys(SNAPS).forEach(k=>{
+    const m=k.match(/^(\d+)-(\d+)-([A-Z]{3})-([A-Z]{3})$/);
+    if(!m||+m[1]!==SRC.season) return;
+    grade(+m[2],m[3],m[4],SNAPS[k].tip);
+  });
+  fixtures.forEach(f=>{
+    if(f.home!==LOCK&&f.away!==LOCK) return;
+    grade(SRC.round,f.home,f.away,LOCK);
+  });
+  return {w:w,l:l,n:w+l};
+}
 function kickShort(fx){
   if(!fx||!fx.kickoff) return '';
   const t=Date.parse(fx.kickoff); if(isNaN(t)) return '';
@@ -1382,8 +1458,8 @@ function cardHTML(p,meta){
   // ---- FULL TIME state: score + winner + how the tip went, nothing else ----
   const fin=fixtureResult(p);
   if(fin){
-    const tip=tipSide(p);
-    const correct=fin.winner? (tip===fin.winner) : null;
+    const g=gradedTip(p);   // the tip as it stood BEFORE kick-off — never recomputed
+    const correct=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
     const rkWon=!!(fin.winner&&fin.winner.short===LOCK);
     return `<div class="gcard final${(rkHome||rkAway)?' haslock':''}">
       <div class="gtop"><span class="gwhen ft">Full time</span>${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>
@@ -1394,7 +1470,7 @@ function cardHTML(p,meta){
       </div>
       <div class="gfinal">
         <span class="gtippill${rkWon?' gold':''}">${fin.winner?`${esc(fin.winner.name)} won`:'Draw'}${rkWon?' 🐓':''}</span>
-        <span class="gconf">${correct===null?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(tip.name)} — got it</span>`:`<span class="no">✗ tipped ${esc(tip.name)}</span>`}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
+        <span class="gconf">${!g.known?`final — no pre-game tip on record`:!fin.winner?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(T(g.short).name)} — got it</span>`:`<span class="no">✗ tipped ${esc(T(g.short).name)}</span>`}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
       </div>
     </div>`;
   }
@@ -1790,7 +1866,15 @@ function renderAcc(){
   const res = (L && Array.isArray(L.results)) ? L.results : [];
   const bt = (L && L.backtest) ? L.backtest : null;
 
-  // Season tip accuracy — straight from the auto-computed backtest.
+  // YOUR record: only tips frozen before kick-off (plus the lock, which is a
+  // rule and always known). Starts counting from when you started using the
+  // app — it never back-fills from games you didn't tip.
+  const mine=myRecord();
+  const yEl=document.getElementById('accYou');
+  if(yEl) yEl.textContent = mine.n ? `${mine.w}-${mine.l}` : '–';
+
+  // The MODEL's number is a walk-forward backtest over the season's results
+  // memory — "what it would have tipped" — NOT your record.
   document.getElementById('accModel').textContent =
     (bt && typeof bt.hit==='number' && bt.games) ? `${Math.round(bt.hit*100)}%` : '–';
 
@@ -1810,16 +1894,17 @@ function renderAcc(){
   const games = (L && L.gamesLearned) || 0;
   let note='';
   if(bt && typeof bt.brier==='number' && bt.games) note += `Model precision ${bt.brier.toFixed(3)} (lower is better, 0.25 = coin-flip) over ${bt.games} game(s). `;
-  note += games ? `Learning from ${games} game(s)${(L && L.lowConfidence)?' — still warming up, using the simple model until it has seen ~30.':'.'}`
-                : 'Results feed in automatically as games finish — nothing for you to enter.';
+  note += games ? `Learning from ${games} game(s)${(L && L.lowConfidence)?' — still warming up, using the simple model until it has seen ~30.':'.'} `
+                : 'Results feed in automatically as games finish — nothing for you to enter. ';
+  note += `"Your tips" counts only picks locked in before kick-off, from when you started using the app — the backtest and the Roosters' W-L cover the whole season either way.`;
   document.getElementById('accNote').textContent = note;
 
   const el=document.getElementById('rkTax');
   if(rkTot){
     const tax = modelRight - rw; // model's correct picks minus Roosters' actual wins, on Roosters games
-    el.textContent = tax>0 ? `Loyalty cost: always tipping the Roosters has cost about ${tax} tip(s) vs the model over ${rkTot} Roosters game(s) this season.`
-      : tax<0 ? `Loyalty bonus: the Roosters rule is ${-tax} tip(s) ahead of the model over ${rkTot} game(s).`
-      : `The Roosters rule is level with the model over ${rkTot} game(s).`;
+    el.textContent = tax>0 ? `Loyalty cost (backtest): always tipping the Roosters would have cost about ${tax} tip(s) vs the model across the season's ${rkTot} Roosters game(s).`
+      : tax<0 ? `Loyalty bonus (backtest): the Roosters rule would be ${-tax} tip(s) ahead of the model across ${rkTot} game(s).`
+      : `The Roosters rule is level with the model across ${rkTot} game(s) (backtest).`;
   } else el.textContent='';
 }
 // Would the model favour the HOME side in this matchup? (uses learned Elo when active, else the heuristic)
