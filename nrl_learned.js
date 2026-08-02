@@ -5,13 +5,13 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6605 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6585 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
   "updated": "2026-08-02",
-  "gamesLearned": 162,
+  "gamesLearned": 164,
   "lowConfidence": false,
   "params": {
-    "homeAdv": 0.34,
+    "homeAdv": 0.41,
     "logisticScale": 5,
     "oddsWeight": 0.5,
     "eloK": 10,
@@ -21,9 +21,9 @@ window.NRL_LEARNED = {
     "PEN": 1637.8,
     "SYD": 1621.1,
     "NZW": 1602.8,
-    "CRO": 1604.8,
+    "CRO": 1614.0,
     "DOL": 1578.5,
-    "SOU": 1523.5,
+    "SOU": 1514.3,
     "NEW": 1551.6,
     "NQL": 1497.6,
     "MAN": 1498.1,
@@ -31,16 +31,16 @@ window.NRL_LEARNED = {
     "CBR": 1480.8,
     "MEL": 1459.2,
     "BRI": 1390.7,
-    "PAR": 1409.4,
-    "WST": 1391.8,
+    "PAR": 1423.6,
+    "WST": 1377.6,
     "GLD": 1423.1,
     "STI": 1324.4
   },
   "backtest": {
-    "games": 162,
-    "brier": 0.2339,
-    "logloss": 0.6605,
-    "hit": 0.642,
+    "games": 164,
+    "brier": 0.233,
+    "logloss": 0.6585,
+    "hit": 0.6402,
     "marketBrier": null
   },
   "history": [
@@ -73,6 +73,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-02",
       "games": 162,
       "brier": 0.2339
+    },
+    {
+      "date": "2026-08-02",
+      "games": 164,
+      "brier": 0.233
     }
   ],
   "results": [
@@ -1209,6 +1214,20 @@ window.NRL_LEARNED = {
       "away": "NEW",
       "hs": 6,
       "as": 30
+    },
+    {
+      "round": 22,
+      "home": "CRO",
+      "away": "SOU",
+      "hs": 32,
+      "as": 16
+    },
+    {
+      "round": 22,
+      "home": "WST",
+      "away": "PAR",
+      "hs": 13,
+      "as": 16
     }
   ]
 };
