@@ -1,11 +1,11 @@
 # Round 23 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-03T08:41:29. Decimal odds; a fixture is omitted entirely until its market opens.
-# Median of 9–11 Australian bookmaker(s) per price (86 book quotes across 8 fixtures).
+# Fetched 2026-08-03T09:44:38. Decimal odds; a fixture is omitted entirely until its market opens.
+# Median of 11 Australian bookmaker(s) per price (88 book quotes across 8 fixtures).
 Titans v Cowboys: 2.30 / 1.62
-Warriors v Panthers: 2.45 / 1.54
-Roosters v Bulldogs: 1.36 / 3.10
+Warriors v Panthers: 2.48 / 1.53
+Roosters v Bulldogs: 1.38 / 3.05
 Storm v Sea Eagles: 1.95 / 1.85
 Dolphins v Broncos: 1.46 / 2.70
-Rabbitohs v Eels: 1.43 / 2.75
-Raiders v Knights: 1.62 / 2.28
-Dragons v Sharks: 4.75 / 1.19
+Rabbitohs v Eels: 1.44 / 2.80
+Raiders v Knights: 1.63 / 2.28
+Dragons v Sharks: 4.60 / 1.19

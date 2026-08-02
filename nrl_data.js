@@ -486,12 +486,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-07T20:00:00+12:00",
       "odds": {
         "open": {
-          "home": 2.45,
-          "away": 1.54
+          "home": 2.48,
+          "away": 1.53
         },
         "close": {
-          "home": 2.45,
-          "away": 1.54
+          "home": 2.48,
+          "away": 1.53
         }
       },
       "weather": "Fri 7 Aug: 12°C, 10% rain chance, overcast",
@@ -506,12 +506,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-07T20:00:00+10:00",
       "odds": {
         "open": {
-          "home": 1.36,
-          "away": 3.1
+          "home": 1.38,
+          "away": 3.05
         },
         "close": {
-          "home": 1.36,
-          "away": 3.1
+          "home": 1.38,
+          "away": 3.05
         }
       },
       "weather": "Fri 7 Aug: 16°C, 9% rain chance, clear",
@@ -566,12 +566,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-08T19:35:00+10:00",
       "odds": {
         "open": {
-          "home": 1.43,
-          "away": 2.75
+          "home": 1.44,
+          "away": 2.8
         },
         "close": {
-          "home": 1.43,
-          "away": 2.75
+          "home": 1.44,
+          "away": 2.8
         }
       },
       "weather": "Sat 8 Aug: 17°C, 8% rain chance, light drizzle",
@@ -586,11 +586,11 @@ window.NRL_DATA = {
       "kickoff": "2026-08-09T14:00:00+10:00",
       "odds": {
         "open": {
-          "home": 1.62,
+          "home": 1.63,
           "away": 2.28
         },
         "close": {
-          "home": 1.62,
+          "home": 1.63,
           "away": 2.28
         }
       },
@@ -606,11 +606,11 @@ window.NRL_DATA = {
       "kickoff": "2026-08-09T16:05:00+10:00",
       "odds": {
         "open": {
-          "home": 4.75,
+          "home": 4.6,
           "away": 1.19
         },
         "close": {
-          "home": 4.75,
+          "home": 4.6,
           "away": 1.19
         }
       },
@@ -622,8 +622,56 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-03T08:41:43+10:00",
+  "generatedAt": "2026-08-03T09:44:52+10:00",
   "changes": [
+    {
+      "id": "r23-NZW-PEN-line-2.48-1.53",
+      "fixture": "NZW-PEN",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $2.45 → $2.48, Panthers $1.54 → $1.53. Market now 38% Warriors (was 39%).",
+      "pts": null,
+      "ts": "2026-08-03T09:44:52+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SYD-CAN-line-1.38-3.05",
+      "fixture": "SYD-CAN",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.36 → $1.38, Bulldogs $3.10 → $3.05. Market now 69% Roosters (was 70%).",
+      "pts": null,
+      "ts": "2026-08-03T09:44:52+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SOU-PAR-line-1.44-2.80",
+      "fixture": "SOU-PAR",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.43 → $1.44, Eels $2.75 → $2.80. Market now 66% Rabbitohs (was 66%).",
+      "pts": null,
+      "ts": "2026-08-03T09:44:52+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-STI-CRO-line-4.60-1.19",
+      "fixture": "STI-CRO",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $4.75 → $4.60, Sharks $1.19 → $1.19. Market now 21% Dragons (was 20%).",
+      "pts": null,
+      "ts": "2026-08-03T09:44:52+10:00",
+      "rnd": 23
+    },
     {
       "id": "r23-GLD-NQL-line-2.30-1.62",
       "fixture": "GLD-NQL",
@@ -685,5 +733,5 @@ window.NRL_DATA = {
       "rnd": 23
     }
   ],
-  "changesSince": "2026-08-03T06:16:45+10:00"
+  "changesSince": "2026-08-03T08:41:43+10:00"
 };

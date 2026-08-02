@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-02T22:41:50.629Z",
+ "updated": "2026-08-02T23:45:00.164Z",
  "tips": [
   {
    "season": 2026,
@@ -30,7 +30,7 @@ window.NRL_TIPLOG = {
    "away": "NEW",
    "tip": "CBR",
    "ko": "2026-08-09T14:00:00+10:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -39,7 +39,7 @@ window.NRL_TIPLOG = {
    "away": "BRI",
    "tip": "DOL",
    "ko": "2026-08-08T17:30:00+10:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -48,7 +48,7 @@ window.NRL_TIPLOG = {
    "away": "NQL",
    "tip": "NQL",
    "ko": "2026-08-06T19:50:00+10:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -57,7 +57,7 @@ window.NRL_TIPLOG = {
    "away": "MAN",
    "tip": "MAN",
    "ko": "2026-08-08T13:00:00+08:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -66,7 +66,7 @@ window.NRL_TIPLOG = {
    "away": "PEN",
    "tip": "PEN",
    "ko": "2026-08-07T20:00:00+12:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -75,7 +75,7 @@ window.NRL_TIPLOG = {
    "away": "PAR",
    "tip": "SOU",
    "ko": "2026-08-08T19:35:00+10:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -84,7 +84,7 @@ window.NRL_TIPLOG = {
    "away": "CRO",
    "tip": "CRO",
    "ko": "2026-08-09T16:05:00+10:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   },
   {
    "season": 2026,
@@ -93,7 +93,7 @@ window.NRL_TIPLOG = {
    "away": "CAN",
    "tip": "SYD",
    "ko": "2026-08-07T20:00:00+10:00",
-   "ts": "2026-08-02T22:41:50.629Z"
+   "ts": "2026-08-02T23:45:00.164Z"
   }
  ]
 };
