@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-02T15:48:22.055Z",
+ "updated": "2026-08-02T20:16:47.551Z",
  "tips": [
   {
    "season": 2026,
@@ -22,6 +22,78 @@ window.NRL_TIPLOG = {
    "tip": "PAR",
    "ko": "2026-08-02T16:05:00+10:00",
    "ts": "2026-08-01T23:43:45.006Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "CBR",
+   "away": "NEW",
+   "tip": "CBR",
+   "ko": "2026-08-09T14:00:00+10:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "DOL",
+   "away": "BRI",
+   "tip": "DOL",
+   "ko": "2026-08-08T17:30:00+10:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "GLD",
+   "away": "NQL",
+   "tip": "NQL",
+   "ko": "2026-08-06T19:50:00+10:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "MEL",
+   "away": "MAN",
+   "tip": "MAN",
+   "ko": "2026-08-08T13:00:00+08:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "NZW",
+   "away": "PEN",
+   "tip": "PEN",
+   "ko": "2026-08-07T20:00:00+12:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "SOU",
+   "away": "PAR",
+   "tip": "SOU",
+   "ko": "2026-08-08T19:35:00+10:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "STI",
+   "away": "CRO",
+   "tip": "CRO",
+   "ko": "2026-08-09T16:05:00+10:00",
+   "ts": "2026-08-02T20:16:47.551Z"
+  },
+  {
+   "season": 2026,
+   "round": 23,
+   "home": "SYD",
+   "away": "CAN",
+   "tip": "SYD",
+   "ko": "2026-08-07T20:00:00+10:00",
+   "ts": "2026-08-02T20:16:47.551Z"
   }
  ]
 };
