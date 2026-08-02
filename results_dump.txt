@@ -183,3 +183,5 @@ Storm 22 - Bulldogs 36
 Titans 6 - Warriors 42
 Panthers 42 - Raiders 18
 Broncos 6 - Knights 30
+Sharks 32 - Rabbitohs 16
+Wests Tigers 13 - Eels 16
