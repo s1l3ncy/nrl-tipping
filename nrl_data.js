@@ -466,11 +466,11 @@ window.NRL_DATA = {
       "kickoff": "2026-08-06T19:50:00+10:00",
       "odds": {
         "open": {
-          "home": 2.25,
+          "home": 2.3,
           "away": 1.62
         },
         "close": {
-          "home": 2.25,
+          "home": 2.3,
           "away": 1.62
         }
       },
@@ -506,12 +506,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-07T20:00:00+10:00",
       "odds": {
         "open": {
-          "home": 1.37,
-          "away": 3.0
+          "home": 1.36,
+          "away": 3.1
         },
         "close": {
-          "home": 1.37,
-          "away": 3.0
+          "home": 1.36,
+          "away": 3.1
         }
       },
       "weather": "Fri 7 Aug: 16°C, 9% rain chance, clear",
@@ -546,12 +546,12 @@ window.NRL_DATA = {
       "kickoff": "2026-08-08T17:30:00+10:00",
       "odds": {
         "open": {
-          "home": 1.48,
-          "away": 2.62
+          "home": 1.46,
+          "away": 2.7
         },
         "close": {
-          "home": 1.48,
-          "away": 2.62
+          "home": 1.46,
+          "away": 2.7
         }
       },
       "weather": "Sat 8 Aug: 21°C, 29% rain chance, mainly clear",
@@ -567,11 +567,11 @@ window.NRL_DATA = {
       "odds": {
         "open": {
           "home": 1.43,
-          "away": 2.77
+          "away": 2.75
         },
         "close": {
           "home": 1.43,
-          "away": 2.77
+          "away": 2.75
         }
       },
       "weather": "Sat 8 Aug: 17°C, 8% rain chance, light drizzle",
@@ -587,11 +587,11 @@ window.NRL_DATA = {
       "odds": {
         "open": {
           "home": 1.62,
-          "away": 2.27
+          "away": 2.28
         },
         "close": {
           "home": 1.62,
-          "away": 2.27
+          "away": 2.28
         }
       },
       "weather": "Sun 9 Aug: 8°C, 71% rain chance, heavy drizzle",
@@ -607,11 +607,11 @@ window.NRL_DATA = {
       "odds": {
         "open": {
           "home": 4.75,
-          "away": 1.18
+          "away": 1.19
         },
         "close": {
           "home": 4.75,
-          "away": 1.18
+          "away": 1.19
         }
       },
       "weather": null,
@@ -622,7 +622,68 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-03T06:16:45+10:00",
-  "changes": [],
-  "changesSince": "2026-08-03T01:48:17+10:00"
+  "generatedAt": "2026-08-03T08:41:43+10:00",
+  "changes": [
+    {
+      "id": "r23-GLD-NQL-line-2.30-1.62",
+      "fixture": "GLD-NQL",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $2.25 → $2.30, Cowboys $1.62 → $1.62. Market now 41% Titans (was 42%).",
+      "pts": null,
+      "ts": "2026-08-03T08:41:43+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SYD-CAN-line-1.36-3.10",
+      "fixture": "SYD-CAN",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.37 → $1.36, Bulldogs $3.00 → $3.10. Market now 70% Roosters (was 69%).",
+      "pts": null,
+      "ts": "2026-08-03T08:41:43+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-DOL-BRI-line-1.46-2.70",
+      "fixture": "DOL-BRI",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.48 → $1.46, Broncos $2.62 → $2.70. Market now 65% Dolphins (was 64%).",
+      "pts": null,
+      "ts": "2026-08-03T08:41:43+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SOU-PAR-line-1.43-2.75",
+      "fixture": "SOU-PAR",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.43 → $1.43, Eels $2.77 → $2.75. Market now 66% Rabbitohs (was 66%).",
+      "pts": null,
+      "ts": "2026-08-03T08:41:43+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-STI-CRO-line-4.75-1.19",
+      "fixture": "STI-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $4.75 → $4.75, Sharks $1.18 → $1.19. Market now 20% Dragons (was 20%).",
+      "pts": null,
+      "ts": "2026-08-03T08:41:43+10:00",
+      "rnd": 23
+    }
+  ],
+  "changesSince": "2026-08-03T06:16:45+10:00"
 };
