@@ -1,14 +1,14 @@
 # per-game-day forecast per host city (Open-Meteo)
-Auckland|2026-08-07: Fri 7 Aug: 12°C, 10% rain chance, overcast
-Auckland: Fri 7 Aug: 12°C, 10% rain chance, overcast
-Brisbane|2026-08-08: Sat 8 Aug: 21°C, 29% rain chance, mainly clear
-Brisbane: Sat 8 Aug: 21°C, 29% rain chance, mainly clear
-Canberra|2026-08-09: Sun 9 Aug: 8°C, 71% rain chance, heavy drizzle
-Canberra: Sun 9 Aug: 8°C, 71% rain chance, heavy drizzle
-Gold Coast|2026-08-06: Thu 6 Aug: 20°C, 10% rain chance, overcast
-Gold Coast: Thu 6 Aug: 20°C, 10% rain chance, overcast
-Melbourne: Tue 4 Aug: 13°C, 78% rain chance, heavy drizzle
-Sydney|2026-08-07: Fri 7 Aug: 16°C, 9% rain chance, clear
-Sydney|2026-08-08: Sat 8 Aug: 17°C, 8% rain chance, light drizzle
-Sydney: Fri 7 Aug: 16°C, 9% rain chance, clear
-Wollongong: Mon 3 Aug: 20°C, 24% rain chance, light drizzle
+Auckland|2026-08-07: Fri 7 Aug: 11°C, 2% rain chance, overcast
+Auckland: Fri 7 Aug: 11°C, 2% rain chance, overcast
+Brisbane|2026-08-08: Sat 8 Aug: 21°C, 14% rain chance, overcast
+Brisbane: Sat 8 Aug: 21°C, 14% rain chance, overcast
+Canberra|2026-08-09: Sun 9 Aug: 10°C, 76% rain chance, showers
+Canberra: Sun 9 Aug: 10°C, 76% rain chance, showers
+Gold Coast|2026-08-06: Thu 6 Aug: 20°C, 4% rain chance, overcast
+Gold Coast: Thu 6 Aug: 20°C, 4% rain chance, overcast
+Melbourne: Tue 4 Aug: 13°C, 96% rain chance, showers
+Sydney|2026-08-07: Fri 7 Aug: 16°C, 4% rain chance, mainly clear
+Sydney|2026-08-08: Sat 8 Aug: 17°C, 8% rain chance, overcast
+Sydney: Fri 7 Aug: 16°C, 4% rain chance, mainly clear
+Wollongong: Mon 3 Aug: 20°C, 71% rain chance, light drizzle
