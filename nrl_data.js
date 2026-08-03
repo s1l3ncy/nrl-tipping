@@ -38,7 +38,7 @@ window.NRL_DATA = {
         "PF": 301,
         "PA": 151
       },
-      "news": "Dylan Edwards (Shoulder); Mitch Kenny (Leg); Casey McLean (Hand); P (W) — back L; 1 (PEN) — back 19; 2 (SYD) — back 19"
+      "news": "Dylan Edwards (Shoulder); Mitch Kenny (Leg); Casey McLean (Hand)"
     },
     {
       "name": "Roosters",
@@ -428,7 +428,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
+      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season; P (W) — back L; 1 (PEN) — back 19"
     },
     {
       "name": "Dragons",
@@ -494,7 +494,7 @@ window.NRL_DATA = {
           "away": 1.52
         }
       },
-      "weather": "Fri 7 Aug: 11°C, 0% rain chance, overcast",
+      "weather": "Fri 7 Aug: 11°C, 2% rain chance, overcast",
       "h2h": null,
       "tz": "Pacific/Auckland"
     },
@@ -554,7 +554,7 @@ window.NRL_DATA = {
           "away": 2.8
         }
       },
-      "weather": "Sat 8 Aug: 21°C, 24% rain chance, clear",
+      "weather": "Sat 8 Aug: 21°C, 2% rain chance, clear",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -566,11 +566,11 @@ window.NRL_DATA = {
       "kickoff": "2026-08-08T19:35:00+10:00",
       "odds": {
         "open": {
-          "home": 1.43,
+          "home": 1.42,
           "away": 2.85
         },
         "close": {
-          "home": 1.43,
+          "home": 1.42,
           "away": 2.85
         }
       },
@@ -594,7 +594,7 @@ window.NRL_DATA = {
           "away": 2.25
         }
       },
-      "weather": "Sun 9 Aug: 11°C, 89% rain chance, showers",
+      "weather": "Sun 9 Aug: 11°C, 92% rain chance, showers",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -622,8 +622,20 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-04T06:45:34+10:00",
+  "generatedAt": "2026-08-04T09:43:27+10:00",
   "changes": [
+    {
+      "id": "r23-PEN-fit-p",
+      "fixture": "NZW-PEN",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Panthers: P is off the injury list.",
+      "pts": 0.6,
+      "ts": "2026-08-04T09:43:27+10:00",
+      "rnd": 23
+    },
     {
       "id": "r23-DOL-BRI-wx-1",
       "fixture": "DOL-BRI",
@@ -694,6 +706,18 @@ window.NRL_DATA = {
       "text": "Panthers: P (W) — back L — new on the injury list.",
       "pts": 0.6,
       "ts": "2026-08-03T22:42:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SOU-PAR-line-1.42-2.85",
+      "fixture": "SOU-PAR",
+      "team": "SOU",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.43 → $1.42, Eels $2.85 → $2.85. Market now 67% Rabbitohs (was 67%).",
+      "pts": null,
+      "ts": "2026-08-04T09:43:27+10:00",
       "rnd": 23
     },
     {
