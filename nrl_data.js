@@ -9,7 +9,7 @@
 // Time-sensitive fields (odds, weather, news) stay null unless the optional
 // --odds/--injuries/--weather dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-03",
+  "updated": "2026-08-04",
   "season": 2026,
   "round": 23,
   "source": "zerotackle.com",
@@ -474,7 +474,7 @@ window.NRL_DATA = {
           "away": 1.6
         }
       },
-      "weather": "Thu 6 Aug: 20°C, 4% rain chance, overcast",
+      "weather": "Thu 6 Aug: 20°C, 6% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -494,7 +494,7 @@ window.NRL_DATA = {
           "away": 1.52
         }
       },
-      "weather": "Fri 7 Aug: 11°C, 2% rain chance, overcast",
+      "weather": "Fri 7 Aug: 11°C, 0% rain chance, overcast",
       "h2h": null,
       "tz": "Pacific/Auckland"
     },
@@ -514,7 +514,7 @@ window.NRL_DATA = {
           "away": 3.1
         }
       },
-      "weather": "Fri 7 Aug: 16°C, 4% rain chance, mainly clear",
+      "weather": "Fri 7 Aug: 16°C, 0% rain chance, clear",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -546,15 +546,15 @@ window.NRL_DATA = {
       "kickoff": "2026-08-08T17:30:00+10:00",
       "odds": {
         "open": {
-          "home": 1.45,
-          "away": 2.75
+          "home": 1.44,
+          "away": 2.8
         },
         "close": {
-          "home": 1.45,
-          "away": 2.75
+          "home": 1.44,
+          "away": 2.8
         }
       },
-      "weather": "Sat 8 Aug: 21°C, 14% rain chance, overcast",
+      "weather": "Sat 8 Aug: 21°C, 24% rain chance, clear",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -574,7 +574,7 @@ window.NRL_DATA = {
           "away": 2.85
         }
       },
-      "weather": "Sat 8 Aug: 17°C, 8% rain chance, overcast",
+      "weather": "Sat 8 Aug: 17°C, 4% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -594,7 +594,7 @@ window.NRL_DATA = {
           "away": 2.25
         }
       },
-      "weather": "Sun 9 Aug: 10°C, 76% rain chance, showers",
+      "weather": "Sun 9 Aug: 11°C, 89% rain chance, showers",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -622,8 +622,32 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-03T22:42:48+10:00",
+  "generatedAt": "2026-08-04T06:45:34+10:00",
   "changes": [
+    {
+      "id": "r23-DOL-BRI-wx-1",
+      "fixture": "DOL-BRI",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Brisbane updated — Sat 8 Aug: 21°C, 24% rain chance, clear (was 14% rain).",
+      "pts": null,
+      "ts": "2026-08-04T06:45:34+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-CBR-NEW-wx-4",
+      "fixture": "CBR-NEW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Canberra updated — Sun 9 Aug: 11°C, 89% rain chance, showers (was 76% rain).",
+      "pts": null,
+      "ts": "2026-08-04T06:45:34+10:00",
+      "rnd": 23
+    },
     {
       "id": "r23-MEL-MAN-line-2.35-1.60",
       "fixture": "MEL-MAN",
@@ -670,6 +694,18 @@ window.NRL_DATA = {
       "text": "Panthers: P (W) — back L — new on the injury list.",
       "pts": 0.6,
       "ts": "2026-08-03T22:42:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-DOL-BRI-line-1.44-2.80",
+      "fixture": "DOL-BRI",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.45 → $1.44, Broncos $2.75 → $2.80. Market now 66% Dolphins (was 65%).",
+      "pts": null,
+      "ts": "2026-08-04T06:45:34+10:00",
       "rnd": 23
     },
     {
