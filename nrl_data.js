@@ -622,7 +622,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-05T09:34:15+10:00",
+  "generatedAt": "2026-08-05T09:45:10+10:00",
   "changes": [
     {
       "id": "r23-CBR-NEW-wx-5",
