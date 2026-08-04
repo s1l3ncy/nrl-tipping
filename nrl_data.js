@@ -9,7 +9,7 @@
 // Time-sensitive fields (odds, weather, news) stay null unless the optional
 // --odds/--injuries/--weather dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "season": 2026,
   "round": 23,
   "source": "zerotackle.com",
@@ -514,7 +514,7 @@ window.NRL_DATA = {
           "away": 3.2
         }
       },
-      "weather": "Fri 7 Aug: 16°C, 1% rain chance, mainly clear",
+      "weather": "Fri 7 Aug: 16°C, 0% rain chance, mainly clear",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -554,7 +554,7 @@ window.NRL_DATA = {
           "away": 2.85
         }
       },
-      "weather": "Sat 8 Aug: 21°C, 8% rain chance, overcast",
+      "weather": "Sat 8 Aug: 21°C, 2% rain chance, overcast",
       "h2h": null,
       "tz": "Australia/Brisbane"
     },
@@ -574,7 +574,7 @@ window.NRL_DATA = {
           "away": 3.15
         }
       },
-      "weather": "Sat 8 Aug: 17°C, 6% rain chance, partly cloudy",
+      "weather": "Sat 8 Aug: 17°C, 8% rain chance, partly cloudy",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -594,7 +594,7 @@ window.NRL_DATA = {
           "away": 2.0
         }
       },
-      "weather": "Sun 9 Aug: 9°C, 99% rain chance, showers",
+      "weather": "Sun 9 Aug: 9°C, 100% rain chance, showers",
       "h2h": null,
       "tz": "Australia/Sydney"
     },
@@ -622,8 +622,20 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-04T23:14:57+10:00",
+  "generatedAt": "2026-08-05T04:18:25+10:00",
   "changes": [
+    {
+      "id": "r23-CBR-NEW-wx-5",
+      "fixture": "CBR-NEW",
+      "team": null,
+      "cat": "weather",
+      "sev": 2,
+      "dir": "neutral",
+      "text": "Forecast for Canberra updated — Sun 9 Aug: 9°C, 100% rain chance, showers (was 99% rain).",
+      "pts": null,
+      "ts": "2026-08-05T04:18:25+10:00",
+      "rnd": 23
+    },
     {
       "id": "r23-CBR-NEW-line-1.80-2.00",
       "fixture": "CBR-NEW",
