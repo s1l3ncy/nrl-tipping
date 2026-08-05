@@ -5,43 +5,48 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6585 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100] x logisticScale[5, 6, 7, 8, 9, 10, 12]. oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6604 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
   "updated": "2026-08-05",
   "gamesLearned": 164,
   "lowConfidence": false,
   "params": {
     "homeAdv": 0.41,
-    "logisticScale": 5,
+    "logisticScale": 7.0,
     "oddsWeight": 0.5,
     "eloK": 10,
-    "eloHGA": 100
+    "eloHGA": 60
   },
   "elo": {
-    "PEN": 1637.8,
-    "SYD": 1621.1,
-    "NZW": 1602.8,
-    "CRO": 1614.0,
-    "DOL": 1578.5,
-    "SOU": 1514.3,
-    "NEW": 1551.6,
-    "NQL": 1497.6,
-    "MAN": 1498.1,
-    "CAN": 1504.8,
-    "CBR": 1480.8,
-    "MEL": 1459.2,
-    "BRI": 1390.7,
-    "PAR": 1423.6,
-    "WST": 1377.6,
-    "GLD": 1423.1,
-    "STI": 1324.4
+    "PEN": 1627.4,
+    "SYD": 1617.6,
+    "NZW": 1594.4,
+    "CRO": 1617.1,
+    "DOL": 1580.0,
+    "SOU": 1507.0,
+    "NEW": 1548.0,
+    "NQL": 1498.7,
+    "MAN": 1499.0,
+    "CAN": 1506.7,
+    "CBR": 1486.0,
+    "MEL": 1459.0,
+    "BRI": 1394.0,
+    "PAR": 1428.3,
+    "WST": 1378.6,
+    "GLD": 1425.0,
+    "STI": 1333.2
   },
   "backtest": {
     "games": 164,
-    "brier": 0.233,
-    "logloss": 0.6585,
+    "brier": 0.2338,
+    "logloss": 0.6604,
     "hit": 0.6402,
-    "marketBrier": null
+    "marketBrier": null,
+    "lockTax": {
+      "games": 19,
+      "modelRight": 14,
+      "rkWins": 14
+    }
   },
   "history": [
     {
@@ -78,6 +83,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-02",
       "games": 164,
       "brier": 0.233
+    },
+    {
+      "date": "2026-08-05",
+      "games": 164,
+      "brier": 0.2338
     }
   ],
   "results": [
