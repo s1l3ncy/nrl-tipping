@@ -5,6 +5,101 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-04 — Desktop UI, self-refreshing app, What's new redesign, weather removed, and a specialist audit's nine fixes
+
+Josh's brief: a real desktop UI ("it should have a different ui for a laptop compared
+to a phone"), an app that stays fresh without force-quitting ("it should just remain
+open and auto update whenever I am in it"), a better What's new screen ("a lot of
+spare space"), weather gone ("it isn't effecting anything"), and an independent
+sports-and-gambling-specialist audit of the whole system. Built by a four-agent
+chain: UI design → specialist audit → implementation → independent end-user testing
+(iPhone + desktop viewports), with all tester defects fixed and re-verified.
+
+**1. Desktop UI (≥1024px) — the phone UI is untouched at ≤640px.** The same
+`.tabbar` element restyles into a centred top pill row (tab script unchanged);
+`.wrap` widens to 1140px; game cards go 2-up (`align-items:start` so an open fold
+doesn't stretch its neighbour); the Model screen goes 2-column; ≥1280px adds a
+sticky Quick-list rail on Tips. All new CSS sits in `min-width` media blocks BEFORE
+the print block, no `!important`. 641–1023px (iPad portrait) deliberately keeps the
+bottom bar.
+
+**2. The app now keeps itself fresh while open.** `refreshFromNetwork()` fires on
+boot, on foreground return (`visibilitychange`/`pageshow`, ≥60s throttle), every 5
+minutes while visible, from a ↻ chip in the nav (`#freshBtn`, icon-only on phones,
+hidden on `file://`), and from a custom pull-to-refresh (`#ptr`, passive listeners —
+`overscroll-behavior-y:none` stays). A `contentStamp()` compare means an unchanged
+poll re-renders NOTHING (open folds survive); injected script tags are removed
+(polling would otherwise leak five per cycle); `LINEUPS` became a `let` so
+`hydrateData()` actually picks up a refreshed team list — a pre-existing bug.
+`sw.js` CACHE v6.
+
+**3. What's new redesigned.** Status line ("Checked {time} · updates roughly every
+4 hours"), Today feed (semantics unchanged: today-in-Sydney, badge counts today
+only), a collapsed "Earlier" fold for the rest of the 36h window (previously
+dropped), crest dots + "view game →" links per fixture group (`#game-…` anchors on
+cards), and a "This round's schedule" panel — every fixture in kickoff order with
+ground-local times (a local `kt()` formatter; locale tz abbreviations like "GMT+10"
+truncated every row — see GOTCHAS), the tipped side (gold = SYD only), FT scores,
+and the bye line. A quiet day now reads as a complete screen, not dead space.
+
+**4. Weather removed end-to-end.** Model term, card pills, venue-box chips, change
+feed category, `parse_weather`/`apply_weather`/`--weather`, `fetch_weather` +
+`CITY_COORDS` + `weather_dump.txt` (workflow deletes the committed dump,
+idempotently). `fixture.weather` ships as an always-null key for one deploy cycle.
+The ledger identity is now `ratingGap + formGap + hga − hInjPts + aInjPts === margin`.
+
+**5. Specialist audit — nine bugs fixed** (judgement calls NOT applied; listed
+below for Josh):
+- A1 opening odds were destroyed every run (full-rebuild `apply_odds` set
+  `open = close`); full mode now carries the first-seen open forward, so the "line
+  moved" UI can actually fire and CLV data accumulates.
+- A2 `logisticScale` was unidentifiable in the fit (cancels for the Elo term) and
+  the grid drove it to 5, making injuries/HGA ~40% too potent — pinned at 7, out of
+  the grid.
+- A3 the Elo MOV multiplier used `abs(gap)`, dampening upsets instead of amplifying
+  them — now winner-relative (FiveThirtyEight-style, as the docstring always claimed).
+- A4 the "Roosters tax" was graded with hindsight (current Elo contains each graded
+  game's own result) — now computed walk-forward in `learn_model.py`
+  (`backtest.lockTax`); the front-end shows nothing if the field is absent.
+- A5 the injuries scrape published phantom player "P" from a Panthers stats table —
+  name-plausibility guards in `extract_injuries` + both `looks_like_player` copies.
+- A6 results had no `season` field (three latent 2027-boundary corruptions:
+  dropped games, scrambled Elo chronology, last year's score shown as "Full time") —
+  season stamped on new entries, all readers season-aware, missing → 2026.
+- A7 the change feed named a "firming" side when both prices lengthened — direction
+  only when exactly one price shortened.
+- A8 dead calibration code (`brierScore`/`calibrationVerdict`) deleted and the
+  UI copy that promised it corrected.
+- A9 grading keys are unordered team pairs (an orientation flip between runs could
+  double-grade a game).
+Also fixed from testing: the ledger "Net:" line / headline pairing the pre-blend
+margin side with the post-blend probability when the bookies flip the tip (each
+number now sits with its own team).
+
+**Audit recommendations recorded for Josh (NOT implemented — approve to proceed):**
+C1 fit home advantage as a logit intercept (home teams win 57.3% but homeAdv=0.41pts
+≈ 52% baseline; biggest pure-accuracy lever). C2 persist a closing-odds history
+(unlocks oddsWeight fitting, marketBrier, CLV). C3 meanwhile consider oddsW ≈ 0.65–0.7
+for priced games. C4 regularise the grid fit (eloK and eloHGA both sat on grid
+boundaries). C5 make stale odds visible when the API quota exhausts. C6 store the
+frozen probability in `nrl_tiplog.js` (enables honest tips-as-shown Brier +
+calibration). C7 candidate variables, ranked: travel/short turnarounds, season-boundary
+Elo carryover with shrinkage, bye-week effect, the spread market, Origin drain.
+The audit also verified sound: Elo core, de-vig parity across all three
+implementations, injury arithmetic parity (Python = JS exactly), the lock's
+centralisation in `tipSide()`, freeze/grading precedence, and that the results
+memory reconciles exactly with the scraped ladder for all 17 teams.
+
+Tested: independent end-user agent at 390/375/1023/1024/1280/1440px over http and
+file://, all tabs, every fold, ledger arithmetic re-summed by hand, refresh
+lifecycle (change → re-render; no change → no re-render), weather grep of the full
+DOM, lock surfaces, localStorage persistence, print emulation; pipeline re-run
+(learn → validate PASS) and `freeze_tips.mjs` against the new page (8 tips frozen,
+SYD locked). Verdict: ship; three minor defects found, fixed, independently
+re-confirmed.
+
+---
+
 ## 2026-08-02 (pm) — Tips are frozen by the PIPELINE now: same record on every device
 
 Josh, after the localStorage freeze shipped: "I want it to work on all devices and do

@@ -6,8 +6,13 @@ winner and a confidence for each game. All of this runs **in the browser** insid
 server-side so its backtest numbers mean what the app will actually show.
 
 Everything works in **points of margin** (predicted home margin), which is then
-squashed into a win probability. Injuries, weather, home-ground edge and the Elo/
+squashed into a win probability. Injuries, home-ground edge and the Elo/
 form ratings all contribute in the same points space so they compose cleanly.
+
+> **Weather was removed entirely on 2026-08-04.** It never picked a side, only shrank
+> confidence, and in practice it wasn't affecting tips. There is no weather term
+> anywhere in the model now; `fixture.weather` ships as an always-null key for one
+> deploy cycle (CDN-cached old pages still read it) and then the key can be dropped.
 
 ---
 
@@ -69,11 +74,14 @@ else          margin = (effRating(home,'home') - homeInjury)
   in Advanced settings.
 - `homeInjury` / `awayInjury` = the injury penalties from §3.
 
-Then **weather** shrinks the margin (see §4), and the margin is squashed:
+Then the margin is squashed:
 
 ```
-modelP = logistic(margin) = 1 / (1 + e^(-margin / scale))    // scale = learned logisticScale, default 7
+modelP = logistic(margin) = 1 / (1 + e^(-margin / scale))    // scale = logisticScale, PINNED at 7 (see §5)
 ```
+
+The margin identity the "Show the working" ledger relies on is now simply:
+`ratingGap + formGap + hga − hInjPts + aInjPts === margin` (no weather term).
 
 Finally, if bookmaker odds exist for the game, the model blends with the market:
 
@@ -82,7 +90,13 @@ market = de-vig(closingOdds)              // remove the bookmaker's margin, get 
 pHome  = (1 - oddsWeight) * modelP + oddsWeight * market      // oddsWeight default 0.5
 ```
 
-The favourite (higher `pHome`) is the model's tip — **except** the Roosters game (§6).
+The favourite (higher `pHome`) is the model's tip — **except** the Roosters game (§5).
+
+> **When the model's margin side and the blended favourite differ** (the bookies flip
+> the tip across 50%), every surface must pair each number with its own team — the
+> ledger's "Net:" line and the card's headline sentence do this explicitly
+> (2026-08-04 fix; previously "Net: Knights by 0.1 → 54%" quoted the *Raiders'*
+> blended chance next to the Knights' margin).
 
 ---
 
@@ -148,48 +162,46 @@ blend naturally discounts it (no double-counting).
 
 ---
 
-## 4. Weather — shrinks confidence, never picks a side
-
-With no per-team wet-weather data, weather does **not** favour either team. It only
-reduces certainty as rain rises (wet games are more random). Since 2026-07-30 the
-fixture's weather string is the forecast for the game's **own local day** (matched from
-its kick-off date) — not the old "wettest of the next ~6 days", which routinely shrank a
-Thursday game by Saturday's rain. From that string it reads the rain %:
-
-```
-shrink = clamp(0, 0.22, 0.30 * (rain% - 0.20) / 0.80)     // nil below 20% rain, up to -22%
-margin = margin * (1 - shrink)                             // pulls toward a coin-toss; sign preserved
-```
-
-Because the sign is preserved, weather can lower confidence but can't flip a tip on
-its own. Applied before the odds blend, same as injuries.
-
----
-
-## 5. The learning loop (`learn_model.py`)
+## 4. The learning loop (`learn_model.py`)
 
 - **Memory:** `nrl_learned.js.results` is an append-only log of finished games
-  `{round, home, away, hs, as}`. `parse_nrl.py` grows it (deduped); `learn_model.py`
+  `{season, round, home, away, hs, as}`. `parse_nrl.py` grows it (deduped on
+  season+round+home+away; entries without a `season` field are treated as 2026 —
+  added 2026-08-04 so a 2027 game repeating a 2026 round+pairing isn't silently
+  dropped, the Elo replay stays chronological across the boundary, and the front-end
+  can't display last year's score as this year's "Full time"). `learn_model.py`
   never deletes it.
-- **Elo replay:** every team starts at 1500; games are replayed chronologically with a
-  home-ground bump (`eloHGA`) and a margin-of-victory multiplier on the K-factor
-  (`eloK`), FiveThirtyEight-style (bigger blowouts move ratings more, dampened when the
-  result was expected).
-- **Fitting:** `homeAdv` = observed mean home winning margin. `eloK`, `eloHGA`,
-  `logisticScale` are chosen by a small deterministic grid search that minimises
-  **walk-forward log-loss** (each game predicted from ratings *before* it — no leakage).
-  `oddsWeight` is grid-searched to minimise Brier only if an odds-history file is
-  supplied, else defaults to 0.5.
+- **Elo replay:** every team starts at 1500; games are replayed chronologically
+  (season, then round) with a home-ground bump (`eloHGA`) and a margin-of-victory
+  multiplier on the K-factor (`eloK`), FiveThirtyEight-style. Since 2026-08-04 the
+  MOV multiplier uses the **winner-relative** Elo gap — an upset win is amplified,
+  an expected win dampened. (It previously used `abs(gap)`, which dampened every
+  big-gap game regardless of who won — the opposite of the intent.)
+- **Fitting:** `homeAdv` = observed mean home winning margin. `eloK` and `eloHGA` are
+  chosen by a small deterministic grid search that minimises **walk-forward log-loss**
+  (each game predicted from ratings *before* it — no leakage). `oddsWeight` is
+  grid-searched to minimise Brier only if an odds-history file is supplied, else
+  defaults to 0.5.
+- **`logisticScale` is PINNED at 7 and no longer fitted (2026-08-04).** In this
+  parameterisation the scale cancels exactly for the Elo term, so the walk-forward
+  loss can't identify it — the old grid search used it purely as a lever on
+  `homeAdv/scale` and always drove it to the grid minimum (5), which then made every
+  injury penalty and the HGA ~40% more potent at inference than designed. It cannot
+  be learned from win/loss outcomes; never re-add it to the grid (see `GOTCHAS.md`).
 - **Backtest:** after fitting, it computes Brier, log-loss and hit-rate over the memory
-  and appends one `{date, games, brier}` history snapshot so accuracy-over-time is
-  tracked honestly.
+  and appends one `{date, games, brier}` history snapshot. It also computes the
+  **loyalty tax walk-forward**: `backtest.lockTax = {games, modelRight, rkWins}`,
+  counted from each Roosters game's *pre-game* Elos. The front-end's "Roosters tax"
+  line reads ONLY this field — if it's absent, it shows nothing rather than a
+  hindsight number (the old front-end computation graded past games with the
+  *current* Elo, which already contained each game's own result).
 - **Guardrail:** under `LOW_CONFIDENCE_THRESHOLD = 30` games it holds conservative
   defaults instead of grid-search results and sets `lowConfidence = true`; the
   front-end then ignores the learned params entirely (see §1).
 
 ---
 
-## 6. The Roosters lock (the one inviolable rule)
+## 5. The Roosters lock (the one inviolable rule)
 
 In the Roosters' own fixture the tip is **forced to `SYD`**, no matter what the model
 computes. The model still runs for that game — the app uses it to tell you honestly
@@ -219,7 +231,7 @@ surface: call `tipSide()` for the pick, `modelFav()` only to report what the mod
   expectations. Base 400 is the standard probability scale.
 - **HGA / homeAdv** — home-ground advantage, in points, added to the home side.
 - **Logistic / scale** — the S-curve turning a points margin into a 0–1 win
-  probability; `scale` sets how steep it is (default 7 points).
+  probability; `scale` sets how steep it is (pinned at 7 points — unlearnable, see §4).
 - **Brier score** — mean squared error of probability forecasts (0 = perfect, lower is
   better). The app's main calibration metric.
 - **Log-loss** — another proper scoring rule for probabilities; punishes confident

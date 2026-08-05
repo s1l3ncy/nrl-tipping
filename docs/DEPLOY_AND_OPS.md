@@ -46,12 +46,18 @@ repo is public.
 Steps, in order:
 1. Checkout, set up Python 3.12, `pip install requests beautifulsoup4`.
 2. `python cloud_fetch.py` — scrape sources → dumps + `nrl_players.js` (env: `ODDS_API_KEY`).
-3. `python parse_nrl.py … --out nrl_data.js` — rebuild the data feed.
+3. `python parse_nrl.py … --out nrl_data.js` — rebuild the data feed (no `--weather`
+   since 2026-08-04).
 4. `python learn_model.py` — re-fit the learning loop.
-5. `python validate_data.py nrl_data.js` **and** `validate_learned.py nrl_learned.js`
+5. **Freeze pre-kick-off tips** — `freeze_tips.mjs` (jsdom; best-effort, non-fatal)
+   writes `nrl_tiplog.js`. This step exists ONLY in the live workflow history —
+   never overwrite the workflow from a stale local copy or the tip log dies.
+6. `python validate_data.py nrl_data.js` **and** `validate_learned.py nrl_learned.js`
    — **publish gate**; a failure fails the whole run and nothing goes live.
-6. `cp nrl-tipping-guide.html index.html` — build the hosted page.
-7. `git add -A && git commit && git push` — commit refreshed files back (uses the
+7. Retire the weather dump (`rm -f weather_dump.txt`, idempotent — one-time cleanup
+   after the 2026-08-04 weather removal).
+8. `cp nrl-tipping-guide.html index.html` — build the hosted page.
+9. `git add -A && git commit && git push` — commit refreshed files back (uses the
    built-in `GITHUB_TOKEN`; `permissions: contents: write`).
 
 `concurrency: nrl-update` prevents overlapping runs.
@@ -61,7 +67,7 @@ Steps, in order:
 ## Making a change and shipping it (step by step)
 
 1. **Edit the file(s) locally** in this folder.
-   - Front-end / model UI / injury+weather logic → `nrl-tipping-guide.html`.
+   - Front-end / model UI / injury logic → `nrl-tipping-guide.html`.
    - Scrapers / new data source → `cloud_fetch.py`.
    - Parser / schema → `parse_nrl.py` (and update `validate_data.py` if the contract changes).
    - Learning math → `learn_model.py` (and `validate_learned.py` if the contract changes).
@@ -115,13 +121,16 @@ and it re-scrapes.
   (only the rated players are — roughly the top few hundred; fringe players are treated
   as low-impact by design), and that the injury name matches the ratings name after
   normalisation.
-- **Wrong host city / weather:** add the venue to `VENUE_CITY` in `parse_nrl.py`.
+- **Wrong host city:** add the venue to `VENUE_CITY` in `parse_nrl.py`.
 - **The site "looks the same" after an HTML change:** you didn't run the workflow (so
   `index.html` wasn't recopied), or you're seeing CDN cache — hard refresh / wait.
-- **Home-screen app shows old data/UI:** `sw.js` is network-first, so once installed it
-  auto-updates the shell + data on each online launch. The *first* time (or if `sw.js`
+- **Home-screen app shows old data/UI:** since 2026-08-04 the page refreshes itself
+  while open (foreground return, 5-minute polling, the ↻ chip in the nav, and
+  pull-to-refresh) — no force-quit needed. `sw.js` is network-first and additionally
+  updates the shell + data on each online launch. The *first* time (or if `sw.js`
   isn't on the phone yet), remove and re-add the home-screen icon once to load the new
-  shell. To force a clean slate for every visitor, bump `CACHE` in `sw.js` (`nrl-tips-vN`).
+  shell. To force a clean slate for every visitor, bump `CACHE` in `sw.js` (`nrl-tips-vN`,
+  currently v6).
 - **Shipping `sw.js`:** it's a normal source file (not generated). Upload it to the repo
   root once; `git add -A` in the workflow keeps committing it, and Pages serves it.
 

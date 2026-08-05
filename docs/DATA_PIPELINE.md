@@ -23,8 +23,7 @@ Fetches the live pages and writes clean intermediate dumps + the ratings map.
 | `draw_meta.json` | **nrl.com draw payload** | Per fixture: `venue`, `venueCity`, and the UTC kick-off. Fed to `parse_nrl` via `--draw-meta`. This is the only source of stadium + kick-off — Zero Tackle's page doesn't carry them in a parseable form. |
 | `nrl_lineups.js` | Zero Tackle round team-lists article | The named squad per club. The previous copy is snapshotted to `nrl_lineups.prev.js` **before** the rewrite, so the change feed can diff named/omitted players. |
 | `results_dump.txt` | Zero Tackle fixtures/results (same page) | Every **finished** game's score as `Round N` + `Home hs - Away aws` (teams+round from the `fulltime-…` slug, scores from the `FT` block). Fed to `parse_nrl` via `--results`; grows the results memory that powers form, splits and Elo. Kept if ≥ 8 games parse. |
-| `weather_dump.txt` | Open-Meteo API | `City|YYYY-MM-DD: Day D Mon: 19°C, 60% rain chance, showers` — one line per city **per game-day** (the game's local date, resolved from its kick-off), plus a dateless `City:` legacy/fallback line per city. `apply_weather` matches city + kick-off date first, city alone second. A city whose fetch fails keeps its committed line rather than going blank. No API key. |
-| `injuries_dump.html` | Zero Tackle injuries & suspensions | `Team: Player (Reason) — back Round N; ...` (up to 6 per club). Return of `TBC`/unknown is left as no "— back" suffix. Kept if ≥ 6 clubs parse. |
+| `injuries_dump.html` | Zero Tackle injuries & suspensions | `Team: Player (Reason) — back Round N; ...` (up to 6 per club). Return of `TBC`/unknown is left as no "— back" suffix. Kept if ≥ 6 clubs parse. Rows whose cells are all ≤2 chars are rejected, and the player cell must look like a real name (≥2 words / ≥4 letters / a `/players/` link) — a Panthers stats table once published phantom player "P" (2026-08-04). |
 | `nrl_players.js` | Zero Tackle **overall player ratings** | `window.NRL_PLAYERS = { "name": {pos, pct} }`. Written only if ≥ 100 players parse. |
 
 Key internals:
@@ -37,9 +36,9 @@ Key internals:
   home/away** (it's the official listing — see the "looks swapped" entry in `GOTCHAS.md`),
   and every flip is logged rather than applied silently. If nrl.com won't parse, its
   metadata is dropped and the Zero Tackle draw stands.
-- Weather cities come from nrl.com's real `venueCity`, **not** the home club's usual city
-  — otherwise a regional game (Panthers v Raiders at Glen Willow Oval, Mudgee) gets the
-  wrong forecast, or none at all.
+- Weather scraping was removed entirely on 2026-08-04 (Open-Meteo, `CITY_COORDS`,
+  `fetch_weather`, `weather_dump.txt` — all gone; the workflow deletes the committed
+  dump).
 - `extract_ratings()` scrapes the **nine per-position pages**
   (`/nrl-player-ratings/halfback/` etc.), not `/overall/`, and takes each player's name
   from their `/players/<slug>/` **anchor**, using the href slug to pick the right half of
@@ -58,29 +57,37 @@ Key internals:
 ### `parse_nrl.py` — dumps → `nrl_data.js` (pure)
 Two modes:
 - **Full rebuild** (default): parse ladder + home/away splits + draw, apply optional
-  `--odds`/`--injuries`/`--weather` dumps, validate 17 teams, write `nrl_data.js`.
+  `--odds`/`--injuries` dumps, validate 17 teams, write `nrl_data.js`.
 - **`--merge`** (daily reactive refresh): load the existing `nrl_data.js` and update
-  ONLY `fixture.odds`, `team.news`, `fixture.weather`, and the `newsUpdated` stamp —
+  ONLY `fixture.odds`, `team.news`, and the `newsUpdated` stamp —
   ladder numbers, round, splits, and the fixtures list are left byte-for-byte.
 
 Also, in **both** modes, it scans the draw dump (and optional `--results`) for finished
-scores and **appends** them to `nrl_learned.js.results` (deduped on round+home+away;
+scores and **appends** them to `nrl_learned.js.results` (deduped on
+**season**+round+home+away — entries without `season` default to 2026;
 never deletes; aborts if the existing file is unparseable).
 
 Reference tables live at the top of the file: `TEAMS` (short → name + aliases),
 `CLUB_COLOUR`, `TEAM_HOME_CITY`, `VENUE_CITY`. Add new venues to `VENUE_CITY` if a
 heritage/regional game resolves to the wrong city.
 
-Odds evolve into an `{open, close}` shape for CLV: on a full rebuild both are set to
-the freshly parsed price; on `--merge`, `open` is set once (first sighting) and never
-overwritten, `close` always updates. Legacy flat `{home,away}` is still accepted.
+Odds evolve into an `{open, close}` shape for CLV. **Since 2026-08-04, BOTH modes
+preserve the first-seen `open`**: a full rebuild inherits the previous published
+`open` for the same round + fixture pair (orientation-corrected) and only seeds
+`open = fresh` on first sighting; `close` always updates. (Before this, full mode
+set `open = close = fresh` on every run, and since the workflow only ever runs full
+rebuilds, the open was destroyed every 4 hours and the "line moved" UI could never
+fire.) Legacy flat `{home,away}` is still accepted.
 
 ### `learn_model.py` — results memory → fitted params + Elo (pure)
 Reads `nrl_learned.js.results`, replays Elo, grid-searches params, backtests, and
 rewrites `nrl_learned.js` with fresh `params`/`elo`/`backtest` and one appended
 `history` entry. Under 30 games → conservative defaults + `lowConfidence = true`.
 Grids: `eloK ∈ {10,16,24,32,40}`, `eloHGA ∈ {0,20,40,60,80,100}`,
-`logisticScale ∈ {5,6,7,8,9,10,12}` (points-space), `oddsWeight ∈ {0.0..1.0}`.
+`oddsWeight ∈ {0.0..1.0}`. **`logisticScale` is pinned at 7 and NOT in the grid**
+(2026-08-04 — it's unidentifiable from win/loss outcomes; see `GOTCHAS.md`).
+The Elo replay's MOV multiplier is winner-relative (upsets amplified). The backtest
+also publishes `lockTax` (walk-forward loyalty-tax counts from pre-game Elos).
 Never fetches; `--odds-history FILE` is optional for fitting `oddsWeight`.
 
 ### `validate_data.py` / `validate_learned.py` — publish gates
@@ -127,7 +134,8 @@ Fixture = {
   tz: "Australia/Brisbane",     // IANA zone of the ground (optional)
   odds: { open:{home,away}, close:{home,away} }   // or legacy {home,away}, or null
        ,
-  weather: "…, 60% rain chance, showers" | null,
+  weather: null,   // ALWAYS null since 2026-08-04 (feature removed); key kept for
+                   // one deploy cycle so CDN-cached old pages don't break, then droppable
   h2h: null
 }
 
@@ -135,14 +143,18 @@ Change = {
   id,                           // stable, unique within the array
   fixture: "NQL-SYD" | null,    // null = comp-wide
   team: "SYD" | null,
-  cat,                          // in | out | injury | line | weather | time | venue | other
+  cat,                          // in | out | injury | line | time | venue | other
+                                // ("weather" is legacy — no longer emitted; the
+                                //  front-end filters any leftover in the 36h window)
   sev: 1|2|3,                   // 3 = changes the tip's shape, 1 = trivia
   dir: "up"|"down"|"neutral",   // effect on `team`'s chances
   text,                         // the human-readable line
   pts: number | null            // model points swing, unsigned
 }
 
-Result = { round:int, home, away, hs:int, as:int }
+Result = { season:int, round:int, home, away, hs:int, as:int }
+                                // season added 2026-08-04; entries without it are
+                                // read as 2026 by every consumer (back-compat)
 ```
 
 > **`kickoff` must carry its UTC offset.** A naive `"2026-07-30T19:50:00"` is read by
@@ -156,8 +168,8 @@ Result = { round:int, home, away, hs:int, as:int }
 > every 4 hours; replacing `changes` each run would mean an overnight injury is gone by
 > breakfast. Entries accumulate, dedupe on `id` keeping the **first** sighting's
 > timestamp, purge on round rollover, and age out at 36h. Truncation to `CHANGES_MAX`
-> sorts by **severity first** — sorting by timestamp first let a spine player being ruled
-> out get evicted within half an hour by a pile of 1°C weather wobbles.
+> sorts by **severity first** — sorting by timestamp first once let a spine player being
+> ruled out get evicted within half an hour by a pile of trivia entries.
 Required top-level fields (hard fail if missing): `updated, season, round, teams,
 fixtures, byeTeams`. Decimal odds must be > 1. Every team must be either fixtured or
 on bye. No team twice in a round.
@@ -168,11 +180,12 @@ on bye. No team twice in a round.
   updated: "YYYY-MM-DD",
   gamesLearned: int,
   lowConfidence: bool,          // true while < 30 games — front-end then ignores params/elo
-  params: { homeAdv, logisticScale, oddsWeight, eloK, eloHGA },
+  params: { homeAdv, logisticScale, oddsWeight, eloK, eloHGA },  // logisticScale always 7 (pinned)
   elo: { <17 team shorts>: number },   // ratings, ~1500 baseline
-  backtest: { games, brier, logloss, hit, marketBrier|null },
+  backtest: { games, brier, logloss, hit, marketBrier|null,
+              lockTax: {games, modelRight, rkWins} },  // walk-forward loyalty tax (2026-08-04)
   history: [ {date, games, brier}, ... ],   // non-empty; one per fit
-  results: [ {round, home, away, hs, as}, ... ]   // append-only match log
+  results: [ {season, round, home, away, hs, as}, ... ]   // append-only match log
 }
 ```
 Sane ranges enforced by the validator: `homeAdv ∈ [-5,20]`, `logisticScale ∈ (0,50]`,
@@ -212,12 +225,12 @@ localStorage snapshot + the lock rule).
 # Full rebuild from dumps
 python3 parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html \
   --draw-meta draw_meta.json --odds odds_dump.txt \
-  --injuries injuries_dump.html --weather weather_dump.txt --results results_dump.txt \
+  --injuries injuries_dump.html --results results_dump.txt \
   --out nrl_data.js --season 2026 --source zerotackle.com
 
-# Daily reactive refresh (odds/news/weather only)
+# Daily reactive refresh (odds/news only)
 python3 parse_nrl.py --merge --in nrl_data.js \
-  --odds odds_dump.txt --injuries injuries_dump.html --weather weather_dump.txt
+  --odds odds_dump.txt --injuries injuries_dump.html
 
 # Re-fit the learning loop
 python3 learn_model.py            # reads/writes nrl_learned.js

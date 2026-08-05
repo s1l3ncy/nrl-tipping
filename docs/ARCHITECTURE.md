@@ -18,7 +18,7 @@ How the whole system fits together, end to end. For the tip math see
    three tiny `window.NRL_*` assignment files the HTML loads with `<script src>`.
    Easy to diff, easy to validate, easy to serve statically.
 4. **Never publish broken data.** Validators gate every publish. Best-effort feeds
-   (odds/news/weather/ratings) never block; only a broken ladder/draw does.
+   (odds/news/ratings) never block; only a broken ladder/draw does.
 5. **Honest about uncertainty.** The learning loop won't trust itself until it has
    enough history (a `lowConfidence` guardrail), and the UI surfaces this.
 
@@ -28,8 +28,10 @@ How the whole system fits together, end to end. For the tip math see
 
 ### Stage 0 — Sources (public web)
 - **Zero Tackle** (`zerotackle.com`): NRL ladder (with home/away split tables),
-  fixtures/results, injuries & suspensions, and the overall **player ratings** page.
-- **Open-Meteo** (`api.open-meteo.com`): free weather forecast API (no key).
+  fixtures/results, injuries & suspensions, and the **player ratings** pages.
+- **nrl.com** draw payload: venues, host cities, UTC kick-offs (+ odds fallback).
+- **The Odds API**: bookmaker head-to-head prices (primary odds source).
+- (Open-Meteo weather was a source until 2026-08-04 — removed entirely.)
 
 See `sources.md` for exact URLs and expected shapes.
 
@@ -39,7 +41,6 @@ intermediate **dump files** that `parse_nrl.py` knows how to read, plus the play
 ratings map directly:
 - `ladder_dump.html` — rebuilt ladder table (incl. home/away splits).
 - `draw_dump.html` — the next unplayed round's fixtures (auto-advances each week).
-- `weather_dump.txt` — `City|YYYY-MM-DD: forecast` lines (the game's own local day; dateless `City:` legacy fallback).
 - `injuries_dump.html` — `Team: Player (Reason) — back Round N; ...` lines.
 - `nrl_players.js` — `window.NRL_PLAYERS = { "name": {pos, pct} }` (all rated players).
 
@@ -53,18 +54,19 @@ nrl.com resolving only 6 of 8 nicknames) passed the bare range check and shrank 
 ### Stage 2 — `parse_nrl.py` (pure, no network)
 Reads the dump files and emits **`nrl_data.js`** (`window.NRL_DATA`): the 17 teams
 with ladder + home/away splits + injury `news`, the current round's fixtures with
-`odds`/`weather`, and `byeTeams`. It also scans for finished-game scores and
-**appends** them to the results memory in `nrl_learned.js` (append-only, deduped).
-Has a `--merge` mode that refreshes only the fast-moving fields (odds/news/weather)
-without rebuilding the ladder/round.
+`odds`, and `byeTeams`. It also scans for finished-game scores and
+**appends** them to the results memory in `nrl_learned.js` (append-only, deduped
+on season+round+teams). Has a `--merge` mode that refreshes only the fast-moving
+fields (odds/news) without rebuilding the ladder/round.
 
 ### Stage 3 — `learn_model.py` (pure, no network)
 Reads the results memory in `nrl_learned.js`, replays an **Elo** rating for every
-team, grid-searches the model parameters (home-ground advantage, logistic scale,
-Elo K/HGA, odds weight) to minimise walk-forward error, **backtests** itself
-(Brier/log-loss/hit-rate), and rewrites `nrl_learned.js` with fresh params + Elo +
-one appended history snapshot. Guardrail: under ~30 games it holds conservative
-defaults and flags `lowConfidence`.
+team (winner-relative MOV multiplier), grid-searches the model parameters
+(home-ground advantage, Elo K/HGA, odds weight — the logistic scale is pinned at 7,
+see `MODEL.md`) to minimise walk-forward error, **backtests** itself
+(Brier/log-loss/hit-rate + the walk-forward loyalty tax `lockTax`), and rewrites
+`nrl_learned.js` with fresh params + Elo + one appended history snapshot.
+Guardrail: under ~30 games it holds conservative defaults and flags `lowConfidence`.
 
 ### Stage 4 — Validate + publish (in the workflow)
 `validate_data.py` and `validate_learned.py` must both pass. Then the workflow does
@@ -73,15 +75,18 @@ built-in `GITHUB_TOKEN`. GitHub Pages serves `index.html` + the three data files
 
 ### Stage 5 — The browser (front-end)
 `nrl-tipping-guide.html` loads `nrl_data.js`, `nrl_learned.js`, `nrl_players.js`,
-then for each fixture computes a win probability and a tip **in-page**, always
-overriding the Roosters game to a locked `SYD` tip. Users can log results locally
-(stored in `localStorage`) between the 4-hourly official refreshes.
+`nrl_lineups.js` and `nrl_tiplog.js`, then for each fixture computes a win
+probability and a tip **in-page**, always overriding the Roosters game to a locked
+`SYD` tip. Since 2026-08-04 the page also **keeps itself fresh while open**
+(foreground-return, 5-minute polling, a manual refresh chip and pull-to-refresh —
+see `FRONTEND.md`), and serves a genuinely different layout on desktop (≥1024px)
+vs phone. Users can log results locally (`localStorage`) between official refreshes.
 
 ---
 
 ## Why three separate data files
 
-- `nrl_data.js` changes weekly (ladder/draw) + daily (odds/news/weather).
+- `nrl_data.js` changes weekly (ladder/draw) + daily (odds/news).
 - `nrl_learned.js` is an append-only match log plus fitted numbers; it grows slowly
   and must never be clobbered by a bad run (atomic writes + parse-or-abort).
 - `nrl_players.js` is a large-ish lookup refreshed every run, independent of the
@@ -97,7 +102,7 @@ overriding the Roosters game to a locked `SYD` tip. Users can log results locall
 - **Parse-or-abort**: if an existing `nrl_data.js`/`nrl_learned.js` can't be parsed,
   the generator refuses to write rather than destroying history.
 - **Graceful degradation**: missing draw → reuse previous fixtures; missing
-  odds/news/weather/ratings → leave those fields null / fall back to flat weighting;
+  odds/news/ratings → leave those fields null / fall back to flat weighting;
   missing `nrl_data.js` at runtime → the HTML uses a baked-in seed so the page never
   shows blank.
 - **Publish gate**: validators fail the workflow before anything goes live.

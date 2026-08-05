@@ -38,13 +38,35 @@ sample data" banner; no learned params; flat injury fallback.
 - Accuracy history: key `nrl_acc_v3`. Comp-format setting: `nrl_compformat_v1`.
 - **Do not** introduce `sessionStorage` or external storage; `localStorage` only.
 
-### Staying fresh on the home screen (added 2026-07-28)
-The data files load via `<script src>` for instant paint and offline use, but on each
-online launch `refreshFromNetwork()` re-pulls them with a `?v=<ts>` cache-buster and
-re-renders (through `hydrateData()`, which recomputes `SRC`/`LEARNED`/`PLAYERS`/`KEY`).
+### Staying fresh (rebuilt 2026-08-04 — the app now auto-updates while open)
+The data files load via `<script src>` for instant paint and offline use.
+`refreshFromNetwork()` re-pulls all five data files with a `?v=<ts>` cache-buster and
+rehydrates (`hydrateData()` recomputes `SRC`/`LEARNED`/`PLAYERS`/`LINEUPS`/`TIPLOG`/`KEY`).
+It now fires from FOUR triggers, not just boot:
+
+1. **Boot** (as before).
+2. **Foreground return** — `visibilitychange` → visible, and `pageshow` with
+   `e.persisted` (bfcache), throttled to ≥60s since the last check. This is what fixes
+   "I have to quit and re-open the home-screen app".
+3. **Periodic** — every 5 minutes while the page is visible.
+4. **Manual** — the `#freshBtn` refresh chip in the top nav (icon-only ≤640px, hidden
+   entirely on `file://`), plus a custom pull-to-refresh on touch devices (`#ptr`
+   indicator; passive listeners only; never attaches on `file://`).
+
+Landmines baked into the implementation — keep them:
+- `contentStamp()` (KEY + gamesLearned + tiplog length + lineups round) is compared
+  before/after hydration; **nothing re-renders when the data didn't change**, so open
+  `<details>` folds survive polling. Don't "simplify" this to always render.
+- Each injected `<script>` tag is **removed in its onload/onerror handler** — without
+  that, 5-minute polling leaks five tags per cycle forever.
+- The `file://` short-circuit stays the first line of `refreshFromNetwork()`.
+- `overscroll-behavior-y:none` on body is intentional (iOS PWA); the pull-to-refresh
+  is custom for exactly that reason.
+
 `sw.js` — a **network-first** service worker, registered only over http(s) — additionally
-keeps the *shell* current and provides the offline cache. Both are no-ops on `file://`.
-Bump `CACHE` in `sw.js` to force-invalidate every cached copy.
+keeps the *shell* current and provides the offline cache (CACHE `nrl-tips-v6`; it
+normalises the `?v=` query out of cache keys so polling can't bloat the cache). Both
+are no-ops on `file://`. Bump `CACHE` to force-invalidate every cached copy.
 
 ---
 
@@ -54,8 +76,7 @@ Bump `CACHE` in `sw.js` to force-invalidate every cached copy.
 |----------|------|
 | `avg`, `overallMargin`, `splitWeight`, `effRating`, `formNudge` | Heuristic team rating (see MODEL.md §1). |
 | `eloStrength`, `eloGapToPoints`, `logistic` | Elo path + points↔probability. |
-| `normName`, `playerImpact`, `injuryPenalty`, `namedSquad` | Position×rating injury weighting (uses `PLAYERS` + `LINEUPS`). The round's team list both cancels a named player's injury entry AND upgrades an unnamed doubt to a full-weight NOT NAMED absence (2026-07-30). |
-| `weatherEffect` | Rain → margin-shrink factor. |
+| `normName`, `playerImpact`, `injuryPenalty`, `namedSquad` | Position×rating injury weighting (uses `PLAYERS` + `LINEUPS`). The round's team list both cancels a named player's injury entry AND upgrades an unnamed doubt to a full-weight NOT NAMED absence (2026-07-30). `LINEUPS` is a `let` and re-read by `hydrateData()` (2026-08-04) so a refreshed team list takes effect without a full reload. |
 | `resolveOdds`, `marketProb` | Odds `{open,close}` handling + de-vig to a home prob. |
 | `predict(fx)` | Assembles margin → `modelP` → blends odds → returns the per-game prediction object. |
 | `rationale`, `bandFor`, `whySummary`, `whyHTML` | The plain-English "why this tip" lead, the 1–2 sentence driver summary (2026-07-30), and the itemised ledger folded behind "Show the working" (lock line stays outside the fold). (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
@@ -73,16 +94,48 @@ when the model disagrees with the lock.
 
 ---
 
-## App structure (2026-07-30 rebuild)
+## App structure (2026-07-30 rebuild; responsive tiers added 2026-08-04)
 
-The page is a four-screen app behind a fixed bottom tab bar: `#scr-tips`,
-`#scr-new`, `#scr-ladder`, `#scr-model` — plain `.screen` wrappers toggled by a
-small standalone `<script>` at the end of the body (`nrl_tab_v1` in localStorage
-remembers the tab; `a.chgbadge` clicks switch to What's new before the `#chg-…`
-anchor scrolls; `#tabNewBadge` is fed by `renderChanges()`). Hidden screens still
-receive their innerHTML — `render()` is unaware tabs exist. Keep it that way: new
-surfaces go INSIDE a screen, and the render pipeline must never depend on which
-screen is visible. `cardHTML()` builds the 2026 card: `gtop` (kick-off/venue),
+The page is a four-screen app: `#scr-tips`, `#scr-new`, `#scr-ladder`, `#scr-model` —
+plain `.screen` wrappers toggled by a small standalone `<script>` at the end of the
+body (`nrl_tab_v1` in localStorage remembers the tab; `a.chgbadge` clicks switch to
+What's new before the `#chg-…` anchor scrolls; `a.gamelink` clicks switch to Tips
+before the `#game-…` anchor scrolls; `#tabNewBadge` is fed by `renderChanges()`).
+Hidden screens still receive their innerHTML — `render()` is unaware tabs exist.
+Keep it that way: new surfaces go INSIDE a screen, and the render pipeline must
+never depend on which screen is visible.
+
+### Responsive tiers (2026-08-04 — phone and desktop get different UIs)
+
+| Width | Behaviour |
+|---|---|
+| ≤ 640px | Phone UI, unchanged: single 600px column, fixed bottom tab bar. |
+| 641–1023px | Same, with the pre-existing enrichment (`.moregrid`/`.statgrid` 2-col). iPad portrait keeps the bottom bar deliberately — don't lower the desktop breakpoint. |
+| ≥ 1024px | Desktop: the SAME `.tabbar` element is restyled into a centred top pill row (the tab script needs no changes); `.wrap` widens to 1140px; game cards 2-up (`align-items:start` so an open fold doesn't stretch its neighbour); Model screen 2-column; What's new gets a feed+schedule grid. |
+| ≥ 1280px | Tips screen adds a sticky right rail holding the Quick list. |
+
+All desktop rules live in `@media(min-width:1024px)`/`(min-width:1280px)` blocks
+placed BEFORE the `@media print` block, with no `!important` (print's
+`.screen{display:block!important}` must keep winning). The `#scr-*.active` grid
+displays override `.screen.active{display:block}` by ID specificity.
+
+### What's new screen (redesigned 2026-08-04)
+
+`#scr-new` now holds: a `#newMeta` status line ("Checked {time} · updates roughly
+every 4 hours"), the Today feed panel (`#changeFeed`, badge/count semantics
+unchanged — today-in-Sydney only, entries with no `ts` count as today), a collapsed
+**Earlier** fold for the rest of the rolling 36h window (`chg-early-` id prefix;
+overflow "show more" groups use `chg-more-` — three distinct anchor namespaces with
+the cards' `#game-…`), and a **"This round's schedule"** panel (`#weekAhead`):
+every fixture in kickoff order under day headers, crest dots, ground-local
+time-only kickoff via the local `kt()` formatter (NEVER a locale tz abbreviation —
+"GMT+10" truncated every row; the venue box still carries the fully-zoned time),
+the tipped side as a pill (gold = SYD only), FT scores once played, and the bye
+line. `renderNewScreen(preds,fxList)` is called from `render()` unconditionally.
+Fixture group headers in the feed carry crest dots + a "view game →" link.
+`renderChanges()` toggles `.long` on `#changeFeed` when >6 visible today-rows;
+the desktop 2-column feed flow is scoped to `#changeFeed.long`.
+Legacy `cat:"weather"` entries are filtered out in `chgList()` (transition window). `cardHTML()` builds the 2026 card: `gtop` (kick-off/venue),
 `gmatch`/`gteam` (monogram crests carry the team code), `gprob`/`gbar.duo` (two
 club-colour shares, `.alt` = shade-shift for same-colour matchups, `.lift` =
 brightness floor for near-navy clubs), `gtippill`, then the `details.more` fold.
@@ -100,8 +153,10 @@ file still carries the rolling 36h window.
 
 ```
 roundPill, metaline, dataBanners, lockHero, games, quicklist, copied,
-accModel, accLock, accNote, rkTax, learningSection, learningBody,
-ladderNote, ladder, hga, formW, oddsW, compMode, howItWorks, foot
+accYou, accModel, accLock, accNote, rkTax, learningSection, learningBody,
+ladderNote, ladder, hga, formW, oddsW, compMode, howItWorks, foot,
+changesSection, changeFeed, chgCount, tabNewBadge,
+newMeta, weekAhead, freshBtn, freshLabel, ptr
 ```
 
 - `lockHero` — the Roosters lock banner (safe/risky verdict).
@@ -121,8 +176,11 @@ ladderNote, ladder, hga, formW, oddsW, compMode, howItWorks, foot
 - Visual style is a dark "Apple Sports"-inspired theme, optimised for iPhone (safe-area
   insets, PWA `<meta>` tags so it can be added to the home screen).
 - No CDNs, no web fonts that require network — everything inline so offline works.
-- The "why" line under each tip surfaces the injury and weather adjustments, e.g.
-  `SYD −4.3: Nathan Cleary out (Halfback) · wet — model less certain`.
+- The "why" line under each tip surfaces the injury adjustments, e.g.
+  `SYD −4.3: Nathan Cleary out (Halfback)`. (Weather removed 2026-08-04.)
+- When the model's margin side and the blended favourite differ, the ledger "Net:"
+  line and the headline sentence pair each number with its own team — never quote
+  one side's margin next to the other side's blended percentage.
 
 ---
 

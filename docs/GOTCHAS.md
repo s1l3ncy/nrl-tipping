@@ -60,16 +60,19 @@ Real problems encountered on this project and how to avoid repeating them.
   than the run failing (best-effort by design). Watch `oddsApiRemaining` in
   `last_run.json`; if it hits 0 mid-month, thin the schedule.
 
-## Weather must describe the game's day, not the week (2026-07-30)
-- "Wettest of the next ~6 days" was designed before kick-off times existed. Once they
-  did, every fixture could carry a forecast for a day it wasn't played on (a Thursday
-  game shrunk by Saturday's rain) — and it did, all round. The dump is now
-  `City|YYYY-MM-DD:` lines matched on the fixture's kick-off date; the dateless `City:`
-  line is the legacy fallback and both sides still accept it.
-- **A per-city fetch timeout must not blank that city.** Dropping the city re-nulled
-  `fixture.weather` for 4 hours AND re-fired the change feed's "first forecast published"
-  entry when it came back. Failed cities keep their committed dump line
-  (`reuse_weather_lines()`), same as every other dump keeps itself on a thin parse.
+## Weather was REMOVED end-to-end (2026-08-04) — don't reanimate it
+- Josh: it wasn't affecting anything. Deleted from the scraper (`fetch_weather`,
+  `CITY_COORDS`, `weather_dump.txt`), the parser (`parse_weather`/`apply_weather`/
+  `--weather`, the change feed's weather category and rain-band logic), the model
+  (`weatherEffect()` and the margin shrink), and the whole UI. The two 2026-07-30
+  weather gotchas that used to live here (game-day matching; fetch-timeout line
+  reuse) are history — do not re-add the feature to "fix" them.
+- **Transition details that matter:** `fixture.weather` ships as an always-null key
+  for one deploy cycle (CDN-cached old `index.html` copies still read it), then can
+  be dropped; `chgList()` filters legacy `cat:"weather"` entries until the 36h
+  window ages them out; the workflow deletes `weather_dump.txt` from the repo
+  (idempotent `rm -f` before commit) — a leftover dump plus a leftover `--weather`
+  flag would silently reanimate the feature.
 
 ## The player-ratings scrape (`cloud_fetch.py: extract_ratings`)
 - **⚠ This section previously said the opposite, and that advice caused a real outage.**
@@ -141,11 +144,9 @@ Real problems encountered on this project and how to avoid repeating them.
   `namedSquad()` ignores any lineup whose round ≠ the round being tipped.
 
 ## Data / model correctness
-- **Injuries/weather are applied to the model margin *before* the odds blend** on
+- **Injuries are applied to the model margin *before* the odds blend** on
   purpose — so when odds already price them in, the blend discounts them (no double-
   counting). Don't move them after the blend or add a second discount.
-- **Weather never picks a side**, it only shrinks confidence. Keep the sign of the margin
-  intact.
 - **"Out this week" depends on the return round vs the round being tipped.** A player
   "back Round N" with N ≤ current round is *available* (0 penalty). Off-by-one here
   silently mutes or over-applies injuries.
@@ -204,10 +205,15 @@ Real problems encountered on this project and how to avoid repeating them.
   `(sev, ts)` desc before `kept[:CHANGES_MAX]`. Put `ts` first and severity becomes a
   same-second tie-break: 60 trivia entries then evict a spine player's "out of the 17"
   inside its own window. Display order is the front-end's job, not this list's.
-- **Never emit a change entry for a difference the model can't feel.** Weather is emitted
-  only when the rain figure crosses a 20-point band (what `weatherEffect()` keys on), and
-  the id embeds the band, not the forecast string — otherwise every 1°C wobble is a new
-  entry and eight fixtures × six runs a day fills the window with nothing.
+- **Never emit a change entry for a difference the model can't feel.** (The worked
+  example here used to be weather's 20-point rain bands — weather is gone, but the
+  principle stands for any future feed: key the entry id on the band/threshold the
+  model actually responds to, never the raw string, or trivia floods the window.)
+- **A line-move entry may only name a "firming" side when exactly one price
+  shortened (2026-08-04).** `build_changes()` used to attribute direction whenever
+  the home price differed — so both-prices-lengthen (a vig change, nobody's money)
+  got pinned on a team. The front-end's `oddsHTML()` had this rule first; the feed
+  now mirrors it (`team:null, dir:neutral` otherwise).
 
 ## Front-end
 - **No CDNs, no `sessionStorage`/external storage** — must work offline as a local file;
@@ -218,3 +224,53 @@ Real problems encountered on this project and how to avoid repeating them.
   the classic cache-first SW trap that this was built to avoid. To nuke all caches, bump
   `CACHE` (`nrl-tips-vN`). SWs run only over http(s); `file://` use is unaffected. Don't
   switch it to cache-first "for speed" without a version-bump story, or staleness returns.
+
+## 2026-08-04 batch — new landmines (audit + rebuild)
+
+- **`logisticScale` is statistically unidentifiable — NEVER re-add it to the grid
+  search.** In `predict_phome` the scale cancels exactly for the Elo term, so the
+  walk-forward loss only sees `homeAdv/scale`; the old grid used it as a lever to
+  inflate the underweighted home edge and always drove it to the grid minimum (5),
+  which made every injury penalty ~40% more potent at inference than designed. It is
+  pinned at 7 in `learn_model.py` and still published in `params` (the front-end and
+  the freeze read it).
+- **Opening odds must be carried forward in FULL rebuild mode.** `apply_odds()` used
+  to set `open = close = fresh` every run, and the workflow always runs full rebuilds
+  — so `open` was destroyed every 4 hours, `resolveOdds().moved` was permanently
+  false, and the "Line moved / Bookies (open)" UI could never fire. Full mode now
+  inherits the previous published `open` for the same round + fixture pair
+  (orientation-corrected); it seeds `open = fresh` only on first sighting.
+- **The loyalty tax must come from `backtest.lockTax` (walk-forward, computed
+  server-side from pre-game Elos) — never recompute it in the browser.** The old
+  front-end `modelFavoursHome()` graded past Roosters games with the CURRENT Elo,
+  which already contains each game's own result — the exact hindsight pattern the
+  2026-08-02 entry above bans. That function is deleted; if `lockTax` is absent the
+  UI shows nothing.
+- **Injury names must be plausible names.** A Panthers stats table (`P | W | L`
+  cells) was scraped as player "P", reason "W", return "L" — a live phantom entry
+  worth real model points, and the NOT-NAMED rule would have upgraded it to full
+  weight on Tuesday. `extract_injuries()` now rejects rows whose cells are all ≤2
+  chars and requires a plausible name (≥2 words / ≥4 letters / a `/players/` link);
+  `looks_like_player` (Python) and `looksLikePlayer` (JS) both reject 1–2 letter
+  names — keep the two copies identical, same as `norm_name`/`normName`.
+- **Results carry a `season` field now; every reader must stay season-aware.**
+  Dedup is on (season, round, home, away); missing `season` defaults to 2026. Without
+  this, a 2027 game repeating a 2026 round+pairing is silently dropped, the Elo
+  replay's chronology scrambles at the boundary, and in March 2027 the front-end
+  would show last year's score as "Full time" for an unplayed fixture.
+- **Grading keys are unordered team pairs.** `freeze_tips.mjs` and `myRecord()` key
+  on `[home,away].sort()` (stored orientation kept for display) so a home/away
+  orientation flip between runs can't double-grade one game.
+- **Kick-off rows must never print locale tz abbreviations.** The What's-new schedule
+  originally used `Intl` zone names — en-US ICU renders "GMT+10", which truncated
+  every row on the phone. The schedule uses the local `kt()` time-only formatter
+  (ground-local); the card's venue box remains the place for the fully-zoned time.
+- **`refreshFromNetwork()` must remove its `<script>` tags and no-op on an unchanged
+  `contentStamp()`.** With 5-minute polling, forgetting either means unbounded DOM
+  growth or a re-render every 5 minutes that collapses whatever fold the user had
+  open. Both behaviours are load-bearing, not polish.
+- **The repo's workflow and the local `.github/workflows/` copy can diverge — always
+  edit from the LIVE copy.** The local copy was one revision behind and lacked the
+  "Freeze pre-kick-off tips" step; uploading it as-is would have silently killed the
+  tip log. Fetch the live file (raw URL) before editing, or use the staged copy in
+  `update docs for upload/github-workflows/`.
