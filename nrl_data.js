@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.35,
-          "away": 3.2
+          "away": 3.25
         }
       },
       "weather": null,
@@ -624,8 +624,32 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-05T17:46:33+10:00",
+  "generatedAt": "2026-08-05T20:14:58+10:00",
   "changes": [
+    {
+      "id": "r23-NQL-in-john-bateman",
+      "fixture": "GLD-NQL",
+      "team": "NQL",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "John Bateman (Second-row) named in the Cowboys 17 — was on the injury list.",
+      "pts": 1.3,
+      "ts": "2026-08-05T20:14:58+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-NQL-out-kaiden-lahrs",
+      "fixture": "GLD-NQL",
+      "team": "NQL",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Kaiden Lahrs (Prop) is out of the Cowboys 17.",
+      "pts": 0.7,
+      "ts": "2026-08-05T20:14:58+10:00",
+      "rnd": 23
+    },
     {
       "id": "r23-NZW-inj-demitric-vaimauga",
       "fixture": "NZW-PEN",
@@ -723,27 +747,15 @@ window.NRL_DATA = {
       "rnd": 23
     },
     {
-      "id": "r23-DOL-BRI-wx-1",
-      "fixture": "DOL-BRI",
+      "id": "r23-SOU-PAR-line-1.35-3.25",
+      "fixture": "SOU-PAR",
       "team": null,
-      "cat": "weather",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "neutral",
-      "text": "Forecast for Brisbane updated — Sat 8 Aug: 21°C, 24% rain chance, clear (was 14% rain).",
+      "text": "Line moved — Rabbitohs $1.35 → $1.35, Eels $3.20 → $3.25. Market now 71% Rabbitohs (was 70%).",
       "pts": null,
-      "ts": "2026-08-04T06:45:34+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-CBR-NEW-wx-4",
-      "fixture": "CBR-NEW",
-      "team": null,
-      "cat": "weather",
-      "sev": 2,
-      "dir": "neutral",
-      "text": "Forecast for Canberra updated — Sun 9 Aug: 11°C, 89% rain chance, showers (was 76% rain).",
-      "pts": null,
-      "ts": "2026-08-04T06:45:34+10:00",
+      "ts": "2026-08-05T20:14:58+10:00",
       "rnd": 23
     },
     {
@@ -937,19 +949,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-04T09:43:27+10:00",
       "rnd": 23
-    },
-    {
-      "id": "r23-DOL-BRI-line-1.44-2.80",
-      "fixture": "DOL-BRI",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.45 → $1.44, Broncos $2.75 → $2.80. Market now 66% Dolphins (was 65%).",
-      "pts": null,
-      "ts": "2026-08-04T06:45:34+10:00",
-      "rnd": 23
     }
   ],
-  "changesSince": "2026-08-04T06:45:34+10:00"
+  "changesSince": "2026-08-04T09:43:27+10:00"
 };
