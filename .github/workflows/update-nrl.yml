@@ -63,12 +63,20 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python cloud_fetch.py
 
+      # Weather was retired 2026-08-04 (audit): the model no longer reads it and
+      # cloud_fetch.py no longer writes the dump. Delete the old committed copy
+      # so `git add -A` stops re-carrying it — a leftover dump plus a leftover
+      # --weather flag is how the feature could silently reanimate. rm -f is
+      # idempotent: a no-op once the file is gone from the repo.
+      - name: Retire the weather dump
+        run: rm -f weather_dump.txt
+
       # --odds and --draw-meta are what make fixture.odds / venue / kick-off real.
       # They were missing from this line for months, which is the entire reason
       # the app said "Bookmaker odds drop around Tuesday" every day of the week
       # and showed "—" for every venue. If you edit this command, keep them.
       - name: Rebuild data from the fetched pages
-        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --draw-meta draw_meta.json --odds odds_dump.txt --injuries injuries_dump.html --weather weather_dump.txt --results results_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
+        run: python parse_nrl.py --ladder ladder_dump.html --draw draw_dump.html --draw-meta draw_meta.json --odds odds_dump.txt --injuries injuries_dump.html --results results_dump.txt --out nrl_data.js --season 2026 --source zerotackle.com
 
       - name: Re-learn from the results memory
         run: python learn_model.py
