@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-05",
+  "updated": "2026-08-06",
   "season": 2026,
   "round": 23,
   "source": "zerotackle.com",
@@ -552,8 +552,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.43,
-          "away": 2.85
+          "home": 1.42,
+          "away": 2.87
         }
       },
       "weather": null,
@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.35,
-          "away": 3.25
+          "away": 3.23
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-05T20:14:58+10:00",
+  "generatedAt": "2026-08-06T04:07:58+10:00",
   "changes": [
     {
       "id": "r23-NQL-in-john-bateman",
@@ -735,15 +735,27 @@ window.NRL_DATA = {
       "rnd": 23
     },
     {
-      "id": "r23-PEN-fit-p",
-      "fixture": "NZW-PEN",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r23-DOL-BRI-line-1.42-2.87",
+      "fixture": "DOL-BRI",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Panthers: P is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-08-04T09:43:27+10:00",
+      "text": "Line moved — Dolphins $1.43 → $1.42, Broncos $2.85 → $2.87. Market now 67% Dolphins (was 67%).",
+      "pts": null,
+      "ts": "2026-08-06T04:07:58+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SOU-PAR-line-1.35-3.23",
+      "fixture": "SOU-PAR",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.35 → $1.35, Eels $3.25 → $3.23. Market now 71% Rabbitohs (was 71%).",
+      "pts": null,
+      "ts": "2026-08-06T04:07:58+10:00",
       "rnd": 23
     },
     {
@@ -937,19 +949,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-04T20:18:32+10:00",
       "rnd": 23
-    },
-    {
-      "id": "r23-SOU-PAR-line-1.42-2.85",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $1.43 → $1.42, Eels $2.85 → $2.85. Market now 67% Rabbitohs (was 67%).",
-      "pts": null,
-      "ts": "2026-08-04T09:43:27+10:00",
-      "rnd": 23
     }
   ],
-  "changesSince": "2026-08-04T09:43:27+10:00"
+  "changesSince": "2026-08-04T20:18:32+10:00"
 };
