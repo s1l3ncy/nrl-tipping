@@ -1,7 +1,7 @@
 # Round 23 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-06T09:27:40. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-06T09:35:59. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (88 book quotes across 8 fixtures).
-Titans v Cowboys: 2.35 / 1.60
+Titans v Cowboys: 2.28 / 1.65
 Warriors v Panthers: 2.37 / 1.59
 Roosters v Bulldogs: 1.35 / 3.25
 Storm v Sea Eagles: 2.10 / 1.73

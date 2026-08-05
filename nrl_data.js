@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 1.65
         },
         "close": {
-          "home": 2.35,
-          "away": 1.6
+          "home": 2.28,
+          "away": 1.65
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-06T09:27:54+10:00",
+  "generatedAt": "2026-08-06T09:36:10+10:00",
   "changes": [
     {
       "id": "r23-NQL-in-john-bateman",
@@ -684,6 +684,18 @@ window.NRL_DATA = {
       "text": "Forecast for Canberra updated — Sun 9 Aug: 9°C, 100% rain chance, showers (was 99% rain).",
       "pts": null,
       "ts": "2026-08-05T04:18:25+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-GLD-NQL-line-2.28-1.65",
+      "fixture": "GLD-NQL",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $2.35 → $2.28, Cowboys $1.60 → $1.65. Market now 42% Titans (was 41%).",
+      "pts": null,
+      "ts": "2026-08-06T09:36:10+10:00",
       "rnd": 23
     },
     {
