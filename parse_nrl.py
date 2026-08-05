@@ -18,7 +18,10 @@ nrl_data.js matching the SPEC.md / schema-v3 contract:
     fixture = { home, away, venue, city, kickoff, tz,
                 odds: {open:{home,away}|null, close:{home,away}|null}
                       | {home,away} (legacy flat, still accepted) | null,
-                weather: string | null, h2h: null }
+                weather: null (retired 2026-08-04 — key kept as null for one
+                deploy cycle so CDN-cached old index.html copies that still
+                read it don't break; drop the key entirely next schema rev),
+                h2h: null }
 
 `fixture.kickoff` is ISO WITH a UTC offset and `fixture.tz` is the IANA zone
 of the ground (Australia/Brisbane for Townsville, Australia/Sydney for Sydney,
@@ -59,7 +62,6 @@ Usage:
                           [--out nrl_data.js] [--season 2026]
                           [--source "zerotackle.com"]
                           [--odds ODDS_FILE] [--injuries INJURIES_FILE]
-                          [--weather WEATHER_FILE]
 
 Defaults (used if flags omitted, so it "just works" in the project folder):
     --ladder  ladder_dump.html   (Zero Tackle NRL ladder page dump)
@@ -68,12 +70,13 @@ Defaults (used if flags omitted, so it "just works" in the project folder):
     --season  2026
     --source  zerotackle.com
 
---odds / --injuries / --weather are OPTIONAL local-file inputs (see
-sources.md for the exact format expected of each). When omitted, the
-corresponding fields (`fixture.odds`, `team.news`, `fixture.weather`) are
-simply left as `null` — the front-end and validate_data.py both treat that
-as normal, not an error. This script never fetches these itself; someone
-(the orchestrator or a human) saves the raw dumps to disk first.
+--odds / --injuries are OPTIONAL local-file inputs (see sources.md for the
+exact format expected of each). When omitted, the corresponding fields
+(`fixture.odds`, `team.news`) are simply left as `null` — the front-end and
+validate_data.py both treat that as normal, not an error. This script never
+fetches these itself; someone (the orchestrator or a human) saves the raw
+dumps to disk first. (Weather was retired 2026-08-04 — the model no longer
+reads it; `fixture.weather` is seeded null for one transition cycle.)
 
 Either ladder/draw input file may be absent; the script degrades
 gracefully (see `degrade` logic below) rather than crashing, but it will
@@ -121,20 +124,13 @@ line, "TeamName: free text", e.g.:
     Panthers: Nathan Cleary (calf) test, expected to play.
 Unmatched lines are ignored; teams with no line get `news: null`.
 
-WEATHER (optional, --weather): plain text, one line per city or per
-city+game-day:
-    Townsville|2026-07-30: Thu 30 Jul: 26°C, 14% rain chance, overcast
-    Townsville: Fine, 26C, light breeze.
-The dated form is that city's forecast for a game's LOCAL date and is matched
-to each fixture by resolved `city` + the date of its kick-off; the dateless
-form is the legacy city-wide fallback. Cities with no line get `weather: null`.
-
 RESULTS / LEARNING-LOOP MEMORY (optional, --results; the draw dump is also
 scanned automatically). Once a round's games are finished, the draw page (or
 a dedicated results/scores page saved to --results) usually prints final
 scores. This script extracts any finished games it can find as
-{round, home, away, hs, as} and APPENDS newly-seen ones (deduped on
-round+home+away) to the append-only match-log memory kept in nrl_learned.js
+{season, round, home, away, hs, as} and APPENDS newly-seen ones (deduped on
+season+round+home+away; entries written before 2026-08-04 carry no season
+field and default to 2026 everywhere) to the append-only match-log memory kept in nrl_learned.js
 (--learned, default nrl_learned.js) — never deleting prior entries, and
 never writing at all if an existing nrl_learned.js can't be parsed. This
 runs on BOTH a full rebuild and a --merge run. It does NOT recompute the
@@ -665,6 +661,10 @@ def parse_draw(raw_text, season):
         fixtures.append({
             "home": home_short, "away": away_short, "venue": venue,
             "city": resolve_city(venue, home_short), "kickoff": kickoff,
+            # `weather` retired 2026-08-04 — nothing fills it any more, but the
+            # key is kept as null for one deploy cycle so CDN-cached copies of
+            # the OLD index.html (whose model still reads fixture.weather)
+            # degrade to "no forecast" instead of breaking.
             "odds": None, "weather": None, "h2h": None,
         })
         seen_teams.add(home_short)
@@ -755,7 +755,7 @@ def finalise_fixture_times(fixtures):
 
 
 # ---------------------------------------------------------------------------
-# Optional inputs: odds, injuries/team-news, weather.
+# Optional inputs: odds, injuries/team-news.
 # All are local text dumps (see sources.md / module docstring for format);
 # none of these trigger network access — they're just parsed if provided.
 # ---------------------------------------------------------------------------
@@ -782,17 +782,34 @@ def parse_odds(raw_text):
     return out
 
 
-def apply_odds(fixtures, odds_by_pair, mode="full"):
+def _valid_price_pair(price):
+    """True if `price` is a well-formed decimal-odds {home,away} pair (both
+    sides numeric and > 1)."""
+    if not isinstance(price, dict):
+        return False
+    h, a = price.get("home"), price.get("away")
+    return (isinstance(h, (int, float)) and not isinstance(h, bool) and h > 1
+            and isinstance(a, (int, float)) and not isinstance(a, bool) and a > 1)
+
+
+def apply_odds(fixtures, odds_by_pair, mode="full", prev_open=None):
     """Apply freshly-parsed odds to fixtures' `odds` field, evolving it into
     the canonical {"open": {home,away}|None, "close": {home,away}|None}
     shape that enables closing-line-value (CLV) tracking.
 
-    mode="full" (weekly full rebuild, the default): every fixture's `odds`
-    starts as None (set by parse_draw). Odds parsed this run are the only
-    sighting so far, so both `open` and `close` are set to the same fresh
-    values.
+    mode="full" (the every-run full rebuild): every fixture's `odds` starts
+    as None (set by parse_draw), but the PREVIOUS published payload may
+    already know this fixture's opening line. `prev_open` (built by main()
+    from the outgoing nrl_data.js, same round only) maps
+    frozenset({home,away}) -> (prev_home_short, {home,away} open pair);
+    when present, that open is carried forward and only `close` takes the
+    fresh price. Without it (first sighting), `open` and `close` are seeded
+    to the same fresh values. Before 2026-08-04 (audit A1) full mode reset
+    `open` to the current price on EVERY run — since the workflow always
+    runs full rebuilds, `open` never survived 4 hours and the front-end's
+    "line moved" / CLV surfaces could never fire.
 
-    mode="merge" (daily/gameday reactive refresh, see run_merge()):
+    mode="merge" (reactive refresh, see run_merge()):
     fixtures already carry whatever the previous run left — None, the
     legacy flat {home,away} shape, or the open/close shape. For any
     fixture with fresh odds this batch:
@@ -815,7 +832,13 @@ def apply_odds(fixtures, odds_by_pair, mode="full"):
         fresh = {"home": home_odds, "away": away_odds}
 
         if mode == "full":
-            f["odds"] = {"open": dict(fresh), "close": dict(fresh)}
+            open_odds = None
+            rec = (prev_open or {}).get(key)
+            if rec:
+                prev_home, po = rec
+                # Re-orient if the source flipped which side is "home".
+                open_odds = dict(po) if prev_home == f["home"] else {"home": po["away"], "away": po["home"]}
+            f["odds"] = {"open": open_odds or dict(fresh), "close": dict(fresh)}
             continue
 
         existing = f.get("odds")
@@ -834,10 +857,10 @@ def apply_odds(fixtures, odds_by_pair, mode="full"):
 
 
 def parse_line_dump(raw_text, resolve_key):
-    """Shared parser for 'Label: free text' line dumps (injuries, weather).
+    """Shared parser for 'Label: free text' line dumps (injuries).
     `resolve_key` maps the label fragment before ':' to a dict key (team
-    short code, or a normalised city name); lines that don't resolve are
-    skipped. Later lines for the same key overwrite earlier ones."""
+    short code); lines that don't resolve are skipped. Later lines for the
+    same key overwrite earlier ones."""
     out = {}
     for line in raw_text.splitlines():
         if ":" not in line:
@@ -855,35 +878,10 @@ def parse_injuries(raw_text):
     return parse_line_dump(raw_text, find_short)
 
 
-def parse_weather(raw_text):
-    """Return {key: weather_text} where key is either "city" (legacy city-wide
-    line) or "city|YYYY-MM-DD" (that city's forecast for a game's LOCAL date —
-    cloud_fetch emits one per game-day since 2026-07-30). Both shapes come
-    through the same lowercasing pass; apply_weather() prefers the dated one."""
-    return parse_line_dump(raw_text, lambda s: s.strip().lower() or None)
-
-
 def apply_injuries(teams, news_by_short):
     for t in teams:
         if t["short"] in news_by_short:
             t["news"] = news_by_short[t["short"]]
-
-
-def apply_weather(fixtures, weather_by_city):
-    """Dated key first — "city|YYYY-MM-DD", the game's local date, read straight
-    off the fixture's kick-off (already local-at-the-ground with offset, so the
-    first 10 chars ARE the date). Falls back to the legacy city-wide key so an
-    old-format dump, or a fixture with no kick-off, still gets a forecast."""
-    for f in fixtures:
-        city = (f.get("city") or "").strip().lower()
-        if not city:
-            continue
-        day = (f.get("kickoff") or "")[:10]
-        hit = weather_by_city.get(f"{city}|{day}") if day else None
-        if hit is None:
-            hit = weather_by_city.get(city)
-        if hit is not None:
-            f["weather"] = hit
 
 
 # ---------------------------------------------------------------------------
@@ -991,15 +989,17 @@ def emit_learned_js(data, out_path, note=""):
     os.replace(_tmp, out_path)
 
 
-def append_finished_results(learned_path, new_results):
+def append_finished_results(learned_path, new_results, season=2026):
     """Append newly-parsed finished games to the nrl_learned.js results
-    memory, deduped on (round, home, away). Never deletes existing entries.
-    If the existing file is present but unparseable, ABORTS without writing
-    (returns -1) — a corrupt learning-loop file must never silently lose
-    history. If the file doesn't exist yet, creates a minimal placeholder
-    shell (conservative defaults, lowConfidence=True) that learn_model.py
-    will properly re-fit on its next run. Returns the number of NEW games
-    appended (0 if none/nothing to do)."""
+    memory, deduped on (season, round, home, away) — entries written before
+    2026-08-04 carry no season field and default to 2026 (audit A6), so a
+    2027 game that repeats a 2026 round+pair is no longer silently dropped.
+    Never deletes existing entries. If the existing file is present but
+    unparseable, ABORTS without writing (returns -1) — a corrupt
+    learning-loop file must never silently lose history. If the file doesn't
+    exist yet, creates a minimal placeholder shell (conservative defaults,
+    lowConfidence=True) that learn_model.py will properly re-fit on its next
+    run. Returns the number of NEW games appended (0 if none/nothing to do)."""
     path = Path(learned_path)
     data = None
     if path.exists():
@@ -1014,13 +1014,14 @@ def append_finished_results(learned_path, new_results):
         return 0
 
     existing = data["results"] if data else []
-    seen = {(r["round"], r["home"], r["away"]) for r in existing}
+    seen = {(r.get("season", 2026), r["round"], r["home"], r["away"]) for r in existing}
     added = 0
     for r in new_results:
-        key = (r["round"], r["home"], r["away"])
+        key = (season, r["round"], r["home"], r["away"])
         if key in seen:
             continue
-        existing.append({"round": r["round"], "home": r["home"], "away": r["away"], "hs": r["hs"], "as": r["as"]})
+        existing.append({"season": season, "round": r["round"], "home": r["home"],
+                         "away": r["away"], "hs": r["hs"], "as": r["as"]})
         seen.add(key)
         added += 1
 
@@ -1113,9 +1114,9 @@ def derive_form_and_splits(teams, results):
 # 4-hour slice: anything that changed overnight would already be gone by
 # breakfast. Instead entries accumulate, dedupe on `id`, and age out after
 # CHANGES_WINDOW_HOURS. `id` therefore has to be stable for "the same change"
-# and distinct for "a new change" — odds ids embed the new price, weather ids a
-# hash of the new forecast, so a second, different line move is a new entry
-# while a re-observation of the same one is not.
+# and distinct for "a new change" — odds ids embed the new price, so a second,
+# different line move is a new entry while a re-observation of the same one is
+# not.
 # ---------------------------------------------------------------------------
 CHANGES_WINDOW_HOURS = 36
 CHANGES_MAX = 60                 # hard cap so a pathological diff can't bloat the file
@@ -1164,9 +1165,14 @@ def player_impact(name, players):
 
 def looks_like_player(name):
     """Same guard as the front-end's looksLikePlayer(): the news string mixes
-    real names with prose ('near full strength', 'Team list Tue')."""
+    real names with prose ('near full strength', 'Team list Tue'). MUST stay
+    identical in behaviour to the JS copy — if one changes, change both."""
     s = (name or "").strip()
     if not s or len(s.split()) > 3:
+        return False
+    # 1-2 letter "names" are stats-table cells ("P", "W"), never players
+    # (2026-08-04, audit A5 — a Panthers form table published player "P").
+    if len(re.sub(r"[^A-Za-z]", "", s)) < 3:
         return False
     if re.match(r"^(near|settled|otherwise|several|team|no|full|squad|rotation|plenty|mostly)\b", s, re.I):
         return False
@@ -1216,26 +1222,6 @@ def _market_home_prob(used):
 
 def _slug(text):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", str(text or "").lower())).strip("-") or "x"
-
-
-def _rain_pct(weather):
-    m = re.search(r"(\d+)\s*%\s*rain", str(weather or ""), re.I)
-    return int(m.group(1)) if m else None
-
-
-RAIN_BAND = 20                   # weatherEffect()'s dead zone, and the band width
-
-
-def _rain_band(pct):
-    """Which 20-point rain band a forecast sits in, or None if unreadable.
-
-    weatherEffect() in the app is flat below 20% rain and scales linearly above
-    it, so a move INSIDE a band barely touches the tip while a move ACROSS one is
-    the part worth reporting. Bands are what the weather change feed keys on, so
-    "62% rain" becoming "65% rain" is not a change and cannot mint a new entry."""
-    if pct is None:
-        return None
-    return max(0, min(5, int(pct) // RAIN_BAND))
 
 
 def _instant(iso, tz_name):
@@ -1320,19 +1306,7 @@ def build_changes(prev_data, data, prev_lineups, lineups, players, now_iso, roun
     prev_fx_pair = {frozenset((f.get("home"), f.get("away"))): f
                     for f in (prev_data.get("fixtures") or [])}
 
-    # Two fixtures in the same city on the same LOCAL day share one forecast, so a
-    # per-fixture weather entry would print the identical sentence twice (the doubled
-    # "Forecast for Sydney updated" rows, 2026-07-30). Count the sharers up front;
-    # a shared forecast is emitted ONCE, comp-wide (fixture=null), keyed on the city
-    # + day + band rather than on either fixture.
-    wx_share = {}
-    for f in (data.get("fixtures") or []):
-        ck = ((f.get("city") or "").strip().lower(), (f.get("kickoff") or "")[:10])
-        if ck[0]:
-            wx_share[ck] = wx_share.get(ck, 0) + 1
-    wx_emitted = set()
-
-    # ---- per-fixture: odds, weather, kick-off, venue -----------------------
+    # ---- per-fixture: odds, kick-off, venue --------------------------------
     for f in (data.get("fixtures") or []):
         key = f"{f.get('home')}-{f.get('away')}"
         old = prev_fx.get(key) or prev_fx_pair.get(frozenset((f.get("home"), f.get("away"))))
@@ -1351,48 +1325,18 @@ def build_changes(prev_data, data, prev_lineups, lineups, players, now_iso, roun
                                         or abs(new_used["away"] - old_used["away"]) >= 0.01):
             p_new, p_old = _market_home_prob(new_used), _market_home_prob(old_used)
             swing = abs(p_new - p_old) * 100
-            firming = h if new_used["home"] < old_used["home"] else a
-            add(key, firming, "line", 2 if swing >= 5 else 1, "up",
+            # Name a firming side only when EXACTLY ONE price shortened (audit
+            # A7, 2026-08-04 — mirrors the front-end's oddsHTML). Both prices
+            # lengthening is a margin/vig change: nobody's money, no story.
+            h_in = new_used["home"] < old_used["home"]
+            a_in = new_used["away"] < old_used["away"]
+            firming = h if (h_in and not a_in) else a if (a_in and not h_in) else None
+            add(key, firming, "line", 2 if swing >= 5 else 1,
+                "up" if firming else "neutral",
                 f"Line moved — {hn} ${old_used['home']:.2f} → ${new_used['home']:.2f}, "
                 f"{an} ${old_used['away']:.2f} → ${new_used['away']:.2f}. "
                 f"Market now {p_new * 100:.0f}% {hn} (was {p_old * 100:.0f}%).",
                 ident=f"r{round_num}-{key}-line-{new_used['home']:.2f}-{new_used['away']:.2f}")
-
-        # weather ----------------------------------------------------------
-        # Only a move that changes what the MODEL does with the forecast is news.
-        # Emitting on any string difference (a 1°C wobble) and id-ing by a hash of
-        # that string minted a brand-new entry on every run: eight fixtures × six
-        # runs a day = up to 48 sev-1 rows a day against a 60-slot window, which
-        # is what pushed a "Cleary is out of the 17" entry off the feed inside its
-        # window. Now: emit only on a rain-band crossing (or a ≥25pp jump, or the
-        # first forecast published for a fixture), and key the id on the BAND so a
-        # re-forecast inside the same band collapses onto the entry already there
-        # instead of adding another.
-        new_wx, old_wx = (f.get("weather") or ""), (old.get("weather") or "")
-        if new_wx and new_wx != old_wx:
-            rain_new, rain_old = _rain_pct(new_wx), _rain_pct(old_wx)
-            # A forecast that carries no rain figure at all ("Fine, 22°C") is band
-            # 0 to the model — weatherEffect() shrinks nothing — so a forecast that
-            # LOSES its rain figure is a real crossing, not a silent no-op.
-            band_new = _rain_band(rain_new) if rain_new is not None else (0 if new_wx else None)
-            band_old = _rain_band(rain_old) if rain_old is not None else (0 if old_wx else None)
-            crossed = (band_new is not None and band_old is not None and band_new != band_old)
-            big = (rain_new is not None and rain_old is not None
-                   and abs(rain_new - rain_old) >= 25)
-            first = not old_wx
-            if crossed or big or first:
-                was = f" (was {rain_old}% rain)" if rain_old is not None else ""
-                ck = ((f.get("city") or "").strip().lower(), (f.get("kickoff") or "")[:10])
-                shared = bool(ck[0]) and wx_share.get(ck, 0) > 1
-                if not (shared and ck in wx_emitted):
-                    if shared:
-                        wx_emitted.add(ck)
-                    add(None if shared else key, None, "weather",
-                        2 if (crossed or big) else 1, "neutral",
-                        f"Forecast for {f.get('city') or hn} updated — {new_wx}{was}.",
-                        ident=(f"r{round_num}-wx-{_slug(ck[0])}-{ck[1]}-{'new' if first else band_new}"
-                               if shared else
-                               f"r{round_num}-{key}-wx-{'new' if first else band_new}"))
 
         # kick-off ---------------------------------------------------------
         # Compare INSTANTS, not strings. The first run after this change ships
@@ -1634,15 +1578,17 @@ def emit_js(data, out_path):
         "(edits will be overwritten next run).\n"
         "// To regenerate: python3 parse_nrl.py --ladder ladder_dump.html "
         "--draw draw_dump.html --out nrl_data.js --season 2026 --source zerotackle.com "
-        "[--odds odds_dump.txt] [--injuries injuries_dump.txt] [--weather weather_dump.txt]\n"
+        "[--odds odds_dump.txt] [--injuries injuries_dump.txt]\n"
         "// (see sources.md for where to fetch fresh dumps).\n"
         f"// Data current to end of Round {data['round'] - 1}, {data['season']}.\n"
-        "// Schema v3: teams add colour/home/away/news; fixtures add city/odds/weather/h2h.\n"
-        "// fixture.odds now carries {open,close} decimal-odds snapshots for CLV\n"
-        "// (closing-line-value); the legacy flat {home,away} shape and null are\n"
-        "// still accepted everywhere for backward compatibility.\n"
-        "// Time-sensitive fields (odds, weather, news) stay null unless the optional\n"
-        "// --odds/--injuries/--weather dumps are supplied that week.\n"
+        "// Schema v3: teams add colour/home/away/news; fixtures add city/odds/h2h.\n"
+        "// fixture.odds carries {open,close} decimal-odds snapshots for CLV\n"
+        "// (closing-line-value); `open` is carried forward run-to-run within a round.\n"
+        "// The legacy flat {home,away} shape and null are still accepted everywhere.\n"
+        "// fixture.weather is retired (2026-08-04) — kept as null for one deploy\n"
+        "// cycle for CDN-cached old pages, then the key can be dropped.\n"
+        "// Time-sensitive fields (odds, news) stay null unless the optional\n"
+        "// --odds/--injuries dumps are supplied that week.\n"
         f"window.NRL_DATA = {body};\n"
     )
     # Atomic write: write to a temp file then rename, so a concurrent/interrupted
@@ -1672,7 +1618,7 @@ def load_existing_data(path):
 def run_merge(args):
     """DAILY reactive-merge mode: load an already-built nrl_data.js and
     refresh ONLY the fast-moving fields (fixture.odds, team.news,
-    fixture.weather, and the top-level `newsUpdated` stamp) from whatever
+    and the top-level `newsUpdated` stamp) from whatever
     optional dumps are supplied. Everything else — `updated`, `round`,
     ladder numbers, home/away splits, the fixtures list itself — is left
     byte-for-byte as loaded. Never touches the network; parses local dumps
@@ -1696,7 +1642,7 @@ def run_merge(args):
     teams = data["teams"]
     fixtures = data["fixtures"]
 
-    n_odds = n_injuries = n_weather = n_meta = 0
+    n_odds = n_injuries = n_meta = 0
 
     if args.draw_meta:
         meta_path = Path(args.draw_meta)
@@ -1726,16 +1672,6 @@ def run_merge(args):
         else:
             print(f"[parse_nrl] WARNING: --injuries file not found: {injuries_path}", file=sys.stderr)
 
-    if args.weather:
-        weather_path = Path(args.weather)
-        if weather_path.exists():
-            weather_by_city = parse_weather(weather_path.read_text(encoding="utf-8", errors="ignore"))
-            apply_weather(fixtures, weather_by_city)
-            n_weather = len(weather_by_city)
-            print(f"[parse_nrl] MERGE: applied weather for {n_weather} city/cities from {weather_path}")
-        else:
-            print(f"[parse_nrl] WARNING: --weather file not found: {weather_path}", file=sys.stderr)
-
     finalise_fixture_times(fixtures)
 
     news_updated = args.updated or local_today_iso()
@@ -1743,7 +1679,7 @@ def run_merge(args):
     attach_changes(data, prev_data, args, data.get("round"), now_local())
     # NOTE: `updated`, `round`, ladder numbers (P/W/L/PF/PA/last5/home/away)
     # and the fixtures list are all left exactly as loaded above — only the
-    # reactive fields mutated in place (odds/news/weather) and newsUpdated
+    # reactive fields mutated in place (odds/news) and newsUpdated
     # change.
 
     # Learning-loop memory: scan the draw dump (if present) and/or an
@@ -1761,7 +1697,8 @@ def run_merge(args):
         else:
             print(f"[parse_nrl] WARNING: --results file not found: {results_path}", file=sys.stderr)
     if finished:
-        added = append_finished_results(args.learned, finished)
+        added = append_finished_results(args.learned, finished,
+                                        season=data.get("season") or args.season)
         if added > 0:
             print(f"[parse_nrl] MERGE: learning-loop memory: appended {added} new finished game(s) "
                   f"to {args.learned} (run learn_model.py next)")
@@ -1771,7 +1708,7 @@ def run_merge(args):
     out_path = Path(args.out) if args.out else in_path
     emit_js(data, out_path)
     print(f"[parse_nrl] MERGE wrote {out_path} (newsUpdated={news_updated})")
-    print(f"MERGED: odds={n_odds} injuries={n_injuries} weather={n_weather} newsUpdated={news_updated}")
+    print(f"MERGED: odds={n_odds} injuries={n_injuries} newsUpdated={news_updated}")
 
 
 def main():
@@ -1785,7 +1722,6 @@ def main():
     ap.add_argument("--updated", default=None, help="ISO date override; defaults to today")
     ap.add_argument("--odds", default=None, help="optional local odds dump (see sources.md)")
     ap.add_argument("--injuries", default=None, help="optional local injuries/team-news dump")
-    ap.add_argument("--weather", default=None, help="optional local weather dump")
     ap.add_argument("--results", default=None,
                      help="optional local results/completed-scores dump (see sources.md); the "
                           "--draw dump is also always scanned for finished-game scores")
@@ -1809,7 +1745,7 @@ def main():
                           "(default: nrl_learned.js)")
     ap.add_argument("--merge", action="store_true",
                      help="DAILY reactive-refresh mode: load an existing nrl_data.js (see --in) and "
-                          "update ONLY odds/news/weather + newsUpdated, leaving the ladder, splits, "
+                          "update ONLY odds/news + newsUpdated, leaving the ladder, splits, "
                           "round and fixtures list untouched. No ladder/draw rebuild happens.")
     ap.add_argument("--in", dest="in_file", default=None,
                      help="existing nrl_data.js to load for --merge (default: --out, or ./nrl_data.js)")
@@ -1855,7 +1791,7 @@ def main():
         else:
             print(f"[parse_nrl] WARNING: --results file not found: {results_path}", file=sys.stderr)
     if finished:
-        added = append_finished_results(args.learned, finished)
+        added = append_finished_results(args.learned, finished, season=args.season)
         if added > 0:
             print(f"[parse_nrl] learning-loop memory: appended {added} new finished game(s) "
                   f"to {args.learned} (run learn_model.py next)")
@@ -1916,15 +1852,32 @@ def main():
             print(f"  - {e}", file=sys.stderr)
         sys.exit(1)
 
-    # Optional weekly-refresh inputs: odds / injuries / weather. Each is
+    # Optional weekly-refresh inputs: odds / injuries. Each is
     # entirely best-effort — if the flag isn't passed, or the file doesn't
     # exist/parse, the corresponding fields simply stay null (set above).
     if args.odds:
         odds_path = Path(args.odds)
         if odds_path.exists():
             odds_by_pair = parse_odds(odds_path.read_text(encoding="utf-8", errors="ignore"))
-            apply_odds(fixtures, odds_by_pair, mode="full")
-            print(f"[parse_nrl] applied odds (open+close) for {len(odds_by_pair)} matchup(s) from {odds_path}")
+            # Audit A1 (2026-08-04): the workflow runs a FULL rebuild every run,
+            # so full mode must carry the previously published opening line
+            # forward — otherwise `open` is reset to the current price every 4
+            # hours and CLV / "line moved" can never exist. Round-guarded so a
+            # repeat matchup next round doesn't inherit last round's open.
+            prev_open = {}
+            build_round = round_num or (prev_data or {}).get("round")
+            if isinstance(prev_data, dict) and build_round and prev_data.get("round") == build_round:
+                for pf in (prev_data.get("fixtures") or []):
+                    o = pf.get("odds")
+                    if isinstance(o, dict) and ("open" in o or "close" in o):
+                        po = o.get("open")
+                        if _valid_price_pair(po):
+                            prev_open[frozenset((pf.get("home"), pf.get("away")))] = (pf.get("home"), dict(po))
+            apply_odds(fixtures, odds_by_pair, mode="full", prev_open=prev_open)
+            n_carried = sum(1 for f in fixtures
+                            if isinstance(f.get("odds"), dict) and f["odds"].get("open") != f["odds"].get("close"))
+            print(f"[parse_nrl] applied odds (open+close) for {len(odds_by_pair)} matchup(s) from {odds_path} "
+                  f"({n_carried} carrying an earlier opening line)")
         else:
             print(f"[parse_nrl] WARNING: --odds file not found: {odds_path}", file=sys.stderr)
 
@@ -1936,15 +1889,6 @@ def main():
             print(f"[parse_nrl] applied team news for {len(news_by_short)} team(s) from {injuries_path}")
         else:
             print(f"[parse_nrl] WARNING: --injuries file not found: {injuries_path}", file=sys.stderr)
-
-    if args.weather:
-        weather_path = Path(args.weather)
-        if weather_path.exists():
-            weather_by_city = parse_weather(weather_path.read_text(encoding="utf-8", errors="ignore"))
-            apply_weather(fixtures, weather_by_city)
-            print(f"[parse_nrl] applied weather for {len(weather_by_city)} city/cities from {weather_path}")
-        else:
-            print(f"[parse_nrl] WARNING: --weather file not found: {weather_path}", file=sys.stderr)
 
     # Every fixture ends up with a `tz` and an offset-bearing `kickoff`.
     finalise_fixture_times(fixtures)

@@ -74,7 +74,11 @@ function main() {
 
   const now = new Date().toISOString();
   const log = readTiplog();
-  const key = (t) => `${t.season}-${t.round}-${t.home}-${t.away}`;
+  // Unordered-pair key (2026-08-04, audit A9): if the draw's designated home
+  // side flips between runs, the orientation-sensitive key held TWO entries
+  // for one game and myRecord() graded both. The stored entry keeps its
+  // home/away orientation for display; only the dedupe key is unordered.
+  const key = (t) => `${t.season}-${t.round}-${[t.home, t.away].sort().join('-')}`;
   const byKey = {};
   log.forEach((t) => { byKey[key(t)] = t; });
   let changed = 0;
@@ -98,6 +102,10 @@ window.NRL_TIPLOG = ${JSON.stringify({ updated: now, tips }, null, 1)};
   fs.writeFileSync(tmp, out);
   fs.renameSync(tmp, OUT);
   console.log(`[freeze_tips] froze ${fresh.length} upcoming tip(s) (${changed} new/changed), log now ${tips.length} entries.`);
+  // The page now schedules a 5-minute refresh interval (2026-08-04 freshness
+  // work); jsdom timers are real Node timers and would keep this process alive
+  // forever. Close the window so the run terminates the moment we're done.
+  dom.window.close();
 }
 
 try { main(); }

@@ -9,10 +9,6 @@ tags / the right line formats, not pre-flattened text).
   * ladder_dump.html   — current standings, from the live ladder table.
   * draw_dump.html     — the NEXT round's fixtures (lowest round whose games
                          aren't "fulltime" yet). Auto-advances every week.
-  * weather_dump.txt   — per-game-day forecast per host city, from the free
-                         Open-Meteo API (no key). "City|YYYY-MM-DD: summary"
-                         lines (the game's local date) plus a legacy
-                         "City: summary" fallback line per city.
   * injuries_dump.html — best-effort team-news per club from Zero Tackle's
                          injuries page. "Team: notes" lines. Falls back to the
                          committed file if the page won't parse cleanly.
@@ -102,20 +98,6 @@ ZT_SLUG = {
 SLUG_TO_SHORT = {v: k for k, v in ZT_SLUG.items()}
 SLUGS_BY_LEN = sorted(SLUG_TO_SHORT, key=len, reverse=True)
 MATCH_SLUG_RE = re.compile(r"/(fulltime-)?([a-z0-9-]+)-round-(\d+)-20\d\d", re.IGNORECASE)
-
-# Host-city coordinates for the weather lookup (matches parse_nrl TEAM_HOME_CITY / VENUE_CITY).
-CITY_COORDS = {
-    "Sydney": (-33.87, 151.21), "Brisbane": (-27.47, 153.03), "Melbourne": (-37.81, 144.96),
-    "Gold Coast": (-28.00, 153.43), "Newcastle": (-32.93, 151.78), "Townsville": (-19.26, 146.82),
-    "Canberra": (-35.28, 149.13), "Wollongong": (-34.42, 150.90), "Auckland": (-36.85, 174.76),
-    "Mudgee": (-32.60, 149.59), "Redcliffe": (-27.23, 153.11), "Rockhampton": (-23.38, 150.51),
-}
-WMO = {0: "clear", 1: "mainly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog",
-       51: "light drizzle", 53: "drizzle", 55: "heavy drizzle", 61: "light rain", 63: "rain",
-       65: "heavy rain", 66: "freezing rain", 67: "freezing rain", 71: "light snow", 73: "snow",
-       75: "heavy snow", 80: "showers", 81: "showers", 82: "heavy showers",
-       95: "thunderstorms", 96: "thunderstorms", 99: "thunderstorms"}
-
 
 def fetch(url):
     resp = requests.get(url, headers=HEADERS, timeout=30)
@@ -841,109 +823,6 @@ def emit_results(results):
     return "\n".join(out) + "\n"
 
 
-# --------------------------------------------------------------------------- weather
-def fetch_weather(cities, game_kicks=None):
-    """Return {City: [(date_iso | None, 'Sat 1 Aug: 19C, 60% rain, showers'), ...]}.
-
-    `game_kicks` maps city -> UTC kick-off instants ("…Z") of that city's games
-    this round. Each kick-off that falls inside the forecast window yields THAT
-    day's forecast (date_iso = the game's local date at the ground, resolved via
-    the API's own utc_offset_seconds — no tz table needed). A city with no usable
-    kick-off falls back to the pre-2026-07-30 behaviour, the wettest of the next
-    ~6 days (date_iso None). That old behaviour was the bug this fixes: with real
-    kick-offs on every fixture, a Thursday game was still being shown — and the
-    model still being shrunk by — SATURDAY's rain, because "wettest of the next 6
-    days" was designed when kick-off times didn't exist yet."""
-    game_kicks = game_kicks or {}
-    out = {}
-    for city in sorted(cities):
-        co = CITY_COORDS.get(city)
-        if not co:
-            continue
-        try:
-            url = (f"https://api.open-meteo.com/v1/forecast?latitude={co[0]}&longitude={co[1]}"
-                   f"&daily=weather_code,temperature_2m_max,precipitation_probability_max"
-                   f"&timezone=auto&forecast_days=10")
-            resp = requests.get(url, headers=HEADERS, timeout=30).json()
-            d = resp["daily"]
-            offset = int(resp.get("utc_offset_seconds") or 0)
-            dates = d["time"]
-
-            def day_line(idx):
-                code = d["weather_code"][idx]
-                tmax = d["temperature_2m_max"][idx]
-                pop = d["precipitation_probability_max"][idx] or 0
-                day = datetime.date.fromisoformat(dates[idx]).strftime("%a %-d %b")
-                desc = WMO.get(code, "")
-                return f"{day}: {round(tmax)}°C, {pop}% rain chance{(', ' + desc) if desc else ''}"
-
-            entries, seen_days = [], set()
-            for kick in sorted({k for k in (game_kicks.get(city) or []) if k}):
-                try:
-                    utc = datetime.datetime.fromisoformat(str(kick).replace("Z", "+00:00"))
-                except ValueError:
-                    continue
-                local_date = (utc + datetime.timedelta(seconds=offset)).date().isoformat()
-                # two games in one city on the same local day share one forecast line
-                if local_date in seen_days:
-                    continue
-                if local_date in dates:
-                    seen_days.add(local_date)
-                    entries.append((local_date, day_line(dates.index(local_date))))
-            if not entries:
-                n = min(6, len(dates))
-                idx = max(range(n), key=lambda i: d["precipitation_probability_max"][i] or 0)
-                entries.append((None, day_line(idx)))
-            out[city] = entries
-        except Exception as exc:  # noqa: BLE001
-            print(f"[cloud_fetch] weather WARN {city}: {exc}", file=sys.stderr)
-    return out
-
-
-def reuse_weather_lines(missing_cities):
-    """Lines from the committed weather_dump.txt for cities whose fetch just
-    failed. Every other dump keeps its committed copy when a parse comes back
-    thin; weather dropped the city instead — so one 30s Open-Meteo timeout
-    blanked its forecast for the next 4 hours AND re-fired the change feed's
-    "first forecast published" entry when the line came back. Stale-but-recent
-    beats absent for a best-effort field."""
-    try:
-        with open("weather_dump.txt", encoding="utf-8", errors="ignore") as fh:
-            raw = fh.read()
-    except OSError:
-        return []
-    low = {c.lower() for c in missing_cities}
-    kept = []
-    for line in raw.splitlines():
-        if line.startswith("#") or ":" not in line:
-            continue
-        label = line.split(":", 1)[0].split("|", 1)[0].strip().lower()
-        if label in low:
-            kept.append(line)
-    if kept:
-        cities = sorted({ln.split(":", 1)[0].split("|", 1)[0] for ln in kept})
-        print(f"[cloud_fetch] weather: fetch failed for {cities} — keeping their "
-              f"committed dump line(s) rather than blanking them.", file=sys.stderr)
-    return kept
-
-
-def emit_weather(weather_by_city):
-    """One "City|YYYY-MM-DD: <forecast>" line per city+game-day — the date is the
-    game's LOCAL date at the ground, which parse_nrl matches against each
-    fixture's kick-off date. A dateless "City: <forecast>" line is ALSO written
-    per city (first game-day's text) so an older parse_nrl reading this dump, or
-    a fixture whose kick-off didn't resolve, still gets a forecast — the legacy
-    city-wide shape remains valid on both sides."""
-    lines = ["# per-game-day forecast per host city (Open-Meteo)"]
-    for city, entries in weather_by_city.items():
-        for date_iso, txt in entries:
-            if date_iso:
-                lines.append(f"{city}|{date_iso}: {txt}")
-        # legacy / fallback line, once per city
-        lines.append(f"{city}: {entries[0][1]}")
-    return "\n".join(lines) + "\n"
-
-
 # --------------------------------------------------------------------------- injuries
 NOISE = ("news", "squad", "latest", "fixtures", "ladder", "draw", "tickets", "membership",
          "highlights", "video", "signing", "contract", "preview", "wrap")
@@ -1004,6 +883,17 @@ def extract_injuries(html):
             joined = " ".join(cells).lower()
             if cells[0].lower() in ("player", "name") or ("reason" in joined and "return" in joined):
                 continue  # header row
+            # Audit A5 (2026-08-04): a stats/form table under a club label once
+            # parsed row "P | W | L" as Player="P" (reason "W", back "L") and
+            # published a phantom doubt. Require a plausible player cell — two
+            # words, or ≥4 letters, or a real /players/ link in the row — and
+            # reject rows whose every cell is ≤2 characters (pure stats rows).
+            if all(len(c) <= 2 for c in cells):
+                continue
+            has_player_link = tr.find("a", href=PLAYER_HREF_RE) is not None
+            name_letters = re.sub(r"[^A-Za-z]", "", cells[0])
+            if not (len(cells[0].split()) >= 2 or len(name_letters) >= 4 or has_player_link):
+                continue
             player, reason = cells[0], cells[1]
             ret = cells[2] if len(cells) > 2 else ""
             entry = player
@@ -1573,40 +1463,9 @@ def main():
         else:
             print(f"[cloud_fetch] results parse thin ({len(results)} games) — keeping committed results_dump.txt.", file=sys.stderr)
 
-    # ----- weather (best-effort; always leaves a valid file) -----
-    # Forecast the city the game is ACTUALLY in. Deriving it from the home club
-    # instead gives Penrith's Sydney forecast for a game in Mudgee — and now that
-    # fixture.city comes from nrl.com's venueCity, parse_nrl's city-keyed lookup
-    # would find no line at all for it and publish weather:null.
-    home_shorts = {h for h, _a in round_fixtures} or set(TEAMS)
-    cities = {TEAM_HOME_CITY.get(s) for s in home_shorts if TEAM_HOME_CITY.get(s)}
-    game_kicks = {}     # city -> [kickoffUtc, ...] so each game gets ITS day's forecast
-    if nrl_usable:
-        round_pairs = {frozenset(p) for p in round_fixtures}
-        for f in nrl_fixtures:
-            if f["city"] and frozenset((f["home"], f["away"])) in round_pairs:
-                game_kicks.setdefault(f["city"], []).append(f.get("kickoffUtc") or "")
-        venue_cities = set(game_kicks)
-        unknown = {c for c in venue_cities if c not in CITY_COORDS}
-        if unknown:
-            print(f"[cloud_fetch] NOTE: no coordinates for host city/cities {sorted(unknown)} — "
-                  f"add them to CITY_COORDS for a real forecast.", file=sys.stderr)
-        cities = (cities | venue_cities)
-    weather = fetch_weather(cities, game_kicks)
-    kept_lines = reuse_weather_lines({c for c in cities if c in CITY_COORDS and c not in weather})
-    if weather or kept_lines:
-        content = emit_weather(weather) if weather else "# per-game-day forecast per host city (Open-Meteo)\n"
-        if kept_lines:
-            content += "\n".join(kept_lines) + "\n"
-        write("weather_dump.txt", content)
-        n_dated = sum(1 for entries in weather.values() for d, _t in entries if d)
-        print(f"[cloud_fetch] wrote weather_dump.txt for {len(weather)} cities "
-              f"({n_dated} game-day forecasts): "
-              + " | ".join(f"{c}: {'; '.join(t for _d, t in entries)}"
-                           for c, entries in weather.items()))
-    else:
-        write("weather_dump.txt", "# no weather this run\n")
-        print("[cloud_fetch] WARNING: no weather fetched; wrote placeholder.", file=sys.stderr)
+    # (Weather was retired 2026-08-04 — the model no longer reads it, so nothing
+    # fetches Open-Meteo or writes weather_dump.txt any more. The workflow
+    # deletes the old committed dump.)
 
     # ----- injuries (best-effort; keep committed file if parse looks thin) -----
     try:

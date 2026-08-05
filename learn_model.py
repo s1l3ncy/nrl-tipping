@@ -21,16 +21,25 @@ WHAT GETS FITTED
                          used for the rating UPDATE step, matching the
                          "ELO_PROB_BASE=400" convention the front-end
                          (nrl-tipping-guide.html) already assumes.
-- eloK / eloHGA / logisticScale
-                       = chosen by a small, deterministic grid search that
+- eloK / eloHGA        = chosen by a small, deterministic grid search that
                          MINIMISES walk-forward log-loss over the memory:
                          each game is predicted using ratings as they stood
                          BEFORE that game (no leakage from its own result).
-                         `logisticScale` is the points-space scale the
-                         front-end's own logistic() curve uses to turn an
-                         Elo gap (converted to an equivalent points margin
-                         via eloGapToPoints, mirrored below) plus homeAdv
-                         into a win probability — see nrl-tipping-guide.html
+                         `logisticScale` is PINNED at 7 (2026-08-04, audit
+                         A2): in this parameterisation the scale cancels
+                         exactly for the Elo term, so the walk-forward loss
+                         depends on it only through homeAdv/scale and the
+                         old grid search drove it to the grid edge — an
+                         accident that then governed how hard injuries and
+                         HGA hit the logit at inference. It cannot be
+                         learned from win/loss outcomes here, so it is a
+                         constant. It is still PUBLISHED in params (the
+                         front-end and freeze read it). `logisticScale` is
+                         the points-space scale the front-end's own
+                         logistic() curve uses to turn an Elo gap
+                         (converted to an equivalent points margin via
+                         eloGapToPoints, mirrored below) plus homeAdv into
+                         a win probability — see nrl-tipping-guide.html
                          predict()/eloGapToPoints() for the exact formula
                          this script reproduces so the backtest numbers
                          mean what the live app will actually show.
@@ -88,21 +97,26 @@ DEFAULT_LOGISTIC_SCALE = 7.0
 DEFAULT_ODDS_WEIGHT = 0.5
 
 # Small, deterministic grids (kept short so the search is fast and repeatable).
+# logisticScale is NOT in the search (audit A2, 2026-08-04): it is statistically
+# unidentifiable in this parameterisation and is pinned at DEFAULT_LOGISTIC_SCALE.
 ELOK_GRID = [10, 16, 24, 32, 40]
 ELOHGA_GRID = [0, 20, 40, 60, 80, 100]
-SCALE_GRID = [5, 6, 7, 8, 9, 10, 12]  # points-space (see DEFAULT_LOGISTIC_SCALE)
 ODDSW_GRID = [round(x * 0.1, 1) for x in range(11)]  # 0.0 .. 1.0
+
+LOCK_TEAM = "SYD"  # the Roosters lock — used for the walk-forward loyalty-tax backtest
 
 
 # ---------------------------------------------------------------------------
 # Elo replay
 # ---------------------------------------------------------------------------
 def sort_chronological(results):
-    """Stable sort by round, preserving original (discovery/append) order
-    within a round as the tiebreaker — the memory has no explicit kickoff
-    order, so append order is the best available proxy."""
+    """Stable sort by season then round, preserving original (discovery/append)
+    order within a round as the tiebreaker — the memory has no explicit kickoff
+    order, so append order is the best available proxy. Entries with no season
+    stamp predate 2027 and default to 2026 (audit A6): without the season key,
+    2027's round 1 would sort BEFORE 2026's round 2 and scramble the Elo replay."""
     indexed = list(enumerate(results))
-    indexed.sort(key=lambda p: (p[1].get("round", 0), p[0]))
+    indexed.sort(key=lambda p: (p[1].get("season") or 2026, p[1].get("round", 0), p[0]))
     return [r for _, r in indexed]
 
 
@@ -128,12 +142,21 @@ def replay_elo(results_sorted, elo_k, elo_hga):
         expected_home = 1.0 / (1.0 + 10 ** (-((rh + elo_hga) - ra) / ELO_PROB_BASE))
         actual_home = 1.0 if hs > aw else (0.0 if hs < aw else 0.5)
         margin = abs(hs - aw)
-        elo_diff_abs = abs((rh + elo_hga) - ra)
-        # Margin-of-victory multiplier (FiveThirtyEight-style): bigger blowouts
-        # move ratings more, dampened when the result was already expected
-        # (large pre-game elo_diff_abs). +1 inside the log keeps a draw
-        # (margin=0) from zeroing the multiplier entirely.
-        mov_mult = (math.log(margin + 1) + 1) * (2.2 / (0.001 * elo_diff_abs + 2.2))
+        # Margin-of-victory multiplier (FiveThirtyEight): keyed on the WINNER-
+        # relative pre-game Elo gap — winner's rating (incl. the home bump if
+        # the winner was at home) minus the loser's. Negative for an upset, so
+        # upsets are AMPLIFIED (mult > 1) and expected blowouts dampened. The
+        # old abs() version dampened every big-gap game regardless of who won,
+        # the exact opposite for upsets (audit A3, 2026-08-04). +1 inside the
+        # log keeps a draw (margin=0) from zeroing the multiplier; a draw uses
+        # winner_diff=0 (no winner). Denominator clamped positive.
+        if hs > aw:
+            winner_diff = (rh + elo_hga) - ra
+        elif aw > hs:
+            winner_diff = ra - (rh + elo_hga)
+        else:
+            winner_diff = 0.0
+        mov_mult = (math.log(margin + 1) + 1) * (2.2 / max(0.001 * winner_diff + 2.2, 0.1))
         delta = elo_k * mov_mult * (actual_home - expected_home)
         elo[home] = rh + delta
         elo[away] = ra - delta
@@ -177,18 +200,20 @@ def walk_forward_log_loss(per_game, home_adv, logistic_scale):
 
 
 def grid_search_elo_params(results_sorted, home_adv):
-    """Deterministic grid search over (eloK, eloHGA, logisticScale) that
-    minimises walk-forward log-loss. Returns (best_logloss, eloK, eloHGA,
-    logisticScale). Ties keep the first (smallest grid-order) combo found,
-    so results are 100% reproducible run to run on the same memory."""
+    """Deterministic grid search over (eloK, eloHGA) that minimises
+    walk-forward log-loss, with logisticScale PINNED at
+    DEFAULT_LOGISTIC_SCALE (audit A2 — the scale is unidentifiable from
+    win/loss outcomes, so searching it just inflated homeAdv/scale).
+    Returns (best_logloss, eloK, eloHGA). Ties keep the first (smallest
+    grid-order) combo found, so results are 100% reproducible run to run
+    on the same memory."""
     best = None
     for k in ELOK_GRID:
         for hga in ELOHGA_GRID:
             _, per_game = replay_elo(results_sorted, k, hga)
-            for scale in SCALE_GRID:
-                ll = walk_forward_log_loss(per_game, home_adv, scale)
-                if best is None or ll < best[0] - 1e-12:
-                    best = (ll, k, hga, scale)
+            ll = walk_forward_log_loss(per_game, home_adv, DEFAULT_LOGISTIC_SCALE)
+            if best is None or ll < best[0] - 1e-12:
+                best = (ll, k, hga)
     return best
 
 
@@ -286,6 +311,31 @@ def backtest_metrics(per_game, home_adv, logistic_scale):
     }
 
 
+def lock_tax_metrics(per_game, home_adv, logistic_scale):
+    """Walk-forward loyalty-tax figures for the Roosters lock (audit A4).
+
+    Every Roosters game in the memory is graded with the Elo ratings as they
+    stood BEFORE that game — never the final ratings, which already contain
+    each game's own result (the hindsight pattern GOTCHAS 2026-08-02 bans).
+    The front-end's renderAcc() displays these figures verbatim; it no longer
+    computes its own. Draws are excluded, matching every other grading surface."""
+    games = model_right = rk_wins = 0
+    for g in per_game:
+        if g["home"] != LOCK_TEAM and g["away"] != LOCK_TEAM:
+            continue
+        if g["hs"] == g["as"]:
+            continue
+        games += 1
+        p = predict_phome(g["eloHomeBefore"], g["eloAwayBefore"], home_adv, logistic_scale)
+        actual_home_win = g["hs"] > g["as"]
+        if (p >= 0.5) == actual_home_win:
+            model_right += 1
+        rk_home = g["home"] == LOCK_TEAM
+        if actual_home_win == rk_home:
+            rk_wins += 1
+    return {"games": games, "modelRight": model_right, "rkWins": rk_wins}
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -320,16 +370,18 @@ def main():
 
     results_sorted = sort_chronological(results)
 
+    # logisticScale is always the pinned constant (audit A2) — never fitted.
+    logistic_scale = DEFAULT_LOGISTIC_SCALE
     if low_confidence:
         # Guardrail: with this few games a grid search will happily overfit
-        # to noise (e.g. picking an extreme K/HGA/scale that "explains" 7
+        # to noise (e.g. picking an extreme K/HGA that "explains" 7
         # games perfectly). Use fixed conservative defaults instead, but
         # still replay/backtest with THOSE exact numbers so the accuracy
         # trend is honest about what would actually run if activated.
-        elo_k, elo_hga, logistic_scale = DEFAULT_ELO_K, DEFAULT_ELO_HGA, DEFAULT_LOGISTIC_SCALE
+        elo_k, elo_hga = DEFAULT_ELO_K, DEFAULT_ELO_HGA
         best_logloss = walk_forward_log_loss(replay_elo(results_sorted, elo_k, elo_hga)[1], home_adv, logistic_scale)
     else:
-        best_logloss, elo_k, elo_hga, logistic_scale = grid_search_elo_params(results_sorted, home_adv)
+        best_logloss, elo_k, elo_hga = grid_search_elo_params(results_sorted, home_adv)
 
     final_elo, per_game = replay_elo(results_sorted, elo_k, elo_hga)
 
@@ -345,6 +397,7 @@ def main():
 
     backtest = backtest_metrics(per_game, home_adv, logistic_scale)
     backtest["marketBrier"] = market_brier
+    backtest["lockTax"] = lock_tax_metrics(per_game, home_adv, logistic_scale)
 
     updated = args.updated or datetime.date.today().isoformat()
     history = list(data.get("history", []))  # never lose prior entries
@@ -382,11 +435,13 @@ def main():
     notes = []
     if low_confidence:
         notes.append(f"lowConfidence: only {games} game(s) in memory (<{LOW_CONFIDENCE_THRESHOLD}) — "
-                      "eloK/eloHGA/logisticScale held at conservative defaults, not grid-searched; "
+                      "eloK/eloHGA held at conservative defaults, not grid-searched; "
                       "front-end ignores these learned params entirely while lowConfidence=true.")
     else:
         notes.append(f"fitted via grid search: walk-forward logloss={round(best_logloss, 4)} "
-                      f"over eloK{ELOK_GRID} x eloHGA{ELOHGA_GRID} x logisticScale{SCALE_GRID}.")
+                      f"over eloK{ELOK_GRID} x eloHGA{ELOHGA_GRID}; "
+                      f"logisticScale pinned at {DEFAULT_LOGISTIC_SCALE:g} (unidentifiable from "
+                      "win/loss outcomes — audit A2, 2026-08-04).")
     if not odds_learned:
         notes.append("oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.")
     note = " ".join(notes)
