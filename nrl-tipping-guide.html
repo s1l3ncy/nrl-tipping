@@ -69,6 +69,31 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   border-radius:var(--r-pill);padding:8px 15px;font-weight:700;font-size:14px;
   display:flex;align-items:center;gap:7px;min-height:36px}
 .roundpill b{color:var(--accent2)}
+/* freshness chip (Area 2) — hidden on file:// by setFresh(). It takes over the
+   roundpill's margin-left:auto push while visible; when hidden the pill keeps
+   its own auto margin, so the file:// layout is byte-identical to before. */
+.freshbtn{display:inline-flex;align-items:center;gap:6px;min-height:36px;min-width:36px;
+  padding:0 10px;background:var(--surface2);border:1px solid var(--hairline);
+  border-radius:var(--r-pill);color:var(--faint);font-size:11.5px;font-weight:600;
+  box-shadow:none;cursor:pointer;margin-left:auto}
+.freshbtn[hidden]{display:none}
+.freshbtn:not([hidden])+.roundpill{margin-left:0}
+/* phone: icon-only chip — the transient "checking…"/"updated" text wraps the
+   brand + round pill on a 390px nav; the spinner and green tint carry the
+   same signal without the words */
+@media(max-width:640px){#freshLabel{display:none}}
+.freshbtn:hover{color:var(--text);filter:none}
+.freshbtn svg{width:14px;height:14px;fill:currentColor;flex:none}
+.freshbtn.checking svg{animation:freshspin 1s linear infinite}
+@keyframes freshspin{to{transform:rotate(360deg)}}
+.freshbtn.updated{color:var(--good);border-color:rgba(52,209,136,.32)}
+#ptr{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 64px);
+  z-index:70;background:var(--surface2);border:1px solid var(--hairline);
+  border-radius:var(--r-pill);padding:8px 16px;font-size:12px;font-weight:600;color:var(--sub);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  opacity:0;pointer-events:none;transition:opacity .15s ease}
+#ptr.show{opacity:1}
+#ptr.armed{color:var(--accent2);border-color:rgba(255,70,85,.4)}
 
 /* ---------- page head ---------- */
 .pagehead{padding:26px 0 2px}
@@ -114,7 +139,7 @@ section{margin-top:30px}
 .gcard{background:var(--surface);border:1px solid var(--hairline-soft);border-radius:var(--r-card);
   overflow:hidden;position:relative;box-shadow:var(--shadow);
   backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
-  transition:transform .12s ease;scroll-snap-align:start}
+  transition:transform .12s ease;scroll-snap-align:start;scroll-margin-top:84px}
 .gcard::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
   background:var(--tricolour);opacity:.5;pointer-events:none}
 .gcard:active{transform:scale(.985)}
@@ -267,7 +292,6 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .chgrow.c-out{border-left-color:var(--amber)}  .chgrow.c-out .g{color:var(--amber)}
 .chgrow.c-line{border-left-color:var(--blue)}  .chgrow.c-line .g{color:var(--blue)}
 .chgrow.c-when{border-left-color:var(--orange)}.chgrow.c-when .g{color:var(--orange)}
-.chgrow.c-wx{border-left-color:var(--faint)}   .chgrow.c-wx .g{color:var(--faint)}
 .chgrow.c-misc{border-left-color:var(--hairline)} .chgrow.c-misc .g{color:var(--faint)}
 .chgrow.s3{color:var(--text);font-weight:500}
 .chgrow.s3.c-in{background:rgba(52,209,136,.09)}
@@ -293,6 +317,43 @@ details.chgmore[open]>summary::after{content:" ▴"}
 .chgbadge.b-in{background:rgba(52,209,136,.12);color:var(--good);border-color:rgba(52,209,136,.32)}
 .chgbadge.b-line{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.34)}
 .chgbadge.b-when{background:rgba(221,138,84,.13);color:var(--orange-text);border-color:rgba(221,138,84,.34)}
+/* what's-new redesign (Area 3): fixture identity, earlier fold, schedule panel */
+.chgfx{display:flex;align-items:center;gap:7px}
+.chgfx .crest{width:15px;height:15px;font-size:0}   /* colour dot pair, reuse .crest */
+.chgfx .gamelink{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--sub);
+  text-decoration:none;letter-spacing:.4px}
+.chgfx .gamelink:hover{color:var(--text)}
+details.chgearlier{margin-top:14px;border-top:1px solid var(--hairline-soft)}
+details.chgearlier>summary{cursor:pointer;list-style:none;padding:12px 0 4px;
+  font-size:12px;font-weight:600;color:var(--faint)}
+details.chgearlier>summary::-webkit-details-marker{display:none}
+details.chgearlier>summary::after{content:" ▾"}
+details.chgearlier[open]>summary::after{content:" ▴"}
+details.chgearlier .chgrow{opacity:.75}
+/* schedule */
+.wkday{font-size:10px;font-weight:750;letter-spacing:1px;text-transform:uppercase;
+  color:var(--faint);margin:12px 0 6px}
+.wkday:first-child{margin-top:0}
+.wkrow{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:12px;
+  background:var(--well);border:1px solid var(--hairline-soft);font-size:13px}
+.wkrow+.wkrow{margin-top:5px}
+.wkrow .crest{width:16px;height:16px;font-size:0}
+.wkrow .m{flex:1 1 auto;min-width:0;font-weight:600;color:var(--text);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wkrow .m .vs{color:var(--faint);font-weight:500;padding:0 3px}
+/* both flexible: a long zone label ("GMT+10") shares the squeeze with the
+   matchup instead of crushing the team names to one letter */
+.wkrow .k{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:11.5px;color:var(--sub);font-variant-numeric:tabular-nums}
+/* phone: the day heading already dates each group — drop the "· in 2 days"
+   tail so the matchup and the kick-off time both fit a 390px row */
+@media(max-width:640px){.wkrow .k .rel{display:none}}
+.wkrow .k .rel{color:var(--faint)}
+.wkrow.ft .k{color:var(--good);font-weight:700}
+.wkrow .tip{flex:none;font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 8px;
+  border-radius:var(--r-pill);background:rgba(255,70,85,.12);color:var(--accent2);
+  border:1px solid rgba(255,70,85,.35)}
+.wkrow .tip.gold{background:rgba(245,196,81,.13);color:var(--roosters);border-color:rgba(245,196,81,.45)}
 
 /* ---------- venue box ---------- */
 .mbox.venuebox{display:flex;flex-direction:column;gap:2px}
@@ -308,13 +369,6 @@ details.chgmore[open]>summary::after{content:" ▴"}
 .vsub .rel.soon{color:var(--amber-text)}
 .vsub .rel.past{color:var(--faint);font-weight:500}
 .vyours{font-size:11.5px;color:var(--faint);margin-top:2px;font-variant-numeric:tabular-nums}
-.vwx{margin-top:10px;padding-top:9px;border-top:1px solid var(--hairline-soft);
-  display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.vchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;
-  color:var(--sub);background:var(--surface2);border:1px solid var(--hairline-soft);
-  border-radius:var(--r-pill);padding:4px 10px;font-variant-numeric:tabular-nums}
-.vchip.wet{color:var(--amber-text);background:rgba(232,172,84,.10);border-color:rgba(232,172,84,.28)}
-.vchip.dry{color:var(--faint)}
 
 /* ---------- why box ---------- */
 .mbox.whybox{grid-column:1/-1}
@@ -540,6 +594,73 @@ details.plain>summary:hover{color:var(--text)}
   .moregrid{grid-template-columns:repeat(2,1fr);padding:4px 18px 18px}
   .statgrid{grid-template-columns:1fr 1fr}
 }
+/* ---------- desktop (Area 1): ≥1024px gets its own layout — top pill nav,
+   1140px column, 2-up cards, 2-column model screen. ≤640px is untouched;
+   641–1023 (iPad portrait) keeps the bottom bar. No !important here so the
+   print block below still wins. ---------- */
+@media(min-width:1024px){
+  .wrap{max-width:1140px;padding-left:32px;padding-right:32px}
+  body{padding-bottom:48px}                    /* no bottom bar to clear any more */
+
+  /* tab bar → top segmented control, centred in the topnav band */
+  .tabbar{top:8px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);
+    width:auto;padding:0;background:transparent;border-top:none;
+    backdrop-filter:none;-webkit-backdrop-filter:none}
+  .tabbar .wrap{max-width:none;padding:0}      /* .tabrow sits inside a .wrap — undo it */
+  .tabrow{display:flex;gap:6px}
+  .tabbar .tab{flex-direction:row;gap:7px;padding:0 16px;min-height:40px;
+    font-size:12.5px;border-radius:var(--r-pill);border:1px solid transparent}
+  .tabbar .tab svg{width:17px;height:17px}
+  .tabbar .tab.active{color:var(--accent2);background:rgba(255,70,85,.12);
+    border-color:rgba(255,70,85,.35)}
+  .tabbadge{position:static;margin-left:4px}   /* inline count, not corner dot */
+
+  /* tips: two-up cards */
+  .games{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+  .ql{grid-template-columns:1fr 1fr}           /* quick list two-up (1024–1279 only) */
+
+  /* model screen: the two cards side by side */
+  #scr-model.active{display:grid;grid-template-columns:1fr 1fr;column-gap:26px;
+    grid-template-areas:"head head" "acc learn";align-items:start}
+  #scr-model .pagehead{grid-area:head}
+  #scr-model>section{margin-top:30px}
+  #scr-model>section:nth-of-type(1){grid-area:acc}
+  #scr-model #learningSection{grid-area:learn}
+  .statgrid{grid-template-columns:repeat(3,1fr)}
+
+  /* what's new: feed + schedule side by side, feed flows into two columns */
+  #scr-new.active{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:26px;
+    grid-template-areas:"head head" "feed side";align-items:start}
+  #scr-new .pagehead{grid-area:head}
+  #scr-new #changesSection{grid-area:feed}
+  #scr-new section.sec-week{grid-area:side;position:sticky;top:84px}
+  /* two-column flow only when the feed is genuinely long (.long set by
+     renderChanges() at >6 visible today-rows) — columns on a tiny feed float
+     the "more"/"Earlier" folds up beside a single row */
+  #changeFeed.long{columns:2;column-gap:22px}
+  .chggroup,.chgminor,details.chgearlier,details.chgmore{break-inside:avoid}
+  /* the 340px rail is tighter than the phone: drop the relative-time tail so
+     team names stay readable */
+  #scr-new section.sec-week .wkrow .k .rel{display:none}
+
+  /* ladder: roomier cells, no horizontal scroll needed at this width */
+  #scr-ladder th,#scr-ladder td{padding:11px 12px;font-size:13.5px}
+
+  /* hover affordance (desktop only, guarded for reduced-motion by the existing global) */
+  .gcard{transition:transform .15s ease,border-color .15s ease}
+  .gcard:hover{transform:translateY(-2px);border-color:var(--hairline)}
+}
+@media(min-width:1280px){
+  /* tips screen adds a sticky right rail holding the Quick list */
+  #scr-tips.active{display:grid;grid-template-columns:minmax(0,1fr) 360px;
+    column-gap:26px;grid-template-areas:"head head" "hero hero" "games rail";
+    align-items:start}
+  #scr-tips .pagehead{grid-area:head}
+  #scr-tips .rkhero{grid-area:hero}
+  #scr-tips section.sec-games{grid-area:games}
+  #scr-tips section.sec-quick{grid-area:rail;position:sticky;top:84px;margin-top:30px}
+  .ql{grid-template-columns:1fr}               /* rail is narrow again */
+}
 @media print{
   .screen{display:block!important}
   .topnav,.tabbar,.card,details.ladder-card,.quick .actions,details,.foot,.bar-controls,.chgpanel{display:none!important}
@@ -568,9 +689,14 @@ details.plain>summary:hover{color:var(--text)}
       <circle cx="62" cy="55" r="4.6" fill="#061029"/>
       <circle cx="66" cy="82" r="8" fill="#F23D4C"/>
     </svg> NRL Tips</span>
+    <button type="button" class="freshbtn" id="freshBtn" hidden aria-label="Refresh data">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+      <span id="freshLabel"></span>
+    </button>
     <div class="roundpill" id="roundPill">Round —</div>
   </div>
 </header>
+<div id="ptr" aria-hidden="true">Pull to refresh</div>
 
 <main class="wrap" id="app">
 
@@ -582,10 +708,10 @@ details.plain>summary:hover{color:var(--text)}
       <div id="dataBanners"></div>
     </div>
     <div class="rkhero" id="lockHero"></div>
-    <section>
+    <section class="sec-games">
       <div class="games" id="games"></div>
     </section>
-    <section>
+    <section class="sec-quick">
       <div class="quick">
         <div class="qhead">
           <h2>Quick list</h2>
@@ -602,14 +728,20 @@ details.plain>summary:hover{color:var(--text)}
 
   <!-- ================= WHAT'S NEW ================= -->
   <div class="screen" id="scr-new">
-    <div class="pagehead"><h1 class="scrtitle">What's new</h1></div>
+    <div class="pagehead">
+      <h1 class="scrtitle">What's new</h1>
+      <div class="metaline" id="newMeta"></div>
+    </div>
     <section id="changesSection" style="display:none">
       <div class="chgpanel">
-        <div class="chghead">
-          <h2>Since the last check</h2>
-          <span class="chgcount" id="chgCount"></span>
-        </div>
+        <div class="chghead"><h2>Today</h2><span class="chgcount" id="chgCount"></span></div>
         <div id="changeFeed"></div>
+      </div>
+    </section>
+    <section class="sec-week">
+      <div class="chgpanel">
+        <div class="chghead"><h2>This round's schedule</h2></div>
+        <div id="weekAhead"></div>
       </div>
     </section>
   </div>
@@ -702,7 +834,7 @@ const SEED = {
     ["Dragons","STI","#e2231a",17,2,15,256,503,2]
   ].map(r=>({name:r[0],short:r[1],colour:r[2],P:r[3],W:r[4],L:r[5],PF:r[6],PA:r[7],last5:r[8],home:null,away:null,news:null})),
   fixtures:[["NQL","SYD"],["PEN","CBR"],["GLD","NZW"],["BRI","NEW"],["MEL","CAN"],["STI","DOL"],["CRO","SOU"],["PAR","WST"]]
-    .map(f=>({home:f[0],away:f[1],venue:"",city:"",kickoff:"",odds:null,weather:null,h2h:null})),
+    .map(f=>({home:f[0],away:f[1],venue:"",city:"",kickoff:"",odds:null,h2h:null})),
   byeTeams:["MAN"]
 };
 const LOCK="SYD";
@@ -801,7 +933,7 @@ function splitWeight(n){ return Math.min(0.5, (n||0)/((n||0)+6)); }
 // effParts() exposes the same arithmetic effRating() has always done, but keeps the
 // intermediate terms so the per-card ledger can name the rating gap and the form nudge
 // as separate lines using the EXACT numbers predict() used. effRating() keeps its
-// signature and value, so renderLadder()/modelFavoursHome() are untouched.
+// signature and value, so renderLadder() is untouched.
 function effParts(t,where){
   const base=overallMargin(t);
   const splitObj=t[where];
@@ -878,7 +1010,7 @@ function playerImpact(name){
    player who is fit and named in the 17 stays permanently half-out. If the file
    is missing, or is for an older round, we ignore it entirely and fall back to
    the injury table alone — stale lineups are worse than none. */
-const LINEUPS = (typeof window!=="undefined" && window.NRL_LINEUPS) ? window.NRL_LINEUPS : null;
+let LINEUPS = (typeof window!=="undefined" && window.NRL_LINEUPS) ? window.NRL_LINEUPS : null;
 function namedSquad(short){
   if(!LINEUPS || !LINEUPS.teams || !short) return null;
   if(typeof SRC!=="undefined" && SRC && SRC.round && LINEUPS.round && LINEUPS.round!==SRC.round) return null;
@@ -895,6 +1027,9 @@ function looksLikePlayer(n){
   if(!n) return false;
   const s=n.trim();
   if(s.split(/\s+/).length>3) return false;
+  // 1–2 letter "names" are stats-table cells ("P", "W"), never players (2026-08-04,
+  // audit A5). MUST stay identical to looks_like_player() in parse_nrl.py.
+  if(s.replace(/[^A-Za-z]/g,'').length<3) return false;
   if(/^(near|settled|otherwise|several|team|no|full|squad|rotation|plenty|mostly)\b/i.test(s)) return false;
   return /^[A-Z]/.test(s);
 }
@@ -943,57 +1078,39 @@ function injuryPenalty(news, tipRound, short){
   return {penalty:total, note, count:outs.length, outs, backs, named};
 }
 
-/* Panel-agreed weather model: with no team-style data, weather never picks a
-   side — it only shrinks the model's margin toward a coin-toss as rain rises
-   (more chaos = less certainty). Sign is preserved, so it can't flip a tip;
-   applied to the model margin before the odds blend. */
-function weatherEffect(w){
-  const r={shrink:0, note:""};
-  if(!w) return r;
-  const m=String(w).match(/(\d+)\s*%\s*rain/i);
-  if(!m) return r;
-  const rain=parseInt(m[1],10)/100;                   // 0..1
-  const shrink=Math.max(0, Math.min(0.22, 0.30*(rain-0.20)/0.80)); // nil <20%, up to −22%
-  if(shrink>0.02){ r.shrink=shrink; r.note="wet — model less certain"; }
-  return r;
-}
-
 /* predict() keeps its working in `parts` so the "why" ledger can itemise the exact
    terms that produced the margin rather than recomputing them a second way (which is
    how two views of the same number drift apart). The maths is unchanged.
-   Identities the ledger relies on:
-     parts.ratingGap + parts.formGap + parts.hga − parts.hInjPts + parts.aInjPts === parts.preWx
-     parts.preWx + parts.wxDelta === margin                                                   */
+   Identity the ledger relies on (weather was retired 2026-08-04, so the terms
+   sum straight to the margin):
+     parts.ratingGap + parts.formGap + parts.hga − parts.hInjPts + parts.aInjPts === margin */
 function predict(fx){
   const h=T(fx.home), a=T(fx.away);
   const hga=num('hga', learnedActive?LEARNED.params.homeAdv:2);
   const hInj=injuryPenalty(h.news, SRC.round, h.short), aInj=injuryPenalty(a.news, SRC.round, a.short);
   const eloH=eloStrength(h), eloA=eloStrength(a);
   const useElo = learnedActive && eloH!==null && eloA!==null;
-  let ratingGap, formGap=0, hParts=null, aParts=null, preWx;
-  // preWx is summed in the ORIGINAL operation order so this refactor is bit-identical
+  let ratingGap, formGap=0, hParts=null, aParts=null, margin;
+  // margin is summed in the ORIGINAL operation order so this refactor is bit-identical
   // to the pre-ledger version; the itemised terms are exposed alongside it and still
   // reconcile to it (to floating-point precision).
   if(useElo){
     ratingGap = eloGapToPoints(eloH-eloA, LEARNED.params.logisticScale);
-    preWx = ratingGap - hInj.penalty + aInj.penalty + hga;
+    margin = ratingGap - hInj.penalty + aInj.penalty + hga;
   }else{
     hParts=effParts(h,'home'); aParts=effParts(a,'away');
     ratingGap = hParts.blended - aParts.blended;
     formGap   = hParts.form   - aParts.form;
-    preWx = (hParts.total - hInj.penalty) - (aParts.total - aInj.penalty) + hga;
+    margin = (hParts.total - hInj.penalty) - (aParts.total - aInj.penalty) + hga;
   }
-  // Weather shrinks confidence toward a coin-toss (never picks a side), before the odds blend.
-  const wx = weatherEffect(fx.weather);
-  const margin = wx.shrink>0 ? preWx*(1-wx.shrink) : preWx;
   const modelP = logistic(margin);
   const mkt = marketProb(fx.odds);
   let pHome=modelP, blended=false, oddsW=0;
   if(mkt!==null){ oddsW=Math.max(0,Math.min(1,num('oddsW', learnedActive?LEARNED.params.oddsWeight:0.5)));
     pHome=(1-oddsW)*modelP+oddsW*mkt; blended=true; }
-  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,wx,useElo,oddsW,
+  return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,useElo,oddsW,
           parts:{ratingGap, formGap, hga, hInjPts:hInj.penalty, aInjPts:aInj.penalty,
-                 preWx, wxDelta:margin-preWx, eloH, eloA, hParts, aParts}};
+                 eloH, eloA, hParts, aParts}};
 }
 function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt; const v=parseFloat(el.value); return isNaN(v)?dflt:v; }
 
@@ -1021,11 +1138,21 @@ function bandFor(conf){
    contains <b>), so it must NOT be wrapped in esc() at the call site — every piece of
    DATA inside it is escaped individually instead. */
 function rationale(p){
+  // fav is the BLENDED favourite (what the tip surfaces show); the raw points
+  // margin belongs to the MODEL's pre-blend side. When the bookies' blend
+  // flips the pick, those are different teams — pair each number with its own
+  // side rather than attributing one side's margin to the other (2026-08-04).
   const fav = p.pHome>=0.5?p.h:p.a;
+  const marginSide = p.margin>=0?p.h:p.a;
   const conf = Math.max(p.pHome,1-p.pHome);
   const band = bandFor(conf);
   const n = Math.abs(p.margin), pct=(conf*100).toFixed(0);
   const npt = `${absFmt(n)} point${absFmt(n)==='1.0'||absFmt(n)==='1'?'':'s'}`;
+  if(marginSide!==fav){
+    const bandTxt = band.indexOf('slight lean')===0 ? 'slight lean' : band;
+    return `<b>${esc(fav.name)}</b> ${bandTxt} — ${pct}% after the bookies' blend. `+
+      `The model's own margin leans ${esc(marginSide.name)} by about ${npt}.`;
+  }
   if(band.indexOf('slight lean')===0)
     return `<b>${esc(fav.name)}</b> by a whisker — about ${npt}, ${pct}%. This one's near a coin-toss.`;
   return `<b>${esc(fav.name)}</b> ${band} — about ${npt}, ${pct}%.`;
@@ -1049,7 +1176,7 @@ function injSub(inj){
 }
 /* Plain-English digest of the ledger (added 2026-07-30): one or two sentences
    naming the biggest drivers IN WORDS — strength, form, home ground, team news,
-   weather, the market — so the card reads like a reason, not a spreadsheet. The
+   the market — so the card reads like a reason, not a spreadsheet. The
    itemised ledger still exists below it, folded behind "show the working". */
 function whySummary(p,fx){
   const P=p.parts, fav=modelFav(p);
@@ -1082,7 +1209,6 @@ function whySummary(p,fx){
       sen+=` ${capd} pulls it back${con.length>1?` (and more)`:``}.`;
     }
   }
-  if(p.wx&&p.wx.shrink>0) sen+=` Rain in the forecast trims the confidence.`;
   if(p.blended&&p.mkt!==null){
     const agree=(p.modelP>=0.5)===(p.mkt>=0.5);
     sen+=agree?` The bookies read it the same way.`:` The bookies lean the other way, which reins the tip in.`;
@@ -1090,9 +1216,9 @@ function whySummary(p,fx){
   return sen;
 }
 /* The itemised "why". Every number comes from p.parts, so the ledger sums by
-   construction: ratingGap + formGap + hga − hInjPts + aInjPts === preWx, and
-   preWx + wxDelta === margin. Weather and the odds blend sit below the rule because
-   they TRANSFORM the total rather than adding to it. */
+   construction: ratingGap + formGap + hga − hInjPts + aInjPts === margin.
+   The odds blend sits below the rule because it TRANSFORMS the total rather
+   than adding to it. */
 function whyHTML(p,fx){
   const P=p.parts, tip = tipSide(p);   // the TIPPED side (the lock wins here), not the model's favourite
   const nm=s=>s.name, sh=s=>s.short;
@@ -1132,28 +1258,31 @@ function whyHTML(p,fx){
     : ledRow('mod','<b>Nothing separates them</b> — same ratings, same news, no home edge','','','0.0');
   // modifiers
   let mods='';
-  if(p.wx&&p.wx.shrink>0){
-    const rm=String((fx&&fx.weather)||'').match(/(\d+)\s*%\s*rain/i);
-    const shr=Math.round(p.wx.shrink*100);
-    mods+=ledRow('mod',`<b>Weather</b> — ${rm?`${esc(rm[1])}% rain, so `:''}${shr}% of the edge is shaved off`,
-      'wet games are more random; this never picks a side', '', '−'+ledFmt(P.wxDelta));
-  }
   if(p.blended){
     const k=p.mkt*100, w=Math.round(p.oddsW*100), d=(p.pHome-p.modelP)*100;
     mods+=ledRow('mod',`<b>The bookies</b> — they make it ${esc(nm(k>=50?p.h:p.a))} ${(k>=50?k:100-k).toFixed(0)}%`,
       `blended ${w}/${100-w} with the model`, '', (d>=0?'+':'−')+Math.abs(d).toFixed(0)+'pp');
   }
   if(mods) mods=`<div class="ledsplit"></div>`+mods;
-  // totals
+  // totals — the margin belongs to the MODEL's pre-blend side, the win chance
+  // to the BLENDED favourite. When the bookies' blend flips the pick those are
+  // different teams, so name both explicitly (2026-08-04; Raiders v Knights
+  // once read "Knights by 0.1 → 54%" where 54% was the Raiders' chance).
   const conf = Math.max(p.pHome,1-p.pHome);
-  const total = `<div class="ledtotal">Net: <b>${esc((p.margin>=0?p.h:p.a).name)} by about `+
-    `${absFmt(p.margin)}</b> → ${(conf*100).toFixed(0)}% win chance.</div>`;
+  const marginSide = p.margin>=0?p.h:p.a;
+  const blendFav = p.pHome>=0.5?p.h:p.a;
+  const total = marginSide===blendFav
+    ? `<div class="ledtotal">Net: <b>${esc(marginSide.name)} by about `+
+      `${absFmt(p.margin)}</b> → ${(conf*100).toFixed(0)}% win chance.</div>`
+    : `<div class="ledtotal">Net: model has <b>${esc(marginSide.name)} by about `+
+      `${absFmt(p.margin)}</b> — but after the bookies' blend the edge sits with `+
+      `<b>${esc(blendFav.name)}</b> (${(conf*100).toFixed(0)}%).</div>`;
   let check='';
   if(rows.length>=2){
     // DESIGN_SPEC §4.5: sumH/sumA are the sums of the .val figures ACTUALLY ON
     // SCREEN. Two things used to break that: rows below the 0.15 display filter
     // were counted in the total but never shown, and each side was rounded on its
-    // own against an independently-rounded preWx — which printed arithmetic that
+    // own against an independently-rounded margin — which printed arithmetic that
     // didn't balance (+0.1 − 4.3 = −4.1). Sum the values exactly as they are
     // printed, then subtract THOSE, so the one line whose whole job is to prove
     // the ledger is honest always adds up.
@@ -1166,13 +1295,13 @@ function whyHTML(p,fx){
     const sumA=rows.filter(r=>r.pts<0).reduce((s,r)=>s+shown(r),0);
     const net =Math.round((sumH-sumA)*10)/10;
     // The rows balance against each other exactly, but each one is printed to 0.1,
-    // so their total can sit up to ~0.2 away from the model's raw pre-weather
-    // margin — which is the number the "Net:" line above is derived from. Saying
-    // "=" in that case prints two different totals a few lines apart and makes the
-    // ledger look broken when it is merely rounded. Say "≈" and name the cause.
-    const exact=Math.abs(net-(Math.round(P.preWx*10)/10))<0.05;
+    // so their total can sit up to ~0.2 away from the model's raw margin — which
+    // is the number the "Net:" line above is derived from. Saying "=" in that
+    // case prints two different totals a few lines apart and makes the ledger
+    // look broken when it is merely rounded. Say "≈" and name the cause.
+    const exact=Math.abs(net-(Math.round(p.margin*10)/10))<0.05;
     check=`<div class="ledcheck">Add the ${esc(sh(p.h))} column, subtract the ${esc(sh(p.a))} column: `+
-      `+${ledFmt(sumH)} − ${ledFmt(sumA)} ${exact?'=':'≈'} ${ledSigned(net)} before weather`+
+      `+${ledFmt(sumH)} − ${ledFmt(sumA)} ${exact?'=':'≈'} ${ledSigned(net)}`+
       `${exact?'':' (each figure rounded to 0.1)'}.</div>`;
   }
   // engine caption
@@ -1281,13 +1410,16 @@ function render(){
       `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(conf*100).toFixed(0)}%${extra}</span></div>`;
   }).join('');
 
+  // What's-new furniture (status header + round schedule) — same preds as the cards
+  renderNewScreen(preds,fxList);
+
   renderAcc(); renderLadder(); renderLearning();
   const cmSel=document.getElementById('compMode'); if(cmSel) cmSel.value=compMode;
   document.getElementById('ladderNote').textContent =
     "Rating = points margin per game (shrunk toward that home/away split as the sample of games grows), plus a small recent-form nudge. Higher = stronger.";
   document.getElementById('howItWorks').innerHTML = howText();
   document.getElementById('foot').innerHTML =
-    `Data to end of Round ${SRC.round-1}, ${SRC.season}. Ladder rebuilds weekly; odds, injuries &amp; weather refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
+    `Data to end of Round ${SRC.round-1}, ${SRC.season}. Ladder rebuilds weekly; odds &amp; injuries refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
 }
 function modeLabel(){
   const base = learnedActive ? "self-learning (Elo)"
@@ -1335,7 +1467,9 @@ function renderLock(preds){
    Returns {hs, as, winner} oriented to the prediction's home side, or null. */
 function fixtureResult(p){
   const pool=[].concat((SRC&&SRC.results)||[], (LEARNED&&LEARNED.results)||[]);
-  const r=pool.find(x=>x && x.round===SRC.round &&
+  // Season-aware (2026-08-04): entries with no season stamp predate 2027 and
+  // default to 2026, so a 2027 round-1 fixture can never show 2026's score.
+  const r=pool.find(x=>x && (x.season||2026)===SRC.season && x.round===SRC.round &&
     ((x.home===p.h.short&&x.away===p.a.short)||(x.home===p.a.short&&x.away===p.h.short)));
   if(!r) return null;
   const flip=r.home!==p.h.short;
@@ -1406,8 +1540,11 @@ function myRecord(){
   const res=(LEARNED&&LEARNED.results)||[];
   const done={}; let w=0,l=0;
   const grade=(rnd,h,a,tipShort)=>{
-    const k=`${rnd}-${h}-${a}`; if(done[k]) return; 
-    const r=res.find(x=>x.round===rnd&&((x.home===h&&x.away===a)||(x.home===a&&x.away===h)));
+    // Unordered-pair key (2026-08-04): a home/away orientation flip between two
+    // runs must not grade the same game twice. Results with no season default
+    // to 2026, matching the rest of the readers.
+    const k=`${rnd}-${[h,a].sort().join('-')}`; if(done[k]) return;
+    const r=res.find(x=>(x.season||2026)===SRC.season&&x.round===rnd&&((x.home===h&&x.away===a)||(x.home===a&&x.away===h)));
     if(!r||r.hs===r.as) return;
     done[k]=1;
     const winner=r.hs>r.as?r.home:r.away;
@@ -1477,7 +1614,7 @@ function cardHTML(p,meta){
     const g=gradedTip(p);   // the tip as it stood BEFORE kick-off — never recomputed
     const correct=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
     const rkWon=!!(fin.winner&&fin.winner.short===LOCK);
-    return `<div class="gcard final${(rkHome||rkAway)?' haslock':''}">
+    return `<div class="gcard final${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
       <div class="gtop"><span class="gwhen ft">Full time</span>${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>
       <div class="gmatch">
         ${team(p.h,false,rkHome)}
@@ -1502,7 +1639,7 @@ function cardHTML(p,meta){
     tags.push(`<a class="chgbadge ${k.badge}" href="#chg-${esc(p.h.short+'-'+p.a.short)}">`+
       `⟳ ${meta.chg.n} change${meta.chg.n===1?'':'s'}</a>`);
   }
-  return `<div class="gcard${(rkHome||rkAway)?' haslock':''}">
+  return `<div class="gcard${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
     ${(when||fx.venue)?`<div class="gtop">${when?`<span class="gwhen">${esc(when)}</span>`:''}${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>`:''}
     <div class="gmatch">
       ${team(p.h,tipHome,rkHome)}
@@ -1528,7 +1665,7 @@ function cardHTML(p,meta){
     ${meta.isUpset?`<div class="rationale" style="color:var(--blue)"><span class="k" style="color:var(--blue)">🎯</span><span>Closest to 50/50 this round — the best game to gamble on if you're chasing rivals.</span></div>`:''}
     ${injuryStrip(p)}
     <details class="more">
-      <summary><span class="chev">▸</span> Odds · form · injuries · conditions</summary>
+      <summary><span class="chev">▸</span> Odds · form · injuries · venue</summary>
       <div class="moreouter"><div class="moregrid">
         <div class="mbox"><h4>Match odds</h4>${oddsHTML(p,fx)}</div>
         <div class="mbox"><h4>Home / Away record</h4>
@@ -1536,7 +1673,7 @@ function cardHTML(p,meta){
           <div class="row"><span>${esc(p.a.name)} (away)</span><span>${splitStr(p.a.away)}</span></div>
         </div>
         <div class="mbox"><h4>Team news / injuries</h4>${injuriesHTML(p)}</div>
-        <div class="mbox venuebox"><h4>Venue &amp; conditions</h4>${venueHTML(fx)}</div>
+        <div class="mbox venuebox"><h4>Venue &amp; kick-off</h4>${venueHTML(fx)}</div>
         <div class="mbox whybox"><h4>Why the model leans this way</h4>${whyHTML(p,fx)}</div>
       </div></div>
     </details>
@@ -1684,7 +1821,7 @@ function injuriesHTML(p){
   return injTeamHTML(p.h,p.hInj)+injTeamHTML(p.a,p.aInj)+
     (src?`<div class="injsrc">${esc(src)}</div>`:'');
 }
-/* Card front: one compact pill per affected team, plus weather. Shows nothing at
+/* Card front: one compact pill per affected team. Shows nothing at
    all when the injuries don't actually move the model — a settled squad no longer
    gets the same amber treatment as a season-ending ACL. */
 function injuryStrip(p){
@@ -1695,8 +1832,7 @@ function injuryStrip(p){
     return `<span class="injpill"><span class="t">${esc(t.short)}</span> −${injFmt(inj.penalty)}`+
       `${top?` · ${esc(top.name)}${extra}`:''}</span>`;
   };
-  let s=pill(p.h,p.hInj)+pill(p.a,p.aInj);
-  if(p.wx&&p.wx.shrink>0) s+=`<span class="injpill quiet">🌧 ${esc(p.wx.note)}</span>`;
+  const s=pill(p.h,p.hInj)+pill(p.a,p.aInj);
   return s?`<div class="injstrip">${s}</div>`:'';
 }
 /* ---------- "What changed today" feed ----------
@@ -1704,7 +1840,7 @@ function injuryStrip(p){
    whole feed degrades to an empty-state panel when the data file predates it. The
    panel is NEVER hidden — "nothing changed" is information. Severity controls
    typographic weight and whether an entry earns a row at all; category controls hue,
-   so a spine player ruled out can't look like a 2°C weather tweak.
+   so a spine player ruled out can't look like a routine odds wobble.
    No "seen" state and no localStorage key: the feed is already scoped to "since the
    last run", so a seen-flag would only hide changes not yet acted on. */
 const CHG_CAT = {
@@ -1712,18 +1848,18 @@ const CHG_CAT = {
   out:    {g:'⚑', cls:'c-out',  badge:'b-out',  noun:['injury note','injury notes']},
   injury: {g:'✚', cls:'c-out',  badge:'b-out',  noun:['injury note','injury notes']},
   line:   {g:'⇄', cls:'c-line', badge:'b-line', noun:['line move','line moves']},
-  weather:{g:'🌧',cls:'c-wx',   badge:'b-line', noun:['weather tweak','weather tweaks']},
   time:   {g:'🕒',cls:'c-when', badge:'b-when', noun:['time change','time changes']},
   venue:  {g:'📍',cls:'c-when', badge:'b-when', noun:['venue change','venue changes']},
   other:  {g:'•', cls:'c-misc', badge:'',       noun:['other update','other updates']}
 };
-const CHG_ORDER = {out:0,in:1,injury:2,time:3,venue:4,line:5,weather:6,other:7};
+const CHG_ORDER = {out:0,in:1,injury:2,time:3,venue:4,line:5,other:6};
 function chgCat(c){ return CHG_CAT[c] || CHG_CAT.other; }
 function fxKey(f){ return f.home+'-'+f.away; }
 function chgList(){
   const raw = Array.isArray(SRC.changes) ? SRC.changes : [];
   const valid = {}; fixtures.forEach(f=>{ valid[fxKey(f)]=f; });
   return raw.filter(c=>c && typeof c.text==='string' && c.text.trim())
+    .filter(c=>c.cat!=='weather')   // weather retired 2026-08-04; drop legacy entries still in the 36h window
     .map((c,i)=>({
       id: c.id || ('c'+i),
       fx: (c.fixture && valid[c.fixture]) ? c.fixture : null,   // unknown fixture => comp-wide
@@ -1771,73 +1907,106 @@ function renderChanges(){
   const cnt=document.getElementById('chgCount');
   if(!sec||!body) return {};
   sec.style.display='';
-  // TODAY ONLY (2026-07-31 — Josh: "clear all of yesterday's updates"). The data
-  // file still carries the rolling 36h window, but the feed shows just entries
-  // whose first sighting was today in Sydney, and the clock is the earliest of
-  // those. Yesterday's news ages out of the DATA on its own; it simply no longer
-  // clutters the screen. Note the trade-off this accepts: a late-Tuesday
-  // team-list drop won't be on screen Wednesday morning.
+  // TODAY stays the headline (2026-07-31 — Josh: "clear all of yesterday's
+  // updates"): entries first seen today in Sydney — or carrying no timestamp,
+  // which is safer counted as today than dropped — get the full treatment and
+  // feed the tab badge. Entries still inside the data file's rolling 36h window
+  // but from BEFORE today used to be dropped outright; they now render inside a
+  // collapsed "Earlier" fold (2026-08-04), closed by default and excluded from
+  // the badge, so yesterday's late team-list drop is reachable on Wednesday
+  // morning without competing with today's news.
   const sydDay=t=>{ try{ return new Date(t).toLocaleDateString('en-CA',{timeZone:'Australia/Sydney'}); }
                     catch(e){ return new Date(t).toDateString(); } };
   const todayStr=sydDay(Date.now());
-  const all=chgList().filter(c=>{ if(!c.ts) return false;
-    const t=Date.parse(c.ts); return !isNaN(t) && sydDay(t)===todayStr; });
-  // tab-bar badge: how many updates are waiting on the What's-new screen
+  const list=chgList();
+  const isToday=c=>{ if(!c.ts) return true;
+    const t=Date.parse(c.ts); return isNaN(t) || sydDay(t)===todayStr; };
+  const all=list.filter(isToday);
+  const earlier=list.filter(c=>!isToday(c));
+  // tab-bar badge: how many updates are waiting on the What's-new screen (today only)
   const tb=document.getElementById('tabNewBadge');
   if(tb){ const n=all.length; tb.hidden=!n; tb.textContent=n>99?'99+':String(n); }
   const major=all.filter(c=>c.sev>=2), minor=all.filter(c=>c.sev===1);
   let when=null;
   if(all.length){
-    const first=all.reduce((m,c)=>{ const t=Date.parse(c.ts); return (m===null||t<m)?t:m; },null);
-    when = fmtClock(new Date(first).toISOString());
+    const first=all.reduce((m,c)=>{ if(!c.ts) return m;
+      const t=Date.parse(c.ts); return isNaN(t)?m:(m===null||t<m)?t:m; },null);
+    if(first!==null) when = fmtClock(new Date(first).toISOString());
   }
 
-  // per-fixture badge map, returned for cardHTML()
+  // per-fixture badge map, returned for cardHTML() — today's entries only
   const byFx={};
   all.forEach(c=>{ if(!c.fx) return;
     const e=byFx[c.fx]||(byFx[c.fx]={n:0,sev:0,cat:'other'});
     e.n++; if(c.sev>e.sev){ e.sev=c.sev; e.cat=c.cat; } });
 
-  if(!all.length){
-    if(cnt) cnt.textContent = 'nothing yet today';
-    // `== null` on purpose: a data file that carries `changes:null` has no feed at
-    // all, exactly like one that predates the field, and must not claim "nothing
-    // has changed" — that's a statement we can't make without a previous window.
-    body.innerHTML = (SRC.changes==null)
-      ? `<div class="chgempty"><span class="dot"></span>Change tracking starts from the next data refresh.</div>`
-      : `<div class="chgempty"><span class="dot"></span>Nothing's changed yet today — same teams, same prices, same forecast.</div>`;
-    return byFx;
-  }
-  if(cnt) cnt.textContent = `${all.length} update${all.length===1?'':'s'} today${when?` · since ${when}`:''}`;
-
   const order = fixtures.map(fxKey);
-  const groups = {};
-  major.forEach(c=>{ const key=c.fx||'__round'; (groups[key]||(groups[key]=[])).push(c); });
-  const keys = Object.keys(groups).sort((x,y)=>{
+  // Fixture groups get identity (2026-08-04): two club-colour crest dots and a
+  // "view game →" link back to that card on the Tips screen — the mirror of the
+  // card's a.chgbadge link into this feed. Omitted for the Round-wide group.
+  const groupHTML=(key,list,idPrefix)=>{
+    let head=`<div class="chgfx">Round-wide</div>`;
+    if(key!=='__round'){ const f=fixtures.find(f=>fxKey(f)===key);
+      const h=f&&T(f.home), a=f&&T(f.away);
+      head = (h&&a)
+        ? `<div class="chgfx"><span class="crest" style="background:${esc(h.colour||'#888')}" aria-hidden="true"></span>`+
+          `<span class="crest" style="background:${esc(a.colour||'#888')}" aria-hidden="true"></span>`+
+          `${esc(h.name)} v ${esc(a.name)}<a class="gamelink" href="#game-${esc(key)}">view game →</a></div>`
+        : `<div class="chgfx">${esc(key)}</div>`; }
+    return `<div class="chggroup" id="${idPrefix}${esc(key)}">${head}`+
+      list.map(chgRow).join('')+`</div>`;
+  };
+  const sortKeys=groups=>Object.keys(groups).sort((x,y)=>{
     if(x==='__round') return -1; if(y==='__round') return 1;
     const sx=Math.max.apply(null,groups[x].map(c=>c.sev)), sy=Math.max.apply(null,groups[y].map(c=>c.sev));
     return sy-sx || order.indexOf(x)-order.indexOf(y);
   });
+
+  // The "Earlier" fold: grouped exactly like today, but sev capped at 2 (no s3
+  // wash — today must always outweigh it) and anchor ids prefixed chg-early- so
+  // today's #chg-… anchors stay unique.
+  let earlierHTML='';
+  if(earlier.length){
+    const eg={};
+    earlier.forEach(c=>{ const key=c.fx||'__round'; (eg[key]||(eg[key]=[])).push(c); });
+    earlierHTML=`<details class="chgearlier"><summary>Earlier · ${earlier.length} update${earlier.length===1?'':'s'}</summary>`+
+      sortKeys(eg).map(key=>{
+        const rows=eg[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat])
+          .map(c=>Object.assign({},c,{sev:Math.min(c.sev,2)}));
+        return groupHTML(key,rows,'chg-early-');
+      }).join('')+`</details>`;
+  }
+
+  if(!all.length){
+    if(cnt) cnt.textContent = 'nothing yet today';
+    body.classList.remove('long');
+    // `== null` on purpose: a data file that carries `changes:null` has no feed at
+    // all, exactly like one that predates the field, and must not claim "nothing
+    // has changed" — that's a statement we can't make without a previous window.
+    const note=`<div class="injnote" style="margin-top:6px">Team lists usually drop Tuesday; odds firm up midweek. This feed checks itself every few minutes while open.</div>`;
+    body.innerHTML = ((SRC.changes==null)
+      ? `<div class="chgempty"><span class="dot"></span><span>Change tracking starts from the next data refresh.${note}</span></div>`
+      : `<div class="chgempty"><span class="dot"></span><span>Nothing's changed yet today — same teams, same prices.${note}</span></div>`)
+      + earlierHTML;
+    return byFx;
+  }
+  if(cnt) cnt.textContent = `${all.length} update${all.length===1?'':'s'} today${when?` · since ${when}`:''}`;
+
+  const groups = {};
+  major.forEach(c=>{ const key=c.fx||'__round'; (groups[key]||(groups[key]=[])).push(c); });
+  const keys = sortKeys(groups);
   // Compact by default (2026-07-30 — 44-row bursts were burying the signal).
   // The groups are already sorted most-important-first and rows within them
   // sev-first, so "the first N rows" IS the top of the feed. Everything past
   // the cap folds behind a native <details> — no state, works offline.
   const CHG_COMPACT_ROWS = 8;
-  const groupHTML=(key,list)=>{
-    let label='Round-wide';
-    if(key!=='__round'){ const f=fixtures.find(f=>fxKey(f)===key);
-      const h=f&&T(f.home), a=f&&T(f.away);
-      label = (h&&a)? `${esc(h.name)} v ${esc(a.name)}` : esc(key); }
-    return `<div class="chggroup" id="chg-${esc(key)}"><div class="chgfx">${label}</div>`+
-      list.map(chgRow).join('')+`</div>`;
-  };
   let shown=0; const compactParts=[], moreParts=[]; let moreRows=0;
   keys.forEach(key=>{
     const list=groups[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat]);
     const room=Math.max(0, CHG_COMPACT_ROWS-shown);
     const head=list.slice(0,room), tail=list.slice(room);
-    if(head.length){ compactParts.push(groupHTML(key,head)); shown+=head.length; }
-    if(tail.length){ moreParts.push(groupHTML(key,tail)); moreRows+=tail.length; }
+    if(head.length){ compactParts.push(groupHTML(key,head,'chg-')); shown+=head.length; }
+    if(tail.length){ moreParts.push(groupHTML(key,tail,'chg-more-')); moreRows+=tail.length; }
   });
   let minorLine='';
   if(minor.length){
@@ -1857,26 +2026,79 @@ function renderChanges(){
   }else{
     html += minorLine;
   }
-  body.innerHTML=html;
+  // Desktop's 2-column flow (#changeFeed.long) only earns its keep on a long
+  // feed; on a quiet day columns just float the folds beside a lone row.
+  body.classList.toggle('long', shown>6);
+  body.innerHTML=html+earlierHTML;
   return byFx;
+}
+/* What's-new page furniture (2026-08-04): the status header and the round
+   schedule panel. Called from render() with the ALREADY-computed preds so the
+   tip pills can never disagree with the cards. Writes unconditionally — hidden
+   screens still get their innerHTML, same as everything else render() does. */
+function renderNewScreen(preds,fxList){
+  const meta=document.getElementById('newMeta');
+  if(meta){
+    const stale=daysSince(SRC.updated);
+    const dotClass=isSample?'sample':(stale>8?'stale':'');
+    const t=fmtClock(SRC.generatedAt||SRC.updated);
+    meta.innerHTML=`<span class="dot ${dotClass}"></span> ${t?`Checked ${esc(t)}`:'Checked recently'} · updates roughly every 4 hours`;
+  }
+  const el=document.getElementById('weekAhead');
+  if(!el) return;
+  if(!preds.length){ el.innerHTML=`<div class="tba">No fixtures loaded yet.</div>`; return; }
+  // sort by kickoff; unparseable kickoffs sink to the end in original draw order
+  const rows=preds.map((p,i)=>({p,fx:fxList[i]||{},i}));
+  rows.sort((x,y)=>{
+    const tx=Date.parse(x.fx.kickoff||''), ty=Date.parse(y.fx.kickoff||'');
+    const bx=isNaN(tx), by=isNaN(ty);
+    if(bx&&by) return x.i-y.i;
+    if(bx) return 1; if(by) return -1;
+    return (tx-ty)||(x.i-y.i);
+  });
+  const anyKick=rows.some(r=>kickInfo(r.fx).ok);
+  // Time-only, en-AU, ground-local — like kickShort() minus the weekday (the
+  // .wkday header above each group already names the day). No tz abbreviation:
+  // some ICU locales render it as "GMT+10"/"GMT+12", which crushed the team
+  // names out of the row; the fold's venue box still carries the fully-zoned
+  // time for anyone who needs it (incl. the Auckland game).
+  const kt=fx=>{ if(!fx||!fx.kickoff) return '';
+    const t=Date.parse(fx.kickoff); if(isNaN(t)) return '';
+    try{
+      return new Date(t).toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit',
+        timeZone:fx.tz||undefined}).toLowerCase();
+    }catch(e){
+      try{ return new Date(t).toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}).toLowerCase(); }
+      catch(e2){ return ''; }
+    } };
+  let html = anyKick ? '' : `<div class="tba">Kick-off times to be confirmed</div>`;
+  let lastDay=null;
+  rows.forEach(({p,fx})=>{
+    const k=kickInfo(fx);
+    if(anyKick){
+      const day=k.ok?k.day:'Time TBC';
+      if(day!==lastDay){ html+=`<div class="wkday">${esc(day)}</div>`; lastDay=day; }
+    }
+    const fin=fixtureResult(p);
+    const tip=tipSide(p);       // the lock wins here, same as every tip surface
+    const crests=`<span class="crest" style="background:${esc(p.h.colour||'#888')}" aria-hidden="true"></span>`+
+      `<span class="crest" style="background:${esc(p.a.colour||'#888')}" aria-hidden="true"></span>`;
+    const match=`<span class="m">${esc(p.h.name)}<span class="vs">v</span>${esc(p.a.name)}</span>`;
+    let kEl='', cls='';
+    if(fin){ cls=' ft'; kEl=`<span class="k">FT ${fin.hs}–${fin.as}</span>`; }
+    else if(k.ok){ const tt=kt(fx)||k.time;
+      kEl=`<span class="k">${esc(tt)} <span class="rel">· ${esc(k.rel)}</span></span>`; }
+    else if(anyKick) kEl=`<span class="k">TBC</span>`;
+    const pill=`<span class="tip${tip.short===LOCK?' gold':''}">${esc(tip.short)}</span>`;   // gold stays lock-only
+    html+=`<div class="wkrow${cls}">${crests}${match}${kEl}${pill}</div>`;
+  });
+  const byes=(bye||[]).map(s=>{ const t=T(s); return t?t.name:s; });
+  if(byes.length) html+=`<div class="injnote" style="margin-top:10px">Bye: ${esc(byes.join(', '))}</div>`;
+  el.innerHTML=html;
 }
 function splitStr(o){ return o&&o.P?`${o.W}-${o.L} · ${(avg(o)>=0?'+':'')}${avg(o).toFixed(0)}/gm`:'—'; }
 function winloss(l5){ l5=l5||0; let s='<span class="formdots" aria-label="'+l5+' of last 5 won">'; for(let i=0;i<5;i++) s+=`<i class="${i<l5?'w':''}"></i>`; return s+'</span>'; }
 
-// Brier score = mean((pTip - outcome)^2) where outcome is 1 if the tip won, else 0 (non-draw games only).
-function brierScore(entries){
-  if(!entries.length) return null;
-  const sum=entries.reduce((s,h)=>s+Math.pow(h.pTip-(h.modelCorrect?1:0),2),0);
-  return sum/entries.length;
-}
-function calibrationVerdict(entries){
-  if(!entries.length) return null;
-  const avgConf=entries.reduce((s,h)=>s+h.pTip,0)/entries.length*100;
-  const hitRate=entries.filter(h=>h.modelCorrect).length/entries.length*100;
-  const diff=avgConf-hitRate;
-  const verdict = diff>7?'a bit overconfident':diff<-7?'a bit underconfident':'well calibrated';
-  return {avgConf,hitRate,diff,verdict};
-}
 function renderAcc(){
   const L = (typeof LEARNED!=='undefined' && LEARNED) ? LEARNED : null;
   const res = (L && Array.isArray(L.results)) ? L.results : [];
@@ -1894,16 +2116,17 @@ function renderAcc(){
   document.getElementById('accModel').textContent =
     (bt && typeof bt.hit==='number' && bt.games) ? `${Math.round(bt.hit*100)}%` : '–';
 
-  // Roosters record + loyalty cost — counted straight from the results memory.
-  let rw=0, rl=0, rkTot=0, modelRight=0;
+  // Roosters W-L — counted straight from the results memory (this season only;
+  // entries with no season stamp predate 2027 and default to 2026).
+  let rw=0, rl=0, rkTot=0;
   res.forEach(r=>{
+    if((r.season||2026)!==SRC.season) return;
     if(r.home!==LOCK && r.away!==LOCK) return;
     if(r.hs===r.as) return; // ignore rare draws
     rkTot++;
     const rkHome = r.home===LOCK;
     const rkPts = rkHome?r.hs:r.as, oppPts = rkHome?r.as:r.hs;
     if(rkPts>oppPts) rw++; else rl++;
-    if(modelFavoursHome(r.home,r.away)===(r.hs>r.as)) modelRight++;
   });
   document.getElementById('accLock').textContent = rkTot ? `${rw}-${rl}` : '–';
 
@@ -1915,23 +2138,21 @@ function renderAcc(){
   note += `"Your tips" counts only picks locked in before kick-off, from when you started using the app — the backtest and the Roosters' W-L cover the whole season either way.`;
   document.getElementById('accNote').textContent = note;
 
+  // Loyalty cost: displayed ONLY from learn_model's walk-forward figures
+  // (backtest.lockTax, graded with each game's PRE-GAME Elo). The old in-page
+  // computation graded past games with the CURRENT ratings — hindsight, the
+  // exact pattern GOTCHAS 2026-08-02 bans — so with no server figure we now
+  // show nothing rather than a flattering number.
   const el=document.getElementById('rkTax');
-  if(rkTot){
-    const tax = modelRight - rw; // model's correct picks minus Roosters' actual wins, on Roosters games
-    el.textContent = tax>0 ? `Loyalty cost (backtest): always tipping the Roosters would have cost about ${tax} tip(s) vs the model across the season's ${rkTot} Roosters game(s).`
-      : tax<0 ? `Loyalty bonus (backtest): the Roosters rule would be ${-tax} tip(s) ahead of the model across ${rkTot} game(s).`
-      : `The Roosters rule is level with the model across ${rkTot} game(s) (backtest).`;
+  const lt = (bt && bt.lockTax && typeof bt.lockTax.games==='number'
+              && typeof bt.lockTax.modelRight==='number' && typeof bt.lockTax.rkWins==='number')
+    ? bt.lockTax : null;
+  if(lt && lt.games){
+    const tax = lt.modelRight - lt.rkWins; // model's walk-forward correct picks minus Roosters' actual wins
+    el.textContent = tax>0 ? `Loyalty cost (walk-forward backtest): always tipping the Roosters would have cost about ${tax} tip(s) vs the model across the season's ${lt.games} Roosters game(s).`
+      : tax<0 ? `Loyalty bonus (walk-forward backtest): the Roosters rule is ${-tax} tip(s) ahead of the model across ${lt.games} game(s).`
+      : `The Roosters rule is level with the model across ${lt.games} game(s) (walk-forward backtest).`;
   } else el.textContent='';
-}
-// Would the model favour the HOME side in this matchup? (uses learned Elo when active, else the heuristic)
-function modelFavoursHome(homeShort, awayShort){
-  const h=T(homeShort), a=T(awayShort);
-  if(!h||!a) return true;
-  if(typeof learnedActive!=='undefined' && learnedActive){
-    const gap = eloGapToPoints(eloStrength(h)-eloStrength(a), LEARNED.params.logisticScale);
-    return (gap + LEARNED.params.homeAdv) >= 0;
-  }
-  return (effRating(h,'home') - effRating(a,'away') + num('hga',3)) >= 0;
 }
 
 function renderLadder(){
@@ -2108,18 +2329,6 @@ function kickInfo(fx){
   else { rel='played'; relCls='past'; }
   return {ok:true, day, time, abbr, mine, rel, relCls, zoneOK};
 }
-function wxChips(w){
-  if(!w) return `<span class="tba">forecast lands about 3 days out</span>`;
-  const s=String(w);
-  const t=s.match(/(-?\d+)\s*°\s*C/i);
-  const r=s.match(/(\d+)\s*%\s*rain/i);
-  const desc=s.split(',').map(x=>x.trim()).filter(x=>!/°|%/.test(x)).join(', ');
-  if(!t&&!r&&!desc) return `<span class="vchip">${esc(s)}</span>`;
-  const rain=r?parseInt(r[1],10):null;
-  return (t?`<span class="vchip">${esc(t[1])}°C</span>`:'')+
-    (rain!==null?`<span class="vchip ${rain>=40?'wet':'dry'}">${rain>=40?'🌧 ':'☁ '}${rain}% rain</span>`:'')+
-    (desc?`<span class="vchip">${esc(desc)}</span>`:'');
-}
 function venueHTML(fx){
   fx=fx||{};
   const k=kickInfo(fx);
@@ -2134,7 +2343,7 @@ function venueHTML(fx){
       `${k.mine?`<div class="vyours">${esc(k.mine)}</div>`:''}`+
       `${k.zoneOK?'':`<div class="vyours">(your device's time)</div>`}`
     : `<div class="vkick"><span class="tba">Kick-off time to be confirmed</span></div>`;
-  return stadium+city+kick+`<div class="vwx">${wxChips(fx.weather)}</div>`;
+  return stadium+city+kick;
 }
 function howText(){
   return `Each team gets a <b>power rating</b> — its points margin per game this season, shrunk toward the record `+
@@ -2151,9 +2360,9 @@ function howText(){
   `odds can be a single quote or an open/close pair — the close line is used, and the card notes if the line moved. `+
   `The single game closest to a 50/50 toss-up is flagged as the week's "🎯 Upset watch". `+
   `The <b>Comp format</b> setting (Advanced settings) can switch the round view between win-only, margin-focused, or `+
-  `confidence-ranked. The accuracy tracker also scores the model's own confidence: a <b>Brier score</b> and a plain calibration `+
-  `verdict (well/over/under-confident), plus the "Roosters tax" — tips the loyalty rule has cost you vs. the model. `+
-  `Injuries and weather appear once published (around Tuesday). The <b>Roosters are always the locked tip</b> when they play — `+
+  `confidence-ranked. The Model tab tracks a walk-forward backtest (hit rate and a <b>Brier score</b> for the model's own `+
+  `confidence), plus the "Roosters tax" — tips the loyalty rule has cost you vs. the model. `+
+  `Injuries and team news appear once published (around Tuesday). The <b>Roosters are always the locked tip</b> when they play — `+
   `the tool just tells you how risky that is. Log results each week and every rating, split and accuracy figure updates.`+
   (learnedActive?
     ` Right now the app is running in <b>self-learning (Elo)</b> mode: each team's base strength comes from Elo ratings fitted `+
@@ -2183,20 +2392,58 @@ function hydrateData(){
   learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
   PLAYERS = (typeof window!=="undefined" && window.NRL_PLAYERS) ? window.NRL_PLAYERS : {};
   HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
+  LINEUPS = (window.NRL_LINEUPS) ? window.NRL_LINEUPS : null;   // team lists refresh too (was captured once, forever)
   TIPLOG = (window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips)) ? window.NRL_TIPLOG.tips : TIPLOG;
 }
+/* Four triggers feed one throttled refresh (2026-08-04): boot, foreground
+   return, a 5-minute visible-only poll, and the manual chip / pull-to-refresh.
+   A content stamp makes the no-change path a silent no-op — polling must never
+   re-render (it would collapse any open <details> for nothing). */
+let REFRESHING=false, LAST_CHECK=0;
+function contentStamp(){
+  // Everything render() can visibly depend on. KEY already folds in dataSig(SRC)
+  // (teams, fixtures+odds, change ids); the rest aren't hashed by dataSig.
+  return KEY+'|'+((LEARNED&&LEARNED.gamesLearned)||0)+'|'+TIPLOG.length
+    +'|'+((window.NRL_LINEUPS&&window.NRL_LINEUPS.round)||0);
+}
+function setFresh(state,msg){
+  const b=document.getElementById('freshBtn'), l=document.getElementById('freshLabel');
+  if(!b) return;
+  b.hidden=!/^https?:$/.test(location.protocol);   // file:// → no network, no button
+  b.classList.toggle('checking',state==='checking');
+  b.classList.toggle('updated',state==='updated');
+  if(l) l.textContent=msg||'';
+  if(state==='updated'||state==='fresh'){
+    clearTimeout(setFresh._t);
+    setFresh._t=setTimeout(()=>{ b.classList.remove('updated'); if(l) l.textContent=''; }, state==='updated'?4000:2000);
+  }
+}
 function refreshFromNetwork(){
-  if(!/^https?:$/.test(location.protocol)) return;      // file:// → keep offline data
+  if(!/^https?:$/.test(location.protocol)) return;   // file:// → keep offline data
+  if(REFRESHING) return;
+  REFRESHING=true; setFresh('checking','checking…');
+  const before=contentStamp();
   const files=['nrl_data.js','nrl_learned.js','nrl_players.js','nrl_lineups.js','nrl_tiplog.js'];
   let done=0;
-  const finish=()=>{ if(++done===files.length){ hydrateData(); loadState(); render(); } };
-  files.forEach(f=>{
-    const s=document.createElement('script');
-    s.src=f+'?v='+Date.now();          // unique each launch → bypasses the stale cache
-    s.onload=finish; s.onerror=finish; // offline / missing file → just keep current data
-    document.head.appendChild(s);
-  });
+  const finish=(s)=>{ s&&s.remove();                 // don't accumulate <script> tags across polls
+    if(++done!==files.length) return;
+    REFRESHING=false; LAST_CHECK=Date.now();
+    hydrateData();
+    if(contentStamp()!==before){ loadState(); render(); setFresh('updated','updated just now'); }
+    else setFresh('fresh','up to date');
+  };
+  files.forEach(f=>{ const s=document.createElement('script');
+    s.src=f+'?v='+Date.now();          // unique each pull → bypasses the stale cache
+    s.onload=()=>finish(s); s.onerror=()=>finish(s);  // offline / missing file → just keep current data
+    document.head.appendChild(s); });
 }
+document.getElementById('freshBtn')?.addEventListener('click',()=>refreshFromNetwork());
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden && Date.now()-LAST_CHECK>60000) refreshFromNetwork(); });
+window.addEventListener('pageshow',e=>{
+  if(e.persisted && Date.now()-LAST_CHECK>60000) refreshFromNetwork(); });
+setInterval(()=>{ if(!document.hidden && Date.now()-LAST_CHECK>240000) refreshFromNetwork(); },300000);
+setFresh('idle');   // shows/hides the button per protocol at boot
 
 /* ---------- boot ---------- */
 applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork();
@@ -2226,13 +2473,44 @@ if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
   }
   tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.scr,true)));
   document.addEventListener('click',e=>{
-    const a=e.target.closest('a.chgbadge');
+    // card → feed (a.chgbadge) and feed → card (a.gamelink) use the same
+    // pattern: show the target screen first, then let the browser handle the
+    // #chg-… / #game-… hash now the target is visible. No preventDefault.
+    const a=e.target.closest('a.chgbadge, a.gamelink');
     if(!a) return;
-    show('scr-new',true);
-    // let the browser handle the #chg-… hash now the target is visible
+    show(a.classList.contains('gamelink')?'scr-tips':'scr-new',true);
   });
   let saved=null; try{saved=localStorage.getItem(TAB_KEY);}catch(e){}
   if(saved && document.getElementById(saved)) show(saved,false);
+})();
+
+/* ---------- custom pull-to-refresh (2026-08-04) ----------
+   body{overscroll-behavior-y:none} deliberately blocks native rubber-banding
+   (iOS PWA), so PTR is reimplemented here: touch-only, http(s)-only, passive
+   listeners only (never preventDefault — that would break scrolling). */
+(function(){
+  if(!('ontouchstart' in window) || !/^https?:$/.test(location.protocol)) return;
+  const ptr=document.getElementById('ptr'); if(!ptr) return;
+  let y0=null, armed=false;
+  const ARM=70;
+  document.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1 || window.scrollY>0){ y0=null; return; }
+    y0=e.touches[0].clientY; armed=false;
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(y0===null || window.scrollY>0) return;
+    const dy=e.touches[0].clientY-y0;
+    if(dy<12){ ptr.classList.remove('show','armed'); armed=false; return; }
+    armed=dy>ARM;
+    ptr.textContent=armed?'Release to refresh':'Pull to refresh';
+    ptr.classList.add('show'); ptr.classList.toggle('armed',armed);
+  },{passive:true});
+  document.addEventListener('touchend',()=>{
+    if(armed){ ptr.textContent='checking…'; refreshFromNetwork();
+      setTimeout(()=>ptr.classList.remove('show','armed'),900); }
+    else ptr.classList.remove('show','armed');
+    y0=null; armed=false;
+  },{passive:true});
 })();
 </script>
 </body>

@@ -22,7 +22,9 @@ the owner's Mac off.
    `nrl_players.js`, `nrl_tiplog.js` — they're overwritten each run.
 4. **Front-end stays single-file and dependency-free** (no CDNs, `localStorage` only) —
    it must work offline.
-5. **Best-effort fields (odds/news/weather) may be `null`** — that's normal, not a bug.
+5. **Best-effort fields (odds/news) may be `null`** — that's normal, not a bug.
+   (Weather was removed entirely on 2026-08-04; `fixture.weather` ships as an
+   always-null key for one deploy cycle, then the key can be dropped.)
 6. **`update docs for upload/` is a staging folder, not an archive. WIPE IT FIRST.**
    Any time you finish work that needs uploading: delete everything in it, then stage the
    current batch. Do this automatically — Josh should never have to ask. A folder that
@@ -49,11 +51,13 @@ the owner's Mac off.
 - `learn_model.py` — results memory → fitted params + Elo in `nrl_learned.js`.
 - `validate_data.py` / `validate_learned.py` — publish gates.
 - `.github/workflows/update-nrl.yml` — the automation (every 4h at :17, plus 05:47 daily
-  and 16:23 Tuesday for team lists — **not** the "06:00 + 12:00" this line used to claim).
+  and 16:23 Tuesday for team lists). Includes the freeze-tips step and (since
+  2026-08-04) no `--weather` flag. **Always edit from the LIVE copy** (raw URL), never
+  a possibly-stale local one.
 
 ## The deep docs (read as needed)
 - `HANDOFF.md` — orientation + file map + mental model. **Start here.**
-- `docs/MODEL.md` — exactly how a tip is computed (Elo/form/injuries/weather/odds/learning).
+- `docs/MODEL.md` — exactly how a tip is computed (Elo/form/injuries/odds/learning).
 - `docs/DATA_PIPELINE.md` — scripts + every data-file schema.
 - `docs/DEPLOY_AND_OPS.md` — hosting + **the exact steps to make a change and ship it**.
 - `docs/ARCHITECTURE.md` — the whole system + data flow.
@@ -71,10 +75,31 @@ NRL tips" → Run workflow. 5. Verify via raw file URLs with a `?v=N` cache-bust
 live site. Full detail in `docs/DEPLOY_AND_OPS.md`.
 
 ## Current state
-Live and self-updating. The Elo engine is live (156+ games, `lowConfidence: false`);
+Live and self-updating. The Elo engine is live (160+ games, `lowConfidence: false`);
 the heuristic path is the fallback. Injuries move the tip (position × rating); the
-round's team list both clears named players and rules out unnamed doubts; weather (for
-the game's own day) shrinks confidence — all before the odds blend.
+round's team list both clears named players and rules out unnamed doubts — all
+before the odds blend. Weather is gone.
+
+**Changed 2026-08-04** (this batch — full detail in `docs/CHANGELOG.md`):
+- **Desktop gets its own UI at ≥1024px** (top pill nav — same `.tabbar` element,
+  restyled — 1140px layout, 2-up cards, 2-column Model, Quick-list rail at ≥1280px).
+  Phone ≤640px unchanged. `docs/FRONTEND.md` has the tier table.
+- **The app keeps itself fresh while open**: foreground-return refresh, 5-minute
+  polling, a ↻ chip in the nav, and pull-to-refresh — no more force-quitting the
+  home-screen app. No-op (no re-render) when data hasn't changed. `sw.js` CACHE v6.
+- **What's new redesigned**: status line, Today feed + folded "Earlier", crest dots
+  and "view game →" links, and a full round-schedule panel — no more empty screen.
+- **Weather removed end-to-end** (scraper, parser, model, UI, change feed, workflow).
+- **Nine audit fixes** from the sports/gambling specialist audit: opening odds
+  preserved across full rebuilds, winner-relative Elo MOV, `logisticScale` pinned
+  at 7 (unlearnable — never re-add to the grid), loyalty tax computed walk-forward
+  server-side (`backtest.lockTax`), phantom injury-name guards, season-aware
+  results memory, line-move attribution fixed, dead calibration code removed,
+  unordered-pair grading keys. See `docs/GOTCHAS.md` "2026-08-04 batch".
+- **The audit's judgement-call recommendations** (home-advantage refit, odds-history
+  persistence, higher odds weight, grid regularisation, stale-odds visibility,
+  frozen probability in the tiplog, travel/bye/spread variables) are recorded in
+  `docs/CHANGELOG.md` awaiting Josh's approval — not implemented.
 
 **Changed 2026-07-30 (later)**: full UI rebuild — bottom tab bar (Tips / What's new /
 Ladder / Model), rebuilt game cards (win-probability bar, gold = the lock), aurora/glass

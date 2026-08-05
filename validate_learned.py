@@ -406,9 +406,12 @@ def validate(data, rep: Reporter):
                 rep.fail(f"results[{idx}].{f} must be a non-negative int, got {v!r}")
 
         if isinstance(rnd, int) and not isinstance(rnd, bool) and home and away:
-            key = (rnd, home, away)
+            # Season-aware (2026-08-04, audit A6): entries with no season field
+            # predate 2027 and default to 2026, so a 2027 repeat of a 2026
+            # round+pair is a legitimate new game, not a duplicate.
+            key = (r.get("season", 2026), rnd, home, away)
             if key in seen_keys:
-                rep.fail(f"results[{idx}]: duplicate entry for round {rnd}, {home} v {away}")
+                rep.fail(f"results[{idx}]: duplicate entry for season {key[0]}, round {rnd}, {home} v {away}")
             seen_keys.add(key)
 
 

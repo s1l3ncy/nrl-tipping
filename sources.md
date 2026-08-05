@@ -10,8 +10,8 @@
 
 `parse_nrl.py` still parses offline and makes no network calls itself — only
 `cloud_fetch.py` touches the network. Two sources (ladder + draw) are REQUIRED;
-the rest (odds, injuries, weather, team lists, player ratings) are best-effort — the
-fields they feed (`fixture.odds`, `team.news`, `fixture.weather`) simply stay `null` if
+the rest (odds, injuries, team lists, player ratings) are best-effort — the
+fields they feed (`fixture.odds`, `team.news`) simply stay `null` if
 a dump can't be parsed that run. That is normal, not a failure.
 
 **Timing note:** bookmakers open NRL markets early in the week and NRL clubs release
@@ -154,25 +154,12 @@ need to hand-make one, match this shape:
   lists but may miss late withdrawals; re-fetch closer to kickoff for the
   freshest picture if needed.
 
-## 5. Weather — any venue-keyed weather source
+## 5. Weather — RETIRED (2026-08-04)
 
-- Any forecast source keyed by city + date works, e.g.
-  `https://www.bom.gov.au/nsw/forecasts/` (Bureau of Meteorology, per state)
-  or `https://www.accuweather.com/` search for the host city. Look up each
-  fixture's host city (`fixture.city`, e.g. "Townsville", "Sydney") for the
-  fixture's kickoff date.
-- Save a short plain-text summary to a local file, e.g. `weather_dump.txt`,
-  one city per line:
-  ```
-  Townsville: Fine, 26C, light breeze.
-  Mudgee: Cool evening, 12C, clear skies.
-  ```
-- Pass it to the parser with `--weather weather_dump.txt`. Populates
-  `fixture.weather` (a short string) for any fixture whose `city` matches a
-  line; unmatched fixtures keep `weather: null`.
-- Best fetched close to the round (a few days out) since forecasts that far
-  ahead are the most reliable; re-fetch closer to kickoff if precision
-  matters.
+Weather was removed from the system entirely — scraper, parser flag, model term
+and UI. There is no `--weather` flag and no `weather_dump.txt` any more;
+`fixture.weather` is an always-null key kept briefly for CDN-cached old pages.
+Do not re-add a weather source without reading `docs/GOTCHAS.md` first.
 
 ## Cross-checking / degradation
 
@@ -197,13 +184,12 @@ python3 parse_nrl.py \
   --season 2026 \
   --source zerotackle.com \
   --odds odds_dump.txt \
-  --injuries injuries_dump.txt \
-  --weather weather_dump.txt
+  --injuries injuries_dump.txt
 ```
 
-`--odds`, `--injuries` and `--weather` are optional — drop any (or all) of
-them if that dump wasn't fetched this week; the script still produces a
-valid, passing `nrl_data.js` with those fields left `null`.
+`--odds` and `--injuries` are optional — drop either (or both) if that dump
+wasn't fetched this week; the script still produces a valid, passing
+`nrl_data.js` with those fields left `null`.
 
 (`--updated` can override the ISO date if not running same-day as the fetch.)
 
@@ -218,9 +204,9 @@ track the actual day the data was generated.
   (ladder + home/away splits) and Source 2 (draw/fixtures) — these define
   the round, the fixture list, and the ladder numbers, so they only need
   refreshing once a week.
-- **Daily** (light refresh, `parse_nrl.py --merge`): Source 3 (odds), Source
-  4 (injuries/late mail), and Source 5 (weather) — these change fast enough
-  (odds move, late mail trickles in, forecasts update) that they're worth
+- **Daily** (light refresh, `parse_nrl.py --merge`): Source 3 (odds) and Source
+  4 (injuries/late mail) — these change fast enough
+  (odds move, late mail trickles in) that they're worth
   polling every day, and more often still on game days, without re-running
   the ladder/draw rebuild. See `WEEKLY_UPDATE.md`'s "Daily reactive
   refresh" section for the exact `--merge` invocation.
