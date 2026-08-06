@@ -5,13 +5,13 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6604 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6608 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
-  "updated": "2026-08-06",
-  "gamesLearned": 164,
+  "updated": "2026-08-07",
+  "gamesLearned": 165,
   "lowConfidence": false,
   "params": {
-    "homeAdv": 0.41,
+    "homeAdv": 0.28,
     "logisticScale": 7.0,
     "oddsWeight": 0.5,
     "eloK": 10,
@@ -25,7 +25,7 @@ window.NRL_LEARNED = {
     "DOL": 1580.0,
     "SOU": 1507.0,
     "NEW": 1548.0,
-    "NQL": 1498.7,
+    "NQL": 1518.4,
     "MAN": 1499.0,
     "CAN": 1506.7,
     "CBR": 1486.0,
@@ -33,18 +33,18 @@ window.NRL_LEARNED = {
     "BRI": 1394.0,
     "PAR": 1428.3,
     "WST": 1378.6,
-    "GLD": 1425.0,
+    "GLD": 1405.3,
     "STI": 1333.2
   },
   "backtest": {
-    "games": 164,
-    "brier": 0.2338,
-    "logloss": 0.6604,
-    "hit": 0.6402,
+    "games": 165,
+    "brier": 0.234,
+    "logloss": 0.6608,
+    "hit": 0.6364,
     "marketBrier": null,
     "lockTax": {
       "games": 19,
-      "modelRight": 14,
+      "modelRight": 13,
       "rkWins": 14
     }
   },
@@ -88,6 +88,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-05",
       "games": 164,
       "brier": 0.2338
+    },
+    {
+      "date": "2026-08-07",
+      "games": 165,
+      "brier": 0.234
     }
   ],
   "results": [
@@ -1238,6 +1243,14 @@ window.NRL_LEARNED = {
       "away": "PAR",
       "hs": 13,
       "as": 16
+    },
+    {
+      "season": 2026,
+      "round": 23,
+      "home": "GLD",
+      "away": "NQL",
+      "hs": 8,
+      "as": 30
     }
   ]
 };
