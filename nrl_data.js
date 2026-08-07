@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-07",
+  "updated": "2026-08-08",
   "season": 2026,
   "round": 23,
   "source": "zerotackle.com",
@@ -43,6 +43,32 @@ window.NRL_DATA = {
       "news": "Isaah Yeo (Pectoral); Dylan Edwards (Shoulder); Casey McLean (Hand) — back Round 25; Mitch Kenny (Leg) — back Finals"
     },
     {
+      "name": "Roosters",
+      "short": "SYD",
+      "colour": "#e2231a",
+      "P": 20,
+      "W": 15,
+      "L": 5,
+      "PF": 551,
+      "PA": 394,
+      "last5": 5,
+      "home": {
+        "P": 10,
+        "W": 8,
+        "L": 2,
+        "PF": 235,
+        "PA": 180
+      },
+      "away": {
+        "P": 10,
+        "W": 7,
+        "L": 3,
+        "PF": 316,
+        "PA": 214
+      },
+      "news": "James Tedesco (Ankle) — back Round 24; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
+    },
+    {
       "name": "Warriors",
       "short": "NZW",
       "colour": "#231f20",
@@ -69,32 +95,6 @@ window.NRL_DATA = {
       "news": "Te Maire Martin (Hamstring); Demitric Vaimauga (Ribs); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
-      "name": "Roosters",
-      "short": "SYD",
-      "colour": "#e2231a",
-      "P": 20,
-      "W": 14,
-      "L": 6,
-      "PF": 531,
-      "PA": 378,
-      "last5": 5,
-      "home": {
-        "P": 9,
-        "W": 7,
-        "L": 2,
-        "PF": 215,
-        "PA": 162
-      },
-      "away": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 316,
-        "PA": 214
-      },
-      "news": "James Tedesco (Ankle) — back Round 24; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
-    },
-    {
       "name": "Sharks",
       "short": "CRO",
       "colour": "#00a9e0",
@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 193
       },
-      "news": "KL Iro (Concussion) — back Round 24; Siosifa Talakai (Biceps) — back Round 24"
+      "news": "Siosifa Talakai (Biceps) — back Round 24; KL Iro (Concussion) — back Round 24"
     },
     {
       "name": "Dolphins",
@@ -170,33 +170,7 @@ window.NRL_DATA = {
         "PF": 288,
         "PA": 218
       },
-      "news": "James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
-    },
-    {
-      "name": "Bulldogs",
-      "short": "CAN",
-      "colour": "#00337f",
-      "P": 20,
-      "W": 11,
-      "L": 9,
-      "PF": 380,
-      "PA": 422,
-      "last5": 4,
-      "home": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 198,
-        "PA": 172
-      },
-      "away": {
-        "P": 9,
-        "W": 3,
-        "L": 6,
-        "PF": 180,
-        "PA": 250
-      },
-      "news": "Samuel Hughes (Neck); Mitchell Woods (Hamstring)"
+      "news": "Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -251,6 +225,32 @@ window.NRL_DATA = {
       "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Campbell Graham (Calf); Talanoa Penitani (Hamstring) — back Round 26"
     },
     {
+      "name": "Bulldogs",
+      "short": "CAN",
+      "colour": "#00337f",
+      "P": 20,
+      "W": 10,
+      "L": 10,
+      "PF": 396,
+      "PA": 442,
+      "last5": 3,
+      "home": {
+        "P": 10,
+        "W": 7,
+        "L": 3,
+        "PF": 198,
+        "PA": 172
+      },
+      "away": {
+        "P": 10,
+        "W": 3,
+        "L": 7,
+        "PF": 198,
+        "PA": 270
+      },
+      "news": "Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring); Samuel Hughes (Neck)"
+    },
+    {
       "name": "Sea Eagles",
       "short": "MAN",
       "colour": "#6f1a3c",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 260,
         "PA": 180
       },
-      "news": "Tom Trbojevic (Hamstring); Siosiua Taukeiaho (Leg); Jackson Shereb (Concussion); Clayton Faulalo (Hamstring); Ben Trbojevic (Concussion) — back Round 24; Caleb Navale (ACL) — back Round 25"
+      "news": "Tom Trbojevic (Hamstring); Siosiua Taukeiaho (Leg); Jackson Shereb (Concussion); Clayton Faulalo (Hamstring); Ben Trbojevic (Concussion) — back Round 24; Ethan Bullemor (Concussion) — back Round 25"
     },
     {
       "name": "Raiders",
@@ -326,7 +326,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Jack Howarth (Shoulder) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
+      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle) — back Round 24; Jack Howarth (Shoulder) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Eels",
@@ -485,9 +485,9 @@ window.NRL_DATA = {
     {
       "home": "SYD",
       "away": "CAN",
-      "venue": "",
+      "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-07T20:00:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -526,7 +526,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.43,
-          "away": 2.88
+          "away": 2.9
         }
       },
       "weather": null,
@@ -545,8 +545,8 @@ window.NRL_DATA = {
           "away": 3.2
         },
         "close": {
-          "home": 1.32,
-          "away": 3.45
+          "home": 1.33,
+          "away": 3.34
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-07T21:13:01+10:00",
+  "generatedAt": "2026-08-08T01:14:22+10:00",
   "changes": [
     {
       "id": "r23-SYD-inj-james-tedesco",
@@ -657,6 +657,42 @@ window.NRL_DATA = {
       "text": "James Tedesco (Fullback) is out of the Roosters 17.",
       "pts": 3.6,
       "ts": "2026-08-06T20:17:08+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-CAN-inj-sitili-tupouniua",
+      "fixture": "SYD-CAN",
+      "team": "CAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Bulldogs: Sitili Tupouniua (Hamstring) — new on the injury list.",
+      "pts": 2.0,
+      "ts": "2026-08-08T01:14:22+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-MAN-inj-ethan-bullemor",
+      "fixture": "MEL-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sea Eagles: Ethan Bullemor (Concussion) — back Round 25 — new on the injury list.",
+      "pts": 1.8,
+      "ts": "2026-08-08T01:14:22+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-MAN-fit-caleb-navale",
+      "fixture": "MEL-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sea Eagles: Caleb Navale is off the injury list.",
+      "pts": 0.7,
+      "ts": "2026-08-08T01:14:22+10:00",
       "rnd": 23
     },
     {
@@ -1281,42 +1317,6 @@ window.NRL_DATA = {
       "text": "Rex Bassingthwaighte named in the Roosters 17.",
       "pts": 0.6,
       "ts": "2026-08-06T20:17:08+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-MAN-line-2.15-1.70",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Storm $2.11 → $2.15, Sea Eagles $1.73 → $1.70. Market now 44% Storm (was 45%).",
-      "pts": null,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-DOL-BRI-line-1.43-2.88",
-      "fixture": "DOL-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Dolphins $1.43 → $1.43, Broncos $2.85 → $2.88. Market now 67% Dolphins (was 67%).",
-      "pts": null,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-STI-CRO-line-4.75-1.19",
-      "fixture": "STI-CRO",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Dragons $4.60 → $4.75, Sharks $1.19 → $1.19. Market now 20% Dragons (was 21%).",
-      "pts": null,
-      "ts": "2026-08-07T21:13:01+10:00",
       "rnd": 23
     }
   ],

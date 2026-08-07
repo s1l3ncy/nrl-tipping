@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 23,
   "source": "nrl.com",
-  "fetched": "2026-08-07T21:12:49",
+  "fetched": "2026-08-08T01:14:10",
   "fixtures": {
     "GLD-NQL": {
       "venue": "Cbus Super Stadium",
@@ -14,6 +14,11 @@
       "venue": "Go Media Stadium",
       "city": "Auckland",
       "kickoffUtc": "2026-08-07T08:00:00Z"
+    },
+    "SYD-CAN": {
+      "venue": "Allianz Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-07T10:00:00Z"
     },
     "MEL-MAN": {
       "venue": "HBF Park",
