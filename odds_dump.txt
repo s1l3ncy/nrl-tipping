@@ -1,5 +1,5 @@
 # Round 23 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-08T01:14:10. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-08T04:33:55. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (55 book quotes across 5 fixtures).
 Storm v Sea Eagles: 2.15 / 1.70
 Dolphins v Broncos: 1.43 / 2.90
