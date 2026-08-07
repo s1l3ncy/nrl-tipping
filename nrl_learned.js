@@ -5,22 +5,22 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6608 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
+// fitted via grid search: walk-forward logloss=0.6606 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.
 window.NRL_LEARNED = {
   "updated": "2026-08-07",
-  "gamesLearned": 165,
+  "gamesLearned": 166,
   "lowConfidence": false,
   "params": {
-    "homeAdv": 0.28,
+    "homeAdv": 0.37,
     "logisticScale": 7.0,
     "oddsWeight": 0.5,
     "eloK": 10,
     "eloHGA": 60
   },
   "elo": {
-    "PEN": 1627.4,
+    "PEN": 1609.9,
     "SYD": 1617.6,
-    "NZW": 1594.4,
+    "NZW": 1611.8,
     "CRO": 1617.1,
     "DOL": 1580.0,
     "SOU": 1507.0,
@@ -37,14 +37,14 @@ window.NRL_LEARNED = {
     "STI": 1333.2
   },
   "backtest": {
-    "games": 165,
-    "brier": 0.234,
-    "logloss": 0.6608,
-    "hit": 0.6364,
+    "games": 166,
+    "brier": 0.2339,
+    "logloss": 0.6606,
+    "hit": 0.6386,
     "marketBrier": null,
     "lockTax": {
       "games": 19,
-      "modelRight": 13,
+      "modelRight": 14,
       "rkWins": 14
     }
   },
@@ -93,6 +93,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-07",
       "games": 165,
       "brier": 0.234
+    },
+    {
+      "date": "2026-08-07",
+      "games": 166,
+      "brier": 0.2339
     }
   ],
   "results": [
@@ -1251,6 +1256,14 @@ window.NRL_LEARNED = {
       "away": "NQL",
       "hs": 8,
       "as": 30
+    },
+    {
+      "season": 2026,
+      "round": 23,
+      "home": "NZW",
+      "away": "PEN",
+      "hs": 28,
+      "as": 12
     }
   ]
 };
