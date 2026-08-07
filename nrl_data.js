@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Hame Sele (Achilles); Toby Couchman (Head knock); Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
+      "news": "Hame Sele (Achilles); Toby Couchman (Concussion) — back Round 24; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
     }
   ],
   "fixtures": [
@@ -483,8 +483,8 @@ window.NRL_DATA = {
           "away": 1.56
         },
         "close": {
-          "home": 2.32,
-          "away": 1.6
+          "home": 2.3,
+          "away": 1.62
         }
       },
       "weather": null,
@@ -543,8 +543,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.42,
-          "away": 2.88
+          "home": 1.43,
+          "away": 2.85
         }
       },
       "weather": null,
@@ -564,7 +564,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.32,
-          "away": 3.45
+          "away": 3.5
         }
       },
       "weather": null,
@@ -583,7 +583,7 @@ window.NRL_DATA = {
           "away": 2.0
         },
         "close": {
-          "home": 1.85,
+          "home": 1.88,
           "away": 1.95
         }
       },
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-07T09:02:57+10:00",
+  "generatedAt": "2026-08-07T14:33:46+10:00",
   "changes": [
     {
       "id": "r23-SYD-inj-james-tedesco",
@@ -1119,6 +1119,42 @@ window.NRL_DATA = {
       "text": "Rex Bassingthwaighte named in the Roosters 17.",
       "pts": 0.6,
       "ts": "2026-08-06T20:17:08+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-DOL-BRI-line-1.43-2.85",
+      "fixture": "DOL-BRI",
+      "team": "BRI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.42 → $1.43, Broncos $2.88 → $2.85. Market now 67% Dolphins (was 67%).",
+      "pts": null,
+      "ts": "2026-08-07T14:33:46+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SOU-PAR-line-1.32-3.50",
+      "fixture": "SOU-PAR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Rabbitohs $1.32 → $1.32, Eels $3.45 → $3.50. Market now 73% Rabbitohs (was 72%).",
+      "pts": null,
+      "ts": "2026-08-07T14:33:46+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-CBR-NEW-line-1.88-1.95",
+      "fixture": "CBR-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Raiders $1.85 → $1.88, Knights $1.95 → $1.95. Market now 51% Raiders (was 51%).",
+      "pts": null,
+      "ts": "2026-08-07T14:33:46+10:00",
       "rnd": 23
     },
     {
