@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-06T23:03:10.873Z",
+ "updated": "2026-08-07T04:33:49.819Z",
  "tips": [
   {
    "season": 2026,
@@ -28,9 +28,9 @@ window.NRL_TIPLOG = {
    "round": 23,
    "home": "CBR",
    "away": "NEW",
-   "tip": "CBR",
+   "tip": "NEW",
    "ko": "2026-08-09T14:00:00+10:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   },
   {
    "season": 2026,
@@ -39,7 +39,7 @@ window.NRL_TIPLOG = {
    "away": "BRI",
    "tip": "DOL",
    "ko": "2026-08-08T17:30:00+10:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   },
   {
    "season": 2026,
@@ -57,7 +57,7 @@ window.NRL_TIPLOG = {
    "away": "MAN",
    "tip": "MAN",
    "ko": "2026-08-08T13:00:00+08:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   },
   {
    "season": 2026,
@@ -66,7 +66,7 @@ window.NRL_TIPLOG = {
    "away": "PEN",
    "tip": "PEN",
    "ko": "2026-08-07T20:00:00+12:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   },
   {
    "season": 2026,
@@ -75,7 +75,7 @@ window.NRL_TIPLOG = {
    "away": "PAR",
    "tip": "SOU",
    "ko": "2026-08-08T19:35:00+10:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   },
   {
    "season": 2026,
@@ -84,7 +84,7 @@ window.NRL_TIPLOG = {
    "away": "CRO",
    "tip": "CRO",
    "ko": "2026-08-09T16:05:00+10:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   },
   {
    "season": 2026,
@@ -93,7 +93,7 @@ window.NRL_TIPLOG = {
    "away": "CAN",
    "tip": "SYD",
    "ko": "2026-08-07T20:00:00+10:00",
-   "ts": "2026-08-06T23:03:10.873Z"
+   "ts": "2026-08-07T04:33:49.819Z"
   }
  ]
 };
