@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-08T07:58:40+10:00",
+  "generatedAt": "2026-08-08T08:09:28+10:00",
   "changes": [
     {
       "id": "r23-SYD-inj-james-tedesco",
