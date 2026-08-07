@@ -525,8 +525,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.43,
-          "away": 2.9
+          "home": 1.4,
+          "away": 3.0
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-08T04:34:08+10:00",
+  "generatedAt": "2026-08-08T07:58:40+10:00",
   "changes": [
     {
       "id": "r23-SYD-inj-james-tedesco",
