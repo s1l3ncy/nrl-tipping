@@ -5,6 +5,51 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-08 (evening) — Hero retired, tip-change feed, week-order quick list, ↻ chip removed
+
+Josh's brief, four parts: the Roosters banner shouldn't pin the top ("the very top
+card should always be the live game (or the next closest game). the roosters can
+just go in its usual order"); the What's-new tab must announce **tip changes and
+why** ("thats the most important updates of course"); the ↻ refresh chip can go
+("i just pull down to refresh"); and the quick list should run "in order of the
+week", not most-recent-first.
+
+**1. The pinned `lockHero` is gone** (Josh chose full removal over folding the
+verdict into the card). The Roosters card sits in normal bucket order and still
+carries the gold 🔒 pill and its live/FT states; the safe/risky read lives on in
+the ledger and the Model tab's walk-forward `lockTax`. The ≥1280px grid lost its
+"hero" row; `renderLock()` deleted; `predict()` stays lock-free for the surfaces
+that remain.
+
+**2. Tip changes surface in What's new — with the why.** `freeze_tips.mjs` now
+freezes each pre-kick-off tip WITH the tipped side's blended win % and a
+plain-texted `whySummary()`; when a run's tip differs from the frozen one it
+records a **flip** (`NRL_TIPLOG.flips`, ≤20 / 48h). The feed renders flips as
+sev-3 `tip` entries ranked above every other category, gold ★, e.g. "Tip
+changed: now Raiders (55%) — was Knights (52%). Built on Knights missing Dylan
+Brown and 4 more…". Card badges go gold (`b-tip`) when a flip is the headline
+change. `contentStamp()` includes flips so a refresh carrying one re-renders.
+**Found and fixed while testing:** nrl.com blanks a fixture's kickoff while the
+game runs, which made `freeze_tips` re-freeze an IN-PLAY game's tip (run #84 did
+this to SOU–PAR, harmlessly — same side). A ko-less fresh entry now never
+overwrites an existing frozen entry, and records no flip.
+
+**3. Quick list + copyTips in week order** — kickoff asc (`weekOrder()`), TBC
+last. State-independent, so live ticks can't re-sort it; the `CARD_ORDER` freeze
+became dead code and was deleted. Cards keep their status buckets.
+
+**4. The ↻ chip (`#freshBtn`) is gone.** Pull-to-refresh, boot/foreground/5-min
+auto-refresh, and the live-score poll are all unchanged; `setFresh()` stays and
+self-no-ops.
+
+Also verified this session (Josh asked): **the learning loop is live and
+adjusting** — tonight's two finished games appended within hours (167→169),
+Elo moved winner-ward (MEL +20.4 / MAN −19.0; DOL +7.1 / BRI −4.6), and the
+grid refit shifted `eloHGA` 80→60 / `homeAdv` 0.38→0.56 with the backtest
+re-run over all 169 games.
+
+---
+
 ## 2026-08-08 (later) — The top of the Tips screen is always "what matters now"
 
 Josh's brief: "the closest upcoming game should always be at the top. Or if the

@@ -108,9 +108,9 @@ sink within their bucket in draw order; the draw index is the explicit
 tie-break. Text dividers (`.gsec`, shares the `.wkday` recipe; "On now" carries
 a `.livedot`) render only when ≥2 buckets are non-empty, and span the 2-up grid
 at ≥1024px (`grid-column:1/-1`). The first Up-next card appends
-`kickInfo(fx).rel` ("· in 3 hours") to its `.gwhen`. The quick list and
-`copyTips()` rows map onto `CARD_ORDER` — the order frozen by the last full
-render — so a 45s tick can never visibly re-sort them.
+`kickInfo(fx).rel` ("· in 3 hours") to its `.gwhen`. The quick list and `copyTips()` run in WEEK order (kickoff asc,
+`weekOrder()`) since 2026-08-08 (later) — state-independent, so no tick can
+re-sort them, and no order-freeze is needed.
 
 **Re-sort timing:** `renderLiveBits()` never reorders (folds!). A poll that
 changes a fixture's bucket sets `ORDER_DIRTY`; the reorder lands on foreground
@@ -132,7 +132,7 @@ i.e. the user just opened the app mid-game and nothing is mid-read).
 | `rationale`, `bandFor`, `whySummary`, `whyHTML` | The plain-English "why this tip" lead, the 1–2 sentence driver summary (2026-07-30), and the itemised ledger folded behind "Show the working" (lock line stays outside the fold). (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
 | `modelFav(p)` / `tipSide(p)` | **Keep these apart.** `modelFav` = the side the numbers like (reporting only). `tipSide` = the side actually tipped, and it returns the Roosters in their own game. Anything that names a tip must call `tipSide`. |
 | `render` | Master render: fills every section by element ID. |
-| `pollLive`, `liveScore`, `liveFinal`, `renderLiveBits`, `renderQuicklist` | Live in-play scores (2026-08-08): ESPN poll → `LIVE` map → surgical redraw of the score surfaces only. See "Live scores" above. |
+| `pollLive`, `liveScore`, `liveFinal`, `renderLiveBits`, `renderQuicklist`, `weekOrder` | Live in-play scores (2026-08-08): ESPN poll → `LIVE` map → surgical redraw of the score surfaces only. `weekOrder` = the kickoff-asc order shared by the quick list + `copyTips` (2026-08-08 later). See "Live scores" above. |
 | `copyTips`, `flash` | "Copy tips" button. |
 | `resetState`, `loadState`, `saveState`, `resetAll` | Local state lifecycle. |
 
@@ -170,6 +170,16 @@ placed BEFORE the `@media print` block, with no `!important` (print's
 `.screen{display:block!important}` must keep winning). The `#scr-*.active` grid
 displays override `.screen.active{display:block}` by ID specificity.
 
+### Tip changes in the feed (2026-08-08)
+
+`freeze_tips.mjs` records a **flip** whenever a run's pre-kick-off tip differs
+from the frozen one (`NRL_TIPLOG.flips`, hydrated into `FLIPS`). `chgList()`
+appends them as category `tip`, sev 3 — `CHG_ORDER` ranks `tip` first, the ★ row
+and the card badge use the gold lock colour (`c-tip`/`b-tip`) — with text like
+"Tip changed: now Raiders (55%) — was Knights (52%). Built on …" (the `why` is
+the flip-time `whySummary()`, plain-texted). `contentStamp()` includes
+`FLIPS.length` + last flip ts so a refresh carrying a new flip re-renders.
+
 ### What's new screen (redesigned 2026-08-04)
 
 `#scr-new` now holds: a `#newMeta` status line ("Checked {time} · updates roughly
@@ -203,15 +213,22 @@ file still carries the rolling 36h window.
 `render()` writes into these IDs — keep them intact if you restyle:
 
 ```
-roundPill, metaline, dataBanners, lockHero, games, quicklist, copied,
+roundPill, metaline, dataBanners, games, quicklist, copied,
 accYou, accModel, accLock, accNote, rkTax, learningSection, learningBody,
 ladderNote, ladder, hga, formW, oddsW, compMode, howItWorks, foot,
 changesSection, changeFeed, chgCount, tabNewBadge,
-newMeta, weekAhead, freshBtn, freshLabel, ptr
+newMeta, weekAhead, ptr
 ```
 
-- `lockHero` — the Roosters lock banner (safe/risky verdict).
-- `games` / `quicklist` — the per-game cards and the compact tip list.
+*(Removed 2026-08-08 later: `lockHero` — the pinned Roosters banner is gone, the
+Roosters card sits in normal bucket order; `freshBtn`/`freshLabel` — the ↻ chip is
+gone, pull-to-refresh + the auto-refresh triggers remain and `setFresh()` self-
+no-ops on the missing element.)*
+
+- `games` / `quicklist` — the per-game cards and the compact tip list. The quick
+  list runs in WEEK order (kickoff asc via `weekOrder()`, TBC last), NOT the
+  cards' bucket order — it reads as the round's fixture list, and no live tick
+  can re-sort it.
 - `hga`, `formW`, `oddsW` — Advanced-settings inputs (home-ground bonus, form weight,
   odds weight). When `learnedActive`, `hga`/`oddsW` default to the learned values via
   `applyLearnedFieldDefaults()`.

@@ -195,15 +195,21 @@ Sane ranges enforced by the validator: `homeAdv ∈ [-5,20]`, `logisticScale ∈
 ### `nrl_tiplog.js` → `window.NRL_TIPLOG`
 ```
 { updated: ISO,
-  tips: [ {season, round, home, away, tip, ko: ISO|null, ts: ISO}, ... ] }  // ≤250, sorted
+  tips:  [ {season, round, home, away, tip, prob, why, ko: ISO|null, ts: ISO}, ... ],  // ≤250, sorted
+  flips: [ {season, round, home, away, from, to, fromProb, toProb, why, ts: ISO}, ... ] }  // ≤20, ≤48h
 ```
 The **official pre-kick-off tip** per game, frozen by `freeze_tips.mjs` (workflow,
 after `learn_model.py`): it runs the real `nrl-tipping-guide.html` + fresh data in
-jsdom and records `tipSide(predict(fx))` for every game whose kick-off is still in
-the future — last pre-kick-off run wins, entries never change after kick-off. This
-is what full-time grading and "Your tips" read on every device. Generated — never
-hand-edit, never upload. Not gate-validated (best-effort; front-end degrades to its
-localStorage snapshot + the lock rule).
+jsdom and records `tipSide(predict(fx))` — plus the tipped side's blended win %
+(`prob`) and a plain-text `whySummary()` (`why`) — for every game whose kick-off is
+still in the future. Last pre-kick-off run wins; entries never change after
+kick-off, **including when the feed blanks a fixture's kickoff mid-game** (nrl.com
+does this while a game runs — a ko-less fresh entry never overwrites an existing
+one). When a run's tip differs from the frozen one, a **flip** is recorded
+(2026-08-08); the front-end surfaces flips at the top of the What's-new feed as
+"Tip changed" entries. This file is what full-time grading and "Your tips" read on
+every device. Generated — never hand-edit, never upload. Not gate-validated
+(best-effort; front-end degrades to its localStorage snapshot + the lock rule).
 
 ### `nrl_players.js` → `window.NRL_PLAYERS`
 ```

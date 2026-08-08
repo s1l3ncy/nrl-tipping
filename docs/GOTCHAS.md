@@ -164,6 +164,21 @@ Real problems encountered on this project and how to avoid repeating them.
 - **Never hand-edit `nrl_learned.js`.** It's the append-only match memory; corruption or
   a bad edit makes the generators abort (by design) to protect history.
 
+## Tip flips in the feed (2026-08-08) — and the mid-game freeze guard
+- **A ko-less fresh entry must NEVER overwrite an existing tiplog entry.**
+  nrl.com blanks a fixture's kickoff WHILE the game runs, so `freeze_tips`
+  sees it as "no kick-off ⇒ still upcoming" and would re-freeze a tip
+  mid-game — run #84 actually did this to SOU–PAR before the guard existed
+  (same side both times, no harm done). A stale pre-game tip is always
+  legitimate grading input; a mid-game overwrite never is. No flip is recorded
+  for a guarded entry either — it would be a phantom "tip changed".
+- **Flips are pipeline-only.** The front-end renders `NRL_TIPLOG.flips`
+  verbatim; it never computes its own flips (a browser comparing an old
+  in-memory tip against a refreshed one would duplicate the pipeline's record
+  or invent flips from partial data).
+- **`contentStamp()` must include the flips** (count + last ts) or a refresh
+  that only delivered a flip won't re-render and the feed stays stale.
+
 ## Grading tips: never grade a recomputed tip (2026-08-02)
 - **The model's opinion of a finished game is contaminated by that game.** After full
   time, `learn_model` refits the Elo WITH the result, and the market price disappears —
@@ -199,8 +214,10 @@ Real problems encountered on this project and how to avoid repeating them.
   exists. Don't re-soften that: a doubtful player left at half weight after Tuesday is
   how Tom Dearden read as a mere "doubt" during a game he wasn't playing in. Pre-release
   (or a stale lineups file) `namedSquad()` returns null and doubts stay doubts.
-- **`predict()` must stay lock-free.** `lockHero`'s "⚠ Risky this week", the ledger's
-  loyalty-pick line and the tax all depend on the model's own, unlocked opinion.
+- **`predict()` must stay lock-free.** The ledger's loyalty-pick line and the
+  walk-forward tax depend on the model's own, unlocked opinion. (The pinned
+  `lockHero` banner was removed 2026-08-08 — the Roosters card sits in normal
+  bucket order; don't reintroduce a pinned hero without Josh asking.)
 - **The change feed's sort order IS the truncation policy.** `merge_changes()` sorts
   `(sev, ts)` desc before `kept[:CHANGES_MAX]`. Put `ts` first and severity becomes a
   same-second tie-break: 60 trivia entries then evict a spine player's "out of the 17"
@@ -256,9 +273,11 @@ Real problems encountered on this project and how to avoid repeating them.
   fresh open mid-game boots before the first ESPN response and the live game
   sits under "Up next" until the user backgrounds the app. And don't widen it:
   past ~15s the user may be mid-read with folds open.
-- **The quick list follows `CARD_ORDER`, not its caller's array order.** The
-  45s tick rebuilds it with fresh preds; without the frozen order it would
-  re-sort under the reader while the cards (replaced in place by id) don't.
+- **The quick list + copyTips run in WEEK order (`weekOrder()`), not the cards'
+  bucket order** (2026-08-08 later, Josh's call: "list them in order of the
+  week"). Kickoff order is state-independent, so live ticks can't re-sort it —
+  which is also why the old `CARD_ORDER` freeze could be deleted. Don't "unify"
+  the two surfaces onto one order; they answer different questions.
 - **A lingering `post` entry is load-bearing, not litter.** It renders the FT card
   during the hours before the pipeline appends the official result. Don't "clean
   up" `LIVE` when the poll window closes.
