@@ -35,8 +35,9 @@ function readTiplog() {
     const raw = fs.readFileSync(OUT, 'utf8');
     const m = raw.match(/window\.NRL_TIPLOG\s*=\s*(\{[\s\S]*\})\s*;?\s*$/);
     const d = JSON.parse(m[1]);
-    return Array.isArray(d.tips) ? d.tips : [];
-  } catch (e) { return []; }
+    return { tips: Array.isArray(d.tips) ? d.tips : [],
+             flips: Array.isArray(d.flips) ? d.flips : [] };
+  } catch (e) { return { tips: [], flips: [] }; }
 }
 
 function main() {
@@ -66,14 +67,23 @@ function main() {
       if(fixtureResult(p)) return;                      // already has a score
       const ko=f.kickoff?Date.parse(f.kickoff):NaN;
       if(!isNaN(ko) && Date.now()>=ko) return;          // under way — too late
+      const tip=tipSide(p);
+      // prob + drivers ride along (2026-08-08) so a later run that flips the
+      // tip can say WHAT it was and WHY it is what it is now. whySummary()
+      // returns HTML; textContent strips it to plain text for the feed.
+      const pr=Math.round((tip===p.h ? p.pHome : 1-p.pHome)*100);
+      let why='';
+      try{ const el=document.createElement('div');
+           el.innerHTML=whySummary(p,f)||''; why=(el.textContent||'').trim().slice(0,220); }catch(e){}
       out.push({season:SRC.season, round:SRC.round, home:f.home, away:f.away,
-                tip:tipSide(p).short, ko:f.kickoff||null});
+                tip:tip.short, prob:pr, why:why, ko:f.kickoff||null});
     });
     return out;
   })()`);
 
   const now = new Date().toISOString();
-  const log = readTiplog();
+  const prior = readTiplog();
+  const log = prior.tips;
   // Unordered-pair key (2026-08-04, audit A9): if the draw's designated home
   // side flips between runs, the orientation-sensitive key held TWO entries
   // for one game and myRecord() graded both. The stored entry keeps its
@@ -82,12 +92,39 @@ function main() {
   const byKey = {};
   log.forEach((t) => { byKey[key(t)] = t; });
   let changed = 0;
+  // Tip FLIPS (2026-08-08): when this run's tip differs from the last frozen
+  // one, record it — the front-end surfaces these at the top of What's new.
+  // Only pre-kick-off entries ever reach this loop, so a flip can never be a
+  // post-game hindsight artefact. Kept 48h / 20 entries; the front-end shows
+  // its own rolling 36h window on top.
+  const flips = prior.flips.filter((f) => {
+    const t = Date.parse(f && f.ts || '');
+    return !isNaN(t) && (Date.now() - t) < 48 * 3600 * 1000;
+  });
   fresh.forEach((t) => {
     const k = key(t);
     const cur = byKey[k];
+    // A fixture with NO kickoff on the feed is almost always a game IN PLAY —
+    // nrl.com blanks a fixture's kickoff while it's running (seen twice on
+    // 2026-08-08, and run #84 already overwrote one entry mid-game before this
+    // guard existed). With no clock to check, the only safe move is to leave
+    // an existing frozen entry completely alone: grading with a slightly stale
+    // PRE-GAME tip is always legitimate; a mid-game overwrite is graded
+    // hindsight — the exact bug this file exists to prevent. No flip either.
+    // Updates resume when the feed carries a kickoff again; a fixture with no
+    // entry yet still gets one (better a lightly-anchored tip than none).
+    if (cur && !t.ko) return;
     if (!cur || cur.tip !== t.tip) changed++;
+    if (cur && cur.tip !== t.tip) {
+      flips.push({ season: t.season, round: t.round, home: t.home, away: t.away,
+        from: cur.tip, to: t.tip,
+        fromProb: (typeof cur.prob === 'number') ? cur.prob : null,
+        toProb: (typeof t.prob === 'number') ? t.prob : null,
+        why: t.why || '', ts: now });
+    }
     byKey[k] = { ...t, ts: now };            // pre-kick-off: last run wins
   });
+  while (flips.length > 20) flips.shift();
   let tips = Object.values(byKey);
   tips.sort((a, b) => (a.season - b.season) || (a.round - b.round) || a.home.localeCompare(b.home));
   if (tips.length > 250) tips = tips.slice(tips.length - 250);
@@ -96,12 +133,12 @@ function main() {
  * The official pre-kick-off tip for each game, frozen by the pipeline so
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
-window.NRL_TIPLOG = ${JSON.stringify({ updated: now, tips }, null, 1)};
+window.NRL_TIPLOG = ${JSON.stringify({ updated: now, tips, flips }, null, 1)};
 `;
   const tmp = OUT + '.tmp';
   fs.writeFileSync(tmp, out);
   fs.renameSync(tmp, OUT);
-  console.log(`[freeze_tips] froze ${fresh.length} upcoming tip(s) (${changed} new/changed), log now ${tips.length} entries.`);
+  console.log(`[freeze_tips] froze ${fresh.length} upcoming tip(s) (${changed} new/changed), log now ${tips.length} entries, ${flips.length} flip(s) on record.`);
   // The page now schedules a 5-minute refresh interval (2026-08-04 freshness
   // work); jsdom timers are real Node timers and would keep this process alive
   // forever. Close the window so the run terminates the moment we're done.
