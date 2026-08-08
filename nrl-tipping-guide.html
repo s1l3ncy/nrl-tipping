@@ -537,6 +537,13 @@ details.plain>summary:hover{color:var(--text)}
 
 /* full-time card state */
 .gwhen.ft{color:var(--good);font-weight:800}
+/* live-score state (2026-08-08) — one hot colour shared by every live surface */
+.gwhen.live{color:#ff5d73;font-weight:800}
+.livedot{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;margin-right:5px;animation:livepulse 1.6s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.livedot{animation:none}}
+.qline.live .pick{color:#ff5d73}
+.wkrow.live .k{color:#ff5d73;font-weight:700}
 .gscore{display:flex;align-items:center;justify-content:center;gap:10px;align-self:center;
   font-variant-numeric:tabular-nums}
 .gscore b{font-size:38px;font-weight:850;letter-spacing:-1.5px;color:var(--faint);line-height:1}
@@ -1391,24 +1398,8 @@ function render(){
   })).join('') +
     (skipped>0?`<div class="banner warn">${skipped} game(s) hidden — data references an unknown team.</div>`:'');
 
-  // quick list
-  document.getElementById('quicklist').innerHTML = preds.map((p,i)=>{
-    const tip = tipSide(p); const isRk=(p.h.short===LOCK||p.a.short===LOCK);
-    const fin=fixtureResult(p);
-    if(fin){
-      const g=gradedTip(p);
-      const good=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
-      return `<div class="qline done"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
-        `<span class="pick ${isRk?'rk':''}">${fin.winner?esc(fin.winner.short):'Draw'} ${fin.hs}–${fin.as} `+
-        `${good===null?'':good?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</span></div>`;
-    }
-    const conf=Math.max(p.pHome,1-p.pHome);
-    let extra='';
-    if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
-    else if(compMode==='confidence'){ extra=` · #${rankByIndex[i]}`; }
-    return `<div class="qline"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
-      `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(conf*100).toFixed(0)}%${extra}</span></div>`;
-  }).join('');
+  // quick list (extracted 2026-08-08 so live-score polling can redraw it alone)
+  renderQuicklist(preds);
 
   // What's-new furniture (status header + round schedule) — same preds as the cards
   renderNewScreen(preds,fxList);
@@ -1436,7 +1427,7 @@ function renderLock(preds){
   const rkHome = p.h.short===LOCK;
   const rkProb = rkHome? p.pHome : 1-p.pHome;
   const opp = rkHome? p.a : p.h;
-  const fin = fixtureResult(p);
+  const fin = fixtureResult(p)||liveFinal(p);
   if(fin){
     const won=!!(fin.winner&&fin.winner.short===LOCK);
     const draw=!fin.winner;
@@ -1448,6 +1439,20 @@ function renderLock(preds){
          <div class="verdict ${won?'safe':'risk'}">${won?'✓ Winners — the lock delivered this week.':draw?'A draw — the tip washes.':'The lock didn\'t land this week — it happens.'}</div>
        </div>
        <div class="big">${rkScore}<span class="u">final score</span></div>`;
+    return;
+  }
+  const lv=liveScore(p);
+  if(lv){
+    const rkScore=rkHome?`${lv.hs}–${lv.as}`:`${lv.as}–${lv.hs}`;   // Roosters first
+    const rkPts=rkHome?lv.hs:lv.as, opPts=rkHome?lv.as:lv.hs;
+    const state=rkPts>opPts?'in front':rkPts<opPts?'behind':'level';
+    el.innerHTML =
+      `<div class="rk">🐓</div>
+       <div class="txt">
+         <h3>Live: <span style="color:var(--roosters)">Roosters</span> vs ${esc(opp.name)}</h3>
+         <div class="verdict ${rkPts>=opPts?'safe':'risk'}"><span class="livedot"></span>${lv.clock?esc(lv.clock)+' — ':''}Roosters ${state}.</div>
+       </div>
+       <div class="big">${rkScore}<span class="u">live score</span></div>`;
     return;
   }
   const modelTipRk = (p.pHome>=0.5)===rkHome;
@@ -1476,6 +1481,113 @@ function fixtureResult(p){
   const hs=flip?r.as:r.hs, as=flip?r.hs:r.as;
   return {hs:hs, as:as, winner: hs>as?p.h : as>hs?p.a : null};
 }
+
+/* ---------- live scores (2026-08-08) ----------
+   In-play scores polled BY THE OPEN PAGE from ESPN's public NRL scoreboard
+   (site.api.espn.com serves Access-Control-Allow-Origin:* — nrl.com's own JSON
+   does not, so ESPN is the only score source a static page can reach directly).
+   This is a DISPLAY-ONLY overlay: LIVE never touches the results memory, the
+   frozen tips, grading (gradedTip/myRecord) or the model. Best-effort by
+   design — offline, file://, jsdom (freeze_tips) or a dead API just mean no
+   live row, exactly like a null odds field. */
+let LIVE={};                       // liveKey -> {home,away,hScore,aScore,state,clock}
+let LIVE_STAMP='', LIVE_LAST=0, LIVE_BUSY=false;
+const LIVE_MS=45000;               // poll cadence while a game is on
+const LIVE_URL='https://site.api.espn.com/apis/site/v2/sports/rugby-league/3/scoreboard';
+function liveKey(a,b){ return [a,b].sort().join('-'); }
+function liveEntry(p){ const e=LIVE[liveKey(p.h.short,p.a.short)]; if(!e) return null;
+  const flip=e.home!==p.h.short;
+  return {state:e.state, clock:e.clock, hs:flip?e.aScore:e.hScore, as:flip?e.hScore:e.aScore}; }
+function liveScore(p){ const e=liveEntry(p); return (e&&e.state==='in')?e:null; }
+/* An ESPN 'post' bridges the hours between full time and the pipeline appending
+   the result: the card can show the real FT state straight away. The pipeline's
+   own result always wins once it lands (fixtureResult is checked first at every
+   call site), so a stale 'post' entry is harmless — never "cleaned up" eagerly. */
+function liveFinal(p){ const e=liveEntry(p);
+  return (e&&e.state==='post')?{hs:e.hs, as:e.as, winner:e.hs>e.as?p.h:e.as>e.hs?p.a:null}:null; }
+function livePollList(){
+  const now=Date.now();
+  return fixtures.filter(f=>{
+    const h=T(f.home), a=T(f.away);
+    if(!h||!a) return false;
+    const e=LIVE[liveKey(f.home,f.away)];
+    if(e&&e.state==='post') return false;                 // finished — stop polling it
+    if(e&&e.state==='in') return true;                    // running long / golden point
+    const ko=Date.parse(f.kickoff||''); if(isNaN(ko)) return false;
+    if(now<ko-10*60000||now>ko+200*60000) return false;   // 10 min early → ~3h20 after
+    return !fixtureResult({h:h,a:a});                     // pipeline already has the score
+  });
+}
+function liveMatchShort(name){
+  const norm=x=>String(x||'').toLowerCase().replace(/[^a-z]/g,'');
+  const n=norm(name); if(!n) return null;
+  const t=(SRC.teams||[]).find(t=>{ const m=norm(t.name);
+    return m===n||m.indexOf(n)>=0||n.indexOf(m)>=0; });
+  return t?t.short:null;
+}
+function pollLive(force){
+  if(typeof fetch!=='function'||LIVE_BUSY) return;        // jsdom / ancient browser
+  const want=livePollList();
+  if(!want.length) return;
+  if(Date.now()-LIVE_LAST < (force?10000:LIVE_MS-5000)) return;
+  LIVE_BUSY=true; LIVE_LAST=Date.now();
+  // Query only the UTC date(s) of the games we care about (keeps the payload small).
+  const days=[...new Set(want.map(f=>{ const t=Date.parse(f.kickoff||'');
+    return isNaN(t)?null:new Date(t).toISOString().slice(0,10).replace(/-/g,''); })
+    .filter(Boolean))].sort();
+  const dq=days.length?(days.length>1?days[0]+'-'+days[days.length-1]:days[0])
+                      :new Date().toISOString().slice(0,10).replace(/-/g,'');
+  const ctl=(typeof AbortController==='function')?new AbortController():null;
+  const tmr=ctl?setTimeout(()=>ctl.abort(),10000):null;
+  fetch(LIVE_URL+'?dates='+dq, ctl?{signal:ctl.signal,cache:'no-store'}:{cache:'no-store'})
+    .then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(d=>{
+      ((d&&d.events)||[]).forEach(ev=>{
+        const c=(ev.competitions||[])[0]; if(!c) return;
+        const st=c.status||{}, ty=st.type||{};
+        if(ty.state!=='in'&&ty.state!=='post') return;    // pre-game: nothing to show
+        const H=(c.competitors||[]).find(x=>x&&x.homeAway==='home');
+        const A=(c.competitors||[]).find(x=>x&&x.homeAway==='away');
+        if(!H||!A) return;
+        const hs=liveMatchShort(H.team&&H.team.displayName);
+        const as=liveMatchShort(A.team&&A.team.displayName);
+        if(!hs||!as||hs===as) return;
+        const fx=fixtures.find(f=>liveKey(f.home,f.away)===liveKey(hs,as));
+        if(!fx) return;                                   // not a game in this round
+        const ko=Date.parse(fx.kickoff||''), ed=Date.parse(ev.date||'');
+        if(!isNaN(ko)&&!isNaN(ed)&&Math.abs(ed-ko)>6*3600000) return; // wrong meeting of the pair
+        const ht=/HALFTIME/i.test(ty.name||'');
+        LIVE[liveKey(hs,as)]={home:hs, away:as,
+          hScore:parseInt(H.score,10)||0, aScore:parseInt(A.score,10)||0,
+          state:ty.state, clock:ht?'HT':String(st.displayClock||'').trim()};
+      });
+      const stamp=JSON.stringify(LIVE);
+      if(stamp!==LIVE_STAMP){ LIVE_STAMP=stamp; renderLiveBits(); }
+    })
+    .catch(()=>{})                                        // best-effort: keep last scores
+    .then(()=>{ if(tmr) clearTimeout(tmr); LIVE_BUSY=false; });
+}
+/* Surgical re-render of every surface that shows a score. NEVER calls render():
+   a full render would rebuild #games and collapse any open <details> fold — the
+   exact landmine contentStamp()'s no-op exists to avoid. Live/FT cards carry no
+   fold, so replacing just those cards in place is safe. */
+function renderLiveBits(){
+  const fxList=fixtures.filter(f=>T(f.home)&&T(f.away));
+  const preds=fxList.map(predict);
+  preds.forEach(p=>{
+    if(fixtureResult(p)) return;                          // pipeline FT already rendered
+    if(!liveEntry(p)) return;
+    const el=document.getElementById('game-'+p.h.short+'-'+p.a.short);
+    if(!el) return;
+    const tpl=document.createElement('template');
+    tpl.innerHTML=cardHTML(p,{});
+    if(tpl.content.firstElementChild) el.replaceWith(tpl.content.firstElementChild);
+  });
+  renderLock(preds);
+  renderQuicklist(preds);
+  renderNewScreen(preds,fxList);
+}
+
 /* ---------- pre-kick-off tip snapshots (2026-08-02) ----------
    THE bug this fixes: the full-time card used to grade tipSide() recomputed
    TODAY — after learn_model had already folded the game's own result into the
@@ -1609,7 +1721,9 @@ function cardHTML(p,meta){
     return .2126*((n>>16)&255)+.7152*((n>>8)&255)+.0722*(n&255); };
   const liftH=lum(p.h.colour)<70, liftA=!clash&&lum(p.a.colour)<70;
   // ---- FULL TIME state: score + winner + how the tip went, nothing else ----
-  const fin=fixtureResult(p);
+  // (liveFinal: an ESPN full-time score bridges the hours until the pipeline
+  //  appends the official result — fixtureResult always wins once it exists.)
+  const fin=fixtureResult(p)||liveFinal(p);
   if(fin){
     const g=gradedTip(p);   // the tip as it stood BEFORE kick-off — never recomputed
     const correct=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
@@ -1624,6 +1738,33 @@ function cardHTML(p,meta){
       <div class="gfinal">
         <span class="gtippill${rkWon?' gold':''}">${fin.winner?`${esc(fin.winner.name)} won`:'Draw'}${rkWon?' 🐓':''}</span>
         <span class="gconf">${!g.known?`final — no pre-game tip on record`:!fin.winner?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(T(g.short).name)} — got it</span>`:`<span class="no">✗ tipped ${esc(T(g.short).name)}</span>`}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
+      </div>
+    </div>`;
+  }
+  // ---- LIVE state (2026-08-08): the in-play score, styled like the FT card.
+  // No <details> fold on purpose — renderLiveBits() replaces this card on every
+  // score change, and replacing a card with an open fold would snap it shut.
+  // The tip named is the FROZEN pre-kick-off tip (gradedTip) — mid-game the
+  // model's recomputed opinion is contaminated (GOTCHAS 2026-08-02), so the
+  // pill falls back to tipSide() only when no frozen tip exists.
+  const lv=liveScore(p);
+  if(lv){
+    const g=gradedTip(p);
+    const lead = lv.hs>lv.as?p.h : lv.as>lv.hs?p.a : null;
+    const tipName = g.known ? T(g.short).name : (tipHome?p.h:p.a).name;
+    const track = !lead ? 'scores level'
+      : g.known ? (g.short===lead.short?`<span class="ok">✓ tip in front</span>`:`<span class="no">✗ tip behind</span>`)
+      : `${esc(lead.short)} in front`;
+    return `<div class="gcard live${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
+      <div class="gtop"><span class="gwhen live"><span class="livedot"></span>Live${lv.clock?` · ${esc(lv.clock)}`:''}</span>${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>
+      <div class="gmatch">
+        ${team(p.h,false,rkHome)}
+        <div class="gscore" role="img" aria-label="Live score: ${esc(p.h.name)} ${lv.hs}, ${esc(p.a.name)} ${lv.as}"><b class="${lv.hs>=lv.as?'w':''}">${lv.hs}</b><span class="dash">–</span><b class="${lv.as>=lv.hs?'w':''}">${lv.as}</b></div>
+        ${team(p.a,false,rkAway)}
+      </div>
+      <div class="gfinal">
+        <span class="gtippill${lockTip?' gold':''}">${lockTip?'🔒':'★'} TIP · ${esc(tipName)}</span>
+        <span class="gconf">${track}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
       </div>
     </div>`;
   }
@@ -2036,6 +2177,39 @@ function renderChanges(){
    schedule panel. Called from render() with the ALREADY-computed preds so the
    tip pills can never disagree with the cards. Writes unconditionally — hidden
    screens still get their innerHTML, same as everything else render() does. */
+/* The compact tip list. A standalone function (not inline in render()) so
+   renderLiveBits() can redraw it on a score change without a full render.
+   It recomputes its own compMode/confidence ranking — cheap, and keeps the
+   call signature down to just preds. */
+function renderQuicklist(preds){
+  const el=document.getElementById('quicklist'); if(!el) return;
+  const compMode=getCompMode();
+  const ranked=preds.map((p,i)=>({i,conf:Math.max(p.pHome,1-p.pHome)})).sort((a,b)=>b.conf-a.conf);
+  const rankByIndex=new Array(preds.length);
+  ranked.forEach((r,idx)=>{ rankByIndex[r.i]=idx+1; });
+  el.innerHTML = preds.map((p,i)=>{
+    const tip = tipSide(p); const isRk=(p.h.short===LOCK||p.a.short===LOCK);
+    const fin=fixtureResult(p)||liveFinal(p);
+    if(fin){
+      const g=gradedTip(p);
+      const good=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
+      return `<div class="qline done"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
+        `<span class="pick ${isRk?'rk':''}">${fin.winner?esc(fin.winner.short):'Draw'} ${fin.hs}–${fin.as} `+
+        `${good===null?'':good?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</span></div>`;
+    }
+    const lv=liveScore(p);
+    if(lv){
+      return `<div class="qline live"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
+        `<span class="pick"><span class="livedot"></span>${lv.clock?esc(lv.clock)+' · ':''}${lv.hs}–${lv.as}</span></div>`;
+    }
+    const conf=Math.max(p.pHome,1-p.pHome);
+    let extra='';
+    if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
+    else if(compMode==='confidence'){ extra=` · #${rankByIndex[i]}`; }
+    return `<div class="qline"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
+      `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(conf*100).toFixed(0)}%${extra}</span></div>`;
+  }).join('');
+}
 function renderNewScreen(preds,fxList){
   const meta=document.getElementById('newMeta');
   if(meta){
@@ -2079,13 +2253,15 @@ function renderNewScreen(preds,fxList){
       const day=k.ok?k.day:'Time TBC';
       if(day!==lastDay){ html+=`<div class="wkday">${esc(day)}</div>`; lastDay=day; }
     }
-    const fin=fixtureResult(p);
+    const fin=fixtureResult(p)||liveFinal(p);
+    const lv=liveScore(p);
     const tip=tipSide(p);       // the lock wins here, same as every tip surface
     const crests=`<span class="crest" style="background:${esc(p.h.colour||'#888')}" aria-hidden="true"></span>`+
       `<span class="crest" style="background:${esc(p.a.colour||'#888')}" aria-hidden="true"></span>`;
     const match=`<span class="m">${esc(p.h.name)}<span class="vs">v</span>${esc(p.a.name)}</span>`;
     let kEl='', cls='';
     if(fin){ cls=' ft'; kEl=`<span class="k">FT ${fin.hs}–${fin.as}</span>`; }
+    else if(lv){ cls=' live'; kEl=`<span class="k"><span class="livedot"></span>${lv.clock?esc(lv.clock)+' ':''}${lv.hs}–${lv.as}</span>`; }
     else if(k.ok){ const tt=kt(fx)||k.time;
       kEl=`<span class="k">${esc(tt)} <span class="rel">· ${esc(k.rel)}</span></span>`; }
     else if(anyKick) kEl=`<span class="k">TBC</span>`;
@@ -2445,8 +2621,17 @@ window.addEventListener('pageshow',e=>{
 setInterval(()=>{ if(!document.hidden && Date.now()-LAST_CHECK>240000) refreshFromNetwork(); },300000);
 setFresh('idle');   // shows/hides the button per protocol at boot
 
+/* Live-score poll (2026-08-08): every 45s while the page is visible AND a game
+   is inside its live window (pollLive itself no-ops the rest of the season),
+   plus an immediate check on foreground return so the score is current the
+   moment the app is opened mid-game. Separate from refreshFromNetwork() —
+   different cadence, different source, and it must never trigger a full
+   render (renderLiveBits patches only the score surfaces). */
+setInterval(()=>{ if(!document.hidden) pollLive(); },LIVE_MS);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pollLive(true); });
+
 /* ---------- boot ---------- */
-applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork();
+applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork(); pollLive(true);
 
 /* Register the service worker (hosted only) so the home-screen app auto-updates
    the shell + data on every launch when online, and works offline from cache.
