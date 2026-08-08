@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 288,
         "PA": 218
       },
-      "news": "James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Bradman Best (Calf); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -248,17 +248,17 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Samuel Hughes (Neck); Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring)"
+      "news": "Samuel Hughes (Neck); Sitili Tupouniua (Hamstring); Mitchell Woods (Hamstring)"
     },
     {
       "name": "Sea Eagles",
       "short": "MAN",
       "colour": "#6f1a3c",
-      "P": 19,
+      "P": 20,
       "W": 9,
-      "L": 10,
-      "PF": 485,
-      "PA": 395,
+      "L": 11,
+      "PF": 499,
+      "PA": 411,
       "last5": 1,
       "home": {
         "P": 10,
@@ -274,7 +274,33 @@ window.NRL_DATA = {
         "PF": 260,
         "PA": 180
       },
-      "news": "Tom Trbojevic (Hamstring); Siosiua Taukeiaho (Leg); Clayton Faulalo (Hamstring); Ben Trbojevic (Concussion) — back Round 24; Ethan Bullemor (Concussion) — back Round 25; Caleb Navale (ACL) — back Round 25"
+      "news": "Clayton Faulalo (Hamstring); Siosiua Taukeiaho (Leg); Tom Trbojevic (Hamstring); Ben Trbojevic (Concussion) — back Round 24; Ethan Bullemor (Concussion) — back Round 25; Caleb Navale (ACL) — back Round 25"
+    },
+    {
+      "name": "Storm",
+      "short": "MEL",
+      "colour": "#4b2e83",
+      "P": 21,
+      "W": 9,
+      "L": 12,
+      "PF": 484,
+      "PA": 508,
+      "last5": 1,
+      "home": {
+        "P": 10,
+        "W": 6,
+        "L": 4,
+        "PF": 266,
+        "PA": 232
+      },
+      "away": {
+        "P": 10,
+        "W": 2,
+        "L": 8,
+        "PF": 202,
+        "PA": 262
+      },
+      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Ativalu Lisati (Ankle) — back Round 24; Jack Howarth (Shoulder) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Raiders",
@@ -301,32 +327,6 @@ window.NRL_DATA = {
         "PA": 294
       },
       "news": "Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
-    },
-    {
-      "name": "Storm",
-      "short": "MEL",
-      "colour": "#4b2e83",
-      "P": 20,
-      "W": 8,
-      "L": 12,
-      "PF": 468,
-      "PA": 494,
-      "last5": 1,
-      "home": {
-        "P": 10,
-        "W": 6,
-        "L": 4,
-        "PF": 266,
-        "PA": 232
-      },
-      "away": {
-        "P": 10,
-        "W": 2,
-        "L": 8,
-        "PF": 202,
-        "PA": 262
-      },
-      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Jack Howarth (Shoulder) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Eels",
@@ -496,22 +496,13 @@ window.NRL_DATA = {
     {
       "home": "MEL",
       "away": "MAN",
-      "venue": "HBF Park",
-      "city": "Perth",
-      "kickoff": "2026-08-08T13:00:00+08:00",
-      "odds": {
-        "open": {
-          "home": 2.1,
-          "away": 1.73
-        },
-        "close": {
-          "home": 2.15,
-          "away": 1.7
-        }
-      },
+      "venue": "",
+      "city": "Melbourne",
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
-      "tz": "Australia/Perth"
+      "tz": "Australia/Melbourne"
     },
     {
       "home": "DOL",
@@ -525,8 +516,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.4,
-          "away": 3.05
+          "home": 1.36,
+          "away": 3.15
         }
       },
       "weather": null,
@@ -545,8 +536,8 @@ window.NRL_DATA = {
           "away": 3.2
         },
         "close": {
-          "home": 1.33,
-          "away": 3.35
+          "home": 1.34,
+          "away": 3.3
         }
       },
       "weather": null,
@@ -597,7 +588,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-08T14:32:33+10:00",
+  "generatedAt": "2026-08-08T17:01:29+10:00",
   "changes": [
     {
       "id": "r23-SYD-inj-james-tedesco",
@@ -621,6 +612,42 @@ window.NRL_DATA = {
       "text": "Storm: Harry Grant (Hamstring) — back Round 25 — new on the injury list.",
       "pts": 4.4,
       "ts": "2026-08-07T09:02:57+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-NEW-inj-bradman-best",
+      "fixture": "CBR-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Bradman Best (Calf) — new on the injury list.",
+      "pts": 2.1,
+      "ts": "2026-08-08T17:01:29+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-BRI-in-blake-mozer",
+      "fixture": "DOL-BRI",
+      "team": "BRI",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Blake Mozer (Hooker) named in the Broncos 17.",
+      "pts": 2.0,
+      "ts": "2026-08-08T17:01:29+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-BRI-out-hayze-perham",
+      "fixture": "DOL-BRI",
+      "team": "BRI",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Hayze Perham is out of the Broncos 17.",
+      "pts": 0.6,
+      "ts": "2026-08-08T17:01:29+10:00",
       "rnd": 23
     },
     {
@@ -1209,6 +1236,30 @@ window.NRL_DATA = {
       "text": "Dragons: Kade Reed is off the injury list.",
       "pts": 2.0,
       "ts": "2026-08-07T09:02:57+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-DOL-BRI-line-1.36-3.15",
+      "fixture": "DOL-BRI",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.40 → $1.36, Broncos $3.05 → $3.15. Market now 70% Dolphins (was 69%).",
+      "pts": null,
+      "ts": "2026-08-08T17:01:29+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-SOU-PAR-line-1.34-3.30",
+      "fixture": "SOU-PAR",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.33 → $1.34, Eels $3.35 → $3.30. Market now 71% Rabbitohs (was 72%).",
+      "pts": null,
+      "ts": "2026-08-08T17:01:29+10:00",
       "rnd": 23
     },
     {
