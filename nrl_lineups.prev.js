@@ -7,7 +7,7 @@
 window.NRL_LINEUPS = {
   "round": 23,
   "teams": {
-    "BRI": ["Reece Walsh", "Josiah Karapani", "Kotoni Staggs", "Deine Mariner", "Grant Anderson", "Ezra Mam", "Tom Duffy", "Xavier Willison", "Billy Walters", "Payne Haas", "Jaiyden Hunt", "Jordan Riki", "Patrick Carrigan", "Ben Hunt", "Va'a Semu", "Vaa Semu", "Ben Talty", "Gehamat Shibasaki", "Jack Gosiewski", "Blake Mozer"],
+    "BRI": ["Reece Walsh", "Josiah Karapani", "Kotoni Staggs", "Deine Mariner", "Grant Anderson", "Ezra Mam", "Tom Duffy", "Xavier Willison", "Billy Walters", "Payne Haas", "Jaiyden Hunt", "Jordan Riki", "Patrick Carrigan", "Va'a Semu", "Vaa Semu", "Ben Talty", "Gehamat Shibasaki", "Blake Mozer", "Ben Hunt", "Jack Gosiewski"],
     "CAN": ["Connor Tracey", "Jacob Kiraz", "Matt Burton", "Enari Tuala", "Jethro Rinakama", "Stephen Crichton", "Lachlan Galvin", "Max King", "Bailey Hayward", "Leo Thompson", "Viliame Kikau", "Jacob Preston", "Jaeman Salmon", "Kurt Mann", "Harry Hayes", "Sitili Tupouniua", "Jake Turpin", "Josh Curran", "Bronson Xerri"],
     "CBR": ["Kaeo Weekes", "Jed Stuart", "Simi Sasagi", "Matthew Timoko", "Xavier Savage", "Ethan Strange", "Ethan Sanders", "Corey Horsburgh", "Owen Pattie", "Joseph Tapine", "Zac Hosking", "Ata Mariota", "Morgan Smithies", "Tom Starling", "Joe Roddy", "Josh Papalii", "Daine Laurie", "Savelio Tamale", "Matty Nicholson"],
     "CRO": ["William Kennedy", "Sione Katoa", "Sione Katoa 2", "Jesse Ramien", "Mawene Hiroti", "Ronaldo Mulitalo", "Braydon Trindall", "Nicholas Hynes", "Addin Fonua-Blake", "Addin Fonua Blake", "Blayke Brailey", "Jesse Colquhoun", "Briton Nikora", "Teig Wilton", "Cameron McInnes", "Cameron Mcinnes", "Hohepa Puru", "Billy Burns", "Oregon Kaufusi", "Thomas Hazelton", "Michael Gabrael", "Braden Hamlin Uele"],
