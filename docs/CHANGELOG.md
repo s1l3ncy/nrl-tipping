@@ -5,6 +5,63 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-08 — Live in-play scores on every score surface
+
+Josh's brief: "when a game goes live I want it to display the live scores on the
+card… a 'live score', not updating periodically" — i.e. opening the app mid-game
+should show the current score the way it already shows a final score.
+
+**The design constraint is the architecture.** The pipeline can't do this: GitHub
+Actions cron is best-effort and 4-hourly; "live" has to be the OPEN PAGE polling a
+score source directly. That requires a source that (a) has NRL scores and (b) sends
+CORS headers a static page can use. Tested from the sandbox and from Josh's own
+Chrome on the live site's origin:
+
+- **nrl.com's own JSON** (`/draw/data` — same payload `cloud_fetch.py` reads) has
+  live scores, `matchState` and a game clock, but **no
+  `Access-Control-Allow-Origin` header** — a browser can't read it cross-origin.
+- **ESPN's public scoreboard** (`site.api.espn.com/apis/site/v2/sports/rugby-league/3/scoreboard?dates=YYYYMMDD`)
+  sends `Access-Control-Allow-Origin: *`, carries state (`pre`/`in`/`post`), a
+  display clock and both scores, and its `displayName`s are exactly this project's
+  team names. Verified working (HTTP 200, CORS passed) from the live site in a real
+  browser during Storm v Sea Eagles, Round 23. **ESPN is therefore the score
+  source** — the only reachable one, not merely a convenient one.
+
+**How it works (all in `nrl-tipping-guide.html`; nothing else changed except a
+`sw.js` cache bump to v7):**
+
+- A `LIVE` map (in-page only, no localStorage) holds one entry per game:
+  home/away shorts, scores, `state`, clock. `pollLive()` fetches ESPN every 45s
+  while the page is visible AND a fixture is inside its live window (10 min before
+  kick-off → ~3h20 after, and not already in the results memory); the rest of the
+  season it's a no-op that never touches the network. Foreground return forces an
+  immediate check, so opening the app mid-game shows the current score at once.
+- **Display-only overlay.** `liveScore()`/`liveFinal()` feed the card, the lock
+  hero, the quick list and the round-schedule rows. The results memory, the frozen
+  tip log, grading (`gradedTip`/`myRecord`) and the model are untouched — an ESPN
+  score can never grade a tip into the record; only the pipeline's result does that.
+- **The live card mirrors the FT card** (big score, no fold): a pulsing LIVE
+  badge + game clock, leader bolded, the FROZEN pre-kick-off tip in the pill
+  (never a mid-game recompute — GOTCHAS 2026-08-02), and "✓ tip in front / ✗ tip
+  behind / scores level".
+- **An ESPN `post` bridges the FT gap**: full time shows the real final-score card
+  immediately, hours before the pipeline appends the official result — which then
+  wins (`fixtureResult` is checked first at every call site).
+- **Score changes re-render surgically.** `renderLiveBits()` replaces only the
+  live cards (foldless by design) and redraws hero/quicklist/schedule; it never
+  calls `render()`, so open folds on other cards survive every score tick. The
+  quick list was extracted from `render()` into `renderQuicklist()` for this.
+- **Degrades to exactly the old behaviour**: offline, `file://`, jsdom
+  (`freeze_tips` — guarded on `typeof fetch`), an exhausted API or a redesigned
+  payload all just mean no live row, like a null odds field.
+
+Verified: jsdom integration test (live + post + fold-survival across a score
+change), `node --check` on both inline scripts, `freeze_tips.mjs` runs clean
+against the new page, and the real ESPN endpoint from Josh's Chrome on the
+production origin.
+
+---
+
 ## 2026-08-04 — Desktop UI, self-refreshing app, What's new redesign, weather removed, and a specialist audit's nine fixes
 
 Josh's brief: a real desktop UI ("it should have a different ui for a laptop compared

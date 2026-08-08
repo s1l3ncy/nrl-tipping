@@ -68,6 +68,36 @@ keeps the *shell* current and provides the offline cache (CACHE `nrl-tips-v6`; i
 normalises the `?v=` query out of cache keys so polling can't bloat the cache). Both
 are no-ops on `file://`. Bump `CACHE` to force-invalidate every cached copy.
 
+### Live scores (2026-08-08 — the page polls ESPN while a game is on)
+
+Full-time scores come from the pipeline's results memory, but IN-PLAY scores can't:
+the cron is 4-hourly and best-effort. So the open page polls **ESPN's public NRL
+scoreboard** (`site.api.espn.com/…/rugby-league/3/scoreboard?dates=YYYYMMDD`) — the
+only NRL score source that sends `Access-Control-Allow-Origin: *` (nrl.com's own
+JSON does not, so a static page cannot read it). Search `pollLive` in the file.
+
+- `LIVE` (in-page map, never persisted) → `liveScore(p)` (state `in`) and
+  `liveFinal(p)` (state `post`) — both oriented to the prediction's home side.
+- Polled every 45s (`LIVE_MS`) while the page is visible AND `livePollList()` is
+  non-empty (a fixture 10 min before kick-off → ~3h20 after, with no pipeline
+  result yet). Any other time it's a no-op — zero network for most of the week.
+  Foreground return forces an immediate check (`pollLive(true)`).
+- **Display-only overlay**: the card, lock hero, quick list and schedule rows read
+  it; the results memory, tip log, grading and model never do. `fixtureResult()`
+  is checked FIRST at every call site, so the pipeline's official result always
+  beats a lingering ESPN entry, and an ESPN `post` merely bridges the hours until
+  the pipeline appends the real one.
+- **`renderLiveBits()` — not `render()` — handles score ticks.** It replaces only
+  the live cards (which are foldless like the FT card, so in-place replacement is
+  safe) and redraws `lockHero` / `quicklist` / `weekAhead`. Calling `render()`
+  here would collapse open folds every 45s — the exact bug `contentStamp()`
+  exists to prevent. The quick list lives in `renderQuicklist(preds)` so this
+  partial path and `render()` share one implementation.
+- Guarded on `typeof fetch` (jsdom in `freeze_tips.mjs` has none) and wrapped in a
+  swallow-everything catch: offline / 403 / redesigned payload = no live row.
+- CSS: `.gwhen.live`, `.livedot` (pulse, disabled under `prefers-reduced-motion`),
+  `.qline.live`, `.wkrow.live .k` — one hot colour, `#ff5d73`.
+
 ---
 
 ## Key JavaScript functions (search these names in the file)
@@ -82,6 +112,7 @@ are no-ops on `file://`. Bump `CACHE` to force-invalidate every cached copy.
 | `rationale`, `bandFor`, `whySummary`, `whyHTML` | The plain-English "why this tip" lead, the 1–2 sentence driver summary (2026-07-30), and the itemised ledger folded behind "Show the working" (lock line stays outside the fold). (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
 | `modelFav(p)` / `tipSide(p)` | **Keep these apart.** `modelFav` = the side the numbers like (reporting only). `tipSide` = the side actually tipped, and it returns the Roosters in their own game. Anything that names a tip must call `tipSide`. |
 | `render` | Master render: fills every section by element ID. |
+| `pollLive`, `liveScore`, `liveFinal`, `renderLiveBits`, `renderQuicklist` | Live in-play scores (2026-08-08): ESPN poll → `LIVE` map → surgical redraw of the score surfaces only. See "Live scores" above. |
 | `copyTips`, `flash` | "Copy tips" button. |
 | `resetState`, `loadState`, `saveState`, `resetAll` | Local state lifecycle. |
 

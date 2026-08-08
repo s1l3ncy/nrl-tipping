@@ -215,6 +215,36 @@ Real problems encountered on this project and how to avoid repeating them.
   got pinned on a team. The front-end's `oddsHTML()` had this rule first; the feed
   now mirrors it (`team:null, dir:neutral` otherwise).
 
+## Live scores (2026-08-08) — why ESPN, and what not to "fix"
+- **nrl.com's JSON cannot be read from a browser.** `/draw/data` has live scores
+  and a clock, but sends no `Access-Control-Allow-Origin` header — tested. Don't
+  swap the front-end's live-score source back to nrl.com "because it's official";
+  the fetch will silently fail on the live site. ESPN's
+  `site.api.espn.com/…/rugby-league/3/scoreboard` sends `ACAO: *` and is the only
+  reachable source. (Its Akamai edge 403s a *spoofed* browser user-agent from a
+  datacenter IP — a sandbox test that fakes a UA can look broken while real
+  browsers work fine. Test with a plain client UA, or from an actual browser.)
+- **The live overlay must stay display-only.** `LIVE` feeds cards/hero/quicklist/
+  schedule and NOTHING else. Grading, the results memory, the tip log and the
+  model never read it — an ESPN score grading a tip into the record would
+  reintroduce the 2026-08-02 hindsight class of bug via a third-party feed.
+  `fixtureResult()` is checked before `liveFinal()` at every call site: the
+  pipeline's result always wins once it lands.
+- **Score ticks must never call `render()`.** A full render rebuilds `#games` and
+  collapses every open fold — 45-second polling would make folds unusable. Only
+  `renderLiveBits()` (live cards are foldless, replaced in place) plus the
+  fold-free surfaces. Corollary: don't add a `<details>` fold to the live card.
+- **The live tip pill shows the FROZEN tip** (`gradedTip`: tiplog → snapshot →
+  lock), falling back to `tipSide()` only when no frozen tip exists. A mid-game
+  `tipSide()` recompute is contaminated (odds vanish at kick-off) — same rule as
+  full-time grading.
+- **`pollLive` must stay guarded on `typeof fetch`.** `freeze_tips.mjs` boots the
+  page in jsdom (no `fetch`); an unguarded call would throw on every workflow run.
+  The 45s interval is killed by freeze's `window.close()` like the 5-minute one.
+- **A lingering `post` entry is load-bearing, not litter.** It renders the FT card
+  during the hours before the pipeline appends the official result. Don't "clean
+  up" `LIVE` when the poll window closes.
+
 ## Front-end
 - **No CDNs, no `sessionStorage`/external storage** — must work offline as a local file;
   `localStorage` only.
