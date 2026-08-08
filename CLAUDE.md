@@ -80,6 +80,14 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-08, evening batch** (full detail in `docs/CHANGELOG.md`):
+- **Roosters hero banner removed** — the SYD card sits in normal bucket order
+  (still gold-locked). **Tip changes now lead the What's-new feed**: freeze
+  records flips (`NRL_TIPLOG.flips`) with win % + plain-text why; ko-less
+  entries never re-freeze mid-game. **Quick list + copyTips in week order**
+  (`weekOrder()`); `CARD_ORDER` deleted. **↻ chip removed** (pull-to-refresh
+  stays). `sw.js` CACHE v9. `freeze_tips.mjs` changed — it's SOURCE, upload it.
+
 **Changed 2026-08-08, later batch** (full detail in `docs/CHANGELOG.md`):
 - **Tips screen is ordered by "what matters now"**: On now (live) → Up next
   (soonest kickoff, top card carries "· in 3 hours") → Played (most recent

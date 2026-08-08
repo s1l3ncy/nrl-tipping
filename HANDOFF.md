@@ -113,7 +113,13 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-08 — the live-scores + card-ordering batches.)*
+*(Reviewed 2026-08-08 — live-scores, card-ordering, and evening batches.)*
+
+- **2026-08-08 (evening):** the pinned Roosters hero is GONE (card sits in
+  bucket order, lock intact); **tip flips lead the What's-new feed** with win %
+  and a plain-English why (recorded by `freeze_tips.mjs` → `NRL_TIPLOG.flips`;
+  ko-less fixtures never re-freeze mid-game); quick list + copyTips run in week
+  order; the ↻ chip is gone (pull-to-refresh + auto-refresh remain). `sw.js` v9.
 
 - **2026-08-08 (later): status-ordered Tips screen.** Live games first, then
   upcoming by kickoff (top card shows "· in N hours"), then played most-recent-

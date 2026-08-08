@@ -72,21 +72,6 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 /* freshness chip (Area 2) — hidden on file:// by setFresh(). It takes over the
    roundpill's margin-left:auto push while visible; when hidden the pill keeps
    its own auto margin, so the file:// layout is byte-identical to before. */
-.freshbtn{display:inline-flex;align-items:center;gap:6px;min-height:36px;min-width:36px;
-  padding:0 10px;background:var(--surface2);border:1px solid var(--hairline);
-  border-radius:var(--r-pill);color:var(--faint);font-size:11.5px;font-weight:600;
-  box-shadow:none;cursor:pointer;margin-left:auto}
-.freshbtn[hidden]{display:none}
-.freshbtn:not([hidden])+.roundpill{margin-left:0}
-/* phone: icon-only chip — the transient "checking…"/"updated" text wraps the
-   brand + round pill on a 390px nav; the spinner and green tint carry the
-   same signal without the words */
-@media(max-width:640px){#freshLabel{display:none}}
-.freshbtn:hover{color:var(--text);filter:none}
-.freshbtn svg{width:14px;height:14px;fill:currentColor;flex:none}
-.freshbtn.checking svg{animation:freshspin 1s linear infinite}
-@keyframes freshspin{to{transform:rotate(360deg)}}
-.freshbtn.updated{color:var(--good);border-color:rgba(52,209,136,.32)}
 #ptr{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 64px);
   z-index:70;background:var(--surface2);border:1px solid var(--hairline);
   border-radius:var(--r-pill);padding:8px 16px;font-size:12px;font-weight:600;color:var(--sub);
@@ -108,22 +93,6 @@ h1{margin:0;font-size:clamp(34px,9vw,44px);font-weight:850;letter-spacing:-1.2px
 .dot.stale{background:var(--amber);box-shadow:0 0 0 3px rgba(232,172,84,.18)}
 .dot.sample{background:var(--blue);box-shadow:0 0 0 3px rgba(102,160,255,.2)}
 
-/* ---------- lock hero (gold = the lock) ---------- */
-.rkhero{position:relative;margin-top:20px;border-radius:var(--r-hero);padding:22px;
-  overflow:hidden;border:1px solid rgba(245,196,81,.22);
-  background:linear-gradient(155deg,rgba(245,196,81,.10),var(--surface) 42%);
-  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
-  display:flex;gap:18px;align-items:center;flex-wrap:wrap;box-shadow:var(--shadow)}
-.rkhero::before{content:"";position:absolute;top:-80px;right:-40px;width:260px;height:240px;
-  background:radial-gradient(closest-side,rgba(245,196,81,.16),transparent 70%);pointer-events:none}
-.rkhero .rk{font-size:34px;position:relative;
-  filter:drop-shadow(0 3px 8px rgba(0,0,0,.4))}
-.rkhero .txt{flex:1;min-width:200px;position:relative}
-.rkhero h3{margin:0 0 5px;font-size:17px;font-weight:750;letter-spacing:-.2px}
-.rkhero .verdict{font-weight:600;font-size:13.5px;line-height:1.45}
-.verdict.safe{color:var(--good)} .verdict.risk{color:var(--amber-text)}
-.rkhero .big{font-size:46px;font-weight:850;text-align:center;min-width:108px;letter-spacing:-1.5px;
-  font-variant-numeric:tabular-nums;position:relative;line-height:1}
 .big .u{font-size:11px;color:var(--faint);display:block;font-weight:600;margin-top:5px;
   letter-spacing:.4px;text-transform:uppercase}
 
@@ -293,6 +262,7 @@ details.more[open]>.moreouter{grid-template-rows:1fr}
 .chgrow.c-line{border-left-color:var(--blue)}  .chgrow.c-line .g{color:var(--blue)}
 .chgrow.c-when{border-left-color:var(--orange)}.chgrow.c-when .g{color:var(--orange)}
 .chgrow.c-misc{border-left-color:var(--hairline)} .chgrow.c-misc .g{color:var(--faint)}
+.chgrow.c-tip{border-left-color:var(--roosters)}  .chgrow.c-tip .g{color:var(--roosters)}
 .chgrow.s3{color:var(--text);font-weight:500}
 .chgrow.s3.c-in{background:rgba(52,209,136,.09)}
 .chgrow.s3.c-out{background:rgba(232,172,84,.10)}
@@ -317,6 +287,7 @@ details.chgmore[open]>summary::after{content:" ▴"}
 .chgbadge.b-in{background:rgba(52,209,136,.12);color:var(--good);border-color:rgba(52,209,136,.32)}
 .chgbadge.b-line{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.34)}
 .chgbadge.b-when{background:rgba(221,138,84,.13);color:var(--orange-text);border-color:rgba(221,138,84,.34)}
+.chgbadge.b-tip{background:rgba(245,196,81,.13);color:var(--roosters);border-color:rgba(245,196,81,.45)}
 /* what's-new redesign (Area 3): fixture identity, earlier fold, schedule panel */
 .chgfx{display:flex;align-items:center;gap:7px}
 .chgfx .crest{width:15px;height:15px;font-size:0}   /* colour dot pair, reuse .crest */
@@ -664,10 +635,9 @@ details.plain>summary:hover{color:var(--text)}
 @media(min-width:1280px){
   /* tips screen adds a sticky right rail holding the Quick list */
   #scr-tips.active{display:grid;grid-template-columns:minmax(0,1fr) 360px;
-    column-gap:26px;grid-template-areas:"head head" "hero hero" "games rail";
+    column-gap:26px;grid-template-areas:"head head" "games rail";
     align-items:start}
   #scr-tips .pagehead{grid-area:head}
-  #scr-tips .rkhero{grid-area:hero}
   #scr-tips section.sec-games{grid-area:games}
   #scr-tips section.sec-quick{grid-area:rail;position:sticky;top:84px;margin-top:30px}
   .ql{grid-template-columns:1fr}               /* rail is narrow again */
@@ -700,10 +670,6 @@ details.plain>summary:hover{color:var(--text)}
       <circle cx="62" cy="55" r="4.6" fill="#061029"/>
       <circle cx="66" cy="82" r="8" fill="#F23D4C"/>
     </svg> NRL Tips</span>
-    <button type="button" class="freshbtn" id="freshBtn" hidden aria-label="Refresh data">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
-      <span id="freshLabel"></span>
-    </button>
     <div class="roundpill" id="roundPill">Round —</div>
   </div>
 </header>
@@ -718,7 +684,6 @@ details.plain>summary:hover{color:var(--text)}
       <div class="metaline" id="metaline"></div>
       <div id="dataBanners"></div>
     </div>
-    <div class="rkhero" id="lockHero"></div>
     <section class="sec-games">
       <div class="games" id="games"></div>
     </section>
@@ -1127,7 +1092,7 @@ function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt
 
 /* ---------- The tip vs the model's favourite (KEEP THESE APART) ----------
    modelFav(p) — the side the numbers like. Used only to REPORT what the model
-     thinks (lockHero's risky/safe verdict, the ledger lead, the odds box).
+     thinks (the ledger lead, the loyalty-pick line, the odds box).
    tipSide(p)  — the side actually tipped. The Roosters are ALWAYS tipped in
      their own game (CLAUDE.md golden rule #1, docs/MODEL.md §6), so every
      surface that names a tip — quicklist, card tipline/badges, "Copy tips",
@@ -1397,10 +1362,6 @@ function render(){
     || (x.i-y.i));
   fxList=dec.map(d=>d.f);
   const fxBuckets=dec.map(d=>d.b);
-  // Freeze this order for the quick list until the next full render: the 45s
-  // renderLiveBits() tick calls renderQuicklist() with fresh preds, and the
-  // list must not visibly re-sort mid-read (see renderQuicklist).
-  CARD_ORDER=fxList.map(f=>f.home+'-'+f.away);
   const preds = fxList.map(predict);
   const skipped = fixtures.length - preds.length;
   // Freeze the tip being displayed for every game that hasn't kicked off —
@@ -1414,9 +1375,6 @@ function render(){
   ranked.forEach((r,idx)=>{ rankByIndex[r.i]=idx+1; });
   let upsetIndex=-1, upsetDist=Infinity;
   preds.forEach((p,i)=>{ const d=Math.abs(p.pHome-0.5); if(d<upsetDist){ upsetDist=d; upsetIndex=i; } });
-
-  // locked hero
-  renderLock(preds);
 
   // game cards, with a text divider per status bucket — but only when the
   // round actually spans ≥2 buckets (an all-upcoming Tuesday needs no label)
@@ -1460,53 +1418,10 @@ function modeLabel(){
   return base + (fixtures.some(f=>marketProb(f.odds)!==null)?" + odds":"");
 }
 
-function renderLock(preds){
-  const el=document.getElementById('lockHero');
-  const p = preds.find(x=>x.h.short===LOCK||x.a.short===LOCK);
-  if(!p){ el.innerHTML=`<div class="rk">🐓</div><div class="txt"><h3>Roosters have the bye</h3>`+
-    `<div class="rec">No locked tip this round — your loyalty rule sits out this week.</div></div>`; return; }
-  const rkHome = p.h.short===LOCK;
-  const rkProb = rkHome? p.pHome : 1-p.pHome;
-  const opp = rkHome? p.a : p.h;
-  const fin = fixtureResult(p)||liveFinal(p);
-  if(fin){
-    const won=!!(fin.winner&&fin.winner.short===LOCK);
-    const draw=!fin.winner;
-    const rkScore=rkHome?`${fin.hs}–${fin.as}`:`${fin.as}–${fin.hs}`;   // Roosters first
-    el.innerHTML =
-      `<div class="rk">🐓</div>
-       <div class="txt">
-         <h3>Full time: <span style="color:var(--roosters)">Roosters</span> ${draw?'drew with':won?'beat':'went down to'} ${esc(opp.name)}</h3>
-         <div class="verdict ${won?'safe':'risk'}">${won?'✓ Winners — the lock delivered this week.':draw?'A draw — the tip washes.':'The lock didn\'t land this week — it happens.'}</div>
-       </div>
-       <div class="big">${rkScore}<span class="u">final score</span></div>`;
-    return;
-  }
-  const lv=liveScore(p);
-  if(lv){
-    const rkScore=rkHome?`${lv.hs}–${lv.as}`:`${lv.as}–${lv.hs}`;   // Roosters first
-    const rkPts=rkHome?lv.hs:lv.as, opPts=rkHome?lv.as:lv.hs;
-    const state=rkPts>opPts?'in front':rkPts<opPts?'behind':'level';
-    el.innerHTML =
-      `<div class="rk">🐓</div>
-       <div class="txt">
-         <h3>Live: <span style="color:var(--roosters)">Roosters</span> vs ${esc(opp.name)}</h3>
-         <div class="verdict ${rkPts>=opPts?'safe':'risk'}"><span class="livedot"></span>${lv.clock?esc(lv.clock)+' — ':''}Roosters ${state}.</div>
-       </div>
-       <div class="big">${rkScore}<span class="u">live score</span></div>`;
-    return;
-  }
-  const modelTipRk = (p.pHome>=0.5)===rkHome;
-  const safe = rkProb>=0.5;
-  el.innerHTML =
-    `<div class="rk">🐓</div>
-     <div class="txt">
-       <h3>Locked pick: <span style="color:var(--roosters)">Roosters</span> vs ${esc(opp.name)} <span class="rec">(${rkHome?'home':'away'})</span></h3>
-       <div class="verdict ${safe?'safe':'risk'}">${safe?'✓ Safe pick this week':'⚠ Risky this week'} — ${modelTipRk?'the model tips them too':'the model favours '+esc(opp.name)}.</div>
-     </div>
-     <div class="big">${(rkProb*100).toFixed(0)}%<span class="u">win chance</span></div>`;
-}
-
+/* renderLock + the pinned #lockHero hero were REMOVED 2026-08-08 (Josh: the
+   Roosters game sits in normal bucket order like every other card — it still
+   carries the gold lock pill and its live/FT states). The loyalty 'safe/risky'
+   read lives on in the card ledger + the Model tab's lockTax line. */
 /* Final score for a fixture in the round being tipped, if it's already been
    played. The append-only results memory (nrl_learned.js) is the source of
    truth — parse_nrl appends each finished game within hours of full time.
@@ -1533,12 +1448,13 @@ function fixtureResult(p){
    live row, exactly like a null odds field. */
 let LIVE={};                       // liveKey -> {home,away,hScore,aScore,state,clock}
 let LIVE_STAMP='', LIVE_LAST=0, LIVE_BUSY=false;
-/* Bucket-order plumbing (2026-08-08). CARD_ORDER: the fixture order of the
-   last FULL render — renderQuicklist() maps onto it so a 45s tick can't
-   visibly re-sort the list. ORDER_DIRTY: a poll saw a fixture change bucket
-   (pre→in, in→post); only a full render may reorder (folds!), so the flag is
-   consumed on foreground return — the one moment nobody is mid-read. */
-let CARD_ORDER=[], ORDER_DIRTY=false, LAST_FULL_RENDER=0;
+/* Bucket-order plumbing (2026-08-08). ORDER_DIRTY: a poll saw a fixture
+   change bucket (pre→in, in→post); only a full render may reorder the cards
+   (folds!), so the flag is consumed on foreground return — or immediately
+   inside the 15s post-render grace window (the boot poll answering). The
+   quick list needs no freeze since 2026-08-08 (later): it runs in WEEK order
+   (kickoff asc), which no live tick can change. */
+let ORDER_DIRTY=false, LAST_FULL_RENDER=0;
 const LIVE_MS=45000;               // poll cadence while a game is on
 const LIVE_URL='https://site.api.espn.com/apis/site/v2/sports/rugby-league/3/scoreboard';
 function liveKey(a,b){ return [a,b].sort().join('-'); }
@@ -1654,7 +1570,6 @@ function renderLiveBits(){
     tpl.innerHTML=cardHTML(p,{});
     if(tpl.content.firstElementChild) el.replaceWith(tpl.content.firstElementChild);
   });
-  renderLock(preds);
   renderQuicklist(preds);
   renderNewScreen(preds,fxList);
 }
@@ -1705,6 +1620,12 @@ function snapTips(preds,fxList){
    grades a Roosters game. */
 let TIPLOG=(typeof window!=="undefined" && window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips))
   ? window.NRL_TIPLOG.tips : [];
+/* Pre-kick-off tip FLIPS, recorded by freeze_tips.mjs (2026-08-08): each entry
+   {season,round,home,away,from,to,fromProb,toProb,why,ts}. Surfaced at the top
+   of the What's-new feed — "the tip changed" is the most important update this
+   app can deliver, so it outranks every other category. */
+let FLIPS=(typeof window!=="undefined" && window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.flips))
+  ? window.NRL_TIPLOG.flips : [];
 function tiplogFind(season,round,h,a){
   return TIPLOG.find(t=>t && t.season===season && t.round===round &&
     ((t.home===h&&t.away===a)||(t.home===a&&t.away===h))) || null;
@@ -2061,6 +1982,7 @@ function injuryStrip(p){
    No "seen" state and no localStorage key: the feed is already scoped to "since the
    last run", so a seen-flag would only hide changes not yet acted on. */
 const CHG_CAT = {
+  tip:    {g:'★', cls:'c-tip',  badge:'b-tip',  noun:['tip change','tip changes']},
   in:     {g:'✓', cls:'c-in',   badge:'b-in',   noun:['squad update','squad updates']},
   out:    {g:'⚑', cls:'c-out',  badge:'b-out',  noun:['injury note','injury notes']},
   injury: {g:'✚', cls:'c-out',  badge:'b-out',  noun:['injury note','injury notes']},
@@ -2069,13 +1991,13 @@ const CHG_CAT = {
   venue:  {g:'📍',cls:'c-when', badge:'b-when', noun:['venue change','venue changes']},
   other:  {g:'•', cls:'c-misc', badge:'',       noun:['other update','other updates']}
 };
-const CHG_ORDER = {out:0,in:1,injury:2,time:3,venue:4,line:5,other:6};
+const CHG_ORDER = {tip:-1,out:0,in:1,injury:2,time:3,venue:4,line:5,other:6};
 function chgCat(c){ return CHG_CAT[c] || CHG_CAT.other; }
 function fxKey(f){ return f.home+'-'+f.away; }
 function chgList(){
   const raw = Array.isArray(SRC.changes) ? SRC.changes : [];
   const valid = {}; fixtures.forEach(f=>{ valid[fxKey(f)]=f; });
-  return raw.filter(c=>c && typeof c.text==='string' && c.text.trim())
+  const out = raw.filter(c=>c && typeof c.text==='string' && c.text.trim())
     .filter(c=>c.cat!=='weather')   // weather retired 2026-08-04; drop legacy entries still in the 36h window
     .map((c,i)=>({
       id: c.id || ('c'+i),
@@ -2088,6 +2010,23 @@ function chgList(){
       pts: (typeof c.pts==='number' && c.pts>0) ? c.pts : null,
       ts: c.ts || null
     }));
+  // Tip changes (2026-08-08): freeze_tips.mjs records every pre-kick-off tip
+  // flip in nrl_tiplog.js. They join the feed as sev-3 'tip' entries — the
+  // most important update the app can deliver — same rolling 36h window.
+  const cut=Date.now()-36*3600000;
+  (Array.isArray(FLIPS)?FLIPS:[]).forEach((f,i)=>{
+    if(!f || f.season!==SRC.season || f.round!==SRC.round) return;
+    const t=Date.parse(f.ts||''); if(!isNaN(t)&&t<cut) return;
+    const to=T(f.to), from=T(f.from);
+    if(!to) return;
+    let txt=`Tip changed: now ${to.name}`+(typeof f.toProb==='number'?` (${Math.round(f.toProb)}%)`:'')
+      +(from?` — was ${from.name}`+(typeof f.fromProb==='number'?` (${Math.round(f.fromProb)}%)`:''):'')+'.';
+    if(f.why) txt+=' '+String(f.why).trim();
+    const key=f.home+'-'+f.away;
+    out.push({ id:'tf-'+key+'-'+(f.ts||i), fx: valid[key]?key:null, team:null,
+      cat:'tip', sev:3, dir:'neutral', text:txt, pts:null, ts:f.ts||null });
+  });
+  return out;
 }
 function chgRow(c){
   const k=chgCat(c.cat);
@@ -2257,21 +2196,20 @@ function renderChanges(){
    renderLiveBits() can redraw it on a score change without a full render.
    It recomputes its own compMode/confidence ranking — cheap, and keeps the
    call signature down to just preds. */
+/* Kickoff-ascending order shared by the quick list and copyTips. */
+function weekOrder(preds){
+  const dec=preds.map((p,i)=>{ const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
+    const t=Date.parse(fx.kickoff||''); return {p,i,t:isNaN(t)?null:t}; });
+  dec.sort((x,y)=> ((x.t===null)-(y.t===null)) || (x.t===null?0:x.t-y.t) || (x.i-y.i));
+  return dec.map(d=>d.p);
+}
 function renderQuicklist(preds){
   const el=document.getElementById('quicklist'); if(!el) return;
-  // Rows follow CARD_ORDER — the bucket order frozen by the last FULL render —
-  // not the caller's array order. renderLiveBits() feeds this fresh preds on
-  // every 45s tick; without the freeze a mid-tick bucket change would visibly
-  // re-sort the list under the reader (the cards, replaced in place by id,
-  // wouldn't move — the two surfaces would disagree). Unknown keys append at
-  // the end in given order. Decorated sort: draw index is the tie-break.
-  if(CARD_ORDER.length){
-    const ord={}; CARD_ORDER.forEach((k,i)=>{ ord[k]=i; });
-    preds=preds.map((p,i)=>({p,i,o:ord[p.h.short+'-'+p.a.short]}))
-      .sort((x,y)=> ((x.o===undefined)-(y.o===undefined))
-        || ((x.o===undefined)?0:(x.o-y.o)) || (x.i-y.i))
-      .map(r=>r.p);
-  }
+  // WEEK order (2026-08-08 later — Josh: "list them in order of the week"):
+  // kickoff asc, TBC last, draw index tie-break. Deliberately NOT the cards'
+  // status-bucket order — this list reads as the round's fixture list. It's
+  // also state-independent, so a 45s live tick can never visibly re-sort it.
+  preds=weekOrder(preds);
   const compMode=getCompMode();
   const ranked=preds.map((p,i)=>({i,conf:Math.max(p.pHome,1-p.pHome)})).sort((a,b)=>b.conf-a.conf);
   const rankByIndex=new Array(preds.length);
@@ -2523,16 +2461,8 @@ function renderLearning(){
 
 /* ---------- Copy tips ---------- */
 function copyTips(){
-  let preds=fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
-  // Rows follow the same bucket order as the cards/quick list (CARD_ORDER,
-  // frozen by the last full render) — one order everywhere. Text format unchanged.
-  if(CARD_ORDER.length){
-    const ord={}; CARD_ORDER.forEach((k,i)=>{ ord[k]=i; });
-    preds=preds.map((p,i)=>({p,i,o:ord[p.h.short+'-'+p.a.short]}))
-      .sort((x,y)=> ((x.o===undefined)-(y.o===undefined))
-        || ((x.o===undefined)?0:(x.o-y.o)) || (x.i-y.i))
-      .map(r=>r.p);
-  }
+  // Week order, same as the quick list (2026-08-08 later). Text format unchanged.
+  const preds=weekOrder(fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict));
   const lines=preds.map(p=>{ const tip=tipSide(p); const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
     return `${p.h.name} v ${p.a.name} → ${tip.name}${rk}`; });
   const txt=`NRL Round ${SRC.round} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
@@ -2668,6 +2598,7 @@ function hydrateData(){
   HAVE_PLAYERS = Object.keys(PLAYERS).length > 50;
   LINEUPS = (window.NRL_LINEUPS) ? window.NRL_LINEUPS : null;   // team lists refresh too (was captured once, forever)
   TIPLOG = (window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips)) ? window.NRL_TIPLOG.tips : TIPLOG;
+  FLIPS = (window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.flips)) ? window.NRL_TIPLOG.flips : FLIPS;
 }
 /* Four triggers feed one throttled refresh (2026-08-04): boot, foreground
    return, a 5-minute visible-only poll, and the manual chip / pull-to-refresh.
@@ -2678,8 +2609,13 @@ function contentStamp(){
   // Everything render() can visibly depend on. KEY already folds in dataSig(SRC)
   // (teams, fixtures+odds, change ids); the rest aren't hashed by dataSig.
   return KEY+'|'+((LEARNED&&LEARNED.gamesLearned)||0)+'|'+TIPLOG.length
+    +'|'+FLIPS.length+'|'+(FLIPS.length?(FLIPS[FLIPS.length-1].ts||''):'')
     +'|'+((window.NRL_LINEUPS&&window.NRL_LINEUPS.round)||0);
 }
+/* The ↻ chip was removed 2026-08-08 (Josh: "I just pull down to refresh") —
+   setFresh() stays because every refresh path calls it, and it no-ops cleanly
+   now that #freshBtn no longer exists. Pull-to-refresh + the auto-refresh
+   triggers are untouched. */
 function setFresh(state,msg){
   const b=document.getElementById('freshBtn'), l=document.getElementById('freshLabel');
   if(!b) return;
@@ -2711,7 +2647,6 @@ function refreshFromNetwork(){
     s.onload=()=>finish(s); s.onerror=()=>finish(s);  // offline / missing file → just keep current data
     document.head.appendChild(s); });
 }
-document.getElementById('freshBtn')?.addEventListener('click',()=>refreshFromNetwork());
 document.addEventListener('visibilitychange',()=>{
   if(!document.hidden && Date.now()-LAST_CHECK>60000) refreshFromNetwork(); });
 window.addEventListener('pageshow',e=>{
