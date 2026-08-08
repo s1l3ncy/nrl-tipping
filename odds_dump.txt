@@ -1,5 +1,5 @@
 # Round 23 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-08T17:01:18. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-08T17:07:05. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (44 book quotes across 4 fixtures).
 Dolphins v Broncos: 1.36 / 3.15
 Rabbitohs v Eels: 1.34 / 3.30
