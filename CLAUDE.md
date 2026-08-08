@@ -80,7 +80,18 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
-**Changed 2026-08-04** (this batch — full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-08** (this batch — full detail in `docs/CHANGELOG.md`):
+- **Live in-play scores.** While a game is on, the open page polls ESPN's public
+  scoreboard (the only NRL score source with CORS headers; nrl.com's JSON has
+  none) every 45s and shows a live card — pulsing LIVE badge, clock, score, the
+  frozen tip and whether it's in front — plus live rows in the hero, quick list
+  and round schedule. Full time shows instantly (ESPN `post`) until the pipeline's
+  official result lands, which always wins. Display-only overlay: grading, the
+  results memory, tip log and model never read it. Score ticks re-render
+  surgically (`renderLiveBits`), never via `render()`. `sw.js` CACHE v7.
+  See `docs/GOTCHAS.md` "Live scores (2026-08-08)" before touching it.
+
+**Changed 2026-08-04** (full detail in `docs/CHANGELOG.md`):
 - **Desktop gets its own UI at ≥1024px** (top pill nav — same `.tabbar` element,
   restyled — 1140px layout, 2-up cards, 2-column Model, Quick-list rail at ≥1280px).
   Phone ≤640px unchanged. `docs/FRONTEND.md` has the tier table.

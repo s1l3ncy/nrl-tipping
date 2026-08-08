@@ -113,7 +113,16 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-04 — the desktop-UI / auto-refresh / weather-removal / audit batch.)*
+*(Reviewed 2026-08-08 — the live-scores batch.)*
+
+- **2026-08-08: live in-play scores.** While a game is on, the open page polls
+  ESPN's public NRL scoreboard every 45s (the only score source that sends CORS
+  headers — nrl.com's JSON doesn't) and the game's card, the lock hero, the quick
+  list and the schedule all show the live score + clock; full time appears
+  immediately and the pipeline's official result takes over when it lands. The
+  overlay is display-only (grading/results/tiplog untouched) and re-renders
+  surgically so open folds survive. `sw.js` is at CACHE v7. Details:
+  `docs/FRONTEND.md` "Live scores" + `docs/GOTCHAS.md` "Live scores (2026-08-08)".
 
 - **2026-08-04 batch (see `docs/CHANGELOG.md` for the full entry):** the app now has a
   real desktop layout at ≥1024px (top pill nav, 2-up cards, rails) while the phone UI
@@ -123,7 +132,7 @@ See `docs/DEPLOY_AND_OPS.md`.
   panel); **weather was removed end-to-end**; and a specialist audit's nine bug fixes
   landed (opening odds preserved across runs, winner-relative Elo MOV, `logisticScale`
   pinned at 7, walk-forward loyalty tax, phantom-injury-name guards, season-aware
-  results, and more — `docs/MODEL.md` + `docs/GOTCHAS.md`). `sw.js` is at CACHE v6.
+  results, and more — `docs/MODEL.md` + `docs/GOTCHAS.md`). `sw.js` was CACHE v6 in that batch.
   The audit's judgement-call recommendations await Josh's approval (CHANGELOG).
 
 - Fully deployed and self-updating **every 4 hours** (plus 05:47 daily and 16:23 Tuesday
@@ -137,7 +146,7 @@ See `docs/DEPLOY_AND_OPS.md`.
   game cards with a win-probability bar (gold = the locked Roosters game). The render
   pipeline and every element ID are untouched — see `docs/FRONTEND.md` before styling
   anything. There's a real app icon now (`apple-touch-icon.png`; source in
-  `rooster-icon.svg`, kept local-only); `sw.js` has since moved to CACHE v6.
+  `rooster-icon.svg`, kept local-only); `sw.js` has since moved to CACHE v7.
 - **The round's team list settles doubts both ways**: named → injury entry cancelled;
   not named while merely doubtful → full-weight absence, badged NOT NAMED.
 - **The Roosters lock is genuinely enforced** via `tipSide()`; the change feed
