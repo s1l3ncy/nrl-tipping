@@ -1507,15 +1507,24 @@ function liveFinal(p){ const e=liveEntry(p);
   return (e&&e.state==='post')?{hs:e.hs, as:e.as, winner:e.hs>e.as?p.h:e.as>e.hs?p.a:null}:null; }
 function livePollList(){
   const now=Date.now();
+  // A fixture with NO parseable kick-off can still be live RIGHT NOW: nrl.com's
+  // draw meta drops a fixture's kickoff WHILE it is in play (seen R23 MEL v MAN,
+  // the first live-feature day) — i.e. exactly the game live scores exist for.
+  // So on a game day (any same-round kickoff within ±12h) a kickoff-less,
+  // result-less fixture is polled too, and ESPN's own state decides; once an
+  // entry is 'in' it keeps itself alive regardless.
+  const gameday=fixtures.some(f=>{ const ko=Date.parse(f.kickoff||'');
+    return !isNaN(ko)&&Math.abs(now-ko)<12*3600000; });
   return fixtures.filter(f=>{
     const h=T(f.home), a=T(f.away);
     if(!h||!a) return false;
     const e=LIVE[liveKey(f.home,f.away)];
     if(e&&e.state==='post') return false;                 // finished — stop polling it
     if(e&&e.state==='in') return true;                    // running long / golden point
-    const ko=Date.parse(f.kickoff||''); if(isNaN(ko)) return false;
-    if(now<ko-10*60000||now>ko+200*60000) return false;   // 10 min early → ~3h20 after
-    return !fixtureResult({h:h,a:a});                     // pipeline already has the score
+    if(fixtureResult({h:h,a:a})) return false;            // pipeline already has the score
+    const ko=Date.parse(f.kickoff||'');
+    if(isNaN(ko)) return gameday;                         // kickoff dropped mid-game
+    return now>=ko-10*60000&&now<=ko+200*60000;           // 10 min early → ~3h20 after
   });
 }
 function liveMatchShort(name){
