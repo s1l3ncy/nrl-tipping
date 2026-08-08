@@ -5,6 +5,43 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-08 (later) — The top of the Tips screen is always "what matters now"
+
+Josh's brief: "the closest upcoming game should always be at the top. Or if the
+game is live it should be at the top so I don't have to scroll down", with a
+designer pass first and a coder implementing the brief.
+
+**Ordering (one comparator, one place):** three status buckets — On now (live,
+kickoff asc), Up next (kickoff asc, soonest first), Played (kickoff DESC, most
+recent nearest the boundary) — so the whole list reads as distance-from-now in
+both directions. Unparseable kickoffs sink within their bucket; draw index
+tie-breaks (decorated stable sort). Sorted once at the top of `render()` before
+predict/snapTips/rank/upset so all index-paired meta inherits it. lockHero stays
+pinned above everything in all states.
+
+**Presentation:** conditional text dividers ("On now" with the pulsing livedot /
+"Up next" / "Played", `.gsec` sharing the `.wkday` recipe) appear only when the
+round spans ≥2 buckets — an all-upcoming Tuesday looks exactly like before.
+Dividers span the desktop 2-up grid. The top upcoming card appends the existing
+`kickInfo().rel` ("· in 3 hours"). Quick list + `copyTips()` rows follow the
+same order via `CARD_ORDER` (frozen per full render). Rejected as clutter:
+highlight rings, countdown timers, auto-scroll, per-card relative times.
+
+**Re-sort timing (the subtle part):** live-score ticks still never reorder the
+DOM (open folds). A bucket change (pre→in, in→post) sets `ORDER_DIRTY`, consumed
+by a full render on foreground return — or immediately when the change lands
+within 15s of the last full render, which is the boot poll answering: without
+that grace window (found in real-data testing), opening the app mid-game showed
+the live card stuck under "Up next" until the next background/return.
+
+Verified: 25-scenario jsdom suite (ordering, dividers, rel suffix, fold
+survival across score ticks, quicklist stability, ORDER_DIRTY set/clear),
+a deferred-reorder test (late bucket change → no jump → foreground reorder),
+real-data boot during the live SOU–PAR game (On now first, immediately), and
+`freeze_tips.mjs` clean.
+
+---
+
 ## 2026-08-08 — Live in-play scores on every score surface
 
 Josh's brief: "when a game goes live I want it to display the live scores on the

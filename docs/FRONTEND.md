@@ -98,6 +98,26 @@ JSON does not, so a static page cannot read it). Search `pollLive` in the file.
 - CSS: `.gwhen.live`, `.livedot` (pulse, disabled under `prefers-reduced-motion`),
   `.qline.live`, `.wkrow.live .k` — one hot colour, `#ff5d73`.
 
+### Card ordering on Tips (2026-08-08 — what matters now is at the top)
+
+Cards render in three status buckets — **On now** (live), **Up next** (kickoff
+asc), **Played** (kickoff desc, most recent first) — sorted ONCE at the top of
+`render()` on `fxList` BEFORE `predict`/`snapTips`/rank/upset, so every
+index-paired array inherits the order with no remapping. Unparseable kickoffs
+sink within their bucket in draw order; the draw index is the explicit
+tie-break. Text dividers (`.gsec`, shares the `.wkday` recipe; "On now" carries
+a `.livedot`) render only when ≥2 buckets are non-empty, and span the 2-up grid
+at ≥1024px (`grid-column:1/-1`). The first Up-next card appends
+`kickInfo(fx).rel` ("· in 3 hours") to its `.gwhen`. The quick list and
+`copyTips()` rows map onto `CARD_ORDER` — the order frozen by the last full
+render — so a 45s tick can never visibly re-sort them.
+
+**Re-sort timing:** `renderLiveBits()` never reorders (folds!). A poll that
+changes a fixture's bucket sets `ORDER_DIRTY`; the reorder lands on foreground
+return, or IMMEDIATELY if the change arrives within 15s of the last full render
+(`LAST_FULL_RENDER` grace window — that's the boot/foreground poll answering,
+i.e. the user just opened the app mid-game and nothing is mid-read).
+
 ---
 
 ## Key JavaScript functions (search these names in the file)

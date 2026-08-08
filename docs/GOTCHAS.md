@@ -247,6 +247,18 @@ Real problems encountered on this project and how to avoid repeating them.
   kickoff-less, result-less fixture on any game day (a same-round kickoff within
   ±12h) and lets ESPN's state decide. Don't "simplify" that back to pure
   kickoff-window logic.
+- **The status-bucket sort lives in `render()` and ONLY there.** It must run on
+  `fxList` before `predict`/`snapTips`/rank/upset (index-paired arrays), and
+  `renderLiveBits()` must never reorder/insert/remove cards or `.gsec` dividers.
+  A mid-poll bucket change sets `ORDER_DIRTY`; the reorder waits for foreground
+  return — EXCEPT within 15s of the last full render (`LAST_FULL_RENDER`),
+  where it renders immediately. Don't remove that grace window: without it a
+  fresh open mid-game boots before the first ESPN response and the live game
+  sits under "Up next" until the user backgrounds the app. And don't widen it:
+  past ~15s the user may be mid-read with folds open.
+- **The quick list follows `CARD_ORDER`, not its caller's array order.** The
+  45s tick rebuilds it with fresh preds; without the frozen order it would
+  re-sort under the reader while the cards (replaced in place by id) don't.
 - **A lingering `post` entry is load-bearing, not litter.** It renders the FT card
   during the hours before the pipeline appends the official result. Don't "clean
   up" `LIVE` when the poll window closes.
