@@ -1,8 +1,8 @@
 # Round 23 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-08T08:09:16. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-08T14:32:20. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (55 book quotes across 5 fixtures).
 Storm v Sea Eagles: 2.15 / 1.70
-Dolphins v Broncos: 1.40 / 3.00
-Rabbitohs v Eels: 1.33 / 3.34
-Raiders v Knights: 1.88 / 1.95
-Dragons v Sharks: 4.75 / 1.19
+Dolphins v Broncos: 1.40 / 3.05
+Rabbitohs v Eels: 1.33 / 3.35
+Raiders v Knights: 1.65 / 2.25
+Dragons v Sharks: 5.00 / 1.18
