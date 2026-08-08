@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-08",
+  "updated": "2026-08-09",
   "season": 2026,
   "round": 23,
   "source": "zerotackle.com",
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-08T23:35:11+10:00",
+  "generatedAt": "2026-08-09T00:09:54+10:00",
   "changes": [
     {
       "id": "r23-MAN-inj-taniela-paseka",
