@@ -147,6 +147,32 @@ window.NRL_DATA = {
       "news": null
     },
     {
+      "name": "Rabbitohs",
+      "short": "SOU",
+      "colour": "#00954c",
+      "P": 20,
+      "W": 11,
+      "L": 9,
+      "PF": 550,
+      "PA": 464,
+      "last5": 2,
+      "home": {
+        "P": 9,
+        "W": 7,
+        "L": 2,
+        "PF": 264,
+        "PA": 188
+      },
+      "away": {
+        "P": 10,
+        "W": 3,
+        "L": 7,
+        "PF": 262,
+        "PA": 276
+      },
+      "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Campbell Graham (Calf); Talanoa Penitani (Hamstring) — back Round 26"
+    },
+    {
       "name": "Knights",
       "short": "NEW",
       "colour": "#00539b",
@@ -197,32 +223,6 @@ window.NRL_DATA = {
         "PA": 253
       },
       "news": "Tom Dearden (Ankle); Reed Mahoney (Concussion) — back Round 24; Jeremiah Nanai (Hamstring) — back Round 25"
-    },
-    {
-      "name": "Rabbitohs",
-      "short": "SOU",
-      "colour": "#00954c",
-      "P": 19,
-      "W": 10,
-      "L": 9,
-      "PF": 526,
-      "PA": 464,
-      "last5": 2,
-      "home": {
-        "P": 9,
-        "W": 7,
-        "L": 2,
-        "PF": 264,
-        "PA": 188
-      },
-      "away": {
-        "P": 10,
-        "W": 3,
-        "L": 7,
-        "PF": 262,
-        "PA": 276
-      },
-      "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Campbell Graham (Calf); Talanoa Penitani (Hamstring) — back Round 26"
     },
     {
       "name": "Bulldogs",
@@ -332,11 +332,11 @@ window.NRL_DATA = {
       "name": "Eels",
       "short": "PAR",
       "colour": "#006eb5",
-      "P": 19,
+      "P": 20,
       "W": 7,
-      "L": 12,
+      "L": 13,
       "PF": 365,
-      "PA": 544,
+      "PA": 568,
       "last5": 2,
       "home": {
         "P": 10,
@@ -539,7 +539,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.65,
-          "away": 2.25
+          "away": 2.26
         }
       },
       "weather": null,
@@ -570,32 +570,8 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-08T20:04:51+10:00",
+  "generatedAt": "2026-08-08T21:19:33+10:00",
   "changes": [
-    {
-      "id": "r23-SYD-inj-james-tedesco",
-      "fixture": "SYD-CAN",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Roosters: James Tedesco (Ankle) — back Round 24 — new on the injury list.",
-      "pts": 3.6,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-inj-harry-grant",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Storm: Harry Grant (Hamstring) — back Round 25 — new on the injury list.",
-      "pts": 4.4,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
     {
       "id": "r23-MAN-inj-taniela-paseka",
       "fixture": "MEL-MAN",
@@ -967,331 +943,7 @@ window.NRL_DATA = {
       "pts": 0.7,
       "ts": "2026-08-07T21:13:01+10:00",
       "rnd": 23
-    },
-    {
-      "id": "r23-SYD-fit-billy-smith",
-      "fixture": "SYD-CAN",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Billy Smith is off the injury list.",
-      "pts": 1.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SYD-fit-lindsay-collins",
-      "fixture": "SYD-CAN",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Lindsay Collins is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-NZW-fit-taine-tuaupiki",
-      "fixture": "NZW-PEN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Warriors: Taine Tuaupiki is off the injury list.",
-      "pts": 2.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-CRO-fit-hohepa-puru",
-      "fixture": "STI-CRO",
-      "team": "CRO",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sharks: Hohepa Puru is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-NEW-fit-asu-kepaoa",
-      "fixture": "CBR-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Asu Kepaoa is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-NEW-fit-harrison-graham",
-      "fixture": "CBR-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Harrison Graham is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SOU-fit-cameron-murray",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Cameron Murray is off the injury list.",
-      "pts": 1.3,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SOU-fit-david-fifita",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: David Fifita is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SOU-fit-tallis-duncan",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Tallis Duncan is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-CAN-fit-sitili-tupouniua",
-      "fixture": "SYD-CAN",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Bulldogs: Sitili Tupouniua is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-inj-ben-trbojevic",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sea Eagles: Ben Trbojevic (Concussion) — back Round 24 — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-inj-caleb-navale",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sea Eagles: Caleb Navale (ACL) — back Round 25 — new on the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-fit-brandon-wakeham",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sea Eagles: Brandon Wakeham is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-fit-corey-waddell",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sea Eagles: Corey Waddell is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-CBR-fit-simi-sasagi",
-      "fixture": "CBR-NEW",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Raiders: Simi Sasagi is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-inj-eliesa-katoa",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Storm: Eliesa Katoa (Medical Episode) — back Indefinite — new on the injury list.",
-      "pts": 2.1,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-fit-cameron-munster",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Cameron Munster is off the injury list.",
-      "pts": 3.8,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-fit-jack-howarth",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Jack Howarth is off the injury list.",
-      "pts": 1.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-PAR-fit-bailey-simonsson",
-      "fixture": "SOU-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Bailey Simonsson is off the injury list.",
-      "pts": 1.5,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-PAR-fit-luca-moretti",
-      "fixture": "SOU-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Luca Moretti is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-PAR-fit-sean-russell",
-      "fixture": "SOU-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Sean Russell is off the injury list.",
-      "pts": 1.5,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-BRI-fit-aublix-tawha",
-      "fixture": "DOL-BRI",
-      "team": "BRI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Broncos: Aublix Tawha is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-BRI-fit-xavier-willison",
-      "fixture": "DOL-BRI",
-      "team": "BRI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Broncos: Xavier Willison is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-STI-inj-hayden-buchanan",
-      "fixture": "STI-CRO",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dragons: Hayden Buchanan (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-STI-fit-blake-lawrie",
-      "fixture": "STI-CRO",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Blake Lawrie is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-STI-fit-david-fale",
-      "fixture": "STI-CRO",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: David Fale is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-STI-fit-kade-reed",
-      "fixture": "STI-CRO",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Kade Reed is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-07T09:02:57+10:00",
-      "rnd": 23
     }
   ],
-  "changesSince": "2026-08-07T09:02:57+10:00"
+  "changesSince": "2026-08-07T21:13:01+10:00"
 };
