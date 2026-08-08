@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-09T00:09:54+10:00",
+  "generatedAt": "2026-08-09T03:52:44+10:00",
   "changes": [
     {
       "id": "r23-MAN-inj-taniela-paseka",
