@@ -330,10 +330,10 @@ details.chgearlier>summary::-webkit-details-marker{display:none}
 details.chgearlier>summary::after{content:" ▾"}
 details.chgearlier[open]>summary::after{content:" ▴"}
 details.chgearlier .chgrow{opacity:.75}
-/* schedule */
-.wkday{font-size:10px;font-weight:750;letter-spacing:1px;text-transform:uppercase;
+/* schedule (.wkday) + game-status dividers in #games (.gsec) — same recipe */
+.wkday,.gsec{font-size:10px;font-weight:750;letter-spacing:1px;text-transform:uppercase;
   color:var(--faint);margin:12px 0 6px}
-.wkday:first-child{margin-top:0}
+.wkday:first-child,.gsec:first-child{margin-top:0}
 .wkrow{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:12px;
   background:var(--well);border:1px solid var(--hairline-soft);font-size:13px}
 .wkrow+.wkrow{margin-top:5px}
@@ -498,6 +498,9 @@ details.plain>summary:hover{color:var(--text)}
 .gtop{display:flex;gap:10px;align-items:baseline;padding:14px 18px 0;
   font-size:11px;color:var(--faint);font-weight:600}
 .gwhen{flex:none;text-transform:uppercase;letter-spacing:.6px;color:var(--sub)}
+/* relative-kickoff tail on the top upcoming card — same muted style as the
+   schedule's .wkrow .k .rel, but un-uppercased ("in 3 hours", not "IN 3 HOURS") */
+.gwhen .rel{color:var(--faint);text-transform:none;letter-spacing:normal}
 .gvenue{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:auto;text-align:right}
 .gmatch{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:8px;padding:12px 14px 4px}
 .gvs{font-size:11px;color:var(--faint);font-weight:700;align-self:center;padding-top:2px}
@@ -622,8 +625,9 @@ details.plain>summary:hover{color:var(--text)}
     border-color:rgba(255,70,85,.35)}
   .tabbadge{position:static;margin-left:4px}   /* inline count, not corner dot */
 
-  /* tips: two-up cards */
+  /* tips: two-up cards; status dividers span both columns */
   .games{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+  .games .gsec{grid-column:1/-1}
   .ql{grid-template-columns:1fr 1fr}           /* quick list two-up (1024–1279 only) */
 
   /* model screen: the two cards side by side */
@@ -1372,8 +1376,31 @@ function render(){
   // what changed today (also yields the per-fixture badge map for the cards)
   const chgByFx = renderChanges();
 
-  // predictions
-  const fxList = fixtures.filter(f=>T(f.home)&&T(f.away));
+  // predictions — status-bucket sort (2026-08-08): On now → Up next → Played.
+  // It runs HERE and ONLY here, on fxList BEFORE predict/snapTips/rank/upset,
+  // so every index-paired array inherits the order with no remapping. Don't
+  // move it into renderLiveBits(): that path must never reorder the DOM (open
+  // folds!) — a mid-poll bucket change just sets ORDER_DIRTY and the next
+  // full render (foreground return) lands the new order.
+  let fxList = fixtures.filter(f=>T(f.home)&&T(f.away));
+  const bucketOf=f=>{ const q={h:T(f.home),a:T(f.away)};   // pred-shaped pair: the state tests read only .h/.a shorts
+    if(fixtureResult(q)||liveFinal(q)) return 2;           // Played
+    return liveScore(q)?0:1; };                            // On now / Up next
+  // Decorated stable sort — the draw index is the explicit tie-break, never
+  // engine sort stability. Unparseable kickoffs sink within their bucket in
+  // draw order; Played runs kickoff DESC (most recent first), the rest ASC.
+  const dec=fxList.map((f,i)=>{ const t=Date.parse(f.kickoff||'');
+    return {f,i,b:bucketOf(f),t:isNaN(t)?null:t}; });
+  dec.sort((x,y)=> (x.b-y.b)
+    || ((x.t===null)-(y.t===null))
+    || (x.t===null?0:(x.b===2? y.t-x.t : x.t-y.t))
+    || (x.i-y.i));
+  fxList=dec.map(d=>d.f);
+  const fxBuckets=dec.map(d=>d.b);
+  // Freeze this order for the quick list until the next full render: the 45s
+  // renderLiveBits() tick calls renderQuicklist() with fresh preds, and the
+  // list must not visibly re-sort mid-read (see renderQuicklist).
+  CARD_ORDER=fxList.map(f=>f.home+'-'+f.away);
   const preds = fxList.map(predict);
   const skipped = fixtures.length - preds.length;
   // Freeze the tip being displayed for every game that hasn't kicked off —
@@ -1391,11 +1418,23 @@ function render(){
   // locked hero
   renderLock(preds);
 
-  // game cards
-  document.getElementById('games').innerHTML = preds.map((p,i)=>cardHTML(p,{
-    isUpset:i===upsetIndex, rank:rankByIndex[i], compMode,
-    chg: chgByFx[p.h.short+'-'+p.a.short] || null
-  })).join('') +
+  // game cards, with a text divider per status bucket — but only when the
+  // round actually spans ≥2 buckets (an all-upcoming Tuesday needs no label)
+  const bCount=[0,0,0]; fxBuckets.forEach(b=>{ bCount[b]++; });
+  const showSecs=bCount.filter(n=>n>0).length>=2;
+  const SEC=['<span class="livedot"></span>On now','Up next','Played'];
+  const firstUp=fxBuckets.indexOf(1);   // top upcoming card gets the relative kickoff tail
+  let lastB=-1;
+  document.getElementById('games').innerHTML = preds.map((p,i)=>{
+    let div='';
+    if(showSecs&&fxBuckets[i]!==lastB) div=`<div class="gsec">${SEC[fxBuckets[i]]}</div>`;
+    lastB=fxBuckets[i];
+    return div+cardHTML(p,{
+      isUpset:i===upsetIndex, rank:rankByIndex[i], compMode,
+      chg: chgByFx[p.h.short+'-'+p.a.short] || null,
+      nextUp:i===firstUp
+    });
+  }).join('') +
     (skipped>0?`<div class="banner warn">${skipped} game(s) hidden — data references an unknown team.</div>`:'');
 
   // quick list (extracted 2026-08-08 so live-score polling can redraw it alone)
@@ -1411,6 +1450,8 @@ function render(){
   document.getElementById('howItWorks').innerHTML = howText();
   document.getElementById('foot').innerHTML =
     `Data to end of Round ${SRC.round-1}, ${SRC.season}. Ladder rebuilds weekly; odds &amp; injuries refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
+  ORDER_DIRTY=false;   // a full render always lands the correct bucket order
+  LAST_FULL_RENDER=Date.now();
 }
 function modeLabel(){
   const base = learnedActive ? "self-learning (Elo)"
@@ -1492,6 +1533,12 @@ function fixtureResult(p){
    live row, exactly like a null odds field. */
 let LIVE={};                       // liveKey -> {home,away,hScore,aScore,state,clock}
 let LIVE_STAMP='', LIVE_LAST=0, LIVE_BUSY=false;
+/* Bucket-order plumbing (2026-08-08). CARD_ORDER: the fixture order of the
+   last FULL render — renderQuicklist() maps onto it so a 45s tick can't
+   visibly re-sort the list. ORDER_DIRTY: a poll saw a fixture change bucket
+   (pre→in, in→post); only a full render may reorder (folds!), so the flag is
+   consumed on foreground return — the one moment nobody is mid-read. */
+let CARD_ORDER=[], ORDER_DIRTY=false, LAST_FULL_RENDER=0;
 const LIVE_MS=45000;               // poll cadence while a game is on
 const LIVE_URL='https://site.api.espn.com/apis/site/v2/sports/rugby-league/3/scoreboard';
 function liveKey(a,b){ return [a,b].sort().join('-'); }
@@ -1566,12 +1613,27 @@ function pollLive(force){
         const ko=Date.parse(fx.kickoff||''), ed=Date.parse(ev.date||'');
         if(!isNaN(ko)&&!isNaN(ed)&&Math.abs(ed-ko)>6*3600000) return; // wrong meeting of the pair
         const ht=/HALFTIME/i.test(ty.name||'');
+        // Bucket change (no entry→in/post, in→post)? Flag it — renderLiveBits
+        // must NOT reorder the DOM, so the re-render waits for foreground
+        // return (see the visibilitychange handler). Score-only ticks
+        // (in→in, post→post) never touch the flag.
+        const prev=LIVE[liveKey(hs,as)];
+        if(!prev||prev.state!==ty.state) ORDER_DIRTY=true;
         LIVE[liveKey(hs,as)]={home:hs, away:as,
           hScore:parseInt(H.score,10)||0, aScore:parseInt(A.score,10)||0,
           state:ty.state, clock:ht?'HT':String(st.displayClock||'').trim()};
       });
       const stamp=JSON.stringify(LIVE);
-      if(stamp!==LIVE_STAMP){ LIVE_STAMP=stamp; renderLiveBits(); }
+      if(stamp!==LIVE_STAMP){ LIVE_STAMP=stamp;
+        if(ORDER_DIRTY && Date.now()-LAST_FULL_RENDER<15000){
+          // The bucket change arrived within moments of a full render — i.e.
+          // the boot/foreground poll just answered. The user JUST got here and
+          // nothing is mid-read, so land the correct order now; without this a
+          // fresh open mid-game shows the live card stuck under "Up next"
+          // until the next foreground return. Outside this grace window the
+          // no-reorder-on-tick rule stands (folds, mid-read jumps).
+          ORDER_DIRTY=false; loadState(); render();
+        } else renderLiveBits(); }
     })
     .catch(()=>{})                                        // best-effort: keep last scores
     .then(()=>{ if(tmr) clearTimeout(tmr); LIVE_BUSY=false; });
@@ -1781,6 +1843,11 @@ function cardHTML(p,meta){
   const band = bandFor(conf);
   const hPct=p.pHome*100, aPct=100-hPct;
   const when=kickShort(fx);
+  // Top upcoming card only: render() sets meta.nextUp for the FIRST Up-next
+  // fixture, so "· in 3 hours" rides in its .gwhen. renderLiveBits() passes
+  // meta {} when replacing live cards, so a poll can never surface it there.
+  let rel='';
+  if(meta.nextUp){ const k=kickInfo(fx); if(k.ok&&k.rel) rel=k.rel; }
   const tags=[];
   if(meta.isUpset) tags.push(`<span class="gtag blue">🎯 Upset watch</span>`);
   if(meta.compMode==='confidence'&&meta.rank) tags.push(`<span class="gtag">Rank #${meta.rank}</span>`);
@@ -1790,7 +1857,7 @@ function cardHTML(p,meta){
       `⟳ ${meta.chg.n} change${meta.chg.n===1?'':'s'}</a>`);
   }
   return `<div class="gcard${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
-    ${(when||fx.venue)?`<div class="gtop">${when?`<span class="gwhen">${esc(when)}</span>`:''}${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>`:''}
+    ${(when||fx.venue)?`<div class="gtop">${when?`<span class="gwhen">${esc(when)}${rel?`<span class="rel"> · ${esc(rel)}</span>`:''}</span>`:''}${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>`:''}
     <div class="gmatch">
       ${team(p.h,tipHome,rkHome)}
       <span class="gvs" aria-hidden="true">v</span>
@@ -2192,6 +2259,19 @@ function renderChanges(){
    call signature down to just preds. */
 function renderQuicklist(preds){
   const el=document.getElementById('quicklist'); if(!el) return;
+  // Rows follow CARD_ORDER — the bucket order frozen by the last FULL render —
+  // not the caller's array order. renderLiveBits() feeds this fresh preds on
+  // every 45s tick; without the freeze a mid-tick bucket change would visibly
+  // re-sort the list under the reader (the cards, replaced in place by id,
+  // wouldn't move — the two surfaces would disagree). Unknown keys append at
+  // the end in given order. Decorated sort: draw index is the tie-break.
+  if(CARD_ORDER.length){
+    const ord={}; CARD_ORDER.forEach((k,i)=>{ ord[k]=i; });
+    preds=preds.map((p,i)=>({p,i,o:ord[p.h.short+'-'+p.a.short]}))
+      .sort((x,y)=> ((x.o===undefined)-(y.o===undefined))
+        || ((x.o===undefined)?0:(x.o-y.o)) || (x.i-y.i))
+      .map(r=>r.p);
+  }
   const compMode=getCompMode();
   const ranked=preds.map((p,i)=>({i,conf:Math.max(p.pHome,1-p.pHome)})).sort((a,b)=>b.conf-a.conf);
   const rankByIndex=new Array(preds.length);
@@ -2443,7 +2523,16 @@ function renderLearning(){
 
 /* ---------- Copy tips ---------- */
 function copyTips(){
-  const preds=fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
+  let preds=fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
+  // Rows follow the same bucket order as the cards/quick list (CARD_ORDER,
+  // frozen by the last full render) — one order everywhere. Text format unchanged.
+  if(CARD_ORDER.length){
+    const ord={}; CARD_ORDER.forEach((k,i)=>{ ord[k]=i; });
+    preds=preds.map((p,i)=>({p,i,o:ord[p.h.short+'-'+p.a.short]}))
+      .sort((x,y)=> ((x.o===undefined)-(y.o===undefined))
+        || ((x.o===undefined)?0:(x.o-y.o)) || (x.i-y.i))
+      .map(r=>r.p);
+  }
   const lines=preds.map(p=>{ const tip=tipSide(p); const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
     return `${p.h.name} v ${p.a.name} → ${tip.name}${rk}`; });
   const txt=`NRL Round ${SRC.round} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
@@ -2637,7 +2726,13 @@ setFresh('idle');   // shows/hides the button per protocol at boot
    different cadence, different source, and it must never trigger a full
    render (renderLiveBits patches only the score surfaces). */
 setInterval(()=>{ if(!document.hidden) pollLive(); },LIVE_MS);
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pollLive(true); });
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) return;
+  // A bucket change spotted by the poll re-renders HERE, not on the 45s tick:
+  // render() rebuilds #games (collapsing folds), so the reorder waits for the
+  // moment the user comes back — exactly when a stale order would be noticed.
+  // render() clears the flag itself.
+  if(ORDER_DIRTY){ ORDER_DIRTY=false; loadState(); render(); }
+  pollLive(true); });
 
 /* ---------- boot ---------- */
 applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork(); pollLive(true);

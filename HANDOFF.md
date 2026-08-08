@@ -113,7 +113,13 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-08 — the live-scores batch.)*
+*(Reviewed 2026-08-08 — the live-scores + card-ordering batches.)*
+
+- **2026-08-08 (later): status-ordered Tips screen.** Live games first, then
+  upcoming by kickoff (top card shows "· in N hours"), then played most-recent-
+  first, with conditional "On now / Up next / Played" dividers; quick list and
+  copyTips share the order. Reordering only happens in full renders (foreground
+  return, or immediately within 15s of boot) — never on a 45s score tick.
 
 - **2026-08-08: live in-play scores.** While a game is on, the open page polls
   ESPN's public NRL scoreboard every 45s (the only score source that sends CORS

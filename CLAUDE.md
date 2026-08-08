@@ -80,7 +80,16 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
-**Changed 2026-08-08** (this batch — full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-08, later batch** (full detail in `docs/CHANGELOG.md`):
+- **Tips screen is ordered by "what matters now"**: On now (live) → Up next
+  (soonest kickoff, top card carries "· in 3 hours") → Played (most recent
+  first), with conditional `.gsec` dividers; quick list + copyTips follow the
+  same frozen order (`CARD_ORDER`). Score ticks never reorder; bucket changes
+  re-sort on foreground return or within the 15s post-render grace window
+  (boot mid-game). Sort lives ONLY at the top of `render()` — see
+  `docs/GOTCHAS.md` before "simplifying".
+
+**Changed 2026-08-08** (full detail in `docs/CHANGELOG.md`):
 - **Live in-play scores.** While a game is on, the open page polls ESPN's public
   scoreboard (the only NRL score source with CORS headers; nrl.com's JSON has
   none) every 45s and shows a live card — pulsing LIVE badge, clock, score, the
