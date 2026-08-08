@@ -241,6 +241,12 @@ Real problems encountered on this project and how to avoid repeating them.
 - **`pollLive` must stay guarded on `typeof fetch`.** `freeze_tips.mjs` boots the
   page in jsdom (no `fetch`); an unguarded call would throw on every workflow run.
   The 45s interval is killed by freeze's `window.close()` like the 5-minute one.
+- **nrl.com's draw meta can DROP a fixture's kickoff while the game is in play**
+  (R23 MEL v MAN published `kickoff:""` mid-game on the feature's first day) — so
+  the live window can't be kickoff-only. `livePollList()` also polls a
+  kickoff-less, result-less fixture on any game day (a same-round kickoff within
+  ±12h) and lets ESPN's state decide. Don't "simplify" that back to pure
+  kickoff-window logic.
 - **A lingering `post` entry is load-bearing, not litter.** It renders the FT card
   during the hours before the pipeline appends the official result. Don't "clean
   up" `LIVE` when the poll window closes.

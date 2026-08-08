@@ -60,6 +60,13 @@ change), `node --check` on both inline scripts, `freeze_tips.mjs` runs clean
 against the new page, and the real ESPN endpoint from Josh's Chrome on the
 production origin.
 
+**Post-deploy hardening (same day):** run #81 published the in-play MEL v MAN
+fixture with `kickoff:""` — nrl.com's draw meta drops a fixture's kick-off while
+the game is running, which would have blinded the kickoff-based live window for
+the exact game that's live. `livePollList()` now also polls kickoff-less,
+result-less fixtures on game days (any same-round kickoff within ±12h) and lets
+ESPN's own state decide.
+
 ---
 
 ## 2026-08-04 — Desktop UI, self-refreshing app, What's new redesign, weather removed, and a specialist audit's nine fixes
