@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-08T11:19:40.305Z",
+ "updated": "2026-08-08T13:35:15.415Z",
  "tips": [
   {
    "season": 2026,
@@ -29,8 +29,10 @@ window.NRL_TIPLOG = {
    "home": "CBR",
    "away": "NEW",
    "tip": "CBR",
+   "prob": 55,
+   "why": "Built on Knights missing Dylan Brown and 4 more, plus the home-ground edge. Raiders missing Hudson Young and 1 more pulls it back (and more). The bookies read it the same way.",
    "ko": "2026-08-09T14:00:00+10:00",
-   "ts": "2026-08-08T11:19:40.305Z"
+   "ts": "2026-08-08T13:35:15.415Z"
   },
   {
    "season": 2026,
@@ -83,8 +85,10 @@ window.NRL_TIPLOG = {
    "home": "STI",
    "away": "CRO",
    "tip": "CRO",
+   "prob": 84,
+   "why": "Mostly Sharks rating the stronger side, plus Dragons missing Jaydn Su'A and 3 more. Sharks missing Siosifa Talakai and 1 more pulls it back (and more). The bookies read it the same way.",
    "ko": "2026-08-09T16:05:00+10:00",
-   "ts": "2026-08-08T11:19:40.305Z"
+   "ts": "2026-08-08T13:35:15.415Z"
   },
   {
    "season": 2026,
@@ -95,5 +99,6 @@ window.NRL_TIPLOG = {
    "ko": null,
    "ts": "2026-08-07T11:13:04.108Z"
   }
- ]
+ ],
+ "flips": []
 };

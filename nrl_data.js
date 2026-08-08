@@ -153,15 +153,15 @@ window.NRL_DATA = {
       "P": 20,
       "W": 11,
       "L": 9,
-      "PF": 550,
-      "PA": 464,
-      "last5": 2,
+      "PF": 554,
+      "PA": 488,
+      "last5": 3,
       "home": {
-        "P": 9,
-        "W": 7,
+        "P": 10,
+        "W": 8,
         "L": 2,
-        "PF": 264,
-        "PA": 188
+        "PF": 292,
+        "PA": 212
       },
       "away": {
         "P": 10,
@@ -335,8 +335,8 @@ window.NRL_DATA = {
       "P": 20,
       "W": 7,
       "L": 13,
-      "PF": 365,
-      "PA": 568,
+      "PF": 389,
+      "PA": 572,
       "last5": 2,
       "home": {
         "P": 10,
@@ -346,11 +346,11 @@ window.NRL_DATA = {
         "PA": 266
       },
       "away": {
-        "P": 9,
+        "P": 10,
         "W": 3,
-        "L": 6,
-        "PF": 177,
-        "PA": 278
+        "L": 7,
+        "PF": 201,
+        "PA": 306
       },
       "news": "Jonah Pezet (Shoulder) — back Round 25; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
     },
@@ -518,9 +518,9 @@ window.NRL_DATA = {
     {
       "home": "SOU",
       "away": "PAR",
-      "venue": "",
+      "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-08T19:35:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -539,7 +539,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.65,
-          "away": 2.26
+          "away": 2.25
         }
       },
       "weather": null,
@@ -558,8 +558,8 @@ window.NRL_DATA = {
           "away": 1.2
         },
         "close": {
-          "home": 5.0,
-          "away": 1.18
+          "home": 5.3,
+          "away": 1.16
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-08T21:19:33+10:00",
+  "generatedAt": "2026-08-08T23:35:11+10:00",
   "changes": [
     {
       "id": "r23-MAN-inj-taniela-paseka",
@@ -942,6 +942,18 @@ window.NRL_DATA = {
       "text": "Liam Le Blanc (Lock) named in the Rabbitohs 17.",
       "pts": 0.7,
       "ts": "2026-08-07T21:13:01+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-STI-CRO-line-5.30-1.16",
+      "fixture": "STI-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $5.00 → $5.30, Sharks $1.18 → $1.16. Market now 18% Dragons (was 19%).",
+      "pts": null,
+      "ts": "2026-08-08T23:35:11+10:00",
       "rnd": 23
     }
   ],
