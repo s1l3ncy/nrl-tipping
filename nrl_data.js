@@ -92,18 +92,18 @@ window.NRL_DATA = {
         "PF": 286,
         "PA": 164
       },
-      "news": "Te Maire Martin (Hamstring); Demitric Vaimauga (Ribs); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Demitric Vaimauga (Ribs); Te Maire Martin (Hamstring); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
       "short": "CRO",
       "colour": "#00a9e0",
-      "P": 19,
+      "P": 20,
       "W": 13,
-      "L": 6,
-      "PF": 568,
-      "PA": 391,
-      "last5": 5,
+      "L": 7,
+      "PF": 584,
+      "PA": 415,
+      "last5": 4,
       "home": {
         "P": 10,
         "W": 8,
@@ -112,11 +112,11 @@ window.NRL_DATA = {
         "PA": 198
       },
       "away": {
-        "P": 9,
+        "P": 10,
         "W": 5,
-        "L": 4,
-        "PF": 246,
-        "PA": 193
+        "L": 5,
+        "PF": 262,
+        "PA": 217
       },
       "news": "KL Iro (Concussion) — back Round 24; Siosifa Talakai (Biceps) — back Round 24"
     },
@@ -153,8 +153,8 @@ window.NRL_DATA = {
       "P": 21,
       "W": 13,
       "L": 8,
-      "PF": 523,
-      "PA": 457,
+      "PF": 541,
+      "PA": 475,
       "last5": 2,
       "home": {
         "P": 10,
@@ -164,13 +164,13 @@ window.NRL_DATA = {
         "PA": 233
       },
       "away": {
-        "P": 10,
-        "W": 5,
+        "P": 11,
+        "W": 6,
         "L": 5,
-        "PF": 288,
-        "PA": 218
+        "PF": 318,
+        "PA": 242
       },
-      "news": "Bradman Best (Calf); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Brodie Jones (Hamstring); Bradman Best (Calf); Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 262,
         "PA": 276
       },
-      "news": "Campbell Graham (Calf); Dayne Jennings (Knee); Latrell Mitchell (Calf); Talanoa Penitani (Hamstring) — back Round 26"
+      "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Campbell Graham (Calf); Talanoa Penitani (Hamstring) — back Round 26"
     },
     {
       "name": "Cowboys",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring); Samuel Hughes (Neck)"
+      "news": "Samuel Hughes (Neck); Sitili Tupouniua (Hamstring); Mitchell Woods (Hamstring)"
     },
     {
       "name": "Sea Eagles",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle) — back Round 24; Jack Howarth (Shoulder) — back Round 24; Harry Grant (Hamstring) — back Round 25"
+      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Jack Howarth (Shoulder) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Raiders",
@@ -309,15 +309,15 @@ window.NRL_DATA = {
       "P": 21,
       "W": 9,
       "L": 12,
-      "PF": 459,
-      "PA": 524,
-      "last5": 4,
+      "PF": 477,
+      "PA": 542,
+      "last5": 3,
       "home": {
-        "P": 10,
+        "P": 11,
         "W": 5,
-        "L": 5,
-        "PF": 238,
-        "PA": 218
+        "L": 6,
+        "PF": 262,
+        "PA": 248
       },
       "away": {
         "P": 10,
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
+      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Titans",
@@ -430,24 +430,24 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 276
       },
-      "news": "Preston Riki (Ankle); Brendan Piakura (Concussion); Adam Reynolds (Concussion) — back Round 24"
+      "news": "Brendan Piakura (Concussion); Preston Riki (Ankle); Adam Reynolds (Concussion) — back Round 24"
     },
     {
       "name": "Dragons",
       "short": "STI",
       "colour": "#e2231a",
-      "P": 19,
-      "W": 2,
+      "P": 20,
+      "W": 3,
       "L": 17,
-      "PF": 296,
-      "PA": 569,
-      "last5": 1,
+      "PF": 320,
+      "PA": 585,
+      "last5": 2,
       "home": {
-        "P": 9,
-        "W": 1,
+        "P": 10,
+        "W": 2,
         "L": 8,
-        "PF": 140,
-        "PA": 318
+        "PF": 164,
+        "PA": 334
       },
       "away": {
         "P": 10,
@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Hame Sele (Achilles); Toby Couchman (Concussion) — back Round 24; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
+      "news": "Mathew Feagai (Back); Hame Sele (Achilles); Toby Couchman (Concussion) — back Round 24; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
     }
   ],
   "fixtures": [
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-09T14:48:48+10:00",
+  "generatedAt": "2026-08-09T20:06:38+10:00",
   "changes": [
     {
       "id": "r23-NEW-out-phoenix-crossland",
@@ -582,6 +582,30 @@ window.NRL_DATA = {
       "text": "Phoenix Crossland (Hooker) is out of the Knights 17.",
       "pts": 3.2,
       "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-NEW-inj-brodie-jones",
+      "fixture": "CBR-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Brodie Jones (Hamstring) — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-09T20:06:38+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-STI-inj-mathew-feagai",
+      "fixture": "STI-CRO",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Dragons: Mathew Feagai (Back) — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-09T20:06:38+10:00",
       "rnd": 23
     },
     {

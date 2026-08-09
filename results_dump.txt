@@ -192,3 +192,5 @@ Roosters 20 - Bulldogs 18
 Storm 42 - Sea Eagles 20
 Dolphins 40 - Broncos 32
 Rabbitohs 28 - Eels 24
+Raiders 24 - Knights 30
+Dragons 24 - Sharks 16
