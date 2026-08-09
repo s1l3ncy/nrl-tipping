@@ -66,7 +66,7 @@ window.NRL_DATA = {
         "PF": 316,
         "PA": 214
       },
-      "news": "James Tedesco (Ankle) — back Round 24; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "James Tedesco (Ankle) — back Round 24; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 193
       },
-      "news": "Siosifa Talakai (Biceps) — back Round 24; KL Iro (Concussion) — back Round 24"
+      "news": "KL Iro (Concussion) — back Round 24; Siosifa Talakai (Biceps) — back Round 24"
     },
     {
       "name": "Dolphins",
@@ -147,6 +147,32 @@ window.NRL_DATA = {
       "news": null
     },
     {
+      "name": "Knights",
+      "short": "NEW",
+      "colour": "#00539b",
+      "P": 21,
+      "W": 13,
+      "L": 8,
+      "PF": 523,
+      "PA": 457,
+      "last5": 2,
+      "home": {
+        "P": 10,
+        "W": 7,
+        "L": 3,
+        "PF": 223,
+        "PA": 233
+      },
+      "away": {
+        "P": 10,
+        "W": 5,
+        "L": 5,
+        "PF": 288,
+        "PA": 218
+      },
+      "news": "Bradman Best (Calf); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+    },
+    {
       "name": "Rabbitohs",
       "short": "SOU",
       "colour": "#00954c",
@@ -170,33 +196,7 @@ window.NRL_DATA = {
         "PF": 262,
         "PA": 276
       },
-      "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Campbell Graham (Calf); Talanoa Penitani (Hamstring) — back Round 26"
-    },
-    {
-      "name": "Knights",
-      "short": "NEW",
-      "colour": "#00539b",
-      "P": 20,
-      "W": 12,
-      "L": 8,
-      "PF": 511,
-      "PA": 451,
-      "last5": 2,
-      "home": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 223,
-        "PA": 233
-      },
-      "away": {
-        "P": 10,
-        "W": 5,
-        "L": 5,
-        "PF": 288,
-        "PA": 218
-      },
-      "news": "Bradman Best (Calf); Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Campbell Graham (Calf); Dayne Jennings (Knee); Latrell Mitchell (Calf); Talanoa Penitani (Hamstring) — back Round 26"
     },
     {
       "name": "Cowboys",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Samuel Hughes (Neck); Sitili Tupouniua (Hamstring); Mitchell Woods (Hamstring)"
+      "news": "Mitchell Woods (Hamstring); Sitili Tupouniua (Hamstring); Samuel Hughes (Neck)"
     },
     {
       "name": "Sea Eagles",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 280,
         "PA": 222
       },
-      "news": "Tom Trbojevic (Hamstring); Siosiua Taukeiaho (Leg); Taniela Paseka (Knee); Clayton Faulalo (Hamstring); Ben Trbojevic (Concussion) — back Round 24; Caleb Navale (ACL) — back Round 25"
+      "news": "Clayton Faulalo (Hamstring); Taniela Paseka (Knee); Siosiua Taukeiaho (Leg); Tom Trbojevic (Hamstring); Ben Trbojevic (Concussion) — back Round 24; Ethan Bullemor (Concussion) — back Round 25"
     },
     {
       "name": "Storm",
@@ -300,17 +300,17 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Jack Howarth (Shoulder) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
+      "news": "Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle) — back Round 24; Jack Howarth (Shoulder) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Raiders",
       "short": "CBR",
       "colour": "#8bc53f",
-      "P": 20,
+      "P": 21,
       "W": 9,
-      "L": 11,
-      "PF": 453,
-      "PA": 512,
+      "L": 12,
+      "PF": 459,
+      "PA": 524,
       "last5": 4,
       "home": {
         "P": 10,
@@ -352,7 +352,7 @@ window.NRL_DATA = {
         "PF": 201,
         "PA": 306
       },
-      "news": "Jonah Pezet (Shoulder) — back Round 25; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
+      "news": "Bailey Simonsson (Ankle); Sean Russell (Quad) — back Round 24; Jonah Pezet (Shoulder) — back Round 25; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 276
       },
-      "news": "Brendan Piakura (Concussion); Preston Riki (Ankle); Adam Reynolds (Concussion) — back Round 24"
+      "news": "Preston Riki (Ankle); Brendan Piakura (Concussion); Adam Reynolds (Concussion) — back Round 24"
     },
     {
       "name": "Dragons",
@@ -538,8 +538,8 @@ window.NRL_DATA = {
           "away": 2.0
         },
         "close": {
-          "home": 1.65,
-          "away": 2.26
+          "home": 1.56,
+          "away": 2.31
         }
       },
       "weather": null,
@@ -558,8 +558,8 @@ window.NRL_DATA = {
           "away": 1.2
         },
         "close": {
-          "home": 5.3,
-          "away": 1.16
+          "home": 6.0,
+          "away": 1.13
         }
       },
       "weather": null,
@@ -570,8 +570,80 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-09T07:50:43+10:00",
+  "generatedAt": "2026-08-09T14:48:48+10:00",
   "changes": [
+    {
+      "id": "r23-NEW-out-phoenix-crossland",
+      "fixture": "CBR-NEW",
+      "team": "NEW",
+      "cat": "out",
+      "sev": 3,
+      "dir": "down",
+      "text": "Phoenix Crossland (Hooker) is out of the Knights 17.",
+      "pts": 3.2,
+      "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-MAN-inj-ethan-bullemor",
+      "fixture": "MEL-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sea Eagles: Ethan Bullemor (Concussion) — back Round 25 — new on the injury list.",
+      "pts": 1.8,
+      "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-MAN-fit-caleb-navale",
+      "fixture": "MEL-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sea Eagles: Caleb Navale is off the injury list.",
+      "pts": 0.7,
+      "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-PAR-inj-bailey-simonsson",
+      "fixture": "SOU-PAR",
+      "team": "PAR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Eels: Bailey Simonsson (Ankle) — new on the injury list.",
+      "pts": 1.5,
+      "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-PAR-inj-sean-russell",
+      "fixture": "SOU-PAR",
+      "team": "PAR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Eels: Sean Russell (Quad) — back Round 24 — new on the injury list.",
+      "pts": 1.5,
+      "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-NEW-in-diesel-hagan",
+      "fixture": "CBR-NEW",
+      "team": "NEW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Diesel Hagan named in the Knights 17.",
+      "pts": 0.6,
+      "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
     {
       "id": "r23-MAN-inj-taniela-paseka",
       "fixture": "MEL-MAN",
@@ -729,219 +801,27 @@ window.NRL_DATA = {
       "rnd": 23
     },
     {
-      "id": "r23-CAN-inj-sitili-tupouniua",
-      "fixture": "SYD-CAN",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Bulldogs: Sitili Tupouniua (Hamstring) — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-08T01:14:22+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-inj-ethan-bullemor",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sea Eagles: Ethan Bullemor (Concussion) — back Round 25 — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-08-08T01:14:22+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-fit-caleb-navale",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r23-CBR-NEW-line-1.56-2.31",
+      "fixture": "CBR-NEW",
+      "team": "CBR",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Sea Eagles: Caleb Navale is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-08T01:14:22+10:00",
+      "text": "Line moved — Raiders $1.65 → $1.56, Knights $2.26 → $2.31. Market now 60% Raiders (was 58%).",
+      "pts": null,
+      "ts": "2026-08-09T14:48:48+10:00",
       "rnd": 23
     },
     {
-      "id": "r23-PEN-inj-isaah-yeo",
-      "fixture": "NZW-PEN",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Panthers: Isaah Yeo (Pectoral) — new on the injury list.",
-      "pts": 1.3,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SOU-inj-campbell-graham",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Campbell Graham (Calf) — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-inj-jack-howarth",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Storm: Jack Howarth (Shoulder) — back Round 24 — new on the injury list.",
-      "pts": 1.7,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-fit-eliesa-katoa",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r23-STI-CRO-line-6.00-1.13",
+      "fixture": "STI-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Storm: Eliesa Katoa is off the injury list.",
-      "pts": 2.1,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-DOL-in-brian-pouniu",
-      "fixture": "DOL-BRI",
-      "team": "DOL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Brian Pouniu (Centre) named in the Dolphins 17.",
-      "pts": 1.2,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-DOL-out-sebastian-su-a",
-      "fixture": "DOL-BRI",
-      "team": "DOL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sebastian Su'a (Prop) is out of the Dolphins 17.",
-      "pts": 0.7,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-DOL-out-sebastian-sua",
-      "fixture": "DOL-BRI",
-      "team": "DOL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sebastian Sua (Prop) is out of the Dolphins 17.",
-      "pts": 0.7,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-out-ethan-bullemor",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Ethan Bullemor (Second-row) is out of the Sea Eagles 17.",
-      "pts": 1.8,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MAN-in-nicholas-lenaz",
-      "fixture": "MEL-MAN",
-      "team": "MAN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Nicholas Lenaz named in the Sea Eagles 17.",
-      "pts": 0.6,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-out-jack-howarth",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jack Howarth (Centre) is out of the Storm 17.",
-      "pts": 1.7,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-MEL-in-manaia-waitere",
-      "fixture": "MEL-MAN",
-      "team": "MEL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Manaia Waitere (Centre) named in the Storm 17.",
-      "pts": 1.2,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-PAR-out-kelma-tuilagi",
-      "fixture": "SOU-PAR",
-      "team": "PAR",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Kelma Tuilagi (Second-row) is out of the Eels 17.",
-      "pts": 1.6,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-PAR-in-toni-mataele",
-      "fixture": "SOU-PAR",
-      "team": "PAR",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Toni Mataele (Prop) named in the Eels 17.",
-      "pts": 0.7,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SOU-out-campbell-graham",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Campbell Graham (Centre) is out of the Rabbitohs 17.",
-      "pts": 1.9,
-      "ts": "2026-08-07T21:13:01+10:00",
-      "rnd": 23
-    },
-    {
-      "id": "r23-SOU-in-liam-le-blanc",
-      "fixture": "SOU-PAR",
-      "team": "SOU",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Liam Le Blanc (Lock) named in the Rabbitohs 17.",
-      "pts": 0.7,
-      "ts": "2026-08-07T21:13:01+10:00",
+      "text": "Line moved — Dragons $5.30 → $6.00, Sharks $1.16 → $1.13. Market now 16% Dragons (was 18%).",
+      "pts": null,
+      "ts": "2026-08-09T14:48:48+10:00",
       "rnd": 23
     },
     {
@@ -957,5 +837,5 @@ window.NRL_DATA = {
       "rnd": 23
     }
   ],
-  "changesSince": "2026-08-07T21:13:01+10:00"
+  "changesSince": "2026-08-08T14:32:33+10:00"
 };

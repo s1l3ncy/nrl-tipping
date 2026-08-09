@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-08T21:50:47.728Z",
+ "updated": "2026-08-09T04:48:54.626Z",
  "tips": [
   {
    "season": 2026,
@@ -85,10 +85,10 @@ window.NRL_TIPLOG = {
    "home": "STI",
    "away": "CRO",
    "tip": "CRO",
-   "prob": 84,
+   "prob": 85,
    "why": "Mostly Sharks rating the stronger side, plus Dragons missing Jaydn Su'A and 3 more. Sharks missing Siosifa Talakai and 1 more pulls it back (and more). The bookies read it the same way.",
    "ko": "2026-08-09T16:05:00+10:00",
-   "ts": "2026-08-08T21:50:47.728Z"
+   "ts": "2026-08-09T04:48:54.626Z"
   },
   {
    "season": 2026,
