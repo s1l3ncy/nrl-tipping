@@ -1,49 +1,49 @@
 {
   "_comment": "Venue / host city / kick-off for the round below, from nrl.com's own draw payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the ground's local time and emits fixture.tz. Regenerated every run by cloud_fetch.py — do not hand-edit.",
   "season": 2026,
-  "round": 23,
+  "round": 24,
   "source": "nrl.com",
-  "fetched": "2026-08-10T00:19:02",
+  "fetched": "2026-08-10T03:53:08",
   "fixtures": {
-    "GLD-NQL": {
-      "venue": "Cbus Super Stadium",
-      "city": "Gold Coast",
-      "kickoffUtc": "2026-08-06T09:50:00Z"
-    },
-    "NZW-PEN": {
-      "venue": "Go Media Stadium",
-      "city": "Auckland",
-      "kickoffUtc": "2026-08-07T08:00:00Z"
-    },
-    "SYD-CAN": {
-      "venue": "Allianz Stadium",
+    "PEN-SYD": {
+      "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-07T10:00:00Z"
+      "kickoffUtc": "2026-08-13T09:50:00Z"
     },
-    "MEL-MAN": {
-      "venue": "HBF Park",
-      "city": "Perth",
-      "kickoffUtc": "2026-08-08T05:00:00Z"
+    "MAN-DOL": {
+      "venue": "4 Pines Park",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-14T08:00:00Z"
     },
-    "DOL-BRI": {
+    "CAN-SOU": {
+      "venue": "Accor Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-14T10:00:00Z"
+    },
+    "CRO-CBR": {
+      "venue": "Ocean Protect Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-15T05:00:00Z"
+    },
+    "PAR-NQL": {
+      "venue": "CommBank Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-15T07:30:00Z"
+    },
+    "BRI-NZW": {
       "venue": "Suncorp Stadium",
       "city": "Brisbane",
-      "kickoffUtc": "2026-08-08T07:30:00Z"
+      "kickoffUtc": "2026-08-15T09:35:00Z"
     },
-    "SOU-PAR": {
-      "venue": "Allianz Stadium",
+    "NEW-GLD": {
+      "venue": "McDonald Jones Stadium",
+      "city": "Newcastle",
+      "kickoffUtc": "2026-08-16T04:00:00Z"
+    },
+    "WST-STI": {
+      "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-08T09:35:00Z"
-    },
-    "CBR-NEW": {
-      "venue": "GIO Stadium",
-      "city": "Canberra",
-      "kickoffUtc": "2026-08-09T04:00:00Z"
-    },
-    "STI-CRO": {
-      "venue": "St George Venues Jubilee Stadium",
-      "city": "Kogarah",
-      "kickoffUtc": "2026-08-09T06:05:00Z"
+      "kickoffUtc": "2026-08-16T06:05:00Z"
     }
   }
 }
