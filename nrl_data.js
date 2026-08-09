@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-09",
+  "updated": "2026-08-10",
   "season": 2026,
   "round": 23,
   "source": "zerotackle.com",
@@ -40,7 +40,7 @@ window.NRL_DATA = {
         "PF": 313,
         "PA": 179
       },
-      "news": "Isaah Yeo (Pectoral); Dylan Edwards (Shoulder); Casey McLean (Hand) — back Round 25; Mitch Kenny (Leg) — back Finals"
+      "news": "Dylan Edwards (Shoulder); Isaah Yeo (Pectoral); Casey McLean (Hand) — back Round 25; Mitch Kenny (Leg) — back Finals"
     },
     {
       "name": "Roosters",
@@ -92,7 +92,7 @@ window.NRL_DATA = {
         "PF": 286,
         "PA": 164
       },
-      "news": "Demitric Vaimauga (Ribs); Te Maire Martin (Hamstring); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Te Maire Martin (Hamstring); Demitric Vaimauga (Ribs); Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 262,
         "PA": 217
       },
-      "news": "KL Iro (Concussion) — back Round 24; Siosifa Talakai (Biceps) — back Round 24"
+      "news": "Jesse Ramien (Pectoral); Siosifa Talakai (Biceps) — back Round 24; KL Iro (Concussion) — back Round 24"
     },
     {
       "name": "Dolphins",
@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Brodie Jones (Hamstring); Bradman Best (Calf); Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
+      "news": "Bradman Best (Calf); Brodie Jones (Hamstring); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 262,
         "PA": 276
       },
-      "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Campbell Graham (Calf); Talanoa Penitani (Hamstring) — back Round 26"
+      "news": "Campbell Graham (Calf); Dayne Jennings (Knee); Latrell Mitchell (Calf); Talanoa Penitani (Hamstring) — back Round 26"
     },
     {
       "name": "Cowboys",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Marion Seve (Triceps); Jack Howarth (Shoulder) — back Round 24; Ativalu Lisati (Ankle) — back Round 24; Harry Grant (Hamstring) — back Round 25"
+      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle) — back Round 24; Jack Howarth (Shoulder) — back Round 24; Harry Grant (Hamstring) — back Round 25"
     },
     {
       "name": "Raiders",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Titans",
@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Mathew Feagai (Back); Hame Sele (Achilles); Toby Couchman (Concussion) — back Round 24; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
+      "news": "Hame Sele (Achilles); Mathew Feagai (Back); Toby Couchman (Concussion) — back Round 24; Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season"
     }
   ],
   "fixtures": [
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "WST"
   ],
-  "generatedAt": "2026-08-09T20:06:38+10:00",
+  "generatedAt": "2026-08-10T00:19:14+10:00",
   "changes": [
     {
       "id": "r23-NEW-out-phoenix-crossland",
@@ -582,6 +582,18 @@ window.NRL_DATA = {
       "text": "Phoenix Crossland (Hooker) is out of the Knights 17.",
       "pts": 3.2,
       "ts": "2026-08-09T14:48:48+10:00",
+      "rnd": 23
+    },
+    {
+      "id": "r23-CRO-inj-jesse-ramien",
+      "fixture": "STI-CRO",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Jesse Ramien (Pectoral) — new on the injury list.",
+      "pts": 1.7,
+      "ts": "2026-08-10T00:19:14+10:00",
       "rnd": 23
     },
     {
