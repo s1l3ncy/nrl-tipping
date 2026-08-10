@@ -113,7 +113,11 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-09 — the footytips-comp batch.)*
+*(Reviewed 2026-08-10 — the comp-strategy batch.)*
+
+- **2026-08-10 (later): comp strategy mode, always on** — rival
+  pick-prediction (84% backtested), "Predicted" strips on pre-lock cards, and
+  ≤2 🎯 split-pick suggestions when trailing the comp. See FRONTEND + GOTCHAS.
 
 - **2026-08-09: Josh's footytips comp renders on Tips** — member picks as
   chips on every locked game card (✓/✗ at full time) and a mini comp ladder

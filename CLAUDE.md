@@ -80,6 +80,13 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-10, strategy batch** (full detail in `docs/CHANGELOG.md`):
+- **Comp strategy mode** (ALWAYS ON at Josh's direction; re-gate via
+  getStrat() if needed): predicts every rival's pick from season history (84% backtested,
+  validated 8/8 live), shows a "Predicted" strip on pre-lock cards, and marks
+  ≤2 gap-aware 🎯 split picks when trailing. Never the Roosters game. See
+  FRONTEND "Comp strategy mode" + GOTCHAS. `sw.js` CACHE v13.
+
 **Changed 2026-08-09** (full detail in `docs/CHANGELOG.md`):
 - **Friends' footytips comp on the Tips screen.** The comp API is public (no
   auth, CORS open) so the PAGE fetches it directly — no pipeline step, no
