@@ -113,7 +113,14 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-08 — live-scores, card-ordering, and evening batches.)*
+*(Reviewed 2026-08-09 — the footytips-comp batch.)*
+
+- **2026-08-09: Josh's footytips comp renders on Tips** — member picks as
+  chips on every locked game card (✓/✗ at full time) and a mini comp ladder
+  under the Quick list. Fetched by the OPEN PAGE from footytips' public comp
+  API (verified: no auth needed) — no pipeline involvement. Pre-lock picks are
+  deliberately censored app-side (`compLocked()`); display names only.
+  `sw.js` v10. See FRONTEND "Friends' comp tips" + GOTCHAS before touching.
 
 - **2026-08-08 (evening):** the pinned Roosters hero is GONE (card sits in
   bucket order, lock intact); **tip flips lead the What's-new feed** with win %

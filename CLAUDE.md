@@ -80,6 +80,14 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-09** (full detail in `docs/CHANGELOG.md`):
+- **Friends' footytips comp on the Tips screen.** The comp API is public (no
+  auth, CORS open) so the PAGE fetches it directly — no pipeline step, no
+  secrets. Comp strip on locked cards + mini ladder (`#compPanel`).
+  `compLocked()` censors pre-lock picks (the API leaks them — never bypass);
+  display names only; `COMP_ID`/`COMP_LADDER`/`COMP_ME` constants configure
+  it, `COMP_ID=0` kills it. `sw.js` CACHE v10.
+
 **Changed 2026-08-08, evening batch** (full detail in `docs/CHANGELOG.md`):
 - **Roosters hero banner removed** — the SYD card sits in normal bucket order
   (still gold-locked). **Tip changes now lead the What's-new feed**: freeze

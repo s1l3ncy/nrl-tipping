@@ -518,6 +518,25 @@ details.plain>summary:hover{color:var(--text)}
 @media (prefers-reduced-motion:reduce){.livedot{animation:none}}
 .qline.live .pick{color:#ff5d73}
 .wkrow.live .k{color:#ff5d73;font-weight:700}
+/* friends' comp picks (2026-08-09) — footytips comp strip + mini ladder */
+.compstrip{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 14px;align-items:center}
+.compstrip .cst{flex:none;font-size:10px;font-weight:750;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);margin-right:2px}
+.cpick{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--sub);
+  background:var(--surface2);border:1px solid var(--hairline-soft);border-radius:var(--r-pill);padding:3px 9px}
+.cpick .crest{width:10px;height:10px;font-size:0;border-radius:50%}
+.cpick .ok{color:var(--good);font-weight:800}
+.cpick .no{color:var(--amber-text);font-weight:800}
+#compPanel{margin-top:14px}
+#compPanel .cphead{font-size:10px;font-weight:750;letter-spacing:1px;text-transform:uppercase;color:var(--faint);margin:0 0 6px 2px}
+.cprow{display:flex;align-items:center;gap:9px;font-size:13px;padding:8px 12px;border-radius:12px;background:var(--surface2);border:1px solid var(--hairline-soft)}
+.cprow+.cprow{margin-top:4px}
+.cprow .rk{flex:none;width:16px;text-align:center;color:var(--faint);font-weight:700;font-size:11px}
+.cprow .nm{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.cprow.me .nm{color:var(--roosters)}
+.cprow .sc{flex:none;font-variant-numeric:tabular-nums;color:var(--sub)}
+.cprow .sc b{color:var(--text)}
+.cprow .mv{flex:none;width:12px;text-align:center;font-size:10px}
+.cprow .mv.up{color:var(--good)} .cprow .mv.down{color:var(--amber-text)}
 .gscore{display:flex;align-items:center;justify-content:center;gap:10px;align-self:center;
   font-variant-numeric:tabular-nums}
 .gscore b{font-size:38px;font-weight:850;letter-spacing:-1.5px;color:var(--faint);line-height:1}
@@ -698,6 +717,7 @@ details.plain>summary:hover{color:var(--text)}
           </div>
         </div>
         <div class="ql" id="quicklist"></div>
+        <div id="compPanel"></div>
       </div>
     </section>
   </div>
@@ -1401,6 +1421,7 @@ function render(){
   // What's-new furniture (status header + round schedule) — same preds as the cards
   renderNewScreen(preds,fxList);
 
+  renderCompPanel();
   renderAcc(); renderLadder(); renderLearning();
   const cmSel=document.getElementById('compMode'); if(cmSel) cmSel.value=compMode;
   document.getElementById('ladderNote').textContent =
@@ -1574,6 +1595,117 @@ function renderLiveBits(){
   renderNewScreen(preds,fxList);
 }
 
+/* ---------- friends' comp tips (2026-08-09) ----------
+   Josh's ESPN footytips comp, read straight from the app's own JSON API
+   (api.footytips.espn.com.au). VERIFIED PUBLIC: the endpoint answers with no
+   cookie or token from any origin, and sends Access-Control-Allow-Origin:* —
+   so, like the live scores, the OPEN PAGE fetches it directly; there is no
+   pipeline step, no stored credential, nothing to expire.
+   PRE-LOCK CENSORSHIP IS OURS TO ENFORCE: the API leaks every member's pick
+   before kick-off (the official UI hides them until each game locks). This
+   app must never display a pick for a game whose kick-off hasn't passed —
+   don't "fix" the strip to show upcoming picks, that's cheating by API bug.
+   Display names only — never surname fields the API also carries. */
+const COMP_ID=1372189, COMP_LADDER=381260129;   // Family Feud · set COMP_ID=0 to disable the feature
+const COMP_ME='Special unit';                    // Josh's footytips display name — the API's currentUser
+                                                 // flag is always false on anonymous calls, so "you" is by name
+const COMP_URL='https://api.footytips.espn.com.au/competitions/'+COMP_ID+
+  '/sports/rugby-league/leagues/nrl/game-types/tipping/ladders/'+COMP_LADDER+'/rounds/';
+let COMP=null, COMP_STAMP='', COMP_LAST=0, COMP_BUSY=false;
+const COMP_MS=15*60000;                          // comp data barely moves — 15 min is plenty
+function pollComp(force){
+  if(!COMP_ID||typeof fetch!=='function'||COMP_BUSY) return;      // disabled / jsdom
+  if(Date.now()-COMP_LAST < (force?60000:COMP_MS-5000)) return;
+  COMP_BUSY=true; COMP_LAST=Date.now();
+  const ctl=(typeof AbortController==='function')?new AbortController():null;
+  const tmr=ctl?setTimeout(()=>ctl.abort(),10000):null;
+  fetch(COMP_URL+SRC.round+'?view=tips', ctl?{signal:ctl.signal,cache:'no-store'}:{cache:'no-store'})
+    .then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(d=>{
+      const evs=(d&&d.events)||[], res=(d&&d.ladder&&d.ladder.results)||[];
+      if(!evs.length||!res.length) return;
+      // eventId → our fixture key + footytips teamId → our short code, both
+      // derived from the response itself (competitor names match our team
+      // names — same nickname convention as ESPN's scoreboard).
+      const evKey={}, tShort={};
+      evs.forEach(e=>{ const c=e.competitors||[]; if(c.length!==2) return;
+        const a=liveMatchShort(c[0].name), b=liveMatchShort(c[1].name);
+        if(!a||!b||a===b) return;
+        evKey[e.eventId]=liveKey(a,b);
+        c.forEach(x=>{ const sh=liveMatchShort(x.name); if(sh) tShort[x.teamId]=sh; });
+      });
+      const members=res.map(r=>{ const u=r.user||{};
+        const picks={};
+        (r.tips||[]).forEach(t=>{ const k=evKey[t.eventId], sh=tShort[t.teamId];
+          if(k&&sh) picks[k]=sh; });
+        const nm=String(u.displayName||u.firstName||'Tipper').slice(0,20);
+        return { name:nm,
+                 me:!!u.currentUser||nm===COMP_ME, rank:r.rank||0,
+                 mv:(r.movement==='up'||r.movement==='down')?r.movement:'',
+                 roundScore:(r.round&&typeof r.round.score==='number')?r.round.score:null,
+                 totalScore:(r.round&&typeof r.round.totalScore==='number')?r.round.totalScore:null,
+                 picks:picks };
+      }).sort((x,y)=>(x.rank||99)-(y.rank||99));
+      COMP={round:SRC.round, members:members};
+      const stamp=JSON.stringify(COMP);
+      if(stamp!==COMP_STAMP){ COMP_STAMP=stamp; renderCompBits(); }
+    })
+    .catch(()=>{})                               // best-effort, like odds/news
+    .then(()=>{ if(tmr) clearTimeout(tmr); COMP_BUSY=false; });
+}
+/* A game's picks are shown once it has LOCKED: kick-off passed by our own
+   feed's clock — or, for a kickoff-less fixture (the mid-game drop), once the
+   live feed or a result proves it started. */
+function compLocked(p,fx){
+  const ko=Date.parse((fx&&fx.kickoff)||'');
+  if(!isNaN(ko)) return Date.now()>=ko;
+  return !!(liveEntry(p)||fixtureResult(p));
+}
+function compStripHTML(p){
+  if(!COMP||!COMP.members||COMP.round!==SRC.round) return '';
+  const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
+  if(!compLocked(p,fx)) return '';
+  const key=liveKey(p.h.short,p.a.short);
+  const fin=fixtureResult(p)||liveFinal(p);
+  const chips=COMP.members.filter(m=>m.picks[key]).map(m=>{
+    const t=T(m.picks[key]); if(!t) return '';
+    const mark=(fin&&fin.winner)?(fin.winner.short===t.short?' <span class="ok">✓</span>':' <span class="no">✗</span>'):'';
+    return `<span class="cpick"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>${esc(m.name)}${mark}</span>`;
+  }).join('');
+  if(!chips) return '';
+  return `<div class="compstrip"><span class="cst">Comp</span>${chips}</div>`;
+}
+function renderCompPanel(){
+  const el=document.getElementById('compPanel');
+  if(!el) return;
+  if(!COMP||!COMP.members||!COMP.members.length){ el.innerHTML=''; return; }
+  el.innerHTML=`<div class="cphead">Comp ladder · Round ${COMP.round}</div>`+
+    COMP.members.map(m=>`<div class="cprow${m.me?' me':''}">`+
+      `<span class="rk">${m.rank||'–'}</span>`+
+      `<span class="mv ${m.mv}">${m.mv==='up'?'▲':m.mv==='down'?'▼':''}</span>`+
+      `<span class="nm">${esc(m.name)}${m.me?' (you)':''}</span>`+
+      `<span class="sc">${m.roundScore===null?'–':m.roundScore} · <b>${m.totalScore===null?'–':m.totalScore}</b></span>`+
+    `</div>`).join('');
+}
+/* Surgical, fold-safe: only ever touches each card's own .compstrip node (a
+   locked pre-game card may have an open <details> fold — replacing the whole
+   card here would snap it shut; see the renderLiveBits() rule). */
+function renderCompBits(){
+  const fxList=fixtures.filter(f=>T(f.home)&&T(f.away));
+  fxList.map(predict).forEach(p=>{
+    const el=document.getElementById('game-'+p.h.short+'-'+p.a.short);
+    if(!el) return;
+    const html=compStripHTML(p);
+    const cur=el.querySelector('.compstrip');
+    if(!html){ if(cur) cur.remove(); return; }
+    const t=document.createElement('template'); t.innerHTML=html;
+    if(cur) cur.replaceWith(t.content.firstElementChild);
+    else{ const anchor=el.querySelector('.gfinal')||el.querySelector('.gtags')||el.querySelector('.gtipline');
+      if(anchor) anchor.after(t.content.firstElementChild); }
+  });
+  renderCompPanel();
+}
+
 /* ---------- pre-kick-off tip snapshots (2026-08-02) ----------
    THE bug this fixes: the full-time card used to grade tipSide() recomputed
    TODAY — after learn_model had already folded the game's own result into the
@@ -1731,6 +1863,7 @@ function cardHTML(p,meta){
         <span class="gtippill${rkWon?' gold':''}">${fin.winner?`${esc(fin.winner.name)} won`:'Draw'}${rkWon?' 🐓':''}</span>
         <span class="gconf">${!g.known?`final — no pre-game tip on record`:!fin.winner?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(T(g.short).name)} — got it</span>`:`<span class="no">✗ tipped ${esc(T(g.short).name)}</span>`}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
       </div>
+      ${compStripHTML(p)}
     </div>`;
   }
   // ---- LIVE state (2026-08-08): the in-play score, styled like the FT card.
@@ -1758,6 +1891,7 @@ function cardHTML(p,meta){
         <span class="gtippill${lockTip?' gold':''}">${lockTip?'🔒':'★'} TIP · ${esc(tipName)}</span>
         <span class="gconf">${track}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
       </div>
+      ${compStripHTML(p)}
     </div>`;
   }
   const favMargin = p.margin>=0? p.h : p.a;
@@ -1800,6 +1934,7 @@ function cardHTML(p,meta){
       <span class="gconf">${esc(band)} · ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)} · ${p.blended?'model + odds':'model only'}</span>
     </div>
     ${tags.length?`<div class="gtags">${tags.join('')}</div>`:''}
+    ${compStripHTML(p)}
     ${meta.isUpset?`<div class="rationale" style="color:var(--blue)"><span class="k" style="color:var(--blue)">🎯</span><span>Closest to 50/50 this round — the best game to gamble on if you're chasing rivals.</span></div>`:''}
     ${injuryStrip(p)}
     <details class="more">
@@ -2661,16 +2796,17 @@ setFresh('idle');   // shows/hides the button per protocol at boot
    different cadence, different source, and it must never trigger a full
    render (renderLiveBits patches only the score surfaces). */
 setInterval(()=>{ if(!document.hidden) pollLive(); },LIVE_MS);
+setInterval(()=>{ if(!document.hidden) pollComp(); },COMP_MS);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden) return;
   // A bucket change spotted by the poll re-renders HERE, not on the 45s tick:
   // render() rebuilds #games (collapsing folds), so the reorder waits for the
   // moment the user comes back — exactly when a stale order would be noticed.
   // render() clears the flag itself.
   if(ORDER_DIRTY){ ORDER_DIRTY=false; loadState(); render(); }
-  pollLive(true); });
+  pollLive(true); pollComp(true); });
 
 /* ---------- boot ---------- */
-applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork(); pollLive(true);
+applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork(); pollLive(true); pollComp(true);
 
 /* Register the service worker (hosted only) so the home-screen app auto-updates
    the shell + data on every launch when online, and works offline from cache.
