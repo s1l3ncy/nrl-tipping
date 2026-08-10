@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-10",
+  "updated": "2026-08-11",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.85,
-          "away": 1.94
+          "away": 1.92
         }
       },
       "weather": null,
@@ -624,8 +624,20 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-10T21:40:51+10:00",
+  "generatedAt": "2026-08-11T01:34:35+10:00",
   "changes": [
+    {
+      "id": "r24-WST-STI-line-1.85-1.92",
+      "fixture": "WST-STI",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Wests Tigers $1.85 → $1.85, Dragons $1.94 → $1.92. Market now 51% Wests Tigers (was 51%).",
+      "pts": null,
+      "ts": "2026-08-11T01:34:35+10:00",
+      "rnd": 24
+    },
     {
       "id": "r24-PEN-SYD-line-1.78-2.02",
       "fixture": "PEN-SYD",
