@@ -94,7 +94,7 @@ DEFAULT_ELO_HGA = 50
 # 0-50 in validate_learned.py). A pure-Elo (~400) value here would crush the
 # points-space homeAdv/injury adjustments to near-zero — keep it in points.
 DEFAULT_LOGISTIC_SCALE = 7.0
-DEFAULT_ODDS_WEIGHT = 0.5
+DEFAULT_ODDS_WEIGHT = 0.75   # 2026-08-10 audit: closing markets deserve the majority weight; 0.5 was never learned
 
 # Small, deterministic grids (kept short so the search is fast and repeatable).
 # logisticScale is NOT in the search (audit A2, 2026-08-04): it is statistically
@@ -423,6 +423,7 @@ def main():
             "homeAdv": round(home_adv, 2),
             "logisticScale": round(logistic_scale, 1),
             "oddsWeight": odds_weight,
+            "oddsWeightLearned": odds_learned,
             "eloK": elo_k,
             "eloHGA": elo_hga,
         },
@@ -443,7 +444,9 @@ def main():
                       f"logisticScale pinned at {DEFAULT_LOGISTIC_SCALE:g} (unidentifiable from "
                       "win/loss outcomes — audit A2, 2026-08-04).")
     if not odds_learned:
-        notes.append("oddsWeight defaulted to 0.5 — no --odds-history supplied/matched, not yet learned.")
+        notes.append("oddsWeight defaulted to 0.75 (market-heavy prior per the 2026-08-10 audit) — "
+                     "no --odds-history supplied/matched, not yet learned. freeze_tips now logs "
+                     "per-tip market probs (tiplog .mkt) as the future fitting corpus.")
     note = " ".join(notes)
 
     emit_learned_js(out, learned_path, note=note)
