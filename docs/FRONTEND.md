@@ -118,6 +118,10 @@ ladder** (`#compPanel`, under the Quick list / in the ≥1280px rail). Search
 - Config: `COMP_ID` / `COMP_LADDER` / `COMP_ME` constants (`COMP_ID=0`
   disables the feature; `COMP_ME` marks "(you)" because the anonymous API
   never sets `currentUser`). Display names only — never surnames.
+- Strips are strictly locked-only (`compLocked()`): footytips seals a
+  round's tips server-side until the round starts, so there is nothing to
+  show earlier anyway (a short-lived "early picks" toggle was removed
+  2026-08-10 — see GOTCHAS).
 
 ### Card ordering on Tips (2026-08-08 — what matters now is at the top)
 

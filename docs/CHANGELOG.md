@@ -33,6 +33,16 @@ accepted by Josh, reversible via `COMP_ID=0`.
 
 `sw.js` CACHE v10.
 
+**2026-08-10 follow-up — early-picks toggle added, then REMOVED same night.**
+Josh asked to see others' picks pre-lock; a per-device toggle shipped (v11)
+on the belief the API exposed unstarted games' picks mid-round. Josh then
+caught the flaw: that "evidence" was a Monday fetch of a finished round,
+mis-remembered as a live mid-round capture. Retested properly: a round's
+tips are sealed server-side until the round starts (API and logged-in UI
+both clamp an unstarted round back to the last started one), so the toggle
+could never show anything the locked-only view wouldn't. Removed at Josh's
+direction; `compLocked()` remains the sole display gate. `sw.js` v11→v12.
+
 ---
 
 ## 2026-08-08 (evening) — Hero retired, tip-change feed, week-order quick list, ↻ chip removed

@@ -165,12 +165,17 @@ Real problems encountered on this project and how to avoid repeating them.
   a bad edit makes the generators abort (by design) to protect history.
 
 ## Friends' comp tips (2026-08-09) — footytips API
-- **The comp endpoint is public by ESPN's design/oversight — but the PICKS are
-  not meant to be visible pre-lock.** The API returns every member's pick for
-  games that haven't kicked off; the official UI hides them until each game
-  locks. `compLocked()` enforces that rule in this app. Never "improve" the
-  strip to show upcoming picks — that's cheating via API bug, and it cuts both
-  ways (his rivals could scrape Josh's picks the same way).
+- **The comp endpoint is public (no auth, open CORS) — but a round's tips are
+  SEALED server-side until the round starts.** Verified: requesting an
+  unstarted round's who-tipped-what (API and logged-in UI both) gets clamped
+  back to the last started round. An earlier claim that the API "leaks
+  pre-lock picks mid-round" was WRONG — it came from mis-dating a Monday
+  fetch of a finished round as a live Saturday capture. Whether an
+  in-progress round exposes its not-yet-played games has never actually been
+  observed. Either way `compLocked()` (kickoff passed per our own feed, or
+  live/result evidence) is the display gate and is correct in every case; an
+  "early picks" toggle built on the bad claim was added and removed the same
+  night (2026-08-10).
 - **Display names only.** The API carries members' full surnames; nothing in
   this app may render or store them.
 - **`currentUser` is always false on anonymous calls** — "(you)" comes from
