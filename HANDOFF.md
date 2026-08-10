@@ -119,8 +119,8 @@ See `docs/DEPLOY_AND_OPS.md`.
   chips on every locked game card (✓/✗ at full time) and a mini comp ladder
   under the Quick list. Fetched by the OPEN PAGE from footytips' public comp
   API (verified: no auth needed) — no pipeline involvement. Pre-lock picks are
-  deliberately censored app-side (`compLocked()`); display names only.
-  `sw.js` v10. See FRONTEND "Friends' comp tips" + GOTCHAS before touching.
+  censored app-side by default (`compLocked()`); the per-device `compEarly`
+  setting shows them early, clearly labelled; display names only. `sw.js` v11. See FRONTEND "Friends' comp tips" + GOTCHAS before touching.
 
 - **2026-08-08 (evening):** the pinned Roosters hero is GONE (card sits in
   bucket order, lock intact); **tip flips lead the What's-new feed** with win %

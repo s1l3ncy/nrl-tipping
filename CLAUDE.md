@@ -84,9 +84,11 @@ before the odds blend. Weather is gone.
 - **Friends' footytips comp on the Tips screen.** The comp API is public (no
   auth, CORS open) so the PAGE fetches it directly — no pipeline step, no
   secrets. Comp strip on locked cards + mini ladder (`#compPanel`).
-  `compLocked()` censors pre-lock picks (the API leaks them — never bypass);
-  display names only; `COMP_ID`/`COMP_LADDER`/`COMP_ME` constants configure
-  it, `COMP_ID=0` kills it. `sw.js` CACHE v10.
+  `compLocked()` censors pre-lock picks by DEFAULT; the `compEarly` checkbox
+  (Advanced settings, per-device localStorage) opts that device into seeing
+  early picks, dashed + "Comp · early" labelled — keep the default off.
+  Display names only; `COMP_ID`/`COMP_LADDER`/`COMP_ME` constants configure
+  it, `COMP_ID=0` kills it. `sw.js` CACHE v11.
 
 **Changed 2026-08-08, evening batch** (full detail in `docs/CHANGELOG.md`):
 - **Roosters hero banner removed** — the SYD card sits in normal bucket order
