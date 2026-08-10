@@ -80,6 +80,14 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-10, audit batch** (full detail in `docs/CHANGELOG.md`):
+- **The tip now optimises WINNING THE COMP** (3-specialist audit): `tipSide()`
+  = lock → need-banded split policy (`compPlan()`, data from `nrl_comp.js`
+  incl. rival profiles — pipeline-computed for freeze determinism) → blended
+  favourite. oddsW default 0.75 (+`oddsWeightLearned`); `tiplog .mkt` logs
+  market probs. 🎯 pill marks splits with an honesty line. `predict()` stays
+  estimation-only. See MODEL.md "THE OBJECTIVE CHANGED" + GOTCHAS. `sw.js` v14.
+
 **Changed 2026-08-10, strategy batch** (full detail in `docs/CHANGELOG.md`):
 - **Comp strategy mode** (ALWAYS ON at Josh's direction; re-gate via
   getStrat() if needed): predicts every rival's pick from season history (84% backtested,

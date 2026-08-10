@@ -537,11 +537,8 @@ details.plain>summary:hover{color:var(--text)}
 .cprow .sc b{color:var(--text)}
 .cprow .mv{flex:none;width:12px;text-align:center;font-size:10px}
 .cprow .mv.up{color:var(--good)} .cprow .mv.down{color:var(--amber-text)}
-/* comp strategy (2026-08-10, per-device) */
-.stratnote{display:flex;gap:8px;align-items:flex-start;margin:0 18px 12px;padding:9px 12px;font-size:12.5px;
-  color:var(--sub);background:rgba(102,160,255,.08);border:1px dashed rgba(102,160,255,.35);border-radius:12px}
-.stratnote .sg{flex:none}
-.stratnote b{color:var(--text)}
+/* comp strategy (2026-08-10) */
+.gtippill.split{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.4)}
 .stratline{margin-top:8px;font-size:11.5px;color:var(--faint);padding:0 2px}
 .compstrip.pred .cst{color:var(--blue)}
 .compstrip.pred .cpick{border-style:dashed;opacity:.9}
@@ -687,6 +684,7 @@ details.plain>summary:hover{color:var(--text)}
 <script src="nrl_players.js"></script>
 <script src="nrl_lineups.js"></script>
 <script src="nrl_tiplog.js"></script>
+<script src="nrl_comp.js"></script>
 
 <header class="topnav">
   <div class="wrap navrow">
@@ -764,7 +762,7 @@ details.plain>summary:hover{color:var(--text)}
             <label for="formW">Form nudge weight</label>
             <input id="formW" type="number" step="0.1" value="0.4">
             <label for="oddsW">Odds blend (0=model only, 1=market only)</label>
-            <input id="oddsW" type="number" step="0.1" min="0" max="1" value="0.5">
+            <input id="oddsW" type="number" step="0.1" min="0" max="1" value="0.75">
             <label for="compMode">Comp format</label>
             <select id="compMode" onchange="setCompMode(this.value)">
               <option value="win">Win only</option>
@@ -870,7 +868,8 @@ function eloStrength(t){
 function applyLearnedFieldDefaults(){
   if(!learnedActive) return;
   const hgaEl=document.getElementById('hga'); if(hgaEl) hgaEl.value=LEARNED.params.homeAdv;
-  const oddsWEl=document.getElementById('oddsW'); if(oddsWEl) oddsWEl.value=LEARNED.params.oddsWeight;
+  const oddsWEl=document.getElementById('oddsW');
+  if(oddsWEl) oddsWEl.value=LEARNED.params.oddsWeightLearned?LEARNED.params.oddsWeight:0.75;
 }
 
 /* ---------- Load + validate + persist ---------- */
@@ -1110,7 +1109,8 @@ function predict(fx){
   const modelP = logistic(margin);
   const mkt = marketProb(fx.odds);
   let pHome=modelP, blended=false, oddsW=0;
-  if(mkt!==null){ oddsW=Math.max(0,Math.min(1,num('oddsW', learnedActive?LEARNED.params.oddsWeight:0.5)));
+  if(mkt!==null){ oddsW=Math.max(0,Math.min(1,num('oddsW',
+      (learnedActive&&LEARNED.params.oddsWeightLearned)?LEARNED.params.oddsWeight:0.75)));
     pHome=(1-oddsW)*modelP+oddsW*mkt; blended=true; }
   return {h,a,margin,modelP,mkt,pHome,blended,hInj,aInj,useElo,oddsW,
           parts:{ratingGap, formGap, hga, hInjPts:hInj.penalty, aInjPts:aInj.penalty,
@@ -1130,9 +1130,92 @@ function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt
    opponent labelled "(locked)" whenever the model disagreed, and the Roosters
    tax measured a lock that wasn't actually being applied. */
 function modelFav(p){ return p.pHome>=0.5?p.h:p.a; }
+/* ---------- the comp-aware tip (2026-08-10 audit rebuild) ----------
+   THE OBJECTIVE IS WINNING THE COMP, not maximising correct tips (Josh's
+   explicit instruction; three-specialist audit in docs/CHANGELOG.md).
+   Estimation stays honest in predict(); ALL strategy lives here.
+   Policy (MC-validated, ~10x P(win) vs pure favourites at the current gap):
+   - The Roosters lock is untouchable and comes first.
+   - d = deficit to the MAX of the rivals ahead (it's a 4-way cluster, not one
+     leader); need = d / rounds-left; T = games left in the comp.
+   - Split (tip the underdog) only when: enough of the ahead-cluster sit on
+     the favourite (near-unanimity — a matched split moves no ranks), the
+     favourite's prob ≤ a need-scaled threshold θ, the game hasn't kicked
+     off, and the per-round split cap for this need band isn't spent.
+     Bands: need<0.5 → 0 splits; <1 → 1 @ θ=.55; <2 → 2 @ .58; <3 → 4 @ .62;
+     else nuclear (θ=.75, or 1.0 when d>0.6·T). Candidates ranked by
+     (1−pf)·foes, so the cheapest variance with the most rank leverage goes
+     first (this also protects the +2 perfect-round bonus: the lowest-pf game
+     is the one whose split least damages it).
+   - Rival positions use their ACTUAL picks once visible (round under way),
+     else the behavioural predictor. Anti-tilt: the schedule depends only on
+     (standings, games left) — never on how the last split went.
+   - Leading (no rivals ahead): cover mode — straight favourites, no splits.
+   The plan is recomputed lazily whenever standings/round/locked-set change,
+   so browser and freeze runs derive identical tips from identical data. */
+const COMP_GAMES_PER_ROUND={24:8,25:8,26:8,27:8,28:4,29:2,30:2,31:1};
+function gamesLeftInComp(){
+  let t=0;
+  const fin=(COMP&&COMP.finishRound)||31;
+  for(let r=SRC.round+1;r<=fin;r++) t+=COMP_GAMES_PER_ROUND[r]||2;
+  fixtures.forEach(f=>{ const h=T(f.home), a=T(f.away);
+    if(h&&a&&!fixtureResult({h:h,a:a})) t++; });
+  return Math.max(1,t);
+}
+let COMP_PLAN=null;
+function planStamp(){
+  const locked=fixtures.map(f=>{ const ko=Date.parse(f.kickoff||'');
+    return (!isNaN(ko)&&Date.now()>=ko)?1:0; }).join('');
+  return COMP_STAMP+'|'+SRC.round+'|'+locked;
+}
+function compPlan(){
+  const stamp=planStamp();
+  if(COMP_PLAN&&COMP_PLAN.stamp===stamp) return COMP_PLAN;
+  const plan={stamp:stamp, mode:'off', splits:{}};
+  COMP_PLAN=plan;
+  if(!COMP||!COMP.members) return plan;
+  const me=COMP.members.find(m=>m.me);
+  if(!me||me.totalScore===null) return plan;
+  const ahead=COMP.members.filter(m=>!m.me&&m.totalScore!==null&&m.totalScore>=me.totalScore);
+  if(!ahead.length){ plan.mode='cover'; plan.need=0; return plan; }
+  const d=Math.max.apply(null,ahead.map(m=>m.totalScore))-me.totalScore;
+  const Tg=gamesLeftInComp();
+  const fin=(COMP.finishRound)||31;
+  const roundsLeft=Math.max(1,fin-SRC.round+1);
+  const need=d/roundsLeft;
+  const cap = need<0.5?0 : need<1?1 : need<2?2 : need<3?4 : 99;
+  const theta = need<0.5?0 : need<1?0.55 : need<2?0.58 : need<3?0.62 : (d>0.6*Tg?1.0:0.75);
+  Object.assign(plan,{mode:'chase', d:d, need:need, roundsLeft:roundsLeft, T:Tg, cap:cap, theta:theta});
+  if(!cap) return plan;
+  const minFoes=Math.max(2, ahead.length-1);
+  const cands=[];
+  fixtures.forEach(f=>{
+    const h=T(f.home), a=T(f.away);
+    if(!h||!a||h.short===LOCK||a.short===LOCK) return;
+    const p=predict(f);
+    if(fixtureResult(p)) return;
+    const ko=Date.parse(f.kickoff||'');
+    if(isNaN(ko)||Date.now()>=ko) return;              // frozen games keep their tip
+    const fav=p.pHome>=0.5?p.h:p.a, dog=p.pHome>=0.5?p.a:p.h;
+    const pf=Math.max(p.pHome,1-p.pHome);
+    if(pf>theta) return;
+    const key=liveKey(h.short,a.short);
+    const onFav=ahead.filter(r=>{
+      const pick=r.picks[key]||predictPick(r.name,p);   // actual beats predicted
+      return pick===fav.short; });
+    if(onFav.length<minFoes) return;                   // matched split = EV burn, no rank move
+    cands.push({key:key, dog:dog.short, fav:fav.short, pf:pf,
+                foes:onFav.length, score:(1-pf)*onFav.length});
+  });
+  cands.sort((x,y)=>y.score-x.score||x.pf-y.pf);
+  cands.slice(0,cap).forEach(c=>{ plan.splits[c.key]=c; });
+  return plan;
+}
 function tipSide(p){
   if(p.h.short===LOCK) return p.h;
   if(p.a.short===LOCK) return p.a;
+  const c=compPlan().splits[liveKey(p.h.short,p.a.short)];
+  if(c){ const t=T(c.dog); if(t) return t; }
   return modelFav(p);
 }
 function bandFor(conf){
@@ -1430,7 +1513,7 @@ function render(){
   renderNewScreen(preds,fxList);
 
   renderCompPanel();
-  computeStrategy(preds,fxList);
+  renderStratBits();
   renderAcc(); renderLadder(); renderLearning();
   const cmSel=document.getElementById('compMode'); if(cmSel) cmSel.value=compMode;
   document.getElementById('ladderNote').textContent =
@@ -1620,7 +1703,20 @@ const COMP_ME='Special unit';                    // Josh's footytips display nam
                                                  // flag is always false on anonymous calls, so "you" is by name
 const COMP_URL='https://api.footytips.espn.com.au/competitions/'+COMP_ID+
   '/sports/rugby-league/leagues/nrl/game-types/tipping/ladders/'+COMP_LADDER+'/rounds/';
-let COMP=null, COMP_STAMP='', COMP_LAST=0, COMP_BUSY=false;
+/* COMP boots from the PIPELINE's nrl_comp.js snapshot (so the freeze step and
+   the browser decide tips from the same data), then the live poll refreshes it
+   between pipeline runs. */
+function compFromFile(){
+  const d=(typeof window!=='undefined')&&window.NRL_COMP;
+  if(!d||!Array.isArray(d.members)||!d.members.length) return null;
+  return {round:d.round, finishRound:d.finishRound||null,
+          members:d.members.map(m=>({name:m.name,me:!!m.me,rank:m.rank||0,
+            aff:m.aff||{},
+            mv:m.mv||'', roundScore:(typeof m.roundScore==='number')?m.roundScore:null,
+            totalScore:(typeof m.totalScore==='number')?m.totalScore:null,
+            picks:m.picks||{}}))};
+}
+let COMP=compFromFile(), COMP_STAMP=COMP?JSON.stringify(COMP):'', COMP_LAST=0, COMP_BUSY=false;
 const COMP_MS=15*60000;                          // comp data barely moves — 15 min is plenty
 function pollComp(force){
   if(!COMP_ID||typeof fetch!=='function'||COMP_BUSY) return;      // disabled / jsdom
@@ -1648,7 +1744,9 @@ function pollComp(force){
         (r.tips||[]).forEach(t=>{ const k=evKey[t.eventId], sh=tShort[t.teamId];
           if(k&&sh) picks[k]=sh; });
         const nm=String(u.displayName||u.firstName||'Tipper').slice(0,20);
-        return { name:nm,
+        const fileAff=(()=>{ const cf=compFromFile();
+          const fm=cf&&cf.members.find(x=>x.name===nm); return (fm&&fm.aff)||((COMP&&COMP.members.find(x=>x.name===nm))||{}).aff||{}; })();
+        return { name:nm, aff:fileAff,
                  me:!!u.currentUser||nm===COMP_ME, rank:r.rank||0,
                  mv:(r.movement==='up'||r.movement==='down')?r.movement:'',
                  roundScore:(r.round&&typeof r.round.score==='number')?r.round.score:null,
@@ -1658,8 +1756,9 @@ function pollComp(force){
       COMP={round:SRC.round, members:members,
             finishRound:(d.ladder&&d.ladder.finishRound)||null};
       const stamp=JSON.stringify(COMP);
-      if(stamp!==COMP_STAMP){ COMP_STAMP=stamp; renderCompBits();
-        if(getStrat()) fetchCompHistory(); }
+      if(stamp!==COMP_STAMP){ COMP_STAMP=stamp; renderCompBits(); renderStratBits();
+        // standings/picks changes can flip hardwired tips → re-render on foreground/grace
+        ORDER_DIRTY=true; }
     })
     .catch(()=>{})                               // best-effort, like odds/news
     .then(()=>{ if(tmr) clearTimeout(tmr); COMP_BUSY=false; });
@@ -1676,104 +1775,34 @@ function pollComp(force){
    who to beat and how — it must never render for a visiting family member.
    Suggestions are probabilistic coin-edge plays, never the Roosters game,
    max 2 per round, pre-kick-off only. */
-const STRAT_HIST_KEY='nrl_compstrat_hist_v1';
-/* Always on — Josh's explicit call 2026-08-10: "nobody else will see this
-   page. it doesnt need a toggle." To re-gate it one day, make this read a
-   setting again; every strategy surface already checks it. */
-function getStrat(){ return !!COMP_ID; }
-let HIST=null, HIST_BUSY=false, STRAT_PICKS={};
-function loadHist(){ if(HIST) return HIST;
-  try{ HIST=JSON.parse(localStorage.getItem(STRAT_HIST_KEY)||'null'); }catch(e){ HIST=null; }
-  return HIST; }
-/* Sequentially fetch any past rounds not yet in the cached history, fold them
-   into per-member (team -> [picked, seen]) affinity + herd counts, store the
-   COUNTS (tiny) in localStorage — never the raw rounds. Best-effort. */
-function fetchCompHistory(){
-  if(!COMP_ID||typeof fetch!=='function'||HIST_BUSY||!getStrat()) return;
-  const h=loadHist()||{upto:0, aff:{}, herd:{}};
-  const from=(h.upto||0)+1, to=SRC.round-1;
-  if(from>to){ computeStrategy(); return; }
-  HIST_BUSY=true;
-  let r=from;
-  const step=()=>{
-    if(r>to){ HIST=h; try{ localStorage.setItem(STRAT_HIST_KEY,JSON.stringify(h)); }catch(e){}
-      HIST_BUSY=false; computeStrategy(); return; }
-    fetch(COMP_URL+r+'?view=tips',{cache:'no-store'})
-      .then(x=>{ if(!x.ok) throw 0; return x.json(); })
-      .then(d=>{
-        const tShort={}, evTeams={};
-        (d.events||[]).forEach(e=>{ (e.competitors||[]).forEach(c=>{
-          const sh=liveMatchShort(c.name); if(sh) tShort[c.teamId]=sh; });
-          evTeams[e.eventId]=(e.competitors||[]).map(c=>tShort[c.teamId]).filter(Boolean); });
-        ((d.ladder&&d.ladder.results)||[]).forEach(m=>{
-          const n=(m.user||{}).displayName; if(!n) return;
-          const A=h.aff[n]=h.aff[n]||{}; const H=h.herd[n]=h.herd[n]||[0,0];
-          (m.tips||[]).forEach(t=>{
-            const teams=evTeams[t.eventId]||[]; const pick=tShort[t.teamId];
-            if(!pick||teams.length!==2) return;
-            teams.forEach(sh=>{ const a=A[sh]=A[sh]||[0,0]; a[1]++; if(sh===pick) a[0]++; });
-          });
-        });
-        h.upto=r; r++; step();
-      })
-      .catch(()=>{ HIST_BUSY=false; });   // stop on failure; retry next enable/boot
-  };
-  step();
-}
 /* Predict a rival's pick for one game: model's blended favourite, overridden
    by a ≥75% (n≥8) season loyalty to the other side. */
 function predictPick(name,p){
   const fav=p.pHome>=0.5?p.h:p.a, dog=p.pHome>=0.5?p.a:p.h;
-  const A=(HIST&&HIST.aff&&HIST.aff[name])||{};
+  const m=(COMP&&COMP.members||[]).find(x=>x.name===name);
+  const A=(m&&m.aff)||{};
   const rate=t=>{ const x=A[t.short]; return (x&&x[1]>=8)?x[0]/x[1]:null; };
   const dr=rate(dog), fr=rate(fav);
   // A ≥75% loyalty to the underdog flips the prediction — UNLESS the favourite
   // commands an even stronger loyalty (Brigitte: Panthers 83% but Roosters
   // 100% — when they met in R3 she took the Roosters; strongest love wins).
   if(dr!==null&&dr>=0.75&&(fr===null||dr>fr)) return dog.short;
+  // ANTI-loyalty (behavioural audit, +3-5pp): a favourite this rival almost
+  // never backs (≤30% of ≥8 appearances — the family-wide Eels/Titans/Dragons
+  // aversions) gets faded even as the favourite.
+  if(fr!==null&&fr<=0.30&&(dr===null||dr>fr)) return dog.short;
   return fav.short;
 }
-function computeStrategy(preds,fxList){
-  STRAT_PICKS={};
-  if(!getStrat()||!COMP||!COMP.members||!loadHist()) { renderStratBits(); return; }
-  if(!preds){ fxList=fixtures.filter(f=>T(f.home)&&T(f.away)); preds=fxList.map(predict); }
-  const me=COMP.members.find(m=>m.me), rivals=COMP.members.filter(m=>!m.me);
-  if(!me||!rivals.length){ renderStratBits(); return; }
-  const leader=COMP.members[0];
-  const gap=(leader&&leader.totalScore!==null&&me.totalScore!==null)?leader.totalScore-me.totalScore:0;
-  const roundsLeft=COMP.finishRound?Math.max(1,COMP.finishRound-SRC.round+1):8;
-  const mode=(me.rank===1)?'cover':'chase';
-  // candidate splits: unlocked, not the Roosters game, rivals herding one way,
-  // and the other side still a live chance. Urgency widens the net a little.
-  const thresh=(gap>=12)?0.42:(gap>=6)?0.44:0.46;
-  const cands=[];
-  preds.forEach((p,i)=>{
-    const fx=fxList[i]||{};
-    if(p.h.short===LOCK||p.a.short===LOCK) return;          // the lock is the lock
-    const ko=Date.parse(fx.kickoff||'');
-    if(isNaN(ko)||Date.now()>=ko) return;                    // pre-kick-off only
-    const onH=rivals.filter(r=>predictPick(r.name,p)===p.h.short);
-    const onA=rivals.filter(r=>predictPick(r.name,p)===p.a.short);
-    const herd=onH.length>=onA.length?{side:p.h,foes:onH,other:p.a,prob:1-p.pHome}
-                                     :{side:p.a,foes:onA,other:p.h,prob:p.pHome};
-    if(mode==='cover'){                                     // leading: match the pack
-      return;                                               // (cover mode = no split notes)
-    }
-    if(herd.foes.length<3) return;                          // not enough rivals to gain on
-    if(herd.prob<thresh) return;                            // too big an underdog
-    cands.push({key:liveKey(p.h.short,p.a.short), pick:herd.other, against:herd.side,
-      foes:herd.foes.length, prob:herd.prob, names:herd.foes.map(f=>f.name)});
-  });
-  cands.sort((x,y)=>(y.prob*y.foes)-(x.prob*x.foes));
-  cands.slice(0,2).forEach(c=>{ STRAT_PICKS[c.key]=c; });
-  STRAT_PICKS.__meta={mode:mode, gap:gap, roundsLeft:roundsLeft};
-  renderStratBits();
-}
+/* Always on — Josh's explicit call 2026-08-10: "nobody else will see this
+   page. it doesnt need a toggle." To re-gate strategy surfaces one day, make
+   this read a setting again — every surface checks it. Rival profiles ship
+   inside nrl_comp.js (pipeline-computed); no client-side history fetching. */
+function getStrat(){ return !!COMP_ID; }
 /* Predicted picks, one chip per SIDE with first names — shown on pre-kick-off
    cards only (once a game locks the REAL picks strip takes over), and only in
    strategy mode. Grouped by side so five rivals never need five chips. */
 function predStripHTML(p){
-  if(!getStrat()||!COMP||!COMP.members||!loadHist()) return '';
+  if(!getStrat()||!COMP||!COMP.members) return '';
   const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
   if(compLocked(p,fx)) return '';                       // real picks take over at lock
   const rivals=COMP.members.filter(m=>!m.me);
@@ -1787,42 +1816,32 @@ function predStripHTML(p){
   if(!chips) return '';
   return `<div class="compstrip pred"><span class="cst">Predicted</span>${chips}</div>`;
 }
-function stratNoteHTML(p){
-  if(!getStrat()) return '';
-  const c=STRAT_PICKS[liveKey(p.h.short,p.a.short)];
-  if(!c) return '';
-  return `<div class="stratnote"><span class="sg">🎯</span><span>Comp play: <b>${esc(c.pick.name)}</b> — `+
-    `${c.foes} of ${COMP&&COMP.members?COMP.members.length-1:5} rivals likely on ${esc(c.against.short)}. `+
-    `A ${Math.round(c.prob*100)}% shot to gain a point on ${c.foes===5?'the whole comp':'them'}.</span></div>`;
-}
 function renderStratBits(){
   const fxList=fixtures.filter(f=>T(f.home)&&T(f.away));
   fxList.map(predict).forEach(p=>{
     const el=document.getElementById('game-'+p.h.short+'-'+p.a.short);
     if(!el) return;
-    const put=(sel,html,afterSel)=>{
-      const cur=el.querySelector(sel);
-      if(!html){ if(cur) cur.remove(); return; }
-      const t=document.createElement('template'); t.innerHTML=html;
-      if(cur) cur.replaceWith(t.content.firstElementChild);
-      else{ const anchor=el.querySelector(afterSel);
-        if(anchor) anchor.after(t.content.firstElementChild); } };
-    put('.stratnote', stratNoteHTML(p), '.gtipline');
-    // predicted strip rides after the strat note when present, else the tip line
-    put('.compstrip.pred', predStripHTML(p), el.querySelector('.stratnote')?'.stratnote':'.gtipline');
+    const html=predStripHTML(p);
+    const cur=el.querySelector('.compstrip.pred');
+    if(!html){ if(cur) cur.remove(); return; }
+    const t=document.createElement('template'); t.innerHTML=html;
+    if(cur) cur.replaceWith(t.content.firstElementChild);
+    else{ const anchor=el.querySelector('.gtipline');
+      if(anchor) anchor.after(t.content.firstElementChild); }
   });
   const el=document.getElementById('compPanel');
-  const m=STRAT_PICKS.__meta;
-  if(el){ let line=el.querySelector('.stratline'); 
-    if(!getStrat()||!m){ if(line) line.remove(); }
-    else{
-      const txt=m.mode==='cover'
-        ? `You lead — cover mode: tip with the pack and make them chase.`
-        : `${m.gap} behind · ${m.roundsLeft} rounds left · ${Object.keys(STRAT_PICKS).length-1?'split picks marked 🎯 above':'no good split this round — tip straight'}`;
-      const html=`<div class="stratline">${esc(txt)}</div>`;
-      const t=document.createElement('template'); t.innerHTML=html;
-      if(line) line.replaceWith(t.content.firstElementChild); else el.appendChild(t.content.firstElementChild);
-    } }
+  if(el){ const plan=compPlan();
+    let line=el.querySelector('.stratline');
+    if(plan.mode==='off'){ if(line) line.remove(); return; }
+    const n=Object.keys(plan.splits||{}).length;
+    const txt=plan.mode==='cover'
+      ? 'You lead — cover mode: straight favourites, make them chase.'
+      : `${plan.d} behind the cluster · ${plan.roundsLeft} rounds left · need ${plan.need.toFixed(1)}/rd · `+
+        (n?`${n} split${n===1?'':'s'} hardwired into the tips (🎯)`:'no split clears the bar — tipping straight');
+    const html=`<div class="stratline">${esc(txt)}</div>`;
+    const t=document.createElement('template'); t.innerHTML=html;
+    if(line) line.replaceWith(t.content.firstElementChild); else el.appendChild(t.content.firstElementChild);
+  }
 }
 
 /* (An "early picks" toggle briefly existed here on 2026-08-10 and was removed
@@ -2072,6 +2091,7 @@ function cardHTML(p,meta){
     </div>`;
   }
   const favMargin = p.margin>=0? p.h : p.a;
+  const splitTip = !lockTip && tipSide(p)!==modelFav(p);   // hardwired comp split
   const band = bandFor(conf);
   const hPct=p.pHome*100, aPct=100-hPct;
   const when=kickShort(fx);
@@ -2107,10 +2127,9 @@ function cardHTML(p,meta){
       </div>
     </div>
     <div class="gtipline">
-      <span class="gtippill${lockTip?' gold':''}">${lockTip?'🔒':'★'} TIP · ${esc((tipHome?p.h:p.a).name)}</span>
-      <span class="gconf">${esc(band)} · ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)} · ${p.blended?'model + odds':'model only'}</span>
+      <span class="gtippill${lockTip?' gold':''}${splitTip?' split':''}">${lockTip?'🔒':splitTip?'🎯':'★'} TIP · ${esc((tipHome?p.h:p.a).name)}</span>
+      <span class="gconf">${splitTip?`comp split — model favours ${esc(favMargin.short)} · `:''}${esc(band)} · ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)} · ${p.blended?'model + odds':'model only'}</span>
     </div>
-    ${stratNoteHTML(p)}
     ${predStripHTML(p)}
     ${tags.length?`<div class="gtags">${tags.join('')}</div>`:''}
     ${compStripHTML(p)}
@@ -2913,6 +2932,9 @@ function hydrateData(){
   LINEUPS = (window.NRL_LINEUPS) ? window.NRL_LINEUPS : null;   // team lists refresh too (was captured once, forever)
   TIPLOG = (window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips)) ? window.NRL_TIPLOG.tips : TIPLOG;
   FLIPS = (window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.flips)) ? window.NRL_TIPLOG.flips : FLIPS;
+  const cf=compFromFile();
+  if(cf){ const st=JSON.stringify(cf);
+    if(st!==COMP_STAMP){ COMP=cf; COMP_STAMP=st; } }
 }
 /* Four triggers feed one throttled refresh (2026-08-04): boot, foreground
    return, a 5-minute visible-only poll, and the manual chip / pull-to-refresh.
@@ -2924,6 +2946,7 @@ function contentStamp(){
   // (teams, fixtures+odds, change ids); the rest aren't hashed by dataSig.
   return KEY+'|'+((LEARNED&&LEARNED.gamesLearned)||0)+'|'+TIPLOG.length
     +'|'+FLIPS.length+'|'+(FLIPS.length?(FLIPS[FLIPS.length-1].ts||''):'')
+    +'|'+((window.NRL_COMP&&window.NRL_COMP.fetched)||'')
     +'|'+((window.NRL_LINEUPS&&window.NRL_LINEUPS.round)||0);
 }
 /* The ↻ chip was removed 2026-08-08 (Josh: "I just pull down to refresh") —
@@ -2947,7 +2970,7 @@ function refreshFromNetwork(){
   if(REFRESHING) return;
   REFRESHING=true; setFresh('checking','checking…');
   const before=contentStamp();
-  const files=['nrl_data.js','nrl_learned.js','nrl_players.js','nrl_lineups.js','nrl_tiplog.js'];
+  const files=['nrl_data.js','nrl_learned.js','nrl_players.js','nrl_lineups.js','nrl_tiplog.js','nrl_comp.js'];
   let done=0;
   const finish=(s)=>{ s&&s.remove();                 // don't accumulate <script> tags across polls
     if(++done!==files.length) return;
@@ -2986,7 +3009,6 @@ document.addEventListener('visibilitychange',()=>{ if(document.hidden) return;
 
 /* ---------- boot ---------- */
 applyLearnedFieldDefaults(); loadState(); render(); refreshFromNetwork(); pollLive(true); pollComp(true);
-fetchCompHistory();
 
 /* Register the service worker (hosted only) so the home-screen app auto-updates
    the shell + data on every launch when online, and works offline from cache.

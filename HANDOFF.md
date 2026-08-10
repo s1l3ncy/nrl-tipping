@@ -113,7 +113,14 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-10 — the comp-strategy batch.)*
+*(Reviewed 2026-08-10 — the comp-WIN audit batch.)*
+
+- **2026-08-10 (night): the tip itself now optimises winning the comp.**
+  `tipSide()` = Roosters lock → need-banded underdog-split policy (fed by
+  `nrl_comp.js`: standings, picks, rival profiles — pipeline-computed so the
+  freeze and browser agree byte-for-byte) → blended favourite. oddsW 0.75
+  market-heavy prior; market probs now logged per frozen tip. Read MODEL.md
+  "THE OBJECTIVE CHANGED" before touching anything.
 
 - **2026-08-10 (later): comp strategy mode, always on** — rival
   pick-prediction (84% backtested), "Predicted" strips on pre-lock cards, and
