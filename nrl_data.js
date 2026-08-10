@@ -473,7 +473,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.78,
-          "away": 2.02
+          "away": 2.04
         }
       },
       "weather": null,
@@ -512,8 +512,8 @@ window.NRL_DATA = {
           "away": 2.15
         },
         "close": {
-          "home": 1.62,
-          "away": 2.28
+          "home": 1.63,
+          "away": 2.26
         }
       },
       "weather": null,
@@ -532,8 +532,8 @@ window.NRL_DATA = {
           "away": 3.35
         },
         "close": {
-          "home": 1.34,
-          "away": 3.25
+          "home": 1.33,
+          "away": 3.27
         }
       },
       "weather": null,
@@ -593,7 +593,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.28,
-          "away": 3.75
+          "away": 3.73
         }
       },
       "weather": null,
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.85,
-          "away": 1.92
+          "away": 1.93
         }
       },
       "weather": null,
@@ -624,8 +624,56 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-11T01:34:35+10:00",
+  "generatedAt": "2026-08-11T05:43:44+10:00",
   "changes": [
+    {
+      "id": "r24-PEN-SYD-line-1.78-2.04",
+      "fixture": "PEN-SYD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.78 → $1.78, Roosters $2.02 → $2.04. Market now 53% Panthers (was 53%).",
+      "pts": null,
+      "ts": "2026-08-11T05:43:44+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CAN-SOU-line-1.63-2.26",
+      "fixture": "CAN-SOU",
+      "team": "SOU",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Bulldogs $1.62 → $1.63, Rabbitohs $2.28 → $2.26. Market now 58% Bulldogs (was 58%).",
+      "pts": null,
+      "ts": "2026-08-11T05:43:44+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CRO-CBR-line-1.33-3.27",
+      "fixture": "CRO-CBR",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $1.34 → $1.33, Raiders $3.25 → $3.27. Market now 71% Sharks (was 71%).",
+      "pts": null,
+      "ts": "2026-08-11T05:43:44+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-GLD-line-1.28-3.73",
+      "fixture": "NEW-GLD",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Knights $1.28 → $1.28, Titans $3.75 → $3.73. Market now 74% Knights (was 75%).",
+      "pts": null,
+      "ts": "2026-08-11T05:43:44+10:00",
+      "rnd": 24
+    },
     {
       "id": "r24-WST-STI-line-1.85-1.92",
       "fixture": "WST-STI",
