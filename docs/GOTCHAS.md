@@ -184,6 +184,21 @@ Real problems encountered on this project and how to avoid repeating them.
   fetch the comp's data (first names + picks + scores). Josh accepted this;
   if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
 
+## Comp strategy mode (2026-08-10)
+- **Strategy is ALWAYS ON at Josh's direction** ("nobody else will see this
+  page") — every surface still checks `getStrat()`, so re-gating is a
+  one-line change if a family member ever finds the URL.
+- **The 🎯 note never touches the Roosters game and never suggests more than
+  2 splits a round.** Splits are variance plays, not EV plays — scattergun
+  contrarianism is how Susie loo got to last place. Don't raise the cap.
+- **`predictPick`'s loyalty tie-break is load-bearing**: a ≥75% underdog
+  loyalty flips the prediction only if it beats the favourite-side loyalty
+  (Brigitte tips Panthers 83% but Roosters 100% — R3 head-to-head confirmed
+  she takes the Roosters). Validated live on R24: 8/8 predictions confirmed
+  by Josh (incl. the tie-break game).
+- **History cache stores affinity COUNTS, never raw rounds or surnames**, and
+  `fetchCompHistory` fetches sequentially, only rounds it lacks.
+
 ## Tip flips in the feed (2026-08-08) — and the mid-game freeze guard
 - **A ko-less fresh entry must NEVER overwrite an existing tiplog entry.**
   nrl.com blanks a fixture's kickoff WHILE the game runs, so `freeze_tips`

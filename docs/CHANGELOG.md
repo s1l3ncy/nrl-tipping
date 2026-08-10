@@ -5,6 +5,33 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-10 (later) — Comp strategy mode: rival prediction + split picks
+
+Josh: "you should be able to somewhat predict what they will tip… build in
+that strategy layer into who I should tip to try and win the competition",
+plus predicted picks visible on every card pre-lock.
+
+**Rival model:** full comp history (rounds 1-23, ~1,015 picks) profiles each
+member: accuracy, family-herd rate (71-82%), team loyalties (Claire: Sea
+Eagles 20/20; Jake: Panthers 20/20; Brigitte: Roosters 20/20, Titans 1/20).
+Deployable predictor = model's blended favourite unless a ≥75% (n≥8) loyalty
+to the other side outranks the favourite-side loyalty. Backtest (train 1-18,
+test 19-23): **84% of individual picks correct**; Brigitte 95%, Claire 90%,
+Josh himself least predictable (76%). Live validation: predicted Brigitte's
+whole R24 slate before the round; Josh confirmed 8/8 including the
+Panthers-v-Roosters loyalty collision.
+
+**In the app (always on — Josh: "nobody else will see this page"):** "Predicted" strip on every
+pre-kick-off card (chips grouped by side with first names; real picks replace
+it at lock); ≤2 gap-aware **🎯 split picks** per round when trailing (14
+behind, 8 rounds left at ship time → threshold 42-46%; never the Roosters
+game; cover mode when leading); strategy line in the comp panel. History is
+fetched once and cached as affinity counts (~2KB localStorage).
+
+`sw.js` CACHE v13.
+
+---
+
 ## 2026-08-09 — Friends' footytips comp on the Tips screen
 
 Josh: "I'd love my website to be able to show what my friends have tipped."

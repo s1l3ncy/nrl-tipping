@@ -123,6 +123,22 @@ ladder** (`#compPanel`, under the Quick list / in the ≥1280px rail). Search
   show earlier anyway (a short-lived "early picks" toggle was removed
   2026-08-10 — see GOTCHAS).
 
+### Comp strategy mode (2026-08-10 — always on)
+
+ALWAYS ON (Josh, 2026-08-10: "nobody else will see this page. it doesnt
+need a toggle" — re-gate via `getStrat()` if that ever changes). Active: `fetchCompHistory()` pulls every completed round once and
+caches per-member (team → [picked, seen]) affinity counts in localStorage
+(`nrl_compstrat_hist_v1`, counts only, ~2KB); `predictPick()` predicts each
+rival's pick (model's blended favourite, overridden by a ≥75%/n≥8 loyalty to
+the other side — strongest loyalty wins when two collide; backtested 84%
+overall, leaders 90-95%); every pre-kick-off card gets a **Predicted** strip
+(grouped one chip per side, first names; the REAL picks strip replaces it at
+lock); `computeStrategy()` marks ≤2 **🎯 split picks** when trailing (never
+the Roosters game, threshold widens with the gap: 46%→42%) plus a gap/rounds
+line in `#compPanel`; leading flips to cover mode (no splits). All updates go
+through `renderStratBits()` — surgical `.stratnote`/`.compstrip.pred` node
+swaps, fold-safe, never `render()`.
+
 ### Card ordering on Tips (2026-08-08 — what matters now is at the top)
 
 Cards render in three status buckets — **On now** (live), **Up next** (kickoff
