@@ -164,6 +164,21 @@ Real problems encountered on this project and how to avoid repeating them.
 - **Never hand-edit `nrl_learned.js`.** It's the append-only match memory; corruption or
   a bad edit makes the generators abort (by design) to protect history.
 
+## Friends' comp tips (2026-08-09) — footytips API
+- **The comp endpoint is public by ESPN's design/oversight — but the PICKS are
+  not meant to be visible pre-lock.** The API returns every member's pick for
+  games that haven't kicked off; the official UI hides them until each game
+  locks. `compLocked()` enforces that rule in this app. Never "improve" the
+  strip to show upcoming picks — that's cheating via API bug, and it cuts both
+  ways (his rivals could scrape Josh's picks the same way).
+- **Display names only.** The API carries members' full surnames; nothing in
+  this app may render or store them.
+- **`currentUser` is always false on anonymous calls** — "(you)" comes from
+  the `COMP_ME` display-name constant, not the API.
+- **Comp IDs live in the public repo.** Anyone reading the site source can
+  fetch the comp's data (first names + picks + scores). Josh accepted this;
+  if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
+
 ## Tip flips in the feed (2026-08-08) — and the mid-game freeze guard
 - **A ko-less fresh entry must NEVER overwrite an existing tiplog entry.**
   nrl.com blanks a fixture's kickoff WHILE the game runs, so `freeze_tips`

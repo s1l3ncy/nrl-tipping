@@ -5,6 +5,36 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-09 — Friends' footytips comp on the Tips screen
+
+Josh: "I'd love my website to be able to show what my friends have tipped."
+Investigated ESPN footytips (his comp "Family Feud", 6 members). Findings that
+shaped the design: the web app is an API-backed SPA; the comp data endpoint
+(`api.footytips.espn.com.au/competitions/{id}/…/rounds/{n}?view=tips`) turned
+out to be **fully public** (no cookie, no token, `ACAO:*` — the initial 401s
+elsewhere were AWS API Gateway's misleading unknown-route message), returning
+events, every member's per-game pick, and the comp ladder. So the planned
+cookie-secret pipeline scraper was scrapped for something much better: the
+open page fetches the comp directly, live-scores-style. No credentials, no
+expiry, no pipeline step, nothing to maintain.
+
+**UI:** a "Comp" strip of member chips (picked team's crest dot + display
+name, ✓/✗ once the game has a winner) on every locked game's card in all
+three states, and a mini comp ladder under the Quick list (rank, movement,
+round · total, "(you)" via `COMP_ME`). 15-min poll while visible + boot +
+foreground; surgical `.compstrip`-only updates so folds survive.
+
+**Two deliberate guardrails:** (1) the API leaks picks BEFORE kick-off (the
+official UI hides them) — `compLocked()` censors pre-lock picks in this app,
+in both directions of fairness; (2) the API carries full surnames — the app
+renders display names only. Privacy note recorded in GOTCHAS: the comp IDs in
+the public repo make the comp's first names/picks fetchable by anyone;
+accepted by Josh, reversible via `COMP_ID=0`.
+
+`sw.js` CACHE v10.
+
+---
+
 ## 2026-08-08 (evening) — Hero retired, tip-change feed, week-order quick list, ↻ chip removed
 
 Josh's brief, four parts: the Roosters banner shouldn't pin the top ("the very top

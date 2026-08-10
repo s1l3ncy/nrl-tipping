@@ -98,6 +98,27 @@ JSON does not, so a static page cannot read it). Search `pollLive` in the file.
 - CSS: `.gwhen.live`, `.livedot` (pulse, disabled under `prefers-reduced-motion`),
   `.qline.live`, `.wkrow.live .k` — one hot colour, `#ff5d73`.
 
+### Friends' comp tips (2026-08-09 — footytips, fetched by the open page)
+
+Josh's ESPN footytips comp ("Family Feud") renders on the Tips screen: a
+**Comp strip** of member chips (crest dot of the picked team + display name,
+✓/✗ once the winner is known) on every LOCKED game's card, and a **mini comp
+ladder** (`#compPanel`, under the Quick list / in the ≥1280px rail). Search
+`pollComp` in the file. Key facts:
+
+- The comp endpoint (`api.footytips.espn.com.au/competitions/{id}/…/ladders/{id}/rounds/{n}?view=tips`)
+  is **public** — no cookie/token, `ACAO:*` — so the page fetches it directly
+  (15-min poll while visible + boot + foreground). No pipeline step exists.
+- **Pre-lock censorship is enforced HERE**: the API leaks picks before
+  kick-off; `compLocked()` (our own feed's kickoff, or live/result evidence
+  for a kickoff-less fixture) gates every strip. Never show pre-lock picks.
+- `renderCompBits()` is surgical: it replaces only each card's `.compstrip`
+  node (a locked pre-game card can have an open fold) + `renderCompPanel()`.
+  Full renders embed the strip via `compStripHTML(p)` in all three card states.
+- Config: `COMP_ID` / `COMP_LADDER` / `COMP_ME` constants (`COMP_ID=0`
+  disables the feature; `COMP_ME` marks "(you)" because the anonymous API
+  never sets `currentUser`). Display names only — never surnames.
+
 ### Card ordering on Tips (2026-08-08 — what matters now is at the top)
 
 Cards render in three status buckets — **On now** (live), **Up next** (kickoff
@@ -217,7 +238,7 @@ roundPill, metaline, dataBanners, games, quicklist, copied,
 accYou, accModel, accLock, accNote, rkTax, learningSection, learningBody,
 ladderNote, ladder, hga, formW, oddsW, compMode, howItWorks, foot,
 changesSection, changeFeed, chgCount, tabNewBadge,
-newMeta, weekAhead, ptr
+newMeta, weekAhead, ptr, compPanel
 ```
 
 *(Removed 2026-08-08 later: `lockHero` — the pinned Roosters banner is gone, the
