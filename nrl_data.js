@@ -473,7 +473,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.78,
-          "away": 2.04
+          "away": 2.02
         }
       },
       "weather": null,
@@ -512,8 +512,8 @@ window.NRL_DATA = {
           "away": 2.15
         },
         "close": {
-          "home": 1.63,
-          "away": 2.26
+          "home": 1.62,
+          "away": 2.28
         }
       },
       "weather": null,
@@ -532,8 +532,8 @@ window.NRL_DATA = {
           "away": 3.35
         },
         "close": {
-          "home": 1.33,
-          "away": 3.27
+          "home": 1.34,
+          "away": 3.25
         }
       },
       "weather": null,
@@ -593,7 +593,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.28,
-          "away": 3.73
+          "away": 3.75
         }
       },
       "weather": null,
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.85,
-          "away": 1.93
+          "away": 1.92
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-11T05:43:44+10:00",
+  "generatedAt": "2026-08-11T08:02:37+10:00",
   "changes": [
     {
       "id": "r24-PEN-SYD-line-1.78-2.04",
