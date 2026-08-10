@@ -526,6 +526,8 @@ details.plain>summary:hover{color:var(--text)}
 .cpick .crest{width:10px;height:10px;font-size:0;border-radius:50%}
 .cpick .ok{color:var(--good);font-weight:800}
 .cpick .no{color:var(--amber-text);font-weight:800}
+.compstrip.early .cst{color:var(--amber-text)}
+.compstrip.early .cpick{border-style:dashed;opacity:.85}
 #compPanel{margin-top:14px}
 #compPanel .cphead{font-size:10px;font-weight:750;letter-spacing:1px;text-transform:uppercase;color:var(--faint);margin:0 0 6px 2px}
 .cprow{display:flex;align-items:center;gap:9px;font-size:13px;padding:8px 12px;border-radius:12px;background:var(--surface2);border:1px solid var(--hairline-soft)}
@@ -763,6 +765,9 @@ details.plain>summary:hover{color:var(--text)}
               <option value="margin">Margin</option>
               <option value="confidence">Confidence</option>
             </select>
+            <label for="compEarly" style="grid-column:1">Show comp picks before kick-off</label>
+            <input id="compEarly" type="checkbox" onchange="setCompEarly(this.checked)"
+              title="Off = picks appear only once each game locks (what visitors always see). On = this device also shows everyone's picks early.">
             <button onclick="render()">Recalculate</button>
             <button class="ghost" onclick="resetAll()">Reset to loaded data</button>
           </div>
@@ -1424,6 +1429,7 @@ function render(){
   renderCompPanel();
   renderAcc(); renderLadder(); renderLearning();
   const cmSel=document.getElementById('compMode'); if(cmSel) cmSel.value=compMode;
+  const ceBox=document.getElementById('compEarly'); if(ceBox) ceBox.checked=getCompEarly();
   document.getElementById('ladderNote').textContent =
     "Rating = points margin per game (shrunk toward that home/away split as the sample of games grows), plus a small recent-form nudge. Higher = stronger.";
   document.getElementById('howItWorks').innerHTML = howText();
@@ -1653,6 +1659,16 @@ function pollComp(force){
     .catch(()=>{})                               // best-effort, like odds/news
     .then(()=>{ if(tmr) clearTimeout(tmr); COMP_BUSY=false; });
 }
+/* Early-picks toggle (2026-08-10, Josh's call): the comp API exposes picks
+   before kick-off; by DEFAULT this app hides them (the fair view every
+   visitor gets — the public site must never be what leaks the family's
+   picks). The Advanced-settings checkbox flips THIS DEVICE ONLY to show
+   them, styled as "early" so the state is never ambiguous. localStorage,
+   like every other setting. */
+const COMP_EARLY_KEY='nrl_compearly_v1';
+function getCompEarly(){ try{ return localStorage.getItem(COMP_EARLY_KEY)==='1'; }catch(e){ return false; } }
+function setCompEarly(on){ try{ on?localStorage.setItem(COMP_EARLY_KEY,'1'):localStorage.removeItem(COMP_EARLY_KEY); }catch(e){}
+  renderCompBits(); }
 /* A game's picks are shown once it has LOCKED: kick-off passed by our own
    feed's clock — or, for a kickoff-less fixture (the mid-game drop), once the
    live feed or a result proves it started. */
@@ -1664,7 +1680,8 @@ function compLocked(p,fx){
 function compStripHTML(p){
   if(!COMP||!COMP.members||COMP.round!==SRC.round) return '';
   const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
-  if(!compLocked(p,fx)) return '';
+  const locked=compLocked(p,fx);
+  if(!locked && !getCompEarly()) return '';
   const key=liveKey(p.h.short,p.a.short);
   const fin=fixtureResult(p)||liveFinal(p);
   const chips=COMP.members.filter(m=>m.picks[key]).map(m=>{
@@ -1673,7 +1690,7 @@ function compStripHTML(p){
     return `<span class="cpick"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>${esc(m.name)}${mark}</span>`;
   }).join('');
   if(!chips) return '';
-  return `<div class="compstrip"><span class="cst">Comp</span>${chips}</div>`;
+  return `<div class="compstrip${locked?'':' early'}"><span class="cst">${locked?'Comp':'Comp · early'}</span>${chips}</div>`;
 }
 function renderCompPanel(){
   const el=document.getElementById('compPanel');
