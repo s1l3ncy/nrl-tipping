@@ -1,5 +1,5 @@
 # Round 24 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-10T20:28:03. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-10T20:57:38. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (88 book quotes across 8 fixtures).
 Panthers v Roosters: 1.78 / 2.02
 Sea Eagles v Dolphins: 2.95 / 1.40
