@@ -123,7 +123,19 @@ ladder** (`#compPanel`, under the Quick list / in the ≥1280px rail). Search
   show earlier anyway (a short-lived "early picks" toggle was removed
   2026-08-10 — see GOTCHAS).
 
-### Comp strategy mode (2026-08-10 — always on)
+### Comp-aware tips (2026-08-10 audit rebuild — the tip IS the strategy)
+
+`tipSide()` now IS the comp policy (see MODEL.md "THE OBJECTIVE CHANGED"):
+`compPlan()` (lazy, stamped on standings+round+locked-set) picks ≤cap splits
+by the need-banded θ rule; split tips render with a blue 🎯 pill and an
+honesty line ("comp split — model favours X"). `predict()` stays strategy-free.
+Rival profiles + standings arrive in `nrl_comp.js` (pipeline) — there is NO
+client-side history fetching; `pollComp` only live-refreshes the current round
+and preserves file-shipped `aff` by name. A comp change sets `ORDER_DIRTY`
+(tips may flip → full render on foreground/grace). The freeze step inlines
+`nrl_comp.js`, so frozen tips are byte-identical to browser tips.
+
+### (superseded) Comp strategy mode (2026-08-10 — always on)
 
 ALWAYS ON (Josh, 2026-08-10: "nobody else will see this page. it doesnt
 need a toggle" — re-gate via `getStrat()` if that ever changes). Active: `fetchCompHistory()` pulls every completed round once and

@@ -1,5 +1,37 @@
 # The Model — how a tip is calculated
 
+
+## THE OBJECTIVE CHANGED (2026-08-10): win the comp, not maximise accuracy
+
+A three-specialist audit (data scientist, professional bettor, behavioural
+psychologist — full findings in `docs/CHANGELOG.md`) rebuilt the DECISION layer.
+`predict()` stays an honest probability estimator; `tipSide()` is now a
+comp-optimal decision policy:
+
+1. **Roosters lock first, always** (unchanged, non-negotiable).
+2. **State**: d = deficit to the MAX of the rivals at-or-above Josh (a 4-way
+   cluster, not one leader); need = d / rounds-left; T = games left (schedule
+   table `COMP_GAMES_PER_ROUND`, finals rounds shrink). Standings come from
+   `nrl_comp.js` (pipeline) refreshed live by the browser poll.
+3. **Split rule**: tip the underdog only when (a) the favourite's blended prob
+   ≤ θ(need), (b) near-unanimity of the ahead-cluster sits on the favourite
+   (actual picks once visible, else the behavioural predictor — a matched
+   split moves no ranks), (c) the game hasn't kicked off, (d) the round's
+   split cap isn't spent. Bands: need<0.5 → 0 splits; <1 → 1 @ θ=.55; <2 →
+   2 @ .58; <3 → 4 @ .62; else nuclear (.75, or 1.0 when d>0.6·T).
+   Candidates rank by (1−pf)·foes — cheapest variance, most rank leverage,
+   least damage to the +2 perfect-round bonus.
+4. **Leading → cover mode**: straight favourites, no splits.
+5. **Anti-tilt**: the schedule is a function of (standings, games left) ONLY.
+6. **oddsW**: now defaults 0.75 (market-heavy). The old 0.5 was an UNFITTED
+   default mislabelled as learned; `learn_model` emits `oddsWeightLearned`
+   and `freeze_tips` logs per-tip market probs (`tiplog .mkt`) as the corpus
+   that will eventually let oddsW be fitted for real.
+Monte-Carlo validation (audit): ~10× P(win) vs pure favourite-tipping at the
+current gap — but the honest absolute number is ~0.1–1%. The machine is the
+best play, not a promise.
+
+
 This is the heart of the project: exactly how the app turns data into a predicted
 winner and a confidence for each game. All of this runs **in the browser** inside
 `nrl-tipping-guide.html`; the learning loop (`learn_model.py`) mirrors the same math

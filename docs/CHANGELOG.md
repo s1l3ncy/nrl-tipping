@@ -5,6 +5,44 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-10 (night) — THE OBJECTIVE CHANGED: comp-win policy hardwired into tipSide()
+
+Josh: "I want the model to be built purely to win the tipping comp (asides
+from always betting roosters)… Not a suggestion but hard wired." A
+three-specialist audit (data scientist / professional gambler / behavioural
+psychologist, run as independent agents) preceded the build. Consensus
+findings that shaped it:
+
+- **The target is a 4-way cluster** (Brigitte 112, Claire 112, Jake 111,
+  Thorners 111 — beat the MAX), not one leader; ~41 games left, not 60.
+- **oddsW=0.5 was an unfitted default** mislabelled as learned
+  (`marketBrier:null` proves it). All three: weight the market heavily →
+  0.75 prior, `oddsWeightLearned` flag, and `freeze_tips` now logs per-tip
+  de-vigged market probs (`tiplog .mkt`) so it can be fitted for real later.
+- **Splits are variance purchases**: only ever in the pf≤0.60 band, only
+  when the ahead-cluster herds the favourite (matched split = EV burn),
+  ranked (1−pf)·foes, capped per round by need bands, anti-tilt (schedule
+  from standings only). MC: ~10× P(win) vs straight favourites at gap 14;
+  honest absolute ~0.1–1% — recorded, not oversold.
+- **Behavioural upgrades**: anti-loyalty flip in the rival predictor (the
+  family-wide Eels/Titans/Dragons aversions; +3-5pp → ~87%), loyalty
+  tie-break kept, rivals static-and-converging (weekly refit suffices).
+- **Josh's own leaks the machine now removes**: ~4 pts lost to unentered
+  tips (enter every game — the app tips everything), 61 coin-flip dog picks
+  at 50.8%, zero perfect rounds in 23 (the +2 bonus channel).
+
+**Build:** `cloud_fetch.py` ships `nrl_comp.js` (standings + picks + season
+affinity profiles, ~23 extra public-API GETs/run, best-effort);
+`tipSide()` = lock → `compPlan()` split table → blended favourite; blue 🎯
+split pill + "comp split — model favours X" honesty line; panel shows
+d/rounds-left/need/armed splits; predicted strips unchanged; advisory
+"Comp play" notes deleted (superseded by the hardwired tip). Freeze inlines
+`nrl_comp.js` → frozen tips byte-identical to browser tips (verified);
+flips feed announces policy tip changes automatically. R24 at ship: SOU
+(42%) and STI (49%) splits armed, everything else straight, SYD locked.
+
+---
+
 ## 2026-08-10 (later) — Comp strategy mode: rival prediction + split picks
 
 Josh: "you should be able to somewhat predict what they will tip… build in

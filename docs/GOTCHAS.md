@@ -184,7 +184,28 @@ Real problems encountered on this project and how to avoid repeating them.
   fetch the comp's data (first names + picks + scores). Josh accepted this;
   if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
 
-## Comp strategy mode (2026-08-10)
+## The comp-WIN objective (2026-08-10 audit rebuild)
+- **`tipSide()` is now a DECISION POLICY, `predict()` stays an honest
+  estimator — never blur that line.** Don't shade `pHome` to justify a split,
+  and don't move strategy out of `tipSide()`: the freeze, grading, every
+  surface and the flips feed all assume that single seam.
+- **Determinism rule: everything the tip depends on ships in data files.**
+  Rival profiles + standings live in `nrl_comp.js` (pipeline-computed). Never
+  reintroduce client-fetched inputs to `tipSide()` — the 2026-08-10 first cut
+  had profiles in localStorage and the freeze would have frozen DIFFERENT
+  tips than the browser showed.
+- **The split cap and θ come from the (gap, rounds-left) bands ONLY** — a
+  failed split must not change aggression except through the gap itself
+  (anti-tilt, audit consensus). Matched splits (ahead-cluster not on the
+  favourite) are excluded — EV burn, zero rank movement.
+- **oddsW 0.5 was never learned** — it was a default mislabelled in prose.
+  Now 0.75 prior + `oddsWeightLearned` flag; the front-end ignores the
+  learned value unless the flag is true. `tiplog .mkt` is the accumulating
+  odds history that will make it fittable — don't strip that field.
+- **P(win) is honestly ~0.1-1%.** The policy is ~10× better than straight
+  favourites, not a miracle. UI shows need/splits, never promises.
+
+## (superseded) Comp strategy mode (2026-08-10)
 - **Strategy is ALWAYS ON at Josh's direction** ("nobody else will see this
   page") — every surface still checks `getStrat()`, so re-gating is a
   one-line change if a family member ever finds the URL.

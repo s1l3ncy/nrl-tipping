@@ -211,6 +211,20 @@ one). When a run's tip differs from the frozen one, a **flip** is recorded
 every device. Generated — never hand-edit, never upload. Not gate-validated
 (best-effort; front-end degrades to its localStorage snapshot + the lock rule).
 
+### `nrl_comp.js` → `window.NRL_COMP`
+```
+{ round, finishRound, fetched: ISO,
+  members: [ {name, me, rank, mv, roundScore, totalScore, totalMargin,
+              aff: {SHORT: [picked, seen], ...},      // season affinity profile
+              picks: {"A-B": SHORT, ...}}, ... ] }    // unordered-pair keys
+```
+Josh's footytips comp snapshot (public API, no auth), written by
+`cloud_fetch.py` each run — standings, each member's picks for the round, and
+season affinity profiles computed from rounds 1..N-1 (~23 extra GETs/run).
+Powers the comp-aware `tipSide()` policy; shipping it as a data file is what
+makes the hardwired tip DETERMINISTIC across the browser and the jsdom freeze.
+Best-effort: failure keeps the committed copy, never blocks a publish.
+
 ### `nrl_players.js` → `window.NRL_PLAYERS`
 ```
 { "player name (normalised)": { pos: "Halfback", pct: 84.1 }, ... }
