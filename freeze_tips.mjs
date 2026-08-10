@@ -28,7 +28,7 @@ import { JSDOM } from 'jsdom';
 
 const PAGE = 'nrl-tipping-guide.html';
 const OUT  = 'nrl_tiplog.js';
-const DATA = ['nrl_data.js', 'nrl_learned.js', 'nrl_players.js', 'nrl_lineups.js'];
+const DATA = ['nrl_data.js', 'nrl_learned.js', 'nrl_players.js', 'nrl_lineups.js', 'nrl_comp.js'];
 
 function readTiplog() {
   try {
@@ -72,11 +72,14 @@ function main() {
       // tip can say WHAT it was and WHY it is what it is now. whySummary()
       // returns HTML; textContent strips it to plain text for the feed.
       const pr=Math.round((tip===p.h ? p.pHome : 1-p.pHome)*100);
+      // de-vigged market prob of the tipped side (odds-history foundation —
+      // the audit's #1 unblock: oddsW can't be fitted until this accumulates)
+      const mk=(p.mkt===null||p.mkt===undefined)?null:Math.round((tip===p.h?p.mkt:1-p.mkt)*100);
       let why='';
       try{ const el=document.createElement('div');
            el.innerHTML=whySummary(p,f)||''; why=(el.textContent||'').trim().slice(0,220); }catch(e){}
       out.push({season:SRC.season, round:SRC.round, home:f.home, away:f.away,
-                tip:tip.short, prob:pr, why:why, ko:f.kickoff||null});
+                tip:tip.short, prob:pr, mkt:mk, why:why, ko:f.kickoff||null});
     });
     return out;
   })()`);
