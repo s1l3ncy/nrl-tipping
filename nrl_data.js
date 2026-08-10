@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-11T08:02:37+10:00",
+  "generatedAt": "2026-08-11T08:19:40+10:00",
   "changes": [
     {
       "id": "r24-PEN-SYD-line-1.78-2.04",
