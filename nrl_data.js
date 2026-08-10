@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 2.05
         },
         "close": {
-          "home": 1.8,
+          "home": 1.78,
           "away": 2.02
         }
       },
@@ -492,7 +492,7 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.94,
+          "home": 2.95,
           "away": 1.4
         }
       },
@@ -512,8 +512,8 @@ window.NRL_DATA = {
           "away": 2.15
         },
         "close": {
-          "home": 1.64,
-          "away": 2.25
+          "home": 1.62,
+          "away": 2.28
         }
       },
       "weather": null,
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.85,
-          "away": 1.93
+          "away": 1.94
         }
       },
       "weather": null,
@@ -624,8 +624,56 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-10T15:11:47+10:00",
+  "generatedAt": "2026-08-10T19:55:51+10:00",
   "changes": [
+    {
+      "id": "r24-PEN-SYD-line-1.78-2.02",
+      "fixture": "PEN-SYD",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.80 → $1.78, Roosters $2.02 → $2.02. Market now 53% Panthers (was 53%).",
+      "pts": null,
+      "ts": "2026-08-10T19:55:51+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-MAN-DOL-line-2.95-1.40",
+      "fixture": "MAN-DOL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sea Eagles $2.94 → $2.95, Dolphins $1.40 → $1.40. Market now 32% Sea Eagles (was 32%).",
+      "pts": null,
+      "ts": "2026-08-10T19:55:51+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CAN-SOU-line-1.62-2.28",
+      "fixture": "CAN-SOU",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Bulldogs $1.64 → $1.62, Rabbitohs $2.25 → $2.28. Market now 58% Bulldogs (was 58%).",
+      "pts": null,
+      "ts": "2026-08-10T19:55:51+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.85-1.94",
+      "fixture": "WST-STI",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Wests Tigers $1.85 → $1.85, Dragons $1.93 → $1.94. Market now 51% Wests Tigers (was 51%).",
+      "pts": null,
+      "ts": "2026-08-10T19:55:51+10:00",
+      "rnd": 24
+    },
     {
       "id": "r24-PEN-SYD-line-1.80-2.02",
       "fixture": "PEN-SYD",
