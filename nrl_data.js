@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 2.05
         },
         "close": {
-          "home": 1.78,
-          "away": 2.05
+          "home": 1.8,
+          "away": 2.0
         }
       },
       "weather": null,
@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 3.3,
-          "away": 1.34
+          "home": 3.35,
+          "away": 1.33
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-12T05:50:01+10:00",
+  "generatedAt": "2026-08-12T08:13:01+10:00",
   "changes": [
     {
       "id": "r24-SOU-inj-ashton-ward",
@@ -756,6 +756,30 @@ window.NRL_DATA = {
       "text": "Dolphins: Ray Stone (Neck) — back Round 24 — new on the injury list.",
       "pts": 1.0,
       "ts": "2026-08-11T14:53:14+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PEN-SYD-line-1.80-2.00",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.78 → $1.80, Roosters $2.05 → $2.00. Market now 53% Panthers (was 54%).",
+      "pts": null,
+      "ts": "2026-08-12T08:13:01+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-MAN-DOL-line-3.35-1.33",
+      "fixture": "MAN-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sea Eagles $3.30 → $3.35, Dolphins $1.34 → $1.33. Market now 28% Sea Eagles (was 29%).",
+      "pts": null,
+      "ts": "2026-08-12T08:13:01+10:00",
       "rnd": 24
     },
     {
@@ -985,55 +1009,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-11T01:34:35+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-PEN-SYD-line-1.78-2.02",
-      "fixture": "PEN-SYD",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.80 → $1.78, Roosters $2.02 → $2.02. Market now 53% Panthers (was 53%).",
-      "pts": null,
-      "ts": "2026-08-10T19:55:51+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-MAN-DOL-line-2.95-1.40",
-      "fixture": "MAN-DOL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sea Eagles $2.94 → $2.95, Dolphins $1.40 → $1.40. Market now 32% Sea Eagles (was 32%).",
-      "pts": null,
-      "ts": "2026-08-10T19:55:51+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CAN-SOU-line-1.62-2.28",
-      "fixture": "CAN-SOU",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Bulldogs $1.64 → $1.62, Rabbitohs $2.25 → $2.28. Market now 58% Bulldogs (was 58%).",
-      "pts": null,
-      "ts": "2026-08-10T19:55:51+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.85-1.94",
-      "fixture": "WST-STI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Wests Tigers $1.85 → $1.85, Dragons $1.93 → $1.94. Market now 51% Wests Tigers (was 51%).",
-      "pts": null,
-      "ts": "2026-08-10T19:55:51+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-10T19:55:51+10:00"
+  "changesSince": "2026-08-11T01:34:35+10:00"
 };
