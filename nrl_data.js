@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-11",
+  "updated": "2026-08-12",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -473,7 +473,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.78,
-          "away": 2.04
+          "away": 2.05
         }
       },
       "weather": null,
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.9,
-          "away": 1.91
+          "away": 1.9
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-11T21:08:46+10:00",
+  "generatedAt": "2026-08-12T01:34:01+10:00",
   "changes": [
     {
       "id": "r24-SOU-inj-ashton-ward",
@@ -756,6 +756,18 @@ window.NRL_DATA = {
       "text": "Dolphins: Ray Stone (Neck) — back Round 24 — new on the injury list.",
       "pts": 1.0,
       "ts": "2026-08-11T14:53:14+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.90-1.90",
+      "fixture": "WST-STI",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Wests Tigers $1.90 → $1.90, Dragons $1.91 → $1.90. Market now 50% Wests Tigers (was 50%).",
+      "pts": null,
+      "ts": "2026-08-12T01:34:01+10:00",
       "rnd": 24
     },
     {
