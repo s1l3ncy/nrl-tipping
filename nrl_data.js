@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-12T08:13:01+10:00",
+  "generatedAt": "2026-08-12T08:25:59+10:00",
   "changes": [
     {
       "id": "r24-SOU-inj-ashton-ward",
