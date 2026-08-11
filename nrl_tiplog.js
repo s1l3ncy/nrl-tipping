@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-11T04:53:19.609Z",
+ "updated": "2026-08-11T09:45:23.949Z",
  "tips": [
   {
    "season": 2026,
@@ -105,23 +105,23 @@ window.NRL_TIPLOG = {
    "home": "BRI",
    "away": "NZW",
    "tip": "NZW",
-   "prob": 66,
+   "prob": 69,
    "mkt": 65,
-   "why": "Built on Warriors rating the stronger side, plus Broncos sweating on Brendan Piakura and 1 more. Warriors missing Tanah Boyd and 3 more pulls it back (and more). The bookies read it the same way.",
+   "why": "Built on Warriors rating the stronger side, plus Broncos missing Adam Reynolds and 3 more. Warriors missing Tanah Boyd and 2 more pulls it back (and more). The bookies read it the same way.",
    "ko": "2026-08-15T19:35:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
    "round": 24,
    "home": "CAN",
    "away": "SOU",
-   "tip": "SOU",
-   "prob": 43,
-   "mkt": 41,
-   "why": "Built on Rabbitohs sweating on Latrell Mitchell and 3 more, plus the home-ground edge. Bulldogs sweating on Mitchell Woods and 2 more pulls it back. The bookies read it the same way.",
+   "tip": "CAN",
+   "prob": 59,
+   "mkt": 59,
+   "why": "Built on Rabbitohs missing Ashton Ward and 4 more, plus the home-ground edge. Bulldogs being without Sitili Tupouniua (not named) and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-14T20:00:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
@@ -129,11 +129,11 @@ window.NRL_TIPLOG = {
    "home": "CRO",
    "away": "CBR",
    "tip": "CRO",
-   "prob": 71,
+   "prob": 72,
    "mkt": 71,
-   "why": "Built on Sharks rating the stronger side, plus Raiders missing Hudson Young and 1 more. Sharks missing Addin Fonua-Blake and 1 more pulls it back. The bookies read it the same way.",
+   "why": "Built on Sharks rating the stronger side, plus Raiders missing Hudson Young and 2 more. Sharks being without Jesse Ramien (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-15T15:00:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
@@ -141,11 +141,11 @@ window.NRL_TIPLOG = {
    "home": "MAN",
    "away": "DOL",
    "tip": "DOL",
-   "prob": 68,
-   "mkt": 67,
-   "why": "Built on Dolphins rating the stronger side, plus Sea Eagles missing Ethan Bullemor and 4 more. Dolphins missing Kurt Donoghoe pulls it back (and more). The bookies read it the same way.",
+   "prob": 72,
+   "mkt": 71,
+   "why": "Built on Sea Eagles missing Tom Trbojevic and 3 more, plus Dolphins rating the stronger side. Dolphins missing Kurt Donoghoe pulls it back (and more). The bookies read it the same way.",
    "ko": "2026-08-14T18:00:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
@@ -153,11 +153,11 @@ window.NRL_TIPLOG = {
    "home": "NEW",
    "away": "GLD",
    "tip": "NEW",
-   "prob": 72,
-   "mkt": 75,
-   "why": "Built on Knights rating the stronger side, plus Titans missing Zane Harrison and 3 more. Knights missing Dylan Brown and 5 more pulls it back. The bookies read it the same way.",
+   "prob": 74,
+   "mkt": 77,
+   "why": "Built on Knights rating the stronger side, plus Titans missing Zane Harrison and 3 more. Knights missing Dylan Brown and 4 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-16T14:00:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
@@ -165,11 +165,11 @@ window.NRL_TIPLOG = {
    "home": "PAR",
    "away": "NQL",
    "tip": "NQL",
-   "prob": 61,
-   "mkt": 60,
-   "why": "Built on Eels missing Jonah Pezet and 4 more, plus Cowboys rating the stronger side. Cowboys missing Jeremiah Nanai and 1 more pulls it back (and more). The bookies read it the same way.",
+   "prob": 63,
+   "mkt": 63,
+   "why": "Built on Eels missing Isaiah Iongi and 4 more, plus Cowboys rating the stronger side. Cowboys being without Tom Dearden (not named) and 1 more pulls it back (and more). The bookies read it the same way.",
    "ko": "2026-08-15T17:30:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
@@ -177,11 +177,11 @@ window.NRL_TIPLOG = {
    "home": "PEN",
    "away": "SYD",
    "tip": "SYD",
-   "prob": 48,
-   "mkt": 45,
-   "why": "Built on Roosters missing Angus Crichton and 2 more, plus the home-ground edge. Panthers missing Mitch Kenny and 3 more pulls it back (and more). The bookies lean the other way, which reins the tip in.",
+   "prob": 49,
+   "mkt": 46,
+   "why": "Built on Roosters missing Angus Crichton and 2 more, plus the home-ground edge. Panthers missing Mitch Kenny and 2 more pulls it back (and more). The bookies lean the other way, which reins the tip in.",
    "ko": "2026-08-13T19:50:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   },
   {
    "season": 2026,
@@ -189,11 +189,11 @@ window.NRL_TIPLOG = {
    "home": "WST",
    "away": "STI",
    "tip": "STI",
-   "prob": 49,
-   "mkt": 49,
-   "why": "Built on Dragons missing Jaydn Su'A and 3 more, plus Wests Tigers rating the stronger side. Wests Tigers missing Latu Fainu and 3 more pulls it back. The bookies read it the same way.",
+   "prob": 50,
+   "mkt": 50,
+   "why": "Built on Wests Tigers missing Latu Fainu and 3 more. Dragons missing Jaydn Su'A and 2 more pulls it back (and more). The bookies lean the other way, which reins the tip in.",
    "ko": "2026-08-16T16:05:00+10:00",
-   "ts": "2026-08-11T04:53:19.609Z"
+   "ts": "2026-08-11T09:45:23.949Z"
   }
  ],
  "flips": [
@@ -220,6 +220,18 @@ window.NRL_TIPLOG = {
    "toProb": 49,
    "why": "Built on Dragons missing Jaydn Su'A and 3 more, plus Wests Tigers rating the stronger side. Wests Tigers missing Latu Fainu and 3 more pulls it back. The bookies read it the same way.",
    "ts": "2026-08-10T11:40:55.768Z"
+  },
+  {
+   "season": 2026,
+   "round": 24,
+   "home": "CAN",
+   "away": "SOU",
+   "from": "SOU",
+   "to": "CAN",
+   "fromProb": 43,
+   "toProb": 59,
+   "why": "Built on Rabbitohs missing Ashton Ward and 4 more, plus the home-ground edge. Bulldogs being without Sitili Tupouniua (not named) and 2 more pulls it back. The bookies read it the same way.",
+   "ts": "2026-08-11T09:45:23.949Z"
   }
  ]
 };
