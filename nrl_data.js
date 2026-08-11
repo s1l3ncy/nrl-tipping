@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 262,
         "PA": 217
       },
-      "news": "Jesse Ramien (Pectoral); Siosifa Talakai (Biceps) — back Round 24; KL Iro (Concussion) — back Round 24; Addin Fonua-Blake (Suspension) — back Round 25"
+      "news": "Jesse Ramien (Pectoral); KL Iro (Concussion) — back Round 24; Siosifa Talakai (Biceps) — back Round 24; Addin Fonua-Blake (Suspension) — back Round 25"
     },
     {
       "name": "Dolphins",
@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Brodie Jones (Hamstring); Bradman Best (Calf) — back Round 24; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Brodie Jones (Hamstring); Bradman Best (Calf) — back Round 24; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Samuel Hughes (Neck); Sitili Tupouniua (Hamstring); Mitchell Woods (Hamstring)"
+      "news": "Samuel Hughes (Neck); Sitili Tupouniua (Hamstring)"
     },
     {
       "name": "Sea Eagles",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 280,
         "PA": 222
       },
-      "news": "Siosiua Taukeiaho (Leg); Caleb Navale (ACL) — back Round 24; Clayton Faulalo (Hamstring) — back Round 24; Tom Trbojevic (Hamstring) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Ethan Bullemor (Concussion) — back Round 25"
+      "news": "Siosiua Taukeiaho (Leg); Clayton Faulalo (Hamstring) — back Round 24; Caleb Navale (ACL) — back Round 24; Tom Trbojevic (Hamstring) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Ethan Bullemor (Concussion) — back Round 25"
     },
     {
       "name": "Storm",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle) — back Round 25; Harry Grant (Hamstring) — back Round 25; Jack Howarth (Shoulder) — back Round 25"
+      "news": "Marion Seve (Triceps); Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Harry Grant (Hamstring) — back Round 25; Jack Howarth (Shoulder) — back Round 25; Ativalu Lisati (Ankle) — back Round 25"
     },
     {
       "name": "Raiders",
@@ -352,7 +352,7 @@ window.NRL_DATA = {
         "PF": 201,
         "PA": 306
       },
-      "news": "Bailey Simonsson (Ankle); Sean Russell (Quad) — back Round 24; Jonah Pezet (Shoulder) — back Round 25; Isaiah Iongi (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season"
+      "news": "Bailey Simonsson (Ankle); Sean Russell (Quad) — back Round 24; Jonah Pezet (Shoulder) — back Round 25; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 275
       },
-      "news": "Brock Gray (ACL); Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
+      "news": "Brock Gray (ACL); Zane Harrison (Hamstring) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 2.05
         },
         "close": {
-          "home": 1.77,
-          "away": 2.05
+          "home": 1.78,
+          "away": 2.04
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-11T19:45:20+10:00",
+  "generatedAt": "2026-08-11T21:08:46+10:00",
   "changes": [
     {
       "id": "r24-SOU-inj-ashton-ward",
@@ -672,6 +672,18 @@ window.NRL_DATA = {
       "text": "Eels: Isaiah Iongi (Knee) — new on the injury list.",
       "pts": 2.6,
       "ts": "2026-08-11T14:53:14+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CAN-fit-mitchell-woods",
+      "fixture": "CAN-SOU",
+      "team": "CAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Bulldogs: Mitchell Woods is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-08-11T21:08:46+10:00",
       "rnd": 24
     },
     {
