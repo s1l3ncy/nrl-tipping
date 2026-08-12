@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-13T08:09:59+10:00",
+  "generatedAt": "2026-08-13T08:24:54+10:00",
   "changes": [
     {
       "id": "r24-SYD-out-james-tedesco",
