@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-13T01:32:46+10:00",
+  "generatedAt": "2026-08-13T05:53:43+10:00",
   "changes": [
     {
       "id": "r24-SYD-out-james-tedesco",
@@ -672,18 +672,6 @@ window.NRL_DATA = {
       "text": "Broncos: Cory Paix (Shoulder) — back Next Season — new on the injury list.",
       "pts": 2.9,
       "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-PAR-inj-isaiah-iongi",
-      "fixture": "PAR-NQL",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Eels: Isaiah Iongi (Knee) — new on the injury list.",
-      "pts": 2.6,
-      "ts": "2026-08-11T14:53:14+10:00",
       "rnd": 24
     },
     {
@@ -744,42 +732,6 @@ window.NRL_DATA = {
       "text": "Raiders: Simi Sasagi (Shoulder) — new on the injury list.",
       "pts": 1.9,
       "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CRO-inj-addin-fonua-blake",
-      "fixture": "CRO-CBR",
-      "team": "CRO",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sharks: Addin Fonua-Blake (Suspension) — back Round 25 — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-DOL-inj-kurt-donoghoe",
-      "fixture": "MAN-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dolphins: Kurt Donoghoe (Thumb) — back Round 26 — new on the injury list.",
-      "pts": 1.0,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-DOL-inj-ray-stone",
-      "fixture": "MAN-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dolphins: Ray Stone (Neck) — back Round 24 — new on the injury list.",
-      "pts": 1.0,
-      "ts": "2026-08-11T14:53:14+10:00",
       "rnd": 24
     },
     {
@@ -1021,67 +973,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-11T19:45:20+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-PEN-SYD-line-1.74-2.10",
-      "fixture": "PEN-SYD",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.78 → $1.74, Roosters $2.02 → $2.10. Market now 55% Panthers (was 53%).",
-      "pts": null,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-MAN-DOL-line-2.88-1.42",
-      "fixture": "MAN-DOL",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $2.95 → $2.88, Dolphins $1.40 → $1.42. Market now 33% Sea Eagles (was 32%).",
-      "pts": null,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CAN-SOU-line-1.62-2.30",
-      "fixture": "CAN-SOU",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Bulldogs $1.62 → $1.62, Rabbitohs $2.28 → $2.30. Market now 59% Bulldogs (was 58%).",
-      "pts": null,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CRO-CBR-line-1.34-3.30",
-      "fixture": "CRO-CBR",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $1.34 → $1.34, Raiders $3.25 → $3.30. Market now 71% Sharks (was 71%).",
-      "pts": null,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.88-1.93",
-      "fixture": "WST-STI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Wests Tigers $1.85 → $1.88, Dragons $1.92 → $1.93. Market now 51% Wests Tigers (was 51%).",
-      "pts": null,
-      "ts": "2026-08-11T14:53:14+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-11T14:53:14+10:00"
+  "changesSince": "2026-08-11T19:45:20+10:00"
 };
