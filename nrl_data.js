@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 2.05
         },
         "close": {
-          "home": 1.58,
-          "away": 2.4
+          "home": 1.55,
+          "away": 2.45
         }
       },
       "weather": null,
@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.75,
-          "away": 1.45
+          "away": 1.44
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-13T05:53:43+10:00",
+  "generatedAt": "2026-08-13T08:09:59+10:00",
   "changes": [
     {
       "id": "r24-SYD-out-james-tedesco",
@@ -636,42 +636,6 @@ window.NRL_DATA = {
       "text": "James Tedesco (Fullback) is out of the Roosters 17.",
       "pts": 3.6,
       "ts": "2026-08-12T21:14:11+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-SOU-inj-ashton-ward",
-      "fixture": "CAN-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Rabbitohs: Ashton Ward (Hamstring) — back Next Season — new on the injury list.",
-      "pts": 2.9,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-SOU-inj-jamie-humphreys",
-      "fixture": "CAN-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Rabbitohs: Jamie Humphreys (Ankle) — back Round 25 — new on the injury list.",
-      "pts": 2.7,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-BRI-inj-cory-paix",
-      "fixture": "BRI-NZW",
-      "team": "BRI",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Broncos: Cory Paix (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 2.9,
-      "ts": "2026-08-11T19:45:20+10:00",
       "rnd": 24
     },
     {
@@ -699,39 +663,27 @@ window.NRL_DATA = {
       "rnd": 24
     },
     {
-      "id": "r24-MAN-inj-caleb-navale",
-      "fixture": "MAN-DOL",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sea Eagles: Caleb Navale (ACL) — back Round 24 — new on the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-MAN-fit-taniela-paseka",
-      "fixture": "MAN-DOL",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r24-PEN-SYD-line-1.55-2.45",
+      "fixture": "PEN-SYD",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Sea Eagles: Taniela Paseka is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-11T19:45:20+10:00",
+      "text": "Line moved — Panthers $1.58 → $1.55, Roosters $2.40 → $2.45. Market now 61% Panthers (was 60%).",
+      "pts": null,
+      "ts": "2026-08-13T08:09:59+10:00",
       "rnd": 24
     },
     {
-      "id": "r24-CBR-inj-simi-sasagi",
-      "fixture": "CRO-CBR",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Raiders: Simi Sasagi (Shoulder) — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-11T19:45:20+10:00",
+      "id": "r24-BRI-NZW-line-2.75-1.44",
+      "fixture": "BRI-NZW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Broncos $2.75 → $2.75, Warriors $1.45 → $1.44. Market now 34% Broncos (was 35%).",
+      "pts": null,
+      "ts": "2026-08-13T08:09:59+10:00",
       "rnd": 24
     },
     {
@@ -877,103 +829,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-12T01:34:01+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-PEN-SYD-line-1.77-2.05",
-      "fixture": "PEN-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.74 → $1.77, Roosters $2.10 → $2.05. Market now 54% Panthers (was 55%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-MAN-DOL-line-3.30-1.34",
-      "fixture": "MAN-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $2.88 → $3.30, Dolphins $1.42 → $1.34. Market now 29% Sea Eagles (was 33%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CAN-SOU-line-1.60-2.35",
-      "fixture": "CAN-SOU",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Bulldogs $1.62 → $1.60, Rabbitohs $2.30 → $2.35. Market now 59% Bulldogs (was 59%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CRO-CBR-line-1.34-3.35",
-      "fixture": "CRO-CBR",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $1.34 → $1.34, Raiders $3.30 → $3.35. Market now 71% Sharks (was 71%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-PAR-NQL-line-2.55-1.52",
-      "fixture": "PAR-NQL",
-      "team": "NQL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.40 → $2.55, Cowboys $1.57 → $1.52. Market now 37% Eels (was 40%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-BRI-NZW-line-2.75-1.45",
-      "fixture": "BRI-NZW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $2.75 → $2.75, Warriors $1.46 → $1.45. Market now 35% Broncos (was 35%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-NEW-GLD-line-1.24-4.10",
-      "fixture": "NEW-GLD",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.28 → $1.24, Titans $3.75 → $4.10. Market now 77% Knights (was 75%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.90-1.91",
-      "fixture": "WST-STI",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Wests Tigers $1.88 → $1.90, Dragons $1.93 → $1.91. Market now 50% Wests Tigers (was 51%).",
-      "pts": null,
-      "ts": "2026-08-11T19:45:20+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-11T19:45:20+10:00"
+  "changesSince": "2026-08-11T21:08:46+10:00"
 };
