@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 2.05
         },
         "close": {
-          "home": 1.67,
-          "away": 2.2
+          "home": 1.57,
+          "away": 2.4
         }
       },
       "weather": null,
@@ -533,7 +533,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.32,
-          "away": 3.35
+          "away": 3.45
         }
       },
       "weather": null,
@@ -553,7 +553,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.55,
-          "away": 1.52
+          "away": 1.53
         }
       },
       "weather": null,
@@ -592,8 +592,8 @@ window.NRL_DATA = {
           "away": 3.8
         },
         "close": {
-          "home": 1.23,
-          "away": 4.1
+          "home": 1.22,
+          "away": 4.2
         }
       },
       "weather": null,
@@ -624,8 +624,20 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-12T15:50:09+10:00",
+  "generatedAt": "2026-08-12T21:14:11+10:00",
   "changes": [
+    {
+      "id": "r24-SYD-out-james-tedesco",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "out",
+      "sev": 3,
+      "dir": "down",
+      "text": "James Tedesco (Fullback) is out of the Roosters 17.",
+      "pts": 3.6,
+      "ts": "2026-08-12T21:14:11+10:00",
+      "rnd": 24
+    },
     {
       "id": "r24-SOU-inj-ashton-ward",
       "fixture": "CAN-SOU",
@@ -672,6 +684,18 @@ window.NRL_DATA = {
       "text": "Eels: Isaiah Iongi (Knee) — new on the injury list.",
       "pts": 2.6,
       "ts": "2026-08-11T14:53:14+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-SYD-in-rex-bassingthwaighte",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Rex Bassingthwaighte named in the Roosters 17.",
+      "pts": 0.6,
+      "ts": "2026-08-12T21:14:11+10:00",
       "rnd": 24
     },
     {
@@ -756,6 +780,54 @@ window.NRL_DATA = {
       "text": "Dolphins: Ray Stone (Neck) — back Round 24 — new on the injury list.",
       "pts": 1.0,
       "ts": "2026-08-11T14:53:14+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PEN-SYD-line-1.57-2.40",
+      "fixture": "PEN-SYD",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.67 → $1.57, Roosters $2.20 → $2.40. Market now 60% Panthers (was 57%).",
+      "pts": null,
+      "ts": "2026-08-12T21:14:11+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CRO-CBR-line-1.32-3.45",
+      "fixture": "CRO-CBR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $1.32 → $1.32, Raiders $3.35 → $3.45. Market now 72% Sharks (was 72%).",
+      "pts": null,
+      "ts": "2026-08-12T21:14:11+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PAR-NQL-line-2.55-1.53",
+      "fixture": "PAR-NQL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Eels $2.55 → $2.55, Cowboys $1.52 → $1.53. Market now 38% Eels (was 37%).",
+      "pts": null,
+      "ts": "2026-08-12T21:14:11+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-GLD-line-1.22-4.20",
+      "fixture": "NEW-GLD",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Knights $1.23 → $1.22, Titans $4.10 → $4.20. Market now 77% Knights (was 77%).",
+      "pts": null,
+      "ts": "2026-08-12T21:14:11+10:00",
       "rnd": 24
     },
     {
@@ -997,55 +1069,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-11T14:53:14+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-PEN-SYD-line-1.78-2.04",
-      "fixture": "PEN-SYD",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.78 → $1.78, Roosters $2.02 → $2.04. Market now 53% Panthers (was 53%).",
-      "pts": null,
-      "ts": "2026-08-11T05:43:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CAN-SOU-line-1.63-2.26",
-      "fixture": "CAN-SOU",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Bulldogs $1.62 → $1.63, Rabbitohs $2.28 → $2.26. Market now 58% Bulldogs (was 58%).",
-      "pts": null,
-      "ts": "2026-08-11T05:43:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CRO-CBR-line-1.33-3.27",
-      "fixture": "CRO-CBR",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sharks $1.34 → $1.33, Raiders $3.25 → $3.27. Market now 71% Sharks (was 71%).",
-      "pts": null,
-      "ts": "2026-08-11T05:43:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-NEW-GLD-line-1.28-3.73",
-      "fixture": "NEW-GLD",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.28 → $1.28, Titans $3.75 → $3.73. Market now 74% Knights (was 75%).",
-      "pts": null,
-      "ts": "2026-08-11T05:43:44+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-11T05:43:44+10:00"
+  "changesSince": "2026-08-11T14:53:14+10:00"
 };
