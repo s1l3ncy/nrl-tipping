@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-12",
+  "updated": "2026-08-13",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -66,7 +66,7 @@ window.NRL_DATA = {
         "PF": 316,
         "PA": 214
       },
-      "news": "James Tedesco (Ankle) — back Round 24; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "James Tedesco (Ankle) — back Round 25; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 2.05
         },
         "close": {
-          "home": 1.57,
+          "home": 1.58,
           "away": 2.4
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-12T21:14:11+10:00",
+  "generatedAt": "2026-08-13T01:32:46+10:00",
   "changes": [
     {
       "id": "r24-SYD-out-james-tedesco",
@@ -780,6 +780,18 @@ window.NRL_DATA = {
       "text": "Dolphins: Ray Stone (Neck) — back Round 24 — new on the injury list.",
       "pts": 1.0,
       "ts": "2026-08-11T14:53:14+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PEN-SYD-line-1.58-2.40",
+      "fixture": "PEN-SYD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.57 → $1.58, Roosters $2.40 → $2.40. Market now 60% Panthers (was 60%).",
+      "pts": null,
+      "ts": "2026-08-13T01:32:46+10:00",
       "rnd": 24
     },
     {
