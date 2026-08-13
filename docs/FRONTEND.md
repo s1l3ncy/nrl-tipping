@@ -128,6 +128,18 @@ slightly faded) shares the same anatomy. No `.cpick` pills remain. Key facts:
   show earlier anyway (a short-lived "early picks" toggle was removed
   2026-08-10 — see GOTCHAS).
 
+### The comp simulator & panel extras (2026-08-13)
+
+`simComp()` (search it) prices the round's candidate splits by simulating the
+rest of the season 3,000 times — deterministic (seed on season+round, keyed
+per-game draws) so freeze and browser agree; see MODEL.md and GOTCHAS. The
+comp panel (`renderCompPanel`) now also carries: a **chances line** inside
+`.stratline` (P(1st) / P(top 3) + what straight tips would sit at), a
+**margin countback column** (`.mgv`, ±N per member, lower wins ties), a
+**margin-game advice line** (`.mgline`, pre-lock only, first game of the
+round, median play), and the **adherence line** (`.adhline`, "You vs the
+machine": entered/matched/deviation cost, localStorage counts per device).
+
 ### Comp-aware tips (2026-08-10 audit rebuild — the tip IS the strategy)
 
 `tipSide()` now IS the comp policy (see MODEL.md "THE OBJECTIVE CHANGED"):

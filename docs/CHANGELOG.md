@@ -5,6 +5,64 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-13 (night) — Monte-Carlo season simulator drives the splits; chances panel; margin adviser; adherence loop
+
+Josh: "Ultimately I want to put my chances of coming 1st or at least top 3
+up." Objective chosen (explicitly): **balanced — winning is worth ~2× a
+podium**, so the machine maximises U = P(top 3) + P(1st).
+
+**The simulator (`simComp()`, in-page).** The 2026-08-10 need-band split
+selection is replaced by a priced one: every candidate split set for the
+current round is scored by simulating the rest of the season 3,000 times —
+current round with real games (blended probs; rivals' actual picks once
+visible, else `predictPick()`), future rounds as generic games where each
+rival herds the favourite at a rate fitted to their season accuracy
+(`h=(acc+p̄f−1)/(2p̄f−1)`), everyone shares each simulated outcome (herding
+correlation), +2 perfect-round bonus, and points ties resolved by the real
+margin countback. Future-me plays the SAME machine policy (up to 2 dogs a
+round in pf≤0.62 games while chasing, cover when ahead) — modelling
+future-me as a straight-favourites tipper zeroed P(top 3) and made every
+current split look worthless. Key engineering:
+- **Deterministic**: mulberry32 PRNG, seed from (season, round); per-game
+  KEYED draws so the tape is stable all round even as fixtures resolve out.
+  Browser and jsdom freeze derive byte-identical tips (verified: freeze run
+  recorded exactly the 2 intended flips).
+- **Common random numbers**: rival totals simulated once per iteration;
+  candidate sets are ranked against the same tape (paired comparison).
+- **Tie-breaks within EPS=0.003 of best U**: (1) incumbency — splits already
+  frozen in the tiplog stay, so MC noise can't churn the flip feed; (2)
+  policy consistency — the top-2 candidates by (1−pf)·foes, matching the
+  simulated future schedule (fixes the time-inconsistency where each round's
+  marginal split looks individually worthless); (3) fewer splits.
+- Band selection survives as the fallback if the sim throws; the audit's
+  guards stay (never the Roosters, matched-split exclusion, need<0.5 → no
+  splits, anti-tilt inputs only).
+At ship (R24, 14 behind, 8 rounds left): 2 splits armed — SOU (40%), PAR
+(38%) — honest chances line "1st <0.1% · top 3 0.5%".
+
+**Chances panel**: the comp-panel strategy line now leads with P(1st) /
+P(top 3) and what straight tips would sit at.
+
+**Margin adviser + countback**: footytips ranks equal scores by cumulative
+margin, LOWER first (it's why Brigitte 416 ranks above Claire 426 at 112
+each; Josh and Thorners are tied 447). The panel now shows each member's
+countback (±N) and, pre-lock, a recommended margin for the round's first
+game (the margin game): 0.85× the logistic-inverted blended margin — the
+median play, since margins are right-skewed and blow-out entries poison the
+countback.
+
+**Adherence loop** ("You vs the machine"): once games lock, footytips shows
+what was actually entered — the panel compares Josh's real picks against the
+frozen machine tips: entered n/N, matched, and the running cost of
+deviations and missed entries (his audited historical leaks: ~4 pts to
+unentered tips, 61 coin-flip dog picks). Counts only, accumulated per-device
+in localStorage (`nrl_adh_v1`), labelled "since R{first}".
+
+Files: `nrl-tipping-guide.html`, `sw.js` CACHE v17. No pipeline changes; the
+freeze picks the new policy up automatically (by design — it runs the page).
+
+---
+
 ## 2026-08-13 (later) — Live-poll survives a blanked solo-game kickoff; comp picks de-bubbled
 
 Mid-match (PEN–SYD, the day's only game), Josh reported the live score gone

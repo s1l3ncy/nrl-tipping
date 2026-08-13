@@ -1,6 +1,28 @@
 # The Model — how a tip is calculated
 
 
+## THE SPLITS ARE NOW PRICED BY SIMULATION (2026-08-13)
+
+The split-selection layer of the 2026-08-10 policy below was replaced by an
+in-page Monte-Carlo season simulator, `simComp()` (Josh's chosen objective:
+**balanced** — U = P(top 3) + P(1st), winning worth ~2× a podium). Every
+candidate split set for the current round is scored over 3,000 simulated
+rest-of-seasons: real games for the current round (blended probs, rivals'
+actual-then-predicted picks), generic games for future rounds (per-rival herd
+rates fitted to season accuracy, shared outcomes for herd correlation, +2
+perfect-round bonus, margin-countback tie-breaks), and future-me playing this
+same machine policy. Deterministic by construction: seeded PRNG keyed on
+(season, round) with per-game draw streams — browser and jsdom freeze derive
+identical tips. Selection breaks near-ties (EPS=0.003) toward frozen
+incumbent splits, then the top-2 (1−pf)·foes candidates (policy consistency),
+then fewer splits. The need bands below survive only as the θ candidate
+filter (floored at 0.65) and as the fallback if the simulator throws. The
+audit's hard guards all stand: never the Roosters game, matched-split
+exclusion, need<0.5 → no splits, anti-tilt inputs. The comp panel surfaces
+the simulator's honest P(1st)/P(top 3), the margin-game median advice, and
+the adherence tally. Full detail in `docs/CHANGELOG.md` 2026-08-13 (night).
+
+
 ## THE OBJECTIVE CHANGED (2026-08-10): win the comp, not maximise accuracy
 
 A three-specialist audit (data scientist, professional bettor, behavioural

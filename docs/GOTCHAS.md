@@ -184,6 +184,39 @@ Real problems encountered on this project and how to avoid repeating them.
   fetch the comp's data (first names + picks + scores). Josh accepted this;
   if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
 
+## The comp simulator (2026-08-13) — determinism and time-consistency
+
+- **The sim's seed comes from (season, round) ONLY — never the plan stamp.**
+  A stamp-derived seed redraws the tape whenever standings tick, near-tied
+  split sets then trade places between 4-hourly runs, and every trade is
+  announced as a tip flip. Per-game KEYED draw streams (`draw('g|'+key,i)`)
+  keep a game's simulated outcomes stable all round even as fixtures resolve
+  out of the list. Don't "simplify" back to one sequential rng.
+- **Future-me must play the machine's own policy** (≤2 dogs/round in pf≤0.62
+  games while chasing). Modelling future-me as a straight-favourites tipper
+  drove P(top 3) to zero and made every current-round split look worthless —
+  which then argues against ever splitting (time-inconsistency). Same trap
+  in reverse: the EPS tie-break toward the top-2 policy-consistent
+  candidates exists because a single split's marginal value is genuinely
+  below MC resolution against the ~14 future splits the sim assumes.
+- **Incumbency is a feature, not inertia**: within EPS, splits already
+  frozen in the tiplog stay armed. Removing this reintroduces flip-feed
+  churn from pure MC noise.
+- **The chances line is honest and small** (~0.1–1%). Don't "fix" it to look
+  motivating; the audit's numbers were the same shape.
+- **`compMarginOf()` reads the RAW `window.NRL_COMP`** — `compFromFile()`
+  strips `totalMargin`, and the browser-poll members never carry it. The
+  countback (lower margin wins ties) rides only in the file copy.
+- **The adherence tally is per-device** (localStorage counts, `nrl_adh_v1`,
+  labelled "since R{first}") — picks are only visible post-lock, so entered/
+  matched can only ever be measured for locked games. Don't move raw picks
+  or surnames into storage (privacy rule above).
+- **The margin advice is deliberately BELOW the expected margin** (×0.85,
+  logistic-inverted from the blended prob): countback is a lower-is-better
+  cumulative error, margins are right-skewed, and the median beats the mean
+  for that loss. Don't "correct" it up to the model margin. It assumes
+  footytips puts the margin on the round's FIRST game.
+
 ## The comp-WIN objective (2026-08-10 audit rebuild)
 - **`tipSide()` is now a DECISION POLICY, `predict()` stays an honest
   estimator — never blur that line.** Don't shade `pHome` to justify a split,
