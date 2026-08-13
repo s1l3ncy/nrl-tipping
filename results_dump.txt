@@ -194,3 +194,5 @@ Dolphins 40 - Broncos 32
 Rabbitohs 28 - Eels 24
 Raiders 24 - Knights 30
 Dragons 24 - Sharks 16
+Round 24
+Panthers 6 - Roosters 12

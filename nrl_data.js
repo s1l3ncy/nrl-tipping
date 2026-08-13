@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-13",
+  "updated": "2026-08-14",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -23,8 +23,8 @@ window.NRL_DATA = {
       "P": 21,
       "W": 16,
       "L": 5,
-      "PF": 559,
-      "PA": 394,
+      "PF": 563,
+      "PA": 400,
       "last5": 5,
       "home": {
         "P": 10,
@@ -34,11 +34,11 @@ window.NRL_DATA = {
         "PA": 180
       },
       "away": {
-        "P": 10,
-        "W": 7,
+        "P": 11,
+        "W": 8,
         "L": 3,
-        "PF": 316,
-        "PA": 214
+        "PF": 328,
+        "PA": 220
       },
       "news": "James Tedesco (Ankle) — back Round 25; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
@@ -49,15 +49,15 @@ window.NRL_DATA = {
       "P": 21,
       "W": 15,
       "L": 6,
-      "PF": 593,
-      "PA": 309,
-      "last5": 3,
+      "PF": 599,
+      "PA": 313,
+      "last5": 2,
       "home": {
-        "P": 9,
+        "P": 10,
         "W": 8,
-        "L": 1,
-        "PF": 280,
-        "PA": 122
+        "L": 2,
+        "PF": 286,
+        "PA": 134
       },
       "away": {
         "P": 11,
@@ -463,9 +463,9 @@ window.NRL_DATA = {
     {
       "home": "PEN",
       "away": "SYD",
-      "venue": "",
+      "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-13T19:50:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-13T21:47:10+10:00",
+  "generatedAt": "2026-08-14T01:36:19+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
