@@ -80,7 +80,20 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
-**Changed 2026-08-13** (two batches — full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-13, night batch** (full detail in `docs/CHANGELOG.md`):
+- **Splits are now priced by an in-page Monte-Carlo season simulator**
+  (`simComp()`; Josh's objective: BALANCED — U = P(top3)+P(1st)). 3,000
+  deterministic sims (seed on season+round, keyed per-game draws — browser ==
+  freeze), rivals herd-fitted to season accuracy, future-me plays this same
+  policy, EPS tie-breaks: incumbent frozen splits → top-2 policy candidates →
+  fewer. Need bands remain as candidate filter (θ floor 0.65) + fallback.
+  Comp panel adds the honest chances line (1st ~0.1% / top-3 ~0.5% at ship),
+  margin countback column + median margin-game advice (lower countback wins
+  ties — Josh is TIED 447 with Thorners), and the "You vs the machine"
+  adherence tally. Read MODEL.md top section + GOTCHAS "comp simulator"
+  before touching. `sw.js` CACHE v17.
+
+**Changed 2026-08-13** (two earlier batches — full detail in `docs/CHANGELOG.md`):
 - **Comp picks grouped by side as PLAIN TEXT** (`.cgrp`, no pills — two
   iterations: Josh rejected person-chips, then grouped chips): crest dot +
   bold code + first names per side, home first, ✓/✗ per side at FT; Predicted

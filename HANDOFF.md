@@ -113,7 +113,19 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-13 — the UI-polish batch.)*
+*(Reviewed 2026-08-13 — three batches in one day; the night batch is the big one.)*
+
+- **2026-08-13 (night): the split policy is simulator-priced.** An in-page,
+  deterministic Monte-Carlo season simulator (`simComp()`) replaces the need
+  bands for split selection under Josh's balanced objective (1st worth ~2× a
+  podium): 3,000 sims of the rest of the season, rival herd rates fitted to
+  season accuracy, future-me playing the same machine policy, incumbency +
+  policy-consistency tie-breaks so MC noise can't churn tips. The comp panel
+  shows honest P(1st)/P(top 3), a margin countback column + median-play
+  margin-game advice (footytips breaks score ties on LOWER cumulative
+  margin), and a "You vs the machine" adherence tally. Bands remain as
+  fallback. MODEL.md (top) + GOTCHAS ("comp simulator") are required reading
+  before touching `tipSide()`/`compPlan()`/`simComp()`. `sw.js` v17.
 
 - **2026-08-13: comp picks as plain-text side groups + double-tap zoom fixed +
   live-poll hole closed.** The locked-card comp display is plain text grouped
