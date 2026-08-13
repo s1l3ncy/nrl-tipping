@@ -341,6 +341,10 @@ Real problems encountered on this project and how to avoid repeating them.
 ## Front-end
 - **No CDNs, no `sessionStorage`/external storage** — must work offline as a local file;
   `localStorage` only.
+- **`touch-action:manipulation` lives in the universal `*` rule on purpose (2026-08-13).**
+  It's the iOS double-tap-zoom fix. A selector list misses tappable surfaces and the
+  zoom comes back; `user-scalable=no`/`maximum-scale=1` in the viewport meta is NOT an
+  acceptable substitute — it kills pinch zoom (accessibility).
 - **Preserve the render element IDs and the Roosters lock** (see `FRONTEND.md`).
 - **The service worker is network-first on purpose.** `sw.js` tries the network first and
   only falls back to cache when offline, so it can't get "stuck" serving a stale shell —

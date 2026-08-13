@@ -101,10 +101,13 @@ JSON does not, so a static page cannot read it). Search `pollLive` in the file.
 ### Friends' comp tips (2026-08-09 — footytips, fetched by the open page)
 
 Josh's ESPN footytips comp ("Family Feud") renders on the Tips screen: a
-**Comp strip** of member chips (crest dot of the picked team + display name,
-✓/✗ once the winner is known) on every LOCKED game's card, and a **mini comp
-ladder** (`#compPanel`, under the Quick list / in the ≥1280px rail). Search
-`pollComp` in the file. Key facts:
+**Comp strip** on every LOCKED game's card, and a **mini comp ladder**
+(`#compPanel`, under the Quick list / in the ≥1280px rail). Search `pollComp`
+in the file. **Since 2026-08-13 the strip is grouped by SIDE** (Josh: the
+per-person chip row read as clutter): one `.cpick.side` chip per picked team —
+crest dot + bold team code + the first names on it, home side's chip first —
+with one ✓/✗ per side once the winner is known. The Predicted strip
+(`predStripHTML`, dashed) shares the same chip anatomy. Key facts:
 
 - The comp endpoint (`api.footytips.espn.com.au/competitions/{id}/…/ladders/{id}/rounds/{n}?view=tips`)
   is **public** — no cookie/token, `ACAO:*` — so the page fetches it directly
@@ -296,6 +299,11 @@ no-ops on the missing element.)*
 
 - Visual style is a dark "Apple Sports"-inspired theme, optimised for iPhone (safe-area
   insets, PWA `<meta>` tags so it can be added to the home screen).
+- **`touch-action:manipulation` is in the universal `*` reset (2026-08-13)** — it's what
+  stops iOS double-tap-to-zoom on tabs/pills/folds while keeping panning and pinch-zoom.
+  Don't narrow it to a selector list (any missed tappable surface reintroduces the zoom)
+  and don't "fix" zooming instead via `user-scalable=no`/`maximum-scale=1` in the
+  viewport meta — that kills pinch zoom, an accessibility regression.
 - No CDNs, no web fonts that require network — everything inline so offline works.
 - The "why" line under each tip surfaces the injury adjustments, e.g.
   `SYD −4.3: Nathan Cleary out (Halfback)`. (Weather removed 2026-08-04.)

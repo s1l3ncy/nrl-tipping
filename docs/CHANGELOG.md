@@ -5,6 +5,44 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-13 — Grouped comp chips + double-tap zoom killed
+
+Josh, two-part UI brief: the comp strip ("what people tipped") "doesnt look
+clean" on the card, and double-tapping the tip / menu buttons on his phone
+triggered iOS double-tap zoom, forcing a manual zoom-out.
+
+**Comp strip grouped by side** (Josh chose this over polished per-person chips
+or names-under-the-bar): `compStripHTML()` now renders **one chip per picked
+team** — crest dot + team code (bold) + the first names on that side — instead
+of one pill per member. Six members collapse to at most two chips; a ✓/✗
+renders once per side when the winner is known (same `fin.winner` logic as
+before, just applied per team). The home side's chip renders first, the away
+side's second, matching the card's layout; any stray pick for a team not in
+the fixture (shouldn't happen, but the API is external) renders after those.
+`predStripHTML()` — which already grouped by side — adopts the same chip
+anatomy (`.cpick.side`: bold code, `.sep` dot, bigger crest) so the Predicted
+and Comp strips read as one system, dashed vs solid. Names remain first names
+only (`name.split(' ')[0].slice(0,10)`), same as the predicted strip — the
+display-names-only privacy rule in GOTCHAS is unaffected.
+
+**Double-tap zoom**: `*{touch-action:manipulation}` added to the universal
+reset. `manipulation` keeps panning and pinch-zoom but drops the double-tap-
+to-zoom gesture, so a fast second tap on a tab, pill, fold or button no longer
+zooms the page. Applied universally on purpose — a selector list would
+reintroduce the zoom on any tappable surface it missed. Pinch zoom still
+works, so accessibility is preserved (the viewport meta was NOT given
+`user-scalable=no`/`maximum-scale=1` for exactly that reason).
+
+**Verification**: the real `freeze_tips.mjs` harness run against the edited
+page froze 7/7 upcoming tips with 0 changed — the model and every tip are
+untouched. Grouped strips (pre-lock predicted, simulated locked, simulated
+full-time with per-side ✓/✗) verified in jsdom against the live round's data.
+
+Files: `nrl-tipping-guide.html`, `sw.js` (CACHE v15). No pipeline, model,
+schema or workflow changes.
+
+---
+
 ## 2026-08-10 (night) — THE OBJECTIVE CHANGED: comp-win policy hardwired into tipSide()
 
 Josh: "I want the model to be built purely to win the tipping comp (asides
