@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 262,
         "PA": 217
       },
-      "news": "Jesse Ramien (Pectoral); Siosifa Talakai (Biceps) — back Round 24; KL Iro (Concussion) — back Round 24; Addin Fonua-Blake (Suspension) — back Round 25"
+      "news": "KL Iro (Concussion) — back Round 24; Siosifa Talakai (Biceps) — back Round 24; Addin Fonua-Blake (Suspension) — back Round 25; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Brodie Jones (Hamstring); Bradman Best (Calf) — back Round 24; James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Brodie Jones (Hamstring); Bradman Best (Calf) — back Round 24; Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 280,
         "PA": 222
       },
-      "news": "Siosiua Taukeiaho (Leg); Clayton Faulalo (Hamstring) — back Round 24; Caleb Navale (ACL) — back Round 24; Tom Trbojevic (Hamstring) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Ethan Bullemor (Concussion) — back Round 25"
+      "news": "Siosiua Taukeiaho (Leg); Caleb Navale (ACL) — back Round 24; Clayton Faulalo (Hamstring) — back Round 24; Tom Trbojevic (Hamstring) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Ethan Bullemor (Concussion) — back Round 25"
     },
     {
       "name": "Storm",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 276
       },
-      "news": "Brendan Piakura (Concussion); Preston Riki (Ankle); Adam Reynolds (Concussion) — back Round 25; Cory Paix (Shoulder) — back Next Season"
+      "news": "Adam Reynolds (Calf); Brendan Piakura (Concussion); Preston Riki (Ankle); Cory Paix (Shoulder) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -473,7 +473,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.55,
-          "away": 2.45
+          "away": 2.5
         }
       },
       "weather": null,
@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 3.4,
-          "away": 1.32
+          "home": 3.3,
+          "away": 1.34
         }
       },
       "weather": null,
@@ -552,7 +552,7 @@ window.NRL_DATA = {
           "away": 1.57
         },
         "close": {
-          "home": 2.55,
+          "home": 2.5,
           "away": 1.53
         }
       },
@@ -592,7 +592,7 @@ window.NRL_DATA = {
           "away": 3.8
         },
         "close": {
-          "home": 1.22,
+          "home": 1.23,
           "away": 4.2
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-13T08:24:54+10:00",
+  "generatedAt": "2026-08-13T15:53:05+10:00",
   "changes": [
     {
       "id": "r24-SYD-out-james-tedesco",
@@ -651,15 +651,51 @@ window.NRL_DATA = {
       "rnd": 24
     },
     {
-      "id": "r24-CAN-fit-mitchell-woods",
-      "fixture": "CAN-SOU",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r24-PEN-SYD-line-1.55-2.50",
+      "fixture": "PEN-SYD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.55 → $1.55, Roosters $2.45 → $2.50. Market now 62% Panthers (was 61%).",
+      "pts": null,
+      "ts": "2026-08-13T15:53:05+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-MAN-DOL-line-3.30-1.34",
+      "fixture": "MAN-DOL",
+      "team": "MAN",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Bulldogs: Mitchell Woods is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-11T21:08:46+10:00",
+      "text": "Line moved — Sea Eagles $3.40 → $3.30, Dolphins $1.32 → $1.34. Market now 29% Sea Eagles (was 28%).",
+      "pts": null,
+      "ts": "2026-08-13T15:53:05+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PAR-NQL-line-2.50-1.53",
+      "fixture": "PAR-NQL",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Eels $2.55 → $2.50, Cowboys $1.53 → $1.53. Market now 38% Eels (was 38%).",
+      "pts": null,
+      "ts": "2026-08-13T15:53:05+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-GLD-line-1.23-4.20",
+      "fixture": "NEW-GLD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Knights $1.22 → $1.23, Titans $4.20 → $4.20. Market now 77% Knights (was 77%).",
+      "pts": null,
+      "ts": "2026-08-13T15:53:05+10:00",
       "rnd": 24
     },
     {
@@ -817,19 +853,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-12T08:13:01+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.90-1.90",
-      "fixture": "WST-STI",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Wests Tigers $1.90 → $1.90, Dragons $1.91 → $1.90. Market now 50% Wests Tigers (was 50%).",
-      "pts": null,
-      "ts": "2026-08-12T01:34:01+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-11T21:08:46+10:00"
+  "changesSince": "2026-08-12T08:13:01+10:00"
 };
