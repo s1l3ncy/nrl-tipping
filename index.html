@@ -552,6 +552,8 @@ details.plain>summary:hover{color:var(--text)}
 .cprow .sc b{color:var(--text)}
 .cprow .mv{flex:none;width:12px;text-align:center;font-size:10px}
 .cprow .mv.up{color:var(--good)} .cprow .mv.down{color:var(--amber-text)}
+.cprow .mgv{flex:none;font-size:10.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.mgline,.adhline{margin-top:8px;font-size:11.5px;color:var(--faint);padding:0 2px}
 /* comp strategy (2026-08-10) */
 .gtippill.split{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.4)}
 .stratline{margin-top:8px;font-size:11.5px;color:var(--faint);padding:0 2px}
@@ -1182,6 +1184,151 @@ function planStamp(){
     return (!isNaN(ko)&&Date.now()>=ko)?1:0; }).join('');
   return COMP_STAMP+'|'+SRC.round+'|'+locked;
 }
+/* ---------- Monte-Carlo season simulator (2026-08-13, Josh's "balanced"
+   objective: U = P(top 3) + P(1st), i.e. winning is worth double a podium).
+   Replaces the hand-tuned need-band split selection with priced variance:
+   every candidate split set is scored by simulating the REST OF THE SEASON —
+   current round with real games (market-blended probs, rivals' actual picks
+   once visible, else predictPick), future rounds as generic games where each
+   rival herds the favourite at a rate fitted to their season accuracy and
+   everyone shares the same simulated outcomes (herding correlation), +2
+   perfect-round bonus per round. DETERMINISM: seeded PRNG (mulberry32, seed
+   from the plan stamp) — identical inputs give identical tips in the browser
+   and the jsdom freeze. COMMON RANDOM NUMBERS: rival totals are simulated
+   once per iteration and every candidate set is ranked against the same
+   tape, so set comparisons carry no MC noise from the shared future.
+   ANTI-TILT: inputs are (standings, schedule, probs, picks) only. */
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0;
+  let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t;
+  return ((t^t>>>14)>>>0)/4294967296; }; }
+function hash32(s){ let h=2166136261;
+  for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); }
+  return h>>>0; }
+const SIM_N=3000, SIM_PFBAR=0.64;
+const SIM_PF_PAL=[0.75,0.62,0.55,0.68,0.58,0.72,0.52,0.65];  // generic future-game favourite probs
+function compMarginOf(name){  // countback totals ride in the RAW file object only
+  try{ const d=(typeof window!=='undefined')&&window.NRL_COMP;
+    const m=d&&Array.isArray(d.members)&&d.members.find(x=>x.name===name);
+    return (m&&typeof m.totalMargin==='number')?m.totalMargin:null; }catch(e){ return null; }
+}
+function simComp(plan,cands){
+  const me=COMP.members.find(m=>m.me);
+  const rivals=COMP.members.filter(m=>!m.me&&m.totalScore!==null);
+  const fin=(COMP.finishRound)||31;
+  const myMargin=compMarginOf(me.name);
+  // Current round, unresolved games only (resolved points already sit in totals).
+  const cur=[];
+  fixtures.forEach(f=>{ const h=T(f.home), a=T(f.away); if(!h||!a) return;
+    const p=predict(f); if(fixtureResult(p)) return;
+    const ko=Date.parse(f.kickoff||'');
+    const locked=(!isNaN(ko)&&Date.now()>=ko)||!!liveEntry(p);
+    const fav=p.pHome>=0.5?p.h:p.a, dog=p.pHome>=0.5?p.a:p.h;
+    const g={key:liveKey(h.short,a.short), pf:Math.max(p.pHome,1-p.pHome),
+             fav:fav.short, dog:dog.short, locked:locked, rp:{}};
+    if(locked){ const gt=gradedTip(p); g.myLocked=(gt&&gt.known)?gt.short:fav.short; }
+    rivals.forEach(r=>{ g.rp[r.name]=r.picks[g.key]||predictPick(r.name,p); });
+    cur.push(g); });
+  // Future herd rate per rival, fitted so h·p̄f+(1−h)(1−p̄f) equals their
+  // season accuracy (totalScore over ~8 games a round; bonus inflation is
+  // small and symmetric enough to ignore at this precision).
+  const gp=Math.max(8,(SRC.round-1)*8);
+  const H=rivals.map(r=>{ const acc=Math.min(0.72,Math.max(0.45,r.totalScore/gp));
+    return Math.min(1,Math.max(0.5,(acc+SIM_PFBAR-1)/(2*SIM_PFBAR-1))); });
+  const rMargins=rivals.map(r=>compMarginOf(r.name));
+  // Candidate sets: none, singles, pairs (triples once the chase is desperate).
+  const top=cands.slice(0,6);
+  const sets=[[]];
+  top.forEach((c,i)=>{ sets.push([c]);
+    for(let j=i+1;j<top.length;j++) sets.push([c,top[j]]); });
+  if(plan.need>=2) top.forEach((c,i)=>{ for(let j=i+1;j<top.length;j++)
+    for(let k=j+1;k<top.length;k++) sets.push([c,top[j],top[k]]); });
+  const keysets=sets.map(S=>{ const s=new Set(); S.forEach(c=>s.add(c.key)); return s; });
+  const wins=sets.map(()=>({first:0,top3:0}));
+  // Seed on (season, round) ONLY — not the stamp. A stamp-derived seed redraws
+  // the whole tape every time standings tick, and near-tied split sets then
+  // flip between 4-hourly runs, churning the tip-flip feed with noise. Keyed
+  // per-game draws keep each game's simulated outcomes stable all round even
+  // as fixtures resolve out of the list.
+  const seed=hash32(SRC.season+'|'+SRC.round+'|mc2')||1;
+  const draw=(k,i)=>mulberry32(((seed^hash32(k))+Math.imul(i+1,2654435761))|0)();
+  for(let i=0;i<SIM_N;i++){
+    const rt=rivals.map(r=>r.totalScore);
+    let myBase=me.totalScore;
+    const favWin=cur.map(g=>draw('g|'+g.key,i)<g.pf);
+    cur.forEach((g,gi)=>{
+      rivals.forEach((r,ri)=>{ const pk=g.rp[r.name];
+        if(favWin[gi]?pk===g.fav:pk===g.dog) rt[ri]++; });
+      if(g.locked&&(favWin[gi]?g.myLocked===g.fav:g.myLocked===g.dog)) myBase++;
+    });
+    for(let r=SRC.round+1;r<=fin;r++){
+      const n=COMP_GAMES_PER_ROUND[r]||2;
+      // Future policy is DYNAMIC, mirroring this machine: while any rival is
+      // ahead I keep buying variance (up to 2 underdog picks a round in the
+      // pf≤0.62 games); once in front, cover with straight favourites.
+      // Modelling future-me as a straight-favourites tipper zeroed P(top 3)
+      // and made every current split look worthless — the sim must play the
+      // same game the machine will actually play.
+      const chasing=rt.some(v=>v>=myBase+1);
+      let dogs=chasing?2:0;
+      let myAll=true; const rAll=rivals.map(()=>true);
+      for(let g2=0;g2<n;g2++){
+        const pf=SIM_PF_PAL[(r*7+g2)%SIM_PF_PAL.length];
+        const fw=draw('f|'+r+'|'+g2,i)<pf;
+        let myRight=fw;
+        if(dogs>0&&pf<=0.62){ dogs--; myRight=!fw; }       // a bought split
+        if(myRight) myBase++; else myAll=false;
+        rivals.forEach((rv,ri)=>{ const onFav=draw('h|'+r+'|'+g2+'|'+ri,i)<H[ri];
+          if(onFav?fw:!fw) rt[ri]++; else rAll[ri]=false; });
+      }
+      if(myAll) myBase+=2;
+      rivals.forEach((rv,ri)=>{ if(rAll[ri]) rt[ri]+=2; });
+    }
+    keysets.forEach((S,si)=>{
+      let tot=myBase;
+      cur.forEach((g,gi)=>{ if(g.locked) return;
+        const pick=S.has(g.key)?g.dog:g.fav;
+        if(favWin[gi]?pick===g.fav:pick===g.dog) tot++; });
+      let above=0;
+      rt.forEach((v,ri)=>{ if(v>tot) above++;
+        else if(v===tot){ const rm=rMargins[ri];       // countback: lower margin wins the tie
+          if(rm===null||myMargin===null||rm<=myMargin) above++; } });
+      if(above===0) wins[si].first++;
+      if(above<=2) wins[si].top3++;
+    });
+  }
+  // Selection (2026-08-13). Individual current-round splits are worth well
+  // under MC resolution against the ~14 future splits the sim assumes the
+  // machine will go on buying — so a pure argmax would decline every split,
+  // every round, contradicting its own future model (time-inconsistency).
+  // Within EPS of the best utility the tie therefore breaks by:
+  //   1. INCUMBENCY — splits already frozen in the tiplog stay (a near-tied
+  //      swap between runs would churn the flip feed with pure noise);
+  //   2. POLICY CONSISTENCY — the top-2 candidates by the audit's
+  //      (1−pf)·foes ranking, i.e. the same 2-a-round schedule future-me is
+  //      simulated to follow;
+  //   3. fewer splits.
+  // A set genuinely worse by more than EPS is never chosen on tie-breaks.
+  const EPS=0.003;
+  const frozenDogs=new Set();
+  cands.forEach(c=>{ const pr=c.key.split('-');
+    const t=tiplogFind(SRC.season,SRC.round,pr[0],pr[1]);
+    if(t&&t.tip===c.dog) frozenDogs.add(c.key); });
+  const target=new Set(); cands.slice(0,2).forEach(c=>target.add(c.key));
+  const util=wins.map(w=>(w.first+w.top3)/SIM_N);
+  const bestU=Math.max.apply(null,util);
+  let best=0, bestScore=-Infinity;
+  sets.forEach((S,si)=>{
+    if(util[si]<bestU-EPS) return;
+    const inc=S.filter(c=>frozenDogs.has(c.key)).length;
+    const pol=S.filter(c=>target.has(c.key)).length;
+    const score=inc*100+pol*10-S.length+util[si];
+    if(score>bestScore){ bestScore=score; best=si; }
+  });
+  sets[best].forEach(c=>{ plan.splits[c.key]=c; });
+  plan.sim={ pFirst:wins[best].first/SIM_N, pTop3:wins[best].top3/SIM_N,
+             bFirst:wins[0].first/SIM_N, bTop3:wins[0].top3/SIM_N,
+             sims:SIM_N, nSets:sets.length, util:util[best] };
+}
 function compPlan(){
   const stamp=planStamp();
   if(COMP_PLAN&&COMP_PLAN.stamp===stamp) return COMP_PLAN;
@@ -1200,10 +1347,13 @@ function compPlan(){
   const cap = need<0.5?0 : need<1?1 : need<2?2 : need<3?4 : 99;
   const theta = need<0.5?0 : need<1?0.55 : need<2?0.58 : need<3?0.62 : (d>0.6*Tg?1.0:0.75);
   Object.assign(plan,{mode:'chase', d:d, need:need, roundsLeft:roundsLeft, T:Tg, cap:cap, theta:theta});
-  if(!cap) return plan;
+  // Candidate filter. The simulator prices each split, so the band θ only
+  // gates ADMISSION (floored at 0.65 so a worthwhile ~60/40 game is at least
+  // considered); need<0.5 keeps the audit's hard no-split guard.
+  const candTheta = need<0.5?0 : Math.max(theta,0.65);
   const minFoes=Math.max(2, ahead.length-1);
   const cands=[];
-  fixtures.forEach(f=>{
+  if(candTheta>0) fixtures.forEach(f=>{
     const h=T(f.home), a=T(f.away);
     if(!h||!a||h.short===LOCK||a.short===LOCK) return;
     const p=predict(f);
@@ -1212,7 +1362,7 @@ function compPlan(){
     if(isNaN(ko)||Date.now()>=ko) return;              // frozen games keep their tip
     const fav=p.pHome>=0.5?p.h:p.a, dog=p.pHome>=0.5?p.a:p.h;
     const pf=Math.max(p.pHome,1-p.pHome);
-    if(pf>theta) return;
+    if(pf>candTheta) return;
     const key=liveKey(h.short,a.short);
     const onFav=ahead.filter(r=>{
       const pick=r.picks[key]||predictPick(r.name,p);   // actual beats predicted
@@ -1222,7 +1372,10 @@ function compPlan(){
                 foes:onFav.length, score:(1-pf)*onFav.length});
   });
   cands.sort((x,y)=>y.score-x.score||x.pf-y.pf);
-  cands.slice(0,cap).forEach(c=>{ plan.splits[c.key]=c; });
+  // The simulator selects the split set (balanced objective). If it throws,
+  // the 2026-08-10 need bands select instead — never leave the round unplanned.
+  try{ simComp(plan,cands); }
+  catch(e){ cands.slice(0,cap).forEach(c=>{ plan.splits[c.key]=c; }); }
   return plan;
 }
 function tipSide(p){
@@ -1860,8 +2013,14 @@ function renderStratBits(){
     let line=el.querySelector('.stratline');
     if(plan.mode==='off'){ if(line) line.remove(); return; }
     const n=Object.keys(plan.splits||{}).length;
+    const s=plan.sim;
+    const pc=x=> x<0.0005 ? '<0.1%' : (x*100).toFixed(x<0.095?1:0)+'%';
     const txt=plan.mode==='cover'
       ? 'You lead — cover mode: straight favourites, make them chase.'
+      : s
+      ? `Chances now: 1st ${pc(s.pFirst)} · top 3 ${pc(s.pTop3)} (${s.sims} sims) · ${plan.d} behind, ${plan.roundsLeft} rounds left · `+
+        (n?`${n} split${n===1?'':'s'} armed 🎯 — straight tips would sit at ${pc(s.bFirst)} / ${pc(s.bTop3)}`
+          :'no split improves the odds this round — tipping straight')
       : `${plan.d} behind the cluster · ${plan.roundsLeft} rounds left · need ${plan.need.toFixed(1)}/rd · `+
         (n?`${n} split${n===1?'':'s'} hardwired into the tips (🎯)`:'no split clears the bar — tipping straight');
     const html=`<div class="stratline">${esc(txt)}</div>`;
@@ -1908,17 +2067,88 @@ function compStripHTML(p){
   if(!chips) return '';
   return `<div class="compstrip"><span class="cst">Comp</span>${chips}</div>`;
 }
+/* Margin game (2026-08-13): footytips puts the round's margin entry on the
+   FIRST game. The advised number is deliberately BELOW the model's expected
+   margin (×0.85, logistic-inverted from the blended prob): margins are
+   right-skewed, cumulative margin error is countback currency (LOWER wins
+   ties), and the median play beats the mean play for that loss function. */
+function marginGameFx(){
+  let best=null, bt=Infinity;
+  fixtures.forEach(f=>{ if(!T(f.home)||!T(f.away)) return;
+    const t=Date.parse(f.kickoff||''); const tt=isNaN(t)?(Infinity-1):t;
+    if(tt<bt){ bt=tt; best=f; } });
+  return best;
+}
+function marginAdvice(){
+  const fx=marginGameFx(); if(!fx) return '';
+  const p=predict(fx);
+  if(fixtureResult(p)) return '';
+  const ko=Date.parse(fx.kickoff||'');
+  if((!isNaN(ko)&&Date.now()>=ko)||liveEntry(p)) return '';   // locked — too late
+  const fav=p.pHome>=0.5?p.h:p.a;
+  const pf=Math.max(p.pHome,1-p.pHome);
+  const med=Math.max(1,Math.min(28,Math.round(0.85*7*Math.log(pf/(1-pf)))));
+  return `Margin game (first of the round): ${esc(fav.name)} by ${med} — the median play; blow-out numbers poison the countback.`;
+}
+/* You vs the machine (2026-08-13): once games lock, footytips shows what was
+   ACTUALLY entered — compare it against the frozen machine tips. Counts only
+   (per the privacy rule); finished rounds accumulate in localStorage
+   (nrl_adh_v1) so the tally is per-device, since the round it started. */
+function adherenceInfo(){
+  if(!COMP||!COMP.members) return null;
+  const me=COMP.members.find(m=>m.me); if(!me) return null;
+  const preds=fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict);
+  let ent=0, of=0, match=0, cost=0;
+  preds.forEach(p=>{
+    const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
+    if(!compLocked(p,fx)) return;
+    of++;
+    const key=liveKey(p.h.short,p.a.short);
+    const pick=me.picks[key];
+    if(pick) ent++;
+    const gt=gradedTip(p); if(!gt.known) return;
+    if(pick===gt.short) match++;
+    const fin=fixtureResult(p)||liveFinal(p);
+    if(fin&&fin.winner){
+      const tipRight=fin.winner.short===gt.short;
+      const pickRight=!!pick&&fin.winner.short===pick;
+      if(!pick&&tipRight) cost++;                      // unentered game the machine had right
+      else if(pick&&pick!==gt.short){ if(tipRight) cost++; else if(pickRight) cost--; }
+    }
+  });
+  if(!of) return null;
+  let hist={}; try{ hist=JSON.parse(localStorage.getItem('nrl_adh_v1')||'{}'); }catch(e){}
+  if(preds.length&&preds.every(p=>fixtureResult(p))&&!hist[SRC.round]){
+    hist[SRC.round]={ent:ent,of:of,match:match,cost:cost};
+    try{ localStorage.setItem('nrl_adh_v1',JSON.stringify(hist)); }catch(e){}
+  }
+  let te=ent, to=of, tm=match, tc=cost, first=SRC.round;
+  Object.keys(hist).forEach(r=>{ const n=+r; if(isNaN(n)||n===SRC.round) return;
+    const x=hist[r]; te+=x.ent; to+=x.of; tm+=x.match; tc+=x.cost;
+    if(n<first) first=n; });
+  return {ent:te, of:to, match:tm, cost:tc, first:first};
+}
 function renderCompPanel(){
   const el=document.getElementById('compPanel');
   if(!el) return;
   if(!COMP||!COMP.members||!COMP.members.length){ el.innerHTML=''; return; }
+  const mg=marginAdvice();
+  const adh=adherenceInfo();
   el.innerHTML=`<div class="cphead">Comp ladder · Round ${COMP.round}</div>`+
-    COMP.members.map(m=>`<div class="cprow${m.me?' me':''}">`+
+    COMP.members.map(m=>{
+      const cb=compMarginOf(m.name);
+      return `<div class="cprow${m.me?' me':''}">`+
       `<span class="rk">${m.rank||'–'}</span>`+
       `<span class="mv ${m.mv}">${m.mv==='up'?'▲':m.mv==='down'?'▼':''}</span>`+
       `<span class="nm">${esc(m.name)}${m.me?' (you)':''}</span>`+
       `<span class="sc">${m.roundScore===null?'–':m.roundScore} · <b>${m.totalScore===null?'–':m.totalScore}</b></span>`+
-    `</div>`).join('');
+      (cb===null?'':`<span class="mgv" title="margin countback — lower wins ties">±${cb}</span>`)+
+    `</div>`; }).join('')+
+    (mg?`<div class="mgline">📏 ${mg}</div>`:'')+
+    (adh?`<div class="adhline">You vs the machine (since R${adh.first}): entered ${adh.ent}/${adh.of} locked games · matched ${adh.match}`+
+      (adh.cost>0?` · deviations cost ${adh.cost} pt${adh.cost===1?'':'s'}`
+       :adh.cost<0?` · deviations gained ${-adh.cost} pt${adh.cost===-1?'':'s'}`
+       :` · deviations cost nothing yet`)+`</div>`:'');
 }
 /* Surgical, fold-safe: only ever touches each card's own .compstrip node (a
    locked pre-game card may have an open <details> fold — replacing the whole
