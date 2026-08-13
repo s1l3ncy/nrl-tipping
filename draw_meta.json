@@ -3,13 +3,8 @@
   "season": 2026,
   "round": 24,
   "source": "nrl.com",
-  "fetched": "2026-08-13T15:52:25",
+  "fetched": "2026-08-13T20:59:20",
   "fixtures": {
-    "PEN-SYD": {
-      "venue": "CommBank Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-13T09:50:00Z"
-    },
     "MAN-DOL": {
       "venue": "4 Pines Park",
       "city": "Sydney",
