@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-14T08:10:08+10:00",
+  "generatedAt": "2026-08-14T08:26:10+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
