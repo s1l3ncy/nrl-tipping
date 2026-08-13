@@ -113,7 +113,14 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-10 — the comp-WIN audit batch.)*
+*(Reviewed 2026-08-13 — the UI-polish batch.)*
+
+- **2026-08-13: comp strip grouped by side + double-tap zoom fixed.** The
+  locked-card comp strip is one chip per picked team (crest + code + first
+  names, ✓/✗ per side at FT) instead of a pill per person; the Predicted strip
+  shares the anatomy. `touch-action:manipulation` in the universal `*` rule
+  kills iOS double-tap zoom (pinch preserved — keep it universal, see GOTCHAS).
+  Front-end + `sw.js` (v15) only; the freeze harness confirmed zero tip changes.
 
 - **2026-08-10 (night): the tip itself now optimises winning the comp.**
   `tipSide()` = Roosters lock → need-banded underdog-split policy (fed by

@@ -80,6 +80,14 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-13** (full detail in `docs/CHANGELOG.md`):
+- **Comp strip grouped by side**: one `.cpick.side` chip per picked team (crest +
+  bold code + first names, home side first, ✓/✗ per side at full time) replaces
+  the per-person pill row; the Predicted strip shares the chip anatomy. And
+  **iOS double-tap zoom is dead**: `touch-action:manipulation` in the universal
+  `*` rule (keep it universal — see GOTCHAS; pinch zoom untouched). No model,
+  pipeline or tip changes (freeze harness verified 0 flips). `sw.js` CACHE v15.
+
 **Changed 2026-08-10, audit batch** (full detail in `docs/CHANGELOG.md`):
 - **The tip now optimises WINNING THE COMP** (3-specialist audit): `tipSide()`
   = lock → need-banded split policy (`compPlan()`, data from `nrl_comp.js`
