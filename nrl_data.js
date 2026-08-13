@@ -17,39 +17,13 @@ window.NRL_DATA = {
   "source": "zerotackle.com",
   "teams": [
     {
-      "name": "Panthers",
-      "short": "PEN",
-      "colour": "#0a0a0a",
-      "P": 21,
-      "W": 15,
-      "L": 6,
-      "PF": 593,
-      "PA": 301,
-      "last5": 3,
-      "home": {
-        "P": 9,
-        "W": 8,
-        "L": 1,
-        "PF": 280,
-        "PA": 122
-      },
-      "away": {
-        "P": 11,
-        "W": 7,
-        "L": 4,
-        "PF": 313,
-        "PA": 179
-      },
-      "news": "Isaah Yeo (Pectoral); Casey McLean (Hand) — back Round 25; Mitch Kenny (Leg) — back Finals"
-    },
-    {
       "name": "Roosters",
       "short": "SYD",
       "colour": "#e2231a",
       "P": 21,
-      "W": 15,
-      "L": 6,
-      "PF": 551,
+      "W": 16,
+      "L": 5,
+      "PF": 559,
       "PA": 394,
       "last5": 5,
       "home": {
@@ -67,6 +41,32 @@ window.NRL_DATA = {
         "PA": 214
       },
       "news": "James Tedesco (Ankle) — back Round 25; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
+    },
+    {
+      "name": "Panthers",
+      "short": "PEN",
+      "colour": "#0a0a0a",
+      "P": 21,
+      "W": 15,
+      "L": 6,
+      "PF": 593,
+      "PA": 309,
+      "last5": 3,
+      "home": {
+        "P": 9,
+        "W": 8,
+        "L": 1,
+        "PF": 280,
+        "PA": 122
+      },
+      "away": {
+        "P": 11,
+        "W": 7,
+        "L": 4,
+        "PF": 313,
+        "PA": 179
+      },
+      "news": "Isaah Yeo (Pectoral); Casey McLean (Hand) — back Round 25; Mitch Kenny (Leg) — back Finals"
     },
     {
       "name": "Warriors",
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-13T21:14:15+10:00",
+  "generatedAt": "2026-08-13T21:47:10+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
