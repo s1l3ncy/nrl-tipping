@@ -603,7 +603,7 @@ window.NRL_DATA = {
           "away": 1.96
         },
         "close": {
-          "home": 1.93,
+          "home": 1.95,
           "away": 1.87
         }
       },
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-14T05:46:30+10:00",
+  "generatedAt": "2026-08-14T08:10:08+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
@@ -867,6 +867,18 @@ window.NRL_DATA = {
       "text": "Rex Bassingthwaighte named in the Roosters 17.",
       "pts": 0.6,
       "ts": "2026-08-12T21:14:11+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.95-1.87",
+      "fixture": "WST-STI",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Wests Tigers $1.93 → $1.95, Dragons $1.87 → $1.87. Market now 49% Wests Tigers (was 49%).",
+      "pts": null,
+      "ts": "2026-08-14T08:10:08+10:00",
       "rnd": 24
     },
     {
