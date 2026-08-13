@@ -5,6 +5,44 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-13 (later) — Live-poll survives a blanked solo-game kickoff; comp picks de-bubbled
+
+Mid-match (PEN–SYD, the day's only game), Josh reported the live score gone
+and the game card sunk to the bottom. Root cause was NOT the earlier batch:
+the 20:45 workflow run republished data after nrl.com blanked the fixture's
+kickoff mid-game (the documented landmine) — and `livePollList()`'s "game
+day" test for kickoff-less fixtures required another same-round kickoff
+within ±12h. Tomorrow's games were 21h away, so the test failed, ESPN was
+never polled, `LIVE` stayed empty, and the card rendered as a kickoff-less
+pre-game card (which sorts to the bottom of Up next, showing the Predicted
+strip instead of a score).
+
+**Fixes** (`nrl-tipping-guide.html`, `sw.js` CACHE v16):
+- The game-day window for kickoff-less fixtures is now **±36h** — spans a
+  solo-game evening whose neighbours are tomorrow night, still quiet between
+  rounds.
+- `pollLive()` adds **today's UTC date** to the ESPN query when polling a
+  kickoff-less fixture — its blanked kickoff contributes no date, so a range
+  built from the round's other kickoffs (all tomorrow+) skipped the very
+  game that was live.
+- **Comp picks are now plain text, not pills** (v2 of the morning's grouped
+  chips — Josh: "I don't like the bubble sort of situation"): crest dot +
+  bold team code + first names per side, faint · separator, ✓/✗ per side at
+  FT. Same for the Predicted strip (`.cgrp`/`.cdot` replace `.cpick`).
+
+Verified in jsdom against the live blanked-kickoff data: poll list includes
+PEN–SYD, a simulated ESPN entry renders the live card top-of-list with score
+and clock, comp strip carries zero pill elements; freeze harness 8/8 tips,
+0 changed (the mid-game guard held for PEN–SYD).
+
+**Recommendation recorded, not implemented** (needs Josh's nod): have
+`parse_nrl.py` carry the previous run's kickoff/venue forward when the fresh
+draw blanks them for a same-round fixture pair (like the odds `open`
+carry-forward) — that would stop mid-game runs shipping kickoff-less
+fixtures at all.
+
+---
+
 ## 2026-08-13 — Grouped comp chips + double-tap zoom killed
 
 Josh, two-part UI brief: the comp strip ("what people tipped") "doesnt look

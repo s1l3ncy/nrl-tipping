@@ -318,8 +318,13 @@ Real problems encountered on this project and how to avoid repeating them.
   (R23 MEL v MAN published `kickoff:""` mid-game on the feature's first day) — so
   the live window can't be kickoff-only. `livePollList()` also polls a
   kickoff-less, result-less fixture on any game day (a same-round kickoff within
-  ±12h) and lets ESPN's state decide. Don't "simplify" that back to pure
-  kickoff-window logic.
+  **±36h — was ±12h until 2026-08-13**, when PEN–SYD was the day's ONLY game, every
+  other kickoff was 21h+ away, and the live score vanished mid-match) and lets
+  ESPN's state decide. `pollLive()` must also add TODAY's date to the ESPN query
+  when a polled fixture is kickoff-less — the blanked game contributes no date of
+  its own, and a range built from the round's other kickoffs skips it. Don't
+  "simplify" any of this back to pure kickoff-window logic, and don't narrow the
+  window without checking the solo-Thursday-game case.
 - **The status-bucket sort lives in `render()` and ONLY there.** It must run on
   `fxList` before `predict`/`snapTips`/rank/upset (index-paired arrays), and
   `renderLiveBits()` must never reorder/insert/remove cards or `.gsec` dividers.

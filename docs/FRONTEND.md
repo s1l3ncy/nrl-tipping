@@ -103,11 +103,13 @@ JSON does not, so a static page cannot read it). Search `pollLive` in the file.
 Josh's ESPN footytips comp ("Family Feud") renders on the Tips screen: a
 **Comp strip** on every LOCKED game's card, and a **mini comp ladder**
 (`#compPanel`, under the Quick list / in the ≥1280px rail). Search `pollComp`
-in the file. **Since 2026-08-13 the strip is grouped by SIDE** (Josh: the
-per-person chip row read as clutter): one `.cpick.side` chip per picked team —
-crest dot + bold team code + the first names on it, home side's chip first —
-with one ✓/✗ per side once the winner is known. The Predicted strip
-(`predStripHTML`, dashed) shares the same chip anatomy. Key facts:
+in the file. **Since 2026-08-13 the strip is grouped by SIDE and rendered as
+PLAIN TEXT** (two iterations the same day: Josh rejected the per-person pill
+row as clutter, then the grouped pills too — "no bubbles"): per picked team a
+`.cgrp` span — crest dot + bold team code + the first names on it — home
+side first, a faint `.cdot` · between sides, one ✓/✗ per side once the
+winner is known. The Predicted strip (`predStripHTML`, `.compstrip.pred`,
+slightly faded) shares the same anatomy. No `.cpick` pills remain. Key facts:
 
 - The comp endpoint (`api.footytips.espn.com.au/competitions/{id}/…/ladders/{id}/rounds/{n}?view=tips`)
   is **public** — no cookie/token, `ACAO:*` — so the page fetches it directly
