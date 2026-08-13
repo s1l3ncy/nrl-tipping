@@ -80,13 +80,18 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
-**Changed 2026-08-13** (full detail in `docs/CHANGELOG.md`):
-- **Comp strip grouped by side**: one `.cpick.side` chip per picked team (crest +
-  bold code + first names, home side first, ✓/✗ per side at full time) replaces
-  the per-person pill row; the Predicted strip shares the chip anatomy. And
-  **iOS double-tap zoom is dead**: `touch-action:manipulation` in the universal
-  `*` rule (keep it universal — see GOTCHAS; pinch zoom untouched). No model,
-  pipeline or tip changes (freeze harness verified 0 flips). `sw.js` CACHE v15.
+**Changed 2026-08-13** (two batches — full detail in `docs/CHANGELOG.md`):
+- **Comp picks grouped by side as PLAIN TEXT** (`.cgrp`, no pills — two
+  iterations: Josh rejected person-chips, then grouped chips): crest dot +
+  bold code + first names per side, home first, ✓/✗ per side at FT; Predicted
+  strip matches. **iOS double-tap zoom is dead**: `touch-action:manipulation`
+  in the universal `*` rule (keep universal — GOTCHAS; pinch untouched).
+- **Live-poll fix**: kickoff-less fixtures now poll on a ±36h game-day window
+  (was ±12h — failed when the blanked mid-game PEN–SYD was the day's only
+  game and the live score vanished) and `pollLive` adds today's date to the
+  ESPN query for them. Recommended-not-implemented: parse-side kickoff
+  carry-forward (CHANGELOG). No model/tip changes (freeze verified 0 flips
+  both batches). `sw.js` CACHE v16.
 
 **Changed 2026-08-10, audit batch** (full detail in `docs/CHANGELOG.md`):
 - **The tip now optimises WINNING THE COMP** (3-specialist audit): `tipSide()`

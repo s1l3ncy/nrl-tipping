@@ -115,12 +115,15 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 *(Reviewed 2026-08-13 — the UI-polish batch.)*
 
-- **2026-08-13: comp strip grouped by side + double-tap zoom fixed.** The
-  locked-card comp strip is one chip per picked team (crest + code + first
-  names, ✓/✗ per side at FT) instead of a pill per person; the Predicted strip
-  shares the anatomy. `touch-action:manipulation` in the universal `*` rule
-  kills iOS double-tap zoom (pinch preserved — keep it universal, see GOTCHAS).
-  Front-end + `sw.js` (v15) only; the freeze harness confirmed zero tip changes.
+- **2026-08-13: comp picks as plain-text side groups + double-tap zoom fixed +
+  live-poll hole closed.** The locked-card comp display is plain text grouped
+  per picked team (crest dot + code + first names, ✓/✗ per side at FT — no
+  pills, two UI iterations in one day); the Predicted strip matches.
+  `touch-action:manipulation` in the universal `*` rule kills iOS double-tap
+  zoom (pinch preserved — keep it universal, see GOTCHAS). And the live-score
+  poll now survives nrl.com blanking a solo game's kickoff mid-match (±36h
+  game-day window + today's date in the ESPN query — see GOTCHAS "Live
+  scores"). Front-end + `sw.js` (v16) only; freeze confirmed zero tip changes.
 
 - **2026-08-10 (night): the tip itself now optimises winning the comp.**
   `tipSide()` = Roosters lock → need-banded underdog-split policy (fed by

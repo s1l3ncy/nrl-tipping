@@ -529,11 +529,16 @@ details.plain>summary:hover{color:var(--text)}
 .cpick{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--sub);
   background:var(--surface2);border:1px solid var(--hairline-soft);border-radius:var(--r-pill);padding:3px 9px}
 .cpick .crest{width:10px;height:10px;font-size:0;border-radius:50%}
-/* grouped side chips (2026-08-13) — one chip per picked TEAM, names inside */
-.cpick.side{padding:4px 11px 4px 8px;gap:6px}
-.cpick.side .crest{width:12px;height:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
-.cpick.side b{font-weight:800;letter-spacing:.4px;color:var(--text);font-size:11px}
-.cpick.side .sep{color:var(--faint);margin:0 -1px}
+/* grouped side entries (2026-08-13, v2 same night — Josh: no pills/bubbles).
+   Plain text: crest dot + bold team code + first names, a faint · between
+   the two sides, one ✓/✗ per side once there's a winner. */
+.cgrp{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--sub);min-width:0}
+.cgrp .crest{width:10px;height:10px;font-size:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.cgrp b{font-weight:800;letter-spacing:.35px;color:var(--text);font-size:11px}
+.cgrp .ok{color:var(--good);font-weight:800}
+.cgrp .no{color:var(--amber-text);font-weight:800}
+.cdot{color:var(--faint)}
+.compstrip.pred .cgrp{opacity:.85}
 .cpick .ok{color:var(--good);font-weight:800}
 .cpick .no{color:var(--amber-text);font-weight:800}
 #compPanel{margin-top:14px}
@@ -551,7 +556,6 @@ details.plain>summary:hover{color:var(--text)}
 .gtippill.split{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.4)}
 .stratline{margin-top:8px;font-size:11.5px;color:var(--faint);padding:0 2px}
 .compstrip.pred .cst{color:var(--blue)}
-.compstrip.pred .cpick{border-style:dashed;opacity:.9}
 .gscore{display:flex;align-items:center;justify-content:center;gap:10px;align-self:center;
   font-variant-numeric:tabular-nums}
 .gscore b{font-size:38px;font-weight:850;letter-spacing:-1.5px;color:var(--faint);line-height:1}
@@ -1599,8 +1603,14 @@ function livePollList(){
   // So on a game day (any same-round kickoff within ±12h) a kickoff-less,
   // result-less fixture is polled too, and ESPN's own state decides; once an
   // entry is 'in' it keeps itself alive regardless.
+  // ±36h, not ±12h (2026-08-13): when nrl.com blanked PEN–SYD's kickoff
+  // MID-MATCH it was the day's ONLY game — every other kickoff in the round
+  // was 21h+ away, the ±12h test failed, the blanked game was never polled,
+  // and the live score vanished for the rest of the match. 36h spans a
+  // solo-game evening whose nearest neighbours are tomorrow night, while
+  // still going quiet between rounds.
   const gameday=fixtures.some(f=>{ const ko=Date.parse(f.kickoff||'');
-    return !isNaN(ko)&&Math.abs(now-ko)<12*3600000; });
+    return !isNaN(ko)&&Math.abs(now-ko)<36*3600000; });
   return fixtures.filter(f=>{
     const h=T(f.home), a=T(f.away);
     if(!h||!a) return false;
@@ -1627,9 +1637,15 @@ function pollLive(force){
   if(Date.now()-LIVE_LAST < (force?10000:LIVE_MS-5000)) return;
   LIVE_BUSY=true; LIVE_LAST=Date.now();
   // Query only the UTC date(s) of the games we care about (keeps the payload small).
-  const days=[...new Set(want.map(f=>{ const t=Date.parse(f.kickoff||'');
+  const dayset=new Set(want.map(f=>{ const t=Date.parse(f.kickoff||'');
     return isNaN(t)?null:new Date(t).toISOString().slice(0,10).replace(/-/g,''); })
-    .filter(Boolean))].sort();
+    .filter(Boolean));
+  // A kickoff-less fixture (the mid-game blank) contributes no date of its
+  // own — add TODAY, or a date-range built from the round's other kickoffs
+  // (all tomorrow+) skips the very game that's live right now (2026-08-13).
+  if(want.some(f=>isNaN(Date.parse(f.kickoff||''))))
+    dayset.add(new Date().toISOString().slice(0,10).replace(/-/g,''));
+  const days=[...dayset].sort();
   const dq=days.length?(days.length>1?days[0]+'-'+days[days.length-1]:days[0])
                       :new Date().toISOString().slice(0,10).replace(/-/g,'');
   const ctl=(typeof AbortController==='function')?new AbortController():null;
@@ -1821,8 +1837,8 @@ function predStripHTML(p){
   rivals.forEach(r=>{ const t=predictPick(r.name,p);
     (by[t]=by[t]||[]).push(r.name.split(' ')[0].slice(0,10)); });
   const chips=Object.keys(by).map(sh=>{ const t=T(sh); if(!t) return '';
-    return `<span class="cpick side"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
-      `<b>${esc(t.short)}</b><span class="sep">·</span>${esc(by[sh].join(', '))}</span>`; }).join('');
+    return `<span class="cgrp"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
+      `<b>${esc(t.short)}</b> ${esc(by[sh].join(', '))}</span>`; }).filter(Boolean).join('<span class="cdot">·</span>');
   if(!chips) return '';
   return `<div class="compstrip pred"><span class="cst">Predicted</span>${chips}</div>`;
 }
@@ -1873,10 +1889,10 @@ function compStripHTML(p){
   if(!compLocked(p,fx)) return '';
   const key=liveKey(p.h.short,p.a.short);
   const fin=fixtureResult(p)||liveFinal(p);
-  /* Grouped by SIDE (2026-08-13, Josh: the per-person chip row read as clutter):
-     one chip per picked team — crest + code + the first names on it — mirroring
-     the Predicted strip's grouping, with one ✓/✗ per side once there's a winner.
-     Home side renders first, away second, so the chips match the card's layout. */
+  /* Grouped by SIDE, rendered as PLAIN TEXT (2026-08-13, v2 the same night —
+     Josh rejected both the per-person pill row and the grouped pills): crest
+     dot + bold team code + the first names on that side, a faint · between
+     sides, one ✓/✗ per side once there's a winner. Home side first. */
   const by={};
   COMP.members.filter(m=>m.picks[key]).forEach(m=>{
     const sh=m.picks[key];
@@ -1886,9 +1902,9 @@ function compStripHTML(p){
   const chips=order.filter(sh=>by[sh]).map(sh=>{
     const t=T(sh); if(!t) return '';
     const mark=(fin&&fin.winner)?(fin.winner.short===sh?' <span class="ok">✓</span>':' <span class="no">✗</span>'):'';
-    return `<span class="cpick side"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
-      `<b>${esc(t.short)}</b><span class="sep">·</span>${esc(by[sh].join(', '))}${mark}</span>`;
-  }).join('');
+    return `<span class="cgrp"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
+      `<b>${esc(t.short)}</b> ${esc(by[sh].join(', '))}${mark}</span>`;
+  }).filter(Boolean).join('<span class="cdot">·</span>');
   if(!chips) return '';
   return `<div class="compstrip"><span class="cst">Comp</span>${chips}</div>`;
 }
