@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 24,
  "finishRound": 31,
- "fetched": "2026-08-13T05:52:55+00:00",
+ "fetched": "2026-08-13T10:59:32+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -85,7 +85,9 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 112,
    "totalMargin": 416,
-   "picks": {}
+   "picks": {
+    "PEN-SYD": "SYD"
+   }
   },
   {
    "name": "Claire with an i",
@@ -165,7 +167,9 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 112,
    "totalMargin": 426,
-   "picks": {}
+   "picks": {
+    "PEN-SYD": "PEN"
+   }
   },
   {
    "name": "Jake",
@@ -245,7 +249,9 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 111,
    "totalMargin": 416,
-   "picks": {}
+   "picks": {
+    "PEN-SYD": "PEN"
+   }
   },
   {
    "name": "Thorners69",
@@ -325,7 +331,9 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 111,
    "totalMargin": 447,
-   "picks": {}
+   "picks": {
+    "PEN-SYD": "SYD"
+   }
   },
   {
    "name": "Special unit",
@@ -405,7 +413,9 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 98,
    "totalMargin": 447,
-   "picks": {}
+   "picks": {
+    "PEN-SYD": "SYD"
+   }
   },
   {
    "name": "Susie loo",
@@ -485,7 +495,9 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 95,
    "totalMargin": 467,
-   "picks": {}
+   "picks": {
+    "PEN-SYD": "PEN"
+   }
   }
  ]
 };

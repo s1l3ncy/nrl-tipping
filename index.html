@@ -35,7 +35,12 @@
   --gap:14px;
   --tricolour:linear-gradient(90deg,#FF4655 0 55%,#F5F8FF 55% 72%,#F5C451 72% 100%);
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;touch-action:manipulation}
+/* touch-action:manipulation (2026-08-13): iOS Safari fires double-tap-to-zoom on a
+   quick second tap of a tab/button/pill, forcing a manual zoom-out. `manipulation`
+   keeps panning and pinch-zoom but drops the double-tap gesture — accessibility
+   (pinch) is untouched. Applied universally on purpose: any tappable surface missed
+   by a selector list would reintroduce the zoom. */
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -524,6 +529,11 @@ details.plain>summary:hover{color:var(--text)}
 .cpick{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--sub);
   background:var(--surface2);border:1px solid var(--hairline-soft);border-radius:var(--r-pill);padding:3px 9px}
 .cpick .crest{width:10px;height:10px;font-size:0;border-radius:50%}
+/* grouped side chips (2026-08-13) — one chip per picked TEAM, names inside */
+.cpick.side{padding:4px 11px 4px 8px;gap:6px}
+.cpick.side .crest{width:12px;height:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.cpick.side b{font-weight:800;letter-spacing:.4px;color:var(--text);font-size:11px}
+.cpick.side .sep{color:var(--faint);margin:0 -1px}
 .cpick .ok{color:var(--good);font-weight:800}
 .cpick .no{color:var(--amber-text);font-weight:800}
 #compPanel{margin-top:14px}
@@ -1811,8 +1821,8 @@ function predStripHTML(p){
   rivals.forEach(r=>{ const t=predictPick(r.name,p);
     (by[t]=by[t]||[]).push(r.name.split(' ')[0].slice(0,10)); });
   const chips=Object.keys(by).map(sh=>{ const t=T(sh); if(!t) return '';
-    return `<span class="cpick"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
-      `${esc(t.short)} · ${esc(by[sh].join(', '))}</span>`; }).join('');
+    return `<span class="cpick side"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
+      `<b>${esc(t.short)}</b><span class="sep">·</span>${esc(by[sh].join(', '))}</span>`; }).join('');
   if(!chips) return '';
   return `<div class="compstrip pred"><span class="cst">Predicted</span>${chips}</div>`;
 }
@@ -1863,10 +1873,21 @@ function compStripHTML(p){
   if(!compLocked(p,fx)) return '';
   const key=liveKey(p.h.short,p.a.short);
   const fin=fixtureResult(p)||liveFinal(p);
-  const chips=COMP.members.filter(m=>m.picks[key]).map(m=>{
-    const t=T(m.picks[key]); if(!t) return '';
-    const mark=(fin&&fin.winner)?(fin.winner.short===t.short?' <span class="ok">✓</span>':' <span class="no">✗</span>'):'';
-    return `<span class="cpick"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>${esc(m.name)}${mark}</span>`;
+  /* Grouped by SIDE (2026-08-13, Josh: the per-person chip row read as clutter):
+     one chip per picked team — crest + code + the first names on it — mirroring
+     the Predicted strip's grouping, with one ✓/✗ per side once there's a winner.
+     Home side renders first, away second, so the chips match the card's layout. */
+  const by={};
+  COMP.members.filter(m=>m.picks[key]).forEach(m=>{
+    const sh=m.picks[key];
+    (by[sh]=by[sh]||[]).push(m.name.split(' ')[0].slice(0,10));
+  });
+  const order=[p.h.short,p.a.short,...Object.keys(by).filter(s=>s!==p.h.short&&s!==p.a.short)];
+  const chips=order.filter(sh=>by[sh]).map(sh=>{
+    const t=T(sh); if(!t) return '';
+    const mark=(fin&&fin.winner)?(fin.winner.short===sh?' <span class="ok">✓</span>':' <span class="no">✗</span>'):'';
+    return `<span class="cpick side"><span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true"></span>`+
+      `<b>${esc(t.short)}</b><span class="sep">·</span>${esc(by[sh].join(', '))}${mark}</span>`;
   }).join('');
   if(!chips) return '';
   return `<div class="compstrip"><span class="cst">Comp</span>${chips}</div>`;
