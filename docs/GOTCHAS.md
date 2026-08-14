@@ -184,6 +184,18 @@ Real problems encountered on this project and how to avoid repeating them.
   fetch the comp's data (first names + picks + scores). Josh accepted this;
   if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
 
+## A tip's % is the TIPPED side's chance, never max(pHome,1-pHome) (2026-08-14)
+
+- Any surface that prints a percentage next to the tip name must use the
+  **tipped side's** blended prob (`tip===p.h ? pHome : 1-pHome`), NOT
+  `Math.max(pHome,1-pHome)`. They're equal for straight favourites but diverge
+  on a comp split (the tip is the underdog) and on a Roosters lock the model
+  dislikes — where max() prints the OPPONENT's chance beside your tip
+  ("Eels · 63%" when the Eels' own chance is 38%). The quick list had this bug
+  until 2026-08-14. The frozen tiplog `prob` is already tipped-side-relative —
+  match it. `Math.max()` is still correct for CONFIDENCE RANKING (how certain a
+  game is), just never as the number shown next to the tip.
+
 ## The comp simulator (2026-08-13) — determinism and time-consistency
 
 - **The sim's seed comes from (season, round) ONLY — never the plan stamp.**

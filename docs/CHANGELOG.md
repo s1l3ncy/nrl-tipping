@@ -5,6 +5,23 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-14 (later) — Quick list showed the favourite's % on a split, not the tip's
+
+Josh spotted "Eels · 63%" on the quick list when the Eels are a comp SPLIT —
+63% is the *Cowboys'* chance; the Eels' own is 38%. `renderQuicklist()` paired
+`tipSide(p).name` (the tipped side — the underdog on a split) with
+`Math.max(pHome,1-pHome)` (the *favourite's* confidence). Identical for
+straight favourites (tip == favourite), wrong for splits and for a Roosters
+lock the model dislikes. Now prints the **tipped side's** blended win chance
+(`tip===p.h ? pHome : 1-pHome`), matching the frozen tiplog `prob` and the
+card. Verified on the live round: Eels 38%, Rabbitohs split honest, straight
+favourites unchanged, Roosters lock shows its true 48%. Display-only — the
+freeze re-ran with 0 tip changes. `sw.js` CACHE v18. The card, copy-tips and
+week-ahead schedule were audited and were already correct (the card names the
+favourite explicitly and shows the tip pill separately).
+
+---
+
 ## 2026-08-14 — Pre-game odds slots in the schedule
 
 Josh asked whether the tip tracks odds moves: it does, but only as often as
