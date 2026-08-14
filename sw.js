@@ -17,7 +17,7 @@
  * file (file://) bypasses this entirely and uses the baked-in data, exactly as
  * before — so the offline-as-a-local-file guarantee is preserved.
  */
-const CACHE = 'nrl-tips-v17';  // v17: 2026-08-13 (3) Monte-Carlo comp simulator drives splits + chances panel, margin adviser, adherence
+const CACHE = 'nrl-tips-v18';  // v18: 2026-08-14 quick list shows the TIPPED side's win % (was the favourite's on splits)
 const CORE = ['./', './index.html', './nrl_data.js', './nrl_learned.js', './nrl_players.js',
               './nrl_lineups.js', './nrl_tiplog.js', './nrl_comp.js', './apple-touch-icon.png', './favicon-32.png'];
 
