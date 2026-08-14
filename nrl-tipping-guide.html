@@ -2829,12 +2829,18 @@ function renderQuicklist(preds){
       return `<div class="qline live"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
         `<span class="pick"><span class="livedot"></span>${lv.clock?esc(lv.clock)+' · ':''}${lv.hs}–${lv.as}</span></div>`;
     }
-    const conf=Math.max(p.pHome,1-p.pHome);
+    // The % is the TIPPED side's blended win chance — NOT max(pHome,1-pHome)
+    // (2026-08-14 fix). On a comp split the tip IS the underdog, so the old
+    // max() printed the FAVOURITE's chance beside the underdog's name:
+    // "Eels · 63%" when the Eels' own chance was 38% and 63% was the Cowboys'.
+    // Now matches the frozen tiplog prob and the card; identical to before for
+    // straight favourites, and honest for splits and the Roosters lock.
+    const tipPct = (tip===p.h ? p.pHome : 1-p.pHome);
     let extra='';
     if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
     else if(compMode==='confidence'){ extra=` · #${rankByIndex[i]}`; }
     return `<div class="qline"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
-      `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(conf*100).toFixed(0)}%${extra}</span></div>`;
+      `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(tipPct*100).toFixed(0)}%${extra}</span></div>`;
   }).join('');
 }
 function renderNewScreen(preds,fxList){
