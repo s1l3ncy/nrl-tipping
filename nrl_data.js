@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-14",
+  "updated": "2026-08-15",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -147,6 +147,32 @@ window.NRL_DATA = {
       "news": "Addin Fonua-Blake (Suspension) — back Round 25; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
+      "name": "Rabbitohs",
+      "short": "SOU",
+      "colour": "#00954c",
+      "P": 21,
+      "W": 12,
+      "L": 9,
+      "PF": 576,
+      "PA": 494,
+      "last5": 3,
+      "home": {
+        "P": 10,
+        "W": 8,
+        "L": 2,
+        "PF": 292,
+        "PA": 212
+      },
+      "away": {
+        "P": 11,
+        "W": 4,
+        "L": 7,
+        "PF": 284,
+        "PA": 282
+      },
+      "news": "Adam Elliott (Groin); Dayne Jennings (Knee); Latrell Mitchell (Calf); Jamie Humphreys (Ankle) — back Round 25; Talanoa Penitani (Hamstring) — back Round 26; Ashton Ward (Hamstring) — back Next Season"
+    },
+    {
       "name": "Knights",
       "short": "NEW",
       "colour": "#00539b",
@@ -170,33 +196,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Brodie Jones (Hamstring); Jacob Saifiti (Hamstring) — back Round 25; James Schiller (Neck) — back Round 25; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
-    },
-    {
-      "name": "Rabbitohs",
-      "short": "SOU",
-      "colour": "#00954c",
-      "P": 21,
-      "W": 11,
-      "L": 10,
-      "PF": 554,
-      "PA": 488,
-      "last5": 3,
-      "home": {
-        "P": 10,
-        "W": 8,
-        "L": 2,
-        "PF": 292,
-        "PA": 212
-      },
-      "away": {
-        "P": 10,
-        "W": 3,
-        "L": 7,
-        "PF": 262,
-        "PA": 276
-      },
-      "news": "Latrell Mitchell (Calf); Dayne Jennings (Knee); Jamie Humphreys (Ankle) — back Round 25; Talanoa Penitani (Hamstring) — back Round 26; Ashton Ward (Hamstring) — back Next Season"
+      "news": "Brodie Jones (Hamstring); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -231,15 +231,15 @@ window.NRL_DATA = {
       "P": 21,
       "W": 10,
       "L": 11,
-      "PF": 396,
-      "PA": 442,
+      "PF": 402,
+      "PA": 464,
       "last5": 3,
       "home": {
-        "P": 10,
+        "P": 11,
         "W": 7,
-        "L": 3,
-        "PF": 198,
-        "PA": 172
+        "L": 4,
+        "PF": 204,
+        "PA": 194
       },
       "away": {
         "P": 10,
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Sitili Tupouniua (Hamstring); Samuel Hughes (Neck)"
+      "news": "Sitili Tupouniua (Hamstring); Jethro Rinakama (Knee); Samuel Hughes (Neck)"
     },
     {
       "name": "Sea Eagles",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle) — back Round 25; Jack Howarth (Shoulder) — back Round 25; Harry Grant (Hamstring) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
+      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Harry Grant (Hamstring) — back Round 25; Jack Howarth (Shoulder) — back Round 25; Ativalu Lisati (Ankle) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
     },
     {
       "name": "Raiders",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Kai Pearce-Paul (Pectoral); Royce Hunt (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral); Latu Fainu (Suspension) — back Round 25; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Titans",
@@ -485,9 +485,9 @@ window.NRL_DATA = {
     {
       "home": "CAN",
       "away": "SOU",
-      "venue": "",
+      "venue": "Accor Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-14T20:00:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -525,7 +525,7 @@ window.NRL_DATA = {
           "away": 1.57
         },
         "close": {
-          "home": 2.5,
+          "home": 2.51,
           "away": 1.53
         }
       },
@@ -545,8 +545,8 @@ window.NRL_DATA = {
           "away": 1.53
         },
         "close": {
-          "home": 2.85,
-          "away": 1.43
+          "home": 2.9,
+          "away": 1.42
         }
       },
       "weather": null,
@@ -566,7 +566,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.23,
-          "away": 4.15
+          "away": 4.2
         }
       },
       "weather": null,
@@ -586,7 +586,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.94,
-          "away": 1.89
+          "away": 1.87
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-14T21:12:44+10:00",
+  "generatedAt": "2026-08-15T01:11:19+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
@@ -609,6 +609,30 @@ window.NRL_DATA = {
       "text": "Dylan Edwards (Fullback) named in the Panthers 17.",
       "pts": 3.4,
       "ts": "2026-08-13T20:59:43+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-SOU-inj-adam-elliott",
+      "fixture": "CAN-SOU",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Rabbitohs: Adam Elliott (Groin) — new on the injury list.",
+      "pts": 0.7,
+      "ts": "2026-08-15T01:11:19+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CAN-inj-jethro-rinakama",
+      "fixture": "CAN-SOU",
+      "team": "CAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Bulldogs: Jethro Rinakama (Knee) — new on the injury list.",
+      "pts": 0.6,
+      "ts": "2026-08-15T01:11:19+10:00",
       "rnd": 24
     },
     {
@@ -897,6 +921,30 @@ window.NRL_DATA = {
       "text": "Jack Cole (Five-eighth) is out of the Panthers 17.",
       "pts": 2.0,
       "ts": "2026-08-13T20:59:43+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-BRI-NZW-line-2.90-1.42",
+      "fixture": "BRI-NZW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Broncos $2.85 → $2.90, Warriors $1.43 → $1.42. Market now 33% Broncos (was 33%).",
+      "pts": null,
+      "ts": "2026-08-15T01:11:19+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.94-1.87",
+      "fixture": "WST-STI",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Wests Tigers $1.94 → $1.94, Dragons $1.89 → $1.87. Market now 49% Wests Tigers (was 49%).",
+      "pts": null,
+      "ts": "2026-08-15T01:11:19+10:00",
       "rnd": 24
     },
     {

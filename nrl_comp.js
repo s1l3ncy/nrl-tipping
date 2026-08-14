@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 24,
  "finishRound": 31,
- "fetched": "2026-08-14T11:12:33+00:00",
+ "fetched": "2026-08-14T15:11:08+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -418,8 +418,8 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 2,
-   "totalScore": 100,
+   "roundScore": 3,
+   "totalScore": 101,
    "totalMargin": 451,
    "picks": {
     "PEN-SYD": "SYD",
