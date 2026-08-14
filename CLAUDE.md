@@ -50,8 +50,9 @@ the owner's Mac off.
 - `parse_nrl.py` — dumps → `nrl_data.js`; grows the results memory. Has `--merge` mode.
 - `learn_model.py` — results memory → fitted params + Elo in `nrl_learned.js`.
 - `validate_data.py` / `validate_learned.py` — publish gates.
-- `.github/workflows/update-nrl.yml` — the automation (every 4h at :17, plus 05:47 daily
-  and 16:23 Tuesday for team lists). Includes the freeze-tips step and (since
+- `.github/workflows/update-nrl.yml` — the automation (every 4h at :17, plus 05:47 daily,
+  16:23 Tuesday for team lists, and since 2026-08-14 four pre-game odds slots: Thu 18:43,
+  Fri 19:07, Sat 16:33, Sun 13:07 AEST). Includes the freeze-tips step and (since
   2026-08-04) no `--weather` flag. **Always edit from the LIVE copy** (raw URL), never
   a possibly-stale local one.
 
