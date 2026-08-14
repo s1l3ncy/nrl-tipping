@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 24,
   "source": "nrl.com",
-  "fetched": "2026-08-14T21:12:17",
+  "fetched": "2026-08-15T01:10:52",
   "fixtures": {
     "PEN-SYD": {
       "venue": "CommBank Stadium",
@@ -14,6 +14,11 @@
       "venue": "4 Pines Park",
       "city": "Sydney",
       "kickoffUtc": "2026-08-14T08:00:00Z"
+    },
+    "CAN-SOU": {
+      "venue": "Accor Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-14T10:00:00Z"
     },
     "CRO-CBR": {
       "venue": "Ocean Protect Stadium",
