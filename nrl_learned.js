@@ -8,44 +8,44 @@
 // fitted via grid search: walk-forward logloss=0.6608 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.75 (market-heavy prior per the 2026-08-10 audit) — no --odds-history supplied/matched, not yet learned. freeze_tips now logs per-tip market probs (tiplog .mkt) as the future fitting corpus.
 window.NRL_LEARNED = {
   "updated": "2026-08-14",
-  "gamesLearned": 173,
+  "gamesLearned": 174,
   "lowConfidence": false,
   "params": {
-    "homeAdv": 0.54,
+    "homeAdv": 0.41,
     "logisticScale": 7.0,
     "oddsWeight": 0.75,
     "oddsWeightLearned": false,
     "eloK": 10,
-    "eloHGA": 40
+    "eloHGA": 20
   },
   "elo": {
-    "PEN": 1590.8,
-    "SYD": 1637.4,
-    "NZW": 1610.3,
-    "CRO": 1587.2,
-    "DOL": 1587.9,
-    "SOU": 1513.2,
-    "NEW": 1560.0,
+    "PEN": 1589.1,
+    "SYD": 1635.2,
+    "NZW": 1609.2,
+    "CRO": 1585.3,
+    "DOL": 1605.2,
+    "SOU": 1511.8,
+    "NEW": 1557.6,
     "NQL": 1518.3,
-    "MAN": 1478.9,
-    "CAN": 1501.8,
-    "CBR": 1472.8,
-    "MEL": 1480.7,
-    "BRI": 1388.5,
-    "PAR": 1422.0,
-    "WST": 1379.2,
-    "GLD": 1406.3,
-    "STI": 1364.7
+    "MAN": 1463.4,
+    "CAN": 1502.1,
+    "CBR": 1474.1,
+    "MEL": 1482.9,
+    "BRI": 1388.3,
+    "PAR": 1423.0,
+    "WST": 1379.5,
+    "GLD": 1407.0,
+    "STI": 1367.8
   },
   "backtest": {
-    "games": 173,
-    "brier": 0.2337,
+    "games": 174,
+    "brier": 0.2336,
     "logloss": 0.6608,
-    "hit": 0.6416,
+    "hit": 0.6379,
     "marketBrier": null,
     "lockTax": {
       "games": 21,
-      "modelRight": 16,
+      "modelRight": 15,
       "rkWins": 16
     }
   },
@@ -124,6 +124,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-14",
       "games": 173,
       "brier": 0.2337
+    },
+    {
+      "date": "2026-08-14",
+      "games": 174,
+      "brier": 0.2336
     }
   ],
   "results": [
@@ -1346,6 +1351,14 @@ window.NRL_LEARNED = {
       "away": "SYD",
       "hs": 6,
       "as": 12
+    },
+    {
+      "season": 2026,
+      "round": 24,
+      "home": "MAN",
+      "away": "DOL",
+      "hs": 0,
+      "as": 22
     }
   ]
 };
