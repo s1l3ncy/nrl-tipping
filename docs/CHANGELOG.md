@@ -5,6 +5,19 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-14 — Pre-game odds slots in the schedule
+
+Josh asked whether the tip tracks odds moves: it does, but only as often as
+the workflow runs, and the 4-hourly grid's last look before some kickoffs
+was ~3h stale. Four weekly cron slots added (AEST: Thu 18:43, Fri 19:07,
+Sat 16:33, Sun 13:07 — off-hour minutes per the scheduling notes) so the
+frozen tip carries a market price from ~1h before the round's typical
+kickoffs. ~+17 odds-API calls/month on top of ~240 (free tier 500 — watch
+`oddsApiRemaining`). In AEDT they fire an hour later local and still land
+pre-game. Workflow file only; edited from the live copy per GOTCHAS.
+
+---
+
 ## 2026-08-13 (night) — Monte-Carlo season simulator drives the splits; chances panel; margin adviser; adherence loop
 
 Josh: "Ultimately I want to put my chances of coming 1st or at least top 3
