@@ -525,7 +525,7 @@ window.NRL_DATA = {
           "away": 1.57
         },
         "close": {
-          "home": 2.51,
+          "home": 2.55,
           "away": 1.53
         }
       },
@@ -585,7 +585,7 @@ window.NRL_DATA = {
           "away": 1.96
         },
         "close": {
-          "home": 1.94,
+          "home": 1.95,
           "away": 1.87
         }
       },
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T05:35:15+10:00",
+  "generatedAt": "2026-08-15T06:59:48+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
@@ -921,6 +921,18 @@ window.NRL_DATA = {
       "text": "Jack Cole (Five-eighth) is out of the Panthers 17.",
       "pts": 2.0,
       "ts": "2026-08-13T20:59:43+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PAR-NQL-line-2.55-1.53",
+      "fixture": "PAR-NQL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Eels $2.51 → $2.55, Cowboys $1.53 → $1.53. Market now 38% Eels (was 38%).",
+      "pts": null,
+      "ts": "2026-08-15T06:59:48+10:00",
       "rnd": 24
     },
     {
