@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T01:11:19+10:00",
+  "generatedAt": "2026-08-15T05:35:15+10:00",
   "changes": [
     {
       "id": "r24-PEN-in-dylan-edwards",
@@ -1054,55 +1054,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-13T20:59:43+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-PEN-SYD-line-1.55-2.50",
-      "fixture": "PEN-SYD",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.55 → $1.55, Roosters $2.45 → $2.50. Market now 62% Panthers (was 61%).",
-      "pts": null,
-      "ts": "2026-08-13T15:53:05+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-MAN-DOL-line-3.30-1.34",
-      "fixture": "MAN-DOL",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $3.40 → $3.30, Dolphins $1.32 → $1.34. Market now 29% Sea Eagles (was 28%).",
-      "pts": null,
-      "ts": "2026-08-13T15:53:05+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-PAR-NQL-line-2.50-1.53",
-      "fixture": "PAR-NQL",
-      "team": "PAR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.55 → $2.50, Cowboys $1.53 → $1.53. Market now 38% Eels (was 38%).",
-      "pts": null,
-      "ts": "2026-08-13T15:53:05+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-NEW-GLD-line-1.23-4.20",
-      "fixture": "NEW-GLD",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Knights $1.22 → $1.23, Titans $4.20 → $4.20. Market now 77% Knights (was 77%).",
-      "pts": null,
-      "ts": "2026-08-13T15:53:05+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-13T15:53:05+10:00"
+  "changesSince": "2026-08-13T20:59:43+10:00"
 };
