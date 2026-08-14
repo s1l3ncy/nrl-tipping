@@ -13,7 +13,8 @@ name: Update NRL tips
 #     drag the "6am" run to 7am for half the year.
 #
 # Current coverage (AEST, UTC+10 — shift one hour later in AEDT):
-#   02:17, 06:17, 10:17, 14:17, 18:17, 22:17  +  05:47 daily  +  16:23 Tuesday.
+#   02:17, 06:17, 10:17, 14:17, 18:17, 22:17  +  05:47 daily  +  16:23 Tuesday
+#   +  pre-game odds slots: Thu 18:43, Fri 19:07, Sat 16:33, Sun 13:07.
 # The Tuesday 16:23 slot exists because NRL team lists drop ~4pm Tuesday AEST;
 # before it was added, the last run of the day was noon and the first look at
 # team lists was Wednesday morning.
@@ -23,6 +24,16 @@ on:
     - cron: "17 */4 * * *"   # every 4 hours at :17
     - cron: "47 19 * * *"    # 05:47 Sydney — early-morning attempt
     - cron: "23 6 * * 2"     # 16:23 Sydney Tuesday — just after team lists drop
+    # Pre-game odds slots (2026-08-13, Josh's ask): one last look at the market
+    # roughly an hour before the typical kickoffs the 4-hourly grid serves
+    # worst, so the frozen tip carries a fresher price. Adds ~4 runs/week
+    # (~17 odds-API calls/month on top of ~240 — watch oddsApiRemaining in
+    # last_run.json). AEST times; in AEDT each fires an hour later local,
+    # still pre-game (tightest: Thursday lands 19:43 against a 19:50 KO).
+    - cron: "43 8 * * 4"     # 18:43 Sydney Thursday — before the 19:50 game
+    - cron: "7 9 * * 5"      # 19:07 Sydney Friday — before the 20:05 game
+    - cron: "33 6 * * 6"     # 16:33 Sydney Saturday — before the 17:30 game
+    - cron: "7 3 * * 0"      # 13:07 Sydney Sunday — before the 14:00 game
   workflow_dispatch: {}
 
 concurrency:
