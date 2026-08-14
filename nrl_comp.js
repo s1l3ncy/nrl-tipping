@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 24,
  "finishRound": 31,
- "fetched": "2026-08-14T05:50:23+00:00",
+ "fetched": "2026-08-14T11:12:33+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,11 +82,13 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 113,
+   "roundScore": 2,
+   "totalScore": 114,
    "totalMargin": 418,
    "picks": {
-    "PEN-SYD": "SYD"
+    "PEN-SYD": "SYD",
+    "DOL-MAN": "DOL",
+    "CAN-SOU": "CAN"
    }
   },
   {
@@ -164,11 +166,13 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 112,
+   "roundScore": 1,
+   "totalScore": 113,
    "totalMargin": 438,
    "picks": {
-    "PEN-SYD": "PEN"
+    "PEN-SYD": "PEN",
+    "DOL-MAN": "DOL",
+    "CAN-SOU": "CAN"
    }
   },
   {
@@ -246,11 +250,13 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "up",
-   "roundScore": 1,
-   "totalScore": 112,
+   "roundScore": 2,
+   "totalScore": 113,
    "totalMargin": 449,
    "picks": {
-    "PEN-SYD": "SYD"
+    "PEN-SYD": "SYD",
+    "DOL-MAN": "DOL",
+    "CAN-SOU": "CAN"
    }
   },
   {
@@ -328,11 +334,13 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "down",
-   "roundScore": 0,
-   "totalScore": 111,
+   "roundScore": 1,
+   "totalScore": 112,
    "totalMargin": 436,
    "picks": {
-    "PEN-SYD": "PEN"
+    "PEN-SYD": "PEN",
+    "DOL-MAN": "DOL",
+    "CAN-SOU": "CAN"
    }
   },
   {
@@ -410,11 +418,13 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 99,
+   "roundScore": 2,
+   "totalScore": 100,
    "totalMargin": 451,
    "picks": {
-    "PEN-SYD": "SYD"
+    "PEN-SYD": "SYD",
+    "DOL-MAN": "DOL",
+    "CAN-SOU": "SOU"
    }
   },
   {
@@ -496,7 +506,9 @@ window.NRL_COMP = {
    "totalScore": 95,
    "totalMargin": 477,
    "picks": {
-    "PEN-SYD": "PEN"
+    "PEN-SYD": "PEN",
+    "DOL-MAN": "MAN",
+    "CAN-SOU": "CAN"
    }
   }
  ]

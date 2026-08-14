@@ -1,10 +1,8 @@
 # Round 24 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-14T15:50:06. Decimal odds; a fixture is omitted entirely until its market opens.
-# Median of 11 Australian bookmaker(s) per price (77 book quotes across 7 fixtures).
-Sea Eagles v Dolphins: 3.54 / 1.30
-Bulldogs v Rabbitohs: 1.58 / 2.40
-Sharks v Raiders: 1.32 / 3.45
+# Fetched 2026-08-14T21:12:17. Decimal odds; a fixture is omitted entirely until its market opens.
+# Median of 11 Australian bookmaker(s) per price (55 book quotes across 5 fixtures).
+Sharks v Raiders: 1.30 / 3.50
 Eels v Cowboys: 2.50 / 1.53
-Broncos v Warriors: 2.75 / 1.44
+Broncos v Warriors: 2.85 / 1.43
 Knights v Titans: 1.23 / 4.15
-Wests Tigers v Dragons: 1.95 / 1.87
+Wests Tigers v Dragons: 1.94 / 1.89
