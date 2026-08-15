@@ -40,7 +40,7 @@ window.NRL_DATA = {
         "PF": 328,
         "PA": 220
       },
-      "news": "James Tedesco (Ankle) — back Round 25; Daniel Tupou (Shoulder) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "James Tedesco (Ankle) — back Round 25; Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Panthers",
@@ -205,8 +205,8 @@ window.NRL_DATA = {
       "P": 22,
       "W": 13,
       "L": 9,
-      "PF": 490,
-      "PA": 564,
+      "PF": 514,
+      "PA": 584,
       "last5": 3,
       "home": {
         "P": 10,
@@ -222,7 +222,7 @@ window.NRL_DATA = {
         "PF": 244,
         "PA": 253
       },
-      "news": "Tom Dearden (Ankle); Jeremiah Nanai (Hamstring) — back Round 25"
+      "news": "Tom Dearden (Ankle) — back Round 26; Jeremiah Nanai (Hamstring) — back Round 26"
     },
     {
       "name": "Bulldogs",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 280,
         "PA": 222
       },
-      "news": "Siosiua Taukeiaho (Leg); Ethan Bullemor (Concussion) — back Round 25; Tom Trbojevic (Hamstring) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Taniela Paseka (Knee) — back Round 26; Kobe Hetherington (Biceps) — back Next Season"
+      "news": "Siosiua Taukeiaho (Leg); Ethan Bullemor (Concussion) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Tom Trbojevic (Hamstring) — back Round 25; Taniela Paseka (Knee) — back Round 26; Kobe Hetherington (Biceps) — back Next Season"
     },
     {
       "name": "Storm",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Harry Grant (Hamstring) — back Round 25; Jack Howarth (Shoulder) — back Round 25; Ativalu Lisati (Ankle) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
+      "news": "Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Harry Grant (Hamstring) — back Round 25; Jack Howarth (Shoulder) — back Round 25; Ativalu Lisati (Ankle) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
     },
     {
       "name": "Raiders",
@@ -335,8 +335,8 @@ window.NRL_DATA = {
       "P": 21,
       "W": 7,
       "L": 14,
-      "PF": 393,
-      "PA": 578,
+      "PF": 413,
+      "PA": 602,
       "last5": 2,
       "home": {
         "P": 10,
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 275
       },
-      "news": "Brock Gray (ACL); Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
+      "news": "Brock Gray (ACL); Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Hame Sele (Achilles); Clinton Gutherson (Knee); Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season; David Fale (Calf) — back Next Season"
+      "news": "Hame Sele (Achilles); Clinton Gutherson (Knee); Jaydn Su'A (Pectoral) — back Round 27; David Fale (Calf) — back Next Season; Hayden Buchanan (Shoulder) — back Next Season"
     }
   ],
   "fixtures": [
@@ -528,7 +528,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.9,
-          "away": 1.41
+          "away": 1.42
         }
       },
       "weather": null,
@@ -548,7 +548,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.24,
-          "away": 4.25
+          "away": 4.2
         }
       },
       "weather": null,
@@ -579,7 +579,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T17:49:15+10:00",
+  "generatedAt": "2026-08-15T19:04:27+10:00",
   "changes": [
     {
       "id": "r24-CRO-inj-braydon-trindall",
@@ -819,6 +819,18 @@ window.NRL_DATA = {
       "text": "Dragons: David Fale (Calf) — back Next Season — new on the injury list.",
       "pts": 1.2,
       "ts": "2026-08-14T15:50:34+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-GLD-line-1.24-4.20",
+      "fixture": "NEW-GLD",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Knights $1.24 → $1.24, Titans $4.25 → $4.20. Market now 77% Knights (was 77%).",
+      "pts": null,
+      "ts": "2026-08-15T19:04:27+10:00",
       "rnd": 24
     },
     {
