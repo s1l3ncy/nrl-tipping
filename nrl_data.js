@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T06:00:56+10:00",
+  "generatedAt": "2026-08-16T06:58:45+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
