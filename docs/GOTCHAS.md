@@ -196,6 +196,37 @@ Real problems encountered on this project and how to avoid repeating them.
   match it. `Math.max()` is still correct for CONFIDENCE RANKING (how certain a
   game is), just never as the number shown next to the tip.
 
+## The comp simulator — perfect-round bonus & the top-4 objective (2026-08-15)
+
+- **The +2 perfect-round bonus is modelled for the current round ONLY while it
+  is in progress** (`bonusLive = cur.length>0`). A finished round's +2 is
+  already inside `totalScore` from the API — awarding it again double-counts.
+  Don't drop the `bonusLive` gate.
+- **A perfect round is over the WHOLE round, including games already played.**
+  `myResolvedOK` / `rivResolvedOK[]` precompute whether each tipper's perfect
+  is still alive given resolved current-round games; one wrong resolved pick
+  kills it. Draws (no winner) are neutral (don't break it). If you only
+  checked the unresolved games you'd hand out phantom bonuses to someone who
+  already dropped a game this round.
+- **Josh's unlocked Roosters pick is `g.lock`, NOT the favourite.** He always
+  tips the Roosters. The sim scored an unlocked Roosters game as a favourite
+  tip until 2026-08-15 — wrong for scoring and doubly wrong for perfect rounds
+  (a lost Roosters game breaks his perfect round). Locked Roosters games use
+  the frozen lock tip.
+- **The objective is `P(top4)+P(top3)+P(1st)`** — top 4 is Josh's floor goal
+  and the least-noisy term (~2% vs top-3's ~0.5%). Don't drop top 4 back out.
+- **The display baseline is "tip favourites ALL season" (`bwins`), a separate
+  in-loop track — NOT the empty set (`wins[0]`).** The empty set still splits
+  FUTURE rounds, so it reads ~tied with the chosen set (this round's single
+  split is ~neutral) and made the panel look broken. `bwins` never splits, so
+  it's the true play-safe number (~0.3% top 4 vs the strategy's ~1.5%). If you
+  ever show a "straight" comparison, use `bwins`, not `wins[0]`.
+- **A single round's split is ~EV-neutral for finishing position** (40k-sim
+  verified). The value is the SUSTAINED policy, carried by the incumbency +
+  policy-consistency tie-breaks below. Don't "fix" the machine to only arm
+  splits that beat straight *this round* — that collapses to never-split and
+  drops the odds to the play-safe floor.
+
 ## The comp simulator (2026-08-13) — determinism and time-consistency
 
 - **The sim's seed comes from (season, round) ONLY — never the plan stamp.**

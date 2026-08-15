@@ -5,6 +5,54 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-15 — Perfect-round bonus in the current round; top-4 objective; honest "play safe" baseline
+
+Josh asked whether the +2 perfect-round bonus (all games in a round tipped
+right → +2, paid at round end) was in the simulator. It was — for FUTURE
+rounds only. Three linked changes, all surfaced by his question.
+
+**1. Current-round perfect bonus (`simComp`).** The sim now awards the +2 for
+the current round too, for Josh and every rival — but ONLY while the round is
+in progress (a finished round's +2 is already inside `totalScore`; adding it
+again would double-count, so it's gated on `cur.length>0`). Crucially it's
+*alive-aware*: a wrong pick on a game ALREADY PLAYED this round kills the
+perfect round, so `myResolvedOK` / `rivResolvedOK[]` are precomputed from
+resolved current-round games (draws treated as neutral). A current-round
+split now correctly forfeits Josh's +2 unless its underdog wins — the real
+cost of splitting, finally priced.
+
+**2. Roosters-underdog pick fix (same function).** For an UNLOCKED Roosters
+game the sim was scoring Josh as tipping the favourite; he always tips the
+Roosters (`g.lock`), often the underdog. Fixed — matters doubly now that a
+lost Roosters game breaks his perfect round. (Locked Roosters games already
+used the frozen lock tip.)
+
+**3. Objective now includes top 4, and the baseline is honest.** The utility
+was `P(1st)+P(top 3)`, omitting top 4 — Josh's actual stated goal ("top 4 at
+least"). Now `P(top 4)+P(top 3)+P(1st)` (equal weight → 1st worth 3, top 3
+worth 2, top 4 worth 1; ambition rewarded, floor valued). Top 4 (~1.5%) also
+resolves at 3k sims where top 3 (~0.4%) barely does. And the panel's
+comparison baseline changed from "empty set THIS round" (which still splits
+future rounds, so it read ~tied — misleading) to **tipping favourites ALL
+season** (`bwins`, a separate in-loop track). The honest read at ship:
+following the machine gives top 4 ~1.5% vs ~0.3% tipping chalk all year —
+the split strategy roughly 5×'s the floor goal, which the old same-round
+baseline completely hid.
+
+**Key finding recorded:** any SINGLE round's split is ~EV-neutral for finishing
+position (verified at 40k sims: split vs straight this round were identical on
+1st/top3/top4) — the value is entirely in the SUSTAINED policy. The
+incumbency + policy-consistency tie-breaks (2026-08-13) are what commit the
+machine to that policy despite each round looking individually neutral; they
+stay. The panel now says so plainly ("the season-long chase is what earns the
+gap; any one round barely moves it") rather than implying this round's split
+beats straight.
+
+Display-only + strategy-layer; `predict()` untouched. Freeze re-ran with 0 tip
+changes (the Eels split is retained). Determinism verified. `sw.js` CACHE v19.
+
+---
+
 ## 2026-08-14 (later) — Quick list showed the favourite's % on a split, not the tip's
 
 Josh spotted "Eels · 63%" on the quick list when the Eels are a comp SPLIT —

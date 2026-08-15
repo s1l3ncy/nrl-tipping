@@ -1,11 +1,18 @@
 # The Model — how a tip is calculated
 
 
-## THE SPLITS ARE NOW PRICED BY SIMULATION (2026-08-13)
+## THE SPLITS ARE NOW PRICED BY SIMULATION (2026-08-13, extended 2026-08-15)
 
 The split-selection layer of the 2026-08-10 policy below was replaced by an
-in-page Monte-Carlo season simulator, `simComp()` (Josh's chosen objective:
-**balanced** — U = P(top 3) + P(1st), winning worth ~2× a podium). Every
+in-page Monte-Carlo season simulator, `simComp()`. **Objective (2026-08-15):
+U = P(top 4) + P(top 3) + P(1st)** — Josh's goal is top 4 "at least", ideally
+the podium; equal-weighting the tiers makes 1st worth 3, top 3 worth 2, top 4
+worth 1. The simulator prices the **+2 perfect-round bonus for every round
+including the current one** (while it's still live — a finished round's bonus
+is already banked), so a current-round split is charged for the perfect round
+it forfeits. The panel compares the strategy against **tipping favourites all
+season** (the honest play-safe floor), not a same-round straight tip — a
+single round's split is ~EV-neutral; the edge comes from the sustained policy. Every
 candidate split set for the current round is scored over 3,000 simulated
 rest-of-seasons: real games for the current round (blended probs, rivals'
 actual-then-predicted picks), generic games for future rounds (per-rival herd
