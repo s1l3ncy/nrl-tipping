@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-15",
+  "updated": "2026-08-16",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T23:45:34+10:00",
+  "generatedAt": "2026-08-16T02:59:28+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
