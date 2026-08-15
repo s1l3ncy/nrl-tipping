@@ -115,6 +115,14 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 *(Reviewed 2026-08-13 — three batches in one day; the night batch is the big one.)*
 
+- **2026-08-15: the simulator prices the +2 perfect-round bonus in the current
+  round** (you + rivals, alive-aware of games already played), fixes your
+  unlocked-Roosters pick (you always tip the lock), adds **top 4** to the
+  objective (`P(top4)+P(top3)+P(1st)`), and shows an honest baseline — "tip
+  favourites all season" (~0.3% top 4) vs following the machine (~1.5%). A
+  single round's split is ~neutral; the season-long chase is the edge. `sw.js`
+  v19. GOTCHAS "perfect-round bonus" before touching `simComp()`.
+
 - **2026-08-13 (night): the split policy is simulator-priced.** An in-page,
   deterministic Monte-Carlo season simulator (`simComp()`) replaces the need
   bands for split selection under Josh's balanced objective (1st worth ~2× a

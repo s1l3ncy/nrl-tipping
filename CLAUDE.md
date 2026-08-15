@@ -81,6 +81,17 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-15** (full detail in `docs/CHANGELOG.md`):
+- **Simulator now prices the +2 perfect-round bonus for the CURRENT round**
+  (you + rivals; only while the round's live, alive-aware of games already
+  played), fixes the unlocked-Roosters pick (you always tip the lock, not the
+  favourite), adds **top 4 to the objective** (`P(top4)+P(top3)+P(1st)` — your
+  stated goal, less MC noise), and swaps the panel baseline to **"tip
+  favourites all season"** (honest floor ~0.3% top 4 vs strategy ~1.5%) from
+  the misleading same-round comparison. A single round's split is ~neutral; the
+  season-long policy is the edge (tie-breaks carry it). `predict()` untouched,
+  freeze 0-change. `sw.js` CACHE v19. See GOTCHAS "perfect-round bonus".
+
 **Changed 2026-08-13, night batch** (full detail in `docs/CHANGELOG.md`):
 - **Splits are now priced by an in-page Monte-Carlo season simulator**
   (`simComp()`; Josh's objective: BALANCED — U = P(top3)+P(1st)). 3,000
