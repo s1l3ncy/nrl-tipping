@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 24,
   "source": "nrl.com",
-  "fetched": "2026-08-15T15:03:08",
+  "fetched": "2026-08-15T17:48:52",
   "fixtures": {
     "PEN-SYD": {
       "venue": "CommBank Stadium",
@@ -24,11 +24,6 @@
       "venue": "Ocean Protect Stadium",
       "city": "Sydney",
       "kickoffUtc": "2026-08-15T05:00:00Z"
-    },
-    "PAR-NQL": {
-      "venue": "CommBank Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-15T07:30:00Z"
     },
     "BRI-NZW": {
       "venue": "Suncorp Stadium",
