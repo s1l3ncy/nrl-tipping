@@ -1191,9 +1191,13 @@ function planStamp(){
    current round with real games (market-blended probs, rivals' actual picks
    once visible, else predictPick), future rounds as generic games where each
    rival herds the favourite at a rate fitted to their season accuracy and
-   everyone shares the same simulated outcomes (herding correlation), +2
-   perfect-round bonus per round. DETERMINISM: seeded PRNG (mulberry32, seed
-   from the plan stamp) — identical inputs give identical tips in the browser
+   everyone shares the same simulated outcomes (herding correlation), and the
+   +2 perfect-round bonus for EVERY round — including the current one while it
+   is still in progress (a finished round's +2 is already inside totalScore).
+   A current-round split forfeits that +2 unless its underdog wins, so the
+   perfect-round upside of tipping straight is priced against every split.
+   DETERMINISM: seeded PRNG (mulberry32, seed from season+round with per-game
+   keyed draw streams) — identical inputs give identical tips in the browser
    and the jsdom freeze. COMMON RANDOM NUMBERS: rival totals are simulated
    once per iteration and every candidate set is ranked against the same
    tape, so set comparisons carry no MC noise from the shared future.
@@ -1223,11 +1227,30 @@ function simComp(plan,cands){
     const ko=Date.parse(f.kickoff||'');
     const locked=(!isNaN(ko)&&Date.now()>=ko)||!!liveEntry(p);
     const fav=p.pHome>=0.5?p.h:p.a, dog=p.pHome>=0.5?p.a:p.h;
+    // lock = the Roosters short if THIS is their game — I always tip them, even
+    // as the underdog, so my pick here is the lock, NOT the favourite.
+    const lk=(p.h.short===LOCK)?p.h.short:(p.a.short===LOCK?p.a.short:null);
     const g={key:liveKey(h.short,a.short), pf:Math.max(p.pHome,1-p.pHome),
-             fav:fav.short, dog:dog.short, locked:locked, rp:{}};
-    if(locked){ const gt=gradedTip(p); g.myLocked=(gt&&gt.known)?gt.short:fav.short; }
+             fav:fav.short, dog:dog.short, locked:locked, lock:lk, rp:{}};
+    if(locked){ const gt=gradedTip(p); g.myLocked=(gt&&gt.known)?gt.short:(lk||fav.short); }
     rivals.forEach(r=>{ g.rp[r.name]=r.picks[g.key]||predictPick(r.name,p); });
     cur.push(g); });
+  // Current-round PERFECT-ROUND bonus (+2, comp rule): all games in a round
+  // tipped right → +2, paid at round end. Modelled ONLY while the round is
+  // still in progress — a finished round's +2 is already inside totalScore, so
+  // adding it again would double-count. One wrong pick on a game ALREADY played
+  // this round kills the perfect round, so precompute whether each tipper's
+  // perfect is still alive before simulating the rest of the round.
+  const curResolved=[];
+  fixtures.forEach(f=>{ const h=T(f.home), a=T(f.away); if(!h||!a) return;
+    const p=predict(f); const fr=fixtureResult(p); if(!fr) return;
+    curResolved.push({p:p, fr:fr, key:liveKey(h.short,a.short)}); });
+  const bonusLive = cur.length>0;                       // round incomplete → not yet paid
+  const myResolvedOK = curResolved.every(x=>{ if(!x.fr.winner) return true;   // draw: neutral
+    const g=gradedTip(x.p); return g.known && g.short===x.fr.winner.short; });
+  const rivResolvedOK = rivals.map(r=> curResolved.every(x=>{
+    if(!x.fr.winner) return true; const pk=r.picks[x.key];
+    return !!pk && pk===x.fr.winner.short; }));
   // Future herd rate per rival, fitted so h·p̄f+(1−h)(1−p̄f) equals their
   // season accuracy (totalScore over ~8 games a round; bonus inflation is
   // small and symmetric enough to ignore at this precision).
@@ -1243,7 +1266,12 @@ function simComp(plan,cands){
   if(plan.need>=2) top.forEach((c,i)=>{ for(let j=i+1;j<top.length;j++)
     for(let k=j+1;k<top.length;k++) sets.push([c,top[j],top[k]]); });
   const keysets=sets.map(S=>{ const s=new Set(); S.forEach(c=>s.add(c.key)); return s; });
-  const wins=sets.map(()=>({first:0,top3:0}));
+  const wins=sets.map(()=>({first:0,top3:0,top4:0}));
+  // The honest "play safe" baseline: Josh tipping FAVOURITES every remaining
+  // game, all season, no splits. NOT the same as the empty set (wins[0]), which
+  // still splits future rounds — that's why the old same-round comparison read
+  // as ~tied. This is the real "if I just tip chalk" number.
+  const bwins={first:0,top3:0,top4:0};
   // Seed on (season, round) ONLY — not the stamp. A stamp-derived seed redraws
   // the whole tape every time standings tick, and near-tied split sets then
   // flip between 4-hourly runs, churning the tip-flip feed with noise. Keyed
@@ -1253,13 +1281,27 @@ function simComp(plan,cands){
   const draw=(k,i)=>mulberry32(((seed^hash32(k))+Math.imul(i+1,2654435761))|0)();
   for(let i=0;i<SIM_N;i++){
     const rt=rivals.map(r=>r.totalScore);
-    let myBase=me.totalScore;
+    let myBase=me.totalScore;                       // running total under the SPLIT policy
+    let myStr=me.totalScore;                          // running total tipping FAVOURITES all season
     const favWin=cur.map(g=>draw('g|'+g.key,i)<g.pf);
+    const rCurAll=rivals.map(()=>true);   // did this rival hit EVERY unresolved current game?
+    let myLockedAll=true;                  // did I hit every LOCKED current game this iteration?
     cur.forEach((g,gi)=>{
       rivals.forEach((r,ri)=>{ const pk=g.rp[r.name];
-        if(favWin[gi]?pk===g.fav:pk===g.dog) rt[ri]++; });
-      if(g.locked&&(favWin[gi]?g.myLocked===g.fav:g.myLocked===g.dog)) myBase++;
+        const hit=favWin[gi]?pk===g.fav:pk===g.dog;
+        if(hit) rt[ri]++; else rCurAll[ri]=false; });
+      if(g.locked){ const myHit=favWin[gi]?g.myLocked===g.fav:g.myLocked===g.dog;
+        if(myHit){ myBase++; myStr++; } else myLockedAll=false; }
     });
+    // Rivals' current-round +2 (their picks don't depend on my split set).
+    if(bonusLive) rivals.forEach((r,ri)=>{ if(rivResolvedOK[ri]&&rCurAll[ri]) rt[ri]+=2; });
+    // Straight baseline's current-round unlocked games (favourites / the lock).
+    let myStrCurAll=true;
+    cur.forEach((g,gi)=>{ if(g.locked) return;
+      const pick=(g.lock||g.fav);
+      const hit=favWin[gi]?pick===g.fav:pick===g.dog;
+      if(hit) myStr++; else myStrCurAll=false; });
+    if(bonusLive && myResolvedOK && myLockedAll && myStrCurAll) myStr+=2;
     for(let r=SRC.round+1;r<=fin;r++){
       const n=COMP_GAMES_PER_ROUND[r]||2;
       // Future policy is DYNAMIC, mirroring this machine: while any rival is
@@ -1270,30 +1312,50 @@ function simComp(plan,cands){
       // same game the machine will actually play.
       const chasing=rt.some(v=>v>=myBase+1);
       let dogs=chasing?2:0;
-      let myAll=true; const rAll=rivals.map(()=>true);
+      let myAll=true, myStrAll=true; const rAll=rivals.map(()=>true);
       for(let g2=0;g2<n;g2++){
         const pf=SIM_PF_PAL[(r*7+g2)%SIM_PF_PAL.length];
         const fw=draw('f|'+r+'|'+g2,i)<pf;
         let myRight=fw;
         if(dogs>0&&pf<=0.62){ dogs--; myRight=!fw; }       // a bought split
         if(myRight) myBase++; else myAll=false;
+        if(fw) myStr++; else myStrAll=false;               // straight baseline tips the favourite
         rivals.forEach((rv,ri)=>{ const onFav=draw('h|'+r+'|'+g2+'|'+ri,i)<H[ri];
           if(onFav?fw:!fw) rt[ri]++; else rAll[ri]=false; });
       }
       if(myAll) myBase+=2;
+      if(myStrAll) myStr+=2;
       rivals.forEach((rv,ri)=>{ if(rAll[ri]) rt[ri]+=2; });
     }
+    // Rank the straight-all-season baseline once per iteration.
+    let sAbove=0;
+    rt.forEach((v,ri)=>{ if(v>myStr) sAbove++;
+      else if(v===myStr){ const rm=rMargins[ri];
+        if(rm===null||myMargin===null||rm<=myMargin) sAbove++; } });
+    if(sAbove===0) bwins.first++;
+    if(sAbove<=2) bwins.top3++;
+    if(sAbove<=3) bwins.top4++;
     keysets.forEach((S,si)=>{
-      let tot=myBase;
+      let tot=myBase; let myUnlockAll=true;
       cur.forEach((g,gi)=>{ if(g.locked) return;
-        const pick=S.has(g.key)?g.dog:g.fav;
-        if(favWin[gi]?pick===g.fav:pick===g.dog) tot++; });
+        // My pick: the split's underdog, else the Roosters lock (when this IS
+        // their game), else the favourite. The lock branch is what stops a
+        // Roosters-underdog game being wrongly scored as a favourite tip.
+        const pick=S.has(g.key)?g.dog:(g.lock||g.fav);
+        const hit=favWin[gi]?pick===g.fav:pick===g.dog;
+        if(hit) tot++; else myUnlockAll=false; });
+      // My current-round +2: resolved games clean, every locked game hit this
+      // iteration, and every unlocked game hit under THIS set's picks. A split
+      // forfeits it unless its underdog wins — the true cost of splitting, now
+      // priced against the perfect-round upside of tipping straight.
+      if(bonusLive && myResolvedOK && myLockedAll && myUnlockAll) tot+=2;
       let above=0;
       rt.forEach((v,ri)=>{ if(v>tot) above++;
         else if(v===tot){ const rm=rMargins[ri];       // countback: lower margin wins the tie
           if(rm===null||myMargin===null||rm<=myMargin) above++; } });
       if(above===0) wins[si].first++;
       if(above<=2) wins[si].top3++;
+      if(above<=3) wins[si].top4++;
     });
   }
   // Selection (2026-08-13). Individual current-round splits are worth well
@@ -1314,7 +1376,13 @@ function simComp(plan,cands){
     const t=tiplogFind(SRC.season,SRC.round,pr[0],pr[1]);
     if(t&&t.tip===c.dog) frozenDogs.add(c.key); });
   const target=new Set(); cands.slice(0,2).forEach(c=>target.add(c.key));
-  const util=wins.map(w=>(w.first+w.top3)/SIM_N);
+  // Objective = P(top 4)+P(top 3)+P(1st): Josh's stated goal is top 4 "at
+  // least", ideally the podium. Equal-weighting the three tiers makes 1st worth
+  // 3 utility, top 3 worth 2, top 4 worth 1 — ambition rewarded, the floor
+  // valued. Adding top 4 also cuts MC noise: it's ~2% (resolvable) vs top-3's
+  // ~0.5% (barely). A single round's split is still ~neutral against the
+  // season's future splitting, so the tie-breaks below still carry the policy.
+  const util=wins.map(w=>(w.first+w.top3+w.top4)/SIM_N);
   const bestU=Math.max.apply(null,util);
   let best=0, bestScore=-Infinity;
   sets.forEach((S,si)=>{
@@ -1325,8 +1393,8 @@ function simComp(plan,cands){
     if(score>bestScore){ bestScore=score; best=si; }
   });
   sets[best].forEach(c=>{ plan.splits[c.key]=c; });
-  plan.sim={ pFirst:wins[best].first/SIM_N, pTop3:wins[best].top3/SIM_N,
-             bFirst:wins[0].first/SIM_N, bTop3:wins[0].top3/SIM_N,
+  plan.sim={ pFirst:wins[best].first/SIM_N, pTop3:wins[best].top3/SIM_N, pTop4:wins[best].top4/SIM_N,
+             bFirst:bwins.first/SIM_N, bTop3:bwins.top3/SIM_N, bTop4:bwins.top4/SIM_N,
              sims:SIM_N, nSets:sets.length, util:util[best] };
 }
 function compPlan(){
@@ -2018,9 +2086,10 @@ function renderStratBits(){
     const txt=plan.mode==='cover'
       ? 'You lead — cover mode: straight favourites, make them chase.'
       : s
-      ? `Chances now: 1st ${pc(s.pFirst)} · top 3 ${pc(s.pTop3)} (${s.sims} sims) · ${plan.d} behind, ${plan.roundsLeft} rounds left · `+
-        (n?`${n} split${n===1?'':'s'} armed 🎯 — straight tips would sit at ${pc(s.bFirst)} / ${pc(s.bTop3)}`
-          :'no split improves the odds this round — tipping straight')
+      ? `Chances: top 4 ${pc(s.pTop4)} · top 3 ${pc(s.pTop3)} · 1st ${pc(s.pFirst)} — ${plan.d} behind, ${plan.roundsLeft} rounds left. `+
+        `Just tipping favourites all season: top 4 ${pc(s.bTop4)}. `+
+        (n?`${n} split${n===1?'':'s'} armed 🎯 — the season-long chase is what earns the gap; any one round barely moves it.`
+          :'no split earns its keep right now — tipping straight.')
       : `${plan.d} behind the cluster · ${plan.roundsLeft} rounds left · need ${plan.need.toFixed(1)}/rd · `+
         (n?`${n} split${n===1?'':'s'} hardwired into the tips (🎯)`:'no split clears the bar — tipping straight');
     const html=`<div class="stratline">${esc(txt)}</div>`;

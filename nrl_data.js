@@ -565,7 +565,7 @@ window.NRL_DATA = {
           "away": 3.8
         },
         "close": {
-          "home": 1.23,
+          "home": 1.22,
           "away": 4.2
         }
       },
@@ -586,7 +586,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.94,
-          "away": 1.87
+          "away": 1.9
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T09:25:36+10:00",
+  "generatedAt": "2026-08-15T10:11:20+10:00",
   "changes": [
     {
       "id": "r24-SOU-inj-adam-elliott",
@@ -693,6 +693,30 @@ window.NRL_DATA = {
       "text": "Dragons: David Fale (Calf) — back Next Season — new on the injury list.",
       "pts": 1.2,
       "ts": "2026-08-14T15:50:34+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-GLD-line-1.22-4.20",
+      "fixture": "NEW-GLD",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Knights $1.23 → $1.22, Titans $4.20 → $4.20. Market now 77% Knights (was 77%).",
+      "pts": null,
+      "ts": "2026-08-15T10:11:20+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.94-1.90",
+      "fixture": "WST-STI",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Wests Tigers $1.94 → $1.94, Dragons $1.87 → $1.90. Market now 49% Wests Tigers (was 49%).",
+      "pts": null,
+      "ts": "2026-08-15T10:11:20+10:00",
       "rnd": 24
     },
     {
