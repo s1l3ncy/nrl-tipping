@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 24,
  "finishRound": 31,
- "fetched": "2026-08-15T05:03:25+00:00",
+ "fetched": "2026-08-15T07:49:04+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -89,7 +89,8 @@ window.NRL_COMP = {
     "PEN-SYD": "SYD",
     "DOL-MAN": "DOL",
     "CAN-SOU": "CAN",
-    "CBR-CRO": "CRO"
+    "CBR-CRO": "CRO",
+    "NQL-PAR": "NQL"
    }
   },
   {
@@ -174,7 +175,8 @@ window.NRL_COMP = {
     "PEN-SYD": "PEN",
     "DOL-MAN": "DOL",
     "CAN-SOU": "CAN",
-    "CBR-CRO": "CRO"
+    "CBR-CRO": "CRO",
+    "NQL-PAR": "NQL"
    }
   },
   {
@@ -259,7 +261,8 @@ window.NRL_COMP = {
     "PEN-SYD": "SYD",
     "DOL-MAN": "DOL",
     "CAN-SOU": "CAN",
-    "CBR-CRO": "CRO"
+    "CBR-CRO": "CRO",
+    "NQL-PAR": "NQL"
    }
   },
   {
@@ -344,7 +347,8 @@ window.NRL_COMP = {
     "PEN-SYD": "PEN",
     "DOL-MAN": "DOL",
     "CAN-SOU": "CAN",
-    "CBR-CRO": "CRO"
+    "CBR-CRO": "CRO",
+    "NQL-PAR": "NQL"
    }
   },
   {
@@ -429,7 +433,8 @@ window.NRL_COMP = {
     "PEN-SYD": "SYD",
     "DOL-MAN": "DOL",
     "CAN-SOU": "SOU",
-    "CBR-CRO": "CRO"
+    "CBR-CRO": "CRO",
+    "NQL-PAR": "PAR"
    }
   },
   {
@@ -514,7 +519,8 @@ window.NRL_COMP = {
     "PEN-SYD": "PEN",
     "DOL-MAN": "MAN",
     "CAN-SOU": "CAN",
-    "CBR-CRO": "CRO"
+    "CBR-CRO": "CRO",
+    "NQL-PAR": "NQL"
    }
   }
  ]
