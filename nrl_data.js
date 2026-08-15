@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T02:59:28+10:00",
+  "generatedAt": "2026-08-16T06:00:56+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
@@ -825,18 +825,6 @@ window.NRL_DATA = {
       "rnd": 24
     },
     {
-      "id": "r24-STI-inj-david-fale",
-      "fixture": "WST-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dragons: David Fale (Calf) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-14T15:50:34+10:00",
-      "rnd": 24
-    },
-    {
       "id": "r24-NEW-GLD-line-1.25-4.20",
       "fixture": "NEW-GLD",
       "team": null,
@@ -1087,43 +1075,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-14T21:12:44+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-MAN-DOL-line-3.54-1.30",
-      "fixture": "MAN-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $3.25 → $3.54, Dolphins $1.35 → $1.30. Market now 27% Sea Eagles (was 29%).",
-      "pts": null,
-      "ts": "2026-08-14T15:50:34+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CAN-SOU-line-1.58-2.40",
-      "fixture": "CAN-SOU",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Bulldogs $1.60 → $1.58, Rabbitohs $2.35 → $2.40. Market now 60% Bulldogs (was 59%).",
-      "pts": null,
-      "ts": "2026-08-14T15:50:34+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-NEW-GLD-line-1.23-4.15",
-      "fixture": "NEW-GLD",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.23 → $1.23, Titans $4.20 → $4.15. Market now 77% Knights (was 77%).",
-      "pts": null,
-      "ts": "2026-08-14T15:50:34+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-14T15:50:34+10:00"
+  "changesSince": "2026-08-14T21:12:44+10:00"
 };
