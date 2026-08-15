@@ -199,3 +199,5 @@ Panthers 6 - Roosters 12
 Sea Eagles 0 - Dolphins 22
 Bulldogs 6 - Rabbitohs 22
 Sharks 20 - Raiders 24
+Eels 32 - Cowboys 30
+Broncos 6 - Warriors 40

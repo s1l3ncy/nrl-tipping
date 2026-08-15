@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-15T09:04:33.381Z",
+ "updated": "2026-08-15T13:45:41.676Z",
  "tips": [
   {
    "season": 2026,
@@ -153,11 +153,11 @@ window.NRL_TIPLOG = {
    "home": "NEW",
    "away": "GLD",
    "tip": "NEW",
-   "prob": 74,
+   "prob": 73,
    "mkt": 77,
    "why": "Built on Knights rating the stronger side, plus Titans missing Zane Harrison and 3 more. Knights missing Dylan Brown and 5 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-16T14:00:00+10:00",
-   "ts": "2026-08-15T09:04:33.381Z"
+   "ts": "2026-08-15T13:45:41.676Z"
   },
   {
    "season": 2026,
@@ -193,33 +193,8 @@ window.NRL_TIPLOG = {
    "mkt": 49,
    "why": "Built on Dragons being without Clinton Gutherson (not named) and 4 more. Wests Tigers missing Latu Fainu and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-16T16:05:00+10:00",
-   "ts": "2026-08-15T09:04:33.381Z"
+   "ts": "2026-08-15T13:45:41.676Z"
   }
  ],
- "flips": [
-  {
-   "season": 2026,
-   "round": 24,
-   "home": "CAN",
-   "away": "SOU",
-   "from": "CAN",
-   "to": "SOU",
-   "fromProb": 60,
-   "toProb": 40,
-   "why": "Mostly Rabbitohs missing Ashton Ward and 4 more, plus the home-ground edge. Bulldogs being without Sitili Tupouniua (not named) and 1 more pulls it back. The bookies read it the same way.",
-   "ts": "2026-08-13T11:47:15.215Z"
-  },
-  {
-   "season": 2026,
-   "round": 24,
-   "home": "PAR",
-   "away": "NQL",
-   "from": "NQL",
-   "to": "PAR",
-   "fromProb": 62,
-   "toProb": 38,
-   "why": "Built on Eels missing Isaiah Iongi and 4 more, plus Cowboys rating the stronger side. Cowboys being without Tom Dearden (not named) and 1 more pulls it back (and more). The bookies read it the same way.",
-   "ts": "2026-08-13T11:47:15.215Z"
-  }
- ]
+ "flips": []
 };
