@@ -505,8 +505,8 @@ window.NRL_DATA = {
           "away": 3.35
         },
         "close": {
-          "home": 1.3,
-          "away": 3.6
+          "home": 1.28,
+          "away": 3.5
         }
       },
       "weather": null,
@@ -525,8 +525,8 @@ window.NRL_DATA = {
           "away": 1.57
         },
         "close": {
-          "home": 2.45,
-          "away": 1.55
+          "home": 2.48,
+          "away": 1.54
         }
       },
       "weather": null,
@@ -597,8 +597,56 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T13:08:29+10:00",
+  "generatedAt": "2026-08-15T15:03:37+10:00",
   "changes": [
+    {
+      "id": "r24-CRO-in-samuel-stonestreet",
+      "fixture": "CRO-CBR",
+      "team": "CRO",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Samuel Stonestreet (Winger) named in the Sharks 17.",
+      "pts": 1.6,
+      "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CRO-out-michael-gabrael",
+      "fixture": "CRO-CBR",
+      "team": "CRO",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Michael Gabrael (Centre) is out of the Sharks 17.",
+      "pts": 1.2,
+      "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-out-bradman-best",
+      "fixture": "NEW-GLD",
+      "team": "NEW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Bradman Best (Centre) is out of the Knights 17.",
+      "pts": 2.1,
+      "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-in-toby-winter",
+      "fixture": "NEW-GLD",
+      "team": "NEW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Toby Winter named in the Knights 17.",
+      "pts": 0.6,
+      "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
     {
       "id": "r24-SOU-inj-adam-elliott",
       "fixture": "CAN-SOU",
@@ -693,6 +741,30 @@ window.NRL_DATA = {
       "text": "Dragons: David Fale (Calf) — back Next Season — new on the injury list.",
       "pts": 1.2,
       "ts": "2026-08-14T15:50:34+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CRO-CBR-line-1.28-3.50",
+      "fixture": "CRO-CBR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $1.30 → $1.28, Raiders $3.60 → $3.50. Market now 73% Sharks (was 73%).",
+      "pts": null,
+      "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PAR-NQL-line-2.48-1.54",
+      "fixture": "PAR-NQL",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Eels $2.45 → $2.48, Cowboys $1.55 → $1.54. Market now 38% Eels (was 39%).",
+      "pts": null,
+      "ts": "2026-08-15T15:03:37+10:00",
       "rnd": 24
     },
     {
