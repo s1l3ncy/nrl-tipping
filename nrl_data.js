@@ -506,7 +506,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.3,
-          "away": 3.5
+          "away": 3.6
         }
       },
       "weather": null,
@@ -525,8 +525,8 @@ window.NRL_DATA = {
           "away": 1.57
         },
         "close": {
-          "home": 2.55,
-          "away": 1.53
+          "home": 2.45,
+          "away": 1.55
         }
       },
       "weather": null,
@@ -545,8 +545,8 @@ window.NRL_DATA = {
           "away": 1.53
         },
         "close": {
-          "home": 2.9,
-          "away": 1.42
+          "home": 2.95,
+          "away": 1.41
         }
       },
       "weather": null,
@@ -566,7 +566,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.22,
-          "away": 4.2
+          "away": 4.25
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-15T10:11:20+10:00",
+  "generatedAt": "2026-08-15T13:08:29+10:00",
   "changes": [
     {
       "id": "r24-SOU-inj-adam-elliott",
@@ -693,6 +693,54 @@ window.NRL_DATA = {
       "text": "Dragons: David Fale (Calf) — back Next Season — new on the injury list.",
       "pts": 1.2,
       "ts": "2026-08-14T15:50:34+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-CRO-CBR-line-1.30-3.60",
+      "fixture": "CRO-CBR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $1.30 → $1.30, Raiders $3.50 → $3.60. Market now 73% Sharks (was 73%).",
+      "pts": null,
+      "ts": "2026-08-15T13:08:29+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-PAR-NQL-line-2.45-1.55",
+      "fixture": "PAR-NQL",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Eels $2.55 → $2.45, Cowboys $1.53 → $1.55. Market now 39% Eels (was 38%).",
+      "pts": null,
+      "ts": "2026-08-15T13:08:29+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-BRI-NZW-line-2.95-1.41",
+      "fixture": "BRI-NZW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Broncos $2.90 → $2.95, Warriors $1.42 → $1.41. Market now 32% Broncos (was 33%).",
+      "pts": null,
+      "ts": "2026-08-15T13:08:29+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-NEW-GLD-line-1.22-4.25",
+      "fixture": "NEW-GLD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Knights $1.22 → $1.22, Titans $4.20 → $4.25. Market now 78% Knights (was 77%).",
+      "pts": null,
+      "ts": "2026-08-15T13:08:29+10:00",
       "rnd": 24
     },
     {
