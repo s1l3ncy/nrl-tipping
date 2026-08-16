@@ -1,49 +1,14 @@
 {
   "_comment": "Venue / host city / kick-off for the round below, from nrl.com's own draw payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the ground's local time and emits fixture.tz. Regenerated every run by cloud_fetch.py — do not hand-edit.",
   "season": 2026,
-  "round": 24,
+  "round": 25,
   "source": "nrl.com",
-  "fetched": "2026-08-16T23:47:24",
+  "fetched": "2026-08-17T03:00:29",
   "fixtures": {
-    "PEN-SYD": {
-      "venue": "CommBank Stadium",
+    "SYD-WST": {
+      "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-13T09:50:00Z"
-    },
-    "MAN-DOL": {
-      "venue": "4 Pines Park",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-14T08:00:00Z"
-    },
-    "CAN-SOU": {
-      "venue": "Accor Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-14T10:00:00Z"
-    },
-    "CRO-CBR": {
-      "venue": "Ocean Protect Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-15T05:00:00Z"
-    },
-    "PAR-NQL": {
-      "venue": "CommBank Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-15T07:30:00Z"
-    },
-    "BRI-NZW": {
-      "venue": "Suncorp Stadium",
-      "city": "Brisbane",
-      "kickoffUtc": "2026-08-15T09:35:00Z"
-    },
-    "NEW-GLD": {
-      "venue": "McDonald Jones Stadium",
-      "city": "Newcastle",
-      "kickoffUtc": "2026-08-16T04:00:00Z"
-    },
-    "WST-STI": {
-      "venue": "CommBank Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-16T06:05:00Z"
+      "kickoffUtc": "2026-08-23T06:05:00Z"
     }
   }
 }
