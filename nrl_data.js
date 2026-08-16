@@ -153,8 +153,8 @@ window.NRL_DATA = {
       "P": 22,
       "W": 14,
       "L": 8,
-      "PF": 557,
-      "PA": 485,
+      "PF": 571,
+      "PA": 489,
       "last5": 2,
       "home": {
         "P": 10,
@@ -387,8 +387,8 @@ window.NRL_DATA = {
       "P": 21,
       "W": 6,
       "L": 15,
-      "PF": 397,
-      "PA": 547,
+      "PF": 401,
+      "PA": 561,
       "last5": 2,
       "home": {
         "P": 9,
@@ -550,7 +550,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.8,
-          "away": 2.04
+          "away": 2.0
         }
       },
       "weather": null,
@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T14:54:58+10:00",
+  "generatedAt": "2026-08-16T15:46:48+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
@@ -789,6 +789,18 @@ window.NRL_DATA = {
       "text": "Toby Winter named in the Knights 17.",
       "pts": 0.6,
       "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.80-2.00",
+      "fixture": "WST-STI",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Wests Tigers $1.80 → $1.80, Dragons $2.04 → $2.00. Market now 53% Wests Tigers (was 53%).",
+      "pts": null,
+      "ts": "2026-08-16T15:46:48+10:00",
       "rnd": 24
     },
     {
