@@ -1,5 +1,5 @@
 # Round 25 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-17T05:59:59. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-17T06:56:23. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 6–10 Australian bookmaker(s) per price (68 book quotes across 8 fixtures).
 Storm v Panthers: 3.30 / 1.33
 Raiders v Broncos: 1.43 / 2.80
