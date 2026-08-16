@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T19:14:29+10:00",
+  "generatedAt": "2026-08-16T23:47:51+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
@@ -1030,31 +1030,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-15T13:08:29+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-NEW-GLD-line-1.22-4.20",
-      "fixture": "NEW-GLD",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.23 → $1.22, Titans $4.20 → $4.20. Market now 77% Knights (was 77%).",
-      "pts": null,
-      "ts": "2026-08-15T10:11:20+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.94-1.90",
-      "fixture": "WST-STI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Wests Tigers $1.94 → $1.94, Dragons $1.87 → $1.90. Market now 49% Wests Tigers (was 49%).",
-      "pts": null,
-      "ts": "2026-08-15T10:11:20+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-15T10:11:20+10:00"
+  "changesSince": "2026-08-15T13:08:29+10:00"
 };
