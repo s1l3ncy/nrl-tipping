@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-16",
+  "updated": "2026-08-17",
   "season": 2026,
   "round": 24,
   "source": "zerotackle.com",
@@ -463,9 +463,9 @@ window.NRL_DATA = {
     {
       "home": "PEN",
       "away": "SYD",
-      "venue": "CommBank Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-13T19:50:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -474,9 +474,9 @@ window.NRL_DATA = {
     {
       "home": "MAN",
       "away": "DOL",
-      "venue": "4 Pines Park",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-14T18:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -485,9 +485,9 @@ window.NRL_DATA = {
     {
       "home": "CAN",
       "away": "SOU",
-      "venue": "Accor Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-14T20:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -496,9 +496,9 @@ window.NRL_DATA = {
     {
       "home": "CRO",
       "away": "CBR",
-      "venue": "Ocean Protect Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-15T15:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -507,9 +507,9 @@ window.NRL_DATA = {
     {
       "home": "PAR",
       "away": "NQL",
-      "venue": "CommBank Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-15T17:30:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -518,9 +518,9 @@ window.NRL_DATA = {
     {
       "home": "BRI",
       "away": "NZW",
-      "venue": "Suncorp Stadium",
+      "venue": "",
       "city": "Brisbane",
-      "kickoff": "2026-08-15T19:35:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -529,9 +529,9 @@ window.NRL_DATA = {
     {
       "home": "NEW",
       "away": "GLD",
-      "venue": "McDonald Jones Stadium",
+      "venue": "",
       "city": "Newcastle",
-      "kickoff": "2026-08-16T14:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -540,19 +540,10 @@ window.NRL_DATA = {
     {
       "home": "WST",
       "away": "STI",
-      "venue": "CommBank Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-08-16T16:05:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.81,
-          "away": 1.96
-        },
-        "close": {
-          "home": 1.8,
-          "away": 2.0
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -561,7 +552,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T23:47:51+10:00",
+  "generatedAt": "2026-08-17T03:01:02+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
@@ -982,55 +973,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-15T15:03:37+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-CRO-CBR-line-1.30-3.60",
-      "fixture": "CRO-CBR",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $1.30 → $1.30, Raiders $3.50 → $3.60. Market now 73% Sharks (was 73%).",
-      "pts": null,
-      "ts": "2026-08-15T13:08:29+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-PAR-NQL-line-2.45-1.55",
-      "fixture": "PAR-NQL",
-      "team": "PAR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.55 → $2.45, Cowboys $1.53 → $1.55. Market now 39% Eels (was 38%).",
-      "pts": null,
-      "ts": "2026-08-15T13:08:29+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-BRI-NZW-line-2.95-1.41",
-      "fixture": "BRI-NZW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $2.90 → $2.95, Warriors $1.42 → $1.41. Market now 32% Broncos (was 33%).",
-      "pts": null,
-      "ts": "2026-08-15T13:08:29+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-NEW-GLD-line-1.22-4.25",
-      "fixture": "NEW-GLD",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Knights $1.22 → $1.22, Titans $4.20 → $4.25. Market now 78% Knights (was 77%).",
-      "pts": null,
-      "ts": "2026-08-15T13:08:29+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-15T13:08:29+10:00"
+  "changesSince": "2026-08-15T15:03:37+10:00"
 };
