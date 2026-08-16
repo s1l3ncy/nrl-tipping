@@ -147,6 +147,32 @@ window.NRL_DATA = {
       "news": "Braydon Trindall (Shoulder); Addin Fonua-Blake (Suspension) — back Round 25; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
+      "name": "Knights",
+      "short": "NEW",
+      "colour": "#00539b",
+      "P": 22,
+      "W": 14,
+      "L": 8,
+      "PF": 557,
+      "PA": 485,
+      "last5": 2,
+      "home": {
+        "P": 10,
+        "W": 7,
+        "L": 3,
+        "PF": 223,
+        "PA": 233
+      },
+      "away": {
+        "P": 11,
+        "W": 6,
+        "L": 5,
+        "PF": 318,
+        "PA": 242
+      },
+      "news": "Brodie Jones (Hamstring); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Bradman Best (Calf) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+    },
+    {
       "name": "Rabbitohs",
       "short": "SOU",
       "colour": "#00954c",
@@ -171,32 +197,6 @@ window.NRL_DATA = {
         "PA": 282
       },
       "news": "Adam Elliott (Groin); Dayne Jennings (Knee); Latrell Mitchell (Calf); Jamie Humphreys (Ankle) — back Round 25; Talanoa Penitani (Hamstring) — back Round 26; Ashton Ward (Hamstring) — back Next Season"
-    },
-    {
-      "name": "Knights",
-      "short": "NEW",
-      "colour": "#00539b",
-      "P": 21,
-      "W": 13,
-      "L": 8,
-      "PF": 541,
-      "PA": 475,
-      "last5": 2,
-      "home": {
-        "P": 10,
-        "W": 7,
-        "L": 3,
-        "PF": 223,
-        "PA": 233
-      },
-      "away": {
-        "P": 11,
-        "W": 6,
-        "L": 5,
-        "PF": 318,
-        "PA": 242
-      },
-      "news": "Brodie Jones (Hamstring); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Bradman Best (Calf) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -384,11 +384,11 @@ window.NRL_DATA = {
       "name": "Titans",
       "short": "GLD",
       "colour": "#fbb040",
-      "P": 20,
+      "P": 21,
       "W": 6,
-      "L": 14,
-      "PF": 387,
-      "PA": 531,
+      "L": 15,
+      "PF": 397,
+      "PA": 547,
       "last5": 2,
       "home": {
         "P": 9,
@@ -529,19 +529,10 @@ window.NRL_DATA = {
     {
       "home": "NEW",
       "away": "GLD",
-      "venue": "McDonald Jones Stadium",
+      "venue": "",
       "city": "Newcastle",
-      "kickoff": "2026-08-16T14:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.26,
-          "away": 3.8
-        },
-        "close": {
-          "home": 1.25,
-          "away": 4.0
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -558,8 +549,8 @@ window.NRL_DATA = {
           "away": 1.96
         },
         "close": {
-          "home": 1.84,
-          "away": 2.0
+          "home": 1.8,
+          "away": 2.04
         }
       },
       "weather": null,
@@ -570,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T13:29:31+10:00",
+  "generatedAt": "2026-08-16T14:54:58+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
@@ -606,6 +597,30 @@ window.NRL_DATA = {
       "text": "Sharks: Braydon Trindall (Shoulder) — new on the injury list.",
       "pts": 3.1,
       "ts": "2026-08-15T17:49:15+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-out-alex-twal",
+      "fixture": "WST-STI",
+      "team": "WST",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Alex Twal (Lock) is out of the Wests Tigers 17.",
+      "pts": 1.1,
+      "ts": "2026-08-16T14:54:58+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-in-javon-andrews",
+      "fixture": "WST-STI",
+      "team": "WST",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Javon Andrews named in the Wests Tigers 17.",
+      "pts": 0.6,
+      "ts": "2026-08-16T14:54:58+10:00",
       "rnd": 24
     },
     {
@@ -774,6 +789,18 @@ window.NRL_DATA = {
       "text": "Toby Winter named in the Knights 17.",
       "pts": 0.6,
       "ts": "2026-08-15T15:03:37+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-WST-STI-line-1.80-2.04",
+      "fixture": "WST-STI",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Wests Tigers $1.84 → $1.80, Dragons $2.00 → $2.04. Market now 53% Wests Tigers (was 52%).",
+      "pts": null,
+      "ts": "2026-08-16T14:54:58+10:00",
       "rnd": 24
     },
     {
