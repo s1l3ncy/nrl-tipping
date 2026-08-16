@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Brodie Jones (Hamstring); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Bradman Best (Calf) — back Round 25; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
+      "news": "Brodie Jones (Hamstring); James Schiller (Neck) — back Round 25; Jacob Saifiti (Hamstring) — back Round 25; Bradman Best (Calf) — back Round 25; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Sitili Tupouniua (Hamstring); Jethro Rinakama (Knee); Samuel Hughes (Neck)"
+      "news": "Jethro Rinakama (Knee); Sitili Tupouniua (Hamstring); Samuel Hughes (Neck)"
     },
     {
       "name": "Sea Eagles",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 280,
         "PA": 222
       },
-      "news": "Siosiua Taukeiaho (Leg); Tom Trbojevic (Hamstring) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Ethan Bullemor (Concussion) — back Round 25; Taniela Paseka (Knee) — back Round 26; Kobe Hetherington (Biceps) — back Next Season"
+      "news": "Siosiua Taukeiaho (Leg); Ethan Bullemor (Concussion) — back Round 25; Ben Trbojevic (Concussion) — back Round 25; Tom Trbojevic (Hamstring) — back Round 25; Taniela Paseka (Knee) — back Round 26; Kobe Hetherington (Biceps) — back Next Season"
     },
     {
       "name": "Storm",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Harry Grant (Hamstring) — back Round 25; Jack Howarth (Shoulder) — back Round 25; Ativalu Lisati (Ankle) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
+      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Jack Howarth (Shoulder) — back Round 25; Harry Grant (Hamstring) — back Round 25; Ativalu Lisati (Ankle) — back Round 25; Eliesa Katoa (Medical Episode) — back Indefinite"
     },
     {
       "name": "Raiders",
@@ -352,7 +352,7 @@ window.NRL_DATA = {
         "PF": 201,
         "PA": 306
       },
-      "news": "Bailey Simonsson (Ankle); Jonah Pezet (Shoulder) — back Round 25; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
+      "news": "Bailey Simonsson (Ankle); Jonah Pezet (Shoulder) — back Round 25; Isaiah Iongi (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 246,
         "PA": 275
       },
-      "news": "Brock Gray (ACL); Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
+      "news": "Brock Gray (ACL); Dean Ieremia (Hamstring); Jaimin Jolliffe (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 276
       },
-      "news": "Adam Reynolds (Calf); Brendan Piakura (Concussion); Reece Walsh (Ankle); Preston Riki (Ankle); Cory Paix (Shoulder) — back Next Season"
+      "news": "Adam Reynolds (Calf); Brendan Piakura (Concussion); Preston Riki (Ankle); Reece Walsh (Ankle); Cory Paix (Shoulder) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 156,
         "PA": 251
       },
-      "news": "Hame Sele (Achilles); Clinton Gutherson (Knee); Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season; David Fale (Calf) — back Next Season"
+      "news": "Clinton Gutherson (Knee); Hame Sele (Achilles); Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season; David Fale (Calf) — back Next Season"
     }
   ],
   "fixtures": [
@@ -539,7 +539,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.25,
-          "away": 4.2
+          "away": 4.0
         }
       },
       "weather": null,
@@ -558,8 +558,8 @@ window.NRL_DATA = {
           "away": 1.96
         },
         "close": {
-          "home": 1.85,
-          "away": 1.95
+          "home": 1.84,
+          "away": 2.0
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "MEL"
   ],
-  "generatedAt": "2026-08-16T06:58:45+10:00",
+  "generatedAt": "2026-08-16T13:29:31+10:00",
   "changes": [
     {
       "id": "r24-NZW-inj-luke-metcalf",
@@ -606,6 +606,42 @@ window.NRL_DATA = {
       "text": "Sharks: Braydon Trindall (Shoulder) — new on the injury list.",
       "pts": 3.1,
       "ts": "2026-08-15T17:49:15+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-GLD-inj-dean-ieremia",
+      "fixture": "NEW-GLD",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Titans: Dean Ieremia (Hamstring) — new on the injury list.",
+      "pts": 0.6,
+      "ts": "2026-08-16T13:29:31+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-GLD-in-siale-faeamani",
+      "fixture": "NEW-GLD",
+      "team": "GLD",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Siale Faeamani (Winger) named in the Titans 17.",
+      "pts": 1.2,
+      "ts": "2026-08-16T13:29:31+10:00",
+      "rnd": 24
+    },
+    {
+      "id": "r24-GLD-out-dean-ieremia",
+      "fixture": "NEW-GLD",
+      "team": "GLD",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Dean Ieremia is out of the Titans 17.",
+      "pts": 0.6,
+      "ts": "2026-08-16T13:29:31+10:00",
       "rnd": 24
     },
     {
@@ -741,87 +777,27 @@ window.NRL_DATA = {
       "rnd": 24
     },
     {
-      "id": "r24-SOU-inj-adam-elliott",
-      "fixture": "CAN-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Adam Elliott (Groin) — new on the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-15T01:11:19+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CAN-inj-jethro-rinakama",
-      "fixture": "CAN-SOU",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Bulldogs: Jethro Rinakama (Knee) — new on the injury list.",
-      "pts": 0.6,
-      "ts": "2026-08-15T01:11:19+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-DOL-inj-connelly-lemuelu",
-      "fixture": "MAN-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dolphins: Connelly Lemuelu (Hamstring) — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-08-14T21:12:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-BRI-in-gehamat-shibasaki",
-      "fixture": "BRI-NZW",
-      "team": "BRI",
-      "cat": "in",
-      "sev": 2,
+      "id": "r24-NEW-GLD-line-1.25-4.00",
+      "fixture": "NEW-GLD",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Gehamat Shibasaki (Winger) named in the Broncos 17.",
-      "pts": 1.9,
-      "ts": "2026-08-14T21:12:44+10:00",
+      "text": "Line moved — Knights $1.25 → $1.25, Titans $4.20 → $4.00. Market now 76% Knights (was 77%).",
+      "pts": null,
+      "ts": "2026-08-16T13:29:31+10:00",
       "rnd": 24
     },
     {
-      "id": "r24-BRI-out-ben-talty",
-      "fixture": "BRI-NZW",
-      "team": "BRI",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Ben Talty (Prop) is out of the Broncos 17.",
-      "pts": 0.9,
-      "ts": "2026-08-14T21:12:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-PAR-in-kelma-tuilagi",
-      "fixture": "PAR-NQL",
-      "team": "PAR",
-      "cat": "in",
-      "sev": 2,
+      "id": "r24-WST-STI-line-1.84-2.00",
+      "fixture": "WST-STI",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Kelma Tuilagi (Second-row) named in the Eels 17.",
-      "pts": 1.6,
-      "ts": "2026-08-14T21:12:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-PAR-out-jack-de-belin",
-      "fixture": "PAR-NQL",
-      "team": "PAR",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jack De Belin (Lock) is out of the Eels 17.",
-      "pts": 0.8,
-      "ts": "2026-08-14T21:12:44+10:00",
+      "text": "Line moved — Wests Tigers $1.85 → $1.84, Dragons $1.95 → $2.00. Market now 52% Wests Tigers (was 51%).",
+      "pts": null,
+      "ts": "2026-08-16T13:29:31+10:00",
       "rnd": 24
     },
     {
@@ -1015,67 +991,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-15T06:59:48+10:00",
       "rnd": 24
-    },
-    {
-      "id": "r24-BRI-NZW-line-2.90-1.42",
-      "fixture": "BRI-NZW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $2.85 → $2.90, Warriors $1.43 → $1.42. Market now 33% Broncos (was 33%).",
-      "pts": null,
-      "ts": "2026-08-15T01:11:19+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.94-1.87",
-      "fixture": "WST-STI",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Wests Tigers $1.94 → $1.94, Dragons $1.89 → $1.87. Market now 49% Wests Tigers (was 49%).",
-      "pts": null,
-      "ts": "2026-08-15T01:11:19+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-CRO-CBR-line-1.30-3.50",
-      "fixture": "CRO-CBR",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sharks $1.32 → $1.30, Raiders $3.45 → $3.50. Market now 73% Sharks (was 72%).",
-      "pts": null,
-      "ts": "2026-08-14T21:12:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-BRI-NZW-line-2.85-1.43",
-      "fixture": "BRI-NZW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $2.75 → $2.85, Warriors $1.44 → $1.43. Market now 33% Broncos (was 34%).",
-      "pts": null,
-      "ts": "2026-08-14T21:12:44+10:00",
-      "rnd": 24
-    },
-    {
-      "id": "r24-WST-STI-line-1.94-1.89",
-      "fixture": "WST-STI",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Wests Tigers $1.95 → $1.94, Dragons $1.87 → $1.89. Market now 49% Wests Tigers (was 49%).",
-      "pts": null,
-      "ts": "2026-08-14T21:12:44+10:00",
-      "rnd": 24
     }
   ],
-  "changesSince": "2026-08-14T21:12:44+10:00"
+  "changesSince": "2026-08-15T06:59:48+10:00"
 };
