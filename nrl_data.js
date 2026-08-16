@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-17T06:00:31+10:00",
+  "generatedAt": "2026-08-17T06:56:46+10:00",
   "changes": [],
-  "changesSince": "2026-08-17T03:01:02+10:00"
+  "changesSince": "2026-08-17T06:00:31+10:00"
 };
