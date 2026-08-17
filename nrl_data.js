@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.37,
-          "away": 3.05
+          "home": 1.36,
+          "away": 3.1
         }
       },
       "weather": null,
@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.65,
-          "away": 1.45
+          "away": 1.47
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-18T03:13:46+10:00",
+  "generatedAt": "2026-08-18T06:56:47+10:00",
   "changes": [
     {
       "id": "r25-NZW-inj-charnze-nicoll-klokstad",
@@ -636,6 +636,30 @@ window.NRL_DATA = {
       "text": "Warriors: Charnze Nicoll-Klokstad (Suspension) — back Round 27 — new on the injury list.",
       "pts": 2.7,
       "ts": "2026-08-18T00:02:37+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CBR-BRI-line-1.36-3.10",
+      "fixture": "CBR-BRI",
+      "team": "CBR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Raiders $1.37 → $1.36, Broncos $3.05 → $3.10. Market now 70% Raiders (was 69%).",
+      "pts": null,
+      "ts": "2026-08-18T06:56:47+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-STI-CAN-line-2.65-1.47",
+      "fixture": "STI-CAN",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Dragons $2.65 → $2.65, Bulldogs $1.45 → $1.47. Market now 36% Dragons (was 35%).",
+      "pts": null,
+      "ts": "2026-08-18T06:56:47+10:00",
       "rnd": 25
     },
     {
