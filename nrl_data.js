@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-18T06:56:47+10:00",
+  "generatedAt": "2026-08-18T07:04:18+10:00",
   "changes": [
     {
       "id": "r25-NZW-inj-charnze-nicoll-klokstad",
