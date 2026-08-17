@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.41,
-          "away": 2.85
+          "home": 1.37,
+          "away": 3.0
         }
       },
       "weather": null,
@@ -572,7 +572,7 @@ window.NRL_DATA = {
           "away": 1.42
         },
         "close": {
-          "home": 2.68,
+          "home": 2.65,
           "away": 1.45
         }
       },
@@ -624,8 +624,32 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-17T15:59:52+10:00",
+  "generatedAt": "2026-08-17T20:07:08+10:00",
   "changes": [
+    {
+      "id": "r25-CBR-BRI-line-1.37-3.00",
+      "fixture": "CBR-BRI",
+      "team": "CBR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Raiders $1.41 → $1.37, Broncos $2.85 → $3.00. Market now 69% Raiders (was 67%).",
+      "pts": null,
+      "ts": "2026-08-17T20:07:08+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-STI-CAN-line-2.65-1.45",
+      "fixture": "STI-CAN",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $2.68 → $2.65, Bulldogs $1.45 → $1.45. Market now 35% Dragons (was 35%).",
+      "pts": null,
+      "ts": "2026-08-17T20:07:08+10:00",
+      "rnd": 25
+    },
     {
       "id": "r25-MEL-PEN-line-3.30-1.34",
       "fixture": "MEL-PEN",
