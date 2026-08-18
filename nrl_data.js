@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-18",
+  "updated": "2026-08-19",
   "season": 2026,
   "round": 25,
   "source": "zerotackle.com",
@@ -492,7 +492,7 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.31,
+          "home": 1.3,
           "away": 3.5
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-18T21:51:27+10:00",
+  "generatedAt": "2026-08-19T00:09:32+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
@@ -720,6 +720,18 @@ window.NRL_DATA = {
       "text": "Panthers: Paul Alamoti (Hamstring) — new on the injury list.",
       "pts": 1.9,
       "ts": "2026-08-18T15:50:11+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CBR-BRI-line-1.30-3.50",
+      "fixture": "CBR-BRI",
+      "team": "CBR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Raiders $1.31 → $1.30, Broncos $3.50 → $3.50. Market now 73% Raiders (was 73%).",
+      "pts": null,
+      "ts": "2026-08-19T00:09:32+10:00",
       "rnd": 25
     },
     {
