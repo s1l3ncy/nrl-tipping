@@ -5,6 +5,65 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-18 — iOS 62px dead strip fixed: `viewport-fit=cover` removed (WebKit bug 301994)
+
+The app's standalone home-screen container on iOS was broken and nobody could see it:
+with `viewport-fit=cover` in the viewport meta, iOS 26.5.2/26.6 (and the iOS 27 beta)
+sizes the web view **62px SHORTER than the screen and anchors it at the TOP**, leaving
+a dead, unpaintable, iOS-default-black band at the bottom that ignores `theme-color`
+and manifest colours. This app's dark navy theme made the band invisible — but content
+the app thought was at the bottom edge (the tab bar) actually sat 62px above the real
+screen edge, and no DOM element can reach the band, at any size, ever.
+
+The cause was diagnosed the same day in Josh's **Fit booking tool** project (its
+`docs/IOS-VIEWPORT.md` and `docs/DECISIONS.md` D-48 hold the full on-device proof,
+iPhone 17 Pro Max, iOS 26.6): fresh installs of the same page with and without cover
+show that **without** `viewport-fit=cover` the same 62px-short view is seated BELOW
+the status bar and ends flush at the physical bottom — ordinary app geometry. The
+attribute takes effect **per install**, so the home-screen icon must be deleted and
+re-added after this deploys.
+
+**What changed (front-end only — no visual redesign, no model/pipeline changes):**
+
+1. **`viewport-fit=cover` removed** from the viewport meta in `nrl-tipping-guide.html`,
+   with a guard comment. **Never re-add it while WebKit 301994 exists** (now golden
+   rule 6 in `CLAUDE.md`).
+2. **Safe-area insets are now CSS vars** (`--sat`/`--sab`/`--sal`/`--sar` in `:root`,
+   defined as `env(safe-area-inset-*, 0px)`) and every former inline `env()` usage
+   (body bottom clearance, `.wrap` side padding, `.topnav` top padding, `#ptr`, the
+   `.tabbar`) uses the vars. Reason: without cover, `env()` reports **0 always**, and
+   vars are also what makes the layout testable headlessly.
+3. **Two JS backstops** (new script at the end of the page, pattern adapted from the
+   Fit project) restore the insets by measurement, keyed on
+   `screen.height - window.innerHeight`: shortfall ≤8px = full-bleed (an Apple fix
+   restores the classic geometry) → `--sat` 62px + `--sab` 34px; 40–200px =
+   letterboxed (today's behaviour) → `--sat` stays 0 (the island/clock are ABOVE the
+   view — 62 here would double-pad the header) + `--sab` 34px (the home indicator
+   still floats over the view's bottom); anything else (landscape, keyboard) →
+   nothing. Gated to iOS + standalone only; `env()` wins whenever it reports
+   anything; self-undoing on every call; re-run on load/resize/orientationchange;
+   held during pinch zoom.
+4. **`sw.js` CACHE bumped v19 → v20** so phones drop the old shell.
+5. **New headless suite `test_ios_viewport.py`** (root, alongside `smoke_test.mjs`;
+   ported from the Fit project's `tests/test_layout_backstops.py`): drives the real
+   page in Playwright with `navigator.standalone` shimmed and `screen.height`
+   proxied, 20 checks covering both geometries, the transitions, env-wins, the pinch
+   hold, Android/browser-tab neutrality, horizontal overflow and a static guard that
+   the meta never regains `viewport-fit=cover`. All 11 mutations (each backstop
+   piece reverted individually) go red. Run: `pip install playwright`, then
+   `python3 test_ios_viewport.py`.
+
+Because the app scrolls the whole document (unlike Fit's fixed shell), content now
+scrolls up behind the translucent status bar in the letterboxed strip, which iOS
+paints from the page background (`--bg` dark navy) with the clock drawn over it —
+correct, native-looking, and the white clock is readable in both OS appearance modes
+(the app is dark-only). At rest the header clears the clock because the view starts
+below the status bar (`--sat` 0 + the header's own 12px).
+
+**Verified before ship:** 20/20 layout checks, 11/11 mutations killed, freeze harness
+8/8 tips identical (0 flips) between the live and edited page, `smoke_test.mjs` 60/60,
+no JS errors, no horizontal overflow, both colour schemes.
+
 ## 2026-08-15 — Perfect-round bonus in the current round; top-4 objective; honest "play safe" baseline
 
 Josh asked whether the +2 perfect-round bonus (all games in a round tipped

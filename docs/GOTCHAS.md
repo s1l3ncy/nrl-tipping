@@ -433,6 +433,39 @@ Real problems encountered on this project and how to avoid repeating them.
   `CACHE` (`nrl-tips-vN`). SWs run only over http(s); `file://` use is unaffected. Don't
   switch it to cache-first "for speed" without a version-bump story, or staleness returns.
 
+## iOS 62px dead strip (2026-08-18, WebKit bug 301994) — NEVER re-add `viewport-fit=cover`
+
+- **The symptom is invisible in this app** — that's the landmine. With
+  `viewport-fit=cover` in the viewport meta, iOS 26.5.2/26.6/27-beta sizes a standalone
+  home-screen web view **62px shorter than the screen and top-anchors it**: a dead,
+  unpaintable, iOS-default-black band sits at the bottom, ignoring `theme-color` and
+  manifest colours. Our dark navy theme camouflaged it perfectly; the tab bar the app
+  believed was flush with the screen edge was actually 62px above it. No DOM element
+  can paint the band (a `100lvh` `z-index:-1` painter clips at the viewport edge —
+  proven by probe on-device). Diagnosed and fixed in the Fit booking tool project on
+  18 Aug 2026 (its `docs/IOS-VIEWPORT.md` + `DECISIONS.md` D-48 have the full
+  measurement story); this app got the same fix the same day.
+- **The fix is removing the attribute** — without cover the same short view seats
+  BELOW the status bar and ends flush at the physical bottom (normal app geometry).
+  **It takes effect per INSTALL**: after any deploy that touches the viewport meta,
+  delete and re-add the home-screen icon or nothing changes on the phone.
+- **Without cover, `env(safe-area-inset-*)` report 0 — always.** Never write `env()`
+  inline again; use the `:root` vars `--sat`/`--sab`/`--sal`/`--sar`. Two JS
+  backstops ("safe-area backstops" script at the end of the guide) restore
+  `--sat`/`--sab` by measured shortfall (`screen.height - innerHeight`: ≤8px
+  full-bleed → 62/34; 40–200px letterboxed → 0/34; else nothing), iOS+standalone
+  gated, env-wins, self-undoing, re-run on resize/rotate, held during pinch zoom.
+  **Letterboxed top is 0 on purpose** — the status bar is above the view; restoring
+  62 there double-pads the header. If Apple fixes 301994 the backstops silently hand
+  back to `env()`; no redeploy needed.
+- **`test_ios_viewport.py` (repo root) is the regression net** — Playwright, shims
+  `navigator.standalone`, proxies `screen.height`; includes a static check that the
+  meta never regains `viewport-fit=cover`. Run it after ANY change near the viewport
+  meta, the `--sa*` vars, `.topnav`/`.tabbar` padding or the backstop script. Every
+  piece of the backstop is individually mutation-tested — keep it that way.
+- Trigger detection is **geometry-only, never UA version** — standalone iOS UAs
+  freeze/lie about the OS version (26.6 reports "OS 18_7").
+
 ## 2026-08-04 batch — new landmines (audit + rebuild)
 
 - **`logisticScale` is statistically unidentifiable — NEVER re-add it to the grid

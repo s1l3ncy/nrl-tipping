@@ -313,6 +313,24 @@ no-ops on the missing element.)*
 
 - Visual style is a dark "Apple Sports"-inspired theme, optimised for iPhone (safe-area
   insets, PWA `<meta>` tags so it can be added to the home screen).
+- **The viewport meta has NO `viewport-fit=cover` — deliberate (2026-08-18), never
+  re-add it** while WebKit bug 301994 exists (see `GOTCHAS.md` "iOS 62px dead strip").
+  Consequences for anyone touching layout:
+  - Safe-area insets live in the `:root` vars `--sat`/`--sab`/`--sal`/`--sar`
+    (`env(safe-area-inset-*, 0px)` fallbacks). **Use the vars, never `env()` inline** —
+    without cover `env()` reports 0 always, and the vars are what the JS backstops
+    override and the test harness simulates.
+  - The "safe-area backstops" script (end of the guide) restores `--sat`/`--sab` by
+    measured shortfall on iOS standalone only: full-bleed (≤8px missing) → 62/34,
+    letterboxed (40–200px, today's iOS 26.6 behaviour) → 0/34, else nothing. It is
+    self-undoing and yields to `env()` — don't latch values or key on UA versions.
+  - In the letterboxed state the app's document scrolls behind the translucent status
+    bar; iOS paints that strip from the page background with the clock over it. At
+    rest the header clears the clock (view starts below the status bar). This is
+    correct — don't "fix" it.
+  - After any change to the viewport meta: the setting is per-install — delete and
+    re-add the home-screen icon to see it.
+  - Run `python3 test_ios_viewport.py` (repo root) after touching any of this.
 - **`touch-action:manipulation` is in the universal `*` reset (2026-08-13)** — it's what
   stops iOS double-tap-to-zoom on tabs/pills/folds while keeping panning and pinch-zoom.
   Don't narrow it to a selector list (any missed tappable surface reintroduces the zoom)
@@ -330,6 +348,8 @@ no-ops on the missing element.)*
 ## When you change the front-end
 1. Preserve the element IDs above and the Roosters lock.
 2. Keep it single-file and dependency-free.
+2b. If the change is anywhere near layout, the viewport meta or the `--sa*` vars, run
+   `python3 test_ios_viewport.py` and keep it green (see Styling / UX notes).
 3. After editing, remember `index.html` must be regenerated (run the workflow) for the
    change to reach the live site — see `DEPLOY_AND_OPS.md`.
 4. If you add a new data field, update the fallback/`validData` checks so a missing
