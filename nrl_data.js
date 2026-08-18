@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.46,
+          "home": 1.45,
           "away": 2.75
         }
       },
@@ -592,7 +592,7 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.6,
+          "home": 2.65,
           "away": 1.48
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-18T19:55:20+10:00",
+  "generatedAt": "2026-08-18T21:51:27+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
@@ -720,6 +720,18 @@ window.NRL_DATA = {
       "text": "Panthers: Paul Alamoti (Hamstring) — new on the injury list.",
       "pts": 1.9,
       "ts": "2026-08-18T15:50:11+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-GLD-CRO-line-2.65-1.48",
+      "fixture": "GLD-CRO",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $2.60 → $2.65, Sharks $1.48 → $1.48. Market now 36% Titans (was 36%).",
+      "pts": null,
+      "ts": "2026-08-18T21:51:27+10:00",
       "rnd": 25
     },
     {
