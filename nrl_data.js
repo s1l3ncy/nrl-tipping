@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-19T06:45:10+10:00",
+  "generatedAt": "2026-08-19T07:00:13+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
