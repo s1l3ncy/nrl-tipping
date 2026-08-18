@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 1.33
         },
         "close": {
-          "home": 3.3,
-          "away": 1.34
+          "home": 3.2,
+          "away": 1.36
         }
       },
       "weather": null,
@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.36,
-          "away": 3.1
+          "home": 1.37,
+          "away": 3.0
         }
       },
       "weather": null,
@@ -552,8 +552,8 @@ window.NRL_DATA = {
           "away": 1.61
         },
         "close": {
-          "home": 2.3,
-          "away": 1.62
+          "home": 2.35,
+          "away": 1.6
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-18T07:04:18+10:00",
+  "generatedAt": "2026-08-18T13:13:40+10:00",
   "changes": [
     {
       "id": "r25-NZW-inj-charnze-nicoll-klokstad",
@@ -636,6 +636,30 @@ window.NRL_DATA = {
       "text": "Warriors: Charnze Nicoll-Klokstad (Suspension) — back Round 27 — new on the injury list.",
       "pts": 2.7,
       "ts": "2026-08-18T00:02:37+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-MEL-PEN-line-3.20-1.36",
+      "fixture": "MEL-PEN",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Storm $3.30 → $3.20, Panthers $1.34 → $1.36. Market now 30% Storm (was 29%).",
+      "pts": null,
+      "ts": "2026-08-18T13:13:40+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-SOU-NZW-line-2.35-1.60",
+      "fixture": "SOU-NZW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $2.30 → $2.35, Warriors $1.62 → $1.60. Market now 41% Rabbitohs (was 41%).",
+      "pts": null,
+      "ts": "2026-08-18T13:13:40+10:00",
       "rnd": 25
     },
     {
