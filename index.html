@@ -2,7 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- NO viewport-fit=cover — deliberate (2026-08-18), and do not re-add it while WebKit
+     bug 301994 exists. WITH cover, iOS 26.5.2/26.6/27-beta sizes a standalone
+     home-screen web view 62px SHORTER than the screen and TOP-anchors it, leaving a
+     dead, unpaintable, iOS-default-black band at the bottom that ignores theme-color
+     and manifest colours (this app's dark theme merely hid it — content the app thought
+     was at the bottom sat 62px above the real screen edge). WITHOUT cover the same
+     short view is seated below the status bar and ends flush at the physical bottom —
+     normal app geometry. Proven by fresh installs of both configurations on the same
+     phone (iPhone 17 Pro Max, iOS 26.6, 18 Aug 2026); full account in
+     docs/GOTCHAS.md "iOS 62px dead strip". The attribute takes effect per INSTALL:
+     after changing this line, delete and re-add the home-screen icon.
+     Consequence: without cover, env(safe-area-inset-*) report 0 always — the measured
+     JS backstops at the end of the page restore --sat/--sab (see "safe-area backstops"
+     script). Do NOT add user-scalable=no / maximum-scale=1 here either (GOTCHAS). -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -34,6 +48,13 @@
   --blur:blur(26px) saturate(170%);
   --gap:14px;
   --tricolour:linear-gradient(90deg,#FF4655 0 55%,#F5F8FF 55% 72%,#F5C451 72% 100%);
+  /* Safe-area insets, exposed as vars so (a) the JS backstops can restore them when
+     env() reports 0 (which it always does without viewport-fit=cover — see the
+     viewport meta comment) and (b) tests can override them. Use the vars below,
+     never env() inline. env() still wins whenever it reports anything: the backstops
+     re-measure and remove their overrides on every call. */
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
 }
 *{box-sizing:border-box;touch-action:manipulation}
 /* touch-action:manipulation (2026-08-13): iOS Safari fires double-tap-to-zoom on a
@@ -44,7 +65,7 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.45;padding-bottom:calc(96px + env(safe-area-inset-bottom));
+  line-height:1.45;padding-bottom:calc(96px + var(--sab));
   -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
 /* aurora — fixed, subtle, club-coloured */
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -54,12 +75,12 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     radial-gradient(900px 700px at 50% 118%, rgba(30,58,138,.35), transparent 65%),
     linear-gradient(180deg,#071026 0%,var(--bg) 46%)}
 .wrap{max-width:600px;margin:0 auto;
-  padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+  padding-left:max(18px,var(--sal));padding-right:max(18px,var(--sar))}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
 /* ---------- glass top bar ---------- */
 .topnav{position:sticky;top:0;z-index:50;
-  padding:calc(env(safe-area-inset-top) + 12px) 0 12px;
+  padding:calc(var(--sat) + 12px) 0 12px;
   background:rgba(5,9,22,.6);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
   border-bottom:1px solid var(--hairline-soft)}
 .topnav::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
@@ -77,7 +98,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 /* freshness chip (Area 2) — hidden on file:// by setFresh(). It takes over the
    roundpill's margin-left:auto push while visible; when hidden the pill keeps
    its own auto margin, so the file:// layout is byte-identical to before. */
-#ptr{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 64px);
+#ptr{position:fixed;left:50%;transform:translateX(-50%);top:calc(var(--sat) + 64px);
   z-index:70;background:var(--surface2);border:1px solid var(--hairline);
   border-radius:var(--r-pill);padding:8px 16px;font-size:12px;font-weight:600;color:var(--sub);
   backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
@@ -454,7 +475,7 @@ details.plain>summary:hover{color:var(--text)}
   background:linear-gradient(180deg,#fff 55%,#B9C7E8 130%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;
-  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  padding:8px 0 calc(8px + var(--sab));
   background:rgba(5,9,22,.72);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
   border-top:1px solid var(--hairline-soft)}
 .tabrow{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
@@ -3415,6 +3436,99 @@ if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
     else ptr.classList.remove('show','armed');
     y0=null; armed=false;
   },{passive:true});
+})();
+</script>
+<script>
+/* ---------- safe-area backstops for the no-cover world (2026-08-18) ----------
+   viewport-fit=cover is gone (see the viewport meta comment — WebKit bug 301994), and
+   without it iOS reports env(safe-area-inset-*) as 0 — always — so the :root vars'
+   env() fallbacks resolve to 0 and these two functions restore --sat/--sab by
+   MEASUREMENT, only where the geometry actually demands them. Pattern adapted from the
+   Fit booking tool project, measured on-device 18 Aug 2026 (iPhone 17 Pro Max, iOS 26.6):
+
+     • LETTERBOXED (the current 301994 behaviour): the standalone view is 62px short
+       and seated BELOW the status bar, ending at the PHYSICAL bottom. Top clearance
+       needed: NONE (the island/clock are above the view — content scrolling behind the
+       translucent status bar is iOS's own painting of the strip from the page
+       background). Bottom: the home indicator floats over the view's bottom → --sab 34px.
+     • FULL-BLEED (classic behaviour, and the likely shape of any Apple fix): the view
+       is full-height, underlapping island and indicator → --sat 62px AND --sab 34px.
+
+   Signature-gated: standalone only (a browser tab's shortfall is Safari's own chrome),
+   iOS only (Android standalone measures a shortfall from its own system bars but its
+   view never underlaps them), and env() wins whenever it reports anything — so an iOS
+   that starts reporting insets again silently takes over. Self-undoing: every call
+   removes its own override and re-decides, so Apple fixing 301994 needs no redeploy.
+   62/34 are this device's numbers; other iPhones err a few px cosmetic. */
+(function(){
+  function isIOSDevice(){
+    const ua = navigator.userAgent || '';
+    return /iPad|iPhone|iPod/.test(ua) || (/Mac/.test(ua) && navigator.maxTouchPoints > 1);
+  }
+  function isStandalone(){
+    return (window.navigator.standalone === true) ||
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  }
+  function measuredVar(name){
+    const probe = document.createElement('div');
+    probe.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:var(' + name + ');' +
+                          'visibility:hidden;pointer-events:none';
+    document.body.appendChild(probe);
+    const h = probe.getBoundingClientRect().height;
+    probe.remove();
+    return h;
+  }
+  /* A pinch/accessibility zoom shrinks innerHeight without changing the layout, which
+     would misread as a container change mid-gesture. While zoomed, hold the last
+     scale-1 decision. */
+  function zoomHeld(){
+    return window.visualViewport && Math.abs(window.visualViewport.scale - 1) > 0.02;
+  }
+  function containerShortfall(){
+    return (window.screen && window.screen.height ? window.screen.height : 0) -
+           window.innerHeight;
+  }
+  function fixSafeAreaTop(){
+    try{
+      if(zoomHeld()) return;
+      const root = document.documentElement;
+      root.style.removeProperty('--sat');          // re-measure the stylesheet's own value
+      if(measuredVar('--sat') > 0) return;         // env() works here — leave it alone
+      if(!isStandalone() || !isIOSDevice()) return;
+      const missing = containerShortfall();
+      /* FULL-BLEED only: the view reaches the physical top, so the Dynamic Island
+         overlaps it. LETTERBOXED (missing 40–200) needs NOTHING at the top — setting
+         --sat = missing there would double-pad the header below the status bar. */
+      if(missing >= 0 && missing <= 8) root.style.setProperty('--sat', '62px');
+    }catch(e){}
+  }
+  function fixBottomInset(){
+    try{
+      if(zoomHeld()) return;
+      const root = document.documentElement;
+      root.style.removeProperty('--sab');
+      if(measuredVar('--sab') > 0) return;         // env() works here — leave it alone
+      if(!isStandalone() || !isIOSDevice()) return;
+      const missing = containerShortfall();
+      /* In BOTH standalone geometries the view's bottom edge is the physical bottom,
+         with the home indicator floating over it — restore the 34px inset that env()
+         no longer reports (tab bar + body clearance derive from --sab unchanged).
+         Outside both signatures (landscape, keyboard-resized viewport) leave 0 alone. */
+      if(missing <= 8 || (missing >= 40 && missing <= 200)){
+        root.style.setProperty('--sab', '34px');
+      }
+    }catch(e){}
+  }
+  fixSafeAreaTop(); fixBottomInset();
+  /* Re-run rather than latch: every call first REMOVES its own inline value and
+     re-measures, so the moment env() starts reporting real insets the overrides are
+     dropped again. Run once now (before first paint) and again after load, in case
+     styles resolve late; re-run both on resize/rotate because the container geometry
+     is what they read. */
+  window.addEventListener('load', ()=>{ fixSafeAreaTop(); fixBottomInset(); });
+  setTimeout(()=>{ fixSafeAreaTop(); fixBottomInset(); }, 400);
+  window.addEventListener('resize', ()=>{ fixSafeAreaTop(); fixBottomInset(); });
+  window.addEventListener('orientationchange', ()=> setTimeout(()=>{ fixSafeAreaTop(); fixBottomInset(); }, 250));
 })();
 </script>
 </body>
