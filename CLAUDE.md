@@ -25,7 +25,13 @@ the owner's Mac off.
 5. **Best-effort fields (odds/news) may be `null`** — that's normal, not a bug.
    (Weather was removed entirely on 2026-08-04; `fixture.weather` ships as an
    always-null key for one deploy cycle, then the key can be dropped.)
-6. **`update docs for upload/` is a staging folder, not an archive. WIPE IT FIRST.**
+6. **Never re-add `viewport-fit=cover` to the viewport meta** while WebKit bug 301994
+   exists (iOS sizes the standalone view 62px short and top-anchors it — dead black
+   band at the bottom that our dark theme merely hides). Removed 2026-08-18; the JS
+   safe-area backstops + `test_ios_viewport.py` depend on it staying gone. See
+   `docs/GOTCHAS.md` "iOS 62px dead strip". Changing it is per-install: delete and
+   re-add the home-screen icon.
+7. **`update docs for upload/` is a staging folder, not an archive. WIPE IT FIRST.**
    Any time you finish work that needs uploading: delete everything in it, then stage the
    current batch. Do this automatically — Josh should never have to ask. A folder that
    accumulates batches is worse than useless: he can't tell which files are the new ones,
@@ -50,6 +56,8 @@ the owner's Mac off.
 - `parse_nrl.py` — dumps → `nrl_data.js`; grows the results memory. Has `--merge` mode.
 - `learn_model.py` — results memory → fitted params + Elo in `nrl_learned.js`.
 - `validate_data.py` / `validate_learned.py` — publish gates.
+- `test_ios_viewport.py` — headless (Playwright) iOS layout suite: safe-area
+  backstops, both standalone geometries, and the no-`viewport-fit=cover` guard.
 - `.github/workflows/update-nrl.yml` — the automation (every 4h at :17, plus 05:47 daily,
   16:23 Tuesday for team lists, and since 2026-08-14 four pre-game odds slots: Thu 18:43,
   Fri 19:07, Sat 16:33, Sun 13:07 AEST). Includes the freeze-tips step and (since
@@ -80,6 +88,18 @@ Live and self-updating. The Elo engine is live (160+ games, `lowConfidence: fals
 the heuristic path is the fallback. Injuries move the tip (position × rating); the
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
+
+**Changed 2026-08-18** (full detail in `docs/CHANGELOG.md`):
+- **iOS 62px dead strip fixed: `viewport-fit=cover` removed** (WebKit bug 301994 —
+  with cover, iOS 26.5.2+/26.6 sizes the standalone view 62px short and top-anchors
+  it; the dark theme hid the dead black band, the tab bar sat 62px above the real
+  screen edge). Safe-area insets are now `:root` vars (`--sat`/`--sab`/`--sal`/
+  `--sar` — use these, never inline `env()`, which reports 0 without cover), restored
+  by measured JS backstops (iOS+standalone gated, env-wins, self-undoing; letterboxed
+  → 0/34, full-bleed → 62/34). New `test_ios_viewport.py` guards it all (20 checks,
+  11 mutations killed). Diagnosed in the Fit booking tool project same day. Golden
+  rule 6 added. Per-install: delete + re-add the home-screen icon. No visual
+  redesign; model/pipeline untouched (freeze 0-change, smoke 60/60). `sw.js` CACHE v20.
 
 **Changed 2026-08-15** (full detail in `docs/CHANGELOG.md`):
 - **Simulator now prices the +2 perfect-round bonus for the CURRENT round**
