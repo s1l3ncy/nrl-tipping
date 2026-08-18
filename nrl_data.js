@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.3,
-          "away": 3.48
+          "home": 1.31,
+          "away": 3.5
         }
       },
       "weather": null,
@@ -512,7 +512,7 @@ window.NRL_DATA = {
           "away": 4.0
         },
         "close": {
-          "home": 1.24,
+          "home": 1.25,
           "away": 4.1
         }
       },
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.45,
+          "home": 1.46,
           "away": 2.75
         }
       },
@@ -593,7 +593,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.6,
-          "away": 1.5
+          "away": 1.48
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-18T18:05:53+10:00",
+  "generatedAt": "2026-08-18T19:55:20+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
@@ -720,6 +720,42 @@ window.NRL_DATA = {
       "text": "Panthers: Paul Alamoti (Hamstring) — new on the injury list.",
       "pts": 1.9,
       "ts": "2026-08-18T15:50:11+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CBR-BRI-line-1.31-3.50",
+      "fixture": "CBR-BRI",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Raiders $1.30 → $1.31, Broncos $3.48 → $3.50. Market now 73% Raiders (was 73%).",
+      "pts": null,
+      "ts": "2026-08-18T19:55:20+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-NEW-MAN-line-1.46-2.75",
+      "fixture": "NEW-MAN",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Knights $1.45 → $1.46, Sea Eagles $2.75 → $2.75. Market now 65% Knights (was 65%).",
+      "pts": null,
+      "ts": "2026-08-18T19:55:20+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-GLD-CRO-line-2.60-1.48",
+      "fixture": "GLD-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $2.60 → $2.60, Sharks $1.50 → $1.48. Market now 36% Titans (was 37%).",
+      "pts": null,
+      "ts": "2026-08-18T19:55:20+10:00",
       "rnd": 25
     },
     {
