@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-20T06:57:15+10:00",
+  "generatedAt": "2026-08-20T07:13:07+10:00",
   "changes": [
     {
       "id": "r25-MEL-out-manaia-waitere",
