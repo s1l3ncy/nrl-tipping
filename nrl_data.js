@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-20T00:09:26+10:00",
+  "generatedAt": "2026-08-20T03:14:17+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
@@ -1045,31 +1045,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-18T15:50:11+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-MEL-PEN-line-3.20-1.36",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Storm $3.30 → $3.20, Panthers $1.34 → $1.36. Market now 30% Storm (was 29%).",
-      "pts": null,
-      "ts": "2026-08-18T13:13:40+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-SOU-NZW-line-2.35-1.60",
-      "fixture": "SOU-NZW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $2.30 → $2.35, Warriors $1.62 → $1.60. Market now 41% Rabbitohs (was 41%).",
-      "pts": null,
-      "ts": "2026-08-18T13:13:40+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-18T13:13:40+10:00"
+  "changesSince": "2026-08-18T15:50:11+10:00"
 };
