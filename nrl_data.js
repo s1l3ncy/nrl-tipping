@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 1.33
         },
         "close": {
-          "home": 2.98,
+          "home": 3.0,
           "away": 1.4
         }
       },
@@ -513,7 +513,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.25,
-          "away": 4.1
+          "away": 4.0
         }
       },
       "weather": null,
@@ -532,8 +532,8 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.45,
-          "away": 2.75
+          "home": 1.43,
+          "away": 2.8
         }
       },
       "weather": null,
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.06,
-          "away": 9.0
+          "away": 9.5
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-19T07:00:13+10:00",
+  "generatedAt": "2026-08-19T13:26:13+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
@@ -648,18 +648,6 @@ window.NRL_DATA = {
       "text": "Wests Tigers: Adam Doueihi (Shoulder) — back Next Season — new on the injury list.",
       "pts": 3.2,
       "ts": "2026-08-18T15:50:11+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NZW-inj-charnze-nicoll-klokstad",
-      "fixture": "SOU-NZW",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Warriors: Charnze Nicoll-Klokstad (Suspension) — back Round 27 — new on the injury list.",
-      "pts": 2.7,
-      "ts": "2026-08-18T00:02:37+10:00",
       "rnd": 25
     },
     {
@@ -720,6 +708,42 @@ window.NRL_DATA = {
       "text": "Panthers: Paul Alamoti (Hamstring) — new on the injury list.",
       "pts": 1.9,
       "ts": "2026-08-18T15:50:11+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-DOL-PAR-line-1.25-4.00",
+      "fixture": "DOL-PAR",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.25 → $1.25, Eels $4.10 → $4.00. Market now 76% Dolphins (was 77%).",
+      "pts": null,
+      "ts": "2026-08-19T13:26:13+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-NEW-MAN-line-1.43-2.80",
+      "fixture": "NEW-MAN",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Knights $1.45 → $1.43, Sea Eagles $2.75 → $2.80. Market now 66% Knights (was 65%).",
+      "pts": null,
+      "ts": "2026-08-19T13:26:13+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-SYD-WST-line-1.06-9.50",
+      "fixture": "SYD-WST",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Roosters $1.06 → $1.06, Wests Tigers $9.00 → $9.50. Market now 90% Roosters (was 89%).",
+      "pts": null,
+      "ts": "2026-08-19T13:26:13+10:00",
       "rnd": 25
     },
     {
@@ -997,55 +1021,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-18T06:56:47+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.37-3.05",
-      "fixture": "CBR-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Raiders $1.37 → $1.37, Broncos $3.00 → $3.05. Market now 69% Raiders (was 69%).",
-      "pts": null,
-      "ts": "2026-08-18T00:02:37+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-DOL-PAR-line-1.25-4.10",
-      "fixture": "DOL-PAR",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Dolphins $1.25 → $1.25, Eels $4.00 → $4.10. Market now 77% Dolphins (was 76%).",
-      "pts": null,
-      "ts": "2026-08-18T00:02:37+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.37-3.00",
-      "fixture": "CBR-BRI",
-      "team": "CBR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Raiders $1.41 → $1.37, Broncos $2.85 → $3.00. Market now 69% Raiders (was 67%).",
-      "pts": null,
-      "ts": "2026-08-17T20:07:08+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-STI-CAN-line-2.65-1.45",
-      "fixture": "STI-CAN",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $2.68 → $2.65, Bulldogs $1.45 → $1.45. Market now 35% Dragons (was 35%).",
-      "pts": null,
-      "ts": "2026-08-17T20:07:08+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-17T20:07:08+10:00"
+  "changesSince": "2026-08-18T06:56:47+10:00"
 };
