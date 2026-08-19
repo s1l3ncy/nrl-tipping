@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 1.33
         },
         "close": {
-          "home": 2.98,
+          "home": 3.0,
           "away": 1.4
         }
       },
@@ -512,7 +512,7 @@ window.NRL_DATA = {
           "away": 4.0
         },
         "close": {
-          "home": 1.25,
+          "home": 1.24,
           "away": 4.0
         }
       },
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.06,
-          "away": 9.5
+          "away": 9.0
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-19T15:51:31+10:00",
+  "generatedAt": "2026-08-19T19:55:27+10:00",
   "changes": [
     {
       "id": "r25-MAN-inj-joey-walsh",
@@ -648,6 +648,30 @@ window.NRL_DATA = {
       "text": "Wests Tigers: Adam Doueihi (Shoulder) — back Next Season — new on the injury list.",
       "pts": 3.2,
       "ts": "2026-08-18T15:50:11+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-MEL-out-manaia-waitere",
+      "fixture": "MEL-PEN",
+      "team": "MEL",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Manaia Waitere (Centre) is out of the Storm 17.",
+      "pts": 1.2,
+      "ts": "2026-08-19T19:55:27+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-MEL-in-jack-hetherington",
+      "fixture": "MEL-PEN",
+      "team": "MEL",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jack Hetherington (Prop) named in the Storm 17.",
+      "pts": 0.7,
+      "ts": "2026-08-19T19:55:27+10:00",
       "rnd": 25
     },
     {
@@ -708,6 +732,18 @@ window.NRL_DATA = {
       "text": "Panthers: Paul Alamoti (Hamstring) — new on the injury list.",
       "pts": 1.9,
       "ts": "2026-08-18T15:50:11+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-DOL-PAR-line-1.24-4.00",
+      "fixture": "DOL-PAR",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.25 → $1.24, Eels $4.00 → $4.00. Market now 76% Dolphins (was 76%).",
+      "pts": null,
+      "ts": "2026-08-19T19:55:27+10:00",
       "rnd": 25
     },
     {
@@ -1009,31 +1045,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-18T13:13:40+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.36-3.10",
-      "fixture": "CBR-BRI",
-      "team": "CBR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Raiders $1.37 → $1.36, Broncos $3.05 → $3.10. Market now 70% Raiders (was 69%).",
-      "pts": null,
-      "ts": "2026-08-18T06:56:47+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-STI-CAN-line-2.65-1.47",
-      "fixture": "STI-CAN",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Dragons $2.65 → $2.65, Bulldogs $1.45 → $1.47. Market now 36% Dragons (was 35%).",
-      "pts": null,
-      "ts": "2026-08-18T06:56:47+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-18T06:56:47+10:00"
+  "changesSince": "2026-08-18T13:13:40+10:00"
 };
