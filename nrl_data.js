@@ -583,8 +583,8 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.74,
-          "away": 1.46
+          "home": 2.7,
+          "away": 1.47
         }
       },
       "weather": null,
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-21T06:59:52+10:00",
+  "generatedAt": "2026-08-21T07:47:33+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
