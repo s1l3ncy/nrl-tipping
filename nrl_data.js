@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 1.33
         },
         "close": {
-          "home": 3.0,
+          "home": 2.95,
           "away": 1.4
         }
       },
@@ -532,8 +532,8 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.43,
-          "away": 2.8
+          "home": 1.4,
+          "away": 3.0
         }
       },
       "weather": null,
@@ -552,7 +552,7 @@ window.NRL_DATA = {
           "away": 1.61
         },
         "close": {
-          "home": 2.42,
+          "home": 2.41,
           "away": 1.57
         }
       },
@@ -592,7 +592,7 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.72,
+          "home": 2.74,
           "away": 1.46
         }
       },
@@ -612,8 +612,8 @@ window.NRL_DATA = {
           "away": 5.12
         },
         "close": {
-          "home": 1.06,
-          "away": 9.0
+          "home": 1.07,
+          "away": 8.5
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-20T13:15:01+10:00",
+  "generatedAt": "2026-08-20T15:51:56+10:00",
   "changes": [
     {
       "id": "r25-MEL-out-manaia-waitere",
@@ -648,6 +648,54 @@ window.NRL_DATA = {
       "text": "Jack Hetherington (Prop) named in the Storm 17.",
       "pts": 0.7,
       "ts": "2026-08-19T19:55:27+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-MEL-PEN-line-2.95-1.40",
+      "fixture": "MEL-PEN",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Storm $3.00 → $2.95, Panthers $1.40 → $1.40. Market now 32% Storm (was 32%).",
+      "pts": null,
+      "ts": "2026-08-20T15:51:56+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-NEW-MAN-line-1.40-3.00",
+      "fixture": "NEW-MAN",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Knights $1.43 → $1.40, Sea Eagles $2.80 → $3.00. Market now 68% Knights (was 66%).",
+      "pts": null,
+      "ts": "2026-08-20T15:51:56+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-GLD-CRO-line-2.74-1.46",
+      "fixture": "GLD-CRO",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $2.72 → $2.74, Sharks $1.46 → $1.46. Market now 35% Titans (was 35%).",
+      "pts": null,
+      "ts": "2026-08-20T15:51:56+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-SYD-WST-line-1.07-8.50",
+      "fixture": "SYD-WST",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.06 → $1.07, Wests Tigers $9.00 → $8.50. Market now 89% Roosters (was 89%).",
+      "pts": null,
+      "ts": "2026-08-20T15:51:56+10:00",
       "rnd": 25
     },
     {
