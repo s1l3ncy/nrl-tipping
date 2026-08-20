@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.3,
-          "away": 3.55
+          "home": 1.29,
+          "away": 3.6
         }
       },
       "weather": null,
@@ -512,8 +512,8 @@ window.NRL_DATA = {
           "away": 4.0
         },
         "close": {
-          "home": 1.24,
-          "away": 4.0
+          "home": 1.22,
+          "away": 4.3
         }
       },
       "weather": null,
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.44,
+          "home": 1.43,
           "away": 2.8
         }
       },
@@ -552,8 +552,8 @@ window.NRL_DATA = {
           "away": 1.61
         },
         "close": {
-          "home": 2.35,
-          "away": 1.6
+          "home": 2.42,
+          "away": 1.57
         }
       },
       "weather": null,
@@ -592,8 +592,8 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.65,
-          "away": 1.48
+          "home": 2.72,
+          "away": 1.46
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-20T07:13:07+10:00",
+  "generatedAt": "2026-08-20T13:15:01+10:00",
   "changes": [
     {
       "id": "r25-MEL-out-manaia-waitere",
@@ -648,6 +648,54 @@ window.NRL_DATA = {
       "text": "Jack Hetherington (Prop) named in the Storm 17.",
       "pts": 0.7,
       "ts": "2026-08-19T19:55:27+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CBR-BRI-line-1.29-3.60",
+      "fixture": "CBR-BRI",
+      "team": "CBR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Raiders $1.30 → $1.29, Broncos $3.55 → $3.60. Market now 74% Raiders (was 73%).",
+      "pts": null,
+      "ts": "2026-08-20T13:15:01+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-DOL-PAR-line-1.22-4.30",
+      "fixture": "DOL-PAR",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.24 → $1.22, Eels $4.00 → $4.30. Market now 78% Dolphins (was 76%).",
+      "pts": null,
+      "ts": "2026-08-20T13:15:01+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-SOU-NZW-line-2.42-1.57",
+      "fixture": "SOU-NZW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $2.35 → $2.42, Warriors $1.60 → $1.57. Market now 39% Rabbitohs (was 41%).",
+      "pts": null,
+      "ts": "2026-08-20T13:15:01+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-GLD-CRO-line-2.72-1.46",
+      "fixture": "GLD-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $2.65 → $2.72, Sharks $1.48 → $1.46. Market now 35% Titans (was 36%).",
+      "pts": null,
+      "ts": "2026-08-20T13:15:01+10:00",
       "rnd": 25
     },
     {
@@ -757,67 +805,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-19T06:45:10+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.30-3.50",
-      "fixture": "CBR-BRI",
-      "team": "CBR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Raiders $1.31 → $1.30, Broncos $3.50 → $3.50. Market now 73% Raiders (was 73%).",
-      "pts": null,
-      "ts": "2026-08-19T00:09:32+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-GLD-CRO-line-2.65-1.48",
-      "fixture": "GLD-CRO",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Titans $2.60 → $2.65, Sharks $1.48 → $1.48. Market now 36% Titans (was 36%).",
-      "pts": null,
-      "ts": "2026-08-18T21:51:27+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.31-3.50",
-      "fixture": "CBR-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Raiders $1.30 → $1.31, Broncos $3.48 → $3.50. Market now 73% Raiders (was 73%).",
-      "pts": null,
-      "ts": "2026-08-18T19:55:20+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-MAN-line-1.46-2.75",
-      "fixture": "NEW-MAN",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Knights $1.45 → $1.46, Sea Eagles $2.75 → $2.75. Market now 65% Knights (was 65%).",
-      "pts": null,
-      "ts": "2026-08-18T19:55:20+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-GLD-CRO-line-2.60-1.48",
-      "fixture": "GLD-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $2.60 → $2.60, Sharks $1.50 → $1.48. Market now 36% Titans (was 37%).",
-      "pts": null,
-      "ts": "2026-08-18T19:55:20+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-18T19:55:20+10:00"
+  "changesSince": "2026-08-19T06:45:10+10:00"
 };
