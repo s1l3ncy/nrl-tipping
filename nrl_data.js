@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "season": 2026,
   "round": 25,
   "source": "zerotackle.com",
@@ -23,9 +23,9 @@ window.NRL_DATA = {
       "P": 22,
       "W": 16,
       "L": 6,
-      "PF": 605,
-      "PA": 313,
-      "last5": 2,
+      "PF": 621,
+      "PA": 327,
+      "last5": 3,
       "home": {
         "P": 10,
         "W": 8,
@@ -34,11 +34,11 @@ window.NRL_DATA = {
         "PA": 134
       },
       "away": {
-        "P": 11,
-        "W": 7,
+        "P": 12,
+        "W": 8,
         "L": 4,
-        "PF": 313,
-        "PA": 179
+        "PF": 335,
+        "PA": 193
       },
       "news": "Isaah Yeo (Pectoral); Paul Alamoti (Hamstring); Mitch Kenny (Leg) — back Finals"
     },
@@ -283,15 +283,15 @@ window.NRL_DATA = {
       "P": 22,
       "W": 9,
       "L": 13,
-      "PF": 510,
-      "PA": 520,
-      "last5": 2,
+      "PF": 524,
+      "PA": 536,
+      "last5": 1,
       "home": {
-        "P": 11,
+        "P": 12,
         "W": 7,
-        "L": 4,
-        "PF": 308,
-        "PA": 252
+        "L": 5,
+        "PF": 322,
+        "PA": 274
       },
       "away": {
         "P": 10,
@@ -463,9 +463,9 @@ window.NRL_DATA = {
     {
       "home": "MEL",
       "away": "PEN",
-      "venue": "",
+      "venue": "AAMI Park",
       "city": "Melbourne",
-      "kickoff": "",
+      "kickoff": "2026-08-20T19:50:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -503,7 +503,7 @@ window.NRL_DATA = {
           "away": 4.0
         },
         "close": {
-          "home": 1.21,
+          "home": 1.2,
           "away": 4.5
         }
       },
@@ -583,8 +583,8 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.74,
-          "away": 1.46
+          "home": 2.7,
+          "away": 1.47
         }
       },
       "weather": null,
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-20T20:05:02+10:00",
+  "generatedAt": "2026-08-21T00:21:10+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -915,6 +915,30 @@ window.NRL_DATA = {
       "text": "Jack Hetherington (Prop) named in the Storm 17.",
       "pts": 0.7,
       "ts": "2026-08-19T19:55:27+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-DOL-PAR-line-1.20-4.50",
+      "fixture": "DOL-PAR",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.21 → $1.20, Eels $4.50 → $4.50. Market now 79% Dolphins (was 79%).",
+      "pts": null,
+      "ts": "2026-08-21T00:21:10+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-GLD-CRO-line-2.70-1.47",
+      "fixture": "GLD-CRO",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $2.74 → $2.70, Sharks $1.46 → $1.47. Market now 35% Titans (was 35%).",
+      "pts": null,
+      "ts": "2026-08-21T00:21:10+10:00",
       "rnd": 25
     },
     {
