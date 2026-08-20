@@ -1,10 +1,10 @@
 # Round 25 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-21T00:20:42. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-21T03:51:14. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (77 book quotes across 7 fixtures).
 Raiders v Broncos: 1.29 / 3.60
-Dolphins v Eels: 1.20 / 4.50
+Dolphins v Eels: 1.20 / 4.60
 Knights v Sea Eagles: 1.40 / 2.95
 Rabbitohs v Warriors: 2.41 / 1.57
 Dragons v Bulldogs: 2.72 / 1.46
-Titans v Sharks: 2.70 / 1.47
+Titans v Sharks: 2.74 / 1.46
 Roosters v Wests Tigers: 1.08 / 8.00
