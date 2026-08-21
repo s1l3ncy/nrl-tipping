@@ -89,6 +89,18 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-21** (full detail in `docs/CHANGELOG.md`):
+- **Freeze/browser tip divergence fixed: `freeze_tips.mjs` now inlines the prior
+  committed `nrl_tiplog.js` into its jsdom page** like the other data files. It used
+  to strip it ("independent of its own output", 2026-08-08) — but the simulator
+  reads the tiplog (`gradedTip()` → is the perfect-round +2 alive on resolved games;
+  the incumbency tie-break), so from a round's first result the freeze priced splits
+  on wrong inputs, froze a different tip than every browser showed, and announced
+  its own artefact as a flip (R25 SOU–NZW: feed said "now Warriors", Tips page said
+  Rabbitohs — the Tips page was right). Merge still reads the committed file from
+  disk; no feedback loop. Script-only change: no HTML edit, no `sw.js` bump, model
+  untouched. See GOTCHAS "The freeze must LOAD the prior tiplog".
+
 **Changed 2026-08-18** (full detail in `docs/CHANGELOG.md`):
 - **iOS 62px dead strip fixed: `viewport-fit=cover` removed** (WebKit bug 301994 —
   with cover, iOS 26.5.2+/26.6 sizes the standalone view 62px short and top-anchors

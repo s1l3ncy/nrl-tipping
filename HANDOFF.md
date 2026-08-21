@@ -116,6 +116,14 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 *(Reviewed 2026-08-13 — three batches in one day; the night batch is the big one.)*
 
+- **2026-08-21: the freeze loads the prior tiplog.** `freeze_tips.mjs` now inlines
+  the committed `nrl_tiplog.js` into its jsdom page — the simulator reads the tiplog
+  (perfect-round-alive via `gradedTip()`, plus the incumbency tie-break), so the old
+  "strip it for independence" behaviour made the freeze compute different tips than
+  every browser once a round had its first result (R25 SOU–NZW: What's new announced
+  "now Warriors" while the Tips page correctly showed the Rabbitohs split). Script
+  fix only; GOTCHAS "The freeze must LOAD the prior tiplog".
+
 - **2026-08-15: the simulator prices the +2 perfect-round bonus in the current
   round** (you + rivals, alive-aware of games already played), fixes your
   unlocked-Roosters pick (you always tip the lock), adds **top 4** to the
