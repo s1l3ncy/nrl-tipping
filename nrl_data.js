@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-21",
+  "updated": "2026-08-22",
   "season": 2026,
   "round": 25,
   "source": "zerotackle.com",
@@ -99,17 +99,17 @@ window.NRL_DATA = {
       "short": "DOL",
       "colour": "#ee3524",
       "P": 22,
-      "W": 14,
-      "L": 8,
-      "PF": 578,
-      "PA": 464,
-      "last5": 4,
+      "W": 15,
+      "L": 7,
+      "PF": 612,
+      "PA": 474,
+      "last5": 5,
       "home": {
-        "P": 11,
-        "W": 7,
+        "P": 12,
+        "W": 8,
         "L": 4,
-        "PF": 310,
-        "PA": 299
+        "PF": 344,
+        "PA": 315
       },
       "away": {
         "P": 10,
@@ -326,17 +326,17 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 314
       },
-      "news": "Zac Hosking (Hamstring); Noah Martin (Quad) — back Round 26; Morgan Smithies (Head knock) — back Round 26; Hudson Young (Achilles) — back Next Season"
+      "news": "Zac Hosking (Hamstring); Morgan Smithies (Head knock) — back Round 26; Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Eels",
       "short": "PAR",
       "colour": "#006eb5",
       "P": 22,
-      "W": 9,
-      "L": 13,
-      "PF": 427,
-      "PA": 602,
+      "W": 8,
+      "L": 14,
+      "PF": 437,
+      "PA": 636,
       "last5": 2,
       "home": {
         "P": 11,
@@ -346,13 +346,13 @@ window.NRL_DATA = {
         "PA": 296
       },
       "away": {
-        "P": 10,
+        "P": 11,
         "W": 3,
-        "L": 7,
-        "PF": 201,
-        "PA": 306
+        "L": 8,
+        "PF": 217,
+        "PA": 340
       },
-      "news": "Dylan Walker (Wrist) — back Round 26; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
+      "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -485,9 +485,9 @@ window.NRL_DATA = {
     {
       "home": "DOL",
       "away": "PAR",
-      "venue": "",
+      "venue": "Suncorp Stadium",
       "city": "Brisbane",
-      "kickoff": "",
+      "kickoff": "2026-08-21T20:00:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -505,8 +505,8 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.41,
-          "away": 2.9
+          "home": 1.4,
+          "away": 3.0
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-21T20:16:18+10:00",
+  "generatedAt": "2026-08-22T00:10:23+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -633,6 +633,18 @@ window.NRL_DATA = {
       "text": "Blaize Talagi (Five-eighth) is out of the Panthers 17.",
       "pts": 2.9,
       "ts": "2026-08-20T20:00:01+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-PAR-inj-jordan-samrani",
+      "fixture": "DOL-PAR",
+      "team": "PAR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Eels: Jordan Samrani (Groin) — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-22T00:10:23+10:00",
       "rnd": 25
     },
     {
