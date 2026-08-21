@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-22T00:10:23+10:00",
+  "generatedAt": "2026-08-22T03:50:45+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -1126,55 +1126,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-20T15:51:56+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.29-3.60",
-      "fixture": "CBR-BRI",
-      "team": "CBR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Raiders $1.30 → $1.29, Broncos $3.55 → $3.60. Market now 74% Raiders (was 73%).",
-      "pts": null,
-      "ts": "2026-08-20T13:15:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-DOL-PAR-line-1.22-4.30",
-      "fixture": "DOL-PAR",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.24 → $1.22, Eels $4.00 → $4.30. Market now 78% Dolphins (was 76%).",
-      "pts": null,
-      "ts": "2026-08-20T13:15:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-SOU-NZW-line-2.42-1.57",
-      "fixture": "SOU-NZW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $2.35 → $2.42, Warriors $1.60 → $1.57. Market now 39% Rabbitohs (was 41%).",
-      "pts": null,
-      "ts": "2026-08-20T13:15:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-GLD-CRO-line-2.72-1.46",
-      "fixture": "GLD-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $2.65 → $2.72, Sharks $1.48 → $1.46. Market now 35% Titans (was 36%).",
-      "pts": null,
-      "ts": "2026-08-20T13:15:01+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-20T13:15:01+10:00"
+  "changesSince": "2026-08-20T15:51:56+10:00"
 };
