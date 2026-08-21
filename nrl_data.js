@@ -503,8 +503,8 @@ window.NRL_DATA = {
           "away": 4.0
         },
         "close": {
-          "home": 1.2,
-          "away": 4.6
+          "home": 1.21,
+          "away": 4.5
         }
       },
       "weather": null,
@@ -563,8 +563,8 @@ window.NRL_DATA = {
           "away": 1.42
         },
         "close": {
-          "home": 2.72,
-          "away": 1.46
+          "home": 2.7,
+          "away": 1.47
         }
       },
       "weather": null,
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-21T07:47:33+10:00",
+  "generatedAt": "2026-08-21T13:24:30+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -894,27 +894,15 @@ window.NRL_DATA = {
       "rnd": 25
     },
     {
-      "id": "r25-MEL-out-manaia-waitere",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Manaia Waitere (Centre) is out of the Storm 17.",
-      "pts": 1.2,
-      "ts": "2026-08-19T19:55:27+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MEL-in-jack-hetherington",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "in",
-      "sev": 2,
+      "id": "r25-STI-CAN-line-2.70-1.47",
+      "fixture": "STI-CAN",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Jack Hetherington (Prop) named in the Storm 17.",
-      "pts": 0.7,
-      "ts": "2026-08-19T19:55:27+10:00",
+      "text": "Line moved — Dragons $2.72 → $2.70, Bulldogs $1.46 → $1.47. Market now 35% Dragons (was 35%).",
+      "pts": null,
+      "ts": "2026-08-21T13:24:30+10:00",
       "rnd": 25
     },
     {
@@ -1096,43 +1084,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-20T06:57:15+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.30-3.55",
-      "fixture": "CBR-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Raiders $1.30 → $1.30, Broncos $3.50 → $3.55. Market now 73% Raiders (was 73%).",
-      "pts": null,
-      "ts": "2026-08-20T00:09:26+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-STI-CAN-line-2.72-1.46",
-      "fixture": "STI-CAN",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $2.65 → $2.72, Bulldogs $1.48 → $1.46. Market now 35% Dragons (was 36%).",
-      "pts": null,
-      "ts": "2026-08-20T00:09:26+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-DOL-PAR-line-1.24-4.00",
-      "fixture": "DOL-PAR",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.25 → $1.24, Eels $4.00 → $4.00. Market now 76% Dolphins (was 76%).",
-      "pts": null,
-      "ts": "2026-08-19T19:55:27+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-19T19:55:27+10:00"
+  "changesSince": "2026-08-20T06:57:15+10:00"
 };
