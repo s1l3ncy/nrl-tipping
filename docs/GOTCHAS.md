@@ -333,6 +333,13 @@ Real problems encountered on this project and how to avoid repeating them.
   verbatim; it never computes its own flips (a browser comparing an old
   in-memory tip against a refreshed one would duplicate the pipeline's record
   or invent flips from partial data).
+- **The feed shows only the LATEST flip per game (2026-08-21)** — `chgList()`
+  dedupes on the unordered pair, newest `ts` wins; the full history stays in
+  `nrl_tiplog.js`. Don't "restore" the older rows: two flips for one game in
+  the window read as contradictory headlines (seen live on R25 SOU–NZW, where
+  the divergence artefact and its correction coexisted — and the OLDER one
+  sorted on top because same-sev/same-cat rows had no time tie-break; both
+  group sorts now end `chgTs(b)-chgTs(a)`).
 - **`contentStamp()` must include the flips** (count + last ts) or a refresh
   that only delivered a flip won't re-render and the feed stays stale.
 

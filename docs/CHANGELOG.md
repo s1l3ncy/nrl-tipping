@@ -5,6 +5,33 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-21 (later) — What's new shows only the LATEST tip flip per game
+
+Direct follow-up to the freeze fix below, caught by Josh on his phone within the
+hour: the corrective flip ("now Rabbitohs — was Warriors") joined the feed while
+the artefact it corrected ("now Warriors — was Rabbitohs") was still inside the
+36h window — and the feed showed BOTH, with the **older one on top**. Two causes,
+both display-side in `nrl-tipping-guide.html`:
+
+1. **The feed never collapsed superseded flips.** Every recorded flip inside the
+   window rendered as its own row. Legitimate for independent updates; nonsense
+   for flips, which supersede each other by definition — two rows read as two
+   contradictory headlines. `chgList()` now keeps only the **latest flip per
+   game** (dedup key = unordered pair, same rule as grading, since a run can
+   flip home/away orientation). The full history remains in `nrl_tiplog.js` —
+   this is display policy, not data policy. Josh's call: "it should just show
+   one".
+2. **Same-severity rows had no time tie-break.** Group rows sorted
+   `(sev desc, category)` only, so two same-category rows kept file order —
+   which for flips is append order, oldest first. Both group sorts (Today +
+   Earlier) now end with `chgTs(b)-chgTs(a)`: newest first. Rows with no `ts`
+   sort oldest within their category (they're already counted as "today"
+   elsewhere; an undatable row shouldn't outrank a dated one).
+
+Front-end only: `predict()`/`tipSide()`/the freeze untouched (the smoke boot
+confirms zero tip changes), pipeline untouched. The Today badge count drops when
+a superseded flip is hidden — intended. `sw.js` CACHE v20 → v21.
+
 ## 2026-08-21 — The freeze now loads the prior tiplog: freeze/browser tip divergence fixed (R25 SOU–NZW)
 
 Josh caught it from the app itself: **What's new said "Tip changed: now Warriors" while

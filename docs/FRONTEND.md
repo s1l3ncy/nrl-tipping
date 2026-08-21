@@ -250,6 +250,16 @@ and the card badge use the gold lock colour (`c-tip`/`b-tip`) — with text like
 the flip-time `whySummary()`, plain-texted). `contentStamp()` includes
 `FLIPS.length` + last flip ts so a refresh carrying a new flip re-renders.
 
+**Only the LATEST flip per game renders (2026-08-21).** Flips supersede each
+other, so `chgList()` dedupes them on the unordered team pair and keeps the
+newest by `ts` — two flips for one game read as contradictory headlines (seen
+live when the freeze-divergence artefact and its correction shared the window).
+The full history stays in `nrl_tiplog.js`. Group rows also carry a time
+tie-break now: both group sorts are `(sev desc, CHG_ORDER, chgTs desc)` so
+same-category rows run newest-first; no-`ts` rows sort oldest within their
+category. Don't remove the tie-break "because rows have categories" — same-cat
+collisions are exactly the flip case.
+
 ### What's new screen (redesigned 2026-08-04)
 
 `#scr-new` now holds: a `#newMeta` status line ("Checked {time} · updates roughly
