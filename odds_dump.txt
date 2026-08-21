@@ -1,5 +1,5 @@
 # Round 25 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-21T13:33:18. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-21T13:49:18. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (77 book quotes across 7 fixtures).
 Raiders v Broncos: 1.29 / 3.60
 Dolphins v Eels: 1.21 / 4.50
