@@ -28,7 +28,8 @@ import { JSDOM } from 'jsdom';
 
 const PAGE = 'nrl-tipping-guide.html';
 const OUT  = 'nrl_tiplog.js';
-const DATA = ['nrl_data.js', 'nrl_learned.js', 'nrl_players.js', 'nrl_lineups.js', 'nrl_comp.js'];
+const DATA = ['nrl_data.js', 'nrl_learned.js', 'nrl_players.js', 'nrl_lineups.js', 'nrl_comp.js',
+              'nrl_tiplog.js'];   // the PRIOR committed tiplog — see the note in main()
 
 function readTiplog() {
   try {
@@ -49,9 +50,18 @@ function main() {
     const body = fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '';
     html = html.replace(tag, `<script>${body}</script>`);
   }
-  // The tip log itself must NOT load into this evaluation (it isn't needed and
-  // keeps the freeze independent of its own output).
-  html = html.replace(/<script src="nrl_tiplog\.js"><\/script>/, '');
+  // The PRIOR committed tiplog now LOADS into the evaluation (2026-08-21;
+  // until then it was stripped "to keep the freeze independent of its own
+  // output" — a rationale from 2026-08-08 that the comp simulator has since
+  // invalidated). simComp() reads the tiplog through gradedTip() (is my
+  // perfect-round +2 still alive on this round's already-resolved games?) and
+  // through the incumbency tie-break (frozen splits stay armed). Without it,
+  // the freeze modelled the bonus as dead from a round's first result onward
+  // and priced splits differently from every real browser — R25 SOU–NZW froze
+  // the straight favourite while the site showed the split, and a phantom
+  // "tip changed" flip announced it. Loading the prior copy is exactly what a
+  // browser sees pre-run, and the merge below still reads the committed file
+  // from disk independently, so the freeze cannot feed back into itself.
 
   const dom = new JSDOM(html, {
     url: 'https://localhost/', runScripts: 'dangerously', pretendToBeVisual: true,
