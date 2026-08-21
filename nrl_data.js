@@ -506,7 +506,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 3.0
+          "away": 2.95
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-22T03:50:45+10:00",
+  "generatedAt": "2026-08-22T06:46:03+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -1078,55 +1078,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-20T20:00:01+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-MEL-PEN-line-2.95-1.40",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Storm $3.00 → $2.95, Panthers $1.40 → $1.40. Market now 32% Storm (was 32%).",
-      "pts": null,
-      "ts": "2026-08-20T15:51:56+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-MAN-line-1.40-3.00",
-      "fixture": "NEW-MAN",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.43 → $1.40, Sea Eagles $2.80 → $3.00. Market now 68% Knights (was 66%).",
-      "pts": null,
-      "ts": "2026-08-20T15:51:56+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-GLD-CRO-line-2.74-1.46",
-      "fixture": "GLD-CRO",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Titans $2.72 → $2.74, Sharks $1.46 → $1.46. Market now 35% Titans (was 35%).",
-      "pts": null,
-      "ts": "2026-08-20T15:51:56+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-SYD-WST-line-1.07-8.50",
-      "fixture": "SYD-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.06 → $1.07, Wests Tigers $9.00 → $8.50. Market now 89% Roosters (was 89%).",
-      "pts": null,
-      "ts": "2026-08-20T15:51:56+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-20T15:51:56+10:00"
+  "changesSince": "2026-08-20T20:00:01+10:00"
 };
