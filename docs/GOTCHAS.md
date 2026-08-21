@@ -196,6 +196,31 @@ Real problems encountered on this project and how to avoid repeating them.
   match it. `Math.max()` is still correct for CONFIDENCE RANKING (how certain a
   game is), just never as the number shown next to the tip.
 
+## The freeze must LOAD the prior tiplog — it is a simulator INPUT (2026-08-21)
+
+- **`freeze_tips.mjs` inlines `nrl_tiplog.js` (the prior committed copy) into the
+  jsdom page like every other data file. Never re-strip it** "to keep the freeze
+  independent of its own output" — that was the original 2026-08-08 rationale, and
+  it silently broke the moment the simulator started reading the tiplog:
+  `myResolvedOK` (is my perfect round still alive?) goes through `gradedTip()` →
+  `tiplogFind()`, and the incumbency tie-break reads `tiplogFind()` directly. A
+  tiplog-less jsdom run models the +2 as dead from a round's first result onward
+  and has no incumbency at all — so from the first Thursday-night result to the
+  round's end, every freeze priced splits with different inputs from every real
+  browser, froze a different tip, and announced its own artefact as a "Tip
+  changed" flip (R25 SOU–NZW: freeze said NZW, every browser said SOU).
+- **The independence worry is handled elsewhere**: the merge step reads the
+  committed `nrl_tiplog.js` from DISK (`readTiplog()`), not from the page, and
+  frozen entries never change post-kickoff. Loading the prior tiplog is exactly
+  what a browser sees pre-run — that's the determinism invariant, not a violation
+  of it. Incumbency then makes frozen splits a fixed point across runs instead of
+  a browser-only behaviour.
+- **Symptom to recognise**: What's new announces a flip that the Tips page
+  doesn't show (or vice versa) while `nrl_data.js`/`nrl_comp.js` are identical.
+  Before blaming cache, diff the sim's tiplog-dependent inputs: emulate the
+  freeze in the page console with `TIPLOG=[]; SNAPS={}; COMP_PLAN=null` and
+  recompute `compPlan()` — if the splits change, it's this class of bug.
+
 ## The comp simulator — perfect-round bonus & the top-4 objective (2026-08-15)
 
 - **The +2 perfect-round bonus is modelled for the current round ONLY while it

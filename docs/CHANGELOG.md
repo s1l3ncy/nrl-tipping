@@ -5,6 +5,54 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-08-21 — The freeze now loads the prior tiplog: freeze/browser tip divergence fixed (R25 SOU–NZW)
+
+Josh caught it from the app itself: **What's new said "Tip changed: now Warriors" while
+the Tips page said Rabbitohs.** Both were telling the truth about their own source —
+which is the bug. The frozen tiplog (pipeline) and the live page (browser) were
+computing **different tips from identical data files**, violating the determinism rule
+the whole 2026-08-10 rebuild was built on ("everything the tip depends on ships in
+data files"; browser == freeze byte-for-byte).
+
+**Root cause.** `freeze_tips.mjs` has stripped `nrl_tiplog.js` out of the page it
+evaluates since it was written (2026-08-08): *"it isn't needed and keeps the freeze
+independent of its own output."* True then — but the comp simulator (2026-08-13) and
+the perfect-round bonus (2026-08-15) made the tiplog a genuine **input**:
+
+1. `simComp()`'s `myResolvedOK` asks, via `gradedTip()`, whether Josh's tips on the
+   current round's already-resolved games were right — i.e. whether his +2 perfect
+   round is still alive. `gradedTip()` reads tiplog → snapshot → lock. In jsdom there
+   is no tiplog and no localStorage snapshot, so from a round's FIRST result onward
+   the freeze modelled Josh's bonus as **already dead** while every real browser knew
+   it was alive. Under those different inputs the (deterministic, same-seed) simulator
+   legitimately picks different split sets.
+2. The **incumbency tie-break** ("splits already frozen in the tiplog stay armed",
+   the anti-churn rule) reads `tiplogFind()` — which meant it had NEVER actually run
+   inside the freeze, the one place that writes the record it was meant to stabilise.
+   It only ever worked in browsers.
+
+**How it presented.** PEN beat MEL Thursday night (R25's first result; Josh's frozen
+tip PEN — correct, bonus alive). The next freeze (00:21 Fri) — blind to that — priced
+the SOU–NZW chase split as not worth it, flipped the frozen tip SOU → NZW (60%), and
+recorded the flip that led What's new. Browsers, seeing the tiplog, kept arming the
+SOU split (util 0.073) — so the Tips page kept saying Rabbitohs. Reproduced exactly
+on the live site by emulating the freeze in the page console: `TIPLOG=[]; SNAPS={};
+COMP_PLAN=null` → the identical data produced "no split → NZW"; restored → "split →
+SOU".
+
+**The fix** (`freeze_tips.mjs` only — no HTML change, no cache bump, model/pipeline
+untouched): `nrl_tiplog.js` moved into the `DATA` inline list, so the jsdom page
+loads the **prior committed tiplog** — exactly what a real browser has pre-run. The
+merge logic still reads the committed file from disk separately, so the freeze does
+not feed back into itself; and the incumbency tie-break makes any frozen split a
+fixed point (freeze with tiplog *n* writes tiplog *n+1* carrying the same split, so
+browsers reading *n+1* agree). First run after deploy re-freezes SOU with an honest
+flip entry ("was NZW") before Saturday's 17:30 kick-off.
+
+**Scope note:** the stale "tip changed to Warriors" flip was a freeze artefact, not a
+model opinion — NZW remains the blended favourite (60/40) and SOU remains the
+machine's chase-mode split. Only the freeze's copy of the decision was wrong.
+
 ## 2026-08-18 — iOS 62px dead strip fixed: `viewport-fit=cover` removed (WebKit bug 301994)
 
 The app's standalone home-screen container on iOS was broken and nobody could see it:

@@ -200,7 +200,10 @@ Sane ranges enforced by the validator: `homeAdv ∈ [-5,20]`, `logisticScale ∈
 ```
 The **official pre-kick-off tip** per game, frozen by `freeze_tips.mjs` (workflow,
 after `learn_model.py`): it runs the real `nrl-tipping-guide.html` + fresh data in
-jsdom and records `tipSide(predict(fx))` — plus the tipped side's blended win %
+jsdom — **including the PRIOR committed `nrl_tiplog.js`** (2026-08-21: the comp
+simulator reads the tiplog via `gradedTip()` and the incumbency tie-break, so a
+tiplog-less page computes different tips than real browsers; see `GOTCHAS.md` "The
+freeze must LOAD the prior tiplog") — and records `tipSide(predict(fx))` — plus the tipped side's blended win %
 (`prob`) and a plain-text `whySummary()` (`why`) — for every game whose kick-off is
 still in the future. Last pre-kick-off run wins; entries never change after
 kick-off, **including when the feed blanks a fixture's kickoff mid-game** (nrl.com
