@@ -483,8 +483,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.29,
-          "away": 3.6
+          "home": 1.3,
+          "away": 3.5
         }
       },
       "weather": null,
@@ -503,7 +503,7 @@ window.NRL_DATA = {
           "away": 4.0
         },
         "close": {
-          "home": 1.21,
+          "home": 1.2,
           "away": 4.5
         }
       },
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-21T13:49:45+10:00",
+  "generatedAt": "2026-08-21T15:53:08+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -891,6 +891,18 @@ window.NRL_DATA = {
       "text": "Luke Garner (Second-row) named in the Panthers 17.",
       "pts": 1.8,
       "ts": "2026-08-20T20:00:01+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CBR-BRI-line-1.30-3.50",
+      "fixture": "CBR-BRI",
+      "team": "BRI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Raiders $1.29 → $1.30, Broncos $3.60 → $3.50. Market now 73% Raiders (was 74%).",
+      "pts": null,
+      "ts": "2026-08-21T15:53:08+10:00",
       "rnd": 25
     },
     {
