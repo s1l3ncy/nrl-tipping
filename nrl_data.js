@@ -92,17 +92,17 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 170
       },
-      "news": "Te Maire Martin (Hamstring) — back Round 26; Charnze Nicoll-Klokstad (Suspension) — back Round 27; Jackson Ford (Pectoral) — back Finals; Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Te Maire Martin (Hamstring) — back Round 26; Charnze Nicoll-Klokstad (Suspension) — back Round 27; Luke Metcalf (Hamstring) — back Finals; Jackson Ford (Pectoral) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Dolphins",
       "short": "DOL",
       "colour": "#ee3524",
-      "P": 21,
+      "P": 22,
       "W": 14,
-      "L": 7,
+      "L": 8,
       "PF": 578,
-      "PA": 458,
+      "PA": 464,
       "last5": 4,
       "home": {
         "P": 11,
@@ -222,7 +222,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Tom Dearden (Ankle) — back Round 26; Jeremiah Nanai (Hamstring) — back Round 26"
+      "news": "Jeremiah Nanai (Hamstring) — back Round 26; Tom Dearden (Ankle) — back Round 26"
     },
     {
       "name": "Bulldogs",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Jethro Rinakama (Knee); Samuel Hughes (Neck); Sitili Tupouniua (Hamstring)"
+      "news": "Sitili Tupouniua (Hamstring); Samuel Hughes (Neck); Jethro Rinakama (Knee)"
     },
     {
       "name": "Sea Eagles",
@@ -326,16 +326,16 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 314
       },
-      "news": "Morgan Smithies (Head knock) — back Round 26; Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
+      "news": "Zac Hosking (Hamstring); Noah Martin (Quad) — back Round 26; Morgan Smithies (Head knock) — back Round 26; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Eels",
       "short": "PAR",
       "colour": "#006eb5",
-      "P": 21,
-      "W": 8,
+      "P": 22,
+      "W": 9,
       "L": 13,
-      "PF": 421,
+      "PF": 427,
       "PA": 602,
       "last5": 2,
       "home": {
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season"
     },
     {
       "name": "Titans",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Dean Ieremia (Hamstring); Brock Gray (ACL); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
+      "news": "Dean Ieremia (Hamstring); Brock Gray (ACL); Josh Patston (Head knock) — back Round 26; Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -477,16 +477,7 @@ window.NRL_DATA = {
       "venue": "GIO Stadium",
       "city": "Canberra",
       "kickoff": "2026-08-21T18:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.43,
-          "away": 2.8
-        },
-        "close": {
-          "home": 8.75,
-          "away": 1.05
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -494,19 +485,10 @@ window.NRL_DATA = {
     {
       "home": "DOL",
       "away": "PAR",
-      "venue": "Suncorp Stadium",
+      "venue": "",
       "city": "Brisbane",
-      "kickoff": "2026-08-21T20:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.25,
-          "away": 4.0
-        },
-        "close": {
-          "home": 1.2,
-          "away": 4.7
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Brisbane"
@@ -615,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-21T20:00:36+10:00",
+  "generatedAt": "2026-08-21T20:16:18+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
@@ -651,6 +633,18 @@ window.NRL_DATA = {
       "text": "Blaize Talagi (Five-eighth) is out of the Panthers 17.",
       "pts": 2.9,
       "ts": "2026-08-20T20:00:01+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CBR-inj-zac-hosking",
+      "fixture": "CBR-BRI",
+      "team": "CBR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Raiders: Zac Hosking (Hamstring) — new on the injury list.",
+      "pts": 1.8,
+      "ts": "2026-08-21T20:16:18+10:00",
       "rnd": 25
     },
     {
