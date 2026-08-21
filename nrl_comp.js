@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 25,
  "finishRound": 31,
- "fetched": "2026-08-21T05:53:00+00:00",
+ "fetched": "2026-08-21T10:00:25+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -86,7 +86,9 @@ window.NRL_COMP = {
    "totalScore": 118,
    "totalMargin": 422,
    "picks": {
-    "MEL-PEN": "PEN"
+    "MEL-PEN": "PEN",
+    "BRI-CBR": "CBR",
+    "DOL-PAR": "DOL"
    }
   },
   {
@@ -168,7 +170,9 @@ window.NRL_COMP = {
    "totalScore": 117,
    "totalMargin": 440,
    "picks": {
-    "MEL-PEN": "PEN"
+    "MEL-PEN": "PEN",
+    "BRI-CBR": "CBR",
+    "DOL-PAR": "DOL"
    }
   },
   {
@@ -249,7 +253,10 @@ window.NRL_COMP = {
    "roundScore": 0,
    "totalScore": 116,
    "totalMargin": 457,
-   "picks": {}
+   "picks": {
+    "BRI-CBR": "CBR",
+    "DOL-PAR": "DOL"
+   }
   },
   {
    "name": "Jake",
@@ -330,7 +337,9 @@ window.NRL_COMP = {
    "totalScore": 115,
    "totalMargin": 436,
    "picks": {
-    "MEL-PEN": "PEN"
+    "MEL-PEN": "PEN",
+    "BRI-CBR": "CBR",
+    "DOL-PAR": "DOL"
    }
   },
   {
@@ -412,7 +421,9 @@ window.NRL_COMP = {
    "totalScore": 106,
    "totalMargin": 455,
    "picks": {
-    "MEL-PEN": "PEN"
+    "MEL-PEN": "PEN",
+    "BRI-CBR": "CBR",
+    "DOL-PAR": "DOL"
    }
   },
   {
@@ -494,7 +505,9 @@ window.NRL_COMP = {
    "totalScore": 99,
    "totalMargin": 487,
    "picks": {
-    "MEL-PEN": "PEN"
+    "MEL-PEN": "PEN",
+    "BRI-CBR": "CBR",
+    "DOL-PAR": "DOL"
    }
   }
  ]
