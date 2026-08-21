@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-21T13:33:41+10:00",
+  "generatedAt": "2026-08-21T13:49:45+10:00",
   "changes": [
     {
       "id": "r25-NEW-inj-dylan-brown",
