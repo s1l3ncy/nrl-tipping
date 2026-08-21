@@ -2682,6 +2682,10 @@ const CHG_CAT = {
   other:  {g:'•', cls:'c-misc', badge:'',       noun:['other update','other updates']}
 };
 const CHG_ORDER = {tip:-1,out:0,in:1,injury:2,time:3,venue:4,line:5,other:6};
+/* Timestamp for display sorting (2026-08-21): same-severity, same-category rows
+   order newest-first. No ts (counted as "today" elsewhere) sorts oldest here —
+   a dated row always beats an undatable one for the top of a group. */
+function chgTs(c){ const t=Date.parse(c.ts||''); return isNaN(t)?0:t; }
 function chgCat(c){ return CHG_CAT[c] || CHG_CAT.other; }
 function fxKey(f){ return f.home+'-'+f.away; }
 function chgList(){
@@ -2703,10 +2707,22 @@ function chgList(){
   // Tip changes (2026-08-08): freeze_tips.mjs records every pre-kick-off tip
   // flip in nrl_tiplog.js. They join the feed as sev-3 'tip' entries — the
   // most important update the app can deliver — same rolling 36h window.
+  // Only the LATEST flip per game is shown (2026-08-21, Josh's call): when a
+  // flip is superseded — e.g. the freeze-divergence artefact "now Warriors"
+  // followed hours later by the correction "now Rabbitohs" — showing both
+  // reads as two contradictory headlines. The feed answers "where does the
+  // tip stand NOW"; the full flip history stays in nrl_tiplog.js. Dedup key
+  // is the unordered pair (orientation can flip between runs, 2026-08-04).
   const cut=Date.now()-36*3600000;
-  (Array.isArray(FLIPS)?FLIPS:[]).forEach((f,i)=>{
+  const lastFlip={};
+  (Array.isArray(FLIPS)?FLIPS:[]).forEach(f=>{
     if(!f || f.season!==SRC.season || f.round!==SRC.round) return;
     const t=Date.parse(f.ts||''); if(!isNaN(t)&&t<cut) return;
+    const k=[f.home,f.away].sort().join('-');
+    const prev=lastFlip[k];
+    if(!prev || chgTs(f)>=chgTs(prev)) lastFlip[k]=f;   // ties: later in file wins
+  });
+  Object.values(lastFlip).forEach((f,i)=>{
     const to=T(f.to), from=T(f.from);
     if(!to) return;
     let txt=`Tip changed: now ${to.name}`+(typeof f.toProb==='number'?` (${Math.round(f.toProb)}%)`:'')
@@ -2817,7 +2833,7 @@ function renderChanges(){
     earlier.forEach(c=>{ const key=c.fx||'__round'; (eg[key]||(eg[key]=[])).push(c); });
     earlierHTML=`<details class="chgearlier"><summary>Earlier · ${earlier.length} update${earlier.length===1?'':'s'}</summary>`+
       sortKeys(eg).map(key=>{
-        const rows=eg[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat])
+        const rows=eg[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat] || chgTs(b)-chgTs(a))
           .map(c=>Object.assign({},c,{sev:Math.min(c.sev,2)}));
         return groupHTML(key,rows,'chg-early-');
       }).join('')+`</details>`;
@@ -2848,7 +2864,7 @@ function renderChanges(){
   const CHG_COMPACT_ROWS = 8;
   let shown=0; const compactParts=[], moreParts=[]; let moreRows=0;
   keys.forEach(key=>{
-    const list=groups[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat]);
+    const list=groups[key].sort((a,b)=> b.sev-a.sev || CHG_ORDER[a.cat]-CHG_ORDER[b.cat] || chgTs(b)-chgTs(a));
     const room=Math.max(0, CHG_COMPACT_ROWS-shown);
     const head=list.slice(0,room), tail=list.slice(room);
     if(head.length){ compactParts.push(groupHTML(key,head,'chg-')); shown+=head.length; }

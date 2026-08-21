@@ -116,6 +116,12 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 *(Reviewed 2026-08-13 — three batches in one day; the night batch is the big one.)*
 
+- **2026-08-21 (later): the feed shows one flip per game.** `chgList()` keeps
+  only the newest flip per game (unordered-pair dedupe; history stays in
+  `nrl_tiplog.js`) and the feed's group sorts break same-severity ties
+  newest-first (`chgTs`) — the two R25 SOU–NZW flips had rendered together,
+  older on top. Front-end only; `sw.js` v21.
+
 - **2026-08-21: the freeze loads the prior tiplog.** `freeze_tips.mjs` now inlines
   the committed `nrl_tiplog.js` into its jsdom page — the simulator reads the tiplog
   (perfect-round-alive via `gradedTip()`, plus the incumbency tie-break), so the old

@@ -89,6 +89,14 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone.
 
+**Changed 2026-08-21, later batch** (full detail in `docs/CHANGELOG.md`):
+- **What's new shows only the LATEST tip flip per game** (Josh: "it should just
+  show one") — `chgList()` dedupes flips on the unordered pair, newest `ts` wins;
+  the full history stays in `nrl_tiplog.js`. Both feed group sorts gained a
+  newest-first time tie-break (`chgTs`) — same-sev/same-cat rows used to keep
+  file order, which put the OLDER of two flips on top. Front-end only, tips
+  untouched. `sw.js` CACHE v21. See GOTCHAS "Tip flips in the feed".
+
 **Changed 2026-08-21** (full detail in `docs/CHANGELOG.md`):
 - **Freeze/browser tip divergence fixed: `freeze_tips.mjs` now inlines the prior
   committed `nrl_tiplog.js` into its jsdom page** like the other data files. It used
