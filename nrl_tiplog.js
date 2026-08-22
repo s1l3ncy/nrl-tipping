@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-22T20:02:03.113Z",
+ "updated": "2026-08-22T21:00:19.085Z",
  "tips": [
   {
    "season": 2026,
@@ -229,7 +229,7 @@ window.NRL_TIPLOG = {
    "mkt": 67,
    "why": "Built on Sharks rating the stronger side, plus Titans missing Zane Harrison and 5 more. Sharks being without Braydon Trindall (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-23T14:00:00+10:00",
-   "ts": "2026-08-22T20:02:03.113Z"
+   "ts": "2026-08-22T21:00:19.085Z"
   },
   {
    "season": 2026,
@@ -289,7 +289,7 @@ window.NRL_TIPLOG = {
    "mkt": 88,
    "why": "Built on Roosters rating the stronger side, plus Wests Tigers missing Adam Doueihi and 5 more. Roosters missing James Tedesco and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-23T16:05:00+10:00",
-   "ts": "2026-08-22T20:02:03.113Z"
+   "ts": "2026-08-22T21:00:19.085Z"
   }
  ],
  "flips": [
