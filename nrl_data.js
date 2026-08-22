@@ -539,7 +539,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.9,
-          "away": 1.42
+          "away": 1.41
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-23T02:59:50+10:00",
+  "generatedAt": "2026-08-23T06:01:57+10:00",
   "changes": [
     {
       "id": "r25-STI-inj-jacob-liddle",
@@ -885,6 +885,18 @@ window.NRL_DATA = {
       "rnd": 25
     },
     {
+      "id": "r25-GLD-CRO-line-2.90-1.41",
+      "fixture": "GLD-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $2.90 → $2.90, Sharks $1.42 → $1.41. Market now 33% Titans (was 33%).",
+      "pts": null,
+      "ts": "2026-08-23T06:01:57+10:00",
+      "rnd": 25
+    },
+    {
       "id": "r25-GLD-CRO-line-2.90-1.42",
       "fixture": "GLD-CRO",
       "team": "CRO",
@@ -1015,19 +1027,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-21T20:00:36+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-1.30-3.50",
-      "fixture": "CBR-BRI",
-      "team": "BRI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Raiders $1.29 → $1.30, Broncos $3.60 → $3.50. Market now 73% Raiders (was 74%).",
-      "pts": null,
-      "ts": "2026-08-21T15:53:08+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-21T15:53:08+10:00"
+  "changesSince": "2026-08-21T20:00:36+10:00"
 };
