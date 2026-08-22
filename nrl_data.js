@@ -539,7 +539,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.9,
-          "away": 1.41
+          "away": 1.42
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-23T06:01:57+10:00",
+  "generatedAt": "2026-08-23T07:00:11+10:00",
   "changes": [
     {
       "id": "r25-STI-inj-jacob-liddle",
