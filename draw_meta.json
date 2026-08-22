@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 25,
   "source": "nrl.com",
-  "fetched": "2026-08-22T15:45:26",
+  "fetched": "2026-08-22T17:54:15",
   "fixtures": {
     "MEL-PEN": {
       "venue": "AAMI Park",
@@ -20,10 +20,10 @@
       "city": "Brisbane",
       "kickoffUtc": "2026-08-21T10:00:00Z"
     },
-    "SOU-NZW": {
-      "venue": "Accor Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-22T07:30:00Z"
+    "NEW-MAN": {
+      "venue": "McDonald Jones Stadium",
+      "city": "Newcastle",
+      "kickoffUtc": "2026-08-22T05:00:00Z"
     },
     "STI-CAN": {
       "venue": "Allianz Stadium",

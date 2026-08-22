@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 25,
  "finishRound": 31,
- "fetched": "2026-08-22T05:45:38+00:00",
+ "fetched": "2026-08-22T07:54:35+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -89,7 +89,8 @@ window.NRL_COMP = {
     "MEL-PEN": "PEN",
     "BRI-CBR": "CBR",
     "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW"
+    "MAN-NEW": "NEW",
+    "NZW-SOU": "NZW"
    }
   },
   {
@@ -174,7 +175,8 @@ window.NRL_COMP = {
     "MEL-PEN": "PEN",
     "BRI-CBR": "CBR",
     "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW"
+    "MAN-NEW": "NEW",
+    "NZW-SOU": "NZW"
    }
   },
   {
@@ -258,7 +260,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-CBR": "CBR",
     "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW"
+    "MAN-NEW": "NEW",
+    "NZW-SOU": "NZW"
    }
   },
   {
@@ -343,7 +346,8 @@ window.NRL_COMP = {
     "MEL-PEN": "PEN",
     "BRI-CBR": "CBR",
     "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW"
+    "MAN-NEW": "NEW",
+    "NZW-SOU": "NZW"
    }
   },
   {
@@ -428,7 +432,8 @@ window.NRL_COMP = {
     "MEL-PEN": "PEN",
     "BRI-CBR": "CBR",
     "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW"
+    "MAN-NEW": "NEW",
+    "NZW-SOU": "SOU"
    }
   },
   {
@@ -506,14 +511,15 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 2,
-   "totalScore": 100,
+   "roundScore": 3,
+   "totalScore": 101,
    "totalMargin": 487,
    "picks": {
     "MEL-PEN": "PEN",
     "BRI-CBR": "CBR",
     "DOL-PAR": "DOL",
-    "MAN-NEW": "MAN"
+    "MAN-NEW": "MAN",
+    "NZW-SOU": "SOU"
    }
   }
  ]
