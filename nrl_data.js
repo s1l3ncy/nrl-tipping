@@ -40,7 +40,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Paul Alamoti (Hamstring); Isaah Yeo (Pectoral); Mitch Kenny (Leg) — back Finals"
+      "news": "Isaah Yeo (Pectoral); Paul Alamoti (Hamstring); Mitch Kenny (Leg) — back Finals"
     },
     {
       "name": "Warriors",
@@ -49,8 +49,8 @@ window.NRL_DATA = {
       "P": 22,
       "W": 16,
       "L": 6,
-      "PF": 618,
-      "PA": 334,
+      "PF": 644,
+      "PA": 356,
       "last5": 4,
       "home": {
         "P": 10,
@@ -92,7 +92,7 @@ window.NRL_DATA = {
         "PF": 328,
         "PA": 220
       },
-      "news": "Angus Crichton (Foot) — back Round 26; Daniel Tupou (Shoulder) — back Round 26; James Tedesco (Ankle) — back Round 26; Blake Steep (ACL) — back Next Season"
+      "news": "Daniel Tupou (Shoulder) — back Round 26; James Tedesco (Ankle) — back Round 26; Angus Crichton (Foot) — back Round 26; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Dane Gagai (Hamstring); Brodie Jones (Hamstring); Francis Manuleleua (Concussion) — back Round 26; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Brodie Jones (Hamstring); Dane Gagai (Hamstring); Francis Manuleleua (Concussion) — back Round 26; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -179,8 +179,8 @@ window.NRL_DATA = {
       "P": 22,
       "W": 12,
       "L": 10,
-      "PF": 580,
-      "PA": 506,
+      "PF": 602,
+      "PA": 532,
       "last5": 3,
       "home": {
         "P": 10,
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 284,
         "PA": 282
       },
-      "news": "Jamie Humphreys (Ankle); Dayne Jennings (Knee); Latrell Mitchell (Calf) — back Round 26; Talanoa Penitani (Hamstring) — back Round 26; Adam Elliott (Groin) — back Round 27; Ashton Ward (Hamstring) — back Next Season"
+      "news": "Dayne Jennings (Knee); Jamie Humphreys (Ankle); Talanoa Penitani (Hamstring) — back Round 26; Latrell Mitchell (Calf) — back Round 26; Adam Elliott (Groin) — back Round 27; Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 324,
         "PA": 246
       },
-      "news": "Siosiua Taukeiaho (Leg); Ethan Bullemor (Concussion); Tolutau Koula (Ankle); Joey Walsh (Jaw); Taniela Paseka (Knee) — back Round 26; Kobe Hetherington (Biceps) — back Next Season"
+      "news": "Ethan Bullemor (Concussion); Tolutau Koula (Ankle); Siosiua Taukeiaho (Leg); Joey Walsh (Jaw); Taniela Paseka (Knee) — back Round 26; Kobe Hetherington (Biceps) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 198,
         "PA": 270
       },
-      "news": "Sitili Tupouniua (Hamstring); Jethro Rinakama (Knee); Samuel Hughes (Neck)"
+      "news": "Enari Tuala (Knee); Samuel Hughes (Neck); Jethro Rinakama (Knee); Sitili Tupouniua (Hamstring)"
     },
     {
       "name": "Storm",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season"
+      "news": "Jahrome Hughes (Hamstring); Tui Kamikamica (Medical Episode); Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Will Warbrick (Achilles) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -326,7 +326,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 314
       },
-      "news": "Zac Hosking (Hamstring); Noah Martin (Quad) — back Round 26; Morgan Smithies (Head knock) — back Round 26; Hudson Young (Achilles) — back Next Season"
+      "news": "Zac Hosking (Hamstring); Morgan Smithies (Head knock) — back Round 26; Noah Martin (Quad) — back Round 26; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Eels",
@@ -352,7 +352,7 @@ window.NRL_DATA = {
         "PF": 217,
         "PA": 340
       },
-      "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
+      "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 201,
         "PA": 306
       },
-      "news": "Adam Reynolds (Calf); Preston Riki (Ankle); Brendan Piakura (Concussion); Reece Walsh (Ankle); Cory Paix (Shoulder) — back Next Season"
+      "news": "Brendan Piakura (Concussion); Adam Reynolds (Calf); Preston Riki (Ankle); Reece Walsh (Ankle); Cory Paix (Shoulder) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 122,
         "PA": 274
       },
-      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee); Latu Fainu (Hamstring) — back Round 26; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": "Sunia Turuva (Knee); Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season"
     },
     {
       "name": "Titans",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
+      "news": "Dean Ieremia (Hamstring); Brock Gray (ACL); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -527,8 +527,8 @@ window.NRL_DATA = {
           "away": 1.42
         },
         "close": {
-          "home": 2.75,
-          "away": 1.45
+          "home": 2.85,
+          "away": 1.44
         }
       },
       "weather": null,
@@ -579,7 +579,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-22T17:54:47+10:00",
+  "generatedAt": "2026-08-22T19:14:14+10:00",
   "changes": [
     {
       "id": "r25-SYD-out-james-tedesco",
@@ -603,6 +603,42 @@ window.NRL_DATA = {
       "text": "Roosters: James Tedesco (Ankle) — back Round 26 — new on the injury list.",
       "pts": 3.6,
       "ts": "2026-08-22T15:45:47+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CAN-inj-enari-tuala",
+      "fixture": "STI-CAN",
+      "team": "CAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Bulldogs: Enari Tuala (Knee) — new on the injury list.",
+      "pts": 1.5,
+      "ts": "2026-08-22T19:14:14+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CAN-out-enari-tuala",
+      "fixture": "STI-CAN",
+      "team": "CAN",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Enari Tuala (Centre) is out of the Bulldogs 17.",
+      "pts": 1.5,
+      "ts": "2026-08-22T19:14:14+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-CAN-in-jonathan-sua",
+      "fixture": "STI-CAN",
+      "team": "CAN",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jonathan Sua (Winger) named in the Bulldogs 17.",
+      "pts": 1.2,
+      "ts": "2026-08-22T19:14:14+10:00",
       "rnd": 25
     },
     {
@@ -819,6 +855,18 @@ window.NRL_DATA = {
       "text": "Emre Guler (Prop) is out of the Dragons 17.",
       "pts": 0.7,
       "ts": "2026-08-21T20:00:36+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-STI-CAN-line-2.85-1.44",
+      "fixture": "STI-CAN",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dragons $2.75 → $2.85, Bulldogs $1.45 → $1.44. Market now 34% Dragons (was 35%).",
+      "pts": null,
+      "ts": "2026-08-22T19:14:14+10:00",
       "rnd": 25
     },
     {
