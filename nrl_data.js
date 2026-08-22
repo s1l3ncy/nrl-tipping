@@ -505,8 +505,8 @@ window.NRL_DATA = {
           "away": 3.0
         },
         "close": {
-          "home": 1.4,
-          "away": 2.95
+          "home": 1.38,
+          "away": 3.05
         }
       },
       "weather": null,
@@ -525,8 +525,8 @@ window.NRL_DATA = {
           "away": 1.61
         },
         "close": {
-          "home": 2.4,
-          "away": 1.57
+          "home": 2.35,
+          "away": 1.6
         }
       },
       "weather": null,
@@ -545,8 +545,8 @@ window.NRL_DATA = {
           "away": 1.42
         },
         "close": {
-          "home": 2.7,
-          "away": 1.47
+          "home": 2.85,
+          "away": 1.45
         }
       },
       "weather": null,
@@ -565,7 +565,7 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.7,
+          "home": 2.74,
           "away": 1.47
         }
       },
@@ -597,44 +597,8 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-22T07:00:32+10:00",
+  "generatedAt": "2026-08-22T13:11:31+10:00",
   "changes": [
-    {
-      "id": "r25-NEW-inj-dylan-brown",
-      "fixture": "NEW-MAN",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
-      "pts": 3.3,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MAN-inj-luke-brooks",
-      "fixture": "NEW-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Sea Eagles: Luke Brooks (ACL) — back Next Season — new on the injury list.",
-      "pts": 2.5,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-PEN-out-blaize-talagi",
-      "fixture": "MEL-PEN",
-      "team": "PEN",
-      "cat": "out",
-      "sev": 3,
-      "dir": "down",
-      "text": "Blaize Talagi (Five-eighth) is out of the Panthers 17.",
-      "pts": 2.9,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
     {
       "id": "r25-PAR-inj-jordan-samrani",
       "fixture": "DOL-PAR",
@@ -708,243 +672,51 @@ window.NRL_DATA = {
       "rnd": 25
     },
     {
-      "id": "r25-SYD-fit-james-tedesco",
-      "fixture": "SYD-WST",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: James Tedesco is off the injury list.",
-      "pts": 3.6,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-CRO-fit-addin-fonua-blake",
-      "fixture": "GLD-CRO",
-      "team": "CRO",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sharks: Addin Fonua-Blake is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-inj-dylan-lucas",
+      "id": "r25-NEW-MAN-line-1.38-3.05",
       "fixture": "NEW-MAN",
       "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Knights: Dylan Lucas (Ankle) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-fit-bradman-best",
-      "fixture": "NEW-MAN",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Knights: Bradman Best is off the injury list.",
-      "pts": 2.1,
-      "ts": "2026-08-20T20:05:02+10:00",
+      "text": "Line moved — Knights $1.40 → $1.38, Sea Eagles $2.95 → $3.05. Market now 69% Knights (was 68%).",
+      "pts": null,
+      "ts": "2026-08-22T13:11:31+10:00",
       "rnd": 25
     },
     {
-      "id": "r25-NEW-fit-jacob-saifiti",
-      "fixture": "NEW-MAN",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Jacob Saifiti is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-fit-james-schiller",
-      "fixture": "NEW-MAN",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: James Schiller is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-SOU-fit-latrell-mitchell",
+      "id": "r25-SOU-NZW-line-2.35-1.60",
       "fixture": "SOU-NZW",
       "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Rabbitohs: Latrell Mitchell is off the injury list.",
-      "pts": 2.2,
-      "ts": "2026-08-20T20:05:02+10:00",
+      "text": "Line moved — Rabbitohs $2.40 → $2.35, Warriors $1.57 → $1.60. Market now 41% Rabbitohs (was 40%).",
+      "pts": null,
+      "ts": "2026-08-22T13:11:31+10:00",
       "rnd": 25
     },
     {
-      "id": "r25-MAN-inj-kobe-hetherington",
-      "fixture": "NEW-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sea Eagles: Kobe Hetherington (Biceps) — back Next Season — new on the injury list.",
-      "pts": 1.0,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MAN-fit-ben-trbojevic",
-      "fixture": "NEW-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r25-STI-CAN-line-2.85-1.45",
+      "fixture": "STI-CAN",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Sea Eagles: Ben Trbojevic is off the injury list.",
-      "pts": 1.8,
-      "ts": "2026-08-20T20:05:02+10:00",
+      "text": "Line moved — Dragons $2.70 → $2.85, Bulldogs $1.47 → $1.45. Market now 34% Dragons (was 35%).",
+      "pts": null,
+      "ts": "2026-08-22T13:11:31+10:00",
       "rnd": 25
     },
     {
-      "id": "r25-MAN-fit-tom-trbojevic",
-      "fixture": "NEW-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sea Eagles: Tom Trbojevic is off the injury list.",
-      "pts": 3.2,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-CBR-fit-simi-sasagi",
-      "fixture": "CBR-BRI",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Raiders: Simi Sasagi is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-PAR-fit-bailey-simonsson",
-      "fixture": "DOL-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Bailey Simonsson is off the injury list.",
-      "pts": 1.5,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-PAR-fit-jonah-pezet",
-      "fixture": "DOL-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Jonah Pezet is off the injury list.",
-      "pts": 2.4,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-WST-fit-alex-twal",
-      "fixture": "SYD-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Alex Twal is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-20T20:05:02+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-PEN-fit-casey-mclean",
-      "fixture": "MEL-PEN",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Panthers: Casey McLean is off the injury list.",
-      "pts": 2.1,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MEL-inj-will-warbrick",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Storm: Will Warbrick (Achilles) — back Next Season — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MEL-inj-xavier-coates",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Storm: Xavier Coates (Achilles) — back Next Season — new on the injury list.",
-      "pts": 2.1,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MEL-fit-harry-grant",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Harry Grant is off the injury list.",
-      "pts": 4.4,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-MEL-fit-jack-howarth",
-      "fixture": "MEL-PEN",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Jack Howarth is off the injury list.",
-      "pts": 1.7,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-PEN-in-luke-garner",
-      "fixture": "MEL-PEN",
-      "team": "PEN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Luke Garner (Second-row) named in the Panthers 17.",
-      "pts": 1.8,
-      "ts": "2026-08-20T20:00:01+10:00",
+      "id": "r25-GLD-CRO-line-2.74-1.47",
+      "fixture": "GLD-CRO",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $2.70 → $2.74, Sharks $1.47 → $1.47. Market now 35% Titans (was 35%).",
+      "pts": null,
+      "ts": "2026-08-22T13:11:31+10:00",
       "rnd": 25
     },
     {
@@ -1018,67 +790,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-21T03:51:38+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-DOL-PAR-line-1.20-4.50",
-      "fixture": "DOL-PAR",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.21 → $1.20, Eels $4.50 → $4.50. Market now 79% Dolphins (was 79%).",
-      "pts": null,
-      "ts": "2026-08-21T00:21:10+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-GLD-CRO-line-2.70-1.47",
-      "fixture": "GLD-CRO",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $2.74 → $2.70, Sharks $1.46 → $1.47. Market now 35% Titans (was 35%).",
-      "pts": null,
-      "ts": "2026-08-21T00:21:10+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-DOL-PAR-line-1.21-4.50",
-      "fixture": "DOL-PAR",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.22 → $1.21, Eels $4.30 → $4.50. Market now 79% Dolphins (was 78%).",
-      "pts": null,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-MAN-line-1.40-2.95",
-      "fixture": "NEW-MAN",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.40 → $1.40, Sea Eagles $3.00 → $2.95. Market now 68% Knights (was 68%).",
-      "pts": null,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-SYD-WST-line-1.08-8.00",
-      "fixture": "SYD-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.07 → $1.08, Wests Tigers $8.50 → $8.00. Market now 88% Roosters (was 89%).",
-      "pts": null,
-      "ts": "2026-08-20T20:00:01+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-20T20:00:01+10:00"
+  "changesSince": "2026-08-21T03:51:38+10:00"
 };
