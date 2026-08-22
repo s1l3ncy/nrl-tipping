@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-22",
+  "updated": "2026-08-23",
   "season": 2026,
   "round": 25,
   "source": "zerotackle.com",
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-22T23:46:47+10:00",
+  "generatedAt": "2026-08-23T02:59:50+10:00",
   "changes": [
     {
       "id": "r25-STI-inj-jacob-liddle",
@@ -1027,19 +1027,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-21T15:53:08+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-STI-CAN-line-2.70-1.47",
-      "fixture": "STI-CAN",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $2.72 → $2.70, Bulldogs $1.46 → $1.47. Market now 35% Dragons (was 35%).",
-      "pts": null,
-      "ts": "2026-08-21T13:24:30+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-21T13:24:30+10:00"
+  "changesSince": "2026-08-21T15:53:08+10:00"
 };
