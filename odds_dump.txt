@@ -1,8 +1,7 @@
 # Round 25 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-22T13:10:59. Decimal odds; a fixture is omitted entirely until its market opens.
-# Median of 11 Australian bookmaker(s) per price (55 book quotes across 5 fixtures).
-Knights v Sea Eagles: 1.38 / 3.05
+# Fetched 2026-08-22T15:45:26. Decimal odds; a fixture is omitted entirely until its market opens.
+# Median of 11 Australian bookmaker(s) per price (44 book quotes across 4 fixtures).
 Rabbitohs v Warriors: 2.35 / 1.60
 Dragons v Bulldogs: 2.85 / 1.45
-Titans v Sharks: 2.74 / 1.47
+Titans v Sharks: 2.75 / 1.45
 Roosters v Wests Tigers: 1.08 / 8.00
