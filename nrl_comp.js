@@ -3,207 +3,189 @@
  * round (picks appear as games lock / the round starts). Powers the
  * comp-aware tip policy; front-end live-refreshes between runs. */
 window.NRL_COMP = {
- "round": 25,
+ "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-23T13:48:51+00:00",
+ "fetched": "2026-08-23T17:01:41+00:00",
  "members": [
   {
    "name": "Brigitte",
    "me": false,
    "aff": {
     "NEW": [
-     11,
-     22
+     12,
+     23
     ],
     "NQL": [
      13,
      22
     ],
     "CAN": [
-     13,
-     20
+     14,
+     21
     ],
     "STI": [
      3,
-     21
+     22
     ],
     "MEL": [
      9,
-     21
+     22
     ],
     "PAR": [
      3,
-     19
+     20
     ],
     "NZW": [
-     20,
-     21
+     21,
+     22
     ],
     "SYD": [
-     21,
-     21
+     22,
+     22
     ],
     "BRI": [
      5,
-     20
+     21
     ],
     "PEN": [
-     15,
-     19
+     16,
+     20
     ],
     "CRO": [
-     11,
-     21
+     12,
+     22
     ],
     "GLD": [
      1,
-     21
+     22
     ],
     "MAN": [
      14,
-     21
-    ],
-    "CBR": [
-     9,
      22
     ],
+    "CBR": [
+     10,
+     23
+    ],
     "DOL": [
-     14,
-     21
+     15,
+     22
     ],
     "SOU": [
      9,
-     21
+     22
     ],
     "WST": [
      6,
-     21
+     22
     ]
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 5,
+   "roundScore": 0,
    "totalScore": 122,
    "totalMargin": 422,
-   "picks": {
-    "MEL-PEN": "PEN",
-    "BRI-CBR": "CBR",
-    "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW",
-    "NZW-SOU": "NZW",
-    "CAN-STI": "CAN",
-    "CRO-GLD": "CRO",
-    "SYD-WST": "SYD"
-   }
+   "picks": {}
   },
   {
    "name": "Claire with an i",
    "me": false,
    "aff": {
     "NEW": [
-     10,
-     22
+     11,
+     23
     ],
     "NQL": [
      16,
      22
     ],
     "CAN": [
-     8,
-     21
+     9,
+     22
     ],
     "STI": [
      7,
-     21
+     22
     ],
     "MEL": [
      6,
-     21
+     22
     ],
     "PAR": [
      3,
-     21
+     22
     ],
     "NZW": [
-     15,
-     21
+     16,
+     22
     ],
     "SYD": [
-     10,
-     21
+     11,
+     22
     ],
     "BRI": [
      5,
-     21
+     22
     ],
     "PEN": [
-     20,
-     21
+     21,
+     22
     ],
     "CRO": [
-     11,
-     21
-    ],
-    "GLD": [
-     2,
-     21
-    ],
-    "MAN": [
-     20,
-     21
-    ],
-    "CBR": [
      12,
      22
     ],
+    "GLD": [
+     2,
+     22
+    ],
+    "MAN": [
+     20,
+     22
+    ],
+    "CBR": [
+     13,
+     23
+    ],
     "DOL": [
-     15,
-     21
+     16,
+     22
     ],
     "SOU": [
      11,
-     21
+     22
     ],
     "WST": [
      9,
-     21
+     22
     ]
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 5,
+   "roundScore": 0,
    "totalScore": 121,
    "totalMargin": 440,
-   "picks": {
-    "MEL-PEN": "PEN",
-    "BRI-CBR": "CBR",
-    "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW",
-    "NZW-SOU": "NZW",
-    "CAN-STI": "CAN",
-    "CRO-GLD": "CRO",
-    "SYD-WST": "SYD"
-   }
+   "picks": {}
   },
   {
    "name": "Thorners69",
    "me": false,
    "aff": {
     "NEW": [
-     9,
-     22
+     10,
+     23
     ],
     "NQL": [
      7,
      21
     ],
     "CAN": [
-     8,
-     21
+     9,
+     22
     ],
     "STI": [
      5,
-     21
+     22
     ],
     "MEL": [
      12,
@@ -211,67 +193,59 @@ window.NRL_COMP = {
     ],
     "PAR": [
      5,
-     21
+     22
     ],
     "NZW": [
-     13,
-     21
+     14,
+     22
     ],
     "SYD": [
-     20,
-     21
+     21,
+     22
     ],
     "BRI": [
      9,
-     21
+     22
     ],
     "PEN": [
      17,
      21
     ],
     "CRO": [
-     15,
-     21
+     16,
+     22
     ],
     "GLD": [
      6,
-     20
+     21
     ],
     "MAN": [
      10,
-     20
+     21
     ],
     "CBR": [
-     14,
-     22
+     15,
+     23
     ],
     "DOL": [
-     11,
-     20
+     12,
+     21
     ],
     "SOU": [
      9,
-     21
+     22
     ],
     "WST": [
      8,
-     21
+     22
     ]
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 4,
+   "roundScore": 0,
    "totalScore": 120,
    "totalMargin": 457,
-   "picks": {
-    "BRI-CBR": "CBR",
-    "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW",
-    "NZW-SOU": "NZW",
-    "CAN-STI": "CAN",
-    "CRO-GLD": "CRO",
-    "SYD-WST": "SYD"
-   }
+   "picks": {}
   },
   {
    "name": "Jake",
@@ -279,177 +253,159 @@ window.NRL_COMP = {
    "aff": {
     "MEL": [
      12,
-     21
+     22
     ],
     "PAR": [
      3,
-     21
+     22
     ],
     "NZW": [
-     15,
-     21
+     16,
+     22
     ],
     "SYD": [
-     16,
-     21
+     17,
+     22
     ],
     "BRI": [
      8,
-     21
+     22
     ],
     "PEN": [
-     21,
-     21
+     22,
+     22
     ],
     "CRO": [
-     12,
-     21
+     13,
+     22
     ],
     "GLD": [
      2,
-     21
+     22
     ],
     "MAN": [
      11,
-     20
-    ],
-    "CBR": [
-     10,
      21
     ],
+    "CBR": [
+     11,
+     22
+    ],
     "DOL": [
-     13,
-     19
+     14,
+     20
     ],
     "SOU": [
      12,
-     20
+     21
     ],
     "WST": [
      12,
-     20
+     21
     ],
     "NQL": [
      9,
      21
     ],
     "STI": [
-     1,
-     19
+     2,
+     20
     ],
     "NEW": [
-     9,
-     20
+     10,
+     21
     ],
     "CAN": [
      8,
-     20
+     21
     ]
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 4,
+   "roundScore": 0,
    "totalScore": 118,
    "totalMargin": 436,
-   "picks": {
-    "MEL-PEN": "PEN",
-    "BRI-CBR": "CBR",
-    "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW",
-    "NZW-SOU": "NZW",
-    "CAN-STI": "STI",
-    "CRO-GLD": "CRO",
-    "SYD-WST": "SYD"
-   }
+   "picks": {}
   },
   {
    "name": "Special unit",
    "me": true,
    "aff": {
     "NEW": [
-     10,
-     22
+     11,
+     23
     ],
     "NQL": [
      12,
      22
     ],
     "CAN": [
-     12,
-     20
+     13,
+     21
     ],
     "STI": [
      2,
-     21
+     22
     ],
     "MEL": [
      14,
-     21
+     22
     ],
     "PAR": [
      4,
-     20
+     21
     ],
     "NZW": [
      15,
-     21
+     22
     ],
     "SYD": [
-     21,
-     21
+     22,
+     22
     ],
     "BRI": [
      8,
-     20
+     21
     ],
     "PEN": [
-     15,
-     18
+     16,
+     19
     ],
     "CRO": [
-     12,
-     20
+     13,
+     21
     ],
     "GLD": [
      2,
-     21
+     22
     ],
     "MAN": [
      12,
-     20
+     21
     ],
     "CBR": [
-     7,
-     22
+     8,
+     23
     ],
     "DOL": [
-     9,
-     19
+     10,
+     20
     ],
     "SOU": [
-     12,
-     19
+     13,
+     20
     ],
     "WST": [
      7,
-     21
+     22
     ]
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 4,
+   "roundScore": 0,
    "totalScore": 109,
    "totalMargin": 455,
-   "picks": {
-    "MEL-PEN": "PEN",
-    "BRI-CBR": "CBR",
-    "DOL-PAR": "DOL",
-    "MAN-NEW": "NEW",
-    "NZW-SOU": "SOU",
-    "CAN-STI": "CAN",
-    "CRO-GLD": "CRO",
-    "SYD-WST": "SYD"
-   }
+   "picks": {}
   },
   {
    "name": "Susie loo",
@@ -457,88 +413,79 @@ window.NRL_COMP = {
    "aff": {
     "NEW": [
      16,
-     22
+     23
     ],
     "NQL": [
      11,
      22
     ],
     "CAN": [
-     18,
-     21
+     19,
+     22
     ],
     "STI": [
      5,
-     21
+     22
     ],
     "MEL": [
      7,
-     21
+     22
     ],
     "PAR": [
      1,
-     21
+     22
     ],
     "NZW": [
      12,
-     21
+     22
     ],
     "SYD": [
-     7,
-     21
+     8,
+     22
     ],
     "BRI": [
      5,
-     21
+     22
     ],
     "PEN": [
-     20,
-     21
+     21,
+     22
     ],
     "CRO": [
-     8,
-     21
+     9,
+     22
     ],
     "GLD": [
      3,
-     21
+     22
     ],
     "MAN": [
-     21,
-     21
+     22,
+     22
     ],
     "CBR": [
+     14,
+     23
+    ],
+    "DOL": [
      13,
      22
     ],
-    "DOL": [
-     12,
-     21
-    ],
     "SOU": [
-     12,
-     21
+     13,
+     22
     ],
     "WST": [
      9,
-     21
+     22
     ]
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 5,
+   "roundScore": 0,
    "totalScore": 103,
    "totalMargin": 487,
-   "picks": {
-    "MEL-PEN": "PEN",
-    "BRI-CBR": "CBR",
-    "DOL-PAR": "DOL",
-    "MAN-NEW": "MAN",
-    "NZW-SOU": "SOU",
-    "CAN-STI": "CAN",
-    "CRO-GLD": "CRO",
-    "SYD-WST": "SYD"
-   }
+   "picks": {}
   }
  ]
 };
