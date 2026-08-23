@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 25,
  "finishRound": 31,
- "fetched": "2026-08-23T05:49:53+00:00",
+ "fetched": "2026-08-23T09:46:02+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,8 +82,8 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 121,
+   "roundScore": 5,
+   "totalScore": 122,
    "totalMargin": 422,
    "picks": {
     "MEL-PEN": "PEN",
@@ -92,7 +92,8 @@ window.NRL_COMP = {
     "MAN-NEW": "NEW",
     "NZW-SOU": "NZW",
     "CAN-STI": "CAN",
-    "CRO-GLD": "CRO"
+    "CRO-GLD": "CRO",
+    "SYD-WST": "SYD"
    }
   },
   {
@@ -170,8 +171,8 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 120,
+   "roundScore": 5,
+   "totalScore": 121,
    "totalMargin": 440,
    "picks": {
     "MEL-PEN": "PEN",
@@ -180,7 +181,8 @@ window.NRL_COMP = {
     "MAN-NEW": "NEW",
     "NZW-SOU": "NZW",
     "CAN-STI": "CAN",
-    "CRO-GLD": "CRO"
+    "CRO-GLD": "CRO",
+    "SYD-WST": "SYD"
    }
   },
   {
@@ -258,8 +260,8 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 3,
-   "totalScore": 119,
+   "roundScore": 4,
+   "totalScore": 120,
    "totalMargin": 457,
    "picks": {
     "BRI-CBR": "CBR",
@@ -267,7 +269,8 @@ window.NRL_COMP = {
     "MAN-NEW": "NEW",
     "NZW-SOU": "NZW",
     "CAN-STI": "CAN",
-    "CRO-GLD": "CRO"
+    "CRO-GLD": "CRO",
+    "SYD-WST": "SYD"
    }
   },
   {
@@ -345,8 +348,8 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 3,
-   "totalScore": 117,
+   "roundScore": 4,
+   "totalScore": 118,
    "totalMargin": 436,
    "picks": {
     "MEL-PEN": "PEN",
@@ -355,7 +358,8 @@ window.NRL_COMP = {
     "MAN-NEW": "NEW",
     "NZW-SOU": "NZW",
     "CAN-STI": "STI",
-    "CRO-GLD": "CRO"
+    "CRO-GLD": "CRO",
+    "SYD-WST": "SYD"
    }
   },
   {
@@ -433,8 +437,8 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 3,
-   "totalScore": 108,
+   "roundScore": 4,
+   "totalScore": 109,
    "totalMargin": 455,
    "picks": {
     "MEL-PEN": "PEN",
@@ -443,7 +447,8 @@ window.NRL_COMP = {
     "MAN-NEW": "NEW",
     "NZW-SOU": "SOU",
     "CAN-STI": "CAN",
-    "CRO-GLD": "CRO"
+    "CRO-GLD": "CRO",
+    "SYD-WST": "SYD"
    }
   },
   {
@@ -521,8 +526,8 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 102,
+   "roundScore": 5,
+   "totalScore": 103,
    "totalMargin": 487,
    "picks": {
     "MEL-PEN": "PEN",
@@ -531,7 +536,8 @@ window.NRL_COMP = {
     "MAN-NEW": "MAN",
     "NZW-SOU": "SOU",
     "CAN-STI": "CAN",
-    "CRO-GLD": "CRO"
+    "CRO-GLD": "CRO",
+    "SYD-WST": "SYD"
    }
   }
  ]
