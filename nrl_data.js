@@ -124,11 +124,11 @@ window.NRL_DATA = {
       "name": "Sharks",
       "short": "CRO",
       "colour": "#00a9e0",
-      "P": 21,
+      "P": 22,
       "W": 13,
-      "L": 8,
-      "PF": 604,
-      "PA": 439,
+      "L": 9,
+      "PF": 612,
+      "PA": 455,
       "last5": 3,
       "home": {
         "P": 11,
@@ -355,6 +355,32 @@ window.NRL_DATA = {
       "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
     },
     {
+      "name": "Titans",
+      "short": "GLD",
+      "colour": "#fbb040",
+      "P": 22,
+      "W": 7,
+      "L": 15,
+      "PF": 429,
+      "PA": 575,
+      "last5": 2,
+      "home": {
+        "P": 9,
+        "W": 3,
+        "L": 6,
+        "PF": 141,
+        "PA": 256
+      },
+      "away": {
+        "P": 12,
+        "W": 3,
+        "L": 9,
+        "PF": 272,
+        "PA": 311
+      },
+      "news": "Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
+    },
+    {
       "name": "Broncos",
       "short": "BRI",
       "colour": "#6c1d45",
@@ -405,32 +431,6 @@ window.NRL_DATA = {
         "PA": 274
       },
       "news": "Sunia Turuva (Knee); Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season"
-    },
-    {
-      "name": "Titans",
-      "short": "GLD",
-      "colour": "#fbb040",
-      "P": 21,
-      "W": 6,
-      "L": 15,
-      "PF": 413,
-      "PA": 567,
-      "last5": 2,
-      "home": {
-        "P": 9,
-        "W": 3,
-        "L": 6,
-        "PF": 141,
-        "PA": 256
-      },
-      "away": {
-        "P": 12,
-        "W": 3,
-        "L": 9,
-        "PF": 272,
-        "PA": 311
-      },
-      "news": "Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -529,19 +529,10 @@ window.NRL_DATA = {
     {
       "home": "GLD",
       "away": "CRO",
-      "venue": "Cbus Super Stadium",
+      "venue": "",
       "city": "Gold Coast",
-      "kickoff": "2026-08-23T14:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 2.6,
-          "away": 1.48
-        },
-        "close": {
-          "home": 3.05,
-          "away": 1.38
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Brisbane"
@@ -558,8 +549,8 @@ window.NRL_DATA = {
           "away": 5.12
         },
         "close": {
-          "home": 1.07,
-          "away": 9.0
+          "home": 1.06,
+          "away": 9.5
         }
       },
       "weather": null,
@@ -570,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-23T13:32:55+10:00",
+  "generatedAt": "2026-08-23T14:58:58+10:00",
   "changes": [
     {
       "id": "r25-STI-inj-jacob-liddle",
@@ -810,6 +801,18 @@ window.NRL_DATA = {
       "text": "Pasami Saulo (Prop) is out of the Knights 17.",
       "pts": 0.7,
       "ts": "2026-08-22T15:45:47+10:00",
+      "rnd": 25
+    },
+    {
+      "id": "r25-SYD-WST-line-1.06-9.50",
+      "fixture": "SYD-WST",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.07 → $1.06, Wests Tigers $9.00 → $9.50. Market now 90% Roosters (was 89%).",
+      "pts": null,
+      "ts": "2026-08-23T14:58:58+10:00",
       "rnd": 25
     },
     {
