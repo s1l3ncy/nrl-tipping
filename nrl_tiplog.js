@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-22T21:00:19.085Z",
+ "updated": "2026-08-23T03:32:58.683Z",
  "tips": [
   {
    "season": 2026,
@@ -225,11 +225,11 @@ window.NRL_TIPLOG = {
    "home": "GLD",
    "away": "CRO",
    "tip": "CRO",
-   "prob": 68,
-   "mkt": 67,
+   "prob": 70,
+   "mkt": 69,
    "why": "Built on Sharks rating the stronger side, plus Titans missing Zane Harrison and 5 more. Sharks being without Braydon Trindall (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-23T14:00:00+10:00",
-   "ts": "2026-08-22T21:00:19.085Z"
+   "ts": "2026-08-23T03:32:58.683Z"
   },
   {
    "season": 2026,
@@ -285,26 +285,14 @@ window.NRL_TIPLOG = {
    "home": "SYD",
    "away": "WST",
    "tip": "SYD",
-   "prob": 87,
-   "mkt": 88,
+   "prob": 88,
+   "mkt": 89,
    "why": "Built on Roosters rating the stronger side, plus Wests Tigers missing Adam Doueihi and 5 more. Roosters missing James Tedesco and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-23T16:05:00+10:00",
-   "ts": "2026-08-22T21:00:19.085Z"
+   "ts": "2026-08-23T03:32:58.683Z"
   }
  ],
  "flips": [
-  {
-   "season": 2026,
-   "round": 25,
-   "home": "SOU",
-   "away": "NZW",
-   "from": "NZW",
-   "to": "SOU",
-   "fromProb": 60,
-   "toProb": 40,
-   "why": "Built on Rabbitohs missing Ashton Ward and 4 more, plus Warriors rating the stronger side. Warriors missing Luke Metcalf and 4 more pulls it back. The bookies read it the same way.",
-   "ts": "2026-08-21T03:24:33.751Z"
-  },
   {
    "season": 2026,
    "round": 25,
