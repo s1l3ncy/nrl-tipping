@@ -125,10 +125,10 @@ window.NRL_DATA = {
       "short": "CRO",
       "colour": "#00a9e0",
       "P": 22,
-      "W": 13,
-      "L": 9,
-      "PF": 612,
-      "PA": 455,
+      "W": 14,
+      "L": 8,
+      "PF": 634,
+      "PA": 461,
       "last5": 3,
       "home": {
         "P": 11,
@@ -355,32 +355,6 @@ window.NRL_DATA = {
       "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
     },
     {
-      "name": "Titans",
-      "short": "GLD",
-      "colour": "#fbb040",
-      "P": 22,
-      "W": 7,
-      "L": 15,
-      "PF": 429,
-      "PA": 575,
-      "last5": 2,
-      "home": {
-        "P": 9,
-        "W": 3,
-        "L": 6,
-        "PF": 141,
-        "PA": 256
-      },
-      "away": {
-        "P": 12,
-        "W": 3,
-        "L": 9,
-        "PF": 272,
-        "PA": 311
-      },
-      "news": "Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
-    },
-    {
       "name": "Broncos",
       "short": "BRI",
       "colour": "#6c1d45",
@@ -431,6 +405,32 @@ window.NRL_DATA = {
         "PA": 274
       },
       "news": "Sunia Turuva (Knee); Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season"
+    },
+    {
+      "name": "Titans",
+      "short": "GLD",
+      "colour": "#fbb040",
+      "P": 22,
+      "W": 6,
+      "L": 16,
+      "PF": 435,
+      "PA": 597,
+      "last5": 2,
+      "home": {
+        "P": 9,
+        "W": 3,
+        "L": 6,
+        "PF": 141,
+        "PA": 256
+      },
+      "away": {
+        "P": 12,
+        "W": 3,
+        "L": 9,
+        "PF": 272,
+        "PA": 311
+      },
+      "news": "Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-23T14:58:58+10:00",
+  "generatedAt": "2026-08-23T15:50:03+10:00",
   "changes": [
     {
       "id": "r25-STI-inj-jacob-liddle",
