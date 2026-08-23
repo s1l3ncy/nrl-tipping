@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 1.95
         },
         "close": {
-          "home": 1.85,
-          "away": 1.95
+          "home": 1.86,
+          "away": 1.94
         }
       },
       "weather": null,
@@ -513,7 +513,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.38,
-          "away": 3.02
+          "away": 3.0
         }
       },
       "weather": null,
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 1.4
         },
         "close": {
-          "home": 2.89,
+          "home": 2.9,
           "away": 1.4
         }
       },
@@ -552,7 +552,7 @@ window.NRL_DATA = {
           "away": 2.45
         },
         "close": {
-          "home": 1.54,
+          "home": 1.55,
           "away": 2.45
         }
       },
@@ -572,8 +572,8 @@ window.NRL_DATA = {
           "away": 3.58
         },
         "close": {
-          "home": 1.27,
-          "away": 3.78
+          "home": 1.25,
+          "away": 3.9
         }
       },
       "weather": null,
@@ -593,7 +593,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.92
+          "away": 2.9
         }
       },
       "weather": null,
@@ -612,8 +612,8 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.77,
-          "away": 1.44
+          "home": 2.8,
+          "away": 1.43
         }
       },
       "weather": null,
@@ -624,8 +624,80 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-24T06:01:09+10:00",
+  "generatedAt": "2026-08-24T06:58:53+10:00",
   "changes": [
+    {
+      "id": "r26-BRI-MEL-line-1.86-1.94",
+      "fixture": "BRI-MEL",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Broncos $1.85 → $1.86, Storm $1.95 → $1.94. Market now 51% Broncos (was 51%).",
+      "pts": null,
+      "ts": "2026-08-24T06:58:53+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PEN-CAN-line-1.38-3.00",
+      "fixture": "PEN-CAN",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.38 → $1.38, Bulldogs $3.02 → $3.00. Market now 68% Panthers (was 69%).",
+      "pts": null,
+      "ts": "2026-08-24T06:58:53+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SYD-DOL-line-1.55-2.45",
+      "fixture": "SYD-DOL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Roosters $1.54 → $1.55, Dolphins $2.45 → $2.45. Market now 61% Roosters (was 61%).",
+      "pts": null,
+      "ts": "2026-08-24T06:58:53+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NQL-WST-line-1.25-3.90",
+      "fixture": "NQL-WST",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Cowboys $1.27 → $1.25, Wests Tigers $3.78 → $3.90. Market now 76% Cowboys (was 75%).",
+      "pts": null,
+      "ts": "2026-08-24T06:58:53+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-NEW-line-1.40-2.90",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.40 → $1.40, Knights $2.92 → $2.90. Market now 67% Warriors (was 68%).",
+      "pts": null,
+      "ts": "2026-08-24T06:58:53+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PAR-CRO-line-2.80-1.43",
+      "fixture": "PAR-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Eels $2.77 → $2.80, Sharks $1.44 → $1.43. Market now 34% Eels (was 34%).",
+      "pts": null,
+      "ts": "2026-08-24T06:58:53+10:00",
+      "rnd": 26
+    },
     {
       "id": "r26-BRI-MEL-line-1.85-1.95",
       "fixture": "BRI-MEL",
@@ -699,5 +771,5 @@ window.NRL_DATA = {
       "rnd": 26
     }
   ],
-  "changesSince": "2026-08-24T03:01:52+10:00"
+  "changesSince": "2026-08-24T06:01:09+10:00"
 };
