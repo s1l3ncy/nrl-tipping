@@ -1,4 +1,11 @@
-# Round 25 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-23T15:49:35. Decimal odds; a fixture is omitted entirely until its market opens.
-# Median of 11 Australian bookmaker(s) per price (11 book quotes across 1 fixtures).
-Roosters v Wests Tigers: 1.06 / 9.50
+# Round 26 head-to-head odds, median of the Australian books via The Odds API.
+# Fetched 2026-08-24T03:01:17. Decimal odds; a fixture is omitted entirely until its market opens.
+# Median of 6–8 Australian bookmaker(s) per price (56 book quotes across 8 fixtures).
+Broncos v Storm: 1.83 / 1.95
+Sea Eagles v Dragons: 1.42 / 2.85
+Panthers v Bulldogs: 1.36 / 3.10
+Titans v Rabbitohs: 2.88 / 1.40
+Roosters v Dolphins: 1.55 / 2.45
+Cowboys v Wests Tigers: 1.29 / 3.58
+Warriors v Knights: 1.40 / 2.92
+Eels v Sharks: 2.75 / 1.44

@@ -1,49 +1,49 @@
 {
   "_comment": "Venue / host city / kick-off for the round below, from nrl.com's own draw payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the ground's local time and emits fixture.tz. Regenerated every run by cloud_fetch.py — do not hand-edit.",
   "season": 2026,
-  "round": 25,
+  "round": 26,
   "source": "nrl.com",
-  "fetched": "2026-08-23T23:48:36",
+  "fetched": "2026-08-24T03:01:17",
   "fixtures": {
-    "MEL-PEN": {
-      "venue": "AAMI Park",
-      "city": "Melbourne",
-      "kickoffUtc": "2026-08-20T09:50:00Z"
-    },
-    "CBR-BRI": {
-      "venue": "GIO Stadium",
-      "city": "Canberra",
-      "kickoffUtc": "2026-08-21T08:00:00Z"
-    },
-    "DOL-PAR": {
+    "BRI-MEL": {
       "venue": "Suncorp Stadium",
       "city": "Brisbane",
-      "kickoffUtc": "2026-08-21T10:00:00Z"
+      "kickoffUtc": "2026-08-27T09:50:00Z"
     },
-    "NEW-MAN": {
-      "venue": "McDonald Jones Stadium",
-      "city": "Newcastle",
-      "kickoffUtc": "2026-08-22T05:00:00Z"
-    },
-    "SOU-NZW": {
-      "venue": "Accor Stadium",
+    "MAN-STI": {
+      "venue": "4 Pines Park",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-22T07:30:00Z"
+      "kickoffUtc": "2026-08-28T08:00:00Z"
     },
-    "STI-CAN": {
-      "venue": "Allianz Stadium",
+    "PEN-CAN": {
+      "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-22T09:35:00Z"
+      "kickoffUtc": "2026-08-28T10:00:00Z"
     },
-    "GLD-CRO": {
+    "GLD-SOU": {
       "venue": "Cbus Super Stadium",
       "city": "Gold Coast",
-      "kickoffUtc": "2026-08-23T04:00:00Z"
+      "kickoffUtc": "2026-08-29T05:00:00Z"
     },
-    "SYD-WST": {
+    "SYD-DOL": {
       "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-23T06:05:00Z"
+      "kickoffUtc": "2026-08-29T07:30:00Z"
+    },
+    "NQL-WST": {
+      "venue": "Queensland Country Bank Stadium",
+      "city": "Townsville",
+      "kickoffUtc": "2026-08-29T09:35:00Z"
+    },
+    "NZW-NEW": {
+      "venue": "Go Media Stadium",
+      "city": "Auckland",
+      "kickoffUtc": "2026-08-30T04:00:00Z"
+    },
+    "PAR-CRO": {
+      "venue": "CommBank Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-08-30T06:05:00Z"
     }
   }
 }
