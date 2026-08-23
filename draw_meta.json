@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 25,
   "source": "nrl.com",
-  "fetched": "2026-08-23T13:32:27",
+  "fetched": "2026-08-23T14:58:32",
   "fixtures": {
     "MEL-PEN": {
       "venue": "AAMI Park",
@@ -34,11 +34,6 @@
       "venue": "Allianz Stadium",
       "city": "Sydney",
       "kickoffUtc": "2026-08-22T09:35:00Z"
-    },
-    "GLD-CRO": {
-      "venue": "Cbus Super Stadium",
-      "city": "Gold Coast",
-      "kickoffUtc": "2026-08-23T04:00:00Z"
     },
     "SYD-WST": {
       "venue": "Allianz Stadium",
