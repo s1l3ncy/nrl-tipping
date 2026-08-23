@@ -538,8 +538,8 @@ window.NRL_DATA = {
           "away": 1.48
         },
         "close": {
-          "home": 2.9,
-          "away": 1.42
+          "home": 3.05,
+          "away": 1.38
         }
       },
       "weather": null,
@@ -558,8 +558,8 @@ window.NRL_DATA = {
           "away": 5.12
         },
         "close": {
-          "home": 1.08,
-          "away": 8.0
+          "home": 1.07,
+          "away": 9.0
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NQL"
   ],
-  "generatedAt": "2026-08-23T07:00:11+10:00",
+  "generatedAt": "2026-08-23T13:32:55+10:00",
   "changes": [
     {
       "id": "r25-STI-inj-jacob-liddle",
@@ -813,75 +813,27 @@ window.NRL_DATA = {
       "rnd": 25
     },
     {
-      "id": "r25-PAR-inj-jordan-samrani",
-      "fixture": "DOL-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Eels: Jordan Samrani (Groin) — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-22T00:10:23+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-CBR-inj-zac-hosking",
-      "fixture": "CBR-BRI",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Raiders: Zac Hosking (Hamstring) — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-08-21T20:16:18+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-CBR-BRI-line-8.75-1.05",
-      "fixture": "CBR-BRI",
-      "team": "BRI",
+      "id": "r25-GLD-CRO-line-3.05-1.38",
+      "fixture": "GLD-CRO",
+      "team": "CRO",
       "cat": "line",
-      "sev": 2,
+      "sev": 1,
       "dir": "up",
-      "text": "Line moved — Raiders $1.30 → $8.75, Broncos $3.50 → $1.05. Market now 11% Raiders (was 73%).",
+      "text": "Line moved — Titans $2.90 → $3.05, Sharks $1.42 → $1.38. Market now 31% Titans (was 33%).",
       "pts": null,
-      "ts": "2026-08-21T20:00:36+10:00",
+      "ts": "2026-08-23T13:32:55+10:00",
       "rnd": 25
     },
     {
-      "id": "r25-SOU-inj-latrell-mitchell",
-      "fixture": "SOU-NZW",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Latrell Mitchell (Calf) — back Round 26 — new on the injury list.",
-      "pts": 2.2,
-      "ts": "2026-08-21T20:00:36+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-STI-in-blake-lawrie",
-      "fixture": "STI-CAN",
-      "team": "STI",
-      "cat": "in",
-      "sev": 2,
+      "id": "r25-SYD-WST-line-1.07-9.00",
+      "fixture": "SYD-WST",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Blake Lawrie (Prop) named in the Dragons 17.",
-      "pts": 0.7,
-      "ts": "2026-08-21T20:00:36+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-STI-out-emre-guler",
-      "fixture": "STI-CAN",
-      "team": "STI",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Emre Guler (Prop) is out of the Dragons 17.",
-      "pts": 0.7,
-      "ts": "2026-08-21T20:00:36+10:00",
+      "text": "Line moved — Roosters $1.08 → $1.07, Wests Tigers $8.00 → $9.00. Market now 89% Roosters (was 88%).",
+      "pts": null,
+      "ts": "2026-08-23T13:32:55+10:00",
       "rnd": 25
     },
     {
@@ -991,43 +943,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-22T13:11:31+10:00",
       "rnd": 25
-    },
-    {
-      "id": "r25-DOL-PAR-line-1.20-4.70",
-      "fixture": "DOL-PAR",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Dolphins $1.20 → $1.20, Eels $4.50 → $4.70. Market now 80% Dolphins (was 79%).",
-      "pts": null,
-      "ts": "2026-08-21T20:00:36+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-NEW-MAN-line-1.41-2.90",
-      "fixture": "NEW-MAN",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Knights $1.40 → $1.41, Sea Eagles $2.95 → $2.90. Market now 67% Knights (was 68%).",
-      "pts": null,
-      "ts": "2026-08-21T20:00:36+10:00",
-      "rnd": 25
-    },
-    {
-      "id": "r25-SOU-NZW-line-2.40-1.57",
-      "fixture": "SOU-NZW",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $2.41 → $2.40, Warriors $1.57 → $1.57. Market now 40% Rabbitohs (was 39%).",
-      "pts": null,
-      "ts": "2026-08-21T20:00:36+10:00",
-      "rnd": 25
     }
   ],
-  "changesSince": "2026-08-21T20:00:36+10:00"
+  "changesSince": "2026-08-22T13:11:31+10:00"
 };
