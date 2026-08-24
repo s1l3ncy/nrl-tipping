@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-24",
+  "updated": "2026-08-25",
   "season": 2026,
   "round": 26,
   "source": "zerotackle.com",
@@ -493,7 +493,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.89
+          "away": 2.9
         }
       },
       "weather": null,
@@ -572,7 +572,7 @@ window.NRL_DATA = {
           "away": 3.58
         },
         "close": {
-          "home": 1.28,
+          "home": 1.27,
           "away": 3.67
         }
       },
@@ -612,8 +612,8 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.75,
-          "away": 1.45
+          "home": 2.71,
+          "away": 1.46
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-24T20:22:56+10:00",
+  "generatedAt": "2026-08-25T00:27:45+10:00",
   "changes": [
     {
       "id": "r26-MAN-inj-luke-brooks",
@@ -828,6 +828,18 @@ window.NRL_DATA = {
       "text": "Titans: Jensen Taumoepeau is off the injury list.",
       "pts": 1.2,
       "ts": "2026-08-24T13:36:47+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NQL-WST-line-1.27-3.67",
+      "fixture": "NQL-WST",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Cowboys $1.28 → $1.27, Wests Tigers $3.67 → $3.67. Market now 74% Cowboys (was 74%).",
+      "pts": null,
+      "ts": "2026-08-25T00:27:45+10:00",
       "rnd": 26
     },
     {
