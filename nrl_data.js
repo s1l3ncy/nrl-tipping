@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 1.95
         },
         "close": {
-          "home": 1.86,
+          "home": 1.87,
           "away": 1.95
         }
       },
@@ -513,7 +513,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.32,
-          "away": 3.33
+          "away": 3.3
         }
       },
       "weather": null,
@@ -533,7 +533,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.95,
-          "away": 1.39
+          "away": 1.4
         }
       },
       "weather": null,
@@ -572,8 +572,8 @@ window.NRL_DATA = {
           "away": 3.58
         },
         "close": {
-          "home": 1.27,
-          "away": 3.67
+          "home": 1.28,
+          "away": 3.65
         }
       },
       "weather": null,
@@ -612,7 +612,7 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.71,
+          "home": 2.7,
           "away": 1.46
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-25T03:52:10+10:00",
+  "generatedAt": "2026-08-25T07:03:19+10:00",
   "changes": [
     {
       "id": "r26-MAN-inj-luke-brooks",
@@ -828,6 +828,42 @@ window.NRL_DATA = {
       "text": "Titans: Jensen Taumoepeau is off the injury list.",
       "pts": 1.2,
       "ts": "2026-08-24T13:36:47+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-BRI-MEL-line-1.87-1.95",
+      "fixture": "BRI-MEL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Broncos $1.86 → $1.87, Storm $1.95 → $1.95. Market now 51% Broncos (was 51%).",
+      "pts": null,
+      "ts": "2026-08-25T07:03:19+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PEN-CAN-line-1.32-3.30",
+      "fixture": "PEN-CAN",
+      "team": "CAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.32 → $1.32, Bulldogs $3.33 → $3.30. Market now 71% Panthers (was 72%).",
+      "pts": null,
+      "ts": "2026-08-25T07:03:19+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NQL-WST-line-1.28-3.65",
+      "fixture": "NQL-WST",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Cowboys $1.27 → $1.28, Wests Tigers $3.67 → $3.65. Market now 74% Cowboys (was 74%).",
+      "pts": null,
+      "ts": "2026-08-25T07:03:19+10:00",
       "rnd": 26
     },
     {
