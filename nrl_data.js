@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 1.95
         },
         "close": {
-          "home": 1.87,
+          "home": 1.85,
           "away": 1.95
         }
       },
@@ -513,7 +513,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.32,
-          "away": 3.3
+          "away": 3.35
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-25T07:03:19+10:00",
+  "generatedAt": "2026-08-25T07:48:45+10:00",
   "changes": [
     {
       "id": "r26-MAN-inj-luke-brooks",
@@ -828,6 +828,18 @@ window.NRL_DATA = {
       "text": "Titans: Jensen Taumoepeau is off the injury list.",
       "pts": 1.2,
       "ts": "2026-08-24T13:36:47+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PEN-CAN-line-1.32-3.35",
+      "fixture": "PEN-CAN",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.32 → $1.32, Bulldogs $3.30 → $3.35. Market now 72% Panthers (was 71%).",
+      "pts": null,
+      "ts": "2026-08-25T07:48:45+10:00",
       "rnd": 26
     },
     {
