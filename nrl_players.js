@@ -412,7 +412,7 @@ window.NRL_PLAYERS = {
   "ryley smith": {"pos": "Hooker", "pct": 46.6},
   "salesi foketi": {"pos": "Second-row", "pct": 39.2},
   "sam mcintyre": {"pos": "Prop", "pct": 43.6},
-  "sam tuivaiti": {"pos": "Prop", "pct": 36.9},
+  "sam tuivaiti": {"pos": "Prop", "pct": 36.8},
   "sam verrills": {"pos": "Hooker", "pct": 50.6},
   "sam walker": {"pos": "Halfback", "pct": 61.7},
   "samuel healey": {"pos": "Hooker", "pct": 50.9},
