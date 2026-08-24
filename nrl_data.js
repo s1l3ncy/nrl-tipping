@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-25T00:27:45+10:00",
+  "generatedAt": "2026-08-25T03:52:10+10:00",
   "changes": [
     {
       "id": "r26-MAN-inj-luke-brooks",

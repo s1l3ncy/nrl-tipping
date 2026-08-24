@@ -1,5 +1,5 @@
 # Round 26 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-25T00:27:22. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-25T03:51:40. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 10 Australian bookmaker(s) per price (80 book quotes across 8 fixtures).
 Broncos v Storm: 1.86 / 1.95
 Sea Eagles v Dragons: 1.40 / 2.90
