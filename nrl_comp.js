@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-24T06:05:58+00:00",
+ "fetched": "2026-08-24T10:22:46+00:00",
  "members": [
   {
    "name": "Brigitte",
