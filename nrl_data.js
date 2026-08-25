@@ -40,7 +40,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Dallin Watene-Zelezniak (Shoulder); Te Maire Martin (Hamstring) — back Round 26; Ali Leiataua (Illness) — back Round 26; Charnze Nicoll-Klokstad (Suspension) — back Round 27; Jackson Ford (Pectoral) — back Finals; Luke Metcalf (Hamstring) — back Finals"
+      "news": "Dallin Watene-Zelezniak (Shoulder); Te Maire Martin (Hamstring) — back Round 26; Ali Leiataua (Illness) — back Round 26; Charnze Nicoll-Klokstad (Suspension) — back Round 27; Luke Metcalf (Hamstring) — back Finals; Jackson Ford (Pectoral) — back Finals"
     },
     {
       "name": "Panthers",
@@ -222,7 +222,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Tom Dearden (Ankle) — back Round 26; Jeremiah Nanai (Hamstring) — back Round 26"
+      "news": "Jeremiah Nanai (Hamstring) — back Round 26; Tom Dearden (Ankle) — back Round 26"
     },
     {
       "name": "Bulldogs",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 242,
         "PA": 284
       },
-      "news": "Enari Tuala (Knee); Samuel Hughes (Neck); Kurt Mann (Groin); Jethro Rinakama (Knee); Sitili Tupouniua (Hamstring); Jonathan Sua (Suspension) — back Round 27"
+      "news": "Kurt Mann (Groin); Samuel Hughes (Neck); Jethro Rinakama (Knee); Sitili Tupouniua (Hamstring); Enari Tuala (Knee) — back Round 26; Jonathan Sua (Suspension) — back Round 27"
     },
     {
       "name": "Sea Eagles",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 324,
         "PA": 246
       },
-      "news": "Siosiua Taukeiaho (Leg); Joey Walsh (Jaw); Tolutau Koula (Ankle); Ethan Bullemor (Concussion); Taniela Paseka (Knee) — back Round 26; Luke Brooks (ACL) — back Next Season"
+      "news": "Tolutau Koula (Ankle); Joey Walsh (Jaw); Siosiua Taukeiaho (Leg); Ethan Bullemor (Concussion); Taniela Paseka (Knee) — back Round 26; Luke Brooks (ACL) — back Next Season"
     },
     {
       "name": "Storm",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 202,
         "PA": 262
       },
-      "news": "Ativalu Lisati (Ankle); Tui Kamikamica (Medical Episode); Jahrome Hughes (Hamstring); Eliesa Katoa (Medical Episode) — back Indefinite; Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season"
+      "news": "Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Will Warbrick (Achilles) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -352,7 +352,7 @@ window.NRL_DATA = {
         "PF": 217,
         "PA": 340
       },
-      "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; Isaiah Iongi (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season"
+      "news": "Jordan Samrani (Groin); Dylan Walker (Wrist) — back Round 26; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season; Matt Doorey (Knee) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 147,
         "PA": 298
       },
-      "news": "Alex Twal (Head knock); Sunia Turuva (Knee); Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": "Alex Twal (Head knock); Sunia Turuva (Knee); Royce Hunt (Pectoral); Latu Fainu (Hamstring) — back Round 26; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Beau Fermor (Abdomen); Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jaimin Jolliffe (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
+      "news": "Beau Fermor (Abdomen); Brock Gray (ACL); Dean Ieremia (Hamstring); Josh Patston (Head knock) — back Round 26; Jensen Taumoepeau (Ankle) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -473,7 +473,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.95,
-          "away": 1.86
+          "away": 1.85
         }
       },
       "weather": null,
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 1.4
         },
         "close": {
-          "home": 2.98,
+          "home": 3.02,
           "away": 1.38
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-25T13:27:51+10:00",
+  "generatedAt": "2026-08-25T15:53:06+10:00",
   "changes": [
     {
       "id": "r26-MAN-inj-luke-brooks",
@@ -636,6 +636,18 @@ window.NRL_DATA = {
       "text": "Sea Eagles: Luke Brooks (ACL) — back Next Season — new on the injury list.",
       "pts": 2.5,
       "ts": "2026-08-24T13:36:47+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-MEL-fit-tui-kamikamica",
+      "fixture": "BRI-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Tui Kamikamica is off the injury list.",
+      "pts": 1.0,
+      "ts": "2026-08-25T15:53:06+10:00",
       "rnd": 26
     },
     {
@@ -828,6 +840,30 @@ window.NRL_DATA = {
       "text": "Titans: Jensen Taumoepeau is off the injury list.",
       "pts": 1.2,
       "ts": "2026-08-24T13:36:47+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-BRI-MEL-line-1.95-1.85",
+      "fixture": "BRI-MEL",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Broncos $1.95 → $1.95, Storm $1.86 → $1.85. Market now 49% Broncos (was 49%).",
+      "pts": null,
+      "ts": "2026-08-25T15:53:06+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-GLD-SOU-line-3.02-1.38",
+      "fixture": "GLD-SOU",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $2.98 → $3.02, Rabbitohs $1.38 → $1.38. Market now 31% Titans (was 32%).",
+      "pts": null,
+      "ts": "2026-08-25T15:53:06+10:00",
       "rnd": 26
     },
     {
