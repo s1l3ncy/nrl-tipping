@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-26T00:30:57+10:00",
+  "generatedAt": "2026-08-26T03:49:34+10:00",
   "changes": [
     {
       "id": "r26-NEW-inj-phoenix-crossland",
@@ -636,18 +636,6 @@ window.NRL_DATA = {
       "text": "Knights: Phoenix Crossland (Knee) — back Finals — new on the injury list.",
       "pts": 3.1,
       "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-inj-luke-brooks",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Sea Eagles: Luke Brooks (ACL) — back Next Season — new on the injury list.",
-      "pts": 2.5,
-      "ts": "2026-08-24T13:36:47+10:00",
       "rnd": 26
     },
     {
@@ -828,78 +816,6 @@ window.NRL_DATA = {
       "text": "Wests Tigers: Kai Pearce-Paul is off the injury list.",
       "pts": 2.0,
       "ts": "2026-08-24T16:06:08+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-SYD-inj-victor-radley",
-      "fixture": "SYD-DOL",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Roosters: Victor Radley (Head knock) — new on the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-24T13:36:47+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-fit-kobe-hetherington",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sea Eagles: Kobe Hetherington is off the injury list.",
-      "pts": 1.0,
-      "ts": "2026-08-24T13:36:47+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-inj-kai-pearce-paul",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Kai Pearce-Paul (Pectoral) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-24T13:36:47+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-taylan-may",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Taylan May is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-24T13:36:47+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-inj-zane-harrison",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Zane Harrison (Hamstring) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-24T13:36:47+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-fit-jensen-taumoepeau",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Jensen Taumoepeau is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-24T13:36:47+10:00",
       "rnd": 26
     },
     {
@@ -1347,5 +1263,5 @@ window.NRL_DATA = {
       "rnd": 26
     }
   ],
-  "changesSince": "2026-08-24T13:36:47+10:00"
+  "changesSince": "2026-08-24T16:06:08+10:00"
 };
