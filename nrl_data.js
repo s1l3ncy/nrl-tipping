@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 1.95
         },
         "close": {
-          "home": 2.21,
-          "away": 1.65
+          "home": 2.2,
+          "away": 1.66
         }
       },
       "weather": null,
@@ -493,7 +493,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.92
+          "away": 2.93
         }
       },
       "weather": null,
@@ -512,8 +512,8 @@ window.NRL_DATA = {
           "away": 3.1
         },
         "close": {
-          "home": 1.33,
-          "away": 3.33
+          "home": 1.35,
+          "away": 3.2
         }
       },
       "weather": null,
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 1.4
         },
         "close": {
-          "home": 3.12,
+          "home": 3.1,
           "away": 1.36
         }
       },
@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.27,
-          "away": 3.76
+          "away": 3.78
         }
       },
       "weather": null,
@@ -593,7 +593,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.29,
-          "away": 3.52
+          "away": 3.55
         }
       },
       "weather": null,
@@ -612,8 +612,8 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.62,
-          "away": 1.48
+          "home": 2.6,
+          "away": 1.49
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-26T06:58:50+10:00",
+  "generatedAt": "2026-08-26T07:14:15+10:00",
   "changes": [
     {
       "id": "r26-NEW-inj-phoenix-crossland",
@@ -792,6 +792,42 @@ window.NRL_DATA = {
       "text": "Titans: Zane Harrison is off the injury list.",
       "pts": 2.0,
       "ts": "2026-08-24T20:22:56+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-BRI-MEL-line-2.20-1.66",
+      "fixture": "BRI-MEL",
+      "team": "BRI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Broncos $2.21 → $2.20, Storm $1.65 → $1.66. Market now 43% Broncos (was 43%).",
+      "pts": null,
+      "ts": "2026-08-26T07:14:15+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NQL-WST-line-1.27-3.78",
+      "fixture": "NQL-WST",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Cowboys $1.27 → $1.27, Wests Tigers $3.76 → $3.78. Market now 75% Cowboys (was 75%).",
+      "pts": null,
+      "ts": "2026-08-26T07:14:15+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-NEW-line-1.29-3.55",
+      "fixture": "NZW-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Warriors $1.29 → $1.29, Knights $3.52 → $3.55. Market now 73% Warriors (was 73%).",
+      "pts": null,
+      "ts": "2026-08-26T07:14:15+10:00",
       "rnd": 26
     },
     {
