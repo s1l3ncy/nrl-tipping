@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 1.95
         },
         "close": {
-          "home": 2.23,
-          "away": 1.63
+          "home": 2.21,
+          "away": 1.65
         }
       },
       "weather": null,
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 1.4
         },
         "close": {
-          "home": 3.1,
+          "home": 3.12,
           "away": 1.36
         }
       },
@@ -612,7 +612,7 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.63,
+          "home": 2.62,
           "away": 1.48
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-26T03:49:34+10:00",
+  "generatedAt": "2026-08-26T06:58:50+10:00",
   "changes": [
     {
       "id": "r26-NEW-inj-phoenix-crossland",
@@ -795,27 +795,15 @@ window.NRL_DATA = {
       "rnd": 26
     },
     {
-      "id": "r26-WST-inj-taylan-may",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Taylan May (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-24T16:06:08+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-kai-pearce-paul",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r26-BRI-MEL-line-2.21-1.65",
+      "fixture": "BRI-MEL",
+      "team": "BRI",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Wests Tigers: Kai Pearce-Paul is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-24T16:06:08+10:00",
+      "text": "Line moved — Broncos $2.23 → $2.21, Storm $1.63 → $1.65. Market now 43% Broncos (was 42%).",
+      "pts": null,
+      "ts": "2026-08-26T06:58:50+10:00",
       "rnd": 26
     },
     {
@@ -1213,55 +1201,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-24T20:22:56+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.36-3.10",
-      "fixture": "PEN-CAN",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.37 → $1.36, Bulldogs $3.05 → $3.10. Market now 70% Panthers (was 69%).",
-      "pts": null,
-      "ts": "2026-08-24T16:06:08+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-SOU-line-2.92-1.40",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $2.95 → $2.92, Rabbitohs $1.40 → $1.40. Market now 32% Titans (was 32%).",
-      "pts": null,
-      "ts": "2026-08-24T16:06:08+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NQL-WST-line-1.29-3.58",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.29 → $1.29, Wests Tigers $3.60 → $3.58. Market now 74% Cowboys (was 74%).",
-      "pts": null,
-      "ts": "2026-08-24T16:06:08+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PAR-CRO-line-2.71-1.46",
-      "fixture": "PAR-CRO",
-      "team": "PAR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.72 → $2.71, Sharks $1.46 → $1.46. Market now 35% Eels (was 35%).",
-      "pts": null,
-      "ts": "2026-08-24T16:06:08+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-24T16:06:08+10:00"
+  "changesSince": "2026-08-24T20:22:56+10:00"
 };
