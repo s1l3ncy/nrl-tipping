@@ -493,7 +493,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.95
+          "away": 2.94
         }
       },
       "weather": null,
@@ -532,7 +532,7 @@ window.NRL_DATA = {
           "away": 1.4
         },
         "close": {
-          "home": 3.2,
+          "home": 3.35,
           "away": 1.33
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-26T13:38:50+10:00",
+  "generatedAt": "2026-08-26T15:59:07+10:00",
   "changes": [
     {
       "id": "r26-NEW-inj-phoenix-crossland",
@@ -696,6 +696,30 @@ window.NRL_DATA = {
       "text": "Storm: Tui Kamikamica is off the injury list.",
       "pts": 1.0,
       "ts": "2026-08-25T15:53:06+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-MAN-STI-line-1.40-2.94",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sea Eagles $1.40 → $1.40, Dragons $2.95 → $2.94. Market now 68% Sea Eagles (was 68%).",
+      "pts": null,
+      "ts": "2026-08-26T15:59:07+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-GLD-SOU-line-3.35-1.33",
+      "fixture": "GLD-SOU",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $3.20 → $3.35, Rabbitohs $1.33 → $1.33. Market now 28% Titans (was 29%).",
+      "pts": null,
+      "ts": "2026-08-26T15:59:07+10:00",
       "rnd": 26
     },
     {
