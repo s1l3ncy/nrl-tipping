@@ -512,7 +512,7 @@ window.NRL_DATA = {
           "away": 3.1
         },
         "close": {
-          "home": 1.35,
+          "home": 1.34,
           "away": 3.2
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-26T20:09:00+10:00",
+  "generatedAt": "2026-08-26T23:17:01+10:00",
   "changes": [
     {
       "id": "r26-NEW-inj-phoenix-crossland",
@@ -696,6 +696,18 @@ window.NRL_DATA = {
       "text": "Storm: Tui Kamikamica is off the injury list.",
       "pts": 1.0,
       "ts": "2026-08-25T15:53:06+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PEN-CAN-line-1.34-3.20",
+      "fixture": "PEN-CAN",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.35 → $1.34, Bulldogs $3.20 → $3.20. Market now 70% Panthers (was 70%).",
+      "pts": null,
+      "ts": "2026-08-26T23:17:01+10:00",
       "rnd": 26
     },
     {
