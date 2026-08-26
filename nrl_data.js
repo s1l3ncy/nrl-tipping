@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.4,
-          "away": 2.98
+          "home": 1.38,
+          "away": 3.05
         }
       },
       "weather": null,
@@ -513,7 +513,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.34,
-          "away": 3.2
+          "away": 3.25
         }
       },
       "weather": null,
@@ -572,8 +572,8 @@ window.NRL_DATA = {
           "away": 3.58
         },
         "close": {
-          "home": 1.26,
-          "away": 3.85
+          "home": 1.25,
+          "away": 3.9
         }
       },
       "weather": null,
@@ -592,8 +592,8 @@ window.NRL_DATA = {
           "away": 2.92
         },
         "close": {
-          "home": 1.28,
-          "away": 3.7
+          "home": 1.27,
+          "away": 3.75
         }
       },
       "weather": null,
@@ -624,78 +624,54 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-27T02:59:39+10:00",
+  "generatedAt": "2026-08-27T09:38:36+10:00",
   "changes": [
     {
-      "id": "r26-NEW-inj-phoenix-crossland",
-      "fixture": "NZW-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Knights: Phoenix Crossland (Knee) — back Finals — new on the injury list.",
-      "pts": 3.1,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-BRI-MEL-line-2.21-1.64",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
+      "id": "r26-MAN-STI-line-1.38-3.05",
+      "fixture": "MAN-STI",
+      "team": "MAN",
       "cat": "line",
-      "sev": 2,
+      "sev": 1,
       "dir": "up",
-      "text": "Line moved — Broncos $1.95 → $2.21, Storm $1.85 → $1.64. Market now 43% Broncos (was 49%).",
+      "text": "Line moved — Sea Eagles $1.40 → $1.38, Dragons $2.98 → $3.05. Market now 69% Sea Eagles (was 68%).",
       "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
+      "ts": "2026-08-27T09:38:36+10:00",
       "rnd": 26
     },
     {
-      "id": "r26-NEW-fit-dylan-lucas",
-      "fixture": "NZW-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Dylan Lucas is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-25T18:24:56+10:00",
+      "id": "r26-PEN-CAN-line-1.34-3.25",
+      "fixture": "PEN-CAN",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.34 → $1.34, Bulldogs $3.20 → $3.25. Market now 71% Panthers (was 70%).",
+      "pts": null,
+      "ts": "2026-08-27T09:38:36+10:00",
       "rnd": 26
     },
     {
-      "id": "r26-NQL-inj-murray-taulagi",
+      "id": "r26-NQL-WST-line-1.25-3.90",
       "fixture": "NQL-WST",
       "team": "NQL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Cowboys: Murray Taulagi (Concussion) — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MEL-inj-jack-howarth",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Storm: Jack Howarth (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.7,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MEL-fit-tui-kamikamica",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Storm: Tui Kamikamica is off the injury list.",
-      "pts": 1.0,
-      "ts": "2026-08-25T15:53:06+10:00",
+      "text": "Line moved — Cowboys $1.26 → $1.25, Wests Tigers $3.85 → $3.90. Market now 76% Cowboys (was 75%).",
+      "pts": null,
+      "ts": "2026-08-27T09:38:36+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-NEW-line-1.27-3.75",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.28 → $1.27, Knights $3.70 → $3.75. Market now 75% Warriors (was 74%).",
+      "pts": null,
+      "ts": "2026-08-27T09:38:36+10:00",
       "rnd": 26
     },
     {
@@ -877,175 +853,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-26T00:30:57+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-BRI-MEL-line-2.23-1.63",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $2.21 → $2.23, Storm $1.64 → $1.63. Market now 42% Broncos (was 43%).",
-      "pts": null,
-      "ts": "2026-08-25T20:00:23+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-STI-line-1.40-2.92",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $1.40 → $1.40, Dragons $2.93 → $2.92. Market now 68% Sea Eagles (was 68%).",
-      "pts": null,
-      "ts": "2026-08-25T20:00:23+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.33-3.33",
-      "fixture": "PEN-CAN",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.35 → $1.33, Bulldogs $3.20 → $3.33. Market now 71% Panthers (was 70%).",
-      "pts": null,
-      "ts": "2026-08-25T20:00:23+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-SOU-line-3.12-1.36",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $3.15 → $3.12, Rabbitohs $1.36 → $1.36. Market now 30% Titans (was 30%).",
-      "pts": null,
-      "ts": "2026-08-25T20:00:23+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NZW-NEW-line-1.29-3.52",
-      "fixture": "NZW-NEW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.30 → $1.29, Knights $3.40 → $3.52. Market now 73% Warriors (was 72%).",
-      "pts": null,
-      "ts": "2026-08-25T20:00:23+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PAR-CRO-line-2.62-1.48",
-      "fixture": "PAR-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.60 → $2.62, Sharks $1.49 → $1.48. Market now 36% Eels (was 36%).",
-      "pts": null,
-      "ts": "2026-08-25T20:00:23+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-STI-line-1.40-2.93",
-      "fixture": "MAN-STI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sea Eagles $1.40 → $1.40, Dragons $2.91 → $2.93. Market now 68% Sea Eagles (was 68%).",
-      "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.35-3.20",
-      "fixture": "PEN-CAN",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.30 → $1.35, Bulldogs $3.50 → $3.20. Market now 70% Panthers (was 73%).",
-      "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-SOU-line-3.15-1.36",
-      "fixture": "GLD-SOU",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $3.02 → $3.15, Rabbitohs $1.38 → $1.36. Market now 30% Titans (was 31%).",
-      "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NQL-WST-line-1.27-3.75",
-      "fixture": "NQL-WST",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Cowboys $1.27 → $1.27, Wests Tigers $3.67 → $3.75. Market now 75% Cowboys (was 74%).",
-      "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NZW-NEW-line-1.30-3.40",
-      "fixture": "NZW-NEW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.33 → $1.30, Knights $3.33 → $3.40. Market now 72% Warriors (was 71%).",
-      "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PAR-CRO-line-2.60-1.49",
-      "fixture": "PAR-CRO",
-      "team": "PAR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.67 → $2.60, Sharks $1.46 → $1.49. Market now 36% Eels (was 35%).",
-      "pts": null,
-      "ts": "2026-08-25T18:24:56+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-BRI-MEL-line-1.95-1.85",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $1.95 → $1.95, Storm $1.86 → $1.85. Market now 49% Broncos (was 49%).",
-      "pts": null,
-      "ts": "2026-08-25T15:53:06+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-SOU-line-3.02-1.38",
-      "fixture": "GLD-SOU",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Titans $2.98 → $3.02, Rabbitohs $1.38 → $1.38. Market now 31% Titans (was 32%).",
-      "pts": null,
-      "ts": "2026-08-25T15:53:06+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-25T15:53:06+10:00"
+  "changesSince": "2026-08-26T00:30:57+10:00"
 };
