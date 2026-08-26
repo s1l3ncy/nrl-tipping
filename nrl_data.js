@@ -493,7 +493,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.94
+          "away": 2.95
         }
       },
       "weather": null,
@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.26,
-          "away": 3.8
+          "away": 3.85
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-26T15:59:07+10:00",
+  "generatedAt": "2026-08-26T20:09:00+10:00",
   "changes": [
     {
       "id": "r26-NEW-inj-phoenix-crossland",
@@ -696,6 +696,18 @@ window.NRL_DATA = {
       "text": "Storm: Tui Kamikamica is off the injury list.",
       "pts": 1.0,
       "ts": "2026-08-25T15:53:06+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NQL-WST-line-1.26-3.85",
+      "fixture": "NQL-WST",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Cowboys $1.26 → $1.26, Wests Tigers $3.80 → $3.85. Market now 75% Cowboys (was 75%).",
+      "pts": null,
+      "ts": "2026-08-26T20:09:00+10:00",
       "rnd": 26
     },
     {
@@ -1081,55 +1093,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-25T13:27:51+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.32-3.35",
-      "fixture": "PEN-CAN",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.32 → $1.32, Bulldogs $3.30 → $3.35. Market now 72% Panthers (was 71%).",
-      "pts": null,
-      "ts": "2026-08-25T07:48:45+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-BRI-MEL-line-1.87-1.95",
-      "fixture": "BRI-MEL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Broncos $1.86 → $1.87, Storm $1.95 → $1.95. Market now 51% Broncos (was 51%).",
-      "pts": null,
-      "ts": "2026-08-25T07:03:19+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.32-3.30",
-      "fixture": "PEN-CAN",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.32 → $1.32, Bulldogs $3.33 → $3.30. Market now 71% Panthers (was 72%).",
-      "pts": null,
-      "ts": "2026-08-25T07:03:19+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NQL-WST-line-1.28-3.65",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.27 → $1.28, Wests Tigers $3.67 → $3.65. Market now 74% Cowboys (was 74%).",
-      "pts": null,
-      "ts": "2026-08-25T07:03:19+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-25T07:03:19+10:00"
+  "changesSince": "2026-08-25T13:27:51+10:00"
 };
