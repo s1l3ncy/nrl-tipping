@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-27T09:49:15+00:00",
+ "fetched": "2026-08-27T22:16:20+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,10 +82,12 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 122,
-   "totalMargin": 422,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 123,
+   "totalMargin": 444,
+   "picks": {
+    "BRI-MEL": "MEL"
+   }
   },
   {
    "name": "Claire with an i",
@@ -162,10 +164,12 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 121,
-   "totalMargin": 440,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 122,
+   "totalMargin": 456,
+   "picks": {
+    "BRI-MEL": "MEL"
+   }
   },
   {
    "name": "Thorners69",
@@ -242,10 +246,12 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 120,
-   "totalMargin": 457,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 121,
+   "totalMargin": 475,
+   "picks": {
+    "BRI-MEL": "MEL"
+   }
   },
   {
    "name": "Jake",
@@ -322,10 +328,12 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 118,
-   "totalMargin": 436,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 119,
+   "totalMargin": 440,
+   "picks": {
+    "BRI-MEL": "MEL"
+   }
   },
   {
    "name": "Special unit",
@@ -402,10 +410,12 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 109,
-   "totalMargin": 455,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 110,
+   "totalMargin": 476,
+   "picks": {
+    "BRI-MEL": "MEL"
+   }
   },
   {
    "name": "Susie loo",
@@ -484,8 +494,10 @@ window.NRL_COMP = {
    "mv": "",
    "roundScore": 0,
    "totalScore": 103,
-   "totalMargin": 487,
-   "picks": {}
+   "totalMargin": 517,
+   "picks": {
+    "BRI-MEL": "BRI"
+   }
   }
  ]
 };
