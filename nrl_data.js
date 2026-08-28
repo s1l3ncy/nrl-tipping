@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-29T07:48:44+10:00",
+  "generatedAt": "2026-08-29T07:57:39+10:00",
   "changes": [
     {
       "id": "r26-NZW-inj-tanah-boyd",
@@ -1116,66 +1116,6 @@ window.NRL_DATA = {
       "rnd": 26
     },
     {
-      "id": "r26-MAN-inj-kobe-hetherington",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sea Eagles: Kobe Hetherington (Biceps) — back Next Season — new on the injury list.",
-      "pts": 1.0,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-fit-joey-walsh",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sea Eagles: Joey Walsh is off the injury list.",
-      "pts": 2.5,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MEL-fit-jahrome-hughes",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Jahrome Hughes is off the injury list.",
-      "pts": 3.3,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-inj-kai-pearce-paul",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Kai Pearce-Paul (Pectoral) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-taylan-may",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Taylan May is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
       "id": "r26-SYD-DOL-line-1.55-2.48",
       "fixture": "SYD-DOL",
       "team": null,
@@ -1270,55 +1210,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-28T08:16:30+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-BRI-MEL-line-2.45-1.55",
-      "fixture": "BRI-MEL",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Broncos $2.25 → $2.45, Storm $1.65 → $1.55. Market now 39% Broncos (was 42%).",
-      "pts": null,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-STI-line-1.37-3.10",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $1.38 → $1.37, Dragons $3.05 → $3.10. Market now 69% Sea Eagles (was 69%).",
-      "pts": null,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.35-3.20",
-      "fixture": "PEN-CAN",
-      "team": "CAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.34 → $1.35, Bulldogs $3.25 → $3.20. Market now 70% Panthers (was 71%).",
-      "pts": null,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NQL-WST-line-1.25-3.85",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.25 → $1.25, Wests Tigers $3.90 → $3.85. Market now 75% Cowboys (was 76%).",
-      "pts": null,
-      "ts": "2026-08-27T19:49:28+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-27T19:49:28+10:00"
+  "changesSince": "2026-08-28T08:16:30+10:00"
 };
