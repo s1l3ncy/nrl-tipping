@@ -484,7 +484,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.36,
-          "away": 3.2
+          "away": 3.15
         }
       },
       "weather": null,
@@ -503,8 +503,8 @@ window.NRL_DATA = {
           "away": 3.1
         },
         "close": {
-          "home": 1.34,
-          "away": 3.25
+          "home": 1.35,
+          "away": 3.2
         }
       },
       "weather": null,
@@ -604,7 +604,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.6,
-          "away": 1.49
+          "away": 1.48
         }
       },
       "weather": null,
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-28T08:16:30+10:00",
+  "generatedAt": "2026-08-28T12:18:12+10:00",
   "changes": [
     {
       "id": "r26-NZW-inj-tanah-boyd",
@@ -1038,6 +1038,30 @@ window.NRL_DATA = {
       "rnd": 26
     },
     {
+      "id": "r26-MAN-STI-line-1.36-3.15",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sea Eagles $1.36 → $1.36, Dragons $3.20 → $3.15. Market now 70% Sea Eagles (was 70%).",
+      "pts": null,
+      "ts": "2026-08-28T12:18:12+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PAR-CRO-line-2.60-1.48",
+      "fixture": "PAR-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Eels $2.60 → $2.60, Sharks $1.49 → $1.48. Market now 36% Eels (was 36%).",
+      "pts": null,
+      "ts": "2026-08-28T12:18:12+10:00",
+      "rnd": 26
+    },
+    {
       "id": "r26-MAN-STI-line-1.36-3.20",
       "fixture": "MAN-STI",
       "team": "MAN",
@@ -1168,19 +1192,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-27T02:59:39+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.34-3.20",
-      "fixture": "PEN-CAN",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.35 → $1.34, Bulldogs $3.20 → $3.20. Market now 70% Panthers (was 70%).",
-      "pts": null,
-      "ts": "2026-08-26T23:17:01+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-26T23:17:01+10:00"
+  "changesSince": "2026-08-27T02:59:39+10:00"
 };
