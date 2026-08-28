@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-28T02:18:02+00:00",
+ "fetched": "2026-08-28T11:23:59+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,11 +82,13 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 123,
+   "roundScore": 2,
+   "totalScore": 124,
    "totalMargin": 444,
    "picks": {
-    "BRI-MEL": "MEL"
+    "BRI-MEL": "MEL",
+    "MAN-STI": "MAN",
+    "CAN-PEN": "PEN"
    }
   },
   {
@@ -164,11 +166,13 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 122,
+   "roundScore": 2,
+   "totalScore": 123,
    "totalMargin": 456,
    "picks": {
-    "BRI-MEL": "MEL"
+    "BRI-MEL": "MEL",
+    "MAN-STI": "MAN",
+    "CAN-PEN": "PEN"
    }
   },
   {
@@ -246,11 +250,13 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 121,
+   "roundScore": 2,
+   "totalScore": 122,
    "totalMargin": 475,
    "picks": {
-    "BRI-MEL": "MEL"
+    "BRI-MEL": "MEL",
+    "MAN-STI": "MAN",
+    "CAN-PEN": "PEN"
    }
   },
   {
@@ -328,11 +334,13 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 119,
+   "roundScore": 2,
+   "totalScore": 120,
    "totalMargin": 440,
    "picks": {
-    "BRI-MEL": "MEL"
+    "BRI-MEL": "MEL",
+    "MAN-STI": "MAN",
+    "CAN-PEN": "PEN"
    }
   },
   {
@@ -410,11 +418,13 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 1,
-   "totalScore": 110,
+   "roundScore": 2,
+   "totalScore": 111,
    "totalMargin": 476,
    "picks": {
-    "BRI-MEL": "MEL"
+    "BRI-MEL": "MEL",
+    "MAN-STI": "MAN",
+    "CAN-PEN": "PEN"
    }
   },
   {
@@ -492,11 +502,13 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 103,
+   "roundScore": 1,
+   "totalScore": 104,
    "totalMargin": 517,
    "picks": {
-    "BRI-MEL": "BRI"
+    "BRI-MEL": "BRI",
+    "MAN-STI": "MAN",
+    "CAN-PEN": "PEN"
    }
   }
  ]
