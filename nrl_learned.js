@@ -5,13 +5,13 @@
 // run; learn_model.py re-fits homeAdv/Elo/eloK/eloHGA/logisticScale/oddsWeight
 // from it and rewrites this file, appending one {date,games,brier} history
 // entry per run. See sources.md ('Learning loop') for details.
-// fitted via grid search: walk-forward logloss=0.6676 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.75 (market-heavy prior per the 2026-08-10 audit) — no --odds-history supplied/matched, not yet learned. freeze_tips now logs per-tip market probs (tiplog .mkt) as the future fitting corpus.
+// fitted via grid search: walk-forward logloss=0.6658 over eloK[10, 16, 24, 32, 40] x eloHGA[0, 20, 40, 60, 80, 100]; logisticScale pinned at 7 (unidentifiable from win/loss outcomes — audit A2, 2026-08-04). oddsWeight defaulted to 0.75 (market-heavy prior per the 2026-08-10 audit) — no --odds-history supplied/matched, not yet learned. freeze_tips now logs per-tip market probs (tiplog .mkt) as the future fitting corpus.
 window.NRL_LEARNED = {
-  "updated": "2026-08-28",
-  "gamesLearned": 190,
+  "updated": "2026-08-29",
+  "gamesLearned": 191,
   "lowConfidence": false,
   "params": {
-    "homeAdv": -0.19,
+    "homeAdv": -0.12,
     "logisticScale": 7.0,
     "oddsWeight": 0.75,
     "oddsWeightLearned": false,
@@ -19,7 +19,7 @@ window.NRL_LEARNED = {
     "eloHGA": 20
   },
   "elo": {
-    "PEN": 1600.8,
+    "PEN": 1612.4,
     "SYD": 1618.9,
     "NZW": 1634.8,
     "CRO": 1575.4,
@@ -28,7 +28,7 @@ window.NRL_LEARNED = {
     "NEW": 1537.5,
     "NQL": 1505.1,
     "MAN": 1504.8,
-    "CAN": 1498.6,
+    "CAN": 1487.0,
     "CBR": 1474.0,
     "MEL": 1489.0,
     "BRI": 1379.6,
@@ -38,14 +38,14 @@ window.NRL_LEARNED = {
     "STI": 1350.4
   },
   "backtest": {
-    "games": 190,
-    "brier": 0.2366,
-    "logloss": 0.6676,
-    "hit": 0.6158,
+    "games": 191,
+    "brier": 0.2357,
+    "logloss": 0.6658,
+    "hit": 0.6335,
     "marketBrier": null,
     "lockTax": {
       "games": 22,
-      "modelRight": 13,
+      "modelRight": 14,
       "rkWins": 16
     }
   },
@@ -189,6 +189,11 @@ window.NRL_LEARNED = {
       "date": "2026-08-28",
       "games": 190,
       "brier": 0.2366
+    },
+    {
+      "date": "2026-08-29",
+      "games": 191,
+      "brier": 0.2357
     }
   ],
   "results": [
@@ -1546,6 +1551,14 @@ window.NRL_LEARNED = {
       "home": "MAN",
       "away": "STI",
       "hs": 44,
+      "as": 10
+    },
+    {
+      "season": 2026,
+      "round": 26,
+      "home": "PEN",
+      "away": "CAN",
+      "hs": 24,
       "as": 10
     }
   ]

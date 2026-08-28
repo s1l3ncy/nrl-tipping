@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-28",
+  "updated": "2026-08-29",
   "season": 2026,
   "round": 26,
   "source": "zerotackle.com",
@@ -23,15 +23,15 @@ window.NRL_DATA = {
       "P": 23,
       "W": 17,
       "L": 6,
-      "PF": 637,
-      "PA": 331,
+      "PF": 645,
+      "PA": 337,
       "last5": 3,
       "home": {
-        "P": 10,
-        "W": 8,
+        "P": 11,
+        "W": 9,
         "L": 2,
-        "PF": 286,
-        "PA": 134
+        "PF": 310,
+        "PA": 144
       },
       "away": {
         "P": 12,
@@ -257,9 +257,9 @@ window.NRL_DATA = {
       "P": 23,
       "W": 11,
       "L": 12,
-      "PF": 450,
-      "PA": 494,
-      "last5": 3,
+      "PF": 456,
+      "PA": 502,
+      "last5": 2,
       "home": {
         "P": 11,
         "W": 7,
@@ -268,11 +268,11 @@ window.NRL_DATA = {
         "PA": 194
       },
       "away": {
-        "P": 11,
+        "P": 12,
         "W": 4,
-        "L": 7,
-        "PF": 242,
-        "PA": 284
+        "L": 8,
+        "PF": 252,
+        "PA": 308
       },
       "news": "Jethro Rinakama (Knee); Samuel Hughes (Neck); Kurt Mann (Groin); Sitili Tupouniua (Hamstring); Jonathan Sua (Suspension) — back Round 27"
     },
@@ -485,9 +485,9 @@ window.NRL_DATA = {
     {
       "home": "PEN",
       "away": "CAN",
-      "venue": "",
+      "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-08-28T20:00:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -505,7 +505,7 @@ window.NRL_DATA = {
           "away": 1.4
         },
         "close": {
-          "home": 3.54,
+          "home": 3.55,
           "away": 1.3
         }
       },
@@ -526,7 +526,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.55,
-          "away": 2.45
+          "away": 2.48
         }
       },
       "weather": null,
@@ -586,7 +586,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.6,
-          "away": 1.48
+          "away": 1.49
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-28T21:24:05+10:00",
+  "generatedAt": "2026-08-29T07:48:44+10:00",
   "changes": [
     {
       "id": "r26-NZW-inj-tanah-boyd",
@@ -1176,6 +1176,30 @@ window.NRL_DATA = {
       "rnd": 26
     },
     {
+      "id": "r26-SYD-DOL-line-1.55-2.48",
+      "fixture": "SYD-DOL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Roosters $1.55 → $1.55, Dolphins $2.45 → $2.48. Market now 62% Roosters (was 61%).",
+      "pts": null,
+      "ts": "2026-08-29T07:48:44+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PAR-CRO-line-2.60-1.49",
+      "fixture": "PAR-CRO",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Eels $2.60 → $2.60, Sharks $1.48 → $1.49. Market now 36% Eels (was 36%).",
+      "pts": null,
+      "ts": "2026-08-29T07:48:44+10:00",
+      "rnd": 26
+    },
+    {
       "id": "r26-GLD-SOU-line-3.54-1.30",
       "fixture": "GLD-SOU",
       "team": "SOU",
@@ -1294,31 +1318,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-08-27T19:49:28+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-MAN-STI-line-1.38-3.05",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $1.40 → $1.38, Dragons $2.98 → $3.05. Market now 69% Sea Eagles (was 68%).",
-      "pts": null,
-      "ts": "2026-08-27T09:38:36+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PEN-CAN-line-1.34-3.25",
-      "fixture": "PEN-CAN",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.34 → $1.34, Bulldogs $3.20 → $3.25. Market now 71% Panthers (was 70%).",
-      "pts": null,
-      "ts": "2026-08-27T09:38:36+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-27T09:38:36+10:00"
+  "changesSince": "2026-08-27T19:49:28+10:00"
 };
