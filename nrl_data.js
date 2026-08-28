@@ -92,7 +92,7 @@ window.NRL_DATA = {
         "PF": 328,
         "PA": 220
       },
-      "news": "Victor Radley (Concussion) — back Round 27; Blake Steep (ACL) — back Next Season"
+      "news": null
     },
     {
       "name": "Dolphins",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 284,
         "PA": 282
       },
-      "news": "Dayne Jennings (Knee); Ashton Ward (Hamstring) — back Next Season"
+      "news": null
     },
     {
       "name": "Cowboys",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 147,
         "PA": 298
       },
-      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": null
     },
     {
       "name": "Broncos",
@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hame Sele (Achilles); Jacob Liddle (Calf); Jaydn Su'A (Pectoral) — back Round 27; Hayden Buchanan (Shoulder) — back Next Season; David Fale (Calf) — back Next Season; Clinton Gutherson (Knee) — back Next Season"
+      "news": null
     }
   ],
   "fixtures": [
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-29T07:57:39+10:00",
+  "generatedAt": "2026-08-29T08:20:29+10:00",
   "changes": [
     {
       "id": "r26-NZW-inj-tanah-boyd",
@@ -633,6 +633,186 @@ window.NRL_DATA = {
       "text": "Sea Eagles: Joey Walsh (Jaw) — back Next Season — new on the injury list.",
       "pts": 2.5,
       "ts": "2026-08-28T08:16:30+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SYD-fit-blake-steep",
+      "fixture": "SYD-DOL",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Blake Steep is off the injury list.",
+      "pts": 0.7,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SYD-fit-victor-radley",
+      "fixture": "SYD-DOL",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Victor Radley is off the injury list.",
+      "pts": 1.1,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SOU-fit-ashton-ward",
+      "fixture": "GLD-SOU",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Rabbitohs: Ashton Ward is off the injury list.",
+      "pts": 3.0,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SOU-fit-dayne-jennings",
+      "fixture": "GLD-SOU",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Rabbitohs: Dayne Jennings is off the injury list.",
+      "pts": 0.6,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-WST-fit-adam-doueihi",
+      "fixture": "NQL-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Adam Doueihi is off the injury list.",
+      "pts": 3.3,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-WST-fit-alex-twal",
+      "fixture": "NQL-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Alex Twal is off the injury list.",
+      "pts": 1.1,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-WST-fit-kai-pearce-paul",
+      "fixture": "NQL-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Kai Pearce-Paul is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-WST-fit-royce-hunt",
+      "fixture": "NQL-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Royce Hunt is off the injury list.",
+      "pts": 0.9,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-WST-fit-taylan-may",
+      "fixture": "NQL-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Taylan May is off the injury list.",
+      "pts": 1.9,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-STI-fit-clinton-gutherson",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Clinton Gutherson is off the injury list.",
+      "pts": 2.3,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-STI-fit-david-fale",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: David Fale is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-STI-fit-hame-sele",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Hame Sele is off the injury list.",
+      "pts": 0.7,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-STI-fit-hayden-buchanan",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Hayden Buchanan is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-STI-fit-jacob-liddle",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Jacob Liddle is off the injury list.",
+      "pts": 3.0,
+      "ts": "2026-08-29T08:20:29+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-STI-fit-jaydn-su-a",
+      "fixture": "MAN-STI",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Jaydn Su'A is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-08-29T08:20:29+10:00",
       "rnd": 26
     },
     {
@@ -1137,78 +1317,6 @@ window.NRL_DATA = {
       "text": "Line moved — Eels $2.60 → $2.60, Sharks $1.48 → $1.49. Market now 36% Eels (was 36%).",
       "pts": null,
       "ts": "2026-08-29T07:48:44+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-SOU-line-3.54-1.30",
-      "fixture": "GLD-SOU",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $3.40 → $3.54, Rabbitohs $1.32 → $1.30. Market now 27% Titans (was 28%).",
-      "pts": null,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NQL-WST-line-1.26-3.80",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.25 → $1.26, Wests Tigers $3.85 → $3.80. Market now 75% Cowboys (was 75%).",
-      "pts": null,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-STI-line-1.36-3.15",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $1.36 → $1.36, Dragons $3.20 → $3.15. Market now 70% Sea Eagles (was 70%).",
-      "pts": null,
-      "ts": "2026-08-28T12:18:12+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PAR-CRO-line-2.60-1.48",
-      "fixture": "PAR-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.60 → $2.60, Sharks $1.49 → $1.48. Market now 36% Eels (was 36%).",
-      "pts": null,
-      "ts": "2026-08-28T12:18:12+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-MAN-STI-line-1.36-3.20",
-      "fixture": "MAN-STI",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sea Eagles $1.37 → $1.36, Dragons $3.10 → $3.20. Market now 70% Sea Eagles (was 69%).",
-      "pts": null,
-      "ts": "2026-08-28T08:16:30+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-SOU-line-3.40-1.32",
-      "fixture": "GLD-SOU",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $3.35 → $3.40, Rabbitohs $1.33 → $1.32. Market now 28% Titans (was 28%).",
-      "pts": null,
-      "ts": "2026-08-28T08:16:30+10:00",
       "rnd": 26
     }
   ],
