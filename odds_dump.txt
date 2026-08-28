@@ -1,8 +1,8 @@
 # Round 26 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-28T21:23:41. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-29T07:48:21. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (55 book quotes across 5 fixtures).
-Titans v Rabbitohs: 3.54 / 1.30
-Roosters v Dolphins: 1.55 / 2.45
+Titans v Rabbitohs: 3.55 / 1.30
+Roosters v Dolphins: 1.55 / 2.48
 Cowboys v Wests Tigers: 1.26 / 3.80
 Warriors v Knights: 1.28 / 3.70
-Eels v Sharks: 2.60 / 1.48
+Eels v Sharks: 2.60 / 1.49
