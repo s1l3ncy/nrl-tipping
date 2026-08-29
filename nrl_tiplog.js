@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-29T21:58:02.904Z",
+ "updated": "2026-08-29T22:40:08.356Z",
  "tips": [
   {
    "season": 2026,
@@ -349,7 +349,7 @@ window.NRL_TIPLOG = {
    "mkt": 35,
    "why": "Built on Knights missing Dylan Brown and 4 more, plus Warriors rating the stronger side. Warriors missing Chanel Harris-Tavita and 5 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-30T16:00:00+12:00",
-   "ts": "2026-08-29T21:58:02.904Z"
+   "ts": "2026-08-29T22:40:08.356Z"
   },
   {
    "season": 2026,
@@ -361,7 +361,7 @@ window.NRL_TIPLOG = {
    "mkt": 64,
    "why": "Built on Sharks rating the stronger side, plus Eels missing Isaiah Iongi and 3 more. Sharks being without Braydon Trindall (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-30T16:05:00+10:00",
-   "ts": "2026-08-29T21:58:02.904Z"
+   "ts": "2026-08-29T22:40:08.356Z"
   },
   {
    "season": 2026,

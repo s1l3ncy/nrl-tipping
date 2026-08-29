@@ -559,7 +559,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.66,
-          "away": 1.48
+          "away": 1.47
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-30T07:57:58+10:00",
+  "generatedAt": "2026-08-30T08:40:05+10:00",
   "changes": [
     {
       "id": "r26-SYD-inj-sam-walker",
