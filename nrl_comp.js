@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-29T07:05:03+00:00",
+ "fetched": "2026-08-29T13:50:13+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,14 +82,16 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 126,
+   "roundScore": 5,
+   "totalScore": 127,
    "totalMargin": 444,
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
     "CAN-PEN": "PEN",
-    "GLD-SOU": "SOU"
+    "GLD-SOU": "SOU",
+    "DOL-SYD": "SYD",
+    "NQL-WST": "NQL"
    }
   },
   {
@@ -167,14 +169,16 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 125,
+   "roundScore": 5,
+   "totalScore": 126,
    "totalMargin": 456,
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
     "CAN-PEN": "PEN",
-    "GLD-SOU": "SOU"
+    "GLD-SOU": "SOU",
+    "DOL-SYD": "SYD",
+    "NQL-WST": "NQL"
    }
   },
   {
@@ -252,14 +256,16 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 124,
+   "roundScore": 5,
+   "totalScore": 125,
    "totalMargin": 475,
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
     "CAN-PEN": "PEN",
-    "GLD-SOU": "SOU"
+    "GLD-SOU": "SOU",
+    "DOL-SYD": "SYD",
+    "NQL-WST": "NQL"
    }
   },
   {
@@ -337,14 +343,16 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 122,
+   "roundScore": 5,
+   "totalScore": 123,
    "totalMargin": 440,
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
     "CAN-PEN": "PEN",
-    "GLD-SOU": "SOU"
+    "GLD-SOU": "SOU",
+    "DOL-SYD": "SYD",
+    "NQL-WST": "NQL"
    }
   },
   {
@@ -422,14 +430,16 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 113,
+   "roundScore": 5,
+   "totalScore": 114,
    "totalMargin": 476,
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
     "CAN-PEN": "PEN",
-    "GLD-SOU": "SOU"
+    "GLD-SOU": "SOU",
+    "DOL-SYD": "SYD",
+    "NQL-WST": "NQL"
    }
   },
   {
@@ -507,14 +517,16 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 2,
-   "totalScore": 105,
+   "roundScore": 4,
+   "totalScore": 107,
    "totalMargin": 517,
    "picks": {
     "BRI-MEL": "BRI",
     "MAN-STI": "MAN",
     "CAN-PEN": "PEN",
-    "GLD-SOU": "GLD"
+    "GLD-SOU": "GLD",
+    "DOL-SYD": "DOL",
+    "NQL-WST": "NQL"
    }
   }
  ]
