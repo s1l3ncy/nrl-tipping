@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-29T02:27:25+00:00",
+ "fetched": "2026-08-29T06:39:24+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -88,7 +88,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
-    "CAN-PEN": "PEN"
+    "CAN-PEN": "PEN",
+    "GLD-SOU": "SOU"
    }
   },
   {
@@ -172,7 +173,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
-    "CAN-PEN": "PEN"
+    "CAN-PEN": "PEN",
+    "GLD-SOU": "SOU"
    }
   },
   {
@@ -256,7 +258,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
-    "CAN-PEN": "PEN"
+    "CAN-PEN": "PEN",
+    "GLD-SOU": "SOU"
    }
   },
   {
@@ -340,7 +343,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
-    "CAN-PEN": "PEN"
+    "CAN-PEN": "PEN",
+    "GLD-SOU": "SOU"
    }
   },
   {
@@ -424,7 +428,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-MEL": "MEL",
     "MAN-STI": "MAN",
-    "CAN-PEN": "PEN"
+    "CAN-PEN": "PEN",
+    "GLD-SOU": "SOU"
    }
   },
   {
@@ -508,7 +513,8 @@ window.NRL_COMP = {
    "picks": {
     "BRI-MEL": "BRI",
     "MAN-STI": "MAN",
-    "CAN-PEN": "PEN"
+    "CAN-PEN": "PEN",
+    "GLD-SOU": "GLD"
    }
   }
  ]

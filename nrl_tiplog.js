@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-29T02:27:38.365Z",
+ "updated": "2026-08-29T06:39:39.845Z",
  "tips": [
   {
    "season": 2026,
@@ -337,19 +337,19 @@ window.NRL_TIPLOG = {
    "mkt": 75,
    "why": "Built on Wests Tigers missing Adam Doueihi and 5 more, plus Cowboys rating the stronger side. Cowboys being without Murray Taulagi (not named) pulls it back. The bookies read it the same way.",
    "ko": "2026-08-29T19:35:00+10:00",
-   "ts": "2026-08-29T02:27:38.365Z"
+   "ts": "2026-08-29T06:39:39.845Z"
   },
   {
    "season": 2026,
    "round": 26,
    "home": "NZW",
    "away": "NEW",
-   "tip": "NZW",
-   "prob": 71,
-   "mkt": 74,
-   "why": "Built on Knights missing Dylan Brown and 4 more, plus Warriors rating the stronger side. Warriors missing Luke Metcalf and 4 more pulls it back. The bookies read it the same way.",
+   "tip": "NEW",
+   "prob": 36,
+   "mkt": 36,
+   "why": "Built on Knights missing Dylan Brown and 4 more, plus Warriors rating the stronger side. Warriors missing Chanel Harris-Tavita and 5 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-30T16:00:00+12:00",
-   "ts": "2026-08-29T02:27:38.365Z"
+   "ts": "2026-08-29T06:39:39.845Z"
   },
   {
    "season": 2026,
@@ -357,11 +357,11 @@ window.NRL_TIPLOG = {
    "home": "PAR",
    "away": "CRO",
    "tip": "CRO",
-   "prob": 65,
+   "prob": 66,
    "mkt": 64,
    "why": "Built on Sharks rating the stronger side, plus Eels missing Isaiah Iongi and 3 more. Sharks being without Braydon Trindall (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-30T16:05:00+10:00",
-   "ts": "2026-08-29T02:27:38.365Z"
+   "ts": "2026-08-29T06:39:39.845Z"
   },
   {
    "season": 2026,
@@ -382,11 +382,24 @@ window.NRL_TIPLOG = {
    "away": "DOL",
    "tip": "SYD",
    "prob": 59,
-   "mkt": 61,
+   "mkt": 62,
    "why": "Built on Dolphins missing Connelly Lemuelu. Roosters missing Victor Radley and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-29T17:30:00+10:00",
-   "ts": "2026-08-29T02:27:38.365Z"
+   "ts": "2026-08-29T06:39:39.845Z"
   }
  ],
- "flips": []
+ "flips": [
+  {
+   "season": 2026,
+   "round": 26,
+   "home": "NZW",
+   "away": "NEW",
+   "from": "NZW",
+   "to": "NEW",
+   "fromProb": 71,
+   "toProb": 36,
+   "why": "Built on Knights missing Dylan Brown and 4 more, plus Warriors rating the stronger side. Warriors missing Chanel Harris-Tavita and 5 more pulls it back. The bookies read it the same way.",
+   "ts": "2026-08-29T06:39:39.845Z"
+  }
+ ]
 };
