@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-29",
+  "updated": "2026-08-30",
   "season": 2026,
   "round": 26,
   "source": "zerotackle.com",
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-29T23:50:23+10:00",
+  "generatedAt": "2026-08-30T05:25:04+10:00",
   "changes": [
     {
       "id": "r26-SYD-inj-sam-walker",

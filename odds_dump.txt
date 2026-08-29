@@ -1,5 +1,5 @@
 # Round 26 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-08-29T23:50:00. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-08-30T05:24:34. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (22 book quotes across 2 fixtures).
 Warriors v Knights: 1.46 / 2.75
 Eels v Sharks: 2.65 / 1.48
