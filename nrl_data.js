@@ -153,8 +153,8 @@ window.NRL_DATA = {
       "P": 23,
       "W": 13,
       "L": 10,
-      "PF": 630,
-      "PA": 555,
+      "PF": 644,
+      "PA": 561,
       "last5": 3,
       "home": {
         "P": 11,
@@ -164,11 +164,11 @@ window.NRL_DATA = {
         "PA": 257
       },
       "away": {
-        "P": 11,
-        "W": 4,
+        "P": 12,
+        "W": 5,
         "L": 7,
-        "PF": 284,
-        "PA": 282
+        "PF": 326,
+        "PA": 304
       },
       "news": "Dayne Jennings (Knee); Ashton Ward (Hamstring) — back Next Season"
     },
@@ -413,15 +413,15 @@ window.NRL_DATA = {
       "P": 23,
       "W": 6,
       "L": 17,
-      "PF": 451,
-      "PA": 625,
-      "last5": 1,
+      "PF": 457,
+      "PA": 639,
+      "last5": 0,
       "home": {
-        "P": 10,
+        "P": 11,
         "W": 3,
-        "L": 7,
-        "PF": 163,
-        "PA": 286
+        "L": 8,
+        "PF": 185,
+        "PA": 328
       },
       "away": {
         "P": 12,
@@ -496,9 +496,9 @@ window.NRL_DATA = {
     {
       "home": "GLD",
       "away": "SOU",
-      "venue": "",
+      "venue": "Cbus Super Stadium",
       "city": "Gold Coast",
-      "kickoff": "",
+      "kickoff": "2026-08-29T15:00:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -588,7 +588,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-29T16:39:34+10:00",
+  "generatedAt": "2026-08-29T17:05:14+10:00",
   "changes": [
     {
       "id": "r26-NZW-inj-chanel-harris-tavita",
@@ -708,6 +708,30 @@ window.NRL_DATA = {
       "text": "Sea Eagles: Joey Walsh (Jaw) — back Next Season — new on the injury list.",
       "pts": 2.5,
       "ts": "2026-08-28T08:16:30+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SOU-in-latrell-mitchell",
+      "fixture": "GLD-SOU",
+      "team": "SOU",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Latrell Mitchell (Centre) named in the Rabbitohs 17.",
+      "pts": 2.2,
+      "ts": "2026-08-29T17:05:14+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-SOU-out-adam-elliott",
+      "fixture": "GLD-SOU",
+      "team": "SOU",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Adam Elliott (Lock) is out of the Rabbitohs 17.",
+      "pts": 0.7,
+      "ts": "2026-08-29T17:05:14+10:00",
       "rnd": 26
     },
     {
@@ -1283,30 +1307,6 @@ window.NRL_DATA = {
       "dir": "up",
       "text": "Warriors: Ali Leiataua is off the injury list.",
       "pts": 1.6,
-      "ts": "2026-08-28T08:16:30+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NZW-fit-te-maire-martin",
-      "fixture": "NZW-NEW",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Warriors: Te Maire Martin is off the injury list.",
-      "pts": 2.6,
-      "ts": "2026-08-28T08:16:30+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-SYD-fit-angus-crichton",
-      "fixture": "SYD-DOL",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Angus Crichton is off the injury list.",
-      "pts": 2.1,
       "ts": "2026-08-28T08:16:30+10:00",
       "rnd": 26
     }

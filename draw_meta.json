@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 26,
   "source": "nrl.com",
-  "fetched": "2026-08-29T16:39:06",
+  "fetched": "2026-08-29T17:04:46",
   "fixtures": {
     "BRI-MEL": {
       "venue": "Suncorp Stadium",
@@ -19,6 +19,11 @@
       "venue": "CommBank Stadium",
       "city": "Sydney",
       "kickoffUtc": "2026-08-28T10:00:00Z"
+    },
+    "GLD-SOU": {
+      "venue": "Cbus Super Stadium",
+      "city": "Gold Coast",
+      "kickoffUtc": "2026-08-29T05:00:00Z"
     },
     "SYD-DOL": {
       "venue": "Allianz Stadium",
