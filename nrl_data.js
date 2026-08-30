@@ -473,7 +473,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.3,
-          "away": 3.48
+          "away": 3.5
         }
       },
       "weather": null,
@@ -493,7 +493,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 3.35,
-          "away": 1.3
+          "away": 1.31
         }
       },
       "weather": null,
@@ -532,8 +532,8 @@ window.NRL_DATA = {
           "away": 3.49
         },
         "close": {
-          "home": 1.31,
-          "away": 3.49
+          "home": 1.3,
+          "away": 3.5
         }
       },
       "weather": null,
@@ -553,7 +553,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.46,
-          "away": 2.69
+          "away": 2.72
         }
       },
       "weather": null,
@@ -573,7 +573,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.57,
-          "away": 2.35
+          "away": 2.3
         }
       },
       "weather": null,
@@ -593,7 +593,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.1,
-          "away": 1.72
+          "away": 1.73
         }
       },
       "weather": null,
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.34,
-          "away": 3.3
+          "away": 3.27
         }
       },
       "weather": null,
@@ -624,8 +624,92 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-08-31T08:05:54+10:00",
+  "generatedAt": "2026-08-31T08:44:39+10:00",
   "changes": [
+    {
+      "id": "r27-CAN-BRI-line-1.30-3.50",
+      "fixture": "CAN-BRI",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Bulldogs $1.30 → $1.30, Broncos $3.48 → $3.50. Market now 73% Bulldogs (was 73%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-DOL-line-3.35-1.31",
+      "fixture": "GLD-DOL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $3.35 → $3.35, Dolphins $1.30 → $1.31. Market now 28% Titans (was 28%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-NZW-MAN-line-1.30-3.50",
+      "fixture": "NZW-MAN",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.31 → $1.30, Sea Eagles $3.49 → $3.50. Market now 73% Warriors (was 73%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-NQL-CBR-line-1.46-2.72",
+      "fixture": "NQL-CBR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Cowboys $1.46 → $1.46, Raiders $2.69 → $2.72. Market now 65% Cowboys (was 65%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CRO-MEL-line-1.57-2.30",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $1.57 → $1.57, Storm $2.35 → $2.30. Market now 59% Sharks (was 60%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-PAR-line-2.10-1.73",
+      "fixture": "STI-PAR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Dragons $2.10 → $2.10, Eels $1.72 → $1.73. Market now 45% Dragons (was 45%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PEN-WST-line-1.34-3.27",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.34 → $1.34, Wests Tigers $3.30 → $3.27. Market now 71% Panthers (was 71%).",
+      "pts": null,
+      "ts": "2026-08-31T08:44:39+10:00",
+      "rnd": 27
+    },
     {
       "id": "r27-GLD-DOL-line-3.35-1.30",
       "fixture": "GLD-DOL",
@@ -687,5 +771,5 @@ window.NRL_DATA = {
       "rnd": 27
     }
   ],
-  "changesSince": "2026-08-31T05:19:32+10:00"
+  "changesSince": "2026-08-31T08:05:54+10:00"
 };
