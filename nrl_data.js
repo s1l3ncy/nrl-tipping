@@ -40,7 +40,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Isaah Yeo (Pectoral); Paul Alamoti (Hamstring); Mitch Kenny (Leg) — back Finals; Jack Cogger (Suspension) — back Finals"
+      "news": "Isaah Yeo (Pectoral); Paul Alamoti (Hamstring); Izack Tago (Knee) — back Finals; Mitch Kenny (Leg) — back Finals; Jack Cogger (Suspension) — back Finals"
     },
     {
       "name": "Warriors",
@@ -66,7 +66,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Charnze Nicoll-Klokstad (Suspension) — back Round 27; Te Maire Martin (Hamstring) — back Round 27; Chanel Harris-Tavita (Hamstring) — back Round 27; Jackson Ford (Pectoral) — back Finals; Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals"
+      "news": "Te Maire Martin (Hamstring) — back Round 27; Charnze Nicoll-Klokstad (Suspension) — back Round 27; Chanel Harris-Tavita (Hamstring) — back Round 27; Jackson Ford (Pectoral) — back Finals; Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals"
     },
     {
       "name": "Dolphins",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 242
       },
-      "news": "Dominic Young (Suspension) — back Finals; Tyson Frizell (Suspension) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Phoenix Crossland (Knee) — back Finals; Brodie Jones (Hamstring) — back Finals; Dominic Young (Suspension) — back Finals; Tyson Frizell (Suspension) — back Finals; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -222,7 +222,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Murray Taulagi (Concussion)"
+      "news": "Zac Laybutt (Concussion); Murray Taulagi (Concussion)"
     },
     {
       "name": "Sea Eagles",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 324,
         "PA": 246
       },
-      "news": "Ethan Bullemor (Concussion); Tolutau Koula (Ankle); Siosiua Taukeiaho (Leg); Luke Brooks (ACL) — back Next Season; Kobe Hetherington (Biceps) — back Next Season; Joey Walsh (Jaw) — back Next Season"
+      "news": "Ethan Bullemor (Concussion); Tolutau Koula (Ankle); Siosiua Taukeiaho (Leg); Kobe Hetherington (Biceps) — back Next Season; Luke Brooks (ACL) — back Next Season; Joey Walsh (Jaw) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 157,
         "PA": 322
       },
-      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 201,
         "PA": 306
       },
-      "news": "Brendan Piakura (Concussion); Preston Riki (Ankle); Reece Walsh (Ankle); Cory Paix (Shoulder) — back Next Season; Blake Mozer (Head knock) — back Next Season"
+      "news": "Brendan Piakura (Concussion); Preston Riki (Ankle); Reece Walsh (Ankle) — back Next Season; Cory Paix (Shoulder) — back Next Season; Blake Mozer (Head knock) — back Next Season"
     },
     {
       "name": "Titans",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Dean Ieremia (Hamstring); Jojo Fifita (Hip); Brock Gray (ACL); Beau Fermor (Ribs) — back Round 27; Jensen Taumoepeau (Ankle) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
+      "news": "Dean Ieremia (Hamstring); Jojo Fifita (Hip); Brock Gray (ACL); Beau Fermor (Ribs) — back Round 27; Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -538,8 +538,8 @@ window.NRL_DATA = {
           "away": 2.92
         },
         "close": {
-          "home": 1.46,
-          "away": 2.75
+          "home": 1.44,
+          "away": 2.8
         }
       },
       "weather": null,
@@ -558,8 +558,8 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.66,
-          "away": 1.47
+          "home": 2.84,
+          "away": 1.43
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-30T08:40:05+10:00",
+  "generatedAt": "2026-08-30T13:11:37+10:00",
   "changes": [
     {
       "id": "r26-SYD-inj-sam-walker",
@@ -666,6 +666,90 @@ window.NRL_DATA = {
       "text": "Dragons: Jacob Liddle (Calf) — new on the injury list.",
       "pts": 3.0,
       "ts": "2026-08-29T12:27:34+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PEN-inj-izack-tago",
+      "fixture": "PEN-CAN",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Panthers: Izack Tago (Knee) — back Finals — new on the injury list.",
+      "pts": 1.8,
+      "ts": "2026-08-30T13:11:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NEW-inj-brodie-jones",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Brodie Jones (Hamstring) — back Finals — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-30T13:11:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NQL-inj-zac-laybutt",
+      "fixture": "NQL-WST",
+      "team": "NQL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Cowboys: Zac Laybutt (Concussion) — new on the injury list.",
+      "pts": 1.6,
+      "ts": "2026-08-30T13:11:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-GLD-inj-jaimin-jolliffe",
+      "fixture": "GLD-SOU",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Titans: Jaimin Jolliffe (Knee) — back Next Season — new on the injury list.",
+      "pts": 0.7,
+      "ts": "2026-08-30T13:11:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-GLD-fit-jensen-taumoepeau",
+      "fixture": "GLD-SOU",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Jensen Taumoepeau is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-30T13:11:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-out-morgan-gannon",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Morgan Gannon (Second-row) is out of the Warriors 17.",
+      "pts": 1.2,
+      "ts": "2026-08-30T13:11:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-in-makaia-tafua",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Makaia Tafua named in the Warriors 17.",
+      "pts": 0.6,
+      "ts": "2026-08-30T13:11:37+10:00",
       "rnd": 26
     },
     {
@@ -1173,125 +1257,29 @@ window.NRL_DATA = {
       "rnd": 26
     },
     {
-      "id": "r26-WST-inj-sunia-turuva",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Sunia Turuva (Knee) — back Round 27 — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-inj-jojo-fifita",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Jojo Fifita (Hip) — new on the injury list.",
-      "pts": 1.7,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-fit-zane-harrison",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r26-NZW-NEW-line-1.44-2.80",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Titans: Zane Harrison is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-28T21:24:05+10:00",
+      "text": "Line moved — Warriors $1.46 → $1.44, Knights $2.75 → $2.80. Market now 66% Warriors (was 65%).",
+      "pts": null,
+      "ts": "2026-08-30T13:11:37+10:00",
       "rnd": 26
     },
     {
-      "id": "r26-CAN-in-cooper-toy",
-      "fixture": "PEN-CAN",
-      "team": "CAN",
-      "cat": "in",
-      "sev": 2,
+      "id": "r26-PAR-CRO-line-2.84-1.43",
+      "fixture": "PAR-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Cooper Toy named in the Bulldogs 17.",
-      "pts": 0.6,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-CAN-out-jed-reardon",
-      "fixture": "PEN-CAN",
-      "team": "CAN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jed Reardon is out of the Bulldogs 17.",
-      "pts": 0.6,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-DOL-out-jake-averillo",
-      "fixture": "SYD-DOL",
-      "team": "DOL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jake Averillo (Centre) is out of the Dolphins 17.",
-      "pts": 1.9,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-DOL-in-kurt-donoghoe",
-      "fixture": "SYD-DOL",
-      "team": "DOL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Kurt Donoghoe (Lock) named in the Dolphins 17.",
-      "pts": 1.0,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-out-jojo-fifita",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jojo Fifita (Winger) is out of the Titans 17.",
-      "pts": 1.7,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-GLD-in-max-feagai",
-      "fixture": "GLD-SOU",
-      "team": "GLD",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Max Feagai (Centre) named in the Titans 17.",
-      "pts": 1.2,
-      "ts": "2026-08-28T21:24:05+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PEN-out-jaxen-edgar",
-      "fixture": "PEN-CAN",
-      "team": "PEN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jaxen Edgar (Fullback) is out of the Panthers 17.",
-      "pts": 2.0,
-      "ts": "2026-08-28T21:24:05+10:00",
+      "text": "Line moved — Eels $2.66 → $2.84, Sharks $1.47 → $1.43. Market now 33% Eels (was 36%).",
+      "pts": null,
+      "ts": "2026-08-30T13:11:37+10:00",
       "rnd": 26
     }
   ],
-  "changesSince": "2026-08-28T21:24:05+10:00"
+  "changesSince": "2026-08-29T08:20:29+10:00"
 };
