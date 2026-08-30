@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 26,
  "finishRound": 31,
- "fetched": "2026-08-30T05:24:56+00:00",
+ "fetched": "2026-08-30T13:48:26+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,8 +82,8 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 5,
-   "totalScore": 127,
+   "roundScore": 6,
+   "totalScore": 128,
    "totalMargin": 444,
    "picks": {
     "BRI-MEL": "MEL",
@@ -92,7 +92,8 @@ window.NRL_COMP = {
     "GLD-SOU": "SOU",
     "DOL-SYD": "SYD",
     "NQL-WST": "NQL",
-    "NEW-NZW": "NZW"
+    "NEW-NZW": "NZW",
+    "CRO-PAR": "CRO"
    }
   },
   {
@@ -170,8 +171,8 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 5,
-   "totalScore": 126,
+   "roundScore": 6,
+   "totalScore": 127,
    "totalMargin": 456,
    "picks": {
     "BRI-MEL": "MEL",
@@ -180,7 +181,8 @@ window.NRL_COMP = {
     "GLD-SOU": "SOU",
     "DOL-SYD": "SYD",
     "NQL-WST": "NQL",
-    "NEW-NZW": "NZW"
+    "NEW-NZW": "NZW",
+    "CRO-PAR": "CRO"
    }
   },
   {
@@ -258,8 +260,8 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 5,
-   "totalScore": 125,
+   "roundScore": 6,
+   "totalScore": 126,
    "totalMargin": 475,
    "picks": {
     "BRI-MEL": "MEL",
@@ -268,7 +270,8 @@ window.NRL_COMP = {
     "GLD-SOU": "SOU",
     "DOL-SYD": "SYD",
     "NQL-WST": "NQL",
-    "NEW-NZW": "NZW"
+    "NEW-NZW": "NZW",
+    "CRO-PAR": "CRO"
    }
   },
   {
@@ -346,8 +349,8 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 5,
-   "totalScore": 123,
+   "roundScore": 6,
+   "totalScore": 124,
    "totalMargin": 440,
    "picks": {
     "BRI-MEL": "MEL",
@@ -356,7 +359,8 @@ window.NRL_COMP = {
     "GLD-SOU": "SOU",
     "DOL-SYD": "SYD",
     "NQL-WST": "NQL",
-    "NEW-NZW": "NZW"
+    "NEW-NZW": "NZW",
+    "CRO-PAR": "CRO"
    }
   },
   {
@@ -434,8 +438,8 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 5,
-   "totalScore": 114,
+   "roundScore": 6,
+   "totalScore": 115,
    "totalMargin": 476,
    "picks": {
     "BRI-MEL": "MEL",
@@ -444,7 +448,8 @@ window.NRL_COMP = {
     "GLD-SOU": "SOU",
     "DOL-SYD": "SYD",
     "NQL-WST": "NQL",
-    "NEW-NZW": "NZW"
+    "NEW-NZW": "NZW",
+    "CRO-PAR": "CRO"
    }
   },
   {
@@ -532,7 +537,8 @@ window.NRL_COMP = {
     "GLD-SOU": "GLD",
     "DOL-SYD": "DOL",
     "NQL-WST": "NQL",
-    "NEW-NZW": "NEW"
+    "NEW-NZW": "NEW",
+    "CRO-PAR": "CRO"
    }
   }
  ]
