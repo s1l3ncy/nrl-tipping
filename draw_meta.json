@@ -1,49 +1,49 @@
 {
   "_comment": "Venue / host city / kick-off for the round below, from nrl.com's own draw payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the ground's local time and emits fixture.tz. Regenerated every run by cloud_fetch.py — do not hand-edit.",
   "season": 2026,
-  "round": 26,
+  "round": 27,
   "source": "nrl.com",
-  "fetched": "2026-08-30T23:48:06",
+  "fetched": "2026-08-31T05:19:00",
   "fixtures": {
-    "BRI-MEL": {
-      "venue": "Suncorp Stadium",
-      "city": "Brisbane",
-      "kickoffUtc": "2026-08-27T09:50:00Z"
-    },
-    "MAN-STI": {
-      "venue": "4 Pines Park",
+    "CAN-BRI": {
+      "venue": "Accor Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-28T08:00:00Z"
+      "kickoffUtc": "2026-09-03T09:50:00Z"
     },
-    "PEN-CAN": {
-      "venue": "CommBank Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-08-28T10:00:00Z"
-    },
-    "GLD-SOU": {
+    "GLD-DOL": {
       "venue": "Cbus Super Stadium",
       "city": "Gold Coast",
-      "kickoffUtc": "2026-08-29T05:00:00Z"
+      "kickoffUtc": "2026-09-04T08:00:00Z"
     },
-    "SYD-DOL": {
+    "SOU-SYD": {
       "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-29T07:30:00Z"
+      "kickoffUtc": "2026-09-04T10:00:00Z"
     },
-    "NQL-WST": {
-      "venue": "Queensland Country Bank Stadium",
-      "city": "Townsville",
-      "kickoffUtc": "2026-08-29T09:35:00Z"
-    },
-    "NZW-NEW": {
+    "NZW-MAN": {
       "venue": "Go Media Stadium",
       "city": "Auckland",
-      "kickoffUtc": "2026-08-30T04:00:00Z"
+      "kickoffUtc": "2026-09-05T05:00:00Z"
     },
-    "PAR-CRO": {
+    "NQL-CBR": {
+      "venue": "Queensland Country Bank Stadium",
+      "city": "Townsville",
+      "kickoffUtc": "2026-09-05T07:30:00Z"
+    },
+    "CRO-MEL": {
+      "venue": "Ocean Protect Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-09-05T09:35:00Z"
+    },
+    "STI-PAR": {
+      "venue": "WIN Stadium",
+      "city": "Wollongong",
+      "kickoffUtc": "2026-09-06T04:00:00Z"
+    },
+    "PEN-WST": {
       "venue": "CommBank Stadium",
       "city": "Sydney",
-      "kickoffUtc": "2026-08-30T06:05:00Z"
+      "kickoffUtc": "2026-09-06T06:05:00Z"
     }
   }
 }
