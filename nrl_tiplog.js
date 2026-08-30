@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-30T03:11:43.522Z",
+ "updated": "2026-08-30T05:25:13.203Z",
  "tips": [
   {
    "season": 2026,
@@ -357,11 +357,11 @@ window.NRL_TIPLOG = {
    "home": "PAR",
    "away": "CRO",
    "tip": "CRO",
-   "prob": 68,
-   "mkt": 67,
+   "prob": 69,
+   "mkt": 68,
    "why": "Built on Sharks rating the stronger side, plus Eels missing Isaiah Iongi and 3 more. Sharks being without Braydon Trindall (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-08-30T16:05:00+10:00",
-   "ts": "2026-08-30T03:11:43.522Z"
+   "ts": "2026-08-30T05:25:13.203Z"
   },
   {
    "season": 2026,
