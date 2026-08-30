@@ -167,7 +167,7 @@ window.NRL_PLAYERS = {
   "herbie farnworth": {"pos": "Centre", "pct": 79.6},
   "hohepa puru": {"pos": "Lock", "pct": 32.5},
   "hudson young": {"pos": "Second-row", "pct": 77.0},
-  "hugo savala": {"pos": "Halfback", "pct": 57.4},
+  "hugo savala": {"pos": "Halfback", "pct": 57.3},
   "isaah yeo": {"pos": "Lock", "pct": 75.1},
   "isaiah iongi": {"pos": "Fullback", "pct": 50.9},
   "isaiah papali'i": {"pos": "Second-row", "pct": 67.3},
