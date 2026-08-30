@@ -17,6 +17,32 @@ window.NRL_DATA = {
   "source": "zerotackle.com",
   "teams": [
     {
+      "name": "Warriors",
+      "short": "NZW",
+      "colour": "#231f20",
+      "P": 23,
+      "W": 17,
+      "L": 6,
+      "PF": 697,
+      "PA": 388,
+      "last5": 5,
+      "home": {
+        "P": 11,
+        "W": 9,
+        "L": 2,
+        "PF": 326,
+        "PA": 192
+      },
+      "away": {
+        "P": 12,
+        "W": 8,
+        "L": 4,
+        "PF": 371,
+        "PA": 196
+      },
+      "news": "Luke Laulilii (Head knock); Charnze Nicoll-Klokstad (Suspension) — back Round 27; Te Maire Martin (Hamstring) — back Round 27; Chanel Harris-Tavita (Hamstring) — back Round 27; Jackson Ford (Pectoral) — back Finals; Luke Metcalf (Hamstring) — back Finals"
+    },
+    {
       "name": "Panthers",
       "short": "PEN",
       "colour": "#0a0a0a",
@@ -40,33 +66,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Isaah Yeo (Pectoral); Paul Alamoti (Hamstring); Izack Tago (Knee) — back Finals; Mitch Kenny (Leg) — back Finals; Jack Cogger (Suspension) — back Finals"
-    },
-    {
-      "name": "Warriors",
-      "short": "NZW",
-      "colour": "#231f20",
-      "P": 23,
-      "W": 17,
-      "L": 6,
-      "PF": 679,
-      "PA": 376,
-      "last5": 4,
-      "home": {
-        "P": 10,
-        "W": 8,
-        "L": 2,
-        "PF": 280,
-        "PA": 160
-      },
-      "away": {
-        "P": 12,
-        "W": 8,
-        "L": 4,
-        "PF": 371,
-        "PA": 196
-      },
-      "news": "Te Maire Martin (Hamstring) — back Round 27; Charnze Nicoll-Klokstad (Suspension) — back Round 27; Chanel Harris-Tavita (Hamstring) — back Round 27; Jackson Ford (Pectoral) — back Finals; Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals"
+      "news": "Isaah Yeo (Pectoral); Paul Alamoti (Hamstring); Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Mitch Kenny (Leg) — back Finals"
     },
     {
       "name": "Dolphins",
@@ -124,12 +124,12 @@ window.NRL_DATA = {
       "name": "Sharks",
       "short": "CRO",
       "colour": "#00a9e0",
-      "P": 22,
+      "P": 23,
       "W": 14,
-      "L": 8,
-      "PF": 634,
-      "PA": 461,
-      "last5": 3,
+      "L": 9,
+      "PF": 652,
+      "PA": 499,
+      "last5": 2,
       "home": {
         "P": 11,
         "W": 8,
@@ -138,13 +138,13 @@ window.NRL_DATA = {
         "PA": 222
       },
       "away": {
-        "P": 11,
+        "P": 12,
         "W": 6,
-        "L": 5,
-        "PF": 292,
-        "PA": 239
+        "L": 6,
+        "PF": 310,
+        "PA": 277
       },
-      "news": "Braydon Trindall (Shoulder); Jesse Ramien (Pectoral) — back Next Season"
+      "news": "Mawene Hiroti (Ribs); Braydon Trindall (Shoulder); Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -179,8 +179,8 @@ window.NRL_DATA = {
       "P": 24,
       "W": 14,
       "L": 10,
-      "PF": 621,
-      "PA": 573,
+      "PF": 633,
+      "PA": 591,
       "last5": 3,
       "home": {
         "P": 12,
@@ -190,13 +190,13 @@ window.NRL_DATA = {
         "PA": 303
       },
       "away": {
-        "P": 11,
+        "P": 12,
         "W": 6,
-        "L": 5,
-        "PF": 318,
-        "PA": 242
+        "L": 6,
+        "PF": 350,
+        "PA": 288
       },
-      "news": "Phoenix Crossland (Knee) — back Finals; Brodie Jones (Hamstring) — back Finals; Dominic Young (Suspension) — back Finals; Tyson Frizell (Suspension) — back Finals; Dylan Lucas (Ankle) — back Next Season; Dylan Brown (ACL) — back Next Season"
+      "news": "Francis Manuleleua (Elbow); Phoenix Crossland (Knee) — back Finals; Tyson Frizell (Suspension) — back Finals; Brodie Jones (Hamstring) — back Finals; Dominic Young (Suspension) — back Finals; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 324,
         "PA": 246
       },
-      "news": "Ethan Bullemor (Concussion); Tolutau Koula (Ankle); Siosiua Taukeiaho (Leg); Kobe Hetherington (Biceps) — back Next Season; Luke Brooks (ACL) — back Next Season; Joey Walsh (Jaw) — back Next Season"
+      "news": "Ethan Bullemor (Concussion); Tolutau Koula (Ankle); Siosiua Taukeiaho (Leg); Luke Brooks (ACL) — back Next Season; Kobe Hetherington (Biceps) — back Next Season; Joey Walsh (Jaw) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 252,
         "PA": 308
       },
-      "news": "Kurt Mann (Groin); Samuel Hughes (Neck); Jethro Rinakama (Knee); Sitili Tupouniua (Hamstring); Jonathan Sua (Suspension) — back Round 27"
+      "news": "Jethro Rinakama (Knee); Samuel Hughes (Neck); Kurt Mann (Groin); Sitili Tupouniua (Hamstring); Jonathan Sua (Suspension) — back Round 27"
     },
     {
       "name": "Storm",
@@ -332,18 +332,18 @@ window.NRL_DATA = {
       "name": "Eels",
       "short": "PAR",
       "colour": "#006eb5",
-      "P": 22,
-      "W": 8,
+      "P": 23,
+      "W": 9,
       "L": 14,
-      "PF": 437,
-      "PA": 636,
-      "last5": 2,
+      "PF": 475,
+      "PA": 654,
+      "last5": 3,
       "home": {
-        "P": 11,
-        "W": 5,
+        "P": 12,
+        "W": 6,
         "L": 6,
-        "PF": 220,
-        "PA": 296
+        "PF": 258,
+        "PA": 314
       },
       "away": {
         "P": 11,
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 157,
         "PA": 322
       },
-      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season; Adam Doueihi (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Kai Pearce-Paul (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season; Adam Doueihi (Shoulder) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -529,9 +529,9 @@ window.NRL_DATA = {
     {
       "home": "NZW",
       "away": "NEW",
-      "venue": "",
+      "venue": "Go Media Stadium",
       "city": "Auckland",
-      "kickoff": "",
+      "kickoff": "2026-08-30T16:00:00+12:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-30T15:25:10+10:00",
+  "generatedAt": "2026-08-30T23:48:37+10:00",
   "changes": [
     {
       "id": "r26-SYD-inj-sam-walker",
@@ -657,6 +657,66 @@ window.NRL_DATA = {
       "text": "Dragons: Jacob Liddle (Calf) — new on the injury list.",
       "pts": 3.0,
       "ts": "2026-08-29T12:27:34+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-inj-luke-laulilii",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Warriors: Luke Laulilii (Head knock) — new on the injury list.",
+      "pts": 1.3,
+      "ts": "2026-08-30T23:48:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NZW-fit-dallin-watene-zelezniak",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Warriors: Dallin Watene-Zelezniak is off the injury list.",
+      "pts": 1.9,
+      "ts": "2026-08-30T23:48:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-CRO-inj-mawene-hiroti",
+      "fixture": "PAR-CRO",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Mawene Hiroti (Ribs) — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-30T23:48:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NEW-inj-francis-manuleleua",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Francis Manuleleua (Elbow) — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-08-30T23:48:37+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-NEW-fit-dylan-lucas",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Dylan Lucas is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-08-30T23:48:37+10:00",
       "rnd": 26
     },
     {
@@ -1114,175 +1174,7 @@ window.NRL_DATA = {
       "pts": 2.0,
       "ts": "2026-08-29T12:27:34+10:00",
       "rnd": 26
-    },
-    {
-      "id": "r26-SYD-fit-blake-steep",
-      "fixture": "SYD-DOL",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Blake Steep is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-SYD-fit-victor-radley",
-      "fixture": "SYD-DOL",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Victor Radley is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-SOU-fit-ashton-ward",
-      "fixture": "GLD-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Ashton Ward is off the injury list.",
-      "pts": 3.0,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-SOU-fit-dayne-jennings",
-      "fixture": "GLD-SOU",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Dayne Jennings is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-adam-doueihi",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Adam Doueihi is off the injury list.",
-      "pts": 3.3,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-alex-twal",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Alex Twal is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-kai-pearce-paul",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Kai Pearce-Paul is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-royce-hunt",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Royce Hunt is off the injury list.",
-      "pts": 0.9,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-WST-fit-taylan-may",
-      "fixture": "NQL-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Taylan May is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-STI-fit-clinton-gutherson",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Clinton Gutherson is off the injury list.",
-      "pts": 2.3,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-STI-fit-david-fale",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: David Fale is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-STI-fit-hame-sele",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Hame Sele is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-STI-fit-hayden-buchanan",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Hayden Buchanan is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-STI-fit-jacob-liddle",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Jacob Liddle is off the injury list.",
-      "pts": 3.0,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
     }
   ],
-  "changesSince": "2026-08-29T08:20:29+10:00"
+  "changesSince": "2026-08-29T12:27:34+10:00"
 };
