@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-08-30T19:19:36.458Z",
+ "updated": "2026-08-30T22:05:57.718Z",
  "tips": [
   {
    "season": 2026,
@@ -397,7 +397,7 @@ window.NRL_TIPLOG = {
    "mkt": 73,
    "why": "Built on Broncos missing Reece Walsh and 4 more, plus Bulldogs rating the stronger side. Bulldogs sweating on Sitili Tupouniua and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-03T19:50:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -409,7 +409,7 @@ window.NRL_TIPLOG = {
    "mkt": 40,
    "why": "Built on Storm missing Eliesa Katoa and 4 more, plus Sharks rating the stronger side. Sharks missing Jesse Ramien and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-05T19:35:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -417,11 +417,11 @@ window.NRL_TIPLOG = {
    "home": "GLD",
    "away": "DOL",
    "tip": "DOL",
-   "prob": 77,
-   "mkt": 73,
+   "prob": 76,
+   "mkt": 72,
    "why": "Mostly Dolphins rating the stronger side, plus Titans missing Zane Harrison and 4 more. The bookies read it the same way.",
    "ko": "2026-09-04T18:00:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -430,10 +430,10 @@ window.NRL_TIPLOG = {
    "away": "CBR",
    "tip": "CBR",
    "prob": 36,
-   "mkt": 36,
+   "mkt": 35,
    "why": "Mostly Raiders missing Hudson Young and 1 more, plus Cowboys rating the stronger side. Cowboys sweating on Murray Taulagi and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-05T17:30:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -445,7 +445,7 @@ window.NRL_TIPLOG = {
    "mkt": 73,
    "why": "Built on Warriors rating the stronger side, plus Sea Eagles missing Luke Brooks and 5 more. Warriors missing Luke Metcalf and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-05T17:00:00+12:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -457,7 +457,7 @@ window.NRL_TIPLOG = {
    "mkt": 71,
    "why": "Built on Panthers rating the stronger side, plus Wests Tigers missing Adam Doueihi and 3 more. Panthers missing Mitch Kenny and 4 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T16:05:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -469,7 +469,7 @@ window.NRL_TIPLOG = {
    "mkt": 48,
    "why": "Built on Rabbitohs missing Ashton Ward and 1 more, plus Roosters rating the stronger side. Roosters sweating on Sam Walker and 1 more pulls it back. The bookies lean the other way, which reins the tip in.",
    "ko": "2026-09-04T20:00:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   },
   {
    "season": 2026,
@@ -477,11 +477,11 @@ window.NRL_TIPLOG = {
    "home": "STI",
    "away": "PAR",
    "tip": "PAR",
-   "prob": 57,
-   "mkt": 54,
+   "prob": 58,
+   "mkt": 55,
    "why": "Built on Eels rating the stronger side, plus Dragons missing Clinton Gutherson and 4 more. Eels missing Isaiah Iongi and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T14:00:00+10:00",
-   "ts": "2026-08-30T19:19:36.458Z"
+   "ts": "2026-08-30T22:05:57.718Z"
   }
  ],
  "flips": [
