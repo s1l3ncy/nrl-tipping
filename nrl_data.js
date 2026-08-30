@@ -46,11 +46,11 @@ window.NRL_DATA = {
       "name": "Warriors",
       "short": "NZW",
       "colour": "#231f20",
-      "P": 22,
-      "W": 16,
+      "P": 23,
+      "W": 17,
       "L": 6,
-      "PF": 651,
-      "PA": 356,
+      "PF": 679,
+      "PA": 376,
       "last5": 4,
       "home": {
         "P": 10,
@@ -176,11 +176,11 @@ window.NRL_DATA = {
       "name": "Knights",
       "short": "NEW",
       "colour": "#00539b",
-      "P": 23,
+      "P": 24,
       "W": 14,
-      "L": 9,
-      "PF": 601,
-      "PA": 545,
+      "L": 10,
+      "PF": 621,
+      "PA": 573,
       "last5": 3,
       "home": {
         "P": 12,
@@ -529,19 +529,10 @@ window.NRL_DATA = {
     {
       "home": "NZW",
       "away": "NEW",
-      "venue": "Go Media Stadium",
+      "venue": "",
       "city": "Auckland",
-      "kickoff": "2026-08-30T16:00:00+12:00",
-      "odds": {
-        "open": {
-          "home": 1.4,
-          "away": 2.92
-        },
-        "close": {
-          "home": 1.44,
-          "away": 2.8
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Pacific/Auckland"
@@ -558,8 +549,8 @@ window.NRL_DATA = {
           "away": 1.44
         },
         "close": {
-          "home": 2.84,
-          "away": 1.43
+          "home": 3.0,
+          "away": 1.4
         }
       },
       "weather": null,
@@ -570,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "CBR"
   ],
-  "generatedAt": "2026-08-30T13:11:37+10:00",
+  "generatedAt": "2026-08-30T15:25:10+10:00",
   "changes": [
     {
       "id": "r26-SYD-inj-sam-walker",
@@ -666,6 +657,54 @@ window.NRL_DATA = {
       "text": "Dragons: Jacob Liddle (Calf) — new on the injury list.",
       "pts": 3.0,
       "ts": "2026-08-29T12:27:34+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-CRO-out-hohepa-puru",
+      "fixture": "PAR-CRO",
+      "team": "CRO",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Hohepa Puru (Lock) is out of the Sharks 17.",
+      "pts": 0.7,
+      "ts": "2026-08-30T15:25:10+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-CRO-in-riley-pollard",
+      "fixture": "PAR-CRO",
+      "team": "CRO",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Riley Pollard named in the Sharks 17.",
+      "pts": 0.6,
+      "ts": "2026-08-30T15:25:10+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PAR-in-jonah-pezet",
+      "fixture": "PAR-CRO",
+      "team": "PAR",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jonah Pezet (Halfback) named in the Eels 17.",
+      "pts": 2.4,
+      "ts": "2026-08-30T15:25:10+10:00",
+      "rnd": 26
+    },
+    {
+      "id": "r26-PAR-out-jack-de-belin",
+      "fixture": "PAR-CRO",
+      "team": "PAR",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Jack De Belin (Lock) is out of the Eels 17.",
+      "pts": 0.8,
+      "ts": "2026-08-30T15:25:10+10:00",
       "rnd": 26
     },
     {
@@ -1242,42 +1281,6 @@ window.NRL_DATA = {
       "text": "Dragons: Jacob Liddle is off the injury list.",
       "pts": 3.0,
       "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-STI-fit-jaydn-su-a",
-      "fixture": "MAN-STI",
-      "team": "STI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dragons: Jaydn Su'A is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-08-29T08:20:29+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-NZW-NEW-line-1.44-2.80",
-      "fixture": "NZW-NEW",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.46 → $1.44, Knights $2.75 → $2.80. Market now 66% Warriors (was 65%).",
-      "pts": null,
-      "ts": "2026-08-30T13:11:37+10:00",
-      "rnd": 26
-    },
-    {
-      "id": "r26-PAR-CRO-line-2.84-1.43",
-      "fixture": "PAR-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Eels $2.66 → $2.84, Sharks $1.47 → $1.43. Market now 33% Eels (was 36%).",
-      "pts": null,
-      "ts": "2026-08-30T13:11:37+10:00",
       "rnd": 26
     }
   ],
