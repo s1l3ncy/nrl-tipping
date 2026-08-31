@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-08-31",
+  "updated": "2026-09-01",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -144,7 +144,7 @@ window.NRL_DATA = {
         "PF": 310,
         "PA": 277
       },
-      "news": "Mawene Hiroti (Ribs); Braydon Trindall (Shoulder); Jesse Ramien (Pectoral) — back Next Season"
+      "news": "Mawene Hiroti (Ribs); Braydon Trindall (Shoulder); Thomas Hazelton (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 248,
         "PA": 282
       },
-      "news": "Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Will Warbrick (Achilles) — back Next Season"
+      "news": "Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 157,
         "PA": 322
       },
-      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Kai Pearce-Paul (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season; Adam Doueihi (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Sunia Turuva (Knee) — back Round 27; Alex Twal (Concussion) — back Round 27; Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Dean Ieremia (Hamstring); Jojo Fifita (Hip); Brock Gray (ACL); Beau Fermor (Ribs) — back Round 27; Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": "Dean Ieremia (Hamstring); Jojo Fifita (Hip); Brock Gray (ACL); Beau Fermor (Ribs) — back Round 27; Zane Harrison (Hamstring) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -472,8 +472,8 @@ window.NRL_DATA = {
           "away": 3.48
         },
         "close": {
-          "home": 1.3,
-          "away": 3.45
+          "home": 1.32,
+          "away": 3.4
         }
       },
       "weather": null,
@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 1.29
         },
         "close": {
-          "home": 2.62,
-          "away": 1.49
+          "home": 2.25,
+          "away": 1.6
         }
       },
       "weather": null,
@@ -512,8 +512,8 @@ window.NRL_DATA = {
           "away": 2.0
         },
         "close": {
-          "home": 1.62,
-          "away": 2.3
+          "home": 1.6,
+          "away": 2.35
         }
       },
       "weather": null,
@@ -532,8 +532,8 @@ window.NRL_DATA = {
           "away": 3.49
         },
         "close": {
-          "home": 1.6,
-          "away": 2.3
+          "home": 1.65,
+          "away": 2.23
         }
       },
       "weather": null,
@@ -552,8 +552,8 @@ window.NRL_DATA = {
           "away": 2.65
         },
         "close": {
-          "home": 1.55,
-          "away": 2.4
+          "home": 1.58,
+          "away": 2.38
         }
       },
       "weather": null,
@@ -572,8 +572,8 @@ window.NRL_DATA = {
           "away": 2.38
         },
         "close": {
-          "home": 1.89,
-          "away": 1.89
+          "home": 1.95,
+          "away": 1.87
         }
       },
       "weather": null,
@@ -592,7 +592,7 @@ window.NRL_DATA = {
           "away": 1.73
         },
         "close": {
-          "home": 2.26,
+          "home": 2.28,
           "away": 1.62
         }
       },
@@ -612,8 +612,8 @@ window.NRL_DATA = {
           "away": 3.3
         },
         "close": {
-          "home": 1.58,
-          "away": 2.35
+          "home": 1.6,
+          "away": 2.25
         }
       },
       "weather": null,
@@ -624,8 +624,56 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-08-31T15:35:58+10:00",
+  "generatedAt": "2026-09-01T02:10:06+10:00",
   "changes": [
+    {
+      "id": "r27-GLD-DOL-line-2.25-1.60",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 2,
+      "dir": "up",
+      "text": "Line moved — Titans $2.62 → $2.25, Dolphins $1.49 → $1.60. Market now 42% Titans (was 36%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CRO-inj-thomas-hazelton",
+      "fixture": "CRO-MEL",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Thomas Hazelton (Suspension) — back Finals — new on the injury list.",
+      "pts": 1.0,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-inj-jensen-taumoepeau",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Titans: Jensen Taumoepeau (Ankle) — back Next Season — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-jaimin-jolliffe",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Jaimin Jolliffe is off the injury list.",
+      "pts": 0.7,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
     {
       "id": "r27-GLD-DOL-line-2.62-1.49",
       "fixture": "GLD-DOL",
@@ -684,6 +732,90 @@ window.NRL_DATA = {
       "text": "Line moved — Panthers $1.34 → $1.58, Wests Tigers $3.27 → $2.35. Market now 60% Panthers (was 71%).",
       "pts": null,
       "ts": "2026-08-31T15:35:58+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CAN-BRI-line-1.32-3.40",
+      "fixture": "CAN-BRI",
+      "team": "BRI",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Bulldogs $1.30 → $1.32, Broncos $3.45 → $3.40. Market now 72% Bulldogs (was 73%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-SOU-SYD-line-1.60-2.35",
+      "fixture": "SOU-SYD",
+      "team": "SOU",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.62 → $1.60, Roosters $2.30 → $2.35. Market now 59% Rabbitohs (was 59%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-NZW-MAN-line-1.65-2.23",
+      "fixture": "NZW-MAN",
+      "team": "MAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.60 → $1.65, Sea Eagles $2.30 → $2.23. Market now 57% Warriors (was 59%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-NQL-CBR-line-1.58-2.38",
+      "fixture": "NQL-CBR",
+      "team": "CBR",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Cowboys $1.55 → $1.58, Raiders $2.40 → $2.38. Market now 60% Cowboys (was 61%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CRO-MEL-line-1.95-1.87",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $1.89 → $1.95, Storm $1.89 → $1.87. Market now 49% Sharks (was 50%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-PAR-line-2.28-1.62",
+      "fixture": "STI-PAR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Dragons $2.26 → $2.28, Eels $1.62 → $1.62. Market now 42% Dragons (was 42%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PEN-WST-line-1.60-2.25",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.58 → $1.60, Wests Tigers $2.35 → $2.25. Market now 58% Panthers (was 60%).",
+      "pts": null,
+      "ts": "2026-09-01T02:10:06+10:00",
       "rnd": 27
     },
     {
