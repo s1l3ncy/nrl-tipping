@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-01",
+  "updated": "2026-09-02",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-01T23:30:30+10:00",
+  "generatedAt": "2026-09-02T05:24:18+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-dallin-watene-zelezniak",
@@ -963,66 +963,6 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-GLD-DOL-line-2.62-1.49",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Titans $3.35 → $2.62, Dolphins $1.31 → $1.49. Market now 36% Titans (was 28%).",
-      "pts": null,
-      "ts": "2026-08-31T15:35:58+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SOU-SYD-line-1.62-2.30",
-      "fixture": "SOU-SYD",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $1.81 → $1.62, Roosters $2.00 → $2.30. Market now 59% Rabbitohs (was 52%).",
-      "pts": null,
-      "ts": "2026-08-31T15:35:58+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-MAN-line-1.60-2.30",
-      "fixture": "NZW-MAN",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.30 → $1.60, Sea Eagles $3.50 → $2.30. Market now 59% Warriors (was 73%).",
-      "pts": null,
-      "ts": "2026-08-31T15:35:58+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-MEL-line-1.89-1.89",
-      "fixture": "CRO-MEL",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Sharks $1.57 → $1.89, Storm $2.30 → $1.89. Market now 50% Sharks (was 59%).",
-      "pts": null,
-      "ts": "2026-08-31T15:35:58+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.58-2.35",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.34 → $1.58, Wests Tigers $3.27 → $2.35. Market now 60% Panthers (was 71%).",
-      "pts": null,
-      "ts": "2026-08-31T15:35:58+10:00",
-      "rnd": 27
-    },
-    {
       "id": "r27-CAN-BRI-line-1.34-3.30",
       "fixture": "CAN-BRI",
       "team": null,
@@ -1347,5 +1287,5 @@ window.NRL_DATA = {
       "rnd": 27
     }
   ],
-  "changesSince": "2026-08-31T15:35:58+10:00"
+  "changesSince": "2026-09-01T02:10:06+10:00"
 };
