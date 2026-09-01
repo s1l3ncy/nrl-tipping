@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 1.29
         },
         "close": {
-          "home": 4.1,
-          "away": 1.24
+          "home": 4.2,
+          "away": 1.21
         }
       },
       "weather": null,
@@ -552,7 +552,7 @@ window.NRL_DATA = {
           "away": 2.65
         },
         "close": {
-          "home": 1.55,
+          "home": 1.54,
           "away": 2.48
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-02T08:03:54+10:00",
+  "generatedAt": "2026-09-02T08:37:01+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-dallin-watene-zelezniak",
@@ -960,6 +960,30 @@ window.NRL_DATA = {
       "text": "Titans: Jaimin Jolliffe is off the injury list.",
       "pts": 0.7,
       "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-DOL-line-4.20-1.21",
+      "fixture": "GLD-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $4.10 → $4.20, Dolphins $1.24 → $1.21. Market now 22% Titans (was 23%).",
+      "pts": null,
+      "ts": "2026-09-02T08:37:01+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-NQL-CBR-line-1.54-2.48",
+      "fixture": "NQL-CBR",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Cowboys $1.55 → $1.54, Raiders $2.48 → $2.48. Market now 62% Cowboys (was 62%).",
+      "pts": null,
+      "ts": "2026-09-02T08:37:01+10:00",
       "rnd": 27
     },
     {
@@ -1318,18 +1342,6 @@ window.NRL_DATA = {
       "sev": 1,
       "dir": "up",
       "text": "Line moved — Bulldogs $1.30 → $1.32, Broncos $3.45 → $3.40. Market now 72% Bulldogs (was 73%).",
-      "pts": null,
-      "ts": "2026-09-01T02:10:06+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SOU-SYD-line-1.60-2.35",
-      "fixture": "SOU-SYD",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $1.62 → $1.60, Roosters $2.30 → $2.35. Market now 59% Rabbitohs (was 59%).",
       "pts": null,
       "ts": "2026-09-01T02:10:06+10:00",
       "rnd": 27
