@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 1.29
         },
         "close": {
-          "home": 4.0,
-          "away": 1.25
+          "home": 4.1,
+          "away": 1.24
         }
       },
       "weather": null,
@@ -553,7 +553,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.55,
-          "away": 2.45
+          "away": 2.48
         }
       },
       "weather": null,
@@ -572,8 +572,8 @@ window.NRL_DATA = {
           "away": 2.38
         },
         "close": {
-          "home": 3.1,
-          "away": 1.36
+          "home": 3.0,
+          "away": 1.37
         }
       },
       "weather": null,
@@ -612,7 +612,7 @@ window.NRL_DATA = {
           "away": 3.3
         },
         "close": {
-          "home": 1.1,
+          "home": 1.09,
           "away": 7.0
         }
       },
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-02T05:24:18+10:00",
+  "generatedAt": "2026-09-02T08:03:54+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-dallin-watene-zelezniak",
@@ -960,6 +960,54 @@ window.NRL_DATA = {
       "text": "Titans: Jaimin Jolliffe is off the injury list.",
       "pts": 0.7,
       "ts": "2026-09-01T02:10:06+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-DOL-line-4.10-1.24",
+      "fixture": "GLD-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $4.00 → $4.10, Dolphins $1.25 → $1.24. Market now 23% Titans (was 24%).",
+      "pts": null,
+      "ts": "2026-09-02T08:03:54+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-NQL-CBR-line-1.55-2.48",
+      "fixture": "NQL-CBR",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Cowboys $1.55 → $1.55, Raiders $2.45 → $2.48. Market now 62% Cowboys (was 61%).",
+      "pts": null,
+      "ts": "2026-09-02T08:03:54+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CRO-MEL-line-3.00-1.37",
+      "fixture": "CRO-MEL",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $3.10 → $3.00, Storm $1.36 → $1.37. Market now 31% Sharks (was 30%).",
+      "pts": null,
+      "ts": "2026-09-02T08:03:54+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PEN-WST-line-1.09-7.00",
+      "fixture": "PEN-WST",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.10 → $1.09, Wests Tigers $7.00 → $7.00. Market now 87% Panthers (was 86%).",
+      "pts": null,
+      "ts": "2026-09-02T08:03:54+10:00",
       "rnd": 27
     },
     {
