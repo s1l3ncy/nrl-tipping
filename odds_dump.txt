@@ -1,5 +1,5 @@
 # Round 27 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-01T23:30:01. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-02T05:23:49. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (88 book quotes across 8 fixtures).
 Bulldogs v Broncos: 1.34 / 3.30
 Titans v Dolphins: 4.00 / 1.25
