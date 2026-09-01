@@ -1,11 +1,11 @@
 # Round 27 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-02T05:23:49. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-02T08:03:26. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (88 book quotes across 8 fixtures).
 Bulldogs v Broncos: 1.34 / 3.30
-Titans v Dolphins: 4.00 / 1.25
+Titans v Dolphins: 4.10 / 1.24
 Rabbitohs v Roosters: 1.10 / 7.00
 Warriors v Sea Eagles: 1.32 / 3.40
-Cowboys v Raiders: 1.55 / 2.45
-Sharks v Storm: 3.10 / 1.36
+Cowboys v Raiders: 1.55 / 2.48
+Sharks v Storm: 3.00 / 1.37
 Dragons v Eels: 2.16 / 1.70
-Panthers v Wests Tigers: 1.10 / 7.00
+Panthers v Wests Tigers: 1.09 / 7.00
