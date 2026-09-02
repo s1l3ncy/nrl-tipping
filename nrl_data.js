@@ -492,8 +492,8 @@ window.NRL_DATA = {
           "away": 1.29
         },
         "close": {
-          "home": 4.2,
-          "away": 1.21
+          "home": 4.0,
+          "away": 1.25
         }
       },
       "weather": null,
@@ -572,8 +572,8 @@ window.NRL_DATA = {
           "away": 2.38
         },
         "close": {
-          "home": 3.0,
-          "away": 1.37
+          "home": 3.05,
+          "away": 1.38
         }
       },
       "weather": null,
@@ -592,8 +592,8 @@ window.NRL_DATA = {
           "away": 1.73
         },
         "close": {
-          "home": 2.16,
-          "away": 1.7
+          "home": 2.25,
+          "away": 1.65
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-02T08:37:01+10:00",
+  "generatedAt": "2026-09-02T14:34:47+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-dallin-watene-zelezniak",
@@ -915,51 +915,15 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-GLD-DOL-line-2.25-1.60",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Titans $2.62 → $2.25, Dolphins $1.49 → $1.60. Market now 42% Titans (was 36%).",
-      "pts": null,
-      "ts": "2026-09-01T02:10:06+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-inj-thomas-hazelton",
+      "id": "r27-CRO-MEL-line-3.05-1.38",
       "fixture": "CRO-MEL",
-      "team": "CRO",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sharks: Thomas Hazelton (Suspension) — back Finals — new on the injury list.",
-      "pts": 1.0,
-      "ts": "2026-09-01T02:10:06+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-jensen-taumoepeau",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Jensen Taumoepeau (Ankle) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-01T02:10:06+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-jaimin-jolliffe",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Jaimin Jolliffe is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-09-01T02:10:06+10:00",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $3.00 → $3.05, Storm $1.37 → $1.38. Market now 31% Sharks (was 31%).",
+      "pts": null,
+      "ts": "2026-09-02T14:34:47+10:00",
       "rnd": 27
     },
     {
@@ -1333,19 +1297,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-01T07:28:59+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-CAN-BRI-line-1.32-3.40",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Bulldogs $1.30 → $1.32, Broncos $3.45 → $3.40. Market now 72% Bulldogs (was 73%).",
-      "pts": null,
-      "ts": "2026-09-01T02:10:06+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-01T02:10:06+10:00"
+  "changesSince": "2026-09-01T07:28:59+10:00"
 };
