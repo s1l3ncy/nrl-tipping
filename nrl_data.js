@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-03T07:59:05+10:00",
+  "generatedAt": "2026-09-03T08:39:32+10:00",
   "changes": [
     {
       "id": "r27-GLD-inj-zane-harrison",
