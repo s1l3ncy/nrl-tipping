@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.09,
-          "away": 7.4
+          "away": 7.0
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-03T05:23:36+10:00",
+  "generatedAt": "2026-09-03T07:59:05+10:00",
   "changes": [
     {
       "id": "r27-GLD-inj-zane-harrison",
