@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-02",
+  "updated": "2026-09-03",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -613,7 +613,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.09,
-          "away": 7.0
+          "away": 7.4
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-02T22:46:58+10:00",
+  "generatedAt": "2026-09-03T05:23:36+10:00",
   "changes": [
     {
       "id": "r27-GLD-inj-zane-harrison",
@@ -783,159 +783,15 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-GLD-DOL-line-4.00-1.25",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Titans $2.75 → $4.00, Dolphins $1.44 → $1.25. Market now 24% Titans (was 34%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SOU-SYD-line-1.10-7.00",
-      "fixture": "SOU-SYD",
-      "team": "SOU",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $1.64 → $1.10, Roosters $2.27 → $7.00. Market now 86% Rabbitohs (was 58%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-MAN-line-1.34-3.27",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.54 → $1.34, Sea Eagles $2.40 → $3.27. Market now 71% Warriors (was 61%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-MEL-line-3.25-1.33",
-      "fixture": "CRO-MEL",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Sharks $1.95 → $3.25, Storm $1.85 → $1.33. Market now 29% Sharks (was 49%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.10-6.50",
+      "id": "r27-PEN-WST-line-1.09-7.40",
       "fixture": "PEN-WST",
-      "team": "PEN",
+      "team": null,
       "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.46 → $1.10, Wests Tigers $2.75 → $6.50. Market now 86% Panthers (was 65%).",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.09 → $1.09, Wests Tigers $7.00 → $7.40. Market now 87% Panthers (was 87%).",
       "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-oliver-pascoe",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Oliver Pascoe (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 2.2,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-jojo-fifita",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Jojo Fifita is off the injury list.",
-      "pts": 1.6,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-DOL-line-2.75-1.44",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Titans $2.33 → $2.75, Dolphins $1.60 → $1.44. Market now 34% Titans (was 41%).",
-      "pts": null,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.46-2.75",
-      "fixture": "PEN-WST",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 2,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.60 → $1.46, Wests Tigers $2.35 → $2.75. Market now 65% Panthers (was 59%).",
-      "pts": null,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-inj-latu-fainu",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Latu Fainu (Hamstring) — back Round 27 — new on the injury list.",
-      "pts": 2.4,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-fit-taylan-may",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Taylan May is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-jaimin-jolliffe",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Jaimin Jolliffe (Knee) — back Next Season — new on the injury list.",
-      "pts": 0.7,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-zane-harrison",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Zane Harrison is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-01T15:08:53+10:00",
+      "ts": "2026-09-03T05:23:36+10:00",
       "rnd": 27
     },
     {
@@ -1129,91 +985,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-01T23:30:30+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-CAN-BRI-line-1.33-3.30",
-      "fixture": "CAN-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Bulldogs $1.32 → $1.33, Broncos $3.30 → $3.30. Market now 71% Bulldogs (was 71%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.56-2.40",
-      "fixture": "NQL-CBR",
-      "team": "NQL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.58 → $1.56, Raiders $2.39 → $2.40. Market now 61% Cowboys (was 60%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-STI-PAR-line-2.20-1.68",
-      "fixture": "STI-PAR",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $2.24 → $2.20, Eels $1.65 → $1.68. Market now 43% Dragons (was 42%).",
-      "pts": null,
-      "ts": "2026-09-01T16:40:50+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-BRI-line-1.32-3.30",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Bulldogs $1.31 → $1.32, Broncos $3.45 → $3.30. Market now 71% Bulldogs (was 72%).",
-      "pts": null,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SOU-SYD-line-1.64-2.27",
-      "fixture": "SOU-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $1.60 → $1.64, Roosters $2.35 → $2.27. Market now 58% Rabbitohs (was 59%).",
-      "pts": null,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-MAN-line-1.54-2.40",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.62 → $1.54, Sea Eagles $2.30 → $2.40. Market now 61% Warriors (was 59%).",
-      "pts": null,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.58-2.39",
-      "fixture": "NQL-CBR",
-      "team": "CBR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.57 → $1.58, Raiders $2.40 → $2.39. Market now 60% Cowboys (was 60%).",
-      "pts": null,
-      "ts": "2026-09-01T15:08:53+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-01T15:08:53+10:00"
+  "changesSince": "2026-09-01T23:30:30+10:00"
 };
