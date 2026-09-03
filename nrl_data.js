@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 328,
         "PA": 220
       },
-      "news": "Sam Walker (Ankle); Victor Radley (Concussion) — back Finals; Blake Steep (ACL) — back Next Season"
+      "news": "Sam Walker (Ankle); Angus Crichton (Foot) — back Finals; Victor Radley (Concussion) — back Finals; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 350,
         "PA": 288
       },
-      "news": "Phoenix Crossland (Knee) — back Finals; Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Tyson Frizell (Suspension) — back Finals; Dylan Lucas (Ankle) — back Next Season"
+      "news": "Tyson Frizell (Suspension) — back Finals; Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Lucas (Ankle) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-04T07:53:40+10:00",
+  "generatedAt": "2026-09-04T08:35:30+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
@@ -639,6 +639,18 @@ window.NRL_DATA = {
       "text": "Kodi Nikorima (Five-eighth) is out of the Dolphins 17.",
       "pts": 2.9,
       "ts": "2026-09-03T22:50:09+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-SYD-inj-angus-crichton",
+      "fixture": "SOU-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Roosters: Angus Crichton (Foot) — back Finals — new on the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-04T08:35:30+10:00",
       "rnd": 27
     },
     {
