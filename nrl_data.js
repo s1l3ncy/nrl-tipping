@@ -483,8 +483,8 @@ window.NRL_DATA = {
           "away": 1.29
         },
         "close": {
-          "home": 3.7,
-          "away": 1.28
+          "home": 3.45,
+          "away": 1.3
         }
       },
       "weather": null,
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-04T05:18:19+10:00",
+  "generatedAt": "2026-09-04T07:53:40+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
@@ -1011,6 +1011,18 @@ window.NRL_DATA = {
       "text": "Titans: Dean Ieremia is off the injury list.",
       "pts": 0.6,
       "ts": "2026-09-02T22:46:58+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-DOL-line-3.45-1.30",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Titans $3.70 → $3.45, Dolphins $1.28 → $1.30. Market now 27% Titans (was 26%).",
+      "pts": null,
+      "ts": "2026-09-04T07:53:40+10:00",
       "rnd": 27
     },
     {
