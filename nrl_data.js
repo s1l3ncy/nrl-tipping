@@ -472,7 +472,7 @@ window.NRL_DATA = {
           "away": 3.48
         },
         "close": {
-          "home": 1.34,
+          "home": 1.35,
           "away": 3.29
         }
       },
@@ -493,7 +493,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 4.0,
-          "away": 1.24
+          "away": 1.25
         }
       },
       "weather": null,
@@ -552,8 +552,8 @@ window.NRL_DATA = {
           "away": 2.65
         },
         "close": {
-          "home": 1.54,
-          "away": 2.5
+          "home": 1.51,
+          "away": 2.55
         }
       },
       "weather": null,
@@ -592,8 +592,8 @@ window.NRL_DATA = {
           "away": 1.73
         },
         "close": {
-          "home": 2.28,
-          "away": 1.63
+          "home": 2.3,
+          "away": 1.62
         }
       },
       "weather": null,
@@ -624,7 +624,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-03T08:39:32+10:00",
+  "generatedAt": "2026-09-03T14:34:21+10:00",
   "changes": [
     {
       "id": "r27-GLD-inj-zane-harrison",
@@ -651,135 +651,51 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-NZW-inj-dallin-watene-zelezniak",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Warriors: Dallin Watene-Zelezniak (Collarbone) — back Finals — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-01T23:30:30+10:00",
+      "id": "r27-CAN-BRI-line-1.35-3.29",
+      "fixture": "CAN-BRI",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Bulldogs $1.34 → $1.35, Broncos $3.29 → $3.29. Market now 71% Bulldogs (was 71%).",
+      "pts": null,
+      "ts": "2026-09-03T14:34:21+10:00",
       "rnd": 27
     },
     {
-      "id": "r27-NZW-fit-jackson-ford",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Warriors: Jackson Ford is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-DOL-inj-selwyn-cobbo",
+      "id": "r27-GLD-DOL-line-4.00-1.25",
       "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dolphins: Selwyn Cobbo (Ankle) — back Finals — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-01T23:30:30+10:00",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Titans $4.00 → $4.00, Dolphins $1.24 → $1.25. Market now 24% Titans (was 24%).",
+      "pts": null,
+      "ts": "2026-09-03T14:34:21+10:00",
       "rnd": 27
     },
     {
-      "id": "r27-NQL-inj-griffin-neame",
+      "id": "r27-NQL-CBR-line-1.51-2.55",
       "fixture": "NQL-CBR",
       "team": "NQL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Cowboys: Griffin Neame (Toe) — back Finals — new on the injury list.",
-      "pts": 0.9,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-inj-jeremiah-nanai",
-      "fixture": "NQL-CBR",
-      "team": "NQL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Cowboys: Jeremiah Nanai (Knee) — back Finals — new on the injury list.",
-      "pts": 2.1,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-MAN-fit-ethan-bullemor",
-      "fixture": "NZW-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Sea Eagles: Ethan Bullemor is off the injury list.",
-      "pts": 1.7,
-      "ts": "2026-09-01T23:30:30+10:00",
+      "text": "Line moved — Cowboys $1.54 → $1.51, Raiders $2.50 → $2.55. Market now 63% Cowboys (was 62%).",
+      "pts": null,
+      "ts": "2026-09-03T14:34:21+10:00",
       "rnd": 27
     },
     {
-      "id": "r27-MAN-fit-siosiua-taukeiaho",
-      "fixture": "NZW-MAN",
-      "team": "MAN",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r27-STI-PAR-line-2.30-1.62",
+      "fixture": "STI-PAR",
+      "team": "PAR",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Sea Eagles: Siosiua Taukeiaho is off the injury list.",
-      "pts": 0.9,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CBR-inj-corey-horsburgh",
-      "fixture": "NQL-CBR",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Raiders: Corey Horsburgh (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.1,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CBR-inj-savelio-tamale",
-      "fixture": "NQL-CBR",
-      "team": "CBR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Raiders: Savelio Tamale (Knee) — back Next Season — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-inj-tony-sukkar",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Tony Sukkar (Concussion) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-fit-kai-pearce-paul",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Kai Pearce-Paul is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-01T23:30:30+10:00",
+      "text": "Line moved — Dragons $2.28 → $2.30, Eels $1.63 → $1.62. Market now 41% Dragons (was 42%).",
+      "pts": null,
+      "ts": "2026-09-03T14:34:21+10:00",
       "rnd": 27
     },
     {
@@ -913,79 +829,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-02T08:03:54+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-CAN-BRI-line-1.34-3.30",
-      "fixture": "CAN-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Bulldogs $1.33 → $1.34, Broncos $3.30 → $3.30. Market now 71% Bulldogs (was 71%).",
-      "pts": null,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-MAN-line-1.32-3.40",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.34 → $1.32, Sea Eagles $3.27 → $3.40. Market now 72% Warriors (was 71%).",
-      "pts": null,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.55-2.45",
-      "fixture": "NQL-CBR",
-      "team": "NQL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.56 → $1.55, Raiders $2.40 → $2.45. Market now 61% Cowboys (was 61%).",
-      "pts": null,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-MEL-line-3.10-1.36",
-      "fixture": "CRO-MEL",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sharks $3.25 → $3.10, Storm $1.33 → $1.36. Market now 30% Sharks (was 29%).",
-      "pts": null,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-STI-PAR-line-2.16-1.70",
-      "fixture": "STI-PAR",
-      "team": "STI",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $2.20 → $2.16, Eels $1.68 → $1.70. Market now 44% Dragons (was 43%).",
-      "pts": null,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.10-7.00",
-      "fixture": "PEN-WST",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.10 → $1.10, Wests Tigers $6.50 → $7.00. Market now 86% Panthers (was 86%).",
-      "pts": null,
-      "ts": "2026-09-01T23:30:30+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-01T23:30:30+10:00"
+  "changesSince": "2026-09-02T08:03:54+10:00"
 };
