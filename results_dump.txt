@@ -221,3 +221,5 @@ Roosters 12 - Dolphins 26
 Cowboys 24 - Wests Tigers 10
 Warriors 46 - Knights 32
 Eels 38 - Sharks 18
+Round 27
+Bulldogs 20 - Broncos 34
