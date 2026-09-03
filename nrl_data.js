@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-03",
+  "updated": "2026-09-04",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-03T23:00:26+10:00",
+  "generatedAt": "2026-09-04T05:18:19+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
@@ -1144,19 +1144,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-02T22:46:58+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-CRO-MEL-line-3.05-1.38",
-      "fixture": "CRO-MEL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $3.00 → $3.05, Storm $1.37 → $1.38. Market now 31% Sharks (was 31%).",
-      "pts": null,
-      "ts": "2026-09-02T14:34:47+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-02T14:34:47+10:00"
+  "changesSince": "2026-09-02T22:46:58+10:00"
 };
