@@ -615,7 +615,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-03T22:50:09+10:00",
+  "generatedAt": "2026-09-03T23:00:26+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
