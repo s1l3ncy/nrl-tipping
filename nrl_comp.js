@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 27,
  "finishRound": 31,
- "fetched": "2026-09-04T04:34:02+00:00",
+ "fetched": "2026-09-04T12:43:44+00:00",
  "members": [
   {
    "name": "Brigitte",
@@ -82,11 +82,13 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 128,
+   "roundScore": 1,
+   "totalScore": 129,
    "totalMargin": 462,
    "picks": {
-    "BRI-CAN": "CAN"
+    "BRI-CAN": "CAN",
+    "DOL-GLD": "DOL",
+    "SOU-SYD": "SYD"
    }
   },
   {
@@ -164,11 +166,13 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 127,
+   "roundScore": 2,
+   "totalScore": 129,
    "totalMargin": 476,
    "picks": {
-    "BRI-CAN": "CAN"
+    "BRI-CAN": "CAN",
+    "DOL-GLD": "DOL",
+    "SOU-SYD": "SOU"
    }
   },
   {
@@ -246,11 +250,13 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 126,
+   "roundScore": 2,
+   "totalScore": 128,
    "totalMargin": 497,
    "picks": {
-    "BRI-CAN": "CAN"
+    "BRI-CAN": "CAN",
+    "DOL-GLD": "DOL",
+    "SOU-SYD": "SOU"
    }
   },
   {
@@ -328,11 +334,13 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 124,
+   "roundScore": 2,
+   "totalScore": 126,
    "totalMargin": 470,
    "picks": {
-    "BRI-CAN": "CAN"
+    "BRI-CAN": "CAN",
+    "DOL-GLD": "DOL",
+    "SOU-SYD": "SOU"
    }
   },
   {
@@ -410,11 +418,13 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 115,
+   "roundScore": 1,
+   "totalScore": 116,
    "totalMargin": 498,
    "picks": {
-    "BRI-CAN": "CAN"
+    "BRI-CAN": "CAN",
+    "DOL-GLD": "DOL",
+    "SOU-SYD": "SYD"
    }
   },
   {
@@ -492,11 +502,13 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 107,
+   "roundScore": 2,
+   "totalScore": 109,
    "totalMargin": 535,
    "picks": {
-    "BRI-CAN": "CAN"
+    "BRI-CAN": "CAN",
+    "DOL-GLD": "DOL",
+    "SOU-SYD": "SOU"
    }
   }
  ]
