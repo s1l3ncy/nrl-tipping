@@ -66,7 +66,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Isaah Yeo (Pectoral) — back Finals; Izack Tago (Knee) — back Finals; Mitch Kenny (Leg) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
+      "news": "Izack Tago (Knee) — back Finals; Paul Alamoti (Hamstring) — back Finals; Jack Cogger (Suspension) — back Finals; Mitch Kenny (Leg) — back Finals; Isaah Yeo (Pectoral) — back Finals"
     },
     {
       "name": "Dolphins",
@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 348,
         "PA": 270
       },
-      "news": "Sam Walker (Ankle); Victor Radley (Concussion) — back Finals; Angus Crichton (Foot) — back Finals; Blake Steep (ACL) — back Next Season"
+      "news": "Reece Foley (Head knock); Sam Walker (Ankle); Victor Radley (Concussion) — back Finals; Angus Crichton (Foot) — back Finals; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -170,7 +170,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Ashton Ward (Hamstring) — back Next Season"
+      "news": "Euan Aitken (Shoulder); Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Knights",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 350,
         "PA": 288
       },
-      "news": "Phoenix Crossland (Knee) — back Finals; Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Tyson Frizell (Suspension) — back Finals; Dylan Brown (ACL) — back Next Season"
+      "news": "Phoenix Crossland (Knee) — back Finals; Brodie Jones (Hamstring) — back Finals; Francis Manuleleua (Elbow) — back Finals; Dominic Young (Suspension) — back Finals; Tyson Frizell (Suspension) — back Finals; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Lachlan Ilias (Back); Brock Gray (ACL) — back Next Season; Jaylan De Groot (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season; Oliver Pascoe (Concussion) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": "Lachlan Ilias (Back); Jojo Fifita (Hip) — back Next Season; Jaylan De Groot (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season; Oliver Pascoe (Concussion) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -545,7 +545,7 @@ window.NRL_DATA = {
           "away": 2.38
         },
         "close": {
-          "home": 3.05,
+          "home": 3.1,
           "away": 1.38
         }
       },
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-04T22:43:54+10:00",
+  "generatedAt": "2026-09-04T23:26:16+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
@@ -621,6 +621,42 @@ window.NRL_DATA = {
       "text": "Kodi Nikorima (Five-eighth) is out of the Dolphins 17.",
       "pts": 2.9,
       "ts": "2026-09-03T22:50:09+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-SYD-inj-reece-foley",
+      "fixture": "SOU-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Roosters: Reece Foley (Head knock) — new on the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-04T23:26:16+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-SOU-inj-euan-aitken",
+      "fixture": "SOU-SYD",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Rabbitohs: Euan Aitken (Shoulder) — new on the injury list.",
+      "pts": 1.7,
+      "ts": "2026-09-04T23:26:16+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-brock-gray",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Brock Gray is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-04T23:26:16+10:00",
       "rnd": 27
     },
     {
@@ -1176,6 +1212,18 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
+      "id": "r27-CRO-MEL-line-3.10-1.38",
+      "fixture": "CRO-MEL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $3.05 → $3.10, Storm $1.38 → $1.38. Market now 31% Sharks (was 31%).",
+      "pts": null,
+      "ts": "2026-09-04T23:26:16+10:00",
+      "rnd": 27
+    },
+    {
       "id": "r27-NQL-CBR-line-1.53-2.50",
       "fixture": "NQL-CBR",
       "team": null,
@@ -1267,30 +1315,6 @@ window.NRL_DATA = {
       "sev": 1,
       "dir": "neutral",
       "text": "Line moved — Titans $4.00 → $4.00, Dolphins $1.24 → $1.25. Market now 24% Titans (was 24%).",
-      "pts": null,
-      "ts": "2026-09-03T14:34:21+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.51-2.55",
-      "fixture": "NQL-CBR",
-      "team": "NQL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.54 → $1.51, Raiders $2.50 → $2.55. Market now 63% Cowboys (was 62%).",
-      "pts": null,
-      "ts": "2026-09-03T14:34:21+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-STI-PAR-line-2.30-1.62",
-      "fixture": "STI-PAR",
-      "team": "PAR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dragons $2.28 → $2.30, Eels $1.63 → $1.62. Market now 41% Dragons (was 42%).",
       "pts": null,
       "ts": "2026-09-03T14:34:21+10:00",
       "rnd": 27
