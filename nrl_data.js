@@ -506,7 +506,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.34,
-          "away": 3.27
+          "away": 3.3
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-05T07:50:39+10:00",
+  "generatedAt": "2026-09-05T08:21:26+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
