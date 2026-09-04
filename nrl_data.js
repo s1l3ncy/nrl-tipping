@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-04",
+  "updated": "2026-09-05",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -506,7 +506,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.34,
-          "away": 3.3
+          "away": 3.27
         }
       },
       "weather": null,
@@ -597,7 +597,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-04T23:26:16+10:00",
+  "generatedAt": "2026-09-05T05:00:05+10:00",
   "changes": [
     {
       "id": "r27-NZW-inj-tanah-boyd",
@@ -1212,6 +1212,18 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
+      "id": "r27-NZW-MAN-line-1.34-3.27",
+      "fixture": "NZW-MAN",
+      "team": "MAN",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.34 → $1.34, Sea Eagles $3.30 → $3.27. Market now 71% Warriors (was 71%).",
+      "pts": null,
+      "ts": "2026-09-05T05:00:05+10:00",
+      "rnd": 27
+    },
+    {
       "id": "r27-CRO-MEL-line-3.10-1.38",
       "fixture": "CRO-MEL",
       "team": null,
@@ -1294,31 +1306,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-03T22:50:09+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-CAN-BRI-line-1.35-3.29",
-      "fixture": "CAN-BRI",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Bulldogs $1.34 → $1.35, Broncos $3.29 → $3.29. Market now 71% Bulldogs (was 71%).",
-      "pts": null,
-      "ts": "2026-09-03T14:34:21+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-DOL-line-4.00-1.25",
-      "fixture": "GLD-DOL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Titans $4.00 → $4.00, Dolphins $1.24 → $1.25. Market now 24% Titans (was 24%).",
-      "pts": null,
-      "ts": "2026-09-03T14:34:21+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-03T14:34:21+10:00"
+  "changesSince": "2026-09-03T22:50:09+10:00"
 };
