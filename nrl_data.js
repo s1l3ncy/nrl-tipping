@@ -505,8 +505,8 @@ window.NRL_DATA = {
           "away": 3.49
         },
         "close": {
-          "home": 1.34,
-          "away": 3.3
+          "home": 1.32,
+          "away": 3.5
         }
       },
       "weather": null,
@@ -525,8 +525,8 @@ window.NRL_DATA = {
           "away": 2.65
         },
         "close": {
-          "home": 1.53,
-          "away": 2.5
+          "home": 1.5,
+          "away": 2.6
         }
       },
       "weather": null,
@@ -545,8 +545,8 @@ window.NRL_DATA = {
           "away": 2.38
         },
         "close": {
-          "home": 3.1,
-          "away": 1.38
+          "home": 3.15,
+          "away": 1.36
         }
       },
       "weather": null,
@@ -566,7 +566,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 2.3,
-          "away": 1.62
+          "away": 1.63
         }
       },
       "weather": null,
@@ -597,30 +597,30 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-05T08:21:26+10:00",
+  "generatedAt": "2026-09-05T14:29:57+10:00",
   "changes": [
     {
-      "id": "r27-NZW-inj-tanah-boyd",
+      "id": "r27-NZW-in-jye-linnane",
       "fixture": "NZW-MAN",
       "team": "NZW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Warriors: Tanah Boyd (ACL) — back Next Season — new on the injury list.",
-      "pts": 3.1,
-      "ts": "2026-09-03T22:50:09+10:00",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jye Linnane (Five-eighth) named in the Warriors 17.",
+      "pts": 2.0,
+      "ts": "2026-09-05T14:29:57+10:00",
       "rnd": 27
     },
     {
-      "id": "r27-DOL-out-kodi-nikorima",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
+      "id": "r27-NZW-out-kayliss-fatialofa",
+      "fixture": "NZW-MAN",
+      "team": "NZW",
       "cat": "out",
-      "sev": 3,
+      "sev": 2,
       "dir": "down",
-      "text": "Kodi Nikorima (Five-eighth) is out of the Dolphins 17.",
-      "pts": 2.9,
-      "ts": "2026-09-03T22:50:09+10:00",
+      "text": "Kayliss Fatialofa (Second-row) is out of the Warriors 17.",
+      "pts": 1.2,
+      "ts": "2026-09-05T14:29:57+10:00",
       "rnd": 27
     },
     {
@@ -864,351 +864,39 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-NZW-inj-jackson-ford",
+      "id": "r27-NZW-MAN-line-1.32-3.50",
       "fixture": "NZW-MAN",
       "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Warriors: Jackson Ford (Pectoral) — back Finals — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-fit-chanel-harris-tavita",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Warriors: Chanel Harris-Tavita is off the injury list.",
-      "pts": 3.1,
-      "ts": "2026-09-03T22:50:09+10:00",
+      "text": "Line moved — Warriors $1.34 → $1.32, Sea Eagles $3.30 → $3.50. Market now 73% Warriors (was 71%).",
+      "pts": null,
+      "ts": "2026-09-05T14:29:57+10:00",
       "rnd": 27
     },
     {
-      "id": "r27-NZW-fit-charnze-nicoll-klokstad",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r27-NQL-CBR-line-1.50-2.60",
+      "fixture": "NQL-CBR",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Warriors: Charnze Nicoll-Klokstad is off the injury list.",
-      "pts": 2.7,
-      "ts": "2026-09-03T22:50:09+10:00",
+      "text": "Line moved — Cowboys $1.53 → $1.50, Raiders $2.50 → $2.60. Market now 63% Cowboys (was 62%).",
+      "pts": null,
+      "ts": "2026-09-05T14:29:57+10:00",
       "rnd": 27
     },
     {
-      "id": "r27-NZW-fit-te-maire-martin",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r27-CRO-MEL-line-3.15-1.36",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Warriors: Te Maire Martin is off the injury list.",
-      "pts": 2.7,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-DOL-fit-connelly-lemuelu",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dolphins: Connelly Lemuelu is off the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SYD-fit-angus-crichton",
-      "fixture": "SOU-SYD",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Angus Crichton is off the injury list.",
-      "pts": 2.1,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SYD-fit-daniel-tupou",
-      "fixture": "SOU-SYD",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Daniel Tupou is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SOU-fit-dayne-jennings",
-      "fixture": "SOU-SYD",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Rabbitohs: Dayne Jennings is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-fit-jethro-rinakama",
-      "fixture": "CAN-BRI",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Bulldogs: Jethro Rinakama is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-fit-jonathan-sua",
-      "fixture": "CAN-BRI",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Bulldogs: Jonathan Sua is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-fit-samuel-hughes",
-      "fixture": "CAN-BRI",
-      "team": "CAN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Bulldogs: Samuel Hughes is off the injury list.",
-      "pts": 0.7,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PAR-fit-jordan-samrani",
-      "fixture": "STI-PAR",
-      "team": "PAR",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Eels: Jordan Samrani is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-BRI-fit-brendan-piakura",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Broncos: Brendan Piakura is off the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-BRI-fit-preston-riki",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Broncos: Preston Riki is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-inj-kai-pearce-paul",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Kai Pearce-Paul (Pectoral) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-inj-taylan-may",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Wests Tigers: Taylan May (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-fit-alex-twal",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Alex Twal is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-fit-latu-fainu",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Latu Fainu is off the injury list.",
-      "pts": 2.4,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-WST-fit-sunia-turuva",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Wests Tigers: Sunia Turuva is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-jojo-fifita",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Jojo Fifita (Hip) — back Next Season — new on the injury list.",
-      "pts": 1.6,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-beau-fermor",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Beau Fermor is off the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-BRI-out-jack-gosiewski",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jack Gosiewski (Second-row) is out of the Broncos 17.",
-      "pts": 1.2,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-BRI-in-cameron-bukowski",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Cameron Bukowski named in the Broncos 17.",
-      "pts": 0.6,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-in-sean-o-sullivan",
-      "fixture": "CAN-BRI",
-      "team": "CAN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sean O'Sullivan (Halfback) named in the Bulldogs 17.",
-      "pts": 2.0,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-in-sean-osullivan",
-      "fixture": "CAN-BRI",
-      "team": "CAN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Sean Osullivan (Halfback) named in the Bulldogs 17.",
-      "pts": 2.0,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CAN-out-jack-underhill",
-      "fixture": "CAN-BRI",
-      "team": "CAN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jack Underhill is out of the Bulldogs 17.",
-      "pts": 0.6,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-DOL-out-kulikefu-finefeuiaki",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Kulikefu Finefeuiaki (Second-row) is out of the Dolphins 17.",
-      "pts": 2.0,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-DOL-in-jake-averillo",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jake Averillo (Centre) named in the Dolphins 17.",
-      "pts": 1.9,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-DOL-in-connelly-lemuelu",
-      "fixture": "GLD-DOL",
-      "team": "DOL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Connelly Lemuelu (Second-row) named in the Dolphins 17.",
-      "pts": 1.8,
-      "ts": "2026-09-03T22:50:09+10:00",
+      "text": "Line moved — Sharks $3.10 → $3.15, Storm $1.38 → $1.36. Market now 30% Sharks (was 31%).",
+      "pts": null,
+      "ts": "2026-09-05T14:29:57+10:00",
       "rnd": 27
     },
     {
@@ -1270,43 +958,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-04T07:53:40+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-GLD-DOL-line-3.70-1.28",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Titans $4.00 → $3.70, Dolphins $1.25 → $1.28. Market now 26% Titans (was 24%).",
-      "pts": null,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-MAN-line-1.34-3.30",
-      "fixture": "NZW-MAN",
-      "team": "MAN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.32 → $1.34, Sea Eagles $3.40 → $3.30. Market now 71% Warriors (was 72%).",
-      "pts": null,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.52-2.50",
-      "fixture": "NQL-CBR",
-      "team": "CBR",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.51 → $1.52, Raiders $2.55 → $2.50. Market now 62% Cowboys (was 63%).",
-      "pts": null,
-      "ts": "2026-09-03T22:50:09+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-03T22:50:09+10:00"
+  "changesSince": "2026-09-04T07:53:40+10:00"
 };

@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-04T22:21:31.723Z",
+ "updated": "2026-09-05T04:30:02.884Z",
  "tips": [
   {
    "season": 2026,
@@ -406,10 +406,10 @@ window.NRL_TIPLOG = {
    "away": "MEL",
    "tip": "CRO",
    "prob": 37,
-   "mkt": 31,
+   "mkt": 30,
    "why": "Built on Sharks being without Braydon Trindall (not named) and 3 more. Storm missing Eliesa Katoa and 4 more pulls it back (and more). The bookies lean the other way, which reins the tip in.",
    "ko": "2026-09-05T19:35:00+10:00",
-   "ts": "2026-09-04T22:21:31.723Z"
+   "ts": "2026-09-05T04:30:02.884Z"
   },
   {
    "season": 2026,
@@ -429,11 +429,11 @@ window.NRL_TIPLOG = {
    "home": "NQL",
    "away": "CBR",
    "tip": "NQL",
-   "prob": 61,
-   "mkt": 62,
+   "prob": 62,
+   "mkt": 63,
    "why": "Built on Raiders missing Hudson Young and 3 more, plus Cowboys rating the stronger side. Cowboys missing Jeremiah Nanai and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-05T17:30:00+10:00",
-   "ts": "2026-09-04T22:21:31.723Z"
+   "ts": "2026-09-05T04:30:02.884Z"
   },
   {
    "season": 2026,
@@ -441,11 +441,11 @@ window.NRL_TIPLOG = {
    "home": "NZW",
    "away": "MAN",
    "tip": "NZW",
-   "prob": 70,
-   "mkt": 71,
+   "prob": 71,
+   "mkt": 73,
    "why": "Built on Warriors rating the stronger side, plus Sea Eagles missing Luke Brooks and 3 more. Warriors missing Luke Metcalf and 5 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-05T17:00:00+12:00",
-   "ts": "2026-09-04T22:21:31.723Z"
+   "ts": "2026-09-05T04:30:02.884Z"
   },
   {
    "season": 2026,
@@ -457,7 +457,7 @@ window.NRL_TIPLOG = {
    "mkt": 86,
    "why": "Built on Panthers rating the stronger side, plus Wests Tigers missing Adam Doueihi and 4 more. Panthers missing Jack Cogger and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T16:05:00+10:00",
-   "ts": "2026-09-04T22:21:31.723Z"
+   "ts": "2026-09-05T04:30:02.884Z"
   },
   {
    "season": 2026,
@@ -481,7 +481,7 @@ window.NRL_TIPLOG = {
    "mkt": 59,
    "why": "Built on Dragons being without Jacob Liddle (not named) and 5 more, plus Eels rating the stronger side. Eels missing Isaiah Iongi and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T14:00:00+10:00",
-   "ts": "2026-09-04T22:21:31.723Z"
+   "ts": "2026-09-05T04:30:02.884Z"
   }
  ],
  "flips": [
