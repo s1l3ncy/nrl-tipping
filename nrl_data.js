@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-05",
+  "updated": "2026-09-06",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -40,7 +40,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Luke Laulilii (Concussion); Jackson Ford (Pectoral) — back Finals; Leka Halasima (Ankle) — back Finals; Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Luke Laulilii (Concussion); Jackson Ford (Pectoral) — back Finals; Leka Halasima (Ankle) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals; Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Panthers",
@@ -66,7 +66,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Izack Tago (Knee) — back Finals; Mitch Kenny (Leg) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
+      "news": "Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals; Mitch Kenny (Leg) — back Finals; Izack Tago (Knee) — back Finals"
     },
     {
       "name": "Dolphins",
@@ -118,7 +118,7 @@ window.NRL_DATA = {
         "PF": 348,
         "PA": 270
       },
-      "news": "Reece Foley (Head knock); Sam Walker (Ankle); Victor Radley (Concussion) — back Finals; Angus Crichton (Foot) — back Finals; Blake Steep (ACL) — back Next Season"
+      "news": "Sam Walker (Ankle); Reece Foley (Head knock); Angus Crichton (Foot) — back Finals; Victor Radley (Concussion) — back Finals; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 350,
         "PA": 288
       },
-      "news": "Phoenix Crossland (Knee) — back Finals; Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Tyson Frizell (Suspension) — back Finals; Dylan Brown (ACL) — back Next Season"
+      "news": "Dominic Young (Suspension) — back Finals; Brodie Jones (Hamstring) — back Finals; Francis Manuleleua (Elbow) — back Finals; Tyson Frizell (Suspension) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 302
       },
-      "news": "Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Will Warbrick (Achilles) — back Next Season"
+      "news": "Jahrome Hughes (Hamstring); Ativalu Lisati (Ankle); Siulagi Tuimalatu-Brown (Neck); Eliesa Katoa (Medical Episode) — back Indefinite; Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
+      "news": "Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 235,
         "PA": 326
       },
-      "news": "Cory Paix (Shoulder) — back Next Season; Preston Riki (Ankle) — back Next Season; Reece Walsh (Ankle) — back Next Season; Blake Mozer (Head knock) — back Next Season"
+      "news": "Blake Mozer (Head knock) — back Next Season; Cory Paix (Shoulder) — back Next Season; Preston Riki (Ankle) — back Next Season; Reece Walsh (Ankle) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 157,
         "PA": 322
       },
-      "news": "Royce Hunt (Pectoral); Tony Sukkar (Concussion) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season; Adam Doueihi (Shoulder) — back Next Season"
+      "news": "Royce Hunt (Pectoral); Kai Pearce-Paul (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season; Adam Doueihi (Shoulder) — back Next Season; Tony Sukkar (Concussion) — back Next Season"
     },
     {
       "name": "Titans",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Lachlan Ilias (Back); Jojo Fifita (Hip) — back Next Season; Jaylan De Groot (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season; Oliver Pascoe (Concussion) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": "Lachlan Ilias (Back); Jaylan De Groot (Knee) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season; Oliver Pascoe (Concussion) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Zane Harrison (Hamstring) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -558,7 +558,7 @@ window.NRL_DATA = {
           "away": 3.3
         },
         "close": {
-          "home": 1.11,
+          "home": 1.1,
           "away": 7.0
         }
       },
@@ -570,8 +570,56 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-05T21:50:33+10:00",
+  "generatedAt": "2026-09-06T01:14:42+10:00",
   "changes": [
+    {
+      "id": "r27-MEL-inj-jahrome-hughes",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Storm: Jahrome Hughes (Hamstring) — new on the injury list.",
+      "pts": 3.3,
+      "ts": "2026-09-06T01:14:42+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-inj-siulagi-tuimalatu-brown",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Storm: Siulagi Tuimalatu-Brown (Neck) — new on the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-06T01:14:42+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-fit-jack-howarth",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Jack Howarth is off the injury list.",
+      "pts": 1.7,
+      "ts": "2026-09-06T01:14:42+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-inj-zane-harrison",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Titans: Zane Harrison (Hamstring) — back Next Season — new on the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-06T01:14:42+10:00",
+      "rnd": 27
+    },
     {
       "id": "r27-PEN-fit-isaah-yeo",
       "fixture": "PEN-WST",
