@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-06T04:19:17+10:00",
+  "generatedAt": "2026-09-06T07:42:57+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
