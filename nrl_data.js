@@ -125,17 +125,17 @@ window.NRL_DATA = {
       "short": "CRO",
       "colour": "#00a9e0",
       "P": 24,
-      "W": 15,
-      "L": 9,
-      "PF": 670,
-      "PA": 511,
-      "last5": 2,
+      "W": 14,
+      "L": 10,
+      "PF": 672,
+      "PA": 523,
+      "last5": 1,
       "home": {
-        "P": 11,
+        "P": 12,
         "W": 8,
-        "L": 3,
-        "PF": 342,
-        "PA": 222
+        "L": 4,
+        "PF": 362,
+        "PA": 246
       },
       "away": {
         "P": 12,
@@ -251,6 +251,32 @@ window.NRL_DATA = {
       "news": "Luke Brooks (ACL) — back Next Season; Kobe Hetherington (Biceps) — back Next Season; Joey Walsh (Jaw) — back Next Season; Tolutau Koula (Ankle) — back World Cup"
     },
     {
+      "name": "Storm",
+      "short": "MEL",
+      "colour": "#4b2e83",
+      "P": 24,
+      "W": 11,
+      "L": 13,
+      "PF": 594,
+      "PA": 576,
+      "last5": 3,
+      "home": {
+        "P": 12,
+        "W": 7,
+        "L": 5,
+        "PF": 322,
+        "PA": 274
+      },
+      "away": {
+        "P": 12,
+        "W": 4,
+        "L": 8,
+        "PF": 272,
+        "PA": 302
+      },
+      "news": "Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Will Warbrick (Achilles) — back Next Season"
+    },
+    {
       "name": "Raiders",
       "short": "CBR",
       "colour": "#8bc53f",
@@ -301,32 +327,6 @@ window.NRL_DATA = {
         "PA": 308
       },
       "news": "Kurt Mann (Groin) — back Next Season; Sitili Tupouniua (Hamstring) — back World Cup"
-    },
-    {
-      "name": "Storm",
-      "short": "MEL",
-      "colour": "#4b2e83",
-      "P": 24,
-      "W": 10,
-      "L": 14,
-      "PF": 582,
-      "PA": 574,
-      "last5": 2,
-      "home": {
-        "P": 12,
-        "W": 7,
-        "L": 5,
-        "PF": 322,
-        "PA": 274
-      },
-      "away": {
-        "P": 11,
-        "W": 3,
-        "L": 8,
-        "PF": 248,
-        "PA": 282
-      },
-      "news": "Ativalu Lisati (Ankle); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Will Warbrick (Achilles) — back Next Season"
     },
     {
       "name": "Eels",
@@ -518,9 +518,9 @@ window.NRL_DATA = {
     {
       "home": "CRO",
       "away": "MEL",
-      "venue": "",
+      "venue": "Ocean Protect Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-09-05T19:35:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-05T20:52:41+10:00",
+  "generatedAt": "2026-09-05T21:50:33+10:00",
   "changes": [
     {
       "id": "r27-PEN-fit-isaah-yeo",
