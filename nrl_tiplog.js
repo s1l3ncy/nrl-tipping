@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-05T04:30:02.884Z",
+ "updated": "2026-09-05T10:52:44.411Z",
  "tips": [
   {
    "season": 2026,
@@ -455,9 +455,9 @@ window.NRL_TIPLOG = {
    "tip": "PEN",
    "prob": 85,
    "mkt": 86,
-   "why": "Built on Panthers rating the stronger side, plus Wests Tigers missing Adam Doueihi and 4 more. Panthers missing Jack Cogger and 3 more pulls it back. The bookies read it the same way.",
+   "why": "Built on Panthers rating the stronger side, plus Wests Tigers missing Adam Doueihi and 4 more. Panthers missing Jack Cogger and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T16:05:00+10:00",
-   "ts": "2026-09-05T04:30:02.884Z"
+   "ts": "2026-09-05T10:52:44.411Z"
   },
   {
    "season": 2026,
@@ -476,12 +476,12 @@ window.NRL_TIPLOG = {
    "round": 27,
    "home": "STI",
    "away": "PAR",
-   "tip": "PAR",
-   "prob": 62,
-   "mkt": 59,
+   "tip": "STI",
+   "prob": 38,
+   "mkt": 41,
    "why": "Built on Dragons being without Jacob Liddle (not named) and 5 more, plus Eels rating the stronger side. Eels missing Isaiah Iongi and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T14:00:00+10:00",
-   "ts": "2026-09-05T04:30:02.884Z"
+   "ts": "2026-09-05T10:52:44.411Z"
   }
  ],
  "flips": [
@@ -496,6 +496,18 @@ window.NRL_TIPLOG = {
    "toProb": 61,
    "why": "Built on Raiders missing Hudson Young and 3 more, plus Cowboys rating the stronger side. Cowboys missing Jeremiah Nanai and 3 more pulls it back. The bookies read it the same way.",
    "ts": "2026-09-04T12:43:58.677Z"
+  },
+  {
+   "season": 2026,
+   "round": 27,
+   "home": "STI",
+   "away": "PAR",
+   "from": "PAR",
+   "to": "STI",
+   "fromProb": 62,
+   "toProb": 38,
+   "why": "Built on Dragons being without Jacob Liddle (not named) and 5 more, plus Eels rating the stronger side. Eels missing Isaiah Iongi and 2 more pulls it back. The bookies read it the same way.",
+   "ts": "2026-09-05T10:52:44.411Z"
   }
  ]
 };
