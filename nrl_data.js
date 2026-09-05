@@ -558,8 +558,8 @@ window.NRL_DATA = {
           "away": 3.3
         },
         "close": {
-          "home": 1.1,
-          "away": 7.0
+          "home": 1.11,
+          "away": 6.75
         }
       },
       "weather": null,
@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-06T07:42:57+10:00",
+  "generatedAt": "2026-09-06T08:04:01+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
@@ -918,6 +918,18 @@ window.NRL_DATA = {
       "text": "Lui Lee named in the Roosters 17.",
       "pts": 0.6,
       "ts": "2026-09-04T22:43:54+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PEN-WST-line-1.11-6.75",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.10 → $1.11, Wests Tigers $7.00 → $6.75. Market now 86% Panthers (was 86%).",
+      "pts": null,
+      "ts": "2026-09-06T08:04:01+10:00",
       "rnd": 27
     },
     {
