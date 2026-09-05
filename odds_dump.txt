@@ -1,5 +1,5 @@
 # Round 27 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-06T01:14:18. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-06T04:18:56. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (22 book quotes across 2 fixtures).
 Dragons v Eels: 2.30 / 1.62
 Panthers v Wests Tigers: 1.10 / 7.00
