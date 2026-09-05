@@ -570,7 +570,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-06T01:14:42+10:00",
+  "generatedAt": "2026-09-06T04:19:17+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
@@ -921,18 +921,6 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-BRI-inj-preston-riki",
-      "fixture": "CAN-BRI",
-      "team": "BRI",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Broncos: Preston Riki (Ankle) — back Next Season — new on the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-04T14:34:12+10:00",
-      "rnd": 27
-    },
-    {
       "id": "r27-PEN-WST-line-1.11-7.00",
       "fixture": "PEN-WST",
       "team": null,
@@ -1029,5 +1017,5 @@ window.NRL_DATA = {
       "rnd": 27
     }
   ],
-  "changesSince": "2026-09-04T14:34:12+10:00"
+  "changesSince": "2026-09-04T22:43:54+10:00"
 };
