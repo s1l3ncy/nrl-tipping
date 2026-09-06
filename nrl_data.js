@@ -463,9 +463,9 @@ window.NRL_DATA = {
     {
       "home": "CAN",
       "away": "BRI",
-      "venue": "Accor Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-09-03T19:50:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -474,9 +474,9 @@ window.NRL_DATA = {
     {
       "home": "GLD",
       "away": "DOL",
-      "venue": "Cbus Super Stadium",
+      "venue": "",
       "city": "Gold Coast",
-      "kickoff": "2026-09-04T18:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -485,9 +485,9 @@ window.NRL_DATA = {
     {
       "home": "SOU",
       "away": "SYD",
-      "venue": "Allianz Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-09-04T20:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -496,9 +496,9 @@ window.NRL_DATA = {
     {
       "home": "NZW",
       "away": "MAN",
-      "venue": "Go Media Stadium",
+      "venue": "",
       "city": "Auckland",
-      "kickoff": "2026-09-05T17:00:00+12:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -507,9 +507,9 @@ window.NRL_DATA = {
     {
       "home": "NQL",
       "away": "CBR",
-      "venue": "Queensland Country Bank Stadium",
+      "venue": "",
       "city": "Townsville",
-      "kickoff": "2026-09-05T17:30:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -518,9 +518,9 @@ window.NRL_DATA = {
     {
       "home": "CRO",
       "away": "MEL",
-      "venue": "Ocean Protect Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-09-05T19:35:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -529,9 +529,9 @@ window.NRL_DATA = {
     {
       "home": "STI",
       "away": "PAR",
-      "venue": "WIN Stadium",
+      "venue": "",
       "city": "Wollongong",
-      "kickoff": "2026-09-06T14:00:00+10:00",
+      "kickoff": "",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -540,19 +540,10 @@ window.NRL_DATA = {
     {
       "home": "PEN",
       "away": "WST",
-      "venue": "CommBank Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-09-06T16:05:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.33,
-          "away": 3.3
-        },
-        "close": {
-          "home": 1.1,
-          "away": 7.0
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -561,7 +552,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-07T04:18:29+10:00",
+  "generatedAt": "2026-09-07T07:43:38+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
