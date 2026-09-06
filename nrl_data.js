@@ -248,7 +248,7 @@ window.NRL_DATA = {
         "PF": 354,
         "PA": 277
       },
-      "news": "Luke Brooks (ACL) — back Next Season; Kobe Hetherington (Biceps) — back Next Season; Joey Walsh (Jaw) — back Next Season; Tolutau Koula (Ankle) — back World Cup"
+      "news": null
     },
     {
       "name": "Storm",
@@ -274,7 +274,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 302
       },
-      "news": "Siulagi Tuimalatu-Brown (Neck); Ativalu Lisati (Ankle); Jahrome Hughes (Hamstring); Eliesa Katoa (Medical Episode) — back Indefinite; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season"
+      "news": null
     },
     {
       "name": "Raiders",
@@ -300,7 +300,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
+      "news": null
     },
     {
       "name": "Bulldogs",
@@ -326,7 +326,7 @@ window.NRL_DATA = {
         "PF": 252,
         "PA": 308
       },
-      "news": "Kurt Mann (Groin) — back Next Season; Sitili Tupouniua (Hamstring) — back World Cup"
+      "news": null
     },
     {
       "name": "Eels",
@@ -352,7 +352,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back Next Season"
+      "news": null
     },
     {
       "name": "Broncos",
@@ -378,7 +378,7 @@ window.NRL_DATA = {
         "PF": 235,
         "PA": 326
       },
-      "news": "Cory Paix (Shoulder) — back Next Season; Preston Riki (Ankle) — back Next Season; Reece Walsh (Ankle) — back Next Season; Blake Mozer (Head knock) — back Next Season"
+      "news": null
     },
     {
       "name": "Wests Tigers",
@@ -404,7 +404,7 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 360
       },
-      "news": "Royce Hunt (Pectoral); Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season; Tony Sukkar (Concussion) — back Next Season"
+      "news": null
     },
     {
       "name": "Titans",
@@ -430,7 +430,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Lachlan Ilias (Back); Jojo Fifita (Hip) — back Next Season; Jaylan De Groot (Knee) — back Next Season; Brock Gray (ACL) — back Next Season; Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season"
+      "news": null
     },
     {
       "name": "Dragons",
@@ -456,7 +456,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Valentine Holmes (Ankle); Hamish Stewart (Head knock); Jacob Liddle (Calf); Hayden Buchanan (Shoulder) — back Next Season; David Fale (Calf) — back Next Season; Clinton Gutherson (Knee) — back Next Season"
+      "news": null
     }
   ],
   "fixtures": [
@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-07T01:29:05+10:00",
+  "generatedAt": "2026-09-07T04:18:29+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
@@ -573,6 +573,474 @@ window.NRL_DATA = {
       "text": "Storm: Jahrome Hughes (Hamstring) — new on the injury list.",
       "pts": 3.3,
       "ts": "2026-09-06T01:14:42+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MAN-fit-joey-walsh",
+      "fixture": "NZW-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sea Eagles: Joey Walsh is off the injury list.",
+      "pts": 2.5,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MAN-fit-kobe-hetherington",
+      "fixture": "NZW-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sea Eagles: Kobe Hetherington is off the injury list.",
+      "pts": 1.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MAN-fit-luke-brooks",
+      "fixture": "NZW-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sea Eagles: Luke Brooks is off the injury list.",
+      "pts": 2.5,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MAN-fit-tolutau-koula",
+      "fixture": "NZW-MAN",
+      "team": "MAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sea Eagles: Tolutau Koula is off the injury list.",
+      "pts": 1.9,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-fit-ativalu-lisati",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Ativalu Lisati is off the injury list.",
+      "pts": 1.4,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-fit-eliesa-katoa",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Eliesa Katoa is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-fit-jahrome-hughes",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Jahrome Hughes is off the injury list.",
+      "pts": 3.3,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-fit-siulagi-tuimalatu-brown",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Siulagi Tuimalatu-Brown is off the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-MEL-fit-xavier-coates",
+      "fixture": "CRO-MEL",
+      "team": "MEL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Storm: Xavier Coates is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CBR-fit-corey-horsburgh",
+      "fixture": "NQL-CBR",
+      "team": "CBR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Raiders: Corey Horsburgh is off the injury list.",
+      "pts": 1.1,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CBR-fit-hudson-young",
+      "fixture": "NQL-CBR",
+      "team": "CBR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Raiders: Hudson Young is off the injury list.",
+      "pts": 2.3,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CBR-fit-savelio-tamale",
+      "fixture": "NQL-CBR",
+      "team": "CBR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Raiders: Savelio Tamale is off the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CBR-fit-zac-hosking",
+      "fixture": "NQL-CBR",
+      "team": "CBR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Raiders: Zac Hosking is off the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CAN-fit-kurt-mann",
+      "fixture": "CAN-BRI",
+      "team": "CAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Bulldogs: Kurt Mann is off the injury list.",
+      "pts": 1.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-CAN-fit-sitili-tupouniua",
+      "fixture": "CAN-BRI",
+      "team": "CAN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Bulldogs: Sitili Tupouniua is off the injury list.",
+      "pts": 1.9,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PAR-fit-isaiah-iongi",
+      "fixture": "STI-PAR",
+      "team": "PAR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Eels: Isaiah Iongi is off the injury list.",
+      "pts": 2.6,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PAR-fit-j-maine-hopgood",
+      "fixture": "STI-PAR",
+      "team": "PAR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Eels: J'maine Hopgood is off the injury list.",
+      "pts": 1.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PAR-fit-matt-doorey",
+      "fixture": "STI-PAR",
+      "team": "PAR",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Eels: Matt Doorey is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-BRI-fit-blake-mozer",
+      "fixture": "CAN-BRI",
+      "team": "BRI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Broncos: Blake Mozer is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-BRI-fit-cory-paix",
+      "fixture": "CAN-BRI",
+      "team": "BRI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Broncos: Cory Paix is off the injury list.",
+      "pts": 2.8,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-BRI-fit-preston-riki",
+      "fixture": "CAN-BRI",
+      "team": "BRI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Broncos: Preston Riki is off the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-BRI-fit-reece-walsh",
+      "fixture": "CAN-BRI",
+      "team": "BRI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Broncos: Reece Walsh is off the injury list.",
+      "pts": 3.4,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-WST-fit-adam-doueihi",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Adam Doueihi is off the injury list.",
+      "pts": 3.3,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-WST-fit-kai-pearce-paul",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Kai Pearce-Paul is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-WST-fit-royce-hunt",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Royce Hunt is off the injury list.",
+      "pts": 0.9,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-WST-fit-taylan-may",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Taylan May is off the injury list.",
+      "pts": 1.9,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-WST-fit-tony-sukkar",
+      "fixture": "PEN-WST",
+      "team": "WST",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Wests Tigers: Tony Sukkar is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-brock-gray",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Brock Gray is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-jaimin-jolliffe",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Jaimin Jolliffe is off the injury list.",
+      "pts": 0.7,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-jaylan-de-groot",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Jaylan De Groot is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-jojo-fifita",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Jojo Fifita is off the injury list.",
+      "pts": 1.7,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-lachlan-ilias",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Lachlan Ilias is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-GLD-fit-zane-harrison",
+      "fixture": "GLD-DOL",
+      "team": "GLD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Titans: Zane Harrison is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-fit-clinton-gutherson",
+      "fixture": "STI-PAR",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Clinton Gutherson is off the injury list.",
+      "pts": 2.3,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-fit-david-fale",
+      "fixture": "STI-PAR",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: David Fale is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-fit-hamish-stewart",
+      "fixture": "STI-PAR",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Hamish Stewart is off the injury list.",
+      "pts": 0.9,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-fit-hayden-buchanan",
+      "fixture": "STI-PAR",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Hayden Buchanan is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-fit-jacob-liddle",
+      "fixture": "STI-PAR",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Jacob Liddle is off the injury list.",
+      "pts": 3.0,
+      "ts": "2026-09-07T04:18:29+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-STI-fit-valentine-holmes",
+      "fixture": "STI-PAR",
+      "team": "STI",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dragons: Valentine Holmes is off the injury list.",
+      "pts": 1.7,
+      "ts": "2026-09-07T04:18:29+10:00",
       "rnd": 27
     },
     {
@@ -804,30 +1272,6 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-NZW-in-jye-linnane",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jye Linnane (Five-eighth) named in the Warriors 17.",
-      "pts": 2.0,
-      "ts": "2026-09-05T14:29:57+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-out-kayliss-fatialofa",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Kayliss Fatialofa (Second-row) is out of the Warriors 17.",
-      "pts": 1.2,
-      "ts": "2026-09-05T14:29:57+10:00",
-      "rnd": 27
-    },
-    {
       "id": "r27-PEN-WST-line-1.10-7.00",
       "fixture": "PEN-WST",
       "team": "PEN",
@@ -838,67 +1282,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-06T14:39:32+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.11-6.75",
-      "fixture": "PEN-WST",
-      "team": "WST",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.10 → $1.11, Wests Tigers $7.00 → $6.75. Market now 86% Panthers (was 86%).",
-      "pts": null,
-      "ts": "2026-09-06T08:04:01+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.11-7.00",
-      "fixture": "PEN-WST",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.10 → $1.11, Wests Tigers $7.00 → $7.00. Market now 86% Panthers (was 86%).",
-      "pts": null,
-      "ts": "2026-09-05T20:52:41+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-MAN-line-1.32-3.50",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.34 → $1.32, Sea Eagles $3.30 → $3.50. Market now 73% Warriors (was 71%).",
-      "pts": null,
-      "ts": "2026-09-05T14:29:57+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.50-2.60",
-      "fixture": "NQL-CBR",
-      "team": "NQL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Cowboys $1.53 → $1.50, Raiders $2.50 → $2.60. Market now 63% Cowboys (was 62%).",
-      "pts": null,
-      "ts": "2026-09-05T14:29:57+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-MEL-line-3.15-1.36",
-      "fixture": "CRO-MEL",
-      "team": "MEL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sharks $3.10 → $3.15, Storm $1.38 → $1.36. Market now 30% Sharks (was 31%).",
-      "pts": null,
-      "ts": "2026-09-05T14:29:57+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-05T14:29:57+10:00"
+  "changesSince": "2026-09-05T20:52:41+10:00"
 };
