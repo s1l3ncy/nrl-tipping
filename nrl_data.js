@@ -66,7 +66,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals; Mitch Kenny (Leg) — back Finals; Izack Tago (Knee) — back Finals"
+      "news": "Paul Alamoti (Hamstring) — back Finals; Jack Cogger (Suspension) — back Finals; Izack Tago (Knee) — back Finals"
     },
     {
       "name": "Dolphins",
@@ -196,7 +196,7 @@ window.NRL_DATA = {
         "PF": 350,
         "PA": 288
       },
-      "news": "Dominic Young (Suspension) — back Finals; Brodie Jones (Hamstring) — back Finals; Francis Manuleleua (Elbow) — back Finals; Tyson Frizell (Suspension) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Brown (ACL) — back Next Season"
+      "news": "Francis Manuleleua (Elbow) — back Finals; Dominic Young (Suspension) — back Finals; Tyson Frizell (Suspension) — back Finals; Brodie Jones (Hamstring) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Brown (ACL) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -332,11 +332,11 @@ window.NRL_DATA = {
       "name": "Eels",
       "short": "PAR",
       "colour": "#006eb5",
-      "P": 23,
+      "P": 24,
       "W": 9,
-      "L": 14,
-      "PF": 475,
-      "PA": 654,
+      "L": 15,
+      "PF": 485,
+      "PA": 664,
       "last5": 3,
       "home": {
         "P": 12,
@@ -436,11 +436,11 @@ window.NRL_DATA = {
       "name": "Dragons",
       "short": "STI",
       "colour": "#e2231a",
-      "P": 23,
+      "P": 24,
       "W": 4,
-      "L": 19,
-      "PF": 368,
-      "PA": 695,
+      "L": 20,
+      "PF": 378,
+      "PA": 705,
       "last5": 2,
       "home": {
         "P": 11,
@@ -529,19 +529,10 @@ window.NRL_DATA = {
     {
       "home": "STI",
       "away": "PAR",
-      "venue": "WIN Stadium",
+      "venue": "",
       "city": "Wollongong",
-      "kickoff": "2026-09-06T14:00:00+10:00",
-      "odds": {
-        "open": {
-          "home": 2.05,
-          "away": 1.73
-        },
-        "close": {
-          "home": 2.3,
-          "away": 1.62
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -558,8 +549,8 @@ window.NRL_DATA = {
           "away": 3.3
         },
         "close": {
-          "home": 1.11,
-          "away": 6.75
+          "home": 1.1,
+          "away": 7.0
         }
       },
       "weather": null,
@@ -570,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-06T08:04:01+10:00",
+  "generatedAt": "2026-09-06T14:39:32+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
@@ -582,6 +573,18 @@ window.NRL_DATA = {
       "text": "Storm: Jahrome Hughes (Hamstring) — new on the injury list.",
       "pts": 3.3,
       "ts": "2026-09-06T01:14:42+10:00",
+      "rnd": 27
+    },
+    {
+      "id": "r27-PEN-fit-mitch-kenny",
+      "fixture": "PEN-WST",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Panthers: Mitch Kenny is off the injury list.",
+      "pts": 3.4,
+      "ts": "2026-09-06T14:39:32+10:00",
       "rnd": 27
     },
     {
@@ -705,219 +708,15 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-SYD-inj-reece-foley",
-      "fixture": "SOU-SYD",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Roosters: Reece Foley (Head knock) — new on the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-04T23:26:16+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SOU-inj-euan-aitken",
-      "fixture": "SOU-SYD",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Euan Aitken (Shoulder) — new on the injury list.",
-      "pts": 1.7,
-      "ts": "2026-09-04T23:26:16+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-brock-gray",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
+      "id": "r27-PEN-WST-line-1.10-7.00",
+      "fixture": "PEN-WST",
+      "team": "PEN",
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Titans: Brock Gray is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-04T23:26:16+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-inj-leka-halasima",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Warriors: Leka Halasima (Ankle) — back Finals — new on the injury list.",
-      "pts": 2.1,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-jaylan-de-groot",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Jaylan De Groot (Knee) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-lachlan-ilias",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Lachlan Ilias (Back) — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-jojo-fifita",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Jojo Fifita is off the injury list.",
-      "pts": 1.6,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-fit-zane-harrison",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Titans: Zane Harrison is off the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-in-kayal-iro",
-      "fixture": "CRO-MEL",
-      "team": "CRO",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Kayal Iro (Centre) named in the Sharks 17.",
-      "pts": 1.9,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-out-tuku-hau-tapuha",
-      "fixture": "CRO-MEL",
-      "team": "CRO",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Tuku Hau Tapuha (Prop) is out of the Sharks 17.",
-      "pts": 0.7,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-in-arama-hau",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Arama Hau (Second-row) named in the Titans 17.",
-      "pts": 1.3,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-out-jaylan-de-groot",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jaylan De Groot (Winger) is out of the Titans 17.",
-      "pts": 1.2,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-MAN-in-jackson-shereb",
-      "fixture": "NZW-MAN",
-      "team": "MAN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jackson Shereb named in the Sea Eagles 17.",
-      "pts": 0.6,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-MAN-out-nicholas-lenaz",
-      "fixture": "NZW-MAN",
-      "team": "MAN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Nicholas Lenaz is out of the Sea Eagles 17.",
-      "pts": 0.6,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-out-leka-halasima",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Leka Halasima (Second-row) is out of the Warriors 17.",
-      "pts": 2.1,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NZW-in-jett-cleary",
-      "fixture": "NZW-MAN",
-      "team": "NZW",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jett Cleary named in the Warriors 17.",
-      "pts": 0.6,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SYD-out-lindsay-collins",
-      "fixture": "SOU-SYD",
-      "team": "SYD",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Lindsay Collins (Prop) is out of the Roosters 17.",
-      "pts": 1.2,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-SYD-in-lui-lee",
-      "fixture": "SOU-SYD",
-      "team": "SYD",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Lui Lee named in the Roosters 17.",
-      "pts": 0.6,
-      "ts": "2026-09-04T22:43:54+10:00",
+      "text": "Line moved — Panthers $1.11 → $1.10, Wests Tigers $6.75 → $7.00. Market now 86% Panthers (was 86%).",
+      "pts": null,
+      "ts": "2026-09-06T14:39:32+10:00",
       "rnd": 27
     },
     {
@@ -991,43 +790,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-05T05:00:05+10:00",
       "rnd": 27
-    },
-    {
-      "id": "r27-CRO-MEL-line-3.10-1.38",
-      "fixture": "CRO-MEL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $3.05 → $3.10, Storm $1.38 → $1.38. Market now 31% Sharks (was 31%).",
-      "pts": null,
-      "ts": "2026-09-04T23:26:16+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-NQL-CBR-line-1.53-2.50",
-      "fixture": "NQL-CBR",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Cowboys $1.52 → $1.53, Raiders $2.50 → $2.50. Market now 62% Cowboys (was 62%).",
-      "pts": null,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-WST-line-1.10-7.00",
-      "fixture": "PEN-WST",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.09 → $1.10, Wests Tigers $7.00 → $7.00. Market now 86% Panthers (was 87%).",
-      "pts": null,
-      "ts": "2026-09-04T22:43:54+10:00",
-      "rnd": 27
     }
   ],
-  "changesSince": "2026-09-04T22:43:54+10:00"
+  "changesSince": "2026-09-05T05:00:05+10:00"
 };
