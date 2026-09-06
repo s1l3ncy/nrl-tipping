@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-05T22:04:05.206Z",
+ "updated": "2026-09-06T04:39:36.033Z",
  "tips": [
   {
    "season": 2026,
@@ -457,7 +457,7 @@ window.NRL_TIPLOG = {
    "mkt": 86,
    "why": "Built on Panthers rating the stronger side, plus Wests Tigers missing Adam Doueihi and 4 more. Panthers missing Jack Cogger and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-06T16:05:00+10:00",
-   "ts": "2026-09-05T22:04:05.206Z"
+   "ts": "2026-09-06T04:39:36.033Z"
   },
   {
    "season": 2026,
