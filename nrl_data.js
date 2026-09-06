@@ -27,11 +27,11 @@ window.NRL_DATA = {
       "PA": 347,
       "last5": 3,
       "home": {
-        "P": 11,
-        "W": 9,
+        "P": 12,
+        "W": 10,
         "L": 2,
-        "PF": 310,
-        "PA": 144
+        "PF": 348,
+        "PA": 154
       },
       "away": {
         "P": 12,
@@ -398,11 +398,11 @@ window.NRL_DATA = {
         "PA": 339
       },
       "away": {
-        "P": 11,
+        "P": 12,
         "W": 3,
-        "L": 8,
-        "PF": 157,
-        "PA": 322
+        "L": 9,
+        "PF": 167,
+        "PA": 360
       },
       "news": "Royce Hunt (Pectoral); Adam Doueihi (Shoulder) — back Next Season; Taylan May (Shoulder) — back Next Season; Kai Pearce-Paul (Pectoral) — back Next Season; Tony Sukkar (Concussion) — back Next Season"
     },
@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-06T17:50:39+10:00",
+  "generatedAt": "2026-09-06T22:09:10+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
