@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 27,
  "finishRound": 31,
- "fetched": "2026-09-06T07:50:27+00:00",
+ "fetched": "2026-09-06T12:08:59+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -82,8 +82,8 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "up",
-   "roundScore": 4,
-   "totalScore": 131,
+   "roundScore": 5,
+   "totalScore": 132,
    "totalMargin": 476,
    "picks": {
     "BRI-CAN": "CAN",
@@ -171,8 +171,8 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "down",
-   "roundScore": 2,
-   "totalScore": 130,
+   "roundScore": 3,
+   "totalScore": 131,
    "totalMargin": 462,
    "picks": {
     "BRI-CAN": "CAN",
@@ -260,8 +260,8 @@ window.NRL_COMP = {
    },
    "rank": 3,
    "mv": "",
-   "roundScore": 3,
-   "totalScore": 129,
+   "roundScore": 4,
+   "totalScore": 130,
    "totalMargin": 497,
    "picks": {
     "BRI-CAN": "CAN",
@@ -349,8 +349,8 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 3,
-   "totalScore": 127,
+   "roundScore": 4,
+   "totalScore": 128,
    "totalMargin": 470,
    "picks": {
     "BRI-CAN": "CAN",
@@ -438,8 +438,8 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 4,
-   "totalScore": 119,
+   "roundScore": 5,
+   "totalScore": 120,
    "totalMargin": 498,
    "picks": {
     "BRI-CAN": "CAN",
@@ -527,8 +527,8 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 3,
-   "totalScore": 110,
+   "roundScore": 4,
+   "totalScore": 111,
    "totalMargin": 535,
    "picks": {
     "BRI-CAN": "CAN",
