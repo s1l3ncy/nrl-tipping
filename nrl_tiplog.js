@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-06T12:09:13.922Z",
+ "updated": "2026-09-06T15:29:07.955Z",
  "tips": [
   {
    "season": 2026,
@@ -485,18 +485,6 @@ window.NRL_TIPLOG = {
   }
  ],
  "flips": [
-  {
-   "season": 2026,
-   "round": 27,
-   "home": "NQL",
-   "away": "CBR",
-   "from": "CBR",
-   "to": "NQL",
-   "fromProb": 39,
-   "toProb": 61,
-   "why": "Built on Raiders missing Hudson Young and 3 more, plus Cowboys rating the stronger side. Cowboys missing Jeremiah Nanai and 3 more pulls it back. The bookies read it the same way.",
-   "ts": "2026-09-04T12:43:58.677Z"
-  },
   {
    "season": 2026,
    "round": 27,

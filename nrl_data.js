@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-06",
+  "updated": "2026-09-07",
   "season": 2026,
   "round": 27,
   "source": "zerotackle.com",
@@ -561,7 +561,7 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-06T22:09:10+10:00",
+  "generatedAt": "2026-09-07T01:29:05+10:00",
   "changes": [
     {
       "id": "r27-MEL-inj-jahrome-hughes",
