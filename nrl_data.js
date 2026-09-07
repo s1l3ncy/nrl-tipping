@@ -544,7 +544,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-08T00:15:56+10:00",
+  "generatedAt": "2026-09-08T05:58:25+10:00",
   "changes": [
     {
       "id": "r28-NEW-inj-dylan-lucas",
@@ -571,5 +571,5 @@ window.NRL_DATA = {
       "rnd": 28
     }
   ],
-  "changesSince": "2026-09-07T19:58:46+10:00"
+  "changesSince": "2026-09-08T00:15:56+10:00"
 };

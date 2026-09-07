@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-07T14:15:58.884Z",
+ "updated": "2026-09-07T19:58:28.023Z",
  "tips": [
   {
    "season": 2026,
@@ -493,7 +493,7 @@ window.NRL_TIPLOG = {
    "mkt": 67,
    "why": "Built on Cowboys sweating on Jeremiah Nanai and 3 more, plus Sharks rating the stronger side. Sharks missing Jesse Ramien and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-12T19:50:00+10:00",
-   "ts": "2026-09-07T14:15:58.884Z"
+   "ts": "2026-09-07T19:58:28.023Z"
   },
   {
    "season": 2026,
@@ -505,7 +505,7 @@ window.NRL_TIPLOG = {
    "mkt": 40,
    "why": "Built on Dolphins sweating on Selwyn Cobbo. Warriors missing Tanah Boyd and 5 more pulls it back. The bookies lean the other way, which reins the tip in.",
    "ko": "2026-09-12T18:05:00+12:00",
-   "ts": "2026-09-07T14:15:58.884Z"
+   "ts": "2026-09-07T19:58:28.023Z"
   },
   {
    "season": 2026,
@@ -517,7 +517,7 @@ window.NRL_TIPLOG = {
    "mkt": 27,
    "why": "Built on Roosters sweating on Sam Walker and 4 more, plus Panthers rating the stronger side. Panthers sweating on Paul Alamoti and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-13T16:05:00+10:00",
-   "ts": "2026-09-07T14:15:58.884Z"
+   "ts": "2026-09-07T19:58:28.023Z"
   },
   {
    "season": 2026,
@@ -529,7 +529,7 @@ window.NRL_TIPLOG = {
    "mkt": 32,
    "why": "Built on Knights missing Dylan Lucas and 3 more, plus Rabbitohs rating the stronger side. Rabbitohs missing Ashton Ward and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-11T19:50:00+10:00",
-   "ts": "2026-09-07T14:15:58.884Z"
+   "ts": "2026-09-07T19:58:28.023Z"
   }
  ],
  "flips": []
