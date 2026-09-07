@@ -1,9 +1,9 @@
 {
   "_comment": "Venue / host city / kick-off for the round below, from nrl.com's own draw payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the ground's local time and emits fixture.tz. Regenerated every run by cloud_fetch.py — do not hand-edit.",
   "season": 2026,
-  "round": null,
+  "round": 28,
   "source": "nrl.com",
-  "fetched": "2026-09-07T14:41:56",
+  "fetched": "2026-09-07T19:58:16",
   "fixtures": {
     "SOU-NEW": {
       "venue": "Allianz Stadium",

@@ -1,2 +1,7 @@
-# Round None head-to-head odds, from nrl.com's own draw payload.
-# Fetched 2026-09-07T07:43:28. Decimal odds; a fixture is omitted entirely until its market opens.
+# Round 28 head-to-head odds, median of the Australian books via The Odds API.
+# Fetched 2026-09-07T19:58:16. Decimal odds; a fixture is omitted entirely until its market opens.
+# Median of 11 Australian bookmaker(s) per price (44 book quotes across 4 fixtures).
+Rabbitohs v Knights: 1.40 / 2.97
+Warriors v Dolphins: 1.58 / 2.35
+Sharks v Cowboys: 1.42 / 2.85
+Panthers v Roosters: 1.30 / 3.50
