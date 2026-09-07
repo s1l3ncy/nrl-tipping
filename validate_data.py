@@ -36,6 +36,7 @@ import json
 import datetime
 
 EXPECTED_TEAM_COUNT = 17
+FINALS_START = 28          # keep equal to parse_nrl.FINALS_START (27 regular rounds + 1)
 REQUIRED_TEAM_FIELDS = {
     "name": str,
     "short": str,
@@ -338,8 +339,22 @@ def validate(data, rep: Reporter):
         if s in teams_in_round:
             rep.fail(f"byeTeams contains '{s}' but that team also has a fixture this round")
 
+    # Finals (2026-09-07): a finals round has 4 / 2 / 2 / 1 games and the idle
+    # teams are eliminated, not on a bye — so the accounting rules below only
+    # apply to the home-and-away season. `finals` is what parse_nrl.py emits
+    # (round >= 28); an explicit flag is checked rather than re-deriving it here
+    # so the two files can't disagree about where the season ends.
+    finals = bool(data.get("finals")) or (isinstance(data.get("round"), int) and data["round"] >= FINALS_START)
+    if finals:
+        if bye_teams:
+            rep.fail(f"finals round {data.get('round')} must not list bye teams, found {bye_teams}")
+        if not 1 <= len(fixtures) <= 4:
+            rep.fail(f"finals round {data.get('round')} should have 1-4 fixtures, found {len(fixtures)}")
+        if data.get("roundName") is not None and not isinstance(data.get("roundName"), str):
+            rep.fail("'roundName' must be a string when present")
+
     # every known team should be accounted for: either playing or on bye
-    if known_shorts:
+    if known_shorts and not finals:
         accounted = set(teams_in_round) | set(bye_teams)
         missing = known_shorts - accounted
         if missing:
@@ -349,7 +364,7 @@ def validate(data, rep: Reporter):
             rep.fail(f"byeTeams reference unknown teams: {sorted(extra_byes)}")
 
     # a normal 17-team competition has exactly one bye per round
-    if len(teams) == EXPECTED_TEAM_COUNT and len(bye_teams) != 1:
+    if not finals and len(teams) == EXPECTED_TEAM_COUNT and len(bye_teams) != 1:
         rep.warn(f"Expected exactly 1 bye team for a 17-team comp, found {len(bye_teams)}: {bye_teams}")
 
     # --- changes[] / changesSince (optional; DESIGN_SPEC.md §2.1) ---
@@ -478,7 +493,8 @@ def main():
     if rep.ok():
         n_teams = len(data.get("teams", []))
         n_fix = len(data.get("fixtures", []))
-        print(f"PASS: {n_teams} teams, {n_fix} fixtures, round {data.get('round')}, "
+        print(f"PASS: {n_teams} teams, {n_fix} fixtures, round {data.get('round')}"
+              f"{' (' + data['roundName'] + ')' if data.get('roundName') else ''}, "
               f"updated {data.get('updated')}.")
         sys.exit(0)
     else:

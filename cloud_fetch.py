@@ -52,7 +52,8 @@ from bs4 import BeautifulSoup, NavigableString
 # Shared with the parser so there is exactly ONE alias table and ONE name
 # normaliser in the project (see docs/GOTCHAS.md — a second, parallel mapping is
 # how feeds drift apart). Side-effect free import.
-from parse_nrl import find_short, norm_name, TEAMS, TEAM_HOME_CITY  # noqa: F401
+from parse_nrl import (find_short, norm_name, TEAMS, TEAM_HOME_CITY,  # noqa: F401
+                       round_from_text, round_label, is_finals, FINALS_GAMES)
 
 HEADERS = {"User-Agent": "footy-tipping-personal/1.0 (non-commercial; polite; low-frequency)"}
 LADDER_URL = "https://www.zerotackle.com/nrl/nrl-ladder/"
@@ -86,7 +87,18 @@ RATING_POS_BY_SLUG = {
 RATINGS_URL_TPL = "https://www.zerotackle.com/nrl-player-ratings/{}/"
 PLAYER_HREF_RE = re.compile(r"/players/([a-z0-9'-]+)/?$", re.IGNORECASE)
 TEAM_HREF_RE = re.compile(r"/teams/([a-z0-9-]+)/?$", re.IGNORECASE)
-TEAMLIST_ARTICLE_RE = re.compile(r"/round-(\d+)-team-lists-(20\d\d)-(\d+)/?", re.IGNORECASE)
+# The slug before "-team-lists-" names the round: "round-21", or in September
+# "finals-week-1" / "grand-final" (round_from_text turns any of them into a
+# round number; a State of Origin "game-1" article resolves to None and is
+# skipped). Finals support added 2026-09-07.
+TEAMLIST_ARTICLE_RE = re.compile(r"/([a-z0-9-]+?)-team-lists-(20\d\d)-(\d+)/?", re.IGNORECASE)
+# Other competitions ZT publishes team lists for. Their "week-1" / "grand-final"
+# slugs would otherwise read as premiership finals rounds 28-31 and, being the
+# HIGHEST round on the index, outrank the real article for months (the Pacific
+# Championships in October; the pre-season challenge in February — audit 2026-09-07).
+NON_PREMIERSHIP_RE = re.compile(
+    r"(pre-?season|trial|pacific|championship|origin|all-?stars|ashes|world-cup|game-\d|women|nrlw)",
+    re.IGNORECASE)
 
 ZT_SLUG = {
     "PEN": "panthers", "SYD": "roosters", "NZW": "warriors", "CRO": "sharks",
@@ -97,7 +109,13 @@ ZT_SLUG = {
 }
 SLUG_TO_SHORT = {v: k for k, v in ZT_SLUG.items()}
 SLUGS_BY_LEN = sorted(SLUG_TO_SHORT, key=len, reverse=True)
-MATCH_SLUG_RE = re.compile(r"/(fulltime-)?([a-z0-9-]+)-round-(\d+)-20\d\d", re.IGNORECASE)
+# Match-centre slugs: "/fulltime-bulldogs-broncos-round-27-2026-mc…" in the
+# regular season, "/rabbitohs-knights-round-finals-week-1-2026-mc…" in the
+# finals (and, we assume, "…-round-grand-final-2026-…" on the last day).
+# Group 3 is the round TEXT; round_from_text() turns it into a number. Until
+# 2026-09-07 this only accepted digits, so on finals week the fixtures page
+# parsed as "no unplayed round" and the app sat on Round 27's results.
+MATCH_SLUG_RE = re.compile(r"/(fulltime-)?([a-z0-9-]+?)-round-([a-z0-9-]+?)-(20\d\d)\b", re.IGNORECASE)
 
 def fetch(url):
     resp = requests.get(url, headers=HEADERS, timeout=30)
@@ -185,8 +203,8 @@ def extract_draw(html):
             continue
         played = bool(m.group(1))
         home, away = split_matchup(m.group(2).lower())
-        rnd = int(m.group(3))
-        if not home or not away or home == away:
+        rnd = round_from_text(m.group(3))
+        if not home or not away or home == away or rnd is None:
             continue
         key = frozenset((home, away))
         slot = by_round.setdefault(rnd, {})
@@ -203,7 +221,10 @@ def extract_draw(html):
 
 
 def emit_draw(rnd, fixtures):
+    # The <h2> stays "Round N" (numeric) on purpose — parse_nrl.py, existing_draw()
+    # and the odds/meta round checks all read it; the human label is a comment.
     out = ["<!-- rebuilt by cloud_fetch.py from the live Zero Tackle fixtures page -->",
+           f"<!-- {round_label(rnd)} -->",
            f"<h2>Round {rnd}</h2>"]
     for home, away in fixtures:
         out.append(f"<p>{TEAMS[home]['name']} v {TEAMS[away]['name']}</p>")
@@ -229,7 +250,7 @@ NRL_COMPETITION_ID = 111                     # NRL Telstra Premiership
 NRL_DRAW_URL = "https://www.nrl.com/draw/?competition={comp}&round={rnd}&season={season}"
 NRL_DRAW_URL_CURRENT = "https://www.nrl.com/draw/?competition={comp}&season={season}"
 QDATA_RE = re.compile(r'id="vue-draw"[^>]*\bq-data="([^"]*)"')
-ROUND_TITLE_RE = re.compile(r"round\s+(\d{1,2})", re.IGNORECASE)
+# (ROUND_TITLE_RE retired 2026-09-07 — see title_to_round / round_from_text in parse_nrl_draw.)
 
 
 def fetch_nrl_draw(season, rnd=None):
@@ -281,6 +302,15 @@ def parse_nrl_draw(data):
     with `home`/`away` as this project's short codes. A fixture whose two teams
     don't both resolve is skipped and logged rather than guessed at."""
     fixtures, rounds, unresolved = [], [], []
+    # nrl.com's own name->number table ("Finals Week 1" -> 28). Preferred over
+    # regex-reading the title because it is the site's authoritative numbering;
+    # round_from_text() is the fallback for a title the table doesn't carry.
+    title_to_round = {}
+    for fr in data.get("filterRounds") or []:
+        try:
+            title_to_round[str(fr.get("name") or "").strip().lower()] = int(fr.get("value"))
+        except (TypeError, ValueError):
+            continue
     for fx in data.get("fixtures") or []:
         if (fx.get("type") or "Match") != "Match":
             continue
@@ -289,9 +319,12 @@ def parse_nrl_draw(data):
         if not home or not away or home == away:
             unresolved.append(f"{hb.get('nickName')!r} v {ab.get('nickName')!r}")
             continue
-        rm = ROUND_TITLE_RE.search(fx.get("roundTitle") or "")
-        if rm:
-            rounds.append(int(rm.group(1)))
+        title = (fx.get("roundTitle") or "").strip()
+        rnum = title_to_round.get(title.lower())
+        if rnum is None:
+            rnum = round_from_text(title)
+        if rnum is not None:
+            rounds.append(rnum)
         fixtures.append({
             "home": home, "away": away,
             "venue": (fx.get("venue") or "").strip(),
@@ -780,9 +813,9 @@ def extract_results(html):
         if not m or not m.group(1):            # only 'fulltime-' (i.e. played) links
             continue
         home, away = split_matchup(m.group(2).lower())
-        if not home or not away or home == away:
+        rnd = round_from_text(m.group(3))
+        if not home or not away or home == away or rnd is None:
             continue
-        rnd = int(m.group(3))
         # Climb to the nearest ancestor whose text contains the 'FT' marker — that's
         # this match's card. (Ancestors between the <a> and the card don't contain FT.)
         lines = []
@@ -1062,7 +1095,11 @@ def latest_teamlists_url(index_html):
         m = TEAMLIST_ARTICLE_RE.search(a["href"])
         if not m:
             continue
-        rnd = int(m.group(1))
+        if NON_PREMIERSHIP_RE.search(m.group(1)):
+            continue                      # Origin / Pacific Championships / pre-season / All Stars
+        rnd = round_from_text(m.group(1))
+        if rnd is None:
+            continue                      # e.g. a State of Origin "game-1" article
         if best[0] is None or rnd > best[0]:
             href = a["href"]
             if href.startswith("/"):
@@ -1145,7 +1182,7 @@ def _squad_names(toks, drop_reserves=True):
     return names
 
 
-def extract_teamlists(html):
+def extract_teamlists(html, article_round=None):
     """Round team-lists article -> {short: {"round": N, "opp": SHORT, "players": [...]}}.
 
     Layout: an <h2> per game ('Eels vs Panthers Team Lists: Round 21') followed
@@ -1192,8 +1229,9 @@ def extract_teamlists(html):
         if not m:
             continue
         home, away = find_short(m.group(1)), find_short(m.group(2))
-        rm = re.search(r"Round\s+(\d+)", title, re.I)
-        rnd = int(rm.group(1)) if rm else None
+        # "…Team Lists: Round 21" in season; "…Team Lists: Finals Week 1" (or a
+        # named final) in September. Fall back to the article's own round.
+        rnd = round_from_text(title.split("Team List", 1)[-1]) or article_round
 
         # 3. home vs away: the number-first column is the home side. Document
         #    order breaks the tie if the two columns somehow look alike, and
@@ -1464,12 +1502,18 @@ def main():
     # Tackle down + nrl.com nicknames unresolved) is exactly the case that used to
     # slip through the bare 6..9 range and shrink a good 8-fixture dump.
     committed_round, committed_n = existing_draw("draw_dump.html")
-    plausible = bool(rnd) and 6 <= len(round_fixtures) <= 9
+    # A regular round has 6–9 games; a finals round has exactly 4 / 2 / 2 / 1
+    # (allow fewer only while a later week's pairings are still being decided —
+    # never more, and never zero).
+    if is_finals(rnd):
+        plausible = 1 <= len(round_fixtures) <= FINALS_GAMES.get(int(rnd), 4)
+    else:
+        plausible = bool(rnd) and 6 <= len(round_fixtures) <= 9
     shrinks = (plausible and committed_n and committed_round == rnd
                and len(round_fixtures) < committed_n)
     if plausible and not shrinks:
         write("draw_dump.html", emit_draw(rnd, round_fixtures))
-        print(f"[cloud_fetch] wrote draw_dump.html: Round {rnd}, {len(round_fixtures)} fixtures "
+        print(f"[cloud_fetch] wrote draw_dump.html: {round_label(rnd)} (round {rnd}), {len(round_fixtures)} fixtures "
               f"({', '.join(h + 'v' + a for h, a in round_fixtures)})")
     elif shrinks:
         print(f"[cloud_fetch] draw parse came back short (round {rnd}: {len(round_fixtures)} "
@@ -1581,11 +1625,18 @@ def main():
     print(f"[cloud_fetch] injuries: parsed news for {len(news)} clubs")
     for short, txt in list(news.items())[:20]:
         print(f"    {short}: {txt[:80]}")
-    if len(news) >= 6:
+    # Zero Tackle's injuries page lists only the clubs still alive once the
+    # finals start (8 clubs in week 1, then 4, 4, 2), so the regular-season
+    # "at least 6 clubs" gate would freeze the injury table at the week-1
+    # snapshot for the rest of September (audit, 2026-09-07). In the finals the
+    # bar is "at least half the clubs still playing"; a lone club is never enough.
+    need_news = max(2, FINALS_GAMES.get(int(rnd), 1)) if is_finals(rnd) else 6
+    if len(news) >= need_news:
         write("injuries_dump.html", emit_injuries(news))
         print("[cloud_fetch] wrote injuries_dump.html")
     else:
-        print("[cloud_fetch] injuries parse thin (<6 clubs) — keeping committed injuries_dump.html.", file=sys.stderr)
+        print(f"[cloud_fetch] injuries parse thin ({len(news)} clubs, need {need_news}) — "
+              f"keeping committed injuries_dump.html.", file=sys.stderr)
 
     # ----- footytips comp -> nrl_comp.js (best-effort; keep committed file on failure) -----
     # The family comp (public API, no auth — verified 2026-08-10). Shipping it as
@@ -1630,8 +1681,8 @@ def main():
     try:
         tl_round, tl_url = latest_teamlists_url(fetch(TEAMLISTS_INDEX_URL))
         if tl_url:
-            print(f"[cloud_fetch] team lists: newest article is Round {tl_round} — {tl_url}")
-            lineups = extract_teamlists(fetch(tl_url))
+            print(f"[cloud_fetch] team lists: newest article is {round_label(tl_round)} (round {tl_round}) — {tl_url}")
+            lineups = extract_teamlists(fetch(tl_url), tl_round)
         else:
             print("[cloud_fetch] WARNING: no round team-lists article found on the index.", file=sys.stderr)
     except Exception as exc:  # noqa: BLE001
@@ -1639,14 +1690,21 @@ def main():
         lineups = {}
     for s, v in list(lineups.items())[:20]:
         print(f"    {s}: {len(v['players'])} named v {v['opp']}")
-    if len(lineups) >= 6:
+    # Enough clubs to publish: most of a regular round (6+ of 16), or every
+    # club playing this finals week (8 / 4 / 4 / 2 — half a finals article is
+    # a half-published page, and a stale committed file is the safer read).
+    # Finals: at least HALF the clubs playing that week (4 / 2 / 2 / 1) — lists
+    # trickle out on Tuesday afternoon, and half a finals article still beats a
+    # stale file (a lone club is fine in GF week: there are only two).
+    need_clubs = FINALS_GAMES.get(int(tl_round), 1) if is_finals(tl_round) else 6
+    if len(lineups) >= need_clubs:
         # Snapshot the outgoing copy FIRST. nrl_lineups.js is rewritten in place,
         # so without this there is nothing for parse_nrl.py to diff and the
         # "named in the 17" / "out of the 17" half of the change feed can never
         # fire. Losing the snapshot is harmless — the diff just goes quiet.
         preserve("nrl_lineups.js", "nrl_lineups.prev.js")
         write("nrl_lineups.js", emit_lineups(lineups, tl_round))
-        print(f"[cloud_fetch] wrote nrl_lineups.js: Round {tl_round}, {len(lineups)} clubs "
+        print(f"[cloud_fetch] wrote nrl_lineups.js: {round_label(tl_round)} (round {tl_round}), {len(lineups)} clubs "
               f"(previous copy kept as nrl_lineups.prev.js for the change feed)")
     else:
         print(f"[cloud_fetch] team lists thin ({len(lineups)} clubs) — keeping committed nrl_lineups.js. "
