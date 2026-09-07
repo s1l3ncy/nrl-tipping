@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-07",
+  "updated": "2026-09-08",
   "season": 2026,
   "round": 28,
   "roundName": "Finals Week 1",
@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals; Izack Tago (Knee) — back Finals"
+      "news": "Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
     },
     {
       "name": "Warriors",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 348,
         "PA": 270
       },
-      "news": "Sam Walker (Ankle); Reece Foley (Head knock); Angus Crichton (Foot) — back Finals; Victor Radley (Concussion) — back Finals; Blake Steep (ACL) — back Next Season"
+      "news": "Reece Foley (Head knock); Sam Walker (Ankle); Angus Crichton (Foot) — back Finals; Victor Radley (Concussion) — back Finals; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Euan Aitken (Shoulder); Ashton Ward (Hamstring) — back Next Season"
+      "news": "Euan Aitken (Shoulder) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Knights",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 350,
         "PA": 288
       },
-      "news": "Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Tyson Frizell (Suspension) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Brown (ACL) — back Next Season"
+      "news": "Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Tyson Frizell (Suspension) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Lucas (Ankle) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Murray Taulagi (Concussion); Griffin Neame (Toe) — back Finals; Jeremiah Nanai (Knee) — back Finals; Zac Laybutt (Concussion) — back Finals"
+      "news": "Murray Taulagi (Concussion); Griffin Neame (Toe) — back Finals; Zac Laybutt (Concussion) — back Finals; Jeremiah Nanai (Knee) — back Finals"
     },
     {
       "name": "Sea Eagles",
@@ -544,7 +544,32 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-07T19:58:46+10:00",
-  "changes": [],
-  "changesSince": "2026-09-07T14:42:08+10:00"
+  "generatedAt": "2026-09-08T00:15:56+10:00",
+  "changes": [
+    {
+      "id": "r28-NEW-inj-dylan-lucas",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Dylan Lucas (Ankle) — back Next Season — new on the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-08T00:15:56+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-fit-dylan-brown",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Dylan Brown is off the injury list.",
+      "pts": 3.3,
+      "ts": "2026-09-08T00:15:56+10:00",
+      "rnd": 28
+    }
+  ],
+  "changesSince": "2026-09-07T19:58:46+10:00"
 };
