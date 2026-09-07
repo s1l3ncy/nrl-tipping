@@ -1,5 +1,5 @@
 # Round 28 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-08T08:16:02. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-08T08:50:30. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (44 book quotes across 4 fixtures).
 Rabbitohs v Knights: 1.40 / 2.97
 Warriors v Dolphins: 1.59 / 2.35
