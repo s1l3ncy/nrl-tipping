@@ -552,20 +552,8 @@ window.NRL_DATA = {
   "byeTeams": [
     "NEW"
   ],
-  "generatedAt": "2026-09-07T08:07:39+10:00",
+  "generatedAt": "2026-09-07T14:42:08+10:00",
   "changes": [
-    {
-      "id": "r27-MEL-inj-jahrome-hughes",
-      "fixture": "CRO-MEL",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Storm: Jahrome Hughes (Hamstring) — new on the injury list.",
-      "pts": 3.3,
-      "ts": "2026-09-06T01:14:42+10:00",
-      "rnd": 27
-    },
     {
       "id": "r27-MAN-fit-joey-walsh",
       "fixture": "NZW-MAN",
@@ -1167,102 +1155,6 @@ window.NRL_DATA = {
       "rnd": 27
     },
     {
-      "id": "r27-MEL-inj-siulagi-tuimalatu-brown",
-      "fixture": "CRO-MEL",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Storm: Siulagi Tuimalatu-Brown (Neck) — new on the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-06T01:14:42+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-MEL-fit-jack-howarth",
-      "fixture": "CRO-MEL",
-      "team": "MEL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Storm: Jack Howarth is off the injury list.",
-      "pts": 1.7,
-      "ts": "2026-09-06T01:14:42+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-GLD-inj-zane-harrison",
-      "fixture": "GLD-DOL",
-      "team": "GLD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Titans: Zane Harrison (Hamstring) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-06T01:14:42+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-fit-isaah-yeo",
-      "fixture": "PEN-WST",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Panthers: Isaah Yeo is off the injury list.",
-      "pts": 1.3,
-      "ts": "2026-09-05T20:52:41+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-out-jayden-berrell",
-      "fixture": "CRO-MEL",
-      "team": "CRO",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Jayden Berrell (Hooker) is out of the Sharks 17.",
-      "pts": 2.0,
-      "ts": "2026-09-05T20:52:41+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-CRO-in-samuel-stonestreet",
-      "fixture": "CRO-MEL",
-      "team": "CRO",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Samuel Stonestreet (Winger) named in the Sharks 17.",
-      "pts": 1.6,
-      "ts": "2026-09-05T20:52:41+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-out-scott-sorensen",
-      "fixture": "PEN-WST",
-      "team": "PEN",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Scott Sorensen (Second-row) is out of the Panthers 17.",
-      "pts": 1.9,
-      "ts": "2026-09-05T20:52:41+10:00",
-      "rnd": 27
-    },
-    {
-      "id": "r27-PEN-in-isaah-yeo",
-      "fixture": "PEN-WST",
-      "team": "PEN",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Isaah Yeo (Lock) named in the Panthers 17.",
-      "pts": 1.3,
-      "ts": "2026-09-05T20:52:41+10:00",
-      "rnd": 27
-    },
-    {
       "id": "r27-PEN-WST-line-1.10-7.00",
       "fixture": "PEN-WST",
       "team": "PEN",
@@ -1275,5 +1167,5 @@ window.NRL_DATA = {
       "rnd": 27
     }
   ],
-  "changesSince": "2026-09-05T20:52:41+10:00"
+  "changesSince": "2026-09-06T14:39:32+10:00"
 };
