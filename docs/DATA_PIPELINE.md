@@ -17,13 +17,13 @@ Fetches the live pages and writes clean intermediate dumps + the ratings map.
 | Produces | From | Notes |
 |----------|------|-------|
 | `ladder_dump.html` | Zero Tackle NRL ladder | Rebuilt `<table>` incl. home/away split tables. Aborts (keeps old) if < 17 teams. |
-| `draw_dump.html` | Zero Tackle fixtures/results | The **lowest round with unplayed games** → auto-advances weekly. Written only if 6–9 fixtures parse **and** the count isn't lower than the already-committed dump for that round (so a half-resolved fallback can't shrink a good file). |
+| `draw_dump.html` | Zero Tackle fixtures/results | The **lowest round with unplayed games** → auto-advances weekly. Written only if 6–9 fixtures parse (finals: 1..`FINALS_GAMES[rnd]`, i.e. 4/2/2/1) **and** the count isn't lower than the already-committed dump for that round (so a half-resolved fallback can't shrink a good file). Match-centre slugs name the round as `round-27` or `round-finals-week-1` / `round-preliminary-finals` / `round-grand-final` — all resolved by `parse_nrl.round_from_text()` (2026-09-07). The `<h2>` stays numeric (`Round 28`); a comment line carries the label. |
 | `odds_dump.txt` | **The Odds API** (primary), nrl.com draw payload (fallback) | `Home v Away: 2.52 / 1.53` decimal head-to-head prices (median across the AU books when from the API). A fixture is omitted entirely until its market opens. Fed to `parse_nrl` via `--odds`. A stale dump from a *different* round is cleared, not reused. **The API needs the `ODDS_API_KEY` repo secret** — nrl.com withholds prices from non-Australian IPs, so on GitHub's US runners the fallback alone yields nothing (see `GOTCHAS.md`). Non-fatal on every failure. |
 | `odds_api_status.json` | The Odds API response headers | How the odds call went: `state` (`ok`/`no-key`/`bad-key`/`quota-exhausted`/…) + the monthly-quota counters. Folded into `last_run.json`. **Never contains the key.** |
 | `draw_meta.json` | **nrl.com draw payload** | Per fixture: `venue`, `venueCity`, and the UTC kick-off. Fed to `parse_nrl` via `--draw-meta`. This is the only source of stadium + kick-off — Zero Tackle's page doesn't carry them in a parseable form. |
-| `nrl_lineups.js` | Zero Tackle round team-lists article | The named squad per club. The previous copy is snapshotted to `nrl_lineups.prev.js` **before** the rewrite, so the change feed can diff named/omitted players. |
+| `nrl_lineups.js` | Zero Tackle round team-lists article | The named squad per club. The previous copy is snapshotted to `nrl_lineups.prev.js` **before** the rewrite, so the change feed can diff named/omitted players. Article slugs (`round-21-…`, `finals-week-1-…`, `grand-final-…`) resolve via `round_from_text()`; Origin / Pacific Championships / pre-season / NRLW articles are skipped (`NON_PREMIERSHIP_RE`). Published when ≥6 clubs parse, or ≥`FINALS_GAMES[rnd]` (half the week's clubs) in the finals. |
 | `results_dump.txt` | Zero Tackle fixtures/results (same page) | Every **finished** game's score as `Round N` + `Home hs - Away aws` (teams+round from the `fulltime-…` slug, scores from the `FT` block). Fed to `parse_nrl` via `--results`; grows the results memory that powers form, splits and Elo. Kept if ≥ 8 games parse. |
-| `injuries_dump.html` | Zero Tackle injuries & suspensions | `Team: Player (Reason) — back Round N; ...` (up to 6 per club). Return of `TBC`/unknown is left as no "— back" suffix. Kept if ≥ 6 clubs parse. Rows whose cells are all ≤2 chars are rejected, and the player cell must look like a real name (≥2 words / ≥4 letters / a `/players/` link) — a Panthers stats table once published phantom player "P" (2026-08-04). |
+| `injuries_dump.html` | Zero Tackle injuries & suspensions | `Team: Player (Reason) — back Round N; ...` (up to 6 per club). Return of `TBC`/unknown is left as no "— back" suffix. Kept if ≥ 6 clubs parse (finals: ≥ `max(2, FINALS_GAMES[rnd])` — the page only lists clubs still alive, 8/4/4/2). Rows whose cells are all ≤2 chars are rejected, and the player cell must look like a real name (≥2 words / ≥4 letters / a `/players/` link) — a Panthers stats table once published phantom player "P" (2026-08-04). |
 | `nrl_players.js` | Zero Tackle **overall player ratings** | `window.NRL_PLAYERS = { "name": {pos, pct} }`. Written only if ≥ 100 players parse. |
 
 Key internals:
@@ -68,7 +68,11 @@ scores and **appends** them to `nrl_learned.js.results` (deduped on
 never deletes; aborts if the existing file is unparseable).
 
 Reference tables live at the top of the file: `TEAMS` (short → name + aliases),
-`CLUB_COLOUR`, `TEAM_HOME_CITY`, `VENUE_CITY`. Add new venues to `VENUE_CITY` if a
+`CLUB_COLOUR`, `TEAM_HOME_CITY`, `VENUE_CITY`. **Finals helpers** (2026-09-07, imported
+by `cloud_fetch.py`): `REGULAR_ROUNDS = 27`, `FINALS_START`, `FINALS_GAMES`
+({28:4, 29:2, 30:2, 31:1}), `is_finals()`, `round_label()` and `round_from_text()` — the
+single place any source's round naming becomes a number. `compute_bye()` returns `[]`
+in a finals round. Add new venues to `VENUE_CITY` if a
 heritage/regional game resolves to the wrong city.
 
 Odds evolve into an `{open, close}` shape for CLV. **Since 2026-08-04, BOTH modes
@@ -105,7 +109,10 @@ artifacts (trailing `;`, comments, trailing commas) but expect clean JSON otherw
 {
   updated: "YYYY-MM-DD",        // real generation date (validated ISO)
   season: 2026,                 // int
-  round: 22,                    // int — the round being tipped
+  round: 22,                    // int — the round being tipped; finals are 28..31
+  roundName: "Round 22",        // display label: "Finals Week 1" … "Grand Final" (2026-09-07)
+  finals: false,                // true for round >= 28 — byeTeams is [] and the
+                                // validator accepts 1–4 fixtures (2026-09-07)
   source: "zerotackle.com",
   newsUpdated: "YYYY-MM-DD",    // set by --merge runs (optional)
   generatedAt: "ISO+offset",    // this run's stamp; its ABSENCE marks a pre-change

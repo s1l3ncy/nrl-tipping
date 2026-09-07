@@ -288,6 +288,19 @@ device), then this browser's `nrl_snap_v1` snapshot, then the lock rule. See the
 2026-08-02 entries in `GOTCHAS.md` before touching this. The change feed displays TODAY (Sydney) only; the data
 file still carries the rolling 36h window.
 
+### Finals (2026-09-07)
+
+`REGULAR_ROUNDS = 27`, `FINALS_NAMES`, `roundLabel(r)`, `curRoundLabel()` (prefers
+`SRC.roundName`) and `isFinalsRound(r)` sit just above `injuryPenalty()`. The round
+pill, foot line, comp-panel header and Copy-tips header use them; nothing prints a
+bare "Round 28". `injuryPenalty()` gained `finalsReturnRound()` ("back Finals Week
+2" / "back Grand Final" etc. are dated returns) and two finals-only branches for a
+bare "back Finals" (suspension → available; injury → half-weight doubt that the team
+list settles). `bye` is empty in a finals round so the schedule's bye line doesn't
+render. `COMP_GAMES_PER_ROUND` already carried 28–31; the simulator's rivals-games-
+played (`gp`) now sums it instead of assuming 8/round. Keep the JS constants in step
+with `parse_nrl.py`.
+
 ## Element IDs the render targets
 
 `render()` writes into these IDs — keep them intact if you restyle:

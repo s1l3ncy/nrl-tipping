@@ -122,6 +122,14 @@ and it re-scrapes.
   as low-impact by design), and that the injury name matches the ratings name after
   normalisation.
 - **Wrong host city:** add the venue to `VENUE_CITY` in `parse_nrl.py`.
+- **The site is stuck on the last round after the season/finals move on:** check
+  `last_run.json` — `dataRound` behind, `fixturesWithKickoff: 0`,
+  `oddsApiState: not-attempted` means the draw didn't advance. The sources have
+  probably renamed the round (finals week / grand final); every round string must
+  resolve through `parse_nrl.round_from_text()` — extend it, don't add a regex
+  elsewhere (GOTCHAS "Finals are rounds 28–31"). Each March, confirm
+  `REGULAR_ROUNDS` in `parse_nrl.py` / `validate_data.py` / the HTML still matches
+  the new draw.
 - **The site "looks the same" after an HTML change:** you didn't run the workflow (so
   `index.html` wasn't recopied), or you're seeing CDN cache — hard refresh / wait.
 - **Home-screen app shows old data/UI:** since 2026-08-04 the page refreshes itself

@@ -5,6 +5,127 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-09-07 — Finals support: the app rolls into Finals Week 1 (rounds 28–31) instead of sitting on Round 27
+
+Josh, Monday after the last home-and-away round: the ESPN footytips app had moved
+on to the finals but this site still showed last week's results. Run #293 that
+afternoon told the story in `last_run.json`: `dataRound: 27`, `fixturesWithKickoff: 0`,
+`fixturesWithVenue: 0`, `oddsApiState: not-attempted` — the draw hadn't advanced and
+everything downstream of the round had gone quiet.
+
+**Root cause.** Every source numbers the finals as rounds 28–31 (Zero Tackle's CSS
+classes say `fixtures-round-28`, nrl.com's `filterRounds` maps "Finals Week 1" → 28,
+footytips' `processingStatus.currentRound` is 28) — but each one NAMES them
+differently, and the scraper only understood digits:
+
+- Zero Tackle match-centre slugs went from `…-round-27-2026-mc…` to
+  `…-round-finals-week-1-2026-mc…`. `MATCH_SLUG_RE` (`-round-(\d+)-20\d\d`) matched
+  nothing, so `extract_draw()` found no unplayed round → `rnd=None` → the publish
+  gate kept the committed Round-27 dump; `extract_results()` was on the same regex.
+- nrl.com's `roundTitle` became "Finals Week 1", which `ROUND_TITLE_RE`
+  (`round\s+(\d)`) couldn't read → `nrl_round=None` → `draw_meta.json` was written
+  with `round: null`, and the odds fetch was skipped because `rnd` was falsy.
+- Two knock-ons waited behind that: `validate_data.py` FAILS a payload where any
+  team is "neither fixtured nor on bye" (a 4-game round leaves 9 idle teams, and
+  `compute_bye()` would have listed them all as byes), and the injury feed now says
+  "— back Finals" for a dozen players (Crichton, Radley, Cogger, Young, Frizell…),
+  which the front-end read as long-term OUT.
+
+**The design: one numeric round everywhere, only the label changes.** Finals are
+rounds 28–31 in every file (dumps, `nrl_data.js`, tiplog, results memory, comp), so
+the Elo replay, grading keys, snapshot keys, flips, the change feed's round rollover
+and the comp simulator's `COMP_GAMES_PER_ROUND` (which already carried 28:4, 29:2,
+30:2, 31:1) need no special cases. `nrl_data.js` gains `roundName` ("Finals Week 1"
+… "Grand Final") and `finals: true`; `byeTeams` is `[]` in a finals round.
+
+**Pipeline (`parse_nrl.py`, `cloud_fetch.py`, `validate_data.py`):**
+- `parse_nrl.py`: `REGULAR_ROUNDS = 27`, `FINALS_START`, `FINALS_GAMES`,
+  `is_finals()`, `round_label()`, and `round_from_text()` — the one place that
+  turns any source's naming into a number: "Round 27" / "round-27" / a bare "27" /
+  "Finals Week 1" / "finals-week-2" / "Qualifying|Elimination Final" (28) /
+  "Semi Final" (29) / "Preliminary Final" (30) / "Grand Final" (31). A bare
+  "week 1" deliberately does NOT match (Pacific Championships / pre-season
+  articles use it). `compute_bye()` returns `[]` for finals; the payload carries
+  `roundName` + `finals`; the file header comment uses the label.
+- `cloud_fetch.py`: `MATCH_SLUG_RE` captures the round TEXT and both
+  `extract_draw()`/`extract_results()` go through `round_from_text()` (the
+  regular-season results list is byte-identical: 204 games). `parse_nrl_draw()`
+  reads the round from nrl.com's own `filterRounds` name→value table first,
+  `round_from_text(roundTitle)` second (`ROUND_TITLE_RE` retired). The draw
+  publish gate accepts 1..`FINALS_GAMES[rnd]` fixtures in a finals round (6–9
+  otherwise); the "never shrink the committed dump" rule is unchanged. Team-list
+  articles: `TEAMLIST_ARTICLE_RE` accepts any slug before `-team-lists-`, resolved
+  by `round_from_text()`; `NON_PREMIERSHIP_RE` skips Origin / Pacific
+  Championships / pre-season / NRLW / All Stars articles (their "week-1" /
+  "grand-final" slugs would otherwise read as rounds 28–31 and, being the highest
+  round on the index, outrank the real article for months). Per-game headings
+  ("… Team Lists: Finals Week 1") resolve the same way, falling back to the
+  article's round. Publish gates that counted clubs are finals-aware: team lists
+  need `FINALS_GAMES[r]` clubs (half the week's clubs — 4/2/2/1) and injuries need
+  `max(2, FINALS_GAMES[r])` clubs (Zero Tackle's injuries page only lists clubs
+  still alive: 8 in week 1, then 4, 4, 2 — the old "≥6 clubs" gate would have
+  frozen the injury table at the week-1 snapshot for the rest of September).
+- `validate_data.py`: `FINALS_START = 28` (keep equal to `parse_nrl`); a finals
+  payload (`finals: true` or round ≥ 28) must have 1–4 fixtures and NO bye teams,
+  and skips the "every team fixtured or on bye" / "exactly one bye" rules.
+
+**Front-end (`nrl-tipping-guide.html`, `sw.js` CACHE v21 → v22):**
+- `roundLabel()` / `curRoundLabel()` / `isFinalsRound()` mirror the Python
+  (`REGULAR_ROUNDS = 27`, `FINALS_NAMES`). The round pill shows "**Finals Week 1**
+  · 2026" (bold label, no number), the foot line "Data to end of Round 27", the
+  comp panel "Comp ladder · Finals Week 1", the Copy-tips header "NRL Finals Week 1
+  tips". An old `nrl_data.js` without `roundName` falls back to `roundLabel(round)`.
+- **Injury returns are finals-aware** (`finalsReturnRound()` + new branches in
+  `injuryPenalty()`): "back Finals Week 2" / "back Grand Final" / "back Semi Final"
+  / "back Preliminary Final" are DATED returns (out iff that round > the round
+  being tipped, same rule as "back Round N"). A bare "back Finals" once the finals
+  are on is a **doubt (half weight)** — expected back this September, week unknown
+  — which the team list then settles both ways exactly like any other doubt
+  (named → cleared; not named → full-weight NOT NAMED). A *suspension* "back
+  Finals" during the finals is a served ban → available. During the regular season
+  "back Finals" still means long-term OUT, as before. Verified in jsdom on the live
+  week-1 data: Roosters carry Walker/Crichton/Radley/Foley as doubts + Steep out
+  (2.8 pts), Cogger (PEN), Young + Frizell (NEW) are back.
+- The comp simulator's rivals-games-played figure (`gp`) sums
+  `COMP_GAMES_PER_ROUND` instead of assuming 8 games every round (identical through
+  round 28, correct thereafter).
+- No bye line renders in a finals round (`bye` is empty). Nothing else assumed a
+  bye team or 8 games — `weekOrder`, `livePollList`, the schedule panel and
+  `gamesLeftInComp` all iterate the fixtures that exist.
+
+**Verified before ship:** a real `cloud_fetch.py` run from the sandbox against the
+live sources (draw → "Finals Week 1 (round 28), 4 fixtures (SOUvNEW, NZWvDOL,
+CROvNQL, PENvSYD)"; nrl.com venues + kick-offs 4/4; results 204; injuries 8 clubs;
+`nrl_comp.js` round 28, `finishRound` 31) → `parse_nrl.py` (round 28, bye=[]) →
+`learn_model.py` → both validators PASS ("round 28 (Finals Week 1)") → `--merge`
+keeps the new keys → `freeze_tips.mjs` froze 4/4 finals tips with SYD locked in
+PEN–SYD and no phantom flips across the 27→28 boundary → `smoke_test.mjs` 60/60 →
+`test_ios_viewport.py` ALL GREEN → jsdom boot with no errors. Then an independent
+adversarial audit (5 findings: the injuries gate, the bare "week N" false positive
+on non-premiership articles, the too-strict team-list gate, suspensions "back
+Finals", the header comment) — all fixed and re-verified by the auditor. The
+auditor also confirmed from Zero Tackle's sitemaps that the later weeks' slugs are
+`-round-finals-week-2-`, `-round-preliminary-finals-` and `-round-grand-final-` —
+all of which `round_from_text()` already maps (29 / 30 / 31).
+
+**What to expect through the finals.** Between weeks (Sunday night → whenever Zero
+Tackle publishes the next pairings) the fixtures page has no unplayed game, so the
+run keeps the committed draw: the site shows the just-played week's four cards as
+"Played" with their grades, and `validate_data.py` still passes (1–4 fixtures, no
+byes). nrl.com may list "TBA v TBA" for the next week — those nicknames don't
+resolve and are skipped. The odds/team-list/injury feeds follow the round number
+automatically; The Odds API prices finals events like any other (team-pair +
+kick-off matched). After the grand final there are no unplayed games at all — the
+site will sit on the GF result until the 2027 draw appears, which is the intended
+off-season state. **`REGULAR_ROUNDS` must be checked against the draw each new
+season** (27 in 2026) — it's the one constant the finals mapping hangs on.
+
+Files: `parse_nrl.py`, `cloud_fetch.py`, `validate_data.py`,
+`nrl-tipping-guide.html`, `sw.js`. Workflow unchanged (edit only from the live copy —
+the local `.github/workflows/update-nrl.yml` was one revision behind again and has
+been refreshed from the raw URL in this batch). `learn_model.py`, `freeze_tips.mjs`
+untouched.
+
 ## 2026-08-21 (later) — What's new shows only the LATEST tip flip per game
 
 Direct follow-up to the freeze fix below, caught by Josh on his phone within the

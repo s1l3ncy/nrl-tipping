@@ -184,6 +184,56 @@ Real problems encountered on this project and how to avoid repeating them.
   fetch the comp's data (first names + picks + scores). Josh accepted this;
   if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
 
+## Finals are rounds 28–31 — sources NAME them differently, the pipeline NUMBERS them (2026-09-07)
+
+- **The season didn't end at Round 27 — the scraper's regexes did.** Zero Tackle's
+  match-centre slugs switch from `…-round-27-2026-mc…` to
+  `…-round-finals-week-1-2026-mc…` (then `-round-finals-week-2-`,
+  `-round-preliminary-finals-`, `-round-grand-final-`), nrl.com's `roundTitle`
+  becomes "Finals Week 1", team-list articles become `finals-week-1-team-lists-…` /
+  `preliminary-finals-team-lists-…` / `grand-final-team-lists-…`, and the injury
+  page's return column says "Finals". A digits-only regex reads all of that as
+  "no round" and the app quietly sits on the last home-and-away round with
+  `fixturesWithKickoff: 0`, `oddsApiState: not-attempted` in `last_run.json`. **All
+  round naming goes through `parse_nrl.round_from_text()`** — never add another
+  `round\s+(\d+)` regex to a source parser; extend that function instead (and its
+  JS mirror `finalsReturnRound()` for injury text).
+- **One numeric round everywhere; `roundName` is display-only.** Dumps say
+  `<h2>Round 28</h2>` / `# Round 28 …` on purpose — `existing_draw()`,
+  `existing_odds_round()`, `RESULT_ROUND_RE` and the draw-meta round check all read
+  a number. Don't "improve" a dump header to "Finals Week 1".
+- **A bare "week N" must NOT resolve to a finals round.** Zero Tackle names the
+  Pacific Championships (October) and the pre-season challenge (February) articles
+  `…-week-1-team-lists-…`; `latest_teamlists_url()` keeps the HIGHEST round, so a
+  "week-1" → 28 reading would outrank `round-1-team-lists-2027` for as long as those
+  articles sit on the index. `_FINALS_WEEK_RE` requires the word "finals", and
+  `NON_PREMIERSHIP_RE` skips Origin / Pacific / pre-season / NRLW / All Stars slugs.
+  Verified against every 2022–2026 premiership slug: none is skipped.
+- **Club-count publish gates must shrink with the finals.** Zero Tackle's injuries
+  page and team-list article only carry the clubs still alive (8 → 4 → 4 → 2). The
+  regular-season gates ("≥6 clubs") would keep the *committed* file forever from
+  week 2 on — a green run that silently freezes the injury table at the week-1
+  snapshot. Both gates key on `FINALS_GAMES[rnd]` now; keep any new club-counted
+  feed on the same rule.
+- **"back Finals" changes meaning on finals day.** In-season it's long-term OUT
+  (not before September). Once `SRC.finals` is true it means "expected back for the
+  finals, week unspecified" → a half-weight DOUBT that the team list settles both
+  ways; a *suspension* "back Finals" is a served ban → available. Dated forms
+  ("back Finals Week 2", "back Grand Final") are ordinary dated returns. Reading
+  the bare form as OUT would have costed the Roosters Crichton + Radley in the
+  elimination final. Don't collapse these branches back into the long-term regex.
+- **No byes in the finals — and the validator enforces it.** `compute_bye()` returns
+  `[]` for round ≥ 28 and `validate_data.py` FAILS a finals payload with bye teams
+  (or 0 / >4 fixtures) while skipping the "every team fixtured or on bye" rule.
+  Idle teams are eliminated, not resting — nothing may print a nine-team bye line.
+- **Between finals weeks the site shows the played week, and that's correct.**
+  With no unplayed game on the fixtures page the run keeps the committed draw;
+  nrl.com lists "TBA v TBA" which doesn't resolve. Don't "fix" this by inventing
+  fixtures — the next pairings appear on Zero Tackle within a day of the last game.
+- **`REGULAR_ROUNDS` (27) is a per-season constant** in `parse_nrl.py`,
+  `validate_data.py` (`FINALS_START = 28`) and the HTML. Check it against the new
+  draw every March.
+
 ## A tip's % is the TIPPED side's chance, never max(pHome,1-pHome) (2026-08-14)
 
 - Any surface that prints a percentage next to the tip name must use the
