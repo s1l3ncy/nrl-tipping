@@ -1073,6 +1073,34 @@ function looksLikePlayer(n){
   if(/^(near|settled|otherwise|several|team|no|full|squad|rotation|plenty|mostly)\b/i.test(s)) return false;
   return /^[A-Z]/.test(s);
 }
+// ---- Finals (2026-09-07) -------------------------------------------------
+// The pipeline numbers the finals as rounds 28–31 (every source does: Zero
+// Tackle, nrl.com's filterRounds, footytips) and ships the human name as
+// SRC.roundName ("Finals Week 1" … "Grand Final") + SRC.finals. Everything
+// keyed on the number (tiplog, grading, comp, snapshots) needs no change;
+// only labels and the injury-return parser care. Mirrors parse_nrl.py's
+// REGULAR_ROUNDS / round_label() — keep the two in step.
+const REGULAR_ROUNDS=27;
+const FINALS_NAMES={1:'Finals Week 1',2:'Finals Week 2',3:'Finals Week 3',4:'Grand Final'};
+function roundLabel(r){
+  r=+r; if(!r) return 'Round —';
+  if(r<=REGULAR_ROUNDS) return 'Round '+r;
+  return FINALS_NAMES[r-REGULAR_ROUNDS]||('Finals Week '+(r-REGULAR_ROUNDS));
+}
+function curRoundLabel(){ return (SRC&&SRC.roundName)||roundLabel(SRC&&SRC.round); }
+function isFinalsRound(r){ return +(r||0)>REGULAR_ROUNDS; }
+// "— back Finals Week 2" / "back Grand Final" / "back Semi Final" / "back
+// Week 3" → the round number a player returns in (null if the text isn't a
+// dated finals return). "back Finals" on its own is NOT dated: in the regular
+// season it means "not before September"; once the finals are on it means
+// "expected back for the finals" — handled as a doubt in injuryPenalty().
+function finalsReturnRound(e){
+  let m=e.match(/back\s+finals?\s*week\s*(\d)/i);          // "back Finals Week 2"
+  if(m) return REGULAR_ROUNDS+parseInt(m[1],10);
+  m=e.match(/back\s+(qualifying|elimination|semi|preliminary|prelim|grand)[\s-]*finals?/i);
+  if(m){ const w={qualifying:1,elimination:1,semi:2,preliminary:3,prelim:3,grand:4}[m[1].toLowerCase()]; return REGULAR_ROUNDS+w; }
+  return null;
+}
 function injuryPenalty(news, tipRound, short){
   const nil={penalty:0, note:"", count:0, outs:[], backs:[], named:[]};
   if(!news) return nil;
@@ -1082,8 +1110,21 @@ function injuryPenalty(news, tipRound, short){
   const outs=[], backs=[], named=[];
   entries.forEach(e=>{
     const rm=e.match(/back\s+round\s+(\d+)/i);          // "— back Round 25"
+    const fr=finalsReturnRound(e);                        // "— back Finals Week 2" / "back Grand Final"
     let isOut, confirmed;
     if(rm){ isOut = parseInt(rm[1],10) > round; confirmed=true; }                 // dated return => confirmed out until then
+    else if(fr){ isOut = fr > round; confirmed=true; }                            // dated finals return, same rule
+    else if(isFinalsRound(round) && /suspen/i.test(e) && /back\s+finals?\b/i.test(e) && !/next\s+season|20\d\d/i.test(e)){
+      // A suspension "back Finals" once the finals are on: the ban has been
+      // served — he's available, not a doubt (audit 2026-09-07).
+      isOut=false; confirmed=true; }
+    else if(isFinalsRound(round) && /back\s+finals?\b/i.test(e) && !/next\s+season|20\d\d/i.test(e)){
+      // "back Finals" while the finals are ON: expected back this September but
+      // no week given — a doubt (half weight) until the team list settles it
+      // both ways (named → cleared; not named → full-weight NOT NAMED). Reading
+      // it as long-term would have counted Crichton/Radley as out for the
+      // Roosters' elimination final. (2026-09-07)
+      isOut=true; confirmed=false; }
     else if(/back\s+(finals|next\s+season|season|indefinite|20\d\d)/i.test(e)){ isOut=true; confirmed=true; } // long-term
     else if(/suspen/i.test(e)){ isOut=true; confirmed=true; }                     // suspension => definite
     else { isOut=true; confirmed=false; }                                         // listed knock, no timeframe => doubt only
@@ -1275,7 +1316,8 @@ function simComp(plan,cands){
   // Future herd rate per rival, fitted so h·p̄f+(1−h)(1−p̄f) equals their
   // season accuracy (totalScore over ~8 games a round; bonus inflation is
   // small and symmetric enough to ignore at this precision).
-  const gp=Math.max(8,(SRC.round-1)*8);
+  let gp=0; for(let r=1;r<SRC.round;r++) gp+=COMP_GAMES_PER_ROUND[r]||8;   // finals rounds are 4/2/2/1, not 8
+  gp=Math.max(8,gp);
   const H=rivals.map(r=>{ const acc=Math.min(0.72,Math.max(0.45,r.totalScore/gp));
     return Math.min(1,Math.max(0.5,(acc+SIM_PFBAR-1)/(2*SIM_PFBAR-1))); });
   const rMargins=rivals.map(r=>compMarginOf(r.name));
@@ -1691,7 +1733,9 @@ function sparkbar(margin){ // tiny sign-coloured margin bar for the ladder table
 function render(){
   saveState();
   // round pill + meta + banners
-  document.getElementById('roundPill').innerHTML = `Round <b>${SRC.round}</b> · ${SRC.season}`;
+  document.getElementById('roundPill').innerHTML = SRC.finals||isFinalsRound(SRC.round)
+    ? `<b>${esc(curRoundLabel())}</b> · ${SRC.season}`
+    : `Round <b>${SRC.round}</b> · ${SRC.season}`;
   const stale = daysSince(SRC.updated);
   const dotClass = isSample?'sample':(stale>8?'stale':'');
   const newsDate = SRC.newsUpdated || SRC.updated;
@@ -1776,7 +1820,7 @@ function render(){
     "Rating = points margin per game (shrunk toward that home/away split as the sample of games grows), plus a small recent-form nudge. Higher = stronger.";
   document.getElementById('howItWorks').innerHTML = howText();
   document.getElementById('foot').innerHTML =
-    `Data to end of Round ${SRC.round-1}, ${SRC.season}. Ladder rebuilds weekly; odds &amp; injuries refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
+    `Data to end of ${esc(roundLabel(SRC.round-1))}, ${SRC.season}. Ladder rebuilds weekly; odds &amp; injuries refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
   ORDER_DIRTY=false;   // a full render always lands the correct bucket order
   LAST_FULL_RENDER=Date.now();
 }
@@ -2224,7 +2268,7 @@ function renderCompPanel(){
   if(!COMP||!COMP.members||!COMP.members.length){ el.innerHTML=''; return; }
   const mg=marginAdvice();
   const adh=adherenceInfo();
-  el.innerHTML=`<div class="cphead">Comp ladder · Round ${COMP.round}</div>`+
+  el.innerHTML=`<div class="cphead">Comp ladder · ${esc(roundLabel(COMP.round))}</div>`+
     COMP.members.map(m=>{
       const cb=compMarginOf(m.name);
       return `<div class="cprow${m.me?' me':''}">`+
@@ -3177,7 +3221,7 @@ function copyTips(){
   const preds=weekOrder(fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict));
   const lines=preds.map(p=>{ const tip=tipSide(p); const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
     return `${p.h.name} v ${p.a.name} → ${tip.name}${rk}`; });
-  const txt=`NRL Round ${SRC.round} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
+  const txt=`NRL ${curRoundLabel()} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
   navigator.clipboard?.writeText(txt).then(()=>flash('Copied!'),()=>fallbackCopy(txt));
 }
 function fallbackCopy(txt){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
