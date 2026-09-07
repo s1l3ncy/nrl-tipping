@@ -108,13 +108,24 @@ See `docs/DEPLOY_AND_OPS.md`.
 - The Roosters (`SYD`) are always tipped. Never "fix" that — it's the whole point.
 - Never hand-edit `index.html`, `nrl_data.js`, `nrl_learned.js`, or `nrl_players.js` — they're regenerated and your edit will be overwritten.
 - Time-sensitive fields (odds/news) are best-effort and may be `null`. That's normal, not a bug. (Weather was removed entirely on 2026-08-04.)
+- Finals are rounds 28–31 — numeric everywhere, `roundName` for display. Read rounds via `parse_nrl.round_from_text()`, never a fresh regex.
 - Keep the HTML dependency-free (no CDNs) — it must work offline, opened as a local file.
 
 ---
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-08-13 — three batches in one day; the night batch is the big one.)*
+*(Reviewed 2026-09-07 — finals week 1.)*
+
+- **2026-09-07: the finals work.** Rounds 28–31 are Finals Week 1/2/3 + Grand
+  Final in every source, but named differently in each; all naming now resolves
+  through `parse_nrl.round_from_text()` and the pipeline keeps a single numeric
+  round (`nrl_data.js` adds `roundName`/`finals`; `byeTeams` is `[]`). Club-count
+  gates (injuries, team lists) and the draw gate scale with `FINALS_GAMES`; the
+  validator accepts 1–4 fixtures + no byes. Front-end shows "Finals Week N", and
+  reads "back Finals" as a doubt (suspension → available) once the finals are on.
+  Verified with a live scrape + freeze (4/4 tips, SYD locked v PEN) + audit.
+  `sw.js` v22. GOTCHAS "Finals are rounds 28–31" before touching any round parsing.
 
 - **2026-08-21 (later): the feed shows one flip per game.** `chgList()` keeps
   only the newest flip per game (unordered-pair dedupe; history stays in

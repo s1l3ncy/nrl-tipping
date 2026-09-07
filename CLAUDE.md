@@ -20,6 +20,10 @@ the owner's Mac off.
    So after any HTML change, **run the workflow**.
 3. **Never hand-edit generated files:** `index.html`, `nrl_data.js`, `nrl_learned.js`,
    `nrl_players.js`, `nrl_tiplog.js` — they're overwritten each run.
+   3b. **Finals are rounds 28–31 and every round is a NUMBER in the data** — the
+   human name (`roundName`) is display-only. Any new parser must read rounds via
+   `parse_nrl.round_from_text()`, never its own `round\s+(\d+)` regex (that is exactly
+   what stranded the app on Round 27 on finals week). See GOTCHAS.
 4. **Front-end stays single-file and dependency-free** (no CDNs, `localStorage` only) —
    it must work offline.
 5. **Best-effort fields (odds/news) may be `null`** — that's normal, not a bug.
@@ -84,10 +88,23 @@ NRL tips" → Run workflow. 5. Verify via raw file URLs with a `?v=N` cache-bust
 live site. Full detail in `docs/DEPLOY_AND_OPS.md`.
 
 ## Current state
-Live and self-updating. The Elo engine is live (160+ games, `lowConfidence: false`);
+Live and self-updating. The Elo engine is live (200+ games, `lowConfidence: false`);
 the heuristic path is the fallback. Injuries move the tip (position × rating); the
 round's team list both clears named players and rules out unnamed doubts — all
-before the odds blend. Weather is gone.
+before the odds blend. Weather is gone. **The 2026 finals are on** (rounds 28–31 =
+Finals Week 1–3 + Grand Final; footytips comp ends round 31).
+
+**Changed 2026-09-07** (full detail in `docs/CHANGELOG.md`):
+- **Finals support end-to-end.** The app sat on Round 27 because every scraper
+  regex wanted `round-(\d+)` and the sources had moved to "finals-week-1" /
+  "Finals Week 1". All round naming now goes through `parse_nrl.round_from_text()`
+  (finals = rounds 28–31, ONE numeric round everywhere; `nrl_data.js` adds
+  `roundName` + `finals`, `byeTeams` is `[]` in finals). Publish gates that count
+  clubs/fixtures shrink with the finals (`FINALS_GAMES`); non-premiership team-list
+  articles are skipped. Front-end: "Finals Week N" labels, and **"back Finals"
+  during the finals is a doubt, not long-term OUT** (suspensions = available).
+  Validator accepts 1–4 fixtures + no byes in a finals round. `sw.js` CACHE v22.
+  See GOTCHAS "Finals are rounds 28–31". `REGULAR_ROUNDS` (27) is per-season.
 
 **Changed 2026-08-21, later batch** (full detail in `docs/CHANGELOG.md`):
 - **What's new shows only the LATEST tip flip per game** (Josh: "it should just

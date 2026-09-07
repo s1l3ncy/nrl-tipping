@@ -425,6 +425,72 @@ def norm_name(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+# ---------------------------------------------------------------------------
+# Finals (added 2026-09-07)
+# ---------------------------------------------------------------------------
+# The home-and-away season is 27 rounds; every source we read numbers the
+# finals as the rounds that follow (Zero Tackle's CSS classes and footytips
+# both say "round 28" for finals week 1, nrl.com's filterRounds maps
+# "Finals Week 1" -> 28). So the pipeline keeps ONE numeric round everywhere
+# and only the LABEL changes: nrl_data.js carries `roundName` ("Finals Week 1",
+# "Grand Final") and `finals: true`; dumps/tiplog/results stay numeric so the
+# results memory, Elo replay, grading keys and the change feed need no special
+# cases. Update REGULAR_ROUNDS if the NRL ever changes the draw length.
+REGULAR_ROUNDS = 27
+FINALS_START = REGULAR_ROUNDS + 1
+FINALS_WEEK_NAMES = {1: "Finals Week 1", 2: "Finals Week 2", 3: "Finals Week 3", 4: "Grand Final"}
+FINALS_GAMES = {FINALS_START: 4, FINALS_START + 1: 2, FINALS_START + 2: 2, FINALS_START + 3: 1}
+
+_ROUND_WORD_RE = re.compile(r"\bround[\s_-]*(\d{1,2})\b", re.IGNORECASE)
+# "finals week N" only — a bare "week N" is how Zero Tackle names Pacific
+# Championships / pre-season-challenge articles, which must not read as finals.
+_FINALS_WEEK_RE = re.compile(r"\bfinals?[\s_-]*week[\s_-]*(\d)\b", re.IGNORECASE)
+_FINALS_NAME_RE = re.compile(
+    r"\b(?:(?P<w1>qualifying|elimination)|(?P<w2>semi)|(?P<w3>preliminary|prelim)|(?P<w4>grand))"
+    r"[\s_-]*finals?\b", re.IGNORECASE)
+
+
+def is_finals(rnd):
+    try:
+        return int(rnd) >= FINALS_START
+    except (TypeError, ValueError):
+        return False
+
+
+def round_label(rnd):
+    """'Round 27' / 'Finals Week 1' / 'Grand Final' — the human name for a round number."""
+    try:
+        r = int(rnd)
+    except (TypeError, ValueError):
+        return ""
+    if r < FINALS_START:
+        return f"Round {r}"
+    return FINALS_WEEK_NAMES.get(r - REGULAR_ROUNDS, f"Finals Week {r - REGULAR_ROUNDS}")
+
+
+def round_from_text(text):
+    """Round NUMBER from any of the ways the sources name a round:
+    'Round 27', 'round-27', 'Finals Week 1', 'finals-week-1', 'week 2',
+    'Qualifying/Elimination Final' (28), 'Semi Final' (29), 'Preliminary
+    Final' (30), 'Grand Final' (31). None when nothing matches (e.g. a
+    State of Origin 'game-1' slug)."""
+    t = str(text or "").strip()
+    if t.isdigit():                       # a bare "27" (e.g. the slug's round part)
+        return int(t)
+    m = _ROUND_WORD_RE.search(t)
+    if m:
+        return int(m.group(1))
+    m = _FINALS_WEEK_RE.search(t)
+    if m:
+        return REGULAR_ROUNDS + int(m.group(1))
+    m = _FINALS_NAME_RE.search(t)
+    if m:
+        for k, week in (("w1", 1), ("w2", 2), ("w3", 3), ("w4", 4)):
+            if m.group(k):
+                return REGULAR_ROUNDS + week
+    return None
+
+
 def find_short(fragment):
     frag = fragment.lower().strip()
     for alias, short in ALIAS_TO_SHORT:
@@ -1559,7 +1625,12 @@ def validate(teams, fixtures):
     return errors
 
 
-def compute_bye(teams, fixtures):
+def compute_bye(teams, fixtures, round_num=None):
+    # Finals: the teams not playing are ELIMINATED (or already through), not
+    # on a bye. Publishing 9 "bye" teams would put a nonsense bye line on the
+    # schedule and trip the validator's one-bye rule, so finals get none.
+    if is_finals(round_num):
+        return []
     shorts = {t["short"] for t in teams}
     playing = set()
     for f in fixtures:
@@ -1580,7 +1651,7 @@ def emit_js(data, out_path):
         "--draw draw_dump.html --out nrl_data.js --season 2026 --source zerotackle.com "
         "[--odds odds_dump.txt] [--injuries injuries_dump.txt]\n"
         "// (see sources.md for where to fetch fresh dumps).\n"
-        f"// Data current to end of Round {data['round'] - 1}, {data['season']}.\n"
+        f"// Data current to end of {round_label(data['round'] - 1)}, {data['season']}.\n"
         "// Schema v3: teams add colour/home/away/news; fixtures add city/odds/h2h.\n"
         "// fixture.odds carries {open,close} decimal-odds snapshots for CLV\n"
         "// (closing-line-value); `open` is carried forward run-to-run within a round.\n"
@@ -1893,11 +1964,13 @@ def main():
     # Every fixture ends up with a `tz` and an offset-bearing `kickoff`.
     finalise_fixture_times(fixtures)
 
-    bye_teams = compute_bye(teams, fixtures) if fixtures else []
+    bye_teams = compute_bye(teams, fixtures, round_num) if fixtures else []
     data = {
         "updated": updated,
         "season": args.season,
         "round": round_num or 1,
+        "roundName": round_label(round_num or 1),     # "Round 27" / "Finals Week 1" / "Grand Final"
+        "finals": is_finals(round_num or 1),
         "source": args.source,
         "teams": teams,
         "fixtures": fixtures,
