@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Luke Laulilii (Concussion); Jackson Ford (Pectoral) — back Finals; Leka Halasima (Ankle) — back Finals; Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Dallin Watene-Zelezniak (Collarbone) — back Finals; Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season; Luke Laulilii (Concussion) — back Finals Week 1; Leka Halasima (Ankle) — back Finals Week 1; Jackson Ford (Pectoral) — back Finals Week 1"
     },
     {
       "name": "Dolphins",
@@ -94,7 +94,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 191
       },
-      "news": "Selwyn Cobbo (Ankle) — back Finals"
+      "news": "Selwyn Cobbo (Ankle) — back Finals Week 1"
     },
     {
       "name": "Roosters",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 348,
         "PA": 270
       },
-      "news": "Reece Foley (Head knock); Sam Walker (Ankle); Angus Crichton (Foot) — back Finals; Victor Radley (Concussion) — back Finals; Blake Steep (ACL) — back Next Season"
+      "news": "Sam Walker (Ankle); Reece Foley (Head knock); Blake Steep (ACL) — back Next Season; Angus Crichton (Foot) — back Finals Week 1; Victor Radley (Concussion) — back Finals Week 1"
     },
     {
       "name": "Sharks",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 310,
         "PA": 277
       },
-      "news": "Mawene Hiroti (Ribs); Thomas Hazelton (Suspension) — back Finals; Braydon Trindall (Shoulder) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
+      "news": "Mawene Hiroti (Ribs); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season; Thomas Hazelton (Suspension) — back Finals Week 1; Braydon Trindall (Shoulder) — back Finals Week 1"
     },
     {
       "name": "Rabbitohs",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 350,
         "PA": 288
       },
-      "news": "Dominic Young (Suspension) — back Finals; Francis Manuleleua (Elbow) — back Finals; Brodie Jones (Hamstring) — back Finals; Tyson Frizell (Suspension) — back Finals; Phoenix Crossland (Knee) — back Finals; Dylan Lucas (Ankle) — back Next Season"
+      "news": "Brodie Jones (Hamstring) — back Finals; Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Dylan Lucas (Ankle) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Knee) — back Finals Week 1"
     },
     {
       "name": "Cowboys",
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Murray Taulagi (Concussion); Griffin Neame (Toe) — back Finals; Zac Laybutt (Concussion) — back Finals; Jeremiah Nanai (Knee) — back Finals"
+      "news": "Murray Taulagi (Concussion); Zac Laybutt (Concussion) — back Finals; Jeremiah Nanai (Knee) — back Finals Week 1; Griffin Neame (Toe) — back Finals Week 1"
     },
     {
       "name": "Sea Eagles",
@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 3.0
+          "away": 2.95
         }
       },
       "weather": null,
@@ -495,7 +495,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.6,
-          "away": 2.32
+          "away": 2.33
         }
       },
       "weather": null,
@@ -514,7 +514,7 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.42,
+          "home": 1.43,
           "away": 2.85
         }
       },
@@ -534,8 +534,8 @@ window.NRL_DATA = {
           "away": 3.5
         },
         "close": {
-          "home": 1.31,
-          "away": 3.46
+          "home": 1.33,
+          "away": 3.35
         }
       },
       "weather": null,
@@ -544,8 +544,92 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-08T14:36:49+10:00",
+  "generatedAt": "2026-09-08T21:31:37+10:00",
   "changes": [
+    {
+      "id": "r28-NEW-inj-dylan-brown",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
+      "pts": 3.3,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-inj-michael-gabrael",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Michael Gabrael (Suspension) — back Finals — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-inj-jacob-saifiti",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Jacob Saifiti (Suspension) — back Next Season — new on the injury list.",
+      "pts": 1.1,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-inj-trey-mooney",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Knights: Trey Mooney (Shoulder) — back Next Season — new on the injury list.",
+      "pts": 1.1,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-fit-dominic-young",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Dominic Young is off the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-fit-francis-manuleleua",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Francis Manuleleua is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-fit-tyson-frizell",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Tyson Frizell is off the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
     {
       "id": "r28-SOU-inj-tallis-duncan",
       "fixture": "SOU-NEW",
@@ -580,6 +664,54 @@ window.NRL_DATA = {
       "text": "Knights: Dylan Brown is off the injury list.",
       "pts": 3.3,
       "ts": "2026-09-08T00:15:56+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SOU-NEW-line-1.40-2.95",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Rabbitohs $1.40 → $1.40, Knights $3.00 → $2.95. Market now 68% Rabbitohs (was 68%).",
+      "pts": null,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-DOL-line-1.60-2.33",
+      "fixture": "NZW-DOL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Warriors $1.60 → $1.60, Dolphins $2.32 → $2.33. Market now 59% Warriors (was 59%).",
+      "pts": null,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-NQL-line-1.43-2.85",
+      "fixture": "CRO-NQL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $1.42 → $1.43, Cowboys $2.85 → $2.85. Market now 67% Sharks (was 67%).",
+      "pts": null,
+      "ts": "2026-09-08T21:31:37+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-PEN-SYD-line-1.33-3.35",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.31 → $1.33, Roosters $3.46 → $3.35. Market now 72% Panthers (was 73%).",
+      "pts": null,
+      "ts": "2026-09-08T21:31:37+10:00",
       "rnd": 28
     },
     {
