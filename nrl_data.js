@@ -495,7 +495,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.6,
-          "away": 2.33
+          "away": 2.35
         }
       },
       "weather": null,
@@ -544,7 +544,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-09T05:26:10+10:00",
+  "generatedAt": "2026-09-09T08:02:10+10:00",
   "changes": [
     {
       "id": "r28-NEW-inj-dylan-brown",
@@ -664,6 +664,18 @@ window.NRL_DATA = {
       "text": "Knights: Dylan Brown is off the injury list.",
       "pts": 3.3,
       "ts": "2026-09-08T00:15:56+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-DOL-line-1.60-2.35",
+      "fixture": "NZW-DOL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Warriors $1.60 → $1.60, Dolphins $2.33 → $2.35. Market now 59% Warriors (was 59%).",
+      "pts": null,
+      "ts": "2026-09-09T08:02:10+10:00",
       "rnd": 28
     },
     {
