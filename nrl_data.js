@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Euan Aitken (Shoulder) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
+      "news": "Euan Aitken (Shoulder) — back Next Season; Ashton Ward (Hamstring) — back Next Season; Tallis Duncan (Hamstring) — back Finals Week 1"
     },
     {
       "name": "Knights",
@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.97
+          "away": 3.0
         }
       },
       "weather": null,
@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.35
         },
         "close": {
-          "home": 1.59,
-          "away": 2.35
+          "home": 1.6,
+          "away": 2.32
         }
       },
       "weather": null,
@@ -534,8 +534,8 @@ window.NRL_DATA = {
           "away": 3.5
         },
         "close": {
-          "home": 1.3,
-          "away": 3.5
+          "home": 1.31,
+          "away": 3.46
         }
       },
       "weather": null,
@@ -544,8 +544,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-08T08:51:01+10:00",
+  "generatedAt": "2026-09-08T14:36:49+10:00",
   "changes": [
+    {
+      "id": "r28-SOU-inj-tallis-duncan",
+      "fixture": "SOU-NEW",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Rabbitohs: Tallis Duncan (Hamstring) — back Finals Week 1 — new on the injury list.",
+      "pts": 1.1,
+      "ts": "2026-09-08T14:36:49+10:00",
+      "rnd": 28
+    },
     {
       "id": "r28-NEW-inj-dylan-lucas",
       "fixture": "SOU-NEW",
@@ -568,6 +580,42 @@ window.NRL_DATA = {
       "text": "Knights: Dylan Brown is off the injury list.",
       "pts": 3.3,
       "ts": "2026-09-08T00:15:56+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SOU-NEW-line-1.40-3.00",
+      "fixture": "SOU-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Rabbitohs $1.40 → $1.40, Knights $2.97 → $3.00. Market now 68% Rabbitohs (was 68%).",
+      "pts": null,
+      "ts": "2026-09-08T14:36:49+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-DOL-line-1.60-2.32",
+      "fixture": "NZW-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.59 → $1.60, Dolphins $2.35 → $2.32. Market now 59% Warriors (was 60%).",
+      "pts": null,
+      "ts": "2026-09-08T14:36:49+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-PEN-SYD-line-1.31-3.46",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.30 → $1.31, Roosters $3.50 → $3.46. Market now 73% Panthers (was 73%).",
+      "pts": null,
+      "ts": "2026-09-08T14:36:49+10:00",
       "rnd": 28
     },
     {
