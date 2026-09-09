@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.95
+          "away": 3.0
         }
       },
       "weather": null,
@@ -494,7 +494,7 @@ window.NRL_DATA = {
           "away": 2.35
         },
         "close": {
-          "home": 1.58,
+          "home": 1.6,
           "away": 2.35
         }
       },
@@ -514,7 +514,7 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.43,
+          "home": 1.44,
           "away": 2.85
         }
       },
@@ -544,7 +544,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-09T08:41:10+10:00",
+  "generatedAt": "2026-09-09T14:43:01+10:00",
   "changes": [
     {
       "id": "r28-NEW-inj-dylan-brown",
@@ -643,27 +643,15 @@ window.NRL_DATA = {
       "rnd": 28
     },
     {
-      "id": "r28-NEW-inj-dylan-lucas",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Knights: Dylan Lucas (Ankle) — back Next Season — new on the injury list.",
-      "pts": 2.0,
-      "ts": "2026-09-08T00:15:56+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NEW-fit-dylan-brown",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Dylan Brown is off the injury list.",
-      "pts": 3.3,
-      "ts": "2026-09-08T00:15:56+10:00",
+      "id": "r28-CRO-NQL-line-1.44-2.85",
+      "fixture": "CRO-NQL",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Sharks $1.43 → $1.44, Cowboys $2.85 → $2.85. Market now 66% Sharks (was 67%).",
+      "pts": null,
+      "ts": "2026-09-09T14:43:01+10:00",
       "rnd": 28
     },
     {
@@ -787,5 +775,5 @@ window.NRL_DATA = {
       "rnd": 28
     }
   ],
-  "changesSince": "2026-09-08T00:15:56+10:00"
+  "changesSince": "2026-09-08T08:16:33+10:00"
 };
