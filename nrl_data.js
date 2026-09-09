@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-09",
+  "updated": "2026-09-10",
   "season": 2026,
   "round": 28,
   "roundName": "Finals Week 1",
@@ -544,7 +544,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-09T22:58:34+10:00",
+  "generatedAt": "2026-09-10T05:17:08+10:00",
   "changes": [
     {
       "id": "r28-NEW-inj-dylan-brown",
@@ -631,18 +631,6 @@ window.NRL_DATA = {
       "rnd": 28
     },
     {
-      "id": "r28-SOU-inj-tallis-duncan",
-      "fixture": "SOU-NEW",
-      "team": "SOU",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Rabbitohs: Tallis Duncan (Hamstring) — back Finals Week 1 — new on the injury list.",
-      "pts": 1.1,
-      "ts": "2026-09-08T14:36:49+10:00",
-      "rnd": 28
-    },
-    {
       "id": "r28-CRO-NQL-line-1.44-2.85",
       "fixture": "CRO-NQL",
       "team": null,
@@ -725,43 +713,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-08T21:31:37+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-SOU-NEW-line-1.40-3.00",
-      "fixture": "SOU-NEW",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Rabbitohs $1.40 → $1.40, Knights $2.97 → $3.00. Market now 68% Rabbitohs (was 68%).",
-      "pts": null,
-      "ts": "2026-09-08T14:36:49+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NZW-DOL-line-1.60-2.32",
-      "fixture": "NZW-DOL",
-      "team": "DOL",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.59 → $1.60, Dolphins $2.35 → $2.32. Market now 59% Warriors (was 60%).",
-      "pts": null,
-      "ts": "2026-09-08T14:36:49+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-PEN-SYD-line-1.31-3.46",
-      "fixture": "PEN-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.30 → $1.31, Roosters $3.50 → $3.46. Market now 73% Panthers (was 73%).",
-      "pts": null,
-      "ts": "2026-09-08T14:36:49+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-08T14:36:49+10:00"
+  "changesSince": "2026-09-08T21:31:37+10:00"
 };
