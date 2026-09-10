@@ -544,7 +544,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-10T14:43:14+10:00",
+  "generatedAt": "2026-09-10T22:55:45+10:00",
   "changes": [
     {
       "id": "r28-SOU-NEW-line-1.40-3.00",
@@ -569,31 +569,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-09T14:43:01+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-NZW-DOL-line-1.58-2.35",
-      "fixture": "NZW-DOL",
-      "team": "NZW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.60 → $1.58, Dolphins $2.35 → $2.35. Market now 60% Warriors (was 59%).",
-      "pts": null,
-      "ts": "2026-09-09T08:41:10+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NZW-DOL-line-1.60-2.35",
-      "fixture": "NZW-DOL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Warriors $1.60 → $1.60, Dolphins $2.33 → $2.35. Market now 59% Warriors (was 59%).",
-      "pts": null,
-      "ts": "2026-09-09T08:02:10+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-09T08:02:10+10:00"
+  "changesSince": "2026-09-09T14:43:01+10:00"
 };
