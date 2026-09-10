@@ -534,7 +534,7 @@ window.NRL_DATA = {
           "away": 3.5
         },
         "close": {
-          "home": 1.33,
+          "home": 1.35,
           "away": 3.35
         }
       },
@@ -544,8 +544,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-11T05:08:26+10:00",
+  "generatedAt": "2026-09-11T07:54:40+10:00",
   "changes": [
+    {
+      "id": "r28-PEN-SYD-line-1.35-3.35",
+      "fixture": "PEN-SYD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.33 → $1.35, Roosters $3.35 → $3.35. Market now 71% Panthers (was 72%).",
+      "pts": null,
+      "ts": "2026-09-11T07:54:40+10:00",
+      "rnd": 28
+    },
     {
       "id": "r28-SOU-NEW-line-1.40-3.00",
       "fixture": "SOU-NEW",
