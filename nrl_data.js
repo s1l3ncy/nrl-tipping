@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "season": 2026,
   "round": 28,
   "roundName": "Finals Week 1",
@@ -544,7 +544,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-10T23:07:44+10:00",
+  "generatedAt": "2026-09-11T05:08:26+10:00",
   "changes": [
     {
       "id": "r28-SOU-NEW-line-1.40-3.00",
@@ -557,19 +557,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-10T14:43:14+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-CRO-NQL-line-1.44-2.85",
-      "fixture": "CRO-NQL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $1.43 → $1.44, Cowboys $2.85 → $2.85. Market now 66% Sharks (was 67%).",
-      "pts": null,
-      "ts": "2026-09-09T14:43:01+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-09T14:43:01+10:00"
+  "changesSince": "2026-09-10T14:43:14+10:00"
 };
