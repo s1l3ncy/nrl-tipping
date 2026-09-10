@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.4,
-          "away": 2.95
+          "away": 3.0
         }
       },
       "weather": null,
@@ -544,90 +544,18 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-10T08:34:07+10:00",
+  "generatedAt": "2026-09-10T14:43:14+10:00",
   "changes": [
     {
-      "id": "r28-NEW-inj-dylan-brown",
+      "id": "r28-SOU-NEW-line-1.40-3.00",
       "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Knights: Dylan Brown (ACL) — back Next Season — new on the injury list.",
-      "pts": 3.3,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-CRO-inj-michael-gabrael",
-      "fixture": "CRO-NQL",
-      "team": "CRO",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Sharks: Michael Gabrael (Suspension) — back Finals — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NEW-inj-jacob-saifiti",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Knights: Jacob Saifiti (Suspension) — back Next Season — new on the injury list.",
-      "pts": 1.1,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NEW-inj-trey-mooney",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Knights: Trey Mooney (Shoulder) — back Next Season — new on the injury list.",
-      "pts": 1.1,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NEW-fit-dominic-young",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Dominic Young is off the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NEW-fit-francis-manuleleua",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Francis Manuleleua is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NEW-fit-tyson-frizell",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Tyson Frizell is off the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-08T21:31:37+10:00",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Rabbitohs $1.40 → $1.40, Knights $2.95 → $3.00. Market now 68% Rabbitohs (was 68%).",
+      "pts": null,
+      "ts": "2026-09-10T14:43:14+10:00",
       "rnd": 28
     },
     {
@@ -665,55 +593,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-09T08:02:10+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-SOU-NEW-line-1.40-2.95",
-      "fixture": "SOU-NEW",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Rabbitohs $1.40 → $1.40, Knights $3.00 → $2.95. Market now 68% Rabbitohs (was 68%).",
-      "pts": null,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-NZW-DOL-line-1.60-2.33",
-      "fixture": "NZW-DOL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Warriors $1.60 → $1.60, Dolphins $2.32 → $2.33. Market now 59% Warriors (was 59%).",
-      "pts": null,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-CRO-NQL-line-1.43-2.85",
-      "fixture": "CRO-NQL",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Sharks $1.42 → $1.43, Cowboys $2.85 → $2.85. Market now 67% Sharks (was 67%).",
-      "pts": null,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-PEN-SYD-line-1.33-3.35",
-      "fixture": "PEN-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.31 → $1.33, Roosters $3.46 → $3.35. Market now 72% Panthers (was 73%).",
-      "pts": null,
-      "ts": "2026-09-08T21:31:37+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-08T21:31:37+10:00"
+  "changesSince": "2026-09-09T08:02:10+10:00"
 };
