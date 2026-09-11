@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-11",
+  "updated": "2026-09-12",
   "season": 2026,
   "round": 28,
   "roundName": "Finals Week 1",
@@ -535,7 +535,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-11T23:29:51+10:00",
+  "generatedAt": "2026-09-12T05:10:16+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
@@ -776,19 +776,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-11T07:54:40+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-SOU-NEW-line-1.40-3.00",
-      "fixture": "SOU-NEW",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Rabbitohs $1.40 → $1.40, Knights $2.95 → $3.00. Market now 68% Rabbitohs (was 68%).",
-      "pts": null,
-      "ts": "2026-09-10T14:43:14+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-10T14:43:14+10:00"
+  "changesSince": "2026-09-11T07:54:40+10:00"
 };
