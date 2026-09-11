@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
+      "news": "Paul Alamoti (Hamstring) — back Finals; Jack Cogger (Suspension) — back Finals; Izack Tago (Knee) — back Finals"
     },
     {
       "name": "Warriors",
@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Dallin Watene-Zelezniak (Collarbone) — back Finals; Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season; Luke Laulilii (Concussion) — back Finals Week 1; Leka Halasima (Ankle) — back Finals Week 1; Jackson Ford (Pectoral) — back Finals Week 1"
+      "news": "Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -94,7 +94,7 @@ window.NRL_DATA = {
         "PF": 318,
         "PA": 191
       },
-      "news": "Selwyn Cobbo (Ankle) — back Finals Week 1"
+      "news": null
     },
     {
       "name": "Roosters",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 348,
         "PA": 270
       },
-      "news": "Sam Walker (Ankle); Reece Foley (Head knock); Blake Steep (ACL) — back Next Season; Angus Crichton (Foot) — back Finals Week 1; Victor Radley (Concussion) — back Finals Week 1"
+      "news": "Sam Walker (Ankle); Reece Foley (Head knock); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 310,
         "PA": 277
       },
-      "news": "Mawene Hiroti (Ribs); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season; Thomas Hazelton (Suspension) — back Finals Week 1; Braydon Trindall (Shoulder) — back Finals Week 1"
+      "news": "Mawene Hiroti (Ribs); Hohepa Puru (Illness); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -157,13 +157,13 @@ window.NRL_DATA = {
       "L": 10,
       "PF": 694,
       "PA": 581,
-      "last5": 4,
+      "last5": 3,
       "home": {
-        "P": 12,
+        "P": 13,
         "W": 9,
-        "L": 3,
-        "PF": 368,
-        "PA": 277
+        "L": 4,
+        "PF": 378,
+        "PA": 297
       },
       "away": {
         "P": 12,
@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Euan Aitken (Shoulder) — back Next Season; Ashton Ward (Hamstring) — back Next Season; Tallis Duncan (Hamstring) — back Finals Week 1"
+      "news": "Cody Walker (Calf); Euan Aitken (Shoulder) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Knights",
@@ -192,13 +192,13 @@ window.NRL_DATA = {
         "PA": 303
       },
       "away": {
-        "P": 12,
-        "W": 6,
+        "P": 13,
+        "W": 7,
         "L": 6,
-        "PF": 350,
-        "PA": 288
+        "PF": 370,
+        "PA": 298
       },
-      "news": "Brodie Jones (Hamstring) — back Finals; Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Dylan Lucas (Ankle) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Knee) — back Finals Week 1"
+      "news": "Brodie Jones (Hamstring) — back Finals; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Murray Taulagi (Concussion); Zac Laybutt (Concussion) — back Finals; Jeremiah Nanai (Knee) — back Finals Week 1; Griffin Neame (Toe) — back Finals Week 1"
+      "news": "Murray Taulagi (Concussion); Zac Laybutt (Concussion) — back Finals"
     },
     {
       "name": "Sea Eagles",
@@ -468,16 +468,7 @@ window.NRL_DATA = {
       "venue": "Allianz Stadium",
       "city": "Sydney",
       "kickoff": "2026-09-11T19:50:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.4,
-          "away": 2.97
-        },
-        "close": {
-          "home": 1.4,
-          "away": 3.0
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -514,7 +505,7 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.44,
+          "home": 1.43,
           "away": 2.85
         }
       },
@@ -544,8 +535,236 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-11T14:41:13+10:00",
+  "generatedAt": "2026-09-11T22:50:07+10:00",
   "changes": [
+    {
+      "id": "r28-SOU-inj-cody-walker",
+      "fixture": "SOU-NEW",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Rabbitohs: Cody Walker (Calf) — new on the injury list.",
+      "pts": 2.8,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-fit-jackson-ford",
+      "fixture": "NZW-DOL",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Warriors: Jackson Ford is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-fit-leka-halasima",
+      "fixture": "NZW-DOL",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Warriors: Leka Halasima is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-fit-luke-laulilii",
+      "fixture": "NZW-DOL",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Warriors: Luke Laulilii is off the injury list.",
+      "pts": 1.3,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-DOL-fit-selwyn-cobbo",
+      "fixture": "NZW-DOL",
+      "team": "DOL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dolphins: Selwyn Cobbo is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SYD-fit-angus-crichton",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Angus Crichton is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SYD-fit-victor-radley",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Victor Radley is off the injury list.",
+      "pts": 1.1,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-inj-hohepa-puru",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Hohepa Puru (Illness) — new on the injury list.",
+      "pts": 0.7,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-fit-braydon-trindall",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sharks: Braydon Trindall is off the injury list.",
+      "pts": 3.1,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-fit-thomas-hazelton",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sharks: Thomas Hazelton is off the injury list.",
+      "pts": 1.0,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SOU-fit-tallis-duncan",
+      "fixture": "SOU-NEW",
+      "team": "SOU",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Rabbitohs: Tallis Duncan is off the injury list.",
+      "pts": 1.1,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NEW-fit-phoenix-crossland",
+      "fixture": "SOU-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Phoenix Crossland is off the injury list.",
+      "pts": 3.2,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NQL-fit-griffin-neame",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Cowboys: Griffin Neame is off the injury list.",
+      "pts": 0.9,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NQL-fit-jeremiah-nanai",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Cowboys: Jeremiah Nanai is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-in-niwhai-puru",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Niwhai Puru (Halfback) named in the Sharks 17.",
+      "pts": 2.0,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-out-hohepa-puru",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Hohepa Puru (Lock) is out of the Sharks 17.",
+      "pts": 0.7,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NQL-out-thomas-mikaele",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Thomas Mikaele (Prop) is out of the Cowboys 17.",
+      "pts": 0.9,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NQL-in-sam-mcintyre",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sam Mcintyre (Prop) named in the Cowboys 17.",
+      "pts": 0.8,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-NQL-line-1.43-2.85",
+      "fixture": "CRO-NQL",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $1.44 → $1.43, Cowboys $2.85 → $2.85. Market now 67% Sharks (was 66%).",
+      "pts": null,
+      "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
     {
       "id": "r28-PEN-SYD-line-1.35-3.35",
       "fixture": "PEN-SYD",

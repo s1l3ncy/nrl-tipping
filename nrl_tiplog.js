@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-11T04:41:17.532Z",
+ "updated": "2026-09-11T12:50:10.104Z",
  "tips": [
   {
    "season": 2026,
@@ -488,12 +488,12 @@ window.NRL_TIPLOG = {
    "round": 28,
    "home": "CRO",
    "away": "NQL",
-   "tip": "CRO",
-   "prob": 63,
-   "mkt": 66,
-   "why": "Built on Cowboys being without Murray Taulagi (not named), plus Sharks rating the stronger side. Sharks missing Jesse Ramien and 1 more pulls it back. The bookies read it the same way.",
+   "tip": "NQL",
+   "prob": 37,
+   "mkt": 33,
+   "why": "Built on Cowboys being without Murray Taulagi (not named), plus Sharks rating the stronger side. Sharks missing Jesse Ramien and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-12T19:50:00+10:00",
-   "ts": "2026-09-11T04:41:17.532Z"
+   "ts": "2026-09-11T12:50:10.104Z"
   },
   {
    "season": 2026,
@@ -505,7 +505,7 @@ window.NRL_TIPLOG = {
    "mkt": 41,
    "why": "The lean is thin. Warriors being without Luke Metcalf (not named) and 2 more pulls it back. The bookies lean the other way, which reins the tip in.",
    "ko": "2026-09-12T18:05:00+12:00",
-   "ts": "2026-09-11T04:41:17.532Z"
+   "ts": "2026-09-11T12:50:10.104Z"
   },
   {
    "season": 2026,
@@ -517,7 +517,7 @@ window.NRL_TIPLOG = {
    "mkt": 29,
    "why": "Built on Roosters being without Sam Walker (not named) and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-13T16:05:00+10:00",
-   "ts": "2026-09-11T04:41:17.532Z"
+   "ts": "2026-09-11T12:50:10.104Z"
   },
   {
    "season": 2026,
@@ -532,5 +532,18 @@ window.NRL_TIPLOG = {
    "ts": "2026-09-11T04:41:17.532Z"
   }
  ],
- "flips": []
+ "flips": [
+  {
+   "season": 2026,
+   "round": 28,
+   "home": "CRO",
+   "away": "NQL",
+   "from": "CRO",
+   "to": "NQL",
+   "fromProb": 63,
+   "toProb": 37,
+   "why": "Built on Cowboys being without Murray Taulagi (not named), plus Sharks rating the stronger side. Sharks missing Jesse Ramien and 2 more pulls it back. The bookies read it the same way.",
+   "ts": "2026-09-11T12:50:10.104Z"
+  }
+ ]
 };

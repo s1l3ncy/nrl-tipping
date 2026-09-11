@@ -5,7 +5,7 @@
 window.NRL_COMP = {
  "round": 28,
  "finishRound": 31,
- "fetched": "2026-09-11T04:41:01+00:00",
+ "fetched": "2026-09-11T12:49:55+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -81,11 +81,13 @@ window.NRL_COMP = {
     ]
    },
    "rank": 1,
-   "mv": "up",
+   "mv": "",
    "roundScore": 0,
    "totalScore": 132,
-   "totalMargin": 476,
-   "picks": {}
+   "totalMargin": 492,
+   "picks": {
+    "NEW-SOU": "SOU"
+   }
   },
   {
    "name": "Brigitte",
@@ -161,11 +163,13 @@ window.NRL_COMP = {
     ]
    },
    "rank": 2,
-   "mv": "down",
+   "mv": "",
    "roundScore": 0,
    "totalScore": 131,
-   "totalMargin": 462,
-   "picks": {}
+   "totalMargin": 476,
+   "picks": {
+    "NEW-SOU": "SOU"
+   }
   },
   {
    "name": "Thorners69",
@@ -244,8 +248,10 @@ window.NRL_COMP = {
    "mv": "",
    "roundScore": 0,
    "totalScore": 130,
-   "totalMargin": 497,
-   "picks": {}
+   "totalMargin": 515,
+   "picks": {
+    "NEW-SOU": "SOU"
+   }
   },
   {
    "name": "Jake",
@@ -324,8 +330,10 @@ window.NRL_COMP = {
    "mv": "",
    "roundScore": 0,
    "totalScore": 128,
-   "totalMargin": 470,
-   "picks": {}
+   "totalMargin": 492,
+   "picks": {
+    "NEW-SOU": "SOU"
+   }
   },
   {
    "name": "Special unit",
@@ -402,10 +410,12 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 120,
-   "totalMargin": 498,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 121,
+   "totalMargin": 506,
+   "picks": {
+    "NEW-SOU": "NEW"
+   }
   },
   {
    "name": "Susie loo",
@@ -482,10 +492,12 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 111,
-   "totalMargin": 535,
-   "picks": {}
+   "roundScore": 1,
+   "totalScore": 112,
+   "totalMargin": 541,
+   "picks": {
+    "NEW-SOU": "NEW"
+   }
   }
  ]
 };
