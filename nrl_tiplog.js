@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-12T11:11:36.070Z",
+ "updated": "2026-09-12T12:10:46.187Z",
  "tips": [
   {
    "season": 2026,
@@ -512,12 +512,12 @@ window.NRL_TIPLOG = {
    "round": 28,
    "home": "PEN",
    "away": "SYD",
-   "tip": "PEN",
-   "prob": 68,
-   "mkt": 71,
+   "tip": "SYD",
+   "prob": 32,
+   "mkt": 29,
    "why": "Built on Roosters being without Sam Walker (not named) and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-13T16:05:00+10:00",
-   "ts": "2026-09-12T11:11:36.070Z"
+   "ts": "2026-09-12T12:10:46.187Z"
   },
   {
    "season": 2026,
@@ -568,6 +568,18 @@ window.NRL_TIPLOG = {
    "toProb": 68,
    "why": "Built on Roosters being without Sam Walker (not named) and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ts": "2026-09-12T03:52:22.443Z"
+  },
+  {
+   "season": 2026,
+   "round": 28,
+   "home": "PEN",
+   "away": "SYD",
+   "from": "PEN",
+   "to": "SYD",
+   "fromProb": 68,
+   "toProb": 32,
+   "why": "Built on Roosters being without Sam Walker (not named) and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) and 1 more pulls it back. The bookies read it the same way.",
+   "ts": "2026-09-12T12:10:46.187Z"
   }
  ]
 };
