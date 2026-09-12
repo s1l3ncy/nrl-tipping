@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-12T18:24:07.220Z",
+ "updated": "2026-09-12T21:40:29.069Z",
  "tips": [
   {
    "season": 2026,
@@ -517,7 +517,7 @@ window.NRL_TIPLOG = {
    "mkt": 29,
    "why": "Built on Roosters being without Sam Walker (not named) and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-13T16:05:00+10:00",
-   "ts": "2026-09-12T18:24:07.220Z"
+   "ts": "2026-09-12T21:40:29.069Z"
   },
   {
    "season": 2026,
