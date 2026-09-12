@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Paul Alamoti (Hamstring) — back Finals; Jack Cogger (Suspension) — back Finals; Izack Tago (Knee) — back Finals"
+      "news": "Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
     },
     {
       "name": "Warriors",
@@ -53,13 +53,13 @@ window.NRL_DATA = {
       "L": 6,
       "PF": 728,
       "PA": 418,
-      "last5": 5,
+      "last5": 4,
       "home": {
-        "P": 12,
+        "P": 13,
         "W": 10,
-        "L": 2,
-        "PF": 357,
-        "PA": 222
+        "L": 3,
+        "PF": 373,
+        "PA": 248
       },
       "away": {
         "P": 12,
@@ -88,11 +88,11 @@ window.NRL_DATA = {
         "PA": 315
       },
       "away": {
-        "P": 12,
-        "W": 9,
+        "P": 13,
+        "W": 10,
         "L": 3,
-        "PF": 318,
-        "PA": 191
+        "PF": 344,
+        "PA": 207
       },
       "news": null
     },
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 274,
         "PA": 285
       },
-      "news": "Murray Taulagi (Concussion); Zac Laybutt (Concussion) — back Finals"
+      "news": "Murray Taulagi (Concussion)"
     },
     {
       "name": "Sea Eagles",
@@ -476,9 +476,9 @@ window.NRL_DATA = {
     {
       "home": "NZW",
       "away": "DOL",
-      "venue": "",
+      "venue": "Go Media Stadium",
       "city": "Auckland",
-      "kickoff": "",
+      "kickoff": "2026-09-12T18:05:00+12:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -526,7 +526,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T17:43:56+10:00",
+  "generatedAt": "2026-09-12T19:33:12+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
@@ -538,6 +538,66 @@ window.NRL_DATA = {
       "text": "Rabbitohs: Cody Walker (Calf) — new on the injury list.",
       "pts": 2.8,
       "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NQL-fit-zac-laybutt",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Cowboys: Zac Laybutt is off the injury list.",
+      "pts": 1.5,
+      "ts": "2026-09-12T19:33:12+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-out-leka-halasima",
+      "fixture": "NZW-DOL",
+      "team": "NZW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Leka Halasima (Second-row) is out of the Warriors 17.",
+      "pts": 2.1,
+      "ts": "2026-09-12T19:33:12+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-in-jett-cleary",
+      "fixture": "NZW-DOL",
+      "team": "NZW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jett Cleary named in the Warriors 17.",
+      "pts": 0.6,
+      "ts": "2026-09-12T19:33:12+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SYD-out-angus-crichton",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Angus Crichton (Second-row) is out of the Roosters 17.",
+      "pts": 2.1,
+      "ts": "2026-09-12T19:33:12+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-SYD-in-egan-butcher",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Egan Butcher (Second-row) named in the Roosters 17.",
+      "pts": 1.6,
+      "ts": "2026-09-12T19:33:12+10:00",
       "rnd": 28
     },
     {
