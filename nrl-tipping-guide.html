@@ -1350,7 +1350,17 @@ function schedulePlanSolve(stamp){
   if(PLAN_QUEUED===stamp) return;
   PLAN_QUEUED=stamp;
   const go=()=>{
-    if(planStamp()!==stamp){ PLAN_QUEUED=''; return; }   // inputs moved on
+    /* Inputs moved on between scheduling and firing — CHASE them, don't abandon
+       (2026-09-12 follow-up 3). On boot pollComp() swaps COMP to the live API
+       standings while refreshFromNetwork()'s file reload swaps it back via
+       hydrateData(), so the stamp can tick a couple of times in the first
+       second. The old code just cleared PLAN_QUEUED and gave up, and if nothing
+       re-rendered afterwards the win% never filled in — it sat on "working out
+       the comp odds…" forever. Re-arming for the current stamp converges the
+       moment the churn settles (schedulePlanSolve de-dupes, so a stable stamp
+       solves exactly once). */
+    const now=planStamp();
+    if(now!==stamp){ PLAN_QUEUED=''; schedulePlanSolve(now); return; }
     const before=splitSig(COMP_PLAN);
     let plan;
     try{ plan=compPlanSolve(stamp); }
