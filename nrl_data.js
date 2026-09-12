@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
+      "news": "Paul Alamoti (Hamstring) — back Finals; Jack Cogger (Suspension) — back Finals; Izack Tago (Knee) — back Finals"
     },
     {
       "name": "Warriors",
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 290,
         "PA": 311
       },
-      "news": "Murray Taulagi (Concussion)"
+      "news": "Murray Taulagi (Concussion); Zac Laybutt (Concussion) — back Finals"
     },
     {
       "name": "Sea Eagles",
@@ -517,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T22:10:42+10:00",
+  "generatedAt": "2026-09-12T22:48:36+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
@@ -529,6 +529,18 @@ window.NRL_DATA = {
       "text": "Rabbitohs: Cody Walker (Calf) — new on the injury list.",
       "pts": 2.8,
       "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NQL-inj-zac-laybutt",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Cowboys: Zac Laybutt (Concussion) — back Finals — new on the injury list.",
+      "pts": 1.5,
+      "ts": "2026-09-12T22:48:36+10:00",
       "rnd": 28
     },
     {
