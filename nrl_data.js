@@ -517,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-13T01:32:30+10:00",
+  "generatedAt": "2026-09-13T04:24:03+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
