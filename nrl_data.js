@@ -487,19 +487,10 @@ window.NRL_DATA = {
     {
       "home": "CRO",
       "away": "NQL",
-      "venue": "Allianz Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-09-12T19:50:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.42,
-          "away": 2.85
-        },
-        "close": {
-          "home": 1.42,
-          "away": 2.9
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -517,7 +508,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.35,
-          "away": 3.25
+          "away": 3.3
         }
       },
       "weather": null,
@@ -526,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T19:33:12+10:00",
+  "generatedAt": "2026-09-12T21:11:28+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
@@ -829,6 +820,18 @@ window.NRL_DATA = {
       "rnd": 28
     },
     {
+      "id": "r28-PEN-SYD-line-1.35-3.30",
+      "fixture": "PEN-SYD",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Panthers $1.35 → $1.35, Roosters $3.25 → $3.30. Market now 71% Panthers (was 71%).",
+      "pts": null,
+      "ts": "2026-09-12T21:11:28+10:00",
+      "rnd": 28
+    },
+    {
       "id": "r28-PEN-SYD-line-1.35-3.25",
       "fixture": "PEN-SYD",
       "team": "SYD",
@@ -911,19 +914,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-11T22:50:07+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-PEN-SYD-line-1.35-3.35",
-      "fixture": "PEN-SYD",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Panthers $1.33 → $1.35, Roosters $3.35 → $3.35. Market now 71% Panthers (was 72%).",
-      "pts": null,
-      "ts": "2026-09-11T07:54:40+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-11T07:54:40+10:00"
+  "changesSince": "2026-09-11T22:50:07+10:00"
 };

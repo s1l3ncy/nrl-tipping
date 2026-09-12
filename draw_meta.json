@@ -3,7 +3,7 @@
   "season": 2026,
   "round": 28,
   "source": "nrl.com",
-  "fetched": "2026-09-12T19:32:49",
+  "fetched": "2026-09-12T21:10:58",
   "fixtures": {
     "SOU-NEW": {
       "venue": "Allianz Stadium",
@@ -14,11 +14,6 @@
       "venue": "Go Media Stadium",
       "city": "Auckland",
       "kickoffUtc": "2026-09-12T06:05:00Z"
-    },
-    "CRO-NQL": {
-      "venue": "Allianz Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-09-12T09:50:00Z"
     },
     "PEN-SYD": {
       "venue": "CommBank Stadium",
