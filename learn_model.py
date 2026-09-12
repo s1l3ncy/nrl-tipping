@@ -103,7 +103,11 @@ ELOK_GRID = [10, 16, 24, 32, 40]
 ELOHGA_GRID = [0, 20, 40, 60, 80, 100]
 ODDSW_GRID = [round(x * 0.1, 1) for x in range(11)]  # 0.0 .. 1.0
 
-LOCK_TEAM = "SYD"  # the Roosters lock — used for the walk-forward loyalty-tax backtest
+# LOCK_TEAM / lock_tax_metrics() lived here until 2026-09-12. They measured the
+# walk-forward cost of always tipping the Roosters — a rule the app no longer
+# has (the objective is P(Brigitte finishes 1st); no team is force-tipped). The
+# front-end tile that displayed `backtest.lockTax` is gone with it, and
+# validate_learned.py never required the key.
 
 
 # ---------------------------------------------------------------------------
@@ -311,31 +315,6 @@ def backtest_metrics(per_game, home_adv, logistic_scale):
     }
 
 
-def lock_tax_metrics(per_game, home_adv, logistic_scale):
-    """Walk-forward loyalty-tax figures for the Roosters lock (audit A4).
-
-    Every Roosters game in the memory is graded with the Elo ratings as they
-    stood BEFORE that game — never the final ratings, which already contain
-    each game's own result (the hindsight pattern GOTCHAS 2026-08-02 bans).
-    The front-end's renderAcc() displays these figures verbatim; it no longer
-    computes its own. Draws are excluded, matching every other grading surface."""
-    games = model_right = rk_wins = 0
-    for g in per_game:
-        if g["home"] != LOCK_TEAM and g["away"] != LOCK_TEAM:
-            continue
-        if g["hs"] == g["as"]:
-            continue
-        games += 1
-        p = predict_phome(g["eloHomeBefore"], g["eloAwayBefore"], home_adv, logistic_scale)
-        actual_home_win = g["hs"] > g["as"]
-        if (p >= 0.5) == actual_home_win:
-            model_right += 1
-        rk_home = g["home"] == LOCK_TEAM
-        if actual_home_win == rk_home:
-            rk_wins += 1
-    return {"games": games, "modelRight": model_right, "rkWins": rk_wins}
-
-
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -397,7 +376,6 @@ def main():
 
     backtest = backtest_metrics(per_game, home_adv, logistic_scale)
     backtest["marketBrier"] = market_brier
-    backtest["lockTax"] = lock_tax_metrics(per_game, home_adv, logistic_scale)
 
     updated = args.updated or datetime.date.today().isoformat()
     history = list(data.get("history", []))  # never lose prior entries

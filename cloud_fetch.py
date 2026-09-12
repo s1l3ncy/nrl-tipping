@@ -41,6 +41,7 @@ file (never wipes good data). Network access is fine here (GitHub servers).
 import datetime
 import html as html_mod
 import json
+import math
 import os
 import re
 import shutil
@@ -1346,21 +1347,187 @@ def existing_odds_round(path):
 
 # --------------------------------------------------------------------------- main
 # --------------------------------------------------------------- footytips comp
-# Josh's family comp on ESPN footytips. The rounds endpoint is public (no
-# cookie/token; ACAO:*). We ship a digest the front-end's comp layer consumes:
-# members (display name, rank, scores, picks keyed by unordered "A-B" pair of
-# OUR short codes) + finishRound. Team names on the API match this project's
-# nicknames, so find_short() resolves them. Best-effort everywhere: the comp
-# is flavour + strategy, never a publish gate.
+# The family comp ("Family Feud") on ESPN footytips. The rounds endpoint is
+# public (no cookie/token; ACAO:*). We ship a digest the front-end's comp layer
+# consumes: members (display name, rank, scores, picks keyed by unordered "A-B"
+# pair of OUR short codes) + finishRound. Team names on the API match this
+# project's nicknames, so find_short() resolves them. Best-effort everywhere:
+# the comp is flavour + strategy, never a publish gate.
+#
+# 2026-09-12: the app now plays for BRIGITTE, and its whole objective is
+# P(Brigitte finishes 1st). Three things had to be shipped from here for the
+# in-page finals solver to work, because the browser must never fetch history
+# itself (the jsdom freeze has no network — browser and freeze must derive
+# IDENTICAL tips from IDENTICAL files):
+#   * margins[] / scores[] — each member's per-round margin error and score,
+#     already present in the CURRENT response's results[].rounds[]. No extra
+#     HTTP. Feeds the countback (rankByMargin: ties go to the LOWER cumulative
+#     margin error, which is Brigitte's whole edge) and exact accuracy.
+#   * mpreds[]  — the margin each member actually ENTERED per round, back-solved
+#     from the published error + the round's first game (see _margin_pred).
+#     Powers the "you enter 4 every week" habit hint.
+#     ROUND-INDEXED (2026-09-12 audit follow-up): all three arrays are length
+#     `rnd` with index = round-1 and `null` for a round with nothing to record.
+#     They used to be dense lists with the empty rounds filtered OUT, so two
+#     members with different numbers of recorded rounds (observed: 28/25/25/24/
+#     23/28) no longer lined up — and finalsTieProbs() zips them POSITIONALLY to
+#     get each round's margin-error difference. That silently compared her round
+#     6 against a rival's round 8. The payload carries `roundIndexed: true` so
+#     the page can tell the two formats apart; on an old file it falls back to
+#     the season-total countback instead of a misaligned zip.
+#   * beh{a,b,loy} — a per-member logistic fitted HERE in pure Python on every
+#     pick they have made this season: P(tips home) = sigmoid(a + b*logit(pHome)
+#     + loy*(loyaltyHome - loyaltyAway)). The page evaluates the fitted numbers;
+#     it never fits. Absent => the page falls back to predictPick().
 FOOTYTIPS_COMP_ID = 1372189
 FOOTYTIPS_LADDER_ID = 381260129
-FOOTYTIPS_ME = "Special unit"          # anonymous API never sets currentUser
+# The owner's footytips display name — must match the API's displayName EXACTLY
+# and must stay in lockstep with COMP_ME in nrl-tipping-guide.html, or the page
+# and this file disagree about who "me" is and the freeze tips for the wrong
+# person. (The page defends itself: compFromFile() re-derives `me` from COMP_ME
+# by name and only falls back to this flag when no name matches.)
+FOOTYTIPS_ME = "Brigitte"              # anonymous API never sets currentUser
 FOOTYTIPS_URL = ("https://api.footytips.espn.com.au/competitions/{comp}/sports/"
                  "rugby-league/leagues/nrl/game-types/tipping/ladders/{lad}/rounds/{rnd}?view=tips")
+LEARNED_FILE = "nrl_learned.js"
+BEH_RIDGE = 0.25       # weak L2: most picks are unanimous favourites, so the
+                       # unpenalised MLE runs off towards separation
+BEH_MIN_PICKS = 20     # below this a per-member fit is noise; ship no `beh`
+BEH_AFF_K = 4.0        # pseudo-games shrinking each loyalty share toward 0.5.
+                       # MUST match BEH_AFF_K in nrl-tipping-guide.html — the fit
+                       # here and the evaluation there have to see the same
+                       # covariate or the coefficients mean nothing.
+
 
 def _comp_round(rnd):
     url = FOOTYTIPS_URL.format(comp=FOOTYTIPS_COMP_ID, lad=FOOTYTIPS_LADDER_ID, rnd=int(rnd))
     return json.loads(fetch(url))
+
+
+def _load_elo():
+    """Elo ratings + logistic scale from the committed nrl_learned.js.
+
+    learn_model.py runs AFTER this script, so these are last run's numbers —
+    fine, Elo drifts <=10 points a week at the learned K of 10, and the fit
+    below only needs a sane ordering of game strengths.
+    """
+    try:
+        with open(LEARNED_FILE, encoding="utf-8") as fh:
+            raw = fh.read()
+        # the file opens with a long // comment block that itself contains "="
+        # signs, so anchor on the assignment, not the first equals sign
+        m = re.search(r"window\.NRL_LEARNED\s*=\s*(\{.*\})\s*;?\s*$", raw, re.S)
+        if not m:
+            return None, 7.0
+        d = json.loads(m.group(1))
+        elo = d.get("elo") or {}
+        scale = ((d.get("params") or {}).get("logisticScale")) or 7.0
+        return (elo, float(scale)) if elo else (None, 7.0)
+    except Exception:  # noqa: BLE001
+        return None, 7.0
+
+
+def _elo_logit(elo, scale, home, away, hga):
+    """logit P(home wins) from Elo alone — the behavioural fit's covariate.
+
+    Mirrors the page's eloGapToPoints() + logistic(): pts = diff*scale*ln10/400,
+    p = 1/(1+exp(-pts/scale)), so logit(p) = pts/scale. Returns 0.0 (a coin
+    flip) when either side has no rating.
+    """
+    if not elo or home not in elo or away not in elo:
+        return 0.0
+    pts = (elo[home] - elo[away]) * scale * math.log(10.0) / 400.0 + hga
+    return pts / scale
+
+
+def _fit_beh(rows):
+    """MLE of (a, b, loy) in P(tip home) = sigmoid(a + b*lp + loy*dAff).
+
+    Plain Newton with a ridge penalty, in pure Python — the workflow runner has
+    only requests + beautifulsoup4, so numpy is NOT available. 3x3 system, a
+    few dozen iterations, microseconds. Returns None if it does not converge to
+    something finite.
+    """
+    if len(rows) < BEH_MIN_PICKS:
+        return None
+    beta = [0.0, 1.0, 1.0]
+    for _ in range(60):
+        grad = [0.0, 0.0, 0.0]
+        hess = [[0.0] * 3 for _ in range(3)]
+        for lp, d, y in rows:
+            x = (1.0, lp, d)
+            z = beta[0] + beta[1] * lp + beta[2] * d
+            z = max(-30.0, min(30.0, z))
+            mu = 1.0 / (1.0 + math.exp(-z))
+            w = max(mu * (1.0 - mu), 1e-9)
+            r = y - mu
+            for i in range(3):
+                grad[i] += r * x[i]
+                for j in range(3):
+                    hess[i][j] += w * x[i] * x[j]
+        for i in range(3):
+            grad[i] -= 2.0 * BEH_RIDGE * beta[i]
+            hess[i][i] += 2.0 * BEH_RIDGE
+        step = _solve3(hess, grad)
+        if step is None:
+            return None
+        move = 0.0
+        for i in range(3):
+            beta[i] += step[i]
+            move = max(move, abs(step[i]))
+        if move < 1e-8:
+            break
+    if not all(abs(b) < 50 and b == b for b in beta):   # b != b catches NaN
+        return None
+    return {"a": round(beta[0], 4), "b": round(beta[1], 4), "loy": round(beta[2], 4)}
+
+
+def _solve3(m, v):
+    """Gaussian elimination on a 3x3 system; None when singular."""
+    a = [[m[i][0], m[i][1], m[i][2], v[i]] for i in range(3)]
+    for c in range(3):
+        piv = max(range(c, 3), key=lambda r: abs(a[r][c]))
+        if abs(a[piv][c]) < 1e-12:
+            return None
+        a[c], a[piv] = a[piv], a[c]
+        for r in range(3):
+            if r == c:
+                continue
+            f = a[r][c] / a[c][c]
+            for k in range(c, 4):
+                a[r][k] -= f * a[c][k]
+    return [a[i][3] / a[i][i] for i in range(3)]
+
+
+def _by_round(rounds, field, n_rounds):
+    """A member's per-round `field`, indexed by round-1, None where absent.
+
+    footytips returns results[].rounds[] with a `round` number on each entry;
+    entries can be missing (a member who joined late) or carry a null field.
+    Filtering those out and shipping a dense list is what misaligned members
+    against each other — see the header note.
+    """
+    out = [None] * n_rounds
+    for r in rounds or []:
+        i = r.get("round")
+        v = r.get(field)
+        if isinstance(i, int) and 1 <= i <= n_rounds and isinstance(v, (int, float)):
+            out[i - 1] = v
+    return out
+
+
+def _margin_pred(entered_err, actual_signed, tipped_home):
+    """Back-solve the margin a member actually ENTERED.
+
+    footytips publishes only err = |predicted - actual| on the SIGNED (home -
+    away) margin of the round's FIRST game. Two candidates solve that; the one
+    whose sign agrees with the side they tipped is the number they typed.
+    """
+    cands = [actual_signed + entered_err, actual_signed - entered_err]
+    if tipped_home is None:
+        return None
+    ok = [x for x in cands if (x > 0) == bool(tipped_home)]
+    return abs(ok[0]) if ok else abs(cands[0])
 
 
 def build_comp_js(rnd):
@@ -1374,22 +1541,37 @@ def build_comp_js(rnd):
     # Season affinity profiles (team -> [picked, seen] per member) computed HERE
     # and shipped in the file, so the browser and the jsdom freeze derive
     # IDENTICAL rival predictions — no client-side history fetching exists.
+    # The same single pass over the season also collects (a) every pick with its
+    # game, for the behavioural fit below, and (b) each round's FIRST game with
+    # its final score, for the margin back-solve. One HTTP call per round either
+    # way — nothing here costs an extra request.
+    elo, elo_scale = _load_elo()
     aff = {}
-    for r in range(1, int(rnd)):
-        try:
-            hist = _comp_round(r)
-        except Exception:  # noqa: BLE001
-            continue
-        t_short_h, ev_teams = {}, {}
+    hist_picks = []      # [(home, away, {member: pickShort})] — every game, all season
+    mgames = {}          # round -> (home, away, signed home margin, {member: pickShort})
+    for r in range(1, int(rnd) + 1):
+        if r == int(rnd):
+            hist = data                      # the round we already fetched
+        else:
+            try:
+                hist = _comp_round(r)
+            except Exception:  # noqa: BLE001
+                continue
+        t_short_h, ev_teams, ev_order, ev_margin = {}, {}, [], {}
         for e in hist.get("events") or []:
-            shorts = []
+            shorts, scores = [], []
             for c in e.get("competitors") or []:
                 sh = find_short(c.get("name") or "")
                 if sh:
                     t_short_h[c.get("teamId")] = sh
                     shorts.append(sh)
+                    scores.append(c.get("score"))
             if len(shorts) == 2:
                 ev_teams[e.get("eventId")] = shorts
+                ev_order.append(e.get("eventId"))
+                if all(isinstance(s, (int, float)) for s in scores):
+                    ev_margin[e.get("eventId")] = scores[0] - scores[1]
+        by_event = {}
         for m in (hist.get("ladder") or {}).get("results") or []:
             name = ((m.get("user") or {}).get("displayName") or "")[:20]
             if not name:
@@ -1400,11 +1582,75 @@ def build_comp_js(rnd):
                 pick = t_short_h.get(t.get("teamId"))
                 if not teams or not pick:
                     continue
+                by_event.setdefault(t.get("eventId"), {})[name] = pick
+                if r == int(rnd):
+                    continue         # aff has always been rounds 1..rnd-1
                 for sh in teams:
                     c = A.setdefault(sh, [0, 0])
                     c[1] += 1
                     if sh == pick:
                         c[0] += 1
+        if r < int(rnd):             # fit rows must match the aff sample (LOO below)
+            for ev in ev_order:
+                h, a = ev_teams[ev]
+                hist_picks.append((h, a, by_event.get(ev, {})))
+        # the round's designated margin game is its FIRST listed game (verified
+        # against every member's published error in R24-R28, 2026-09-12)
+        if ev_order and ev_order[0] in ev_margin:
+            h, a = ev_teams[ev_order[0]]
+            mgames[r] = (h, a, ev_margin[ev_order[0]], by_event.get(ev_order[0], {}))
+    # Behavioural pick model, one logistic per member (see the header note).
+    # LEAVE-ONE-OUT loyalty: the affinity share for team X is literally the mean
+    # of this member's own picks in X's games, so feeding it in raw makes the
+    # loyalty term a perfect in-sample predictor and drives the market/form
+    # coefficient to zero (measured: b went 0.45 -> 1.1+ once this was fixed).
+    # Each row therefore uses the share with THAT pick removed, shrunk toward a
+    # coin flip by BEH_AFF_K pseudo-games so a 2-appearance team can't scream.
+    beh_rows = {}
+    for (h, a, picks) in hist_picks:
+        lp = _elo_logit(elo, elo_scale, h, a, 0.0)
+        for name, pick in picks.items():
+            A = aff.get(name) or {}
+            def _share(sh, A=A, pick=pick):
+                c = A.get(sh)
+                if not c or c[1] <= 1:
+                    return 0.5
+                w, n = c[0] - (1 if sh == pick else 0), c[1] - 1
+                return (w + BEH_AFF_K * 0.5) / (n + BEH_AFF_K)
+            beh_rows.setdefault(name, []).append(
+                (lp, _share(h) - _share(a), 1 if pick == h else 0))
+    beh = {}
+    for name, rows in beh_rows.items():
+        fit = _fit_beh(rows)
+        if fit:
+            hits = sum(1 for lp, d, y in rows
+                       if ((1.0 / (1.0 + math.exp(-max(-30, min(30,
+                            fit["a"] + fit["b"] * lp + fit["loy"] * d))))) >= .5) == bool(y))
+            fit["n"] = len(rows)
+            fit["hit"] = round(hits / len(rows), 4)
+            beh[name] = fit
+    # Margin actually entered, per member per round (back-solved from the error).
+    # Round-indexed: mpreds[name][r-1], None where it could not be recovered.
+    n_rounds = int(rnd)
+    mpreds = {}
+    for r, (h, a, actual, picks) in mgames.items():
+        if not (1 <= r <= n_rounds):
+            continue
+        for m in (data.get("ladder") or {}).get("results") or []:
+            name = ((m.get("user") or {}).get("displayName") or "")[:20]
+            if not name:
+                continue
+            slot = mpreds.setdefault(name, [None] * n_rounds)
+            err = None
+            for rr in (m.get("rounds") or []):
+                if rr.get("round") == r and isinstance(rr.get("margin"), (int, float)):
+                    err = rr["margin"]
+            if err is None:
+                continue
+            pick = picks.get(name)
+            pv = _margin_pred(err, actual, None if pick is None else (pick == h))
+            if pv is not None:
+                slot[r - 1] = pv
     t_short, ev_key = {}, {}
     for e in events:
         comps = e.get("competitors") or []
@@ -1426,7 +1672,8 @@ def build_comp_js(rnd):
             if k and sh:
                 picks[k] = sh
         rd = m.get("round") or {}
-        members.append({
+        rounds = m.get("rounds") or []
+        entry = {
             "name": name, "me": name == FOOTYTIPS_ME,
             "aff": aff.get(name, {}),
             "rank": m.get("rank") or 0,
@@ -1434,19 +1681,41 @@ def build_comp_js(rnd):
             "roundScore": rd.get("score") if isinstance(rd.get("score"), (int, float)) else None,
             "totalScore": rd.get("totalScore") if isinstance(rd.get("totalScore"), (int, float)) else None,
             "totalMargin": rd.get("totalMargin") if isinstance(rd.get("totalMargin"), (int, float)) else None,
+            # per-round history — no extra HTTP, it rides in this same response.
+            # Round-indexed (index = round-1, null where absent); see the header.
+            "margins": _by_round(rounds, "margin", n_rounds),
+            "scores": _by_round(rounds, "score", n_rounds),
+            "mpreds": mpreds.get(name, [None] * n_rounds),
             "picks": picks,
-        })
+        }
+        if name in beh:
+            entry["beh"] = beh[name]
+        members.append(entry)
     members.sort(key=lambda m: m.get("rank") or 99)
+    # A no-`me` file silently disables every comp surface in the page
+    # (compPlan -> mode:'off' -> tipSide falls back to modelFav) and would make
+    # the freeze tip for nobody. Never fatal — the comp is not a publish gate —
+    # but it must be visible in the workflow log.
+    if not any(m["me"] for m in members):
+        print(f"[cloud_fetch] WARNING: FOOTYTIPS_ME={FOOTYTIPS_ME!r} matches no ladder "
+              f"member ({', '.join(m['name'] for m in members)}) — comp strategy disabled.",
+              file=sys.stderr)
     payload = {
         "round": int(rnd),
+        # tells the page that margins/scores/mpreds are round-indexed rather than
+        # the old dense-and-filtered lists — the two cannot be told apart by
+        # inspection when no round happens to be missing
+        "roundIndexed": True,
         "finishRound": (data.get("ladder") or {}).get("finishRound"),
         "fetched": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
         "members": members,
     }
     return ("/* Auto-generated by cloud_fetch.py — DO NOT hand-edit (overwritten each run).\n"
-            " * Josh's footytips comp snapshot: standings + each member's picks for the\n"
-            " * round (picks appear as games lock / the round starts). Powers the\n"
-            " * comp-aware tip policy; front-end live-refreshes between runs. */\n"
+            " * The family footytips comp snapshot: standings + each member's picks for\n"
+            " * the round (picks appear as games lock / the round starts), plus the\n"
+            " * per-round history (margins/scores/mpreds) and the fitted behavioural\n"
+            " * pick model (beh) the finals solver needs. Powers the comp-aware tip\n"
+            " * policy; front-end live-refreshes the standings between runs. */\n"
             "window.NRL_COMP = " + json.dumps(payload, indent=1) + ";\n")
 
 

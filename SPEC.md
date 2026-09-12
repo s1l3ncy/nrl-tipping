@@ -1,5 +1,34 @@
 # NRL Tipping App — Build Spec (v2)
 
+> ## ⚠ HISTORICAL DOCUMENT — do not build from this (banner added 2026-09-12)
+>
+> This is the **original build spec** for the app as Josh commissioned it, and it is kept
+> only as a record of what was asked for and why. Where it disagrees with the code or
+> with the `docs/` pack, **the code and `docs/` win** — that has been true since the
+> `docs/` pack was written, and two whole layers of the app have been rebuilt since.
+>
+> The biggest divergences, so nobody re-implements them by accident:
+>
+> - **"The Roosters must always be the locked tip"** (below, and in the Definition of
+>   Done, the acceptance criteria and the `smoke_test.mjs` contract) — **removed
+>   2026-09-12.** The app is now Brigitte's and the objective is P(she finishes 1st);
+>   no team is ever force-tipped, `LOCK_MODE = "off"`. `smoke_test.mjs` now asserts the
+>   *opposite*: every game's tip is the model's own favourite unless the comp solver
+>   deliberately splits.
+> - **The "Roosters tax" stat** and the **safe/risky verdict banner** — both gone
+>   (2026-09-12). The Model tab's third tile is comp place · chance of 1st; the panel
+>   leads with "Chance of winning the comp: N%".
+> - **"The app is opened as a LOCAL FILE"** is still true and still a constraint, but
+>   the app is primarily a hosted PWA now (GitHub Pages + `sw.js`), and a GitHub Actions
+>   pipeline it never had refreshes the data twice a day.
+> - The model itself moved on: Elo + a learning loop (which this spec called future
+>   work, then marked SUPERSEDED), a market blend, position×rating injuries, and since
+>   2026-09-12 an exact finals solver on top of all of it.
+>
+> Current reading order: `HANDOFF.md` → `docs/MODEL.md` → `docs/STRATEGY.md` →
+> `docs/GOTCHAS.md`.
+
+
 Goal: upgrade the existing single-file app so it (1) refreshes NRL data automatically each
 week from multiple sources, (2) uses a stronger, transparent prediction model, and (3) is
 polished enough for a non-technical footy fan to use every round. The Roosters must always be

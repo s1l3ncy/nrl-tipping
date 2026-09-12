@@ -11,10 +11,22 @@ the owner's Mac off.
 
 - Live site: https://s1l3ncy.github.io/nrl-tipping/
 - Repo: https://github.com/s1l3ncy/nrl-tipping (public — keep it public)
-- Owner: Josh (GitHub `s1l3ncy`), Roosters supporter. Season: 2026.
+- **Owner: Josh** (GitHub `s1l3ncy`) — he owns the repo, the GitHub account, the
+  `ODDS_API_KEY` and every deploy. Roosters supporter.
+- **User: Brigitte** (Josh's wife; footytips display name exactly `Brigitte`) — since
+  2026-09-12 the app plays *for her*. She has no club loyalties: *"she really wants to
+  win."* Josh is now just another rival in the comp ("Special unit").
+- Season: 2026.
 
 ## Golden rules (do not break these)
-1. **The Sydney Roosters (`SYD`) are ALWAYS tipped** in their own game. Never "fix" it.
+1. **The objective is P(Brigitte finishes 1st) in the footytips comp — nothing else.**
+   No top-3 term, no top-4 term, **no team is ever force-tipped**. `LOCK_MODE` is
+   `"off"`; its only other setting, `"tiebreak"`, prefers the Roosters *only* on exact
+   indifference and is verified to cost nothing. Never reintroduce a loyalty pick.
+   *(Superseded 2026-09-12: rule 1 used to read "The Sydney Roosters (`SYD`) are ALWAYS
+   tipped in their own game. Never 'fix' it." That was Josh's app. Tipping the Roosters
+   in the R28 qualifying final was measured at **−6.5 points of comp-win chance** — the
+   single most expensive decision on the board.)*
 2. **The live site is `index.html`, a generated copy of `nrl-tipping-guide.html`.**
    Editing the guide changes nothing live until the workflow runs `cp … index.html`.
    So after any HTML change, **run the workflow**.
@@ -52,6 +64,28 @@ the owner's Mac off.
    - If `rm` fails with "Operation not permitted", call `allow_cowork_file_delete` —
      don't report it as impossible or work around it by leaving files behind.
 
+## How Josh wants the work done (stated 2026-09-12, during the Brigitte rebuild)
+These are process rules, not preferences to weigh up. They came out of a night where a
+rebuild had to be shipped between two finals kick-offs.
+
+1. **Dry-run before anything touches a real account.** Nothing gets entered on
+   footytips, pushed to GitHub, or run against a live comp until it has been executed
+   end to end somewhere harmless first (a clone, jsdom, `--dry-run`) and the output
+   shown to him. He decides; the agent does not "just do it because it's obviously right".
+2. **An independent adversarial audit before shipping.** Anything that changes the tip
+   gets re-derived by a second, independent implementation whose job is to *break* it —
+   not a re-read of the same code. The 2026-09-12 audit is the model: it wrote its own
+   solver from the brief and found the panel printing "chance of winning the comp:
+   **100%**" while Brigitte was mathematically eliminated. Budget for it.
+3. **Update the docs in the SAME task as the change.** Not "later", not a follow-up
+   ticket. A doc pass that lags one batch behind is how `docs/MODEL.md` §5 spent a whole
+   deploy describing a lock the code no longer had.
+4. **Apps should just work — no narration of background jobs.** Brigitte should never
+   see "recomputing…", a spinner, or a progress line for the solver. If something takes
+   400 ms, show the last good answer and quietly correct it (that is exactly why
+   `compPlan()` returns a provisional plan and solves on an idle callback). Same rule in
+   conversation: report the outcome, not the machinery.
+
 ## Where things live
 - `nrl-tipping-guide.html` — the app (HTML + CSS + all model JS). Source of truth.
 - `sw.js` — network-first service worker (hosted only): keeps the home-screen app
@@ -62,9 +96,19 @@ the owner's Mac off.
 - `validate_data.py` / `validate_learned.py` — publish gates.
 - `test_ios_viewport.py` — headless (Playwright) iOS layout suite: safe-area
   backstops, both standalone geometries, and the no-`viewport-fit=cover` guard.
+- `reference_finals_solver.py` — **reference only, frozen 2026-09-12.** A standalone
+  Python implementation of the finals maths, written the same day as the in-page DP so
+  the two could be compared. Never imported by anything; never run in the workflow.
+- `reference/crosscheck.mjs` — dev tool: boots the real page in jsdom and compares the
+  in-page solver's P(1st) for every tip vector against the Python reference. Run from
+  the repo root (`node reference/crosscheck.mjs`; `COMPFILE=…` for a fitted-`beh`
+  `nrl_comp.js`). Run it after ANY change to the solver.
 - `.github/workflows/update-nrl.yml` — the automation (every 4h at :17, plus 05:47 daily,
   16:23 Tuesday for team lists, and since 2026-08-14 four pre-game odds slots: Thu 18:43,
-  Fri 19:07, Sat 16:33, Sun 13:07 AEST). Includes the freeze-tips step and (since
+  Fri 19:07, Sat 16:33, Sun 13:07 AEST, and since 2026-09-12 five FINALS slots:
+  Sat 15:35, Sat 19:07, Sun 15:35, Sun 18:45 AEST + a second Sunday-evening line at
+  17:45 AEST / 18:45 **AEDT** because DST starts on Grand Final day, Sun 4 Oct 2026).
+  Includes the freeze-tips step and (since
   2026-08-04) no `--weather` flag. **Always edit from the LIVE copy** (raw URL), never
   a possibly-stale local one.
 
@@ -76,6 +120,10 @@ the owner's Mac off.
 - `docs/ARCHITECTURE.md` — the whole system + data flow.
 - `docs/FRONTEND.md` — HTML structure, element IDs to preserve, caching.
 - `docs/GOTCHAS.md` — landmines already hit. **Read before deploying.**
+- `docs/STRATEGY.md` — **new 2026-09-12.** The comp rules as verified from the API, the
+  standings, how the finals solver reasons (plain English then the maths), the adaptive
+  "enter tips game by game" advice, the margin-habit finding, the sensitivity table, and
+  what to re-check each finals week. Written for Josh and Brigitte, not just for agents.
 - `docs/CHANGELOG.md` — dated changes + reasoning.
 - Older context: `README.md`, `SPEC.md`, `WEEKLY_UPDATE.md`, `MODEL_IMPROVEMENTS.md`,
   `sources.md`. Where they disagree with the code, the `docs/` pack + code win.
@@ -92,7 +140,54 @@ Live and self-updating. The Elo engine is live (200+ games, `lowConfidence: fals
 the heuristic path is the fallback. Injuries move the tip (position × rating); the
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone. **The 2026 finals are on** (rounds 28–31 =
-Finals Week 1–3 + Grand Final; footytips comp ends round 31).
+Finals Week 1–3 + Grand Final; footytips comp ends round 31). **The app plays for
+Brigitte and optimises P(1st) exactly** — no team is locked.
+
+**Changed 2026-09-12 — THE BRIGITTE REBUILD** (full detail in `docs/CHANGELOG.md`
+2026-09-12 and `docs/STRATEGY.md`; this block supersedes every objective/lock claim
+in the older blocks below):
+- **New user, new objective.** `COMP_ME` / `FOOTYTIPS_ME` = `Brigitte`. The utility is
+  `w.first/SIM_N` — **pure P(1st)**. `top3`/`top4` are still counted for display but
+  never enter the utility. Josh ("Special unit", 10 back) is modelled as a rival.
+  Identity is derived from `COMP_ME` **by name**, with the file's `me` flag only as a
+  fallback, so a stale `nrl_comp.js` can't make the freeze tip for one person while
+  browsers tip for another. `nrl_adh_v1→_v2`, `nrl_snap_v1→_v2` (the old keys hold the
+  previous owner's adherence and the old *locked* snapshots).
+- **The Roosters lock is gone end-to-end.** `tipSide()` no longer short-circuits on
+  `SYD`; `LOCK_MODE="off"` (`"tiebreak"` = exact-indifference only, verified byte-
+  identical). Removed with it: the three `g.lock` sim branches, the "never the Roosters
+  game" split filter, the `ledlock` loyalty line, the gold/🐓/🔒 cosmetics, `copyTips()`'s
+  "(locked)", the Model tab's "Roosters season W-L" tile and `#rkTax`, and
+  `learn_model.py`'s `LOCK_TEAM` / `lock_tax_metrics()` / `backtest.lockTax`.
+  `gradedTip()` no longer invents a tip — and the same edit fixed `myResolvedOK`, which
+  would otherwise have modelled the +2 perfect-round bonus as dead for the whole round.
+- **An EXACT finals solver replaces Monte-Carlo in rounds 28–31.** `finalsPlan()`:
+  full enumeration + backward induction over the real NRL bracket (QF1 1v4, QF2 2v3,
+  EF1 5v8, EF2 6v7; semis hosted by the QF **losers**, prelims by the QF **winners**,
+  GF neutral), rivals from a per-member logistic (`beh`) fitted in `cloud_fetch.py`
+  plus a latent per-round strategic layer (`STRAT_AWARE=0.25`), footytips' margin
+  **countback** priced as P(her cumulative error < theirs), and the +2 bonus alive-aware.
+  ~330 ms, no PRNG, no EPS. `FINALS_MAX_RIVALS=3`. Falls back to `simComp()` if the
+  bracket can't be resolved. Non-finals MC: `SIM_N` 3,000 → 8,000, `EPS` derived from it.
+- **First paint never waits for the solver.** `compPlan()` returns a provisional plan
+  (localStorage plan cache for this exact stamp → the pipeline's frozen tiplog →
+  favourites) and solves on `requestIdleCallback`. `planStamp()` now folds in results,
+  `dataSig(SRC)`, `gamesLearned`, `TIPLOG.length` and `PLAN_VER`. **The freeze never
+  defers** (`window.NRL_SYNC_PLAN` + `compPlanSync()`).
+- **Pipeline**: `nrl_comp.js` gains `totalMargin`, round-indexed `margins[]`/`scores[]`/
+  `mpreds[]`, `beh{a,b,loy,n,hit}` and `roundIndexed: true` — all from data it already
+  fetched, no extra HTTP. `BEH_AFF_K` **must** stay identical in `cloud_fetch.py` and
+  the page.
+- **Audit fixes (same day, adversarial, independent solver)**: one-sided aliveness
+  filter (it printed "chance of winning the comp: 100%" while she was eliminated),
+  favourites-first tie-break, splits only when strictly positive, `pctChance()` (never
+  rounds a live number into a certainty), "level with X, behind on the countback",
+  results in `planStamp()`, `COMP_ME` name-miss warning, `copyTips()` keeps frozen tips
+  after kick-off, and a fifth Sunday cron for the AEDT shift on Grand Final day.
+- **This weekend's recommendation (R28): Dolphins / Sharks / Panthers, P(1st) ≈ 45%.**
+  Tipping the Roosters on Sunday would have cost ~6.5 points of win chance.
+  `sw.js` CACHE v23. Verification: independent DP bit-identical, crosscheck OK,
+  smoke 59/59, `test_ios_viewport.py` 20/20, both validators PASS, Chromium == jsdom.
 
 **Changed 2026-09-07** (full detail in `docs/CHANGELOG.md`):
 - **Finals support end-to-end.** The app sat on Round 27 because every scraper
@@ -105,6 +200,9 @@ Finals Week 1–3 + Grand Final; footytips comp ends round 31).
   during the finals is a doubt, not long-term OUT** (suspensions = available).
   Validator accepts 1–4 fixtures + no byes in a finals round. `sw.js` CACHE v22.
   See GOTCHAS "Finals are rounds 28–31". `REGULAR_ROUNDS` (27) is per-season.
+  *(Still current, except: the verification line "4/4 tips, SYD locked v PEN" describes
+  the lock, removed 2026-09-12; and from 2026-09-12 the finals rounds are solved
+  exactly rather than simulated.)*
 
 **Changed 2026-08-21, later batch** (full detail in `docs/CHANGELOG.md`):
 - **What's new shows only the LATEST tip flip per game** (Josh: "it should just
@@ -138,7 +236,11 @@ Finals Week 1–3 + Grand Final; footytips comp ends round 31).
   rule 6 added. Per-install: delete + re-add the home-screen icon. No visual
   redesign; model/pipeline untouched (freeze 0-change, smoke 60/60). `sw.js` CACHE v20.
 
-**Changed 2026-08-15** (full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-15** — *PARTLY SUPERSEDED 2026-09-12: the objective is no longer
+`P(top4)+P(top3)+P(1st)` but pure P(1st), and there is no lock to "always tip", so the
+unlocked-Roosters fix and the top-4 term are both history. The perfect-round +2 pricing
+and the "tip favourites" baseline survive and are now computed exactly.*
+(full detail in `docs/CHANGELOG.md`):
 - **Simulator now prices the +2 perfect-round bonus for the CURRENT round**
   (you + rivals; only while the round's live, alive-aware of games already
   played), fixes the unlocked-Roosters pick (you always tip the lock, not the
@@ -149,7 +251,11 @@ Finals Week 1–3 + Grand Final; footytips comp ends round 31).
   season-long policy is the edge (tie-breaks carry it). `predict()` untouched,
   freeze 0-change. `sw.js` CACHE v19. See GOTCHAS "perfect-round bonus".
 
-**Changed 2026-08-13, night batch** (full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-13, night batch** — *PARTLY SUPERSEDED 2026-09-12: `simComp()` is now
+the FALLBACK only; finals rounds are solved exactly by `finalsPlan()` (no PRNG, no EPS).
+The objective it describes (BALANCED, `P(top3)+P(1st)`) is gone — pure P(1st). The
+countback and margin-game advice survive; "TIED 447 with Thorners" was Josh's ladder.*
+(full detail in `docs/CHANGELOG.md`):
 - **Splits are now priced by an in-page Monte-Carlo season simulator**
   (`simComp()`; Josh's objective: BALANCED — U = P(top3)+P(1st)). 3,000
   deterministic sims (seed on season+round, keyed per-game draws — browser ==
@@ -175,7 +281,11 @@ Finals Week 1–3 + Grand Final; footytips comp ends round 31).
   carry-forward (CHANGELOG). No model/tip changes (freeze verified 0 flips
   both batches). `sw.js` CACHE v16.
 
-**Changed 2026-08-10, audit batch** (full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-10, audit batch** — *PARTLY SUPERSEDED 2026-09-12: `tipSide()` is no
+longer "lock → need-banded split → favourite". The lock is gone and the need bands are a
+candidate filter/fallback only; in the finals the split set comes from the exact solver.
+oddsW 0.75, the `.mkt` logging and the estimation-only `predict()` all stand.*
+(full detail in `docs/CHANGELOG.md`):
 - **The tip now optimises WINNING THE COMP** (3-specialist audit): `tipSide()`
   = lock → need-banded split policy (`compPlan()`, data from `nrl_comp.js`
   incl. rival profiles — pipeline-computed for freeze determinism) → blended
@@ -183,7 +293,11 @@ Finals Week 1–3 + Grand Final; footytips comp ends round 31).
   market probs. 🎯 pill marks splits with an honesty line. `predict()` stays
   estimation-only. See MODEL.md "THE OBJECTIVE CHANGED" + GOTCHAS. `sw.js` v14.
 
-**Changed 2026-08-10, strategy batch** (full detail in `docs/CHANGELOG.md`):
+**Changed 2026-08-10, strategy batch** — *PARTLY SUPERSEDED 2026-09-12: "never the
+Roosters game" is gone (that game is now the most valuable decision on the board), and
+in the finals the rival predictor is the fitted per-member `beh` logistic plus a
+strategic layer, not loyalty alone. Strategy stays ALWAYS ON — for Brigitte now.*
+(full detail in `docs/CHANGELOG.md`):
 - **Comp strategy mode** (ALWAYS ON at Josh's direction; re-gate via
   getStrat() if needed): predicts every rival's pick from season history (84% backtested,
   validated 8/8 live), shows a "Predicted" strip on pre-lock cards, and marks

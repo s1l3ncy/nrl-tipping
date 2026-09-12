@@ -29,7 +29,7 @@
 /* ============================================================
    NRL Tips — 2026 rebuild. Mobile-first, glass-on-navy, club
    colours with strict meaning: RED = the tip/brand, GOLD = the
-   Roosters lock only, GREEN = genuinely good news, BLUE = the
+   tip changes only, GREEN = genuinely good news, BLUE = the
    market, AMBER = doubt. No webfonts, no CDNs — offline-safe.
    ============================================================ */
 :root{
@@ -578,6 +578,7 @@ details.plain>summary:hover{color:var(--text)}
 /* comp strategy (2026-08-10) */
 .gtippill.split{background:rgba(102,160,255,.13);color:var(--blue);border-color:rgba(102,160,255,.4)}
 .stratline{margin-top:8px;font-size:11.5px;color:var(--faint);padding:0 2px}
+.stratline.sub{margin-top:4px;color:var(--amber-text)}   /* one priced split per line */
 .compstrip.pred .cst{color:var(--blue)}
 .gscore{display:flex;align-items:center;justify-content:center;gap:10px;align-self:center;
   font-variant-numeric:tabular-nums}
@@ -827,10 +828,9 @@ details.plain>summary:hover{color:var(--text)}
         <div class="statgrid">
           <div class="statbox you"><div class="big" id="accYou">–</div><div class="lbl">Your tips (graded)</div></div>
           <div class="statbox model"><div class="big" id="accModel">–</div><div class="lbl">Model backtest (whole season)</div></div>
-          <div class="statbox lock"><div class="big" id="accLock">–</div><div class="lbl">Roosters season W-L (the team)</div></div>
+          <div class="statbox lock"><div class="big" id="accComp">–</div><div class="lbl">Comp place · chance of 1st</div></div>
         </div>
         <div class="samplenote" id="accNote"></div>
-        <div class="samplenote" id="rkTax" style="color:var(--amber-text);margin-top:6px"></div>
       </div>
     </section>
     <section id="learningSection" style="display:none">
@@ -876,7 +876,17 @@ const SEED = {
     .map(f=>({home:f[0],away:f[1],venue:"",city:"",kickoff:"",odds:null,h2h:null})),
   byeTeams:["MAN"]
 };
+/* The house club. Since 2026-09-12 this is DECORATION and, at most, a FREE
+   tie-break — it is never a forced tip. The app now plays to maximise
+   P(Brigitte finishes 1st) and a loyalty pick costs win probability (the R28
+   solver priced tipping the Roosters at −6.5 points of win chance). See
+   CLAUDE.md golden rule 1 and docs/MODEL.md §5. */
 const LOCK="SYD";
+const LOCK_MODE="off";            // "off" | "tiebreak" — NEVER a force. "tiebreak"
+                                  // prefers SYD only when the objective cannot
+                                  // separate the two options at all (exact
+                                  // equality in the finals DP, |pHome−0.5|<0.005
+                                  // in the fallback), so it can never cost a %.
 
 /* ---------- Learned model (nrl_learned.js, optional sibling file) ---------- */
 // A teammate's build step may drop nrl_learned.js next to this page, setting
@@ -1199,21 +1209,24 @@ function num(id,dflt){ const el=document.getElementById(id); if(!el) return dflt
 /* ---------- The tip vs the model's favourite (KEEP THESE APART) ----------
    modelFav(p) — the side the numbers like. Used only to REPORT what the model
      thinks (the ledger lead, the loyalty-pick line, the odds box).
-   tipSide(p)  — the side actually tipped. The Roosters are ALWAYS tipped in
-     their own game (CLAUDE.md golden rule #1, docs/MODEL.md §6), so every
-     surface that names a tip — quicklist, card tipline/badges, "Copy tips",
-     the ledger's for/against colouring — must go through here.
+   tipSide(p)  — the side actually tipped. It can differ from modelFav: the comp
+     policy may deliberately take the underdog (a "split") to create a swing
+     against the rivals ahead. Every surface that names a tip — quicklist, card
+     tipline/badges, "Copy tips", the ledger's for/against colouring — must go
+     through here.
    Before this existed each of those surfaces recomputed `pHome>=0.5?h:a` and
-   merely ANNOTATED the Roosters game, so "Copy tips" could paste the Roosters'
-   opponent labelled "(locked)" whenever the model disagreed, and the Roosters
-   tax measured a lock that wasn't actually being applied. */
+   merely ANNOTATED the deviation, so "Copy tips" could paste a side the app was
+   not actually tipping. (Until 2026-09-12 the deviation was the Roosters lock;
+   now it is only ever a priced comp split.) */
 function modelFav(p){ return p.pHome>=0.5?p.h:p.a; }
 /* ---------- the comp-aware tip (2026-08-10 audit rebuild) ----------
-   THE OBJECTIVE IS WINNING THE COMP, not maximising correct tips (Josh's
-   explicit instruction; three-specialist audit in docs/CHANGELOG.md).
+   THE OBJECTIVE IS WINNING THE COMP, not maximising correct tips. Since
+   2026-09-12 that means exactly one thing: maximise P(Brigitte finishes 1st).
    Estimation stays honest in predict(); ALL strategy lives here.
+   FINALS rounds do not use any of the Monte-Carlo below — finalsPlan() solves
+   the real bracket exactly. What follows is the regular-season path.
    Policy (MC-validated, ~10x P(win) vs pure favourites at the current gap):
-   - The Roosters lock is untouchable and comes first.
+   - No team is ever force-tipped (the Roosters lock was removed 2026-09-12).
    - d = deficit to the MAX of the rivals ahead (it's a 4-way cluster, not one
      leader); need = d / rounds-left; T = games left in the comp.
    - Split (tip the underdog) only when: enough of the ahead-cluster sit on
@@ -1244,10 +1257,128 @@ let COMP_PLAN=null;
 function planStamp(){
   const locked=fixtures.map(f=>{ const ko=Date.parse(f.kickoff||'');
     return (!isNaN(ko)&&Date.now()>=ko)?1:0; }).join('');
-  return COMP_STAMP+'|'+SRC.round+'|'+locked;
+  /* RESULTS are part of the stamp (2026-09-12 audit). They never used to be —
+     the Monte-Carlo only ever cared about standings, and a finished game always
+     moves someone's score. In the finals a result does much more than that: it
+     decides the BRACKET every later round is played on. The comp poll is on a
+     15-minute cadence, so between a full-time whistle and the next poll the
+     cached plan would be answering a question about a tournament that no longer
+     exists — and a browser showing that stale tip while the pipeline's freeze
+     computed the fresh one is the exact divergence that churns the flip feed. */
+  const res=fixtures.map(f=>{ const h=T(f.home), a=T(f.away);
+    if(!h||!a) return '-';
+    const r=fixtureResult({h:h, a:a});
+    return r?(r.winner?r.winner.short:'D'):'-'; }).join(',');
+  /* The DATA signature is in the stamp too (2026-09-12 audit follow-up), for
+     two reasons. It closes a latent staleness bug — hydrateData() can swap in a
+     fresh nrl_data.js with new odds while COMP is unchanged, and the in-memory
+     plan would have survived it. And it is what makes the localStorage plan
+     cache below safe: the plan is a pure function of (comp, round, locked set,
+     results, data files, solver version), so a cache hit on the same stamp is
+     the same answer, not a guess. PLAN_VER must be bumped whenever the solver's
+     maths changes, or a returning device would reuse the old model's plan. */
+  return PLAN_VER+'|'+COMP_STAMP+'|'+SRC.round+'|'+locked+'|'+res+'|'+
+         dataSig(SRC)+'|'+((LEARNED&&LEARNED.gamesLearned)||0)+'|'+TIPLOG.length;
 }
-/* ---------- Monte-Carlo season simulator (2026-08-13, Josh's "balanced"
-   objective: U = P(top 3) + P(1st), i.e. winning is worth double a podium).
+/* ---------- first paint must not wait for the solver (2026-09-12 audit) ------
+   The exact finals DP costs ~330ms in jsdom and 370-470ms in Chromium here —
+   call it a second of blocked paint on a phone — and compPlan() is reached
+   synchronously from tipSide() during the very first render(). So the page no
+   longer waits for it:
+
+     1. a PROVISIONAL plan is returned immediately, and
+     2. the real solve is queued on an idle callback (setTimeout(0) fallback),
+        after which the page re-renders only if the tips actually moved.
+
+   The provisional plan is not a guess. In order of preference it is
+     (a) the last solved plan for THIS EXACT stamp, out of localStorage — the
+         same pure function of the same inputs, so it IS the answer and no
+         re-render follows; then
+     (b) the pipeline's frozen tiplog, i.e. the tips the last workflow run
+         computed with this same code and published to every device.
+   Only a cold cache on a brand-new stamp with no tiplog falls through to
+   straight favourites, and that is corrected within a frame or two.
+
+   THE FREEZE MUST NOT DEFER. freeze_tips.mjs reads tipSide() the moment jsdom
+   has parsed the page; a provisional answer there would publish the wrong tip
+   to every device. It sets window.NRL_SYNC_PLAN, which forces the synchronous
+   path — and compPlanSync() exists as a belt-and-braces entry point for any
+   other headless caller. */
+const PLAN_VER='dp1';               // bump when the solver's maths changes
+const PLAN_CACHE_KEY='nrl_plan_v1';
+let PLAN_QUEUED='', PLAN_FIRST=true;
+function planSyncRequired(){
+  try{ if(typeof window!=='undefined'&&window.NRL_SYNC_PLAN) return true; }catch(e){}
+  return typeof setTimeout!=='function';
+}
+function planCacheRead(stamp){
+  try{
+    const raw=localStorage.getItem(PLAN_CACHE_KEY);
+    if(!raw) return null;
+    const p=JSON.parse(raw);
+    if(!p||p.stamp!==stamp||!p.splits) return null;
+    return p;
+  }catch(e){ return null; }
+}
+function planCacheWrite(plan){
+  try{ localStorage.setItem(PLAN_CACHE_KEY,JSON.stringify(plan)); }catch(e){}
+}
+/* What the last pipeline freeze decided, read back as a split set: any game
+   whose frozen tip is not the model's favourite was a deliberate split. */
+function planFromTiplog(plan){
+  fixtures.forEach(f=>{
+    const h=T(f.home), a=T(f.away); if(!h||!a) return;
+    const p=predict(f); if(fixtureResult(p)) return;
+    const ko=Date.parse(f.kickoff||'');
+    if(isNaN(ko)||Date.now()>=ko) return;              // locked: nothing to plan
+    const t=tiplogFind(SRC.season,SRC.round,h.short,a.short);
+    if(!t||!t.tip||!T(t.tip)) return;
+    const fav=modelFav(p);
+    if(t.tip===fav.short) return;
+    const dog=(fav===p.h)?p.a:p.h;
+    plan.splits[liveKey(h.short,a.short)]=
+      {key:liveKey(h.short,a.short), dog:dog.short, fav:fav.short,
+       pf:Math.max(p.pHome,1-p.pHome), foes:0, score:0};
+  });
+  return plan;
+}
+function splitSig(plan){
+  return Object.keys((plan&&plan.splits)||{}).sort()
+    .map(k=>k+':'+plan.splits[k].dog).join(',');
+}
+function schedulePlanSolve(stamp){
+  if(PLAN_QUEUED===stamp) return;
+  PLAN_QUEUED=stamp;
+  const go=()=>{
+    if(planStamp()!==stamp){ PLAN_QUEUED=''; return; }   // inputs moved on
+    const before=splitSig(COMP_PLAN);
+    let plan;
+    try{ plan=compPlanSolve(stamp); }
+    catch(e){ PLAN_QUEUED=''; return; }
+    PLAN_QUEUED='';
+    /* Re-render only when the tips actually moved; otherwise just fill in the
+       chances line the provisional plan could not compute.
+       A full render() is fine on the FIRST solve of the session — the page has
+       only just painted and nothing is unfolded yet. Later on (a data refresh
+       or a comp poll moved the stamp) it is not: replacing every card snaps any
+       open <details> shut, which is exactly why pollComp() re-renders
+       surgically and sets ORDER_DIRTY instead. Same rule here. */
+    try{
+      if(splitSig(plan)!==before){
+        if(PLAN_FIRST) render();
+        else{ renderCompBits(); renderStratBits(); ORDER_DIRTY=true; }
+      } else renderStratBits();
+    }catch(e){}
+    PLAN_FIRST=false;
+  };
+  try{
+    if(typeof requestIdleCallback==='function') requestIdleCallback(go,{timeout:400});
+    else setTimeout(go,0);
+  }catch(e){ setTimeout(go,0); }
+}
+/* ---------- Monte-Carlo season simulator (2026-08-13; objective simplified to
+   pure P(1st) on 2026-09-12). REGULAR-SEASON ROUNDS ONLY — finals go through
+   the exact DP in finalsPlan() above, which needs no sampling at all.
    Replaces the hand-tuned need-band split selection with priced variance:
    every candidate split set is scored by simulating the REST OF THE SEASON —
    current round with real games (market-blended probs, rivals' actual picks
@@ -1270,13 +1401,720 @@ function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0;
 function hash32(s){ let h=2166136261;
   for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); }
   return h>>>0; }
-const SIM_N=3000, SIM_PFBAR=0.64;
+/* 8k, not 3k (2026-09-12): the objective is now pure P(1st), whose MC standard
+   error at 3,000 samples (~0.8pp) was nearly 3x the old EPS, so near-tied split
+   sets flipped on noise every run and churned the flip feed. 20,000 was tried
+   first and measured at ~820ms on an 8-game round in jsdom — too much for a
+   first paint; 8,000 lands around 330ms and still cuts the noise by ~40%.
+   Finals rounds never reach here at all (the exact DP has no sampling error),
+   so this cost only ever lands on a regular-season round. */
+const SIM_N=8000, SIM_PFBAR=0.64;
 const SIM_PF_PAL=[0.75,0.62,0.55,0.68,0.58,0.72,0.52,0.65];  // generic future-game favourite probs
-function compMarginOf(name){  // countback totals ride in the RAW file object only
-  try{ const d=(typeof window!=='undefined')&&window.NRL_COMP;
+function compMarginOf(name){
+  /* Countback total (rankByMargin: LOWER wins a tie). Reads the LIVE COMP first
+     — compFromFile()/pollComp() both map totalMargin since 2026-09-12 — and only
+     falls back to the raw file for an nrl_comp.js written before they did. */
+  try{
+    const lm=COMP&&Array.isArray(COMP.members)&&COMP.members.find(x=>x.name===name);
+    if(lm&&typeof lm.totalMargin==='number') return lm.totalMargin;
+    const d=(typeof window!=='undefined')&&window.NRL_COMP;
     const m=d&&Array.isArray(d.members)&&d.members.find(x=>x.name===name);
-    return (m&&typeof m.totalMargin==='number')?m.totalMargin:null; }catch(e){ return null; }
+    return (m&&typeof m.totalMargin==='number')?m.totalMargin:null;
+  }catch(e){ return null; }
 }
+/* ========== EXACT FINALS SOLVER (2026-09-12, the Brigitte rebuild) ==========
+   From Finals Week 1 on there is no season left to simulate: nine games, four
+   rounds, one bracket. So the Monte-Carlo above is retired for finals rounds
+   and replaced by FULL ENUMERATION + BACKWARD INDUCTION over the real draw —
+   no PRNG, no sampling error, no EPS tie-break firing on MC noise. Validated
+   against reference_finals_solver.py (the standalone Python solver written for
+   R28 2026; see its header, docs/MODEL.md and reference/crosscheck.mjs).
+
+   OBJECTIVE: P(Brigitte finishes 1st). Nothing else. A podium is worth zero —
+   see docs/CHANGELOG.md 2026-09-12. Top-3/top-4 terms are gone; keeping them
+   would buy safety at the cost of the only outcome that counts.
+
+   The model, layer by layer:
+   * BRACKET — the real NRL system, derived from the ladder (nrl_data.js ships
+     teams[] in ladder order, so the seeds are its first eight rows):
+       week 1  QF1 = 1v4, QF2 = 2v3, EF1 = 5v8, EF2 = 6v7
+       week 2  SF1 = QF1 loser (hosting) v EF1 winner
+               SF2 = QF2 loser (hosting) v EF2 winner
+       week 3  PF1 = QF1 winner (hosting) v SF2 winner
+               PF2 = QF2 winner (hosting) v SF1 winner
+       week 4  GF  = PF1 winner v PF2 winner, NEUTRAL venue
+     Games already played are read from the results memory, never simulated.
+     Future games are NOT generic: a 1v4 qualifying final and a 6v7 elimination
+     final are different problems, and which one Brigitte's rivals are likely
+     to get wrong is the whole point.
+   * GAME PROBABILITIES — the current round uses predict() (Elo + injuries +
+     market blend), i.e. exactly the number on the card. Future rounds have no
+     odds and no team lists, so they run on Elo + the learned home edge only,
+     and the GF runs with no home edge at all.
+   * RIVALS — each rival's pick comes from the per-member logistic fitted in
+     cloud_fetch.py (`beh` = intercept + market/form logit + loyalty share),
+     falling back to predictPick() at a herd rate when no fit shipped. On top
+     of that, with probability STRAT_AWARE a rival plays a comp-aware line for
+     the WHOLE round (behind → the underdog in the ceil(deficit/2) most
+     winnable games; level or ahead → cover with favourites). That mode is
+     latent and per-round, which is what correlates a rival's picks within a
+     round — and correlation is what makes one observed pick informative.
+   * COUNTBACK — footytips' rankByMargin: a tie on points goes to the LOWER
+     cumulative margin error. That is Brigitte's entire edge at the rebuild
+     (476 v Claire's 492), so a tie is NOT a loss here. It is priced as
+     P(her final cumulative error < theirs) from each member's own per-round
+     margin history — see finalsTieProbs().
+   * BONUS — allCorrectBonus +2 for a perfect round, in finals rounds too (a
+     one-game Grand Final round pays 1 + 2 = 3). Alive-aware on the current
+     round: one wrong tip in a game already played this round kills it.
+
+   COST: the state is (bracket path, three rival score deltas clamped into an
+   absorbing band). Clamping is EXACT — once a rival is further ahead than the
+   points still available, nothing later can change the answer. Everything is
+   memoised into flat typed arrays keyed by integer and the whole solve runs
+   once per planStamp (compPlan() caches it). Measured into plan.sim.ms; keep
+   it under ~300ms or the phone stutters on first paint. */
+const FINALS_MAX_RIVALS=3;   /* the DP is exact in 3 rival deltas. A 4th costs
+   ~25x the state space for, in 2026, a rival who needs a literal 9-from-9 with
+   every bonus (Josh: P = 0.61% by exact enumeration in the Python reference).
+   Rivals are taken highest-score-first among the mathematically-alive, so the
+   truncation can only OVERSTATE P(1st), and only by that tail. */
+const STRAT_AWARE=0.25;      // P(a rival plays a comp-aware line for a round)
+const BEH_AFF_K=4;           // MUST match BEH_AFF_K in cloud_fetch.py — the fit
+                             // there and this evaluation must see one covariate
+const FINALS_SLOTS=['QF1','QF2','EF1','EF2','SF1','SF2','PF1','PF2'];
+const FINALS_SLOTI={QF1:0,QF2:1,EF1:2,EF2:3,SF1:4,SF2:5,PF1:6,PF2:7};
+
+/* One format for "chance of winning the comp", wherever it is shown (the panel
+   line and the Model tab's tile). Never rounds a live chance into a certainty
+   in either direction — 99.8% is not "100%" and 0.02% is not "0%". Only a value
+   the solver proved exact (every rival absorbed, or she is mathematically out)
+   prints as 100% / 0%. */
+function pctChance(x){
+  if(!(typeof x==='number')||isNaN(x)) return '–';
+  if(x>=1) return '100%';
+  if(x<=0) return '0%';
+  if(x>0.9995) return '>99.9%';
+  if(x<0.0005) return '<0.1%';
+  return (x*100).toFixed(x<0.095||x>0.905?1:0)+'%';
+}
+/* Standard normal CDF — Abramowitz & Stegun 7.1.26 (|error| < 1.5e-7). The
+   countback only needs three decimals and the page carries no dependencies. */
+function normCdf(z){
+  const x=z/Math.SQRT2, s=x<0?-1:1, ax=Math.abs(x);
+  const t=1/(1+0.3275911*ax);
+  const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)
+            *t*Math.exp(-ax*ax);
+  return 0.5*(1+s*y);
+}
+/* Loyalty covariate: this member's season share on `sh`, shrunk toward a coin
+   flip by BEH_AFF_K pseudo-games so a two-appearance team can't scream. The
+   Python fit uses the identical shrinkage (leave-one-out there, since there the
+   pick being predicted is inside the counts). */
+function affShare(m,sh){
+  const c=(m&&m.aff||{})[sh];
+  if(!c||!c[1]) return 0.5;
+  return (c[0]+BEH_AFF_K*0.5)/(c[1]+BEH_AFF_K);
+}
+/* P(this member tips the HOME side), from their fitted logistic. null when no
+   fit shipped (old nrl_comp.js, or a member with too few picks). */
+function behPHome(m,h,a,pHome){
+  const b=m&&m.beh;
+  if(!b||typeof b.a!=='number'||typeof b.b!=='number'||typeof b.loy!=='number') return null;
+  const q=Math.min(0.999999,Math.max(0.000001,pHome));
+  const z=b.a+b.b*Math.log(q/(1-q))+b.loy*(affShare(m,h)-affShare(m,a));
+  return 1/(1+Math.exp(-Math.max(-30,Math.min(30,z))));
+}
+/* Games this member has actually been scored over — the denominator of the
+   season-accuracy inversion below and in simComp()'s herd fit. With the
+   round-indexed scores[] a round they were not scored in (joined late, missed
+   the round) is SKIPPED rather than charged to them; without it, assume they
+   played every completed round, which is what this always used to do. NOTE the
+   ladder is 17 teams, so a regular round really is 8 games + 1 bye — the table
+   default of 8 is right, not an approximation. */
+function gamesPlayedBy(m){
+  const sc=(COMP&&COMP.roundIndexed&&m&&Array.isArray(m.scores))?m.scores:null;
+  let gp=0;
+  for(let r=1;r<SRC.round;r++){
+    if(sc&&typeof sc[r-1]!=='number') continue;      // null round → not theirs
+    gp+=COMP_GAMES_PER_ROUND[r]||8;
+  }
+  return Math.max(8,gp);
+}
+/* Fallback herd rate — the same season-accuracy inversion simComp() uses. */
+function herdRate(m){
+  const acc=Math.min(0.72,Math.max(0.45,(m.totalScore||0)/gamesPlayedBy(m)));
+  return Math.min(0.97,Math.max(0.55,(acc+SIM_PFBAR-1)/(2*SIM_PFBAR-1)));
+}
+/* Elo-only probability for a game with no market and no team list. */
+function finalsEloP(home,away,neutral){
+  const e=(LEARNED&&LEARNED.elo)||{};
+  if(typeof e[home]!=='number'||typeof e[away]!=='number') return 0.5;
+  const sc=(learnedActive&&LEARNED.params&&LEARNED.params.logisticScale)||7;
+  const hga=neutral?0:num('hga', learnedActive?LEARNED.params.homeAdv:2);
+  return logistic(eloGapToPoints(e[home]-e[away],sc)+hga);
+}
+/* Winner short of a finished game in ANY round of this season (fixtureResult()
+   only answers for the current round). null = not played / drawn / unknown. */
+function finalsResultWinner(round,A,B){
+  const pool=[].concat((SRC&&SRC.results)||[], (LEARNED&&LEARNED.results)||[]);
+  for(let i=0;i<pool.length;i++){
+    const r=pool[i];
+    if(!r||(r.season||SRC.season)!==SRC.season||r.round!==round) continue;
+    if(!((r.home===A&&r.away===B)||(r.home===B&&r.away===A))) continue;
+    if(typeof r.hs!=='number'||typeof r.as!=='number'||r.hs===r.as) return null;
+    return r.hs>r.as?r.home:r.away;
+  }
+  return null;
+}
+/* A rival's comp-aware line for one round: cover with favourites when level or
+   ahead, otherwise take the underdog in the ceil(deficit/2) most winnable
+   games. A hopeless split (<15%) is worse than useless, so it is skipped. */
+function finalsStratVector(deficit,probs){
+  const n=probs.length, fav=[];
+  for(let i=0;i<n;i++) fav.push(probs[i]>=0.5?1:0);
+  if(deficit<=0) return fav;
+  const want=Math.min(n,Math.max(1,Math.ceil(deficit/2)));
+  const dogp=probs.map(p=>p>=0.5?1-p:p);
+  const order=dogp.map((v,i)=>i).sort((x,y)=>dogp[y]-dogp[x]||x-y);
+  let used=0;
+  for(let k=0;k<order.length&&used<want;k++){
+    const i=order[k];
+    if(dogp[i]<0.15) continue;
+    fav[i]=1-fav[i]; used++;
+  }
+  return fav;
+}
+/* P(Brigitte wins a points tie) against each modelled rival.
+   The countback races cumulative |predicted − actual| on each round's margin
+   game, lower wins. D_r = (their error) − (her error) in round r; she keeps the
+   tie iff currentLead + Σ D_r > 0 over the margin games still to come. Mean per
+   round from the season totals (28 rounds of evidence); sd from whatever
+   per-round history nrl_comp.js shipped, floored at 5 (small sample) and
+   defaulting to 10 when there is none. */
+function finalsTieProbs(me,rivals,mgLeft){
+  const myTM=(typeof me.totalMargin==='number')?me.totalMargin:compMarginOf(me.name);
+  /* Only zip the per-round histories when the pipeline says they are
+     ROUND-INDEXED. On an old dense file index i is her i-th RECORDED round and
+     his i-th, which are different calendar rounds the moment either of them has
+     a gap — a silently wrong sd. Refusing to zip falls back to the season-total
+     mean with sd 10, which is merely imprecise. */
+  const indexed=!!(COMP&&COMP.roundIndexed);
+  const myH=(indexed&&Array.isArray(me.margins))?me.margins:null;
+  let played=0;
+  if(myH) myH.forEach(x=>{ if(typeof x==='number') played++; });
+  const rounds=Math.max(1,played||SRC.round);
+  return rivals.map(r=>{
+    if(!r) return 1;
+    const rTM=(typeof r.totalMargin==='number')?r.totalMargin:compMarginOf(r.name);
+    if(rTM===null||rTM===undefined||myTM===null||myTM===undefined) return 0.5;
+    const lead=rTM-myTM;                       // >0 → she is ahead on countback
+    if(!mgLeft) return lead>0?1:(lead<0?0:0.5);
+    const rH=(indexed&&Array.isArray(r.margins))?r.margins:null;
+    let sd=10, mean=lead/rounds, diffs=[];
+    if(myH&&rH){ const n=Math.min(myH.length,rH.length);
+      for(let i=0;i<n;i++){ const b=myH[i], a=rH[i];       // same ROUND on both sides
+        if(typeof a==='number'&&typeof b==='number') diffs.push(a-b); } }
+    if(diffs.length>=2){
+      let m=0; diffs.forEach(x=>m+=x); m/=diffs.length;
+      let v=0; diffs.forEach(x=>v+=(x-m)*(x-m)); v/=(diffs.length-1);
+      sd=Math.max(5,Math.sqrt(v));
+    }
+    const mu=lead+mgLeft*mean, sig=sd*Math.sqrt(mgLeft);
+    if(sig<=0) return mu>0?1:(mu<0?0:0.5);
+    return Math.min(1,Math.max(0,normCdf(mu/sig)));
+  });
+}
+
+/* Build everything the DP needs, or null (→ compPlan falls back to simComp). */
+function finalsCtx(){
+  if(!COMP||!Array.isArray(COMP.members)||!COMP.members.length) return null;
+  const me=COMP.members.find(m=>m.me);
+  if(!me||me.totalScore===null) return null;
+  const fin=(COMP.finishRound)||31;
+  const W1=fin-3;                                     // Finals Week 1
+  if(!(SRC.round>=W1&&SRC.round<=fin)) return null;
+  if(!Array.isArray(teams)||teams.length<8) return null;
+  const bySeed=[null], SEED={};
+  for(let i=0;i<8;i++){
+    const t=teams[i];
+    if(!t||!t.short||SEED[t.short]) return null;
+    bySeed.push(t.short); SEED[t.short]=i+1;
+  }
+  const BASE={QF1:[bySeed[1],bySeed[4]], QF2:[bySeed[2],bySeed[3]],
+              EF1:[bySeed[5],bySeed[8]], EF2:[bySeed[6],bySeed[7]]};
+  const nG={}; nG[W1]=4; nG[W1+1]=2; nG[W1+2]=2; nG[fin]=1;
+  const S={}; { let s=0; for(let r=fin;r>=W1;r--){ s+=nG[r]+2; S[r]=s; } }
+  const slotsOf=r=> r===W1?['QF1','QF2','EF1','EF2']
+                  : r===W1+1?['SF1','SF2']
+                  : r===W1+2?['PF1','PF2'] : ['GF'];
+  /* The matchup in `slot`, given the winners already encoded in `path`.
+     Memoised: it is asked for once per (round, path) but recurses. */
+  const pairMemo=new Map();
+  function pairFor(path,slot){
+    if(BASE[slot]) return BASE[slot];
+    const mk=path*16+FINALS_SLOTS.indexOf(slot);
+    const hit=pairMemo.get(mk); if(hit!==undefined) return hit;
+    const side=(s,win)=>{ const p=pairFor(path,s); if(!p) return null;
+      const homeWon=(path>>FINALS_SLOTI[s])&1;
+      return win?(homeWon?p[0]:p[1]):(homeWon?p[1]:p[0]); };
+    let out=null;
+    if(slot==='SF1') out=[side('QF1',false), side('EF1',true)];
+    else if(slot==='SF2') out=[side('QF2',false), side('EF2',true)];
+    else if(slot==='PF1') out=[side('QF1',true), side('SF2',true)];
+    else if(slot==='PF2') out=[side('QF2',true), side('SF1',true)];
+    else if(slot==='GF'){                           // neutral: higher seed first
+      const a=side('PF1',true), b=side('PF2',true);
+      out=(a&&b)?((SEED[b]<SEED[a])?[b,a]:[a,b]):null;
+    }
+    if(out&&(!out[0]||!out[1])) out=null;
+    pairMemo.set(mk,out);
+    return out;
+  }
+  // Rounds already finished inside the finals pin their slots from the results
+  // memory. A missing result means we cannot know the bracket → bail out.
+  let basePath=0;
+  for(let r=W1;r<SRC.round;r++){
+    const sl=slotsOf(r);
+    for(let i=0;i<sl.length;i++){
+      const pr=pairFor(basePath,sl[i]); if(!pr) return null;
+      const w=finalsResultWinner(r,pr[0],pr[1]); if(!w) return null;
+      if(w===pr[0]) basePath|=1<<FINALS_SLOTI[sl[i]];
+    }
+  }
+  /* Rivals: everyone she has not ALREADY beaten, biggest threats first (see the
+     constant). The test is deliberately one-sided. Dropping a rival she can no
+     longer catch (m.totalScore > me.totalScore + maxGain) would silently delete
+     the very thing that decides the answer and leave the DP reporting 100% while
+     she is mathematically eliminated — a 4-point deficit going into a one-game
+     Grand Final printed "Chance of winning the comp: 100%" before this was fixed
+     (2026-09-12 audit). Such a rival is KEPT: the DP's own absorbing band then
+     returns 0 for that dimension, which is the truth. Only the provably-beaten
+     (their maximum < her minimum) are safe to drop. */
+  const maxGain=S[SRC.round];
+  const alive=COMP.members.filter(m=>!m.me&&m.totalScore!==null&&
+    m.totalScore+maxGain>=me.totalScore);
+  alive.sort((x,y)=>(y.totalScore-x.totalScore)||(x.rank-y.rank));
+  const rivals=alive.slice(0,FINALS_MAX_RIVALS);
+  const dropped=alive.length-rivals.length;
+  while(rivals.length<FINALS_MAX_RIVALS) rivals.push(null);   // pad → one hot loop
+  rivals.forEach(r=>{ if(r&&r.herd===undefined) r.herd=herdRate(r); });
+  // Margin games still to come: one per remaining round, minus this round's if
+  // it has already been played (footytips puts it on the round's FIRST game).
+  let mgLeft=fin-SRC.round;
+  const mgFx=marginGameFx();
+  if(mgFx){ const mp=predict(mgFx); if(!fixtureResult(mp)) mgLeft++; }
+  const tie=finalsTieProbs(me,rivals,mgLeft);
+  return {me, rivals, fin, W1, nG, S, SEED, slotsOf, pairFor, basePath, tie,
+          mgLeft, dropped, nAlive:alive.length};
+}
+
+/* The whole solve. Returns false when the bracket cannot be resolved, in which
+   case compPlan() falls back to the Monte-Carlo path. */
+function finalsPlan(plan){
+  const t0=(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
+  const C=finalsCtx(); if(!C) return false;
+  const me=C.me, rivals=C.rivals, fin=C.fin, tie=C.tie;
+
+  /* ---- round geometry, cached per (round, path) ------------------------- */
+  const geoMemo=new Map();
+  function geo(r,path){
+    const gk=r*4096+path;
+    let g=geoMemo.get(gk); if(g) return g;
+    const slots=C.slotsOf(r), games=[], probs=[];
+    for(let i=0;i<slots.length;i++){
+      const pr=C.pairFor(path,slots[i]); if(!pr) return null;
+      games.push(pr);
+      probs.push(finalsEloP(pr[0],pr[1], slots[i]==='GF'));
+    }
+    g={slots, games, probs, n:games.length};
+    geoMemo.set(gk,g);
+    return g;
+  }
+
+  /* ---- rivals' gain distribution for one round ------------------------- */
+  /* For rival `ri` at score deficit `def`, given this round's games: the
+     probability of each possible POINTS GAIN under every outcome. Built from
+     the vector distribution (behavioural, independent per game) mixed with the
+     latent strategic mode. Cached — deficits take only a handful of values. */
+  const rdMemo=new Map();
+  function rivalGains(r,path,ri,def,fixedPicks,bonusAlive){
+    const key=((r*4096+path)*4+ri)*64+(def+2);      // integer key: cheaper to
+    let hit=rdMemo.get(key); if(hit) return hit;    // hash than a string concat
+    const G=geo(r,path); if(!G) return [];
+    const n=G.n, R=rivals[ri];
+    const nv=1<<n;
+    const w=new Float64Array(nv);
+    if(!R){ w[0]=1; }                              // pad rival: never moves
+    else{
+      const ph=[];
+      for(let i=0;i<n;i++){
+        const h=G.games[i][0], a=G.games[i][1], pr=G.probs[i];
+        let q=behPHome(R,h,a,pr);
+        if(q===null){                              // no fit shipped → herd model
+          const th=T(h), ta=T(a);
+          const pick=(th&&ta)?predictPick(R.name,{h:th,a:ta,pHome:pr}):(pr>=0.5?h:a);
+          q=(pick===h)?R.herd:1-R.herd;
+        }
+        ph.push(Math.min(0.999,Math.max(0.001,q)));
+      }
+      for(let v=0;v<nv;v++){
+        let p=1;
+        for(let i=0;i<n;i++){
+          const bit=(v>>i)&1;
+          const fx=fixedPicks?fixedPicks[i]:null;
+          if(fx!==null&&fx!==undefined){ if(fx!==bit){ p=0; break; } }
+          else p*= bit?ph[i]:1-ph[i];
+        }
+        w[v]=(1-STRAT_AWARE)*p;
+      }
+      const sv=finalsStratVector(def,G.probs);
+      let si=0;
+      for(let i=0;i<n;i++){
+        const fx=fixedPicks?fixedPicks[i]:null;
+        const bit=(fx!==null&&fx!==undefined)?fx:sv[i];
+        si|=bit<<i;
+      }
+      w[si]+=STRAT_AWARE;
+    }
+    // → per outcome, a flat [gain,prob,gain,prob,…] list
+    const out=[];
+    for(let oc=0;oc<nv;oc++){
+      const acc={};
+      for(let v=0;v<nv;v++){
+        const p=w[v]; if(p<=0) continue;
+        let c=0; for(let i=0;i<n;i++) if(((v>>i)&1)===((oc>>i)&1)) c++;
+        const g=c+((c===n&&bonusAlive)?2:0);
+        acc[g]=(acc[g]||0)+p;
+      }
+      const flat=[];
+      Object.keys(acc).forEach(g=>{ flat.push(+g, acc[g]); });
+      out.push(flat);
+    }
+    rdMemo.set(key,out);
+    return out;
+  }
+
+  /* ---- memo tables, one flat array per future round ---------------------
+     Indexed by (bracket path, clamped delta triple) — no Map, no boxing, no
+     per-path allocation. `nPaths` is 2^(slots already decided by round r), so
+     the whole thing is ~7MB for a four-round bracket and is thrown away with
+     the plan. ABSORBED states are written in too, so the hot loop below can
+     read every value straight out of the array. */
+  const tab={};
+  { let decided=0;
+    for(let r=C.W1;r<=fin;r++){
+      if(r>SRC.round){
+        const band=2*(C.S[r]+1)+1, cube=band*band*band, nP=1<<decided;
+        tab[r]={band:band, off:C.S[r]+1, cube:cube,
+                v:new Float64Array(nP*cube), f:new Uint8Array(nP*cube)};
+      }
+      decided+=C.slotsOf(r).filter(x=>FINALS_SLOTI[x]!==undefined).length;
+    } }
+  function terminal(d0,d1,d2){
+    let p=1;
+    if(d0>0) return 0; if(d0===0) p*=tie[0];
+    if(d1>0) return 0; if(d1===0) p*=tie[1];
+    if(d2>0) return 0; if(d2===0) p*=tie[2];
+    return p;
+  }
+  /* Value at the START of round r. Exact: a delta outside ±S[r] can no longer
+     change the answer, so the band is absorbing, not an approximation. */
+  function V(r,path,d0,d1,d2){
+    if(r>fin) return terminal(d0,d1,d2);
+    const t=tab[r];
+    const ix=path*t.cube+((((d0+t.off)*t.band)+(d1+t.off))*t.band+(d2+t.off));
+    if(t.f[ix]) return t.v[ix];
+    const sw=t.off-1;
+    let val;
+    if(d0>sw||d1>sw||d2>sw) val=0;                  // a rival is out of reach
+    else if(d0< -sw&&d1< -sw&&d2< -sw) val=1;       // every rival is
+    else val=playRound(r,path,d0,d1,d2,null,false).v;
+    t.f[ix]=1; t.v[ix]=val;
+    return val;
+  }
+  /* Scratch buffers, one set per round. Each round appears at most once on the
+     call stack (r only ever recurses into r+1), so reusing them is safe — and
+     it is the difference between ~1.1s and ~0.2s: playRound runs ~100k times
+     and was allocating four typed arrays and three closures on every one. */
+  const scratch={};
+  function scr(r,nv,n){
+    let x=scratch[r];
+    if(!x||x.nv<nv||x.n<n){ x=scratch[r]={nv:nv, n:n, pOc:new Float64Array(nv),
+      nxt:new Int32Array(nv), cv:new Float64Array(nv*(n+3)), cf:new Uint8Array(nv*(n+3))}; }
+    return x;
+  }
+  /* One round, exactly. `ctxCur` (current round only) pins Brigitte's tips for
+     games whose kick-off has passed and carries the +2-alive flags; otherwise
+     she maximises over every tip vector, which IS the optimal future policy the
+     DP promises. `wantAll` is only needed at the top level. */
+  function playRound(r,path,d0,d1,d2,ctxCur,wantAll){
+    const G=geo(r,path);
+    if(!G) return {v:0, tip:0, all:[[0,0]], n:0, probs:[], geo:null, free:null};
+    const n=G.n, nv=1<<n, probs=G.probs;
+    const lead=Math.max(0,d0,d1,d2), cap=2*n;
+    const bA=ctxCur?ctxCur.rivBonus:null;
+    const g0=rivalGains(r,path,0,Math.max(-1,Math.min(cap,lead-d0)),ctxCur&&ctxCur.rivFixed[0],bA?bA[0]:true);
+    const g1=rivalGains(r,path,1,Math.max(-1,Math.min(cap,lead-d1)),ctxCur&&ctxCur.rivFixed[1],bA?bA[1]:true);
+    const g2=rivalGains(r,path,2,Math.max(-1,Math.min(cap,lead-d2)),ctxCur&&ctxCur.rivFixed[2],bA?bA[2]:true);
+    const S=scr(r,nv,n), pOc=S.pOc, nxt=S.nxt, CV=S.cv, CF=S.cf;
+    CF.fill(0,0,nv*(n+3));
+    for(let oc=0;oc<nv;oc++){
+      let p=1, np=path;
+      for(let i=0;i<n;i++){
+        const home=(oc>>i)&1;
+        p*= home?probs[i]:1-probs[i];
+        const si=FINALS_SLOTI[G.slots[i]];
+        if(si!==undefined&&home) np|=1<<si;
+      }
+      pOc[oc]=p; nxt[oc]=np;
+    }
+    /* The successor round's memo, read straight out of the flat arrays in the
+       hot loop below — 24M function calls become 24M array reads. */
+    const nextR=r+1, nt=tab[nextR], lim=nt?nt.off:0;
+    const NV=nt?nt.v:null, NF=nt?nt.f:null,
+          NB=nt?nt.band:0, NO=nt?nt.off:0, NC=nt?nt.cube:0;
+    const myFixed=ctxCur?ctxCur.myFixed:null;
+    const myBonus=ctxCur?ctxCur.myBonus:true;
+    let bestV=-1, bestT=0;
+    const all=wantAll?[]:null;
+    for(let mt=0;mt<nv;mt++){
+      if(myFixed){
+        let ok=true;
+        for(let i=0;i<n;i++){ const fx=myFixed[i];
+          if(fx!==null&&fx!==undefined&&((mt>>i)&1)!==fx){ ok=false; break; } }
+        if(!ok) continue;
+      }
+      let tot=0;
+      for(let oc=0;oc<nv;oc++){
+        const p=pOc[oc]; if(p<=0) continue;
+        let c=0; for(let i=0;i<n;i++) if(((mt>>i)&1)===((oc>>i)&1)) c++;
+        const myGain=c+((c===n&&myBonus)?2:0);
+        const ck=oc*(n+3)+myGain;
+        let cvv;
+        if(CF[ck]) cvv=CV[ck];
+        else{
+          const np=nxt[oc], A=g0[oc], B=g1[oc], Cd=g2[oc];
+          let acc=0;
+          /* Two copies of the same triple loop: the branch is loop-invariant
+             and this is the app's single hottest code path (~18M iterations
+             for a Finals Week 1 bracket). Index arithmetic is hoisted out of
+             the inner loop for the same reason. Keep them in step. */
+          if(nt){
+            const npb=np*NC;
+            for(let i=0;i<A.length;i+=2){
+              let n0=d0+A[i]-myGain;
+              if(n0>lim) n0=lim; else if(n0<-lim) n0=-lim;
+              const p0=A[i+1], b0=(n0+NO)*NB;
+              for(let j=0;j<B.length;j+=2){
+                const p01=p0*B[j+1]; if(p01===0) continue;
+                let n1=d1+B[j]-myGain;
+                if(n1>lim) n1=lim; else if(n1<-lim) n1=-lim;
+                const b1=npb+(b0+(n1+NO))*NB+NO;
+                for(let k=0;k<Cd.length;k+=2){
+                  let n2=d2+Cd[k]-myGain;
+                  if(n2>lim) n2=lim; else if(n2<-lim) n2=-lim;
+                  const nix=b1+n2;
+                  acc+=p01*Cd[k+1]*(NF[nix]?NV[nix]:V(nextR,np,n0,n1,n2));
+                }
+              }
+            }
+          }else{                                   // last round → straight to the terminal
+            for(let i=0;i<A.length;i+=2){
+              const n0=d0+A[i]-myGain, p0=A[i+1];
+              for(let j=0;j<B.length;j+=2){
+                const p01=p0*B[j+1]; if(p01===0) continue;
+                const n1=d1+B[j]-myGain;
+                for(let k=0;k<Cd.length;k+=2)
+                  acc+=p01*Cd[k+1]*terminal(n0,n1,d2+Cd[k]-myGain);
+              }
+            }
+          }
+          CF[ck]=1; CV[ck]=acc; cvv=acc;
+        }
+        tot+=p*cvv;
+      }
+      if(all) all.push([mt,tot]);
+      if(tot>bestV){ bestV=tot; bestT=mt; }
+    }
+    return {v:bestV, tip:bestT, all:all, n:n, probs:probs, geo:G,
+            free:ctxCur?ctxCur.free:null};
+  }
+
+  /* ---- the current round ------------------------------------------------ */
+  /* Resolved games are already inside everyone's totalScore, so they only
+     propagate the bracket and decide whether the +2 is still alive. Locked
+     games keep whatever was actually entered (hers from footytips, else the
+     frozen tiplog, else the model). Everything else she is free to choose. */
+  const G0=geo(SRC.round,C.basePath);
+  if(!G0) return false;
+  const n0=G0.n;
+  let path0=C.basePath;
+  const myFixed=new Array(n0).fill(null);
+  const rivFixed=[new Array(n0).fill(null),new Array(n0).fill(null),new Array(n0).fill(null)];
+  const resolvedBit=new Array(n0).fill(null);
+  const freeIdx=[], keyOf=new Array(n0);
+  let myBonus=true; const rivBonus=[true,true,true];
+  for(let i=0;i<n0;i++){
+    const h=G0.games[i][0], a=G0.games[i][1];
+    const key=liveKey(h,a);
+    keyOf[i]=key;
+    const fx=fixtures.find(f=>(f.home===h&&f.away===a)||(f.home===a&&f.away===h));
+    if(!fx||!T(fx.home)||!T(fx.away)) return false;    // draw/bracket disagree → bail
+    const p=predict(fx);
+    // probability the BRACKET's home side (G0.games[i][0]) wins
+    G0.probs[i]=(p.h.short===h)?p.pHome:1-p.pHome;
+    const fr=fixtureResult(p);
+    const myPick=(me.picks&&me.picks[key])||null;
+    const gt=gradedTip(p);
+    const mine=myPick||((gt&&gt.known)?gt.short:null);
+    if(fr){
+      if(!fr.winner) return false;                     // a drawn final: not a thing
+      resolvedBit[i]=(fr.winner.short===h)?1:0;
+      if(resolvedBit[i]) path0|=1<<FINALS_SLOTI[G0.slots[i]];
+      if(mine&&mine!==fr.winner.short) myBonus=false;
+      if(!mine) myBonus=false;                          // unknown → assume broken
+      rivals.forEach((r,ri)=>{ if(!r) return;
+        const pk=r.picks&&r.picks[key];
+        if(!pk||pk!==fr.winner.short) rivBonus[ri]=false; });
+      continue;
+    }
+    const ko=Date.parse(fx.kickoff||'');
+    const locked=(!isNaN(ko)&&Date.now()>=ko)||!!liveEntry(p);
+    if(locked){
+      const tip=mine||(p.pHome>=0.5?p.h.short:p.a.short);
+      myFixed[i]=(tip===h)?1:0;
+      rivals.forEach((r,ri)=>{ if(!r) return;
+        const pk=r.picks&&r.picks[key];
+        if(pk) rivFixed[ri][i]=(pk===h)?1:0; });
+    } else freeIdx.push(i);
+  }
+  // Resolved games are folded into the bracket path, so the round the DP plays
+  // is the UNRESOLVED subset. Rebuild the geometry over exactly those games.
+  const live=[]; for(let i=0;i<n0;i++) if(resolvedBit[i]===null) live.push(i);
+  if(!live.length){
+    // every game of this round is already played — nothing to decide, just
+    // report where she stands going into the next one
+    if(SRC.round>=fin){ plan.sim=null; return false; }
+    const floor=-(C.S[SRC.round+1]+1);
+    const dd=[0,1,2].map(i=>{ const r=rivals[i];
+      if(!r) return floor;
+      return Math.max(floor,Math.min(C.S[SRC.round+1]+1,r.totalScore-me.totalScore)); });
+    const v=V(SRC.round+1,path0,dd[0],dd[1],dd[2]);
+    plan.sim={pFirst:v, pBest:v, bFirst:v, perGame:{}, exact:true,
+              rivals:rivals.filter(Boolean).map(r=>r.name), tie:tie, mgLeft:C.mgLeft,
+              dropped:C.dropped, ms:0};
+    return true;
+  }
+  // Sub-geometry: the live games only, in fixture order, with real probabilities
+  const subSlots=[], subGames=[], subProbs=[];
+  live.forEach(i=>{ subSlots.push(G0.slots[i]); subGames.push(G0.games[i]); subProbs.push(G0.probs[i]); });
+  geoMemo.set(SRC.round*4096+path0,{slots:subSlots, games:subGames, probs:subProbs, n:live.length});
+  const sub=k=>live.map(i=>k[i]);
+  const curCtx={ myFixed:sub(myFixed), myBonus:myBonus, rivBonus:rivBonus,
+                 rivFixed:[sub(rivFixed[0]),sub(rivFixed[1]),sub(rivFixed[2])],
+                 free:live.map(i=>freeIdx.indexOf(i)>=0) };
+  const d0=[0,0,0];
+  for(let ri=0;ri<3;ri++) d0[ri]=rivals[ri]?(rivals[ri].totalScore-me.totalScore)
+                                           :-(C.S[SRC.round]+1);
+  const res=playRound(SRC.round,path0,d0[0],d0[1],d0[2],curCtx,true);
+  const nL=live.length;
+
+  /* ---- read the answer off ---------------------------------------------- */
+  const byTip={}; res.all.forEach(x=>{ byTip[x[0]]=x[1]; });
+  const favVec=(()=>{ let v=0; for(let i=0;i<nL;i++) if(subProbs[i]>=0.5) v|=1<<i; return v; })();
+  // Brigitte's tip for a locked game is not hers to change, so the "all
+  // favourites" baseline keeps those pinned too — it is the honest floor
+  // "tip chalk from here", not a rewrite of history.
+  let favLine=favVec;
+  for(let i=0;i<nL;i++){ const fx=curCtx.myFixed[i];
+    if(fx!==null&&fx!==undefined){ favLine=(favLine&~(1<<i))|(fx<<i); } }
+  const best=res.v;
+  /* Tie-breaks, in order: FAVOURITES, then the incumbent frozen tip, then —
+     only if LOCK_MODE says so — the house club. Exact equality only; this can
+     never cost win %.
+     Favourites lead (2026-09-12 audit). The incumbent led at first, borrowed
+     from the Monte-Carlo path where it stops sampling noise churning the flip
+     feed. The exact DP has no noise: a tie here is a real tie, reproducible run
+     to run, so the incumbent buys nothing — and it does harm in a DECIDED comp,
+     where every line prices identically and the "incumbent" is whatever the
+     tiplog last held. Leading by 30 with three rounds to play, that armed three
+     underdogs as splits "worth +0.0 points" and swallowed the cover-mode line.
+     Favourites first is equally stable and never says something silly. */
+  let pick=res.tip;
+  const EQ=1e-12;
+  const cands=res.all.filter(x=>x[1]>=best-EQ).map(x=>x[0]);
+  if(cands.length>1){
+    const score=v=>{
+      let inc=0, fav=0, lk=0;
+      for(let i=0;i<nL;i++){
+        const g=subGames[i], side=((v>>i)&1)?g[0]:g[1];
+        const tl=tiplogFind(SRC.season,SRC.round,g[0],g[1]);
+        if(tl&&tl.tip===side) inc++;
+        if(side===(subProbs[i]>=0.5?g[0]:g[1])) fav++;
+        if(LOCK_MODE==='tiebreak'&&side===LOCK) lk++;
+      }
+      return fav*100+inc*10+lk;
+    };
+    let bs=-1; cands.forEach(v=>{ const s=score(v); if(s>bs){ bs=s; pick=v; } });
+  }
+  plan.splits=plan.splits||{};
+  const perGame={};
+  for(let i=0;i<nL;i++){
+    const g=subGames[i], key=liveKey(g[0],g[1]);
+    const favS=subProbs[i]>=0.5?g[0]:g[1], dogS=subProbs[i]>=0.5?g[1]:g[0];
+    const chosen=((pick>>i)&1)?g[0]:g[1];
+    // best achievable with this game pinned each way — the honest price of the
+    // split, in win-probability, not in expected tips
+    let vFav=-1, vDog=-1;
+    res.all.forEach(x=>{ const s=((x[0]>>i)&1)?g[0]:g[1];
+      if(s===favS){ if(x[1]>vFav) vFav=x[1]; } else if(x[1]>vDog) vDog=x[1]; });
+    // who is on the favourite, and how strongly (display + the "foes" count)
+    let foeN='', foeP=0, foes=0;
+    rivals.forEach(r=>{ if(!r) return;
+      const pk=r.picks&&r.picks[key];
+      let q;
+      if(pk) q=(pk===favS)?1:0;
+      else{
+        const bp=behPHome(r,g[0],g[1],subProbs[i]);
+        let ph=bp;
+        if(ph===null){ const th=T(g[0]), ta=T(g[1]);
+          const pp=(th&&ta)?predictPick(r.name,{h:th,a:ta,pHome:subProbs[i]}):favS;
+          ph=(pp===g[0])?r.herd:1-r.herd; }
+        const sv=finalsStratVector(Math.max(0,Math.max(0,d0[0],d0[1],d0[2])-(r.totalScore-me.totalScore)),subProbs);
+        ph=(1-STRAT_AWARE)*ph+STRAT_AWARE*(sv[i]?1:0);
+        q=(favS===g[0])?ph:1-ph;
+      }
+      if(q>=0.5) foes++;
+      if(q>foeP){ foeP=q; foeN=r.name; }
+    });
+    perGame[key]={tipShort:chosen, favShort:favS, dogShort:dogS,
+                  pFirstIfFav:vFav, pFirstIfDog:vDog, pf:Math.max(subProbs[i],1-subProbs[i]),
+                  foeName:foeN, foeP:foeP, foes:foes,
+                  locked:!(curCtx.free[i])};
+    /* Arm a split only when the underdog is STRICTLY worth more. An
+       indifferent one (a decided comp prices every line the same) would show
+       up in the panel as "🎯 … +0.0 pts of win chance", which is not advice. */
+    if(curCtx.free[i]&&chosen!==favS&&vDog>vFav+EQ)
+      plan.splits[key]={key:key, dog:dogS, fav:favS,
+                        pf:Math.max(subProbs[i],1-subProbs[i]), foes:foes,
+                        score:(1-Math.max(subProbs[i],1-subProbs[i]))*foes,
+                        gain:vDog-vFav};
+  }
+  const ms=((typeof performance!=='undefined'&&performance.now)?performance.now():Date.now())-t0;
+  /* Every admissible line for this round with its exact P(1st) — the panel does
+     not show it, but reference/crosscheck.mjs compares it against the Python
+     solver and it is the first thing to print when a tip looks wrong. */
+  const lines=res.all.map(x=>({tip:subGames.map((g,i)=>((x[0]>>i)&1)?g[0]:g[1]), p:x[1]}))
+                     .sort((a,b)=>b.p-a.p);
+  plan.sim={ pFirst:(byTip[pick]!==undefined?byTip[pick]:best), pBest:best, lines:lines,
+             bFirst:(byTip[favLine]!==undefined?byTip[favLine]:best),
+             perGame:perGame, exact:true, sims:0, nSets:res.all.length,
+             rivals:rivals.filter(Boolean).map(r=>r.name), tie:tie,
+             mgLeft:C.mgLeft, dropped:C.dropped, ms:Math.round(ms) };
+  return true;
+}
+
 function simComp(plan,cands){
   const me=COMP.members.find(m=>m.me);
   const rivals=COMP.members.filter(m=>!m.me&&m.totalScore!==null);
@@ -1289,12 +2127,9 @@ function simComp(plan,cands){
     const ko=Date.parse(f.kickoff||'');
     const locked=(!isNaN(ko)&&Date.now()>=ko)||!!liveEntry(p);
     const fav=p.pHome>=0.5?p.h:p.a, dog=p.pHome>=0.5?p.a:p.h;
-    // lock = the Roosters short if THIS is their game — I always tip them, even
-    // as the underdog, so my pick here is the lock, NOT the favourite.
-    const lk=(p.h.short===LOCK)?p.h.short:(p.a.short===LOCK?p.a.short:null);
     const g={key:liveKey(h.short,a.short), pf:Math.max(p.pHome,1-p.pHome),
-             fav:fav.short, dog:dog.short, locked:locked, lock:lk, rp:{}};
-    if(locked){ const gt=gradedTip(p); g.myLocked=(gt&&gt.known)?gt.short:(lk||fav.short); }
+             fav:fav.short, dog:dog.short, locked:locked, rp:{}};
+    if(locked){ const gt=gradedTip(p); g.myLocked=(gt&&gt.known)?gt.short:fav.short; }
     rivals.forEach(r=>{ g.rp[r.name]=r.picks[g.key]||predictPick(r.name,p); });
     cur.push(g); });
   // Current-round PERFECT-ROUND bonus (+2, comp rule): all games in a round
@@ -1308,17 +2143,20 @@ function simComp(plan,cands){
     const p=predict(f); const fr=fixtureResult(p); if(!fr) return;
     curResolved.push({p:p, fr:fr, key:liveKey(h.short,a.short)}); });
   const bonusLive = cur.length>0;                       // round incomplete → not yet paid
+  /* An UNGRADED resolved game must not kill the perfect round — we simply do
+     not know what was tipped, and treating "unknown" as "wrong" silently zeroed
+     the +2 for the whole round once gradedTip() stopped inventing a Roosters
+     answer (2026-09-12). Skip unknowns; only a KNOWN wrong tip breaks it. */
   const myResolvedOK = curResolved.every(x=>{ if(!x.fr.winner) return true;   // draw: neutral
-    const g=gradedTip(x.p); return g.known && g.short===x.fr.winner.short; });
+    const g=gradedTip(x.p); return !g.known || g.short===x.fr.winner.short; });
   const rivResolvedOK = rivals.map(r=> curResolved.every(x=>{
     if(!x.fr.winner) return true; const pk=r.picks[x.key];
     return !!pk && pk===x.fr.winner.short; }));
   // Future herd rate per rival, fitted so h·p̄f+(1−h)(1−p̄f) equals their
   // season accuracy (totalScore over ~8 games a round; bonus inflation is
   // small and symmetric enough to ignore at this precision).
-  let gp=0; for(let r=1;r<SRC.round;r++) gp+=COMP_GAMES_PER_ROUND[r]||8;   // finals rounds are 4/2/2/1, not 8
-  gp=Math.max(8,gp);
-  const H=rivals.map(r=>{ const acc=Math.min(0.72,Math.max(0.45,r.totalScore/gp));
+  const H=rivals.map(r=>{                       // finals rounds are 4/2/2/1, not 8
+    const acc=Math.min(0.72,Math.max(0.45,r.totalScore/gamesPlayedBy(r)));
     return Math.min(1,Math.max(0.5,(acc+SIM_PFBAR-1)/(2*SIM_PFBAR-1))); });
   const rMargins=rivals.map(r=>compMarginOf(r.name));
   // Candidate sets: none, singles, pairs (triples once the chase is desperate).
@@ -1330,7 +2168,7 @@ function simComp(plan,cands){
     for(let k=j+1;k<top.length;k++) sets.push([c,top[j],top[k]]); });
   const keysets=sets.map(S=>{ const s=new Set(); S.forEach(c=>s.add(c.key)); return s; });
   const wins=sets.map(()=>({first:0,top3:0,top4:0}));
-  // The honest "play safe" baseline: Josh tipping FAVOURITES every remaining
+  // The honest "play safe" baseline: tipping FAVOURITES every remaining
   // game, all season, no splits. NOT the same as the empty set (wins[0]), which
   // still splits future rounds — that's why the old same-round comparison read
   // as ~tied. This is the real "if I just tip chalk" number.
@@ -1361,7 +2199,7 @@ function simComp(plan,cands){
     // Straight baseline's current-round unlocked games (favourites / the lock).
     let myStrCurAll=true;
     cur.forEach((g,gi)=>{ if(g.locked) return;
-      const pick=(g.lock||g.fav);
+      const pick=g.fav;
       const hit=favWin[gi]?pick===g.fav:pick===g.dog;
       if(hit) myStr++; else myStrCurAll=false; });
     if(bonusLive && myResolvedOK && myLockedAll && myStrCurAll) myStr+=2;
@@ -1401,10 +2239,9 @@ function simComp(plan,cands){
     keysets.forEach((S,si)=>{
       let tot=myBase; let myUnlockAll=true;
       cur.forEach((g,gi)=>{ if(g.locked) return;
-        // My pick: the split's underdog, else the Roosters lock (when this IS
-        // their game), else the favourite. The lock branch is what stops a
-        // Roosters-underdog game being wrongly scored as a favourite tip.
-        const pick=S.has(g.key)?g.dog:(g.lock||g.fav);
+        // My pick: the split's underdog, else the favourite. No team is ever
+        // force-tipped any more (2026-09-12).
+        const pick=S.has(g.key)?g.dog:g.fav;
         const hit=favWin[gi]?pick===g.fav:pick===g.dog;
         if(hit) tot++; else myUnlockAll=false; });
       // My current-round +2: resolved games clean, every locked game hit this
@@ -1433,19 +2270,23 @@ function simComp(plan,cands){
   //      simulated to follow;
   //   3. fewer splits.
   // A set genuinely worse by more than EPS is never chosen on tie-breaks.
-  const EPS=0.003;
+  /* EPS must scale with MC noise or the tie-breaks below fire on noise every
+     run and churn the flip feed. Under the old three-tier sum utilities ran
+     0.02-0.05; under pure P(1st) they run 0.15-0.35, where the standard error
+     at SIM_N samples is sqrt(0.25/N). Two standard errors is the floor.
+     (Finals rounds never reach here — the exact DP handles them.) */
+  const EPS=Math.max(0.003, 2*Math.sqrt(0.25/SIM_N));
   const frozenDogs=new Set();
   cands.forEach(c=>{ const pr=c.key.split('-');
     const t=tiplogFind(SRC.season,SRC.round,pr[0],pr[1]);
     if(t&&t.tip===c.dog) frozenDogs.add(c.key); });
   const target=new Set(); cands.slice(0,2).forEach(c=>target.add(c.key));
-  // Objective = P(top 4)+P(top 3)+P(1st): Josh's stated goal is top 4 "at
-  // least", ideally the podium. Equal-weighting the three tiers makes 1st worth
-  // 3 utility, top 3 worth 2, top 4 worth 1 — ambition rewarded, the floor
-  // valued. Adding top 4 also cuts MC noise: it's ~2% (resolvable) vs top-3's
-  // ~0.5% (barely). A single round's split is still ~neutral against the
-  // season's future splitting, so the tie-breaks below still carry the policy.
-  const util=wins.map(w=>(w.first+w.top3+w.top4)/SIM_N);
+  // Objective = P(1st), nothing else (2026-09-12). The goal is to WIN the
+  // comp; a podium is worth zero. The old P(top4)+P(top3)+P(1st) sum bought
+  // safety at the cost of the only outcome that counts. top3/top4 are still
+  // COUNTED, because the panel reads better with context — they just never
+  // enter the utility.
+  const util=wins.map(w=>w.first/SIM_N);
   const bestU=Math.max.apply(null,util);
   let best=0, bestScore=-Infinity;
   sets.forEach((S,si)=>{
@@ -1460,24 +2301,93 @@ function simComp(plan,cands){
              bFirst:bwins.first/SIM_N, bTop3:bwins.top3/SIM_N, bTop4:bwins.top4/SIM_N,
              sims:SIM_N, nSets:sets.length, util:util[best] };
 }
+/* Rounds still to be played, counting the current one only while it still has
+   a game left in it. Display-only: the need bands keep using roundsLeft. */
+function roundsAhead(){
+  const fin=(COMP&&COMP.finishRound)||31;
+  return Math.max(0,fin-SRC.round);           // rounds AFTER the one being played
+}
+/* Does `r` beat `me` on the countback? Lower cumulative margin error wins a
+   points tie (footytips rankByMargin). Unknown margins → treat as beating us,
+   the conservative read. */
+function cbBeats(r,me){
+  const a=compMarginOf(r.name), b=compMarginOf(me.name);
+  if(a===null||b===null) return true;
+  return a<=b;
+}
+/* The front door. ALWAYS returns a usable plan synchronously; see the note
+   above planStamp() for why, and for what "provisional" means. */
 function compPlan(){
   const stamp=planStamp();
-  if(COMP_PLAN&&COMP_PLAN.stamp===stamp) return COMP_PLAN;
+  if(COMP_PLAN&&COMP_PLAN.stamp===stamp&&!COMP_PLAN.provisional) return COMP_PLAN;
+  if(planSyncRequired()) return compPlanSolve(stamp);
+  if(COMP_PLAN&&COMP_PLAN.stamp===stamp) return COMP_PLAN;   // provisional, solve queued
+  const hit=planCacheRead(stamp);
+  if(hit){ COMP_PLAN=hit; return hit; }                      // same inputs → same answer
+  const prov={stamp:stamp, mode:'off', splits:{}, provisional:true};
+  if(COMP&&COMP.members&&COMP.members.some(m=>m.me)){
+    prov.mode='chase';
+    try{ planFromTiplog(prov); }catch(e){}
+  }
+  COMP_PLAN=prov;
+  schedulePlanSolve(stamp);
+  return prov;
+}
+/* Force the full solve now and return it — the headless path (freeze_tips.mjs)
+   and the queued idle callback both land here. */
+function compPlanSync(){ return compPlanSolve(planStamp()); }
+function compPlanSolve(stamp){
   const plan={stamp:stamp, mode:'off', splits:{}};
   COMP_PLAN=plan;
   if(!COMP||!COMP.members) return plan;
   const me=COMP.members.find(m=>m.me);
   if(!me||me.totalScore===null) return plan;
-  const ahead=COMP.members.filter(m=>!m.me&&m.totalScore!==null&&m.totalScore>=me.totalScore);
-  if(!ahead.length){ plan.mode='cover'; plan.need=0; return plan; }
-  const d=Math.max.apply(null,ahead.map(m=>m.totalScore))-me.totalScore;
-  const Tg=gamesLeftInComp();
+  /* "Ahead" is COUNTBACK-AWARE (2026-09-12). It used to be `>= me.totalScore`,
+     which counted a level rival as ahead and then computed d = 0 → need 0 →
+     cap 0 → no splits at all while genuinely tied. Under a margin countback the
+     truth is the other way round both times: a rival LEVEL on points with a
+     lower cumulative margin error really is ahead, and one level with a HIGHER
+     error is behind. Getting this wrong is worth whole percentage points when
+     the whole comp is a four-way cluster inside three points. */
+  const ahead=COMP.members.filter(m=>!m.me&&m.totalScore!==null&&
+    (m.totalScore>me.totalScore||(m.totalScore===me.totalScore&&cbBeats(m,me))));
   const fin=(COMP.finishRound)||31;
   const roundsLeft=Math.max(1,fin-SRC.round+1);
+  const Tg=gamesLeftInComp();
+  /* THE FINALS PATH (2026-09-12): once the bracket is knowable there is no
+     season to sample — finalsPlan() solves it exactly and writes plan.splits +
+     plan.sim itself. It returns false if the bracket can't be resolved (a
+     missing result, an unexpected draw), in which case we fall through to the
+     Monte-Carlo below. Wrapped: a solver exception must never leave the round
+     unplanned. */
+  if(SRC.finals||isFinalsRound(SRC.round)){
+    plan.mode=ahead.length?'chase':'cover';
+    plan.d=ahead.length?Math.max.apply(null,ahead.map(m=>m.totalScore))-me.totalScore:0;
+    plan.roundsLeft=roundsLeft; plan.T=Tg;
+    plan.roundsAhead=roundsAhead();
+    plan.leader=ahead.length?ahead.slice().sort((x,y)=>y.totalScore-x.totalScore)[0].name:null;
+    plan.need=plan.d/roundsLeft; plan.cap=0; plan.theta=0;
+    try{ if(finalsPlan(plan)){ planCacheWrite(plan); return plan; } }
+    catch(e){ if(typeof console!=='undefined') console.warn('[comp] finals solver failed —',e&&e.message); }
+    plan.splits={};
+  }
+  if(!ahead.length){
+    /* Leading: no splits, but still price the position — the panel should never
+       go blank just because she is in front (and under a countback, "in front"
+       is not the same as "safe"). */
+    plan.mode='cover'; plan.need=0; plan.d=0; plan.roundsLeft=roundsLeft; plan.T=Tg;
+    plan.roundsAhead=roundsAhead();
+    try{ simComp(plan,[]); }catch(e){}
+    planCacheWrite(plan);
+    return plan;
+  }
+  const d=Math.max.apply(null,ahead.map(m=>m.totalScore))-me.totalScore;
   const need=d/roundsLeft;
   const cap = need<0.5?0 : need<1?1 : need<2?2 : need<3?4 : 99;
   const theta = need<0.5?0 : need<1?0.55 : need<2?0.58 : need<3?0.62 : (d>0.6*Tg?1.0:0.75);
-  Object.assign(plan,{mode:'chase', d:d, need:need, roundsLeft:roundsLeft, T:Tg, cap:cap, theta:theta});
+  Object.assign(plan,{mode:'chase', d:d, need:need, roundsLeft:roundsLeft, T:Tg, cap:cap, theta:theta,
+                      roundsAhead:roundsAhead(),
+                      leader:ahead.slice().sort((x,y)=>y.totalScore-x.totalScore)[0].name});
   // Candidate filter. The simulator prices each split, so the band θ only
   // gates ADMISSION (floored at 0.65 so a worthwhile ~60/40 game is at least
   // considered); need<0.5 keeps the audit's hard no-split guard.
@@ -1486,7 +2396,7 @@ function compPlan(){
   const cands=[];
   if(candTheta>0) fixtures.forEach(f=>{
     const h=T(f.home), a=T(f.away);
-    if(!h||!a||h.short===LOCK||a.short===LOCK) return;
+    if(!h||!a) return;                                 // no game is off-limits any more
     const p=predict(f);
     if(fixtureResult(p)) return;
     const ko=Date.parse(f.kickoff||'');
@@ -1507,13 +2417,22 @@ function compPlan(){
   // the 2026-08-10 need bands select instead — never leave the round unplanned.
   try{ simComp(plan,cands); }
   catch(e){ cands.slice(0,cap).forEach(c=>{ plan.splits[c.key]=c; }); }
+  planCacheWrite(plan);
   return plan;
 }
+/* Free-only house preference. Applies ONLY when the two options are
+   indistinguishable to the objective, and therefore NEVER before the solver.
+   LOCK_MODE defaults to 'off'. */
+function lockPref(a,b){
+  if(LOCK_MODE!=='tiebreak') return null;
+  return a.short===LOCK?a:(b.short===LOCK?b:null);
+}
 function tipSide(p){
-  if(p.h.short===LOCK) return p.h;
-  if(p.a.short===LOCK) return p.a;
   const c=compPlan().splits[liveKey(p.h.short,p.a.short)];
   if(c){ const t=T(c.dog); if(t) return t; }
+  // the model itself cannot separate a true coin-toss; only there is the house
+  // preference free (and only if LOCK_MODE says so)
+  if(Math.abs(p.pHome-0.5)<0.005){ const pref=lockPref(p.h,p.a); if(pref) return pref; }
   return modelFav(p);
 }
 function bandFor(conf){
@@ -1693,16 +2612,23 @@ function whyHTML(p,fx){
   const eng = p.useElo ? `Ratings: Elo, self-learned from ${(LEARNED&&LEARNED.gamesLearned)||0} games.`
     : LEARNED ? `Ratings: season margin and home/away splits — the Elo model is still warming up (${LEARNED.gamesLearned||0} games).`
     : `Ratings: season margin and home/away splits.`;
-  // the lock — shown whenever the Roosters are in this game, agree or disagree
+  /* The Brigitte-era replacement for the old loyalty-pick line (2026-09-12):
+     when the comp policy has deliberately taken the underdog here, say WHO that
+     is aimed at and what it is worth, in win probability. */
   let lock='';
-  if(p.h.short===LOCK||p.a.short===LOCK){
-    const rkHome=p.h.short===LOCK, opp=rkHome?p.a:p.h;
-    const modelLikesRk=(p.pHome>=0.5)===rkHome;
-    lock = modelLikesRk
-      ? `<div class="ledlock">🔒 <b>Locked:</b> the Roosters are always tipped here — and the model agrees this week.</div>`
-      : `<div class="ledlock">🔒 <b>Locked:</b> the Roosters are tipped in this game whatever the model says. `+
-        `Right now the model leans ${esc(opp.name)} — this is a loyalty pick.</div>`;
-  }
+  { const key=liveKey(p.h.short,p.a.short);
+    const pl=compPlan(), c=pl.splits&&pl.splits[key];
+    if(c){
+      const pg=(pl.sim&&pl.sim.perGame&&pl.sim.perGame[key])||null;
+      const dog=T(c.dog), fav=T(c.fav);
+      const gain=(pg&&typeof pg.pFirstIfDog==='number'&&typeof pg.pFirstIfFav==='number')
+        ? pg.pFirstIfDog-pg.pFirstIfFav : (typeof c.gain==='number'?c.gain:null);
+      const who=(pg&&pg.foeName)?` ${esc(pg.foeName.split(' ')[0])} is ~${Math.round(pg.foeP*100)}% to be on ${esc(fav?fav.short:c.fav)}.`
+        :(c.foes?` ${c.foes} of the rivals ahead are on ${esc(fav?fav.name:c.fav)}.`:'');
+      lock=`<div class="ledlock">🎯 <b>Comp split:</b> the tip here is ${esc(dog?dog.name:c.dog)}, not the favourite.`+
+        (gain!==null?` It is worth about ${(gain*100>=0?'+':'')}${(gain*100).toFixed(1)} points of comp-win chance.`:'')+
+        who+`</div>`;
+    } }
   // The lead + the plain-English summary are the card; the number ledger is the
   // receipt, folded away (2026-07-30 — Josh: "a short summary should be better").
   // The lock line stays OUTSIDE the fold: it must never be hidden.
@@ -1820,7 +2746,7 @@ function render(){
     "Rating = points margin per game (shrunk toward that home/away split as the sample of games grows), plus a small recent-form nudge. Higher = stronger.";
   document.getElementById('howItWorks').innerHTML = howText();
   document.getElementById('foot').innerHTML =
-    `Data to end of ${esc(roundLabel(SRC.round-1))}, ${SRC.season}. Ladder rebuilds weekly; odds &amp; injuries refresh daily (and again on game days). Built for Josh — Roosters till we die. 🐓`;
+    `Data to end of ${esc(roundLabel(SRC.round-1))}, ${SRC.season}. Ladder rebuilds weekly; odds &amp; injuries refresh daily (and again on game days). Built for Brigitte — playing to win. 🏆`;
   ORDER_DIRTY=false;   // a full render always lands the correct bucket order
   LAST_FULL_RENDER=Date.now();
 }
@@ -2000,7 +2926,7 @@ function renderLiveBits(){
 }
 
 /* ---------- friends' comp tips (2026-08-09) ----------
-   Josh's ESPN footytips comp, read straight from the app's own JSON API
+   The family's ESPN footytips comp, read straight from the app's own JSON API
    (api.footytips.espn.com.au). VERIFIED PUBLIC: the endpoint answers with no
    cookie or token from any origin, and sends Access-Control-Allow-Origin:* —
    so, like the live scores, the OPEN PAGE fetches it directly; there is no
@@ -2011,8 +2937,10 @@ function renderLiveBits(){
    don't "fix" the strip to show upcoming picks, that's cheating by API bug.
    Display names only — never surname fields the API also carries. */
 const COMP_ID=1372189, COMP_LADDER=381260129;   // Family Feud · set COMP_ID=0 to disable the feature
-const COMP_ME='Special unit';                    // Josh's footytips display name — the API's currentUser
-                                                 // flag is always false on anonymous calls, so "you" is by name
+const COMP_ME='Brigitte';                        // the owner's footytips display name. Must match the API's
+                                                 // displayName EXACTLY and stay in lockstep with FOOTYTIPS_ME in
+                                                 // cloud_fetch.py — the API's currentUser flag is always false on
+                                                 // anonymous calls, so "you" is resolved by name.
 const COMP_URL='https://api.footytips.espn.com.au/competitions/'+COMP_ID+
   '/sports/rugby-league/leagues/nrl/game-types/tipping/ladders/'+COMP_LADDER+'/rounds/';
 /* COMP boots from the PIPELINE's nrl_comp.js snapshot (so the freeze step and
@@ -2021,15 +2949,59 @@ const COMP_URL='https://api.footytips.espn.com.au/competitions/'+COMP_ID+
 function compFromFile(){
   const d=(typeof window!=='undefined')&&window.NRL_COMP;
   if(!d||!Array.isArray(d.members)||!d.members.length) return null;
+  /* `me` is re-derived from COMP_ME by NAME, with the file's own flag only as a
+     fallback when no name matches (2026-09-12). One source of truth beats two:
+     a stale nrl_comp.js from before the owner changed would otherwise make the
+     jsdom freeze tip for the previous owner while every browser tipped for the
+     current one — the exact browser/freeze divergence class this app is built
+     to avoid. */
+  const named=d.members.some(m=>m.name===COMP_ME);
+  /* roundIndexed (2026-09-12 audit follow-up): margins/scores/mpreds are
+     length-`round` arrays with index = round-1 and null for a round with
+     nothing recorded. An OLD file shipped them dense with the empty rounds
+     filtered out, so two members' arrays did not line up — and the countback
+     zips them positionally. Without the flag the two formats are
+     indistinguishable, so every consumer below refuses to zip unless it is set. */
   return {round:d.round, finishRound:d.finishRound||null,
-          members:d.members.map(m=>({name:m.name,me:!!m.me,rank:m.rank||0,
-            aff:m.aff||{},
+          roundIndexed:!!d.roundIndexed,
+          members:d.members.map(m=>({name:m.name,
+            me:named?(m.name===COMP_ME):!!m.me, rank:m.rank||0,
+            aff:m.aff||{}, beh:m.beh||null,
             mv:m.mv||'', roundScore:(typeof m.roundScore==='number')?m.roundScore:null,
             totalScore:(typeof m.totalScore==='number')?m.totalScore:null,
+            /* countback + habit inputs for the finals solver — see cloud_fetch.py */
+            totalMargin:(typeof m.totalMargin==='number')?m.totalMargin:null,
+            margins:Array.isArray(m.margins)?m.margins:[],
+            scores:Array.isArray(m.scores)?m.scores:[],
+            mpreds:Array.isArray(m.mpreds)?m.mpreds:[],
             picks:m.picks||{}}))};
 }
 let COMP=compFromFile(), COMP_STAMP=COMP?JSON.stringify(COMP):'', COMP_LAST=0, COMP_BUSY=false;
+/* A COMP_ME that names nobody on the ladder silently disables EVERY comp
+   surface (compPlan → mode:'off' → tipSide falls back to modelFav, the "(you)"
+   row vanishes, the chances line never renders) with no error anywhere. Say so
+   loudly instead. Non-fatal: the comp is never a publish gate. */
+/* Warn on the NAME miss, not just on "nobody is me": when the file still
+   carries a stale me-flag the page silently plays for that person instead, and
+   the tips are then optimised for the wrong protagonist with nothing on screen
+   to say so (2026-09-12 audit). */
+if(COMP&&COMP.members&&COMP.members.length&&!COMP.members.some(m=>m.name===COMP_ME))
+  console.warn('[comp] COMP_ME="'+COMP_ME+'" matches no ladder member ('+
+    COMP.members.map(m=>m.name).join(', ')+') — '+
+    (COMP.members.some(m=>m.me)
+      ? 'falling back to the file\'s own me-flag ("'+
+        (COMP.members.find(m=>m.me)||{}).name+'"). Check the display name.'
+      : 'comp strategy disabled.'));
 const COMP_MS=15*60000;                          // comp data barely moves — 15 min is plenty
+/* results[].rounds[] → an array indexed by round-1, null where absent. Mirrors
+   cloud_fetch.py::_by_round so a live poll and the file agree in shape. */
+function byRound(rounds,field,n){
+  const out=new Array(Math.max(0,n||0)).fill(null);
+  (rounds||[]).forEach(r=>{ if(!r) return;
+    const i=r.round, v=r[field];
+    if(typeof i==='number'&&i>=1&&i<=out.length&&typeof v==='number') out[i-1]=v; });
+  return out;
+}
 function pollComp(force){
   if(!COMP_ID||typeof fetch!=='function'||COMP_BUSY) return;      // disabled / jsdom
   if(Date.now()-COMP_LAST < (force?60000:COMP_MS-5000)) return;
@@ -2058,14 +3030,27 @@ function pollComp(force){
         const nm=String(u.displayName||u.firstName||'Tipper').slice(0,20);
         const fileAff=(()=>{ const cf=compFromFile();
           const fm=cf&&cf.members.find(x=>x.name===nm); return (fm&&fm.aff)||((COMP&&COMP.members.find(x=>x.name===nm))||{}).aff||{}; })();
-        return { name:nm, aff:fileAff,
-                 me:!!u.currentUser||nm===COMP_ME, rank:r.rank||0,
+        /* NAME ONLY (2026-09-12): u.currentUser is a server-side flag. It is
+           always false on our anonymous fetch today, but if a footytips session
+           cookie ever rode along it would mark a DIFFERENT member as "me" on
+           each family member's phone, and two devices would derive different
+           tips from the same data. Name-matching is deterministic everywhere. */
+        const fm=(compFromFile()||{members:[]}).members.find(x=>x.name===nm)||{};
+        return { name:nm, aff:fileAff, beh:fm.beh||null,
+                 me:nm===COMP_ME, rank:r.rank||0,
                  mv:(r.movement==='up'||r.movement==='down')?r.movement:'',
                  roundScore:(r.round&&typeof r.round.score==='number')?r.round.score:null,
                  totalScore:(r.round&&typeof r.round.totalScore==='number')?r.round.totalScore:null,
+                 /* the live feed carries the countback and the per-round history
+                    too, so a mid-round poll no longer prices ties on the file's
+                    stale margins (mpreds/beh can only come from the pipeline) */
+                 totalMargin:(r.round&&typeof r.round.totalMargin==='number')?r.round.totalMargin:null,
+                 margins:byRound(r.rounds,'margin',SRC.round),
+                 scores:byRound(r.rounds,'score',SRC.round),
+                 mpreds:Array.isArray(fm.mpreds)?fm.mpreds:[],
                  picks:picks };
       }).sort((x,y)=>(x.rank||99)-(y.rank||99));
-      COMP={round:SRC.round, members:members,
+      COMP={round:SRC.round, members:members, roundIndexed:true,
             finishRound:(d.ladder&&d.ladder.finishRound)||null};
       const stamp=JSON.stringify(COMP);
       if(stamp!==COMP_STAMP){ COMP_STAMP=stamp; renderCompBits(); renderStratBits();
@@ -2085,8 +3070,11 @@ function pollComp(force){
    side (≥75% of ≥8 appearances — e.g. Claire tips the Sea Eagles 20/20).
    PER-DEVICE, DEFAULT OFF (`nrl_compstrat_v1`): the strategy literally names
    who to beat and how — it must never render for a visiting family member.
-   Suggestions are probabilistic coin-edge plays, never the Roosters game,
-   max 2 per round, pre-kick-off only. */
+   Suggestions are probabilistic coin-edge plays, pre-kick-off only. Since
+   2026-09-12 NO game is excluded — the Roosters game is a split candidate like
+   any other, and in the R28 qualifying final it was the single most valuable
+   tip on the board (tipping the Roosters there cost 6.5 points of win chance).
+   In finals rounds the exact DP replaces the need-band selection entirely. */
 /* Predict a rival's pick for one game: model's blended favourite, overridden
    by a ≥75% (n≥8) season loyalty to the other side. */
 function predictPick(name,p){
@@ -2096,8 +3084,14 @@ function predictPick(name,p){
   const rate=t=>{ const x=A[t.short]; return (x&&x[1]>=8)?x[0]/x[1]:null; };
   const dr=rate(dog), fr=rate(fav);
   // A ≥75% loyalty to the underdog flips the prediction — UNLESS the favourite
-  // commands an even stronger loyalty (Brigitte: Panthers 83% but Roosters
-  // 100% — when they met in R3 she took the Roosters; strongest love wins).
+  // commands an even stronger loyalty (a rival on Panthers 83% but Roosters
+  // 100% takes the Roosters when they meet; strongest love wins).
+  // NOTE (2026-09-12): this is the FALLBACK rival model. When nrl_comp.js ships
+  // a fitted `beh` per member, the finals solver uses that instead — it is
+  // continuous, so it can say "Claire is 78% on the Warriors" rather than
+  // "Claire tips the Warriors". predictPick() still drives the Predicted strip
+  // and every non-finals surface. The owner's OWN affinities are no longer used
+  // anywhere: the machine tips FOR her, not AS her.
   if(dr!==null&&dr>=0.75&&(fr===null||dr>fr)) return dog.short;
   // ANTI-loyalty (behavioural audit, +3-5pp): a favourite this rival almost
   // never backs (≤30% of ≥8 appearances — the family-wide Eels/Titans/Dragons
@@ -2105,8 +3099,9 @@ function predictPick(name,p){
   if(fr!==null&&fr<=0.30&&(dr===null||dr>fr)) return dog.short;
   return fav.short;
 }
-/* Always on — Josh's explicit call 2026-08-10: "nobody else will see this
-   page. it doesnt need a toggle." To re-gate strategy surfaces one day, make
+/* Always on (2026-08-10). Two people read this page now — the owner, whose
+   plan it is, and the repo owner, who is just another rival in it. Nothing
+   changes for either: it shows HER plan. To re-gate strategy surfaces, make
    this read a setting again — every surface checks it. Rival profiles ship
    inside nrl_comp.js (pipeline-computed); no client-side history fetching. */
 function getStrat(){ return !!COMP_ID; }
@@ -2147,19 +3142,57 @@ function renderStratBits(){
     if(plan.mode==='off'){ if(line) line.remove(); return; }
     const n=Object.keys(plan.splits||{}).length;
     const s=plan.sim;
-    const pc=x=> x<0.0005 ? '<0.1%' : (x*100).toFixed(x<0.095?1:0)+'%';
-    const txt=plan.mode==='cover'
-      ? 'You lead — cover mode: straight favourites, make them chase.'
+    const pc=pctChance;
+    /* ONE number, the only one that matters: the chance of winning the comp
+       (2026-09-12). The old line led with top 4 and top 3, which are not the
+       objective and invite the wrong decision. The honest floor beside it is
+       "what if I just tip the favourites from here" — the same solver, her tips
+       pinned to chalk. */
+    /* "rounds left" counts rounds still to COME: this one only counts while it
+       still has a game to play in it. Display names are long ("Claire with an
+       i"), so the gap line uses first names like every other comp surface. */
+    const rl=(typeof plan.roundsAhead==='number')?plan.roundsAhead:plan.roundsLeft;
+    const rounds=rl?`${rl} round${rl===1?'':'s'} left`:'this is the last round';
+    /* A rival LEVEL on points but ahead on the countback is "ahead" (cbBeats),
+       and plan.d is then 0 — which used to print the meaningless "0 behind
+       Claire". Level on points is exactly the state the countback exists to
+       decide, so say that instead (2026-09-12 audit). */
+    const who=plan.leader?' '+plan.leader.split(' ')[0]:'';
+    const gap=plan.mode==='cover' ? 'you lead'
+      : plan.d>0 ? `${plan.d} behind${who}`
+      : `level with${who||' the leader'}, behind on the countback`;
+    /* While the solver is still running on an idle callback there is no honest
+       percentage to print — the tips on screen are the last frozen ones, so say
+       what is known and fill the number in when it lands (2026-09-12). */
+    const txt=(plan.provisional&&!s)
+      ? `${gap}, ${rounds} · working out the comp odds…`
       : s
-      ? `Chances: top 4 ${pc(s.pTop4)} · top 3 ${pc(s.pTop3)} · 1st ${pc(s.pFirst)} — ${plan.d} behind, ${plan.roundsLeft} rounds left. `+
-        `Just tipping favourites all season: top 4 ${pc(s.bTop4)}. `+
-        (n?`${n} split${n===1?'':'s'} armed 🎯 — the season-long chase is what earns the gap; any one round barely moves it.`
-          :'no split earns its keep right now — tipping straight.')
-      : `${plan.d} behind the cluster · ${plan.roundsLeft} rounds left · need ${plan.need.toFixed(1)}/rd · `+
-        (n?`${n} split${n===1?'':'s'} hardwired into the tips (🎯)`:'no split clears the bar — tipping straight');
-    const html=`<div class="stratline">${esc(txt)}</div>`;
+      ? `Chance of winning the comp: ${pc(s.pFirst)} — ${gap}, ${rounds}`+
+        (typeof s.bFirst==='number'&&Math.abs(s.bFirst-s.pFirst)>1e-9
+          ? ` · tipping favourites the rest of the way: ${pc(s.bFirst)}` : '')+
+        (n?'':(plan.mode==='cover'
+            ? ' · cover mode: straight favourites, make them chase.'
+            : ' · no split raises the win chance right now — tipping straight.'))
+      : `${gap} · ${rounds}`+
+        (n?` · ${n} split${n===1?'':'s'} hardwired into the tips (🎯)`
+          :' · no split clears the bar — tipping straight');
+    let html=`<div class="stratline">${esc(txt)}</div>`;
+    /* One line per armed split, priced. `perGame` only exists on the exact
+       finals solver; the MC path falls back to the plain 🎯 count above. */
+    if(n&&s&&s.perGame){
+      Object.keys(plan.splits).forEach(k=>{
+        const g=s.perGame[k]; if(!g) return;
+        const d=T(g.dogShort), f=T(g.favShort);
+        const gain=(g.pFirstIfDog-g.pFirstIfFav)*100;
+        html+=`<div class="stratline sub">🎯 ${esc(d?d.name:g.dogShort)} over ${esc(f?f.name:g.favShort)}: `+
+          `${gain>=0?'+':''}${gain.toFixed(1)} pts of win chance`+
+          (g.foeName?` (${esc(g.foeName.split(' ')[0])} ~${Math.round(g.foeP*100)}% on ${esc(g.favShort)})`:'')+`</div>`;
+      });
+    }
     const t=document.createElement('template'); t.innerHTML=html;
-    if(line) line.replaceWith(t.content.firstElementChild); else el.appendChild(t.content.firstElementChild);
+    while(line){ const nx=line.nextElementSibling;
+      line.remove(); line=(nx&&nx.classList.contains('stratline'))?nx:null; }
+    el.appendChild(t.content);
   }
 }
 
@@ -2224,10 +3257,35 @@ function marginAdvice(){
   const med=Math.max(1,Math.min(28,Math.round(0.85*7*Math.log(pf/(1-pf)))));
   return `Margin game (first of the round): ${esc(fav.name)} by ${med} — the median play; blow-out numbers poison the countback.`;
 }
+/* Margin habit (2026-09-12): cloud_fetch.py back-solves the number each member
+   actually ENTERED for every round's margin game (mpreds). If she has typed the
+   same number every week, say so next to the advice — it is the cheapest
+   countback improvement available and she cannot see the pattern herself. */
+function marginHabit(){
+  const me=(COMP&&COMP.members)?COMP.members.find(m=>m.me):null;
+  const mp=(me&&Array.isArray(me.mpreds))?me.mpreds:[];
+  if(!mp.length) return '';
+  /* mpreds is round-indexed, so a null is a round whose entry could not be
+     back-solved — NOT a round she skipped and not a different number. Trailing
+     nulls are stepped over to find the most recent reading, but the run itself
+     stops at the first gap: "in each of the last N rounds" has to be literally
+     true, and it cannot be across a round we could not read. */
+  let i=mp.length-1;
+  while(i>=0&&typeof mp[i]!=='number') i--;
+  if(i<0) return '';
+  const last=mp[i];
+  let run=0;
+  while(i>=0&&mp[i]===last){ run++; i--; }   // a null !== last, so a gap ends it
+  if(run<4) return '';                       // not a habit, just a coincidence
+  return ` You've entered ${last} in each of the last ${run} rounds — the number above is the one to beat.`;
+}
 /* You vs the machine (2026-08-13): once games lock, footytips shows what was
    ACTUALLY entered — compare it against the frozen machine tips. Counts only
    (per the privacy rule); finished rounds accumulate in localStorage
-   (nrl_adh_v1) so the tally is per-device, since the round it started. */
+   (nrl_adh_v2) so the tally is per-device, since the round it started. The key
+   was bumped to _v2 on 2026-09-12 with the owner change: the accumulated rounds
+   on the old key are the PREVIOUS owner's adherence, and silently carrying them
+   forward on his phone would make the tally lie. */
 function adherenceInfo(){
   if(!COMP||!COMP.members) return null;
   const me=COMP.members.find(m=>m.me); if(!me) return null;
@@ -2251,10 +3309,10 @@ function adherenceInfo(){
     }
   });
   if(!of) return null;
-  let hist={}; try{ hist=JSON.parse(localStorage.getItem('nrl_adh_v1')||'{}'); }catch(e){}
+  let hist={}; try{ hist=JSON.parse(localStorage.getItem('nrl_adh_v2')||'{}'); }catch(e){}
   if(preds.length&&preds.every(p=>fixtureResult(p))&&!hist[SRC.round]){
     hist[SRC.round]={ent:ent,of:of,match:match,cost:cost};
-    try{ localStorage.setItem('nrl_adh_v1',JSON.stringify(hist)); }catch(e){}
+    try{ localStorage.setItem('nrl_adh_v2',JSON.stringify(hist)); }catch(e){}
   }
   let te=ent, to=of, tm=match, tc=cost, first=SRC.round;
   Object.keys(hist).forEach(r=>{ const n=+r; if(isNaN(n)||n===SRC.round) return;
@@ -2278,7 +3336,7 @@ function renderCompPanel(){
       `<span class="sc">${m.roundScore===null?'–':m.roundScore} · <b>${m.totalScore===null?'–':m.totalScore}</b></span>`+
       (cb===null?'':`<span class="mgv" title="margin countback — lower wins ties">±${cb}</span>`)+
     `</div>`; }).join('')+
-    (mg?`<div class="mgline">📏 ${mg}</div>`:'')+
+    (mg?`<div class="mgline">📏 ${mg}${esc(marginHabit())}</div>`:'')+
     (adh?`<div class="adhline">You vs the machine (since R${adh.first}): entered ${adh.ent}/${adh.of} locked games · matched ${adh.match}`+
       (adh.cost>0?` · deviations cost ${adh.cost} pt${adh.cost===1?'':'s'}`
        :adh.cost<0?` · deviations gained ${-adh.cost} pt${adh.cost===-1?'':'s'}`
@@ -2312,10 +3370,11 @@ function renderCompBits(){
    post-game recompute said Knights; Knights won; the card said "got it".)
    Now: every render BEFORE a game's kick-off freezes the tip it is actually
    displaying into localStorage, and grading only ever reads that frozen pick.
-   The one exception that needs no snapshot is the Roosters lock — that tip is
-   a rule, not a computation, so it is always known. No snapshot, no lock →
-   no ✓/✗ claim at all. */
-const SNAP_KEY='nrl_snap_v1';
+   (There used to be one exception — the Roosters lock, a rule rather than a
+   computation, so always "known". The lock is gone as of 2026-09-12, so now:
+   no frozen tip and no snapshot → no ✓/✗ claim at all.) */
+const SNAP_KEY='nrl_snap_v2';   // _v2 on 2026-09-12: the _v1 snapshots hold the
+                                // OLD locked-Roosters tips, which must never grade
 let SNAPS={};
 try{ SNAPS=JSON.parse(localStorage.getItem(SNAP_KEY)||'{}')||{}; }catch(e){ SNAPS={}; }
 function snapId(p){ return `${SRC.season}-${SRC.round}-${p.h.short}-${p.a.short}`; }
@@ -2328,6 +3387,12 @@ function saveSnaps(){
   }catch(e){}
 }
 function snapTips(preds,fxList){
+  /* Never snapshot a PROVISIONAL plan (2026-09-12): the local snapshot is the
+     "what this browser actually showed before kick-off" backup that grading
+     falls back to, and a tip that stood for one frame while the solver ran is
+     not that. The queued solve re-renders and this runs again with the real
+     plan a few milliseconds later. */
+  if(compPlan().provisional) return;
   let dirty=false;
   preds.forEach((p,i)=>{
     const fx=fxList[i]||{};
@@ -2345,8 +3410,8 @@ function snapTips(preds,fxList){
 }
 /* The pipeline's server-side freeze (nrl_tiplog.js, same on every device) is
    the source of truth; this browser's own pre-kick-off snapshot is the backup
-   (covers a tip shown here between two workflow runs); the lock rule always
-   grades a Roosters game. */
+   (covers a tip shown here between two workflow runs). With neither, a game is
+   honestly ungraded. */
 let TIPLOG=(typeof window!=="undefined" && window.NRL_TIPLOG && Array.isArray(window.NRL_TIPLOG.tips))
   ? window.NRL_TIPLOG.tips : [];
 /* Pre-kick-off tip FLIPS, recorded by freeze_tips.mjs (2026-08-08): each entry
@@ -2361,10 +3426,13 @@ function tiplogFind(season,round,h,a){
 }
 function gradedTip(p){
   const srv=tiplogFind(SRC.season,SRC.round,p.h.short,p.a.short);
-  if(srv && srv.tip && T(srv.tip)) return {short:srv.tip, known:true, locked:srv.tip===LOCK};
+  if(srv && srv.tip && T(srv.tip)) return {short:srv.tip, known:true};
   const snap=SNAPS[snapId(p)];
-  if(snap && snap.tip && T(snap.tip)) return {short:snap.tip, known:true, locked:snap.tip===LOCK};
-  if(p.h.short===LOCK||p.a.short===LOCK) return {short:LOCK, known:true, locked:true}; // the rule IS the tip
+  if(snap && snap.tip && T(snap.tip)) return {short:snap.tip, known:true};
+  /* No frozen tip and no local snapshot → say so. (Until 2026-09-12 a Roosters
+     game answered LOCK here "because the rule IS the tip". With no rule there is
+     nothing to fall back on, and claiming a tip we never showed is exactly the
+     hindsight grading this file exists to prevent — GOTCHAS 2026-08-02.) */
   return {known:false};
 }
 /* Your actual record: every frozen tip (any round) graded against the results
@@ -2391,10 +3459,9 @@ function myRecord(){
     if(!m||+m[1]!==SRC.season) return;
     grade(+m[2],m[3],m[4],SNAPS[k].tip);
   });
-  fixtures.forEach(f=>{
-    if(f.home!==LOCK&&f.away!==LOCK) return;
-    grade(SRC.round,f.home,f.away,LOCK);
-  });
+  /* The current round's Roosters game used to be back-filled here on the
+     strength of the lock rule alone. With no rule, the frozen tiplog and the
+     local snapshots above are the only legitimate sources (2026-09-12). */
   return {w:w,l:l,n:w+l};
 }
 function kickShort(fx){
@@ -2412,14 +3479,12 @@ function kickShort(fx){
 function cardHTML(p,meta){
   meta=meta||{};
   const tipHome = tipSide(p)===p.h;   // the tip (lock wins) — badges can't name the opponent
-  const rkHome=p.h.short===LOCK, rkAway=p.a.short===LOCK;
-  const lockTip=(rkHome&&tipHome)||(rkAway&&!tipHome);
   const conf=Math.max(p.pHome,1-p.pHome);
   const pct=(conf*100).toFixed(0);
   const fx=fixtures.find(f=>f.home===p.h.short&&f.away===p.a.short)||{};
-  const team=(t,isTip,isRk)=>`<div class="gteam${isRk?' locked':''}${isTip?' tipd':''}">
-      <span class="crest${isRk?' rk':''}" style="background:${esc(t.colour||'#888')}" aria-hidden="true">${esc(t.short)}</span>
-      <span class="gtname">${esc(t.name)}${isRk?' 🐓':''}${isTip?'<span class="sr"> — tipped to win</span>':''}</span>
+  const team=(t,isTip)=>`<div class="gteam${isTip?' tipd':''}">
+      <span class="crest" style="background:${esc(t.colour||'#888')}" aria-hidden="true">${esc(t.short)}</span>
+      <span class="gtname">${esc(t.name)}${isTip?'<span class="sr"> — tipped to win</span>':''}</span>
       <span class="grec">${t.P?`${t.W}-${t.L} · ${(overallMargin(t)>=0?'+':'')}${overallMargin(t).toFixed(1)}/gm`:''}</span>
       <span class="gform">${winloss(t.last5)}</span>
     </div>`;
@@ -2448,17 +3513,16 @@ function cardHTML(p,meta){
   if(fin){
     const g=gradedTip(p);   // the tip as it stood BEFORE kick-off — never recomputed
     const correct=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
-    const rkWon=!!(fin.winner&&fin.winner.short===LOCK);
-    return `<div class="gcard final${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
+    return `<div class="gcard final" id="game-${esc(p.h.short+'-'+p.a.short)}">
       <div class="gtop"><span class="gwhen ft">Full time</span>${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>
       <div class="gmatch">
-        ${team(p.h,false,rkHome)}
+        ${team(p.h,false)}
         <div class="gscore"><b class="${fin.winner===p.h?'w':''}">${fin.hs}</b><span class="dash">–</span><b class="${fin.winner===p.a?'w':''}">${fin.as}</b></div>
-        ${team(p.a,false,rkAway)}
+        ${team(p.a,false)}
       </div>
       <div class="gfinal">
-        <span class="gtippill${rkWon?' gold':''}">${fin.winner?`${esc(fin.winner.name)} won`:'Draw'}${rkWon?' 🐓':''}</span>
-        <span class="gconf">${!g.known?`final — no pre-game tip on record`:!fin.winner?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(T(g.short).name)} — got it</span>`:`<span class="no">✗ tipped ${esc(T(g.short).name)}</span>`}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
+        <span class="gtippill">${fin.winner?`${esc(fin.winner.name)} won`:'Draw'}</span>
+        <span class="gconf">${!g.known?`final — no pre-game tip on record`:!fin.winner?'a draw — tips wash':correct?`<span class="ok">✓ tipped ${esc(T(g.short).name)} — got it</span>`:`<span class="no">✗ tipped ${esc(T(g.short).name)}</span>`}</span>
       </div>
       ${compStripHTML(p)}
     </div>`;
@@ -2477,22 +3541,22 @@ function cardHTML(p,meta){
     const track = !lead ? 'scores level'
       : g.known ? (g.short===lead.short?`<span class="ok">✓ tip in front</span>`:`<span class="no">✗ tip behind</span>`)
       : `${esc(lead.short)} in front`;
-    return `<div class="gcard live${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
+    return `<div class="gcard live" id="game-${esc(p.h.short+'-'+p.a.short)}">
       <div class="gtop"><span class="gwhen live"><span class="livedot"></span>Live${lv.clock?` · ${esc(lv.clock)}`:''}</span>${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>
       <div class="gmatch">
-        ${team(p.h,false,rkHome)}
+        ${team(p.h,false)}
         <div class="gscore" role="img" aria-label="Live score: ${esc(p.h.name)} ${lv.hs}, ${esc(p.a.name)} ${lv.as}"><b class="${lv.hs>=lv.as?'w':''}">${lv.hs}</b><span class="dash">–</span><b class="${lv.as>=lv.hs?'w':''}">${lv.as}</b></div>
-        ${team(p.a,false,rkAway)}
+        ${team(p.a,false)}
       </div>
       <div class="gfinal">
-        <span class="gtippill${lockTip?' gold':''}">${lockTip?'🔒':'★'} TIP · ${esc(tipName)}</span>
-        <span class="gconf">${track}${(rkHome||rkAway)?' · 🔒 the lock':''}</span>
+        <span class="gtippill">★ TIP · ${esc(tipName)}</span>
+        <span class="gconf">${track}</span>
       </div>
       ${compStripHTML(p)}
     </div>`;
   }
   const favMargin = p.margin>=0? p.h : p.a;
-  const splitTip = !lockTip && tipSide(p)!==modelFav(p);   // hardwired comp split
+  const splitTip = tipSide(p)!==modelFav(p);               // hardwired comp split
   const band = bandFor(conf);
   const hPct=p.pHome*100, aPct=100-hPct;
   const when=kickShort(fx);
@@ -2509,12 +3573,12 @@ function cardHTML(p,meta){
     tags.push(`<a class="chgbadge ${k.badge}" href="#chg-${esc(p.h.short+'-'+p.a.short)}">`+
       `⟳ ${meta.chg.n} change${meta.chg.n===1?'':'s'}</a>`);
   }
-  return `<div class="gcard${(rkHome||rkAway)?' haslock':''}" id="game-${esc(p.h.short+'-'+p.a.short)}">
+  return `<div class="gcard" id="game-${esc(p.h.short+'-'+p.a.short)}">
     ${(when||fx.venue)?`<div class="gtop">${when?`<span class="gwhen">${esc(when)}${rel?`<span class="rel"> · ${esc(rel)}</span>`:''}</span>`:''}${fx.venue?`<span class="gvenue">${esc(fx.venue)}</span>`:''}</div>`:''}
     <div class="gmatch">
-      ${team(p.h,tipHome,rkHome)}
+      ${team(p.h,tipHome)}
       <span class="gvs" aria-hidden="true">v</span>
-      ${team(p.a,!tipHome,rkAway)}
+      ${team(p.a,!tipHome)}
     </div>
     <div class="gprob" role="img" aria-label="${pct}% win chance to ${esc(tipHome?p.h.name:p.a.name)}">
       <div class="gbar duo">
@@ -2528,7 +3592,7 @@ function cardHTML(p,meta){
       </div>
     </div>
     <div class="gtipline">
-      <span class="gtippill${lockTip?' gold':''}${splitTip?' split':''}">${lockTip?'🔒':splitTip?'🎯':'★'} TIP · ${esc((tipHome?p.h:p.a).name)}</span>
+      <span class="gtippill${splitTip?' split':''}">${splitTip?'🎯':'★'} TIP · ${esc((tipHome?p.h:p.a).name)}</span>
       <span class="gconf">${splitTip?`comp split — model favours ${esc(favMargin.short)} · `:''}${esc(band)} · ${esc(favMargin.short)} by ~${Math.abs(p.margin).toFixed(0)} · ${p.blended?'model + odds':'model only'}</span>
     </div>
     ${predStripHTML(p)}
@@ -2965,13 +4029,13 @@ function renderQuicklist(preds){
   const rankByIndex=new Array(preds.length);
   ranked.forEach((r,idx)=>{ rankByIndex[r.i]=idx+1; });
   el.innerHTML = preds.map((p,i)=>{
-    const tip = tipSide(p); const isRk=(p.h.short===LOCK||p.a.short===LOCK);
+    const tip = tipSide(p); const isSplit = tip!==modelFav(p);
     const fin=fixtureResult(p)||liveFinal(p);
     if(fin){
       const g=gradedTip(p);
       const good=(g.known&&fin.winner)? (g.short===fin.winner.short) : null;
       return `<div class="qline done"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
-        `<span class="pick ${isRk?'rk':''}">${fin.winner?esc(fin.winner.short):'Draw'} ${fin.hs}–${fin.as} `+
+        `<span class="pick">${fin.winner?esc(fin.winner.short):'Draw'} ${fin.hs}–${fin.as} `+
         `${good===null?'':good?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</span></div>`;
     }
     const lv=liveScore(p);
@@ -2990,7 +4054,7 @@ function renderQuicklist(preds){
     if(compMode==='margin'){ const favShort=p.margin>=0?p.h.short:p.a.short; extra=` · margin ~${Math.abs(p.margin).toFixed(0)} (${favShort})`; }
     else if(compMode==='confidence'){ extra=` · #${rankByIndex[i]}`; }
     return `<div class="qline"><span>${esc(p.h.name)} v ${esc(p.a.name)}</span>`+
-      `<span class="pick ${isRk?'rk':''}">${esc(tip.name)}${isRk?' 🐓':''} · ${(tipPct*100).toFixed(0)}%${extra}</span></div>`;
+      `<span class="pick">${esc(tip.name)}${isSplit?' 🎯':''} · ${(tipPct*100).toFixed(0)}%${extra}</span></div>`;
   }).join('');
 }
 function renderNewScreen(preds,fxList){
@@ -3048,7 +4112,7 @@ function renderNewScreen(preds,fxList){
     else if(k.ok){ const tt=kt(fx)||k.time;
       kEl=`<span class="k">${esc(tt)} <span class="rel">· ${esc(k.rel)}</span></span>`; }
     else if(anyKick) kEl=`<span class="k">TBC</span>`;
-    const pill=`<span class="tip${tip.short===LOCK?' gold':''}">${esc(tip.short)}</span>`;   // gold stays lock-only
+    const pill=`<span class="tip${tip!==modelFav(p)?' gold':''}">${esc(tip.short)}</span>`;   // gold now marks a comp split
     html+=`<div class="wkrow${cls}">${crests}${match}${kEl}${pill}</div>`;
   });
   const byes=(bye||[]).map(s=>{ const t=T(s); return t?t.name:s; });
@@ -3063,9 +4127,8 @@ function renderAcc(){
   const res = (L && Array.isArray(L.results)) ? L.results : [];
   const bt = (L && L.backtest) ? L.backtest : null;
 
-  // YOUR record: only tips frozen before kick-off (plus the lock, which is a
-  // rule and always known). Starts counting from when you started using the
-  // app — it never back-fills from games you didn't tip.
+  // YOUR record: only tips frozen before kick-off. Starts counting from when
+  // you started using the app — it never back-fills from games you didn't tip.
   const mine=myRecord();
   const yEl=document.getElementById('accYou');
   if(yEl) yEl.textContent = mine.n ? `${mine.w}-${mine.l}` : '–';
@@ -3075,43 +4138,29 @@ function renderAcc(){
   document.getElementById('accModel').textContent =
     (bt && typeof bt.hit==='number' && bt.games) ? `${Math.round(bt.hit*100)}%` : '–';
 
-  // Roosters W-L — counted straight from the results memory (this season only;
-  // entries with no season stamp predate 2027 and default to 2026).
-  let rw=0, rl=0, rkTot=0;
-  res.forEach(r=>{
-    if((r.season||2026)!==SRC.season) return;
-    if(r.home!==LOCK && r.away!==LOCK) return;
-    if(r.hs===r.as) return; // ignore rare draws
-    rkTot++;
-    const rkHome = r.home===LOCK;
-    const rkPts = rkHome?r.hs:r.as, oppPts = rkHome?r.as:r.hs;
-    if(rkPts>oppPts) rw++; else rl++;
-  });
-  document.getElementById('accLock').textContent = rkTot ? `${rw}-${rl}` : '–';
+  /* The third tile used to be the Roosters' own W-L. Since 2026-09-12 it shows
+     the only two numbers the app is actually playing for: where she sits in the
+     comp, and the solver's chance of finishing 1st. */
+  const cEl=document.getElementById('accComp');
+  if(cEl){
+    const cm=(COMP&&COMP.members)?COMP.members.find(m=>m.me):null;
+    const pl=(COMP&&COMP.members)?compPlan():null;
+    const pf=(pl&&pl.sim&&typeof pl.sim.pFirst==='number')?pl.sim.pFirst:null;
+    cEl.textContent = cm&&cm.rank
+      ? (pf===null?`${cm.rank}`:`${cm.rank} · ${pctChance(pf)}`)
+      : '–';
+  }
 
   const games = (L && L.gamesLearned) || 0;
   let note='';
   if(bt && typeof bt.brier==='number' && bt.games) note += `Model precision ${bt.brier.toFixed(3)} (lower is better, 0.25 = coin-flip) over ${bt.games} game(s). `;
   note += games ? `Learning from ${games} game(s)${(L && L.lowConfidence)?' — still warming up, using the simple model until it has seen ~30.':'.'} `
                 : 'Results feed in automatically as games finish — nothing for you to enter. ';
-  note += `"Your tips" counts only picks locked in before kick-off, from when you started using the app — the backtest and the Roosters' W-L cover the whole season either way.`;
+  note += `"Your tips" counts only picks locked in before kick-off, from when you started using the app — the backtest covers the whole season either way.`;
   document.getElementById('accNote').textContent = note;
 
-  // Loyalty cost: displayed ONLY from learn_model's walk-forward figures
-  // (backtest.lockTax, graded with each game's PRE-GAME Elo). The old in-page
-  // computation graded past games with the CURRENT ratings — hindsight, the
-  // exact pattern GOTCHAS 2026-08-02 bans — so with no server figure we now
-  // show nothing rather than a flattering number.
-  const el=document.getElementById('rkTax');
-  const lt = (bt && bt.lockTax && typeof bt.lockTax.games==='number'
-              && typeof bt.lockTax.modelRight==='number' && typeof bt.lockTax.rkWins==='number')
-    ? bt.lockTax : null;
-  if(lt && lt.games){
-    const tax = lt.modelRight - lt.rkWins; // model's walk-forward correct picks minus Roosters' actual wins
-    el.textContent = tax>0 ? `Loyalty cost (walk-forward backtest): always tipping the Roosters would have cost about ${tax} tip(s) vs the model across the season's ${lt.games} Roosters game(s).`
-      : tax<0 ? `Loyalty bonus (walk-forward backtest): the Roosters rule is ${-tax} tip(s) ahead of the model across ${lt.games} game(s).`
-      : `The Roosters rule is level with the model across ${lt.games} game(s) (walk-forward backtest).`;
-  } else el.textContent='';
+  /* The "Roosters tax" line lived here. It measured a rule that no longer
+     exists (removed end-to-end 2026-09-12, including learn_model's lockTax). */
 }
 
 function renderLadder(){
@@ -3119,6 +4168,7 @@ function renderLadder(){
   rows.sort((a,b)=>overallMargin(b.t)-overallMargin(a.t));
   let h=`<table><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>PF</th><th>PA</th><th>Marg</th><th>Home</th><th>Away</th><th>Form</th></tr>`;
   rows.forEach((o,i)=>{ const t=o.t;
+    // pure decoration — the house club, not a tipping rule (see LOCK_MODE)
     h+=`<tr class="${t.short===LOCK?'rk':''}"><td>${i+1}</td>
       <td class="name"><span class="crest" style="display:inline-block;width:14px;height:14px;vertical-align:middle;background:${esc(t.colour||'#888')};border-radius:50%;margin-right:6px"></span>${esc(t.name)}${t.short===LOCK?' 🐓':''}</td>
       <td>${t.P}</td><td>${t.W}</td><td>${t.L}</td><td>${t.PF}</td><td>${t.PA}</td>
@@ -3219,8 +4269,15 @@ function renderLearning(){
 function copyTips(){
   // Week order, same as the quick list (2026-08-08 later). Text format unchanged.
   const preds=weekOrder(fixtures.filter(f=>T(f.home)&&T(f.away)).map(predict));
-  const lines=preds.map(p=>{ const tip=tipSide(p); const rk=(p.h.short===LOCK||p.a.short===LOCK)?' (locked)':'';
-    return `${p.h.name} v ${p.a.name} → ${tip.name}${rk}`; });
+  const lines=preds.map(p=>{
+    /* A game that has already kicked off keeps the tip it was FROZEN with —
+       the same rule every card obeys. tipSide() is a live recomputation, so
+       without this the pasted list contradicted the card and the tiplog the
+       moment a game started (2026-09-12 audit). */
+    const g=gradedTip(p), frozen=g.known?T(g.short):null;
+    const tip=(frozen&&(fixtureResult(p)||liveEntry(p)))?frozen:tipSide(p);
+    // 🎯 marks a deliberate comp split so a pasted list explains itself
+    return `${p.h.name} v ${p.a.name} → ${tip.name}${tip!==modelFav(p)?' 🎯':''}`; });
   const txt=`NRL ${curRoundLabel()} tips (${fmtDate(SRC.updated)})\n`+lines.join('\n');
   navigator.clipboard?.writeText(txt).then(()=>flash('Copied!'),()=>fallbackCopy(txt));
 }
@@ -3321,8 +4378,8 @@ function howText(){
   `The single game closest to a 50/50 toss-up is flagged as the week's "🎯 Upset watch". `+
   `The <b>Comp format</b> setting (Advanced settings) can switch the round view between win-only, margin-focused, or `+
   `confidence-ranked. The Model tab tracks a walk-forward backtest (hit rate and a <b>Brier score</b> for the model's own `+
-  `confidence), plus the "Roosters tax" — tips the loyalty rule has cost you vs. the model. `+
-  `Injuries and team news appear once published (around Tuesday). The <b>Roosters are always the locked tip</b> when they play — `+
+  `confidence). `+
+  `Injuries and team news appear once published (around Tuesday). `+
   `the tool just tells you how risky that is. Log results each week and every rating, split and accuracy figure updates.`+
   (learnedActive?
     ` Right now the app is running in <b>self-learning (Elo)</b> mode: each team's base strength comes from Elo ratings fitted `+

@@ -1,7 +1,18 @@
 # NRL Tipping Guide
 
-A simple tool that suggests who to tip each NRL round — and always tips the
-Sydney Roosters, because loyalty comes first, even when the numbers disagree.
+A tool that works out who to tip each NRL round so that **Brigitte has the best
+possible chance of finishing 1st** in the family footytips comp. Not the most
+accurate tips — the tips most likely to *win the whole thing*, which occasionally
+means backing an underdog everyone else has got wrong.
+
+> **Changed 2026-09-12.** This app used to be Josh's, and its one fixed rule was that
+> the Sydney Roosters were always tipped, whatever the numbers said. Josh handed it to
+> Brigitte, who has no club loyalties — *"she really wants to win"* — so the rule is
+> gone and the objective is now, exactly, the probability she finishes first. In the
+> 2026 finals that one change was worth about **6.5 percentage points** of win chance
+> in a single game. Anywhere below that still talks about a locked Roosters tip or a
+> "Roosters tax" is describing the old version; `docs/MODEL.md` and `docs/STRATEGY.md`
+> are current.
 
 ## What's new
 
@@ -21,17 +32,16 @@ Sydney Roosters, because loyalty comes first, even when the numbers disagree.
   (closest points-margin), or confidence/streak (ranking your 8 tips by how
   sure you are) — since the best pick can differ depending on how you're
   scored.
-- **The "Roosters tax", quantified.** A running season stat shows roughly
-  how many tips the locked Roosters pick has cost you compared with what
-  the model would have picked instead — so loyalty's price tag is visible,
-  not just felt.
+- *(removed 2026-09-12)* **The "Roosters tax", quantified.** A running season stat
+  showed roughly how many tips the locked Roosters pick had cost you compared with
+  what the model would have picked. With the lock gone there is no tax to measure;
+  the stat tile now shows **your comp place and your chance of finishing 1st**.
 - **Upset-of-the-week.** Each round, the game closest to a 50/50 toss-up is
   flagged — handy if you're chasing a rival and need to find the best spot
   to fade the crowd.
 - **Draws now count fairly.** If a game ends in a draw, it no longer counts
   as a "correct" or "incorrect" tip for anyone — it's set aside as a push,
-  so your (and the Roosters') accuracy record isn't unfairly bumped up or
-  down by a tie.
+  so your accuracy record isn't unfairly bumped up or down by a tie.
 - **No more accidental double-logging.** If you try to log the same game's
   result twice, the app now recognises it and won't double-count it in your
   records.
@@ -46,10 +56,9 @@ Sydney Roosters, because loyalty comes first, even when the numbers disagree.
   (home-ground advantage bonus and recent-form weighting) have moved into a
   collapsed "Advanced settings" section, out of the way of everyday use.
   Open it only if you want to experiment with how the model weighs things.
-- **Model vs Roosters-lock accuracy tracker.** A new tracker shows, side by
-  side, how often the model's own pick has been right versus how often the
-  locked Roosters pick has been right, using the same games for both so the
-  comparison is fair (draws excluded from both, as above).
+- *(removed 2026-09-12)* **Model vs Roosters-lock accuracy tracker.** Compared the
+  model's own pick against the locked Roosters pick over the same games. There is no
+  lock any more, so there is nothing to compare it with.
 - **Richer per-game detail.** Each game now shows extra context where it's
   available: the bookmakers' odds next to the model's own percentage (so
   you can see where the model agrees or disagrees with the market), each
@@ -87,8 +96,9 @@ days), while the ladder and fixture list still only rebuild once a week.
 1. Find the file **`nrl-tipping-guide.html`** in this folder.
 2. Double-click it. It opens in your normal web browser (Chrome, Safari,
    Edge, etc.) — no install, no internet connection needed to use it.
-3. That's it. You'll see this round's games, a suggested tip for each, and
-   your locked Roosters pick with a verdict on how safe or risky it is.
+3. That's it. You'll see this round's games, the tip for each, and — on the Tips
+   screen — your chance of winning the comp, plus a 🎯 mark on any game where the
+   tip is deliberately *not* the favourite because it improves that chance.
 
 You can close and reopen the page any time — anything you type in (results,
 edited team stats, edited fixtures) is remembered in your browser between
@@ -97,12 +107,16 @@ visits.
 ## What's on the screen
 
 - **This round's tips** — every game in the current round (chosen for you
-  automatically — there's no round selector to manage), with a model pick
-  and a win-likelihood bar. The Roosters game is always marked with the
-  locked 🔒 tip, no matter what the model itself would have picked.
-- **The banner at the top** — tells you in plain language whether tipping
-  the Roosters this week lines up with the model (a "safe" pick) or goes
-  against it (a "risky" pick).
+  automatically — there's no round selector to manage), with the tip and a
+  win-likelihood bar. A game marked 🎯 is a **comp split**: the tip there is not
+  the favourite, on purpose, because the numbers say it raises your chance of
+  finishing first. The line under it tells you by how much, and who is on the
+  other side.
+- **The comp panel** — one number that matters: *"Chance of winning the comp: N%"*,
+  next to how far behind (or ahead) you are and what you'd be on if you simply tipped
+  the favourites the rest of the way. Plus the mini ladder with the margin countback,
+  and the margin-game advice for the round's first game.
+  *(This used to be a "safe / risky" banner about the Roosters pick — gone 2026-09-12.)*
 - **Per-game detail** — where available: the market odds alongside the
   model's percentage, each team's home/away split record, injury/team-news
   notes, and a short weather line for the venue's city. Missing pieces
@@ -136,11 +150,18 @@ available, the model's own percentage is blended with the market's (using
 the closing odds when both an opening and closing price have been seen).
 Whichever team comes out ahead is the model's tip for that game.
 
-The **Roosters are always tipped** in their own game, regardless of what the
-model says — that's a fixed rule, not a suggestion. The tool just tells you
-honestly whether the model agrees with you that week or not, and now tracks
-a running "Roosters tax" figure showing roughly what that loyalty has cost
-in tips versus following the model.
+Whichever team the numbers favour is the **model's** pick — but the model's pick is
+not automatically the tip. Since 2026-09-12 the tip comes from a second step that asks
+a different question: *given where everyone sits on the comp ladder and what the rivals
+are likely to tip, which set of tips gives Brigitte the best chance of finishing 1st?*
+Usually that is the favourite. Occasionally it is the underdog in a near-coin-flip game
+that the leader is on the wrong side of — a **split** — because you cannot pass someone
+by making the same picks they do. In the 2026 finals the app solves the remaining
+bracket exactly rather than guessing. `docs/STRATEGY.md` explains it in plain English.
+
+*(Until 2026-09-12 this section read "The **Roosters are always tipped** in their own
+game, regardless of what the model says — that's a fixed rule, not a suggestion",
+alongside a running "Roosters tax". Both are gone.)*
 
 **A note on Elo:** earlier versions of this document said Elo was planned
 future work, not yet wired up. That's now out of date — see "How it learns"
