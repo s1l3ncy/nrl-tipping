@@ -21,7 +21,7 @@
  * never touched again. Entries for past rounds are kept (the season's record);
  * the log is pruned to the newest 250 entries. Best-effort: any failure leaves
  * the committed file untouched and exits 0 (a missing freeze must never block a
- * publish — the front-end falls back to its localStorage snapshot + the lock rule).
+ * publish — the front-end falls back to its localStorage snapshot).
  */
 import fs from 'fs';
 import { JSDOM } from 'jsdom';
@@ -63,6 +63,12 @@ function main() {
   // browser sees pre-run, and the merge below still reads the committed file
   // from disk independently, so the freeze cannot feed back into itself.
 
+  // The page defers its comp solve to an idle callback so a phone paints
+  // immediately (2026-09-12); a provisional plan is fine for a human looking at
+  // a screen and completely wrong to FREEZE. This flag forces the synchronous
+  // path everywhere, including the page's own boot render.
+  html = html.replace('<script>', '<script>window.NRL_SYNC_PLAN=true;</script><script>');
+
   const dom = new JSDOM(html, {
     url: 'https://localhost/', runScripts: 'dangerously', pretendToBeVisual: true,
   });
@@ -70,6 +76,7 @@ function main() {
 
   // Ask the page what it is tipping for every game that hasn't kicked off.
   const fresh = w.eval(`(function(){
+    if(typeof compPlanSync==='function') compPlanSync();   // belt and braces: never freeze a provisional plan
     const out=[];
     fixtures.forEach(f=>{
       if(!T(f.home)||!T(f.away)) return;
@@ -160,6 +167,6 @@ window.NRL_TIPLOG = ${JSON.stringify({ updated: now, tips, flips }, null, 1)};
 
 try { main(); }
 catch (e) {
-  console.error(`[freeze_tips] WARNING: freeze failed (${e && e.message}) — keeping the committed ${OUT}; front-end falls back to local snapshots + the lock rule.`);
+  console.error(`[freeze_tips] WARNING: freeze failed (${e && e.message}) — keeping the committed ${OUT}; front-end falls back to local snapshots.`);
   process.exit(0);   // best-effort by design: never block a publish
 }
