@@ -2,13 +2,20 @@
 
 How the whole system fits together, end to end. For the tip math see
 `MODEL.md`; for scripts/schemas see `DATA_PIPELINE.md`; for hosting see
-`DEPLOY_AND_OPS.md`.
+`DEPLOY_AND_OPS.md`; for the comp strategy in plain English see `STRATEGY.md`.
+
+> **Since 2026-09-12** the app plays for **Brigitte** (Josh still owns the repo, the
+> GitHub account and the deploys) and its objective is exactly **P(she finishes 1st)**
+> in the footytips comp. No team is force-tipped. That changes one thing structurally:
+> the front-end no longer just estimates and displays — it *solves*, in-page, and in the
+> finals it does so exactly. See stage 5 and `MODEL.md` §5.
 
 ---
 
 ## Design goals (why it's built this way)
 
-1. **Runs with the owner's Mac off.** All the work happens on GitHub's servers on a
+1. **Runs with the owner's Mac off.** (Josh's — he owns the infrastructure; Brigitte is
+   the user and never touches it.) All the work happens on GitHub's servers on a
    schedule, not on a local machine. That drove the choice of GitHub Actions
    (compute) + GitHub Pages (hosting), both free on a public repo.
 2. **Self-contained, offline-capable front-end.** The app is one HTML file with no
@@ -64,7 +71,8 @@ Reads the results memory in `nrl_learned.js`, replays an **Elo** rating for ever
 team (winner-relative MOV multiplier), grid-searches the model parameters
 (home-ground advantage, Elo K/HGA, odds weight — the logistic scale is pinned at 7,
 see `MODEL.md`) to minimise walk-forward error, **backtests** itself
-(Brier/log-loss/hit-rate + the walk-forward loyalty tax `lockTax`), and rewrites
+(Brier/log-loss/hit-rate; the walk-forward loyalty tax `lockTax` was removed 2026-09-12
+with the Roosters lock), and rewrites
 `nrl_learned.js` with fresh params + Elo + one appended history snapshot.
 Guardrail: under ~30 games it holds conservative defaults and flags `lowConfidence`.
 
@@ -75,9 +83,23 @@ built-in `GITHUB_TOKEN`. GitHub Pages serves `index.html` + the three data files
 
 ### Stage 5 — The browser (front-end)
 `nrl-tipping-guide.html` loads `nrl_data.js`, `nrl_learned.js`, `nrl_players.js`,
-`nrl_lineups.js` and `nrl_tiplog.js`, then for each fixture computes a win
-probability and a tip **in-page**, always overriding the Roosters game to a locked
-`SYD` tip. Since 2026-08-04 the page also **keeps itself fresh while open**
+`nrl_lineups.js`, `nrl_tiplog.js` and `nrl_comp.js`, then does **two** things in-page:
+
+1. **Estimate** — for each fixture, a win probability (`predict()`: Elo/form + injuries
+   + home edge, blended with the market).
+2. **Decide** — which set of tips maximises P(Brigitte finishes 1st), given the comp
+   standings, the margin countback and a model of what each rival will tip
+   (`compPlan()` → `tipSide()`). No team is ever force-tipped (the Roosters lock was
+   removed 2026-09-12). In the finals (rounds 28–31) this is not a simulation:
+   `finalsPlan()` enumerates the remaining bracket and solves it by backward induction,
+   ~330 ms, once per `planStamp`. First paint doesn't wait for it — a provisional plan
+   comes from a stamped `localStorage` cache or the frozen tiplog, and the real solve
+   runs on an idle callback (`MODEL.md` §5.8).
+
+That second step is the reason `nrl_comp.js` is a *pipeline-generated data file* rather
+than something the page fetches for itself: the jsdom freeze and every browser must read
+identical inputs, or they compute different tips. Since 2026-08-04 the page also
+**keeps itself fresh while open**
 (foreground-return, 5-minute polling, a manual refresh chip and pull-to-refresh —
 see `FRONTEND.md`), and serves a genuinely different layout on desktop (≥1024px)
 vs phone. Users can log results locally (`localStorage`) between official refreshes.
@@ -89,8 +111,13 @@ vs phone. Users can log results locally (`localStorage`) between official refres
 - `nrl_data.js` changes weekly (ladder/draw) + daily (odds/news).
 - `nrl_learned.js` is an append-only match log plus fitted numbers; it grows slowly
   and must never be clobbered by a bad run (atomic writes + parse-or-abort).
+- `nrl_comp.js` is the comp snapshot — standings, picks, per-round margin/score
+  history and the fitted rival model. It is a **determinism device**: everything the tip
+  depends on has to ship in a file so the freeze and the browser agree byte for byte.
+  The page live-refreshes the current round from the public API on top of it, but never
+  fetches anything that feeds `tipSide()` and isn't in the file.
 - `nrl_players.js` is a large-ish lookup refreshed every run, independent of the
-  other two. Keeping it separate means the front-end can treat it as optional (falls
+  others. Keeping it separate means the front-end can treat it as optional (falls
   back gracefully if missing) and the other generators don't need to know about it.
 
 ---

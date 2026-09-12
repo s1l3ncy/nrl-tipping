@@ -90,8 +90,11 @@ rewrites `nrl_learned.js` with fresh `params`/`elo`/`backtest` and one appended
 Grids: `eloK ∈ {10,16,24,32,40}`, `eloHGA ∈ {0,20,40,60,80,100}`,
 `oddsWeight ∈ {0.0..1.0}`. **`logisticScale` is pinned at 7 and NOT in the grid**
 (2026-08-04 — it's unidentifiable from win/loss outcomes; see `GOTCHAS.md`).
-The Elo replay's MOV multiplier is winner-relative (upsets amplified). The backtest
-also publishes `lockTax` (walk-forward loyalty-tax counts from pre-game Elos).
+The Elo replay's MOV multiplier is winner-relative (upsets amplified).
+*(Until 2026-09-12 the backtest also published `lockTax`, the walk-forward loyalty-tax
+counts from pre-game Elos. `LOCK_TEAM`, `lock_tax_metrics()` and the assignment were
+deleted with the Roosters lock; `validate_learned.py` never required the key, so the
+publish gate is unchanged.)*
 Never fetches; `--odds-history FILE` is optional for fitting `oddsWeight`.
 
 ### `validate_data.py` / `validate_learned.py` — publish gates
@@ -189,8 +192,10 @@ on bye. No team twice in a round.
   lowConfidence: bool,          // true while < 30 games — front-end then ignores params/elo
   params: { homeAdv, logisticScale, oddsWeight, eloK, eloHGA },  // logisticScale always 7 (pinned)
   elo: { <17 team shorts>: number },   // ratings, ~1500 baseline
-  backtest: { games, brier, logloss, hit, marketBrier|null,
-              lockTax: {games, modelRight, rkWins} },  // walk-forward loyalty tax (2026-08-04)
+  backtest: { games, brier, logloss, hit, marketBrier|null },
+      // `lockTax: {games, modelRight, rkWins}` lived here 2026-08-04 -> 2026-09-12,
+      // removed with the Roosters lock. Readers must tolerate its absence (they always
+      // did - the front-end showed nothing rather than a hindsight number).
   history: [ {date, games, brier}, ... ],   // non-empty; one per fit
   results: [ {season, round, home, away, hs, as}, ... ]   // append-only match log
 }
@@ -212,28 +217,99 @@ simulator reads the tiplog via `gradedTip()` and the incumbency tie-break, so a
 tiplog-less page computes different tips than real browsers; see `GOTCHAS.md` "The
 freeze must LOAD the prior tiplog") — and records `tipSide(predict(fx))` — plus the tipped side's blended win %
 (`prob`) and a plain-text `whySummary()` (`why`) — for every game whose kick-off is
-still in the future. Last pre-kick-off run wins; entries never change after
+still in the future. **Since 2026-09-12 the freeze also forces the SYNCHRONOUS solver
+path** — it sets `window.NRL_SYNC_PLAN` before the page's scripts and calls
+`compPlanSync()` before reading tips. A browser may show a provisional plan for ~400ms
+while the exact finals solver runs on an idle callback; the freeze publishes to every
+device, so a provisional answer there would be the wrong tip everywhere.
+Last pre-kick-off run wins; entries never change after
 kick-off, **including when the feed blanks a fixture's kickoff mid-game** (nrl.com
 does this while a game runs — a ko-less fresh entry never overwrites an existing
 one). When a run's tip differs from the frozen one, a **flip** is recorded
 (2026-08-08); the front-end surfaces flips at the top of the What's-new feed as
 "Tip changed" entries. This file is what full-time grading and "Your tips" read on
 every device. Generated — never hand-edit, never upload. Not gate-validated
-(best-effort; front-end degrades to its localStorage snapshot + the lock rule).
+(best-effort; front-end degrades to its `nrl_snap_v2` localStorage snapshot, and beyond
+that says "no pre-game tip on record" — the lock rule that used to be the last fallback
+was removed 2026-09-12).
 
 ### `nrl_comp.js` → `window.NRL_COMP`
 ```
-{ round, finishRound, fetched: ISO,
-  members: [ {name, me, rank, mv, roundScore, totalScore, totalMargin,
-              aff: {SHORT: [picked, seen], ...},      // season affinity profile
-              picks: {"A-B": SHORT, ...}}, ... ] }    // unordered-pair keys
+{ round,                 // the round these picks/standings are for
+  finishRound,           // last round of the comp (31 in 2026)
+  fetched: ISO,
+  roundIndexed: true,    // NEW 2026-09-12 — see below. Load-bearing.
+  members: [ {
+    name,                // footytips DISPLAY name only, never a surname
+    me,                  // name === FOOTYTIPS_ME. The page re-derives this by name.
+    rank, mv,            // ladder position, "up"|"down"|""
+    roundScore,          // this round's score (null if not scored yet)
+    totalScore,          // season points
+    totalMargin,         // season CUMULATIVE MARGIN ERROR — the countback. LOWER wins.
+    aff: {SHORT: [picked, seen], ...},   // season affinity: times tipped / times played
+    margins: [ ... ],    // NEW — per-round margin ERROR.   length = round, index = round-1
+    scores:  [ ... ],    // NEW — per-round score.          length = round, index = round-1
+    mpreds:  [ ... ],    // NEW — the margin actually ENTERED, back-solved. same shape.
+    beh: {a, b, loy, n, hit},            // NEW — fitted pick model. absent if not fitted.
+    picks: {"A-B": SHORT, ...}           // unordered-pair keys, appear as games lock
+  }, ... ] }
 ```
-Josh's footytips comp snapshot (public API, no auth), written by
-`cloud_fetch.py` each run — standings, each member's picks for the round, and
-season affinity profiles computed from rounds 1..N-1 (~23 extra GETs/run).
-Powers the comp-aware `tipSide()` policy; shipping it as a data file is what
-makes the hardwired tip DETERMINISTIC across the browser and the jsdom freeze.
-Best-effort: failure keeps the committed copy, never blocks a publish.
+
+The family's footytips comp snapshot (public API, no auth), written by `cloud_fetch.py`
+each run — standings, each member's picks for the round, and season affinity profiles
+computed from rounds 1..N-1 (~23 extra GETs/run). Powers the comp-aware `tipSide()`
+policy; shipping it as a data file is what makes the tip **deterministic** across the
+browser and the jsdom freeze. Best-effort: failure keeps the committed copy, never
+blocks a publish.
+
+**`FOOTYTIPS_ME` = `"Brigitte"` since 2026-09-12** (it was `"Special unit"`, Josh). It
+must stay in lockstep with `COMP_ME` in `nrl-tipping-guide.html`. A no-`me` file silently
+disables every comp surface (`compPlan → mode:'off'` → `tipSide` degrades to `modelFav`),
+so `build_comp_js` prints a stderr **WARNING** when the name matches nobody and the page
+`console.warn`s on boot. Never fatal — the comp is not a publish gate.
+
+#### The four fields added 2026-09-12 (all from data already fetched — no extra HTTP)
+
+- **`totalMargin`** — the season cumulative margin error. footytips' `rankByMargin`
+  breaks a points tie in favour of the **lower** value, and that countback is the whole
+  reason the tip policy is as aggressive as it is (Brigitte 476 vs Claire 492 at the
+  rebuild). Was previously only read from the raw file by `compMarginOf()`;
+  `compFromFile()` and `pollComp()` both map it now, so a mid-round live poll no longer
+  prices ties on a stale countback.
+- **`margins[]` / `scores[]`** — per-round history, straight out of `results[].rounds[]`
+  of the response the scraper already reads. Feeds `finalsTieProbs()` (the standard
+  deviation of the per-round margin-error difference) and the exact per-member accuracy.
+- **`mpreds[]`** — the margin each member *actually entered* per round, **back-solved**.
+  footytips publishes only `|predicted − actual|`; the candidate whose sign agrees with
+  the side they tipped is the number they typed (`_margin_pred()`). The round's
+  designated margin game is its **first** game — verified against every member's
+  published error in R24–R28. This drives the habit hint on the margin line, and it is
+  how the app found that Brigitte enters **"4" every single week**. `null` where it
+  could not be recovered.
+- **`beh: {a, b, loy, n, hit}`** — the per-member behavioural pick model,
+  `P(tips home) = sigmoid(a + b·lp + loy·(affShare(home) − affShare(away)))`, where `lp`
+  is the game's Elo logit. Fitted by plain Newton with an L2 ridge (`BEH_RIDGE = 0.25`)
+  on a 3×3 system in **pure Python** — the workflow runner has only `requests` +
+  `beautifulsoup4`, no numpy. `n` = training rows, `hit` = in-sample hit rate.
+  Members with fewer than `BEH_MIN_PICKS = 20` picks ship **no `beh` key** and the page
+  falls back to `predictPick()` at that member's herd rate. 2026 values: `b` 0.31–1.60,
+  `loy` 2.16–5.09, `hit` 0.70–0.83, `n` 198–204.
+  > **`BEH_AFF_K` (4.0) MUST be identical in `cloud_fetch.py` and the page** — the fit
+  > and the evaluation have to see one and the same covariate. Both files say so at the
+  > constant. And the loyalty covariate is **leave-one-out** in the fit: a member's
+  > affinity share for a team is literally the mean of their own picks in that team's
+  > games, so raw it is a perfect in-sample predictor and drives `b` to exactly 0.
+
+#### `roundIndexed: true` — why the flag exists
+
+`margins[]`, `scores[]` and `mpreds[]` are **length `round`, index = round−1, `null`
+where there is nothing to record**. They originally shipped dense (empty rounds filtered
+out), which gave members different lengths — and `finalsTieProbs()` zips them
+**positionally**, so one member's round 6 was compared against another's round 8. The two
+formats are indistinguishable by inspection whenever no round happens to be missing, so
+the flag is load-bearing: every consumer **refuses to zip without it** and falls back to
+the season-total mean with sd 10 (imprecise rather than quietly wrong). Producer:
+`_by_round()`; the live-poll mirror in the page is `byRound()`. Keep them identical.
 
 ### `nrl_players.js` → `window.NRL_PLAYERS`
 ```

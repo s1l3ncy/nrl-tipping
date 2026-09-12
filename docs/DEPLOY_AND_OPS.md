@@ -3,6 +3,13 @@
 How hosting works and — most importantly — **the exact steps to make a change and get
 it live**. This is the doc you'll use most often.
 
+> **Who is who (clarified 2026-09-12).** **Josh** owns the infrastructure: the GitHub
+> account `s1l3ncy`, the repo, the `ODDS_API_KEY` secret, the Chrome session an agent
+> drives, and every deploy. **Brigitte** (his wife) is the *user*: the app plays for her
+> footytips entry and its objective is P(she finishes 1st). She never touches GitHub.
+> So "only Josh can do it" below always means *infrastructure*, never *the tips* — and a
+> change to the tips still has to be shipped by Josh.
+
 ---
 
 ## How hosting works
@@ -29,8 +36,15 @@ index.html`. So:
 ## The workflow (`update-nrl.yml`)
 
 Schedule (cron is in **UTC**): every 4 hours at :17, plus 05:47 Sydney daily and a
-16:23 Tuesday slot for team lists, plus `workflow_dispatch` (run on demand from the
+16:23 Tuesday slot for team lists, four pre-game odds slots (2026-08-14), **five finals
+slots (2026-09-12: Sat 15:35, Sat 19:07, Sun 15:35, Sun 18:45 AEST, plus 17:45 AEST /
+18:45 AEDT for Grand Final day)**, plus `workflow_dispatch` (run on demand from the
 Actions tab). The exact lines live in `update-nrl.yml` — trust the file over this doc.
+
+> **Cron is UTC and Sydney is UTC+10 only until DST starts on Sun 4 Oct 2026 — Grand
+> Final day.** Every Sunday line lands an hour later locally from then on. Do the
+> arithmetic (and move the day-of-week field if the conversion crosses midnight) before
+> adding or editing any slot. See GOTCHAS "Finals cron slots".
 
 ### The `ODDS_API_KEY` secret (required for bookmaker odds)
 Odds come from **The Odds API** because nrl.com geo-blocks prices from GitHub's US
@@ -54,6 +68,12 @@ Steps, in order:
    never overwrite the workflow from a stale local copy or the tip log dies.
 6. `python validate_data.py nrl_data.js` **and** `validate_learned.py nrl_learned.js`
    — **publish gate**; a failure fails the whole run and nothing goes live.
+
+> **Step 2 must run before step 5.** `cloud_fetch.py` writes `nrl_comp.js`; the freeze
+> reads it. Until it has run once with the current code the file carries no fitted `beh`,
+> and the page falls back to the older rival model — **same tips, but `pFirst` reads
+> ~50% instead of ~46% and a split is priced at +0.3 instead of +2.0**. The workflow
+> already orders it correctly; check it still does after any workflow edit.
 7. Retire the weather dump (`rm -f weather_dump.txt`, idempotent — one-time cleanup
    after the 2026-08-04 weather removal).
 8. `cp nrl-tipping-guide.html index.html` — build the hosted page.
@@ -79,6 +99,21 @@ Steps, in order:
      fetch for real first — sandboxes often DO have network (`GOTCHAS.md`). But note
      odds specifically can look fine from Australia and publish nothing from GitHub
      (geo-block), so verify odds via `last_run.json` after a real run.
+   - **If the change touches the tip at all, run the full gauntlet before uploading**
+     (Josh's rule: dry-run everything, and audit adversarially before shipping):
+
+     | Command | What it proves |
+     |---|---|
+     | `node reference/crosscheck.mjs` | The in-page solver agrees with `reference_finals_solver.py` on P(1st) for **every** admissible tip vector. Expect a uniform ~2.5pt level shift (the two fit their rival models differently — see MODEL.md §5.9); what must not move is the best line, and every Roosters-containing line ranking below every non-Roosters one. `COMPFILE=…` points it at an `nrl_comp.js` with fitted `beh` — that is the shipping configuration. Run from the repo root. |
+     | `python3 reference_finals_solver.py` | Regenerates the reference numbers themselves (~4 min, exact full enumeration). Only needed when the *situation* changes — new results, new standings, a new week — not on every code edit. Frozen 2026-09-12; REFERENCE ONLY, nothing imports it. |
+     | `node freeze_tips.mjs` **twice** | First run may report flips; the second **must** report `0 new/changed`. Churn here is churn in the What's-new feed on everyone's phone. Restore `nrl_tiplog.js` with `git checkout` afterwards. |
+     | `node smoke_test.mjs` | 59/59. (Was 60/60 before 2026-09-12: two Roosters assertions became one positive one — *every* game's tip is the model's own favourite unless the solver splits.) |
+     | `python3 test_ios_viewport.py` | 20 green. Cheapest possible catch for a `ReferenceError` left behind by a deletion — it boots the real page. |
+     | `python3 validate_data.py nrl_data.js` / `validate_learned.py nrl_learned.js` | The publish gates, locally. |
+
+     And, when the stakes justify it: render the page in real headless Chromium and check
+     `pFirst` matches the jsdom freeze **to the last bit**. Browser ≠ freeze is the
+     failure mode this whole architecture exists to prevent.
 
 3. **Upload to GitHub.** Two ways:
    - **Drag-drop (reliable):** open the repo in the browser → "Add file" → "Upload
@@ -116,7 +151,17 @@ and it re-scrapes.
 
 - **Force an update now:** Actions → Run workflow. (Also the fix if schedules went quiet
   — GitHub pauses cron after 60 days of repo inactivity, though `keepalive.yml` re-enables it fortnightly.)
-- **Change the schedule:** edit the two `cron:` lines (UTC) in `update-nrl.yml`.
+- **Change the schedule:** edit the `cron:` lines (UTC) in `update-nrl.yml` — there are
+  twelve of them now, not two. Convert from AEST/AEDT carefully (see the DST note above).
+- **The comp panel shows a number that looks wrong (e.g. "100%", or "0 behind"):** the
+  three formatting/logic traps here all have entries in `GOTCHAS.md` under the
+  2026-09-12 block. Check `pctChance()`, the one-sided aliveness filter, and whether
+  `plan.provisional` is still true (the solver may still be running on an idle callback,
+  in which case the line should read "working out the comp odds…" and not a number).
+- **A tip on screen disagrees with `nrl_tiplog.js`:** first check whether the page is on
+  a provisional plan (cold cache + a tiplog from before the last code change — it
+  self-corrects in ~450 ms), then whether `cloud_fetch.py` has run since the last deploy,
+  then diff `planStamp()` inputs. Never assume cache.
 - **A player's injury isn't affecting the tip:** confirm they're in `nrl_players.js`
   (only the rated players are — roughly the top few hundred; fringe players are treated
   as low-impact by design), and that the injury name matches the ratings name after
@@ -138,7 +183,7 @@ and it re-scrapes.
   updates the shell + data on each online launch. The *first* time (or if `sw.js`
   isn't on the phone yet), remove and re-add the home-screen icon once to load the new
   shell. To force a clean slate for every visitor, bump `CACHE` in `sw.js` (`nrl-tips-vN`,
-  currently v6).
+  **currently v23** — bumped 2026-09-12).
 - **Shipping `sw.js`:** it's a normal source file (not generated). Upload it to the repo
   root once; `git add -A` in the workflow keeps committing it, and Pages serves it.
 
@@ -147,5 +192,11 @@ and it re-scrapes.
 ## What only Josh can do
 - Create/own the GitHub account and log in.
 - Approve browser actions when an AI is driving Chrome.
+- Hold the `ODDS_API_KEY` secret.
 Everything else (edits, uploads, running the workflow, verifying) can be done by an AI
 assistant with the Chrome tools, or by Josh via drag-drop.
+
+**What only Brigitte can do:** enter the tips on footytips. The app *advises*; nothing
+in this repo has, or should get, write access to her footytips account. If that ever
+changes, golden rule: dry-run it and show Josh the output before it touches the real
+comp.

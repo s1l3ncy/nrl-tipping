@@ -5,6 +5,450 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-09-12 — The Brigitte rebuild: new owner, no Roosters lock, and an exact finals solver
+
+Josh handed the app to his wife **Brigitte** (footytips display name `Brigitte`), with
+one instruction: *"she has no loyalties, she really wants to win."* That turns a
+preference into a specification. The objective is now **P(Brigitte finishes 1st)** and
+nothing else — no top-3 term, no top-4 term, no loyalty pick. Josh ("Special unit", 10
+points back) is just another rival in the model.
+
+The timing made it urgent: Finals Week 1 was already under way, Brigitte sat 2nd on 131
+with three games left in the round, and the single most valuable decision on the board
+was one the app was structurally incapable of making — *not* tipping the Roosters.
+
+### 1. Identity
+
+`COMP_ME` and `cloud_fetch.py`'s `FOOTYTIPS_ME` are now `Brigitte`, and three things
+were hardened around them, because a silent mismatch here disables every comp surface
+with no error anywhere (`compPlan → mode:'off'` → `tipSide` quietly degrades to
+`modelFav`, the "(you)" row disappears, the chances line never renders):
+
+- `compFromFile()` re-derives `me` from `COMP_ME` **by name**, using the file's own flag
+  only when no name matches. One source of truth: a stale `nrl_comp.js` can no longer
+  make the jsdom freeze tip for one person while browsers tip for another.
+- `pollComp()` dropped `!!u.currentUser||` from its `me` test. That flag is server-side
+  and always false on our anonymous fetch — but if a footytips session cookie ever rode
+  along it would mark a *different* member as "me" on each family member's phone, which
+  is precisely the browser/freeze divergence class this app is built to avoid.
+- A boot-time `console.warn` when `COMP_ME` names nobody on the ladder, mirrored as a
+  stderr WARNING in `build_comp_js` so it shows up in the workflow log. Non-fatal: the
+  comp is never a publish gate.
+
+`nrl_adh_v1` → `nrl_adh_v2` and `nrl_snap_v1` → `nrl_snap_v2`: the accumulated rounds on
+the old keys are the *previous* owner's adherence and the old *locked* tips, and
+carrying either forward silently would make the tally lie and let a Roosters-lock
+snapshot grade a game. Footer tagline is now "Built for Brigitte — playing to win. 🏆".
+
+### 2. The Roosters lock is gone
+
+`tipSide()` no longer short-circuits on `SYD`. `LOCK` survives as decoration (the ladder
+🐓, the gold "you" row) plus a new `LOCK_MODE` constant, default `'off'`, whose only
+other setting `'tiebreak'` prefers the Roosters **when and only when the objective
+cannot separate the two options at all** — exact equality of P(1st) in the finals DP,
+`|pHome−0.5| < 0.005` in the fallback. Verified to cost nothing: flipping it to
+`'tiebreak'` on the R28 data returns byte-identical tips and the same P(1st) to six
+decimals.
+
+Everything that consumed the lock went with it: the `g.lock` branches in the simulator
+(three sites — leaving any one of them would have priced a policy the app no longer
+plays), the `never the Roosters game` split-candidate filter, the `ledlock` loyalty-pick
+line, the gold card treatment / 🐓 / "🔒 the lock" cosmetics, `copyTips()`'s "(locked)"
+suffix, the Model tab's "Roosters season W-L" tile and the "Roosters tax" note, and
+`learn_model.py`'s `LOCK_TEAM` + `lock_tax_metrics()` + `backtest.lockTax`
+(`validate_learned.py` never required the key, so the gate is unchanged).
+
+Two consequential details:
+
+- **`gradedTip()` no longer invents a tip.** Its last resort used to be "if the Roosters
+  are in this game, the tip is SYD — the rule IS the tip". With no rule, a game with no
+  frozen tiplog entry and no local snapshot is now honestly ungraded ("final — no
+  pre-game tip on record"), which is what GOTCHAS 2026-08-02 asks for. `myRecord()`'s
+  back-fill of the current round's Roosters game went with it.
+- **That would have silently killed the perfect-round bonus.** `simComp()`'s
+  `myResolvedOK` read `g.known && g.short===winner`, so an *ungraded* resolved game
+  evaluated to `false` and the +2 was modelled as dead for the whole round. It now skips
+  unknowns and only breaks on a *known wrong* tip. This was the single most likely
+  regression in the job and it is invisible when it happens.
+
+The 🎯 split games gained the ledger line the lock used to occupy, and it is now the
+more useful one: *"Comp split: the tip here is the Dolphins, not the favourite. It is
+worth about +2.0 points of comp-win chance. Claire is ~78% to be on NZW."*
+
+### 3. The objective, and an exact solver for the finals
+
+`util` is now `w.first/SIM_N` — pure P(1st). The old `P(top4)+P(top3)+P(1st)` bought
+safety at the cost of the only outcome that counts. `top3`/`top4` are still counted
+(the panel reads better with context) but never enter the utility.
+
+That change breaks the old `EPS=0.003`: under a three-tier sum utilities ran 0.02–0.05,
+under pure P(1st) they run 0.15–0.35, where the Monte-Carlo standard error at 3,000
+samples (~0.8pp) is nearly **three times** EPS — so the tie-breaks fired on noise every
+run. `EPS` is now `max(0.003, 2·sqrt(0.25/SIM_N))` and `SIM_N` went 3,000 → **8,000**
+(20,000 was tried and measured at ~820ms on an 8-game round in jsdom — too much for a
+first paint; 8,000 lands near 330ms).
+
+**But finals rounds no longer sample at all.** From Finals Week 1 there is no season
+left to simulate: nine games, four rounds, one bracket. `finalsPlan()` replaces
+`simComp()` with **full enumeration + backward induction** over the real draw — no PRNG,
+no sampling error, no EPS:
+
+- **Bracket** derived from the ladder (`teams[]` ships in ladder order, so the seeds are
+  its first eight rows): QF1 1v4, QF2 2v3, EF1 5v8, EF2 6v7; semis hosted by the losing
+  qualifying finalists; preliminary finals hosted by the qualifying-final winners; GF
+  neutral. Played games are read out of the results memory, never simulated. Future
+  games are *not* generic — which specific matchup the rivals are likely to misread is
+  the entire point.
+- **Probabilities**: the current round through `predict()` (Elo + injuries + market
+  blend — exactly the number on the card); future rounds on Elo + the learned home edge
+  only, with no edge at all in the Grand Final.
+- **Rivals**: a per-member logistic fitted in `cloud_fetch.py` (`beh` = intercept +
+  market/form logit + shrunk loyalty share), plus a strategic layer — with probability
+  `STRAT_AWARE` (0.25) a rival plays a comp-aware line for the whole round, taking the
+  underdog in the ⌈deficit/2⌉ most winnable games when behind and covering with
+  favourites when not. The mode is latent and per-round, which is what correlates a
+  rival's picks *within* a round.
+- **Countback**: footytips' `rankByMargin` gives a points tie to the **lower** cumulative
+  margin error. That is Brigitte's entire edge (476 against Claire's 492), so a tie is
+  not a loss here — it is priced as P(her final error < theirs) from each member's own
+  per-round margin history, closed-form normal.
+- **Bonus**: `allCorrectBonus` +2 applies in finals rounds too (a one-game Grand Final
+  round pays 1+2 = 3), alive-aware on games already played this round.
+
+State is (bracket path, three rival score deltas clamped into an absorbing band — exact,
+not an approximation: once a rival is further ahead than the points still available,
+nothing later can change the answer). Memoised into flat typed arrays keyed by integer.
+Measured at **~330ms** for a Finals Week 1 bracket (114k states, 18M inner iterations)
+and 1–50ms for the later, smaller rounds; it runs once per `planStamp`. Only three
+rivals are carried: a fourth costs ~25× the state space for, in 2026, a rival who needs
+a literal 9-from-9 with every bonus (Josh — the Python reference enumerated him exactly
+at 0.61%). Rivals are taken highest-score-first among the mathematically alive, so the
+truncation can only *overstate* P(1st), and only by that tail.
+
+If the bracket cannot be resolved — a missing result, a scrambled ladder, an unexpected
+draw — `finalsPlan()` returns false and the Monte-Carlo path takes over. Verified.
+
+### 4. What the pipeline now ships
+
+`cloud_fetch.py::build_comp_js` gained four per-member fields, all from data it was
+already fetching (**no extra HTTP requests**):
+
+- `margins[]` / `scores[]` — the per-round history that sits in `results[].rounds[]` of
+  the response it already reads. Feeds the countback and exact accuracy.
+- `mpreds[]` — the margin each member *actually entered* per round, back-solved from the
+  published error and the round's first game (footytips publishes only `|predicted −
+  actual|`; the candidate whose sign agrees with the side they tipped is the number they
+  typed). This drives a new habit hint on the margin line, and it found something worth
+  telling her: **she has entered "4" every single round**.
+- `beh {a, b, loy}` — the fitted logistic. Fitted in pure Python (Newton on a 3×3 system
+  with a ridge penalty; the workflow runner has only `requests` + `beautifulsoup4`, so
+  numpy is not available). The loyalty covariate is **leave-one-out and shrunk** by
+  `BEH_AFF_K` pseudo-games: a member's affinity share for a team is literally the mean of
+  their own picks in that team's games, so feeding it in raw makes loyalty a perfect
+  in-sample predictor and drives the market/form coefficient to zero — measured, it went
+  from 0.45 to 1.1+ once this was fixed. `BEH_AFF_K` must stay identical in
+  `cloud_fetch.py` and the page or the coefficients mean nothing.
+
+`compFromFile()` and `pollComp()` both map `totalMargin`, `margins` and `scores` now, so
+a mid-round live poll no longer prices ties on the file's stale countback.
+
+### 5. Smaller corrections that came with it
+
+- **`ahead` is countback-aware.** It used to be `>= me.totalScore`, which counted a level
+  rival as ahead and then computed `d = 0 → need 0 → cap 0 → no splits at all` while
+  genuinely tied. Under a margin countback the truth is the other way round both times: a
+  rival level on points with a *lower* cumulative error really is ahead; one with a
+  higher error is behind. In a four-way cluster inside three points this is worth whole
+  percentage points.
+- **The cover branch still prices the position.** `compPlan()` used to return before
+  calling the simulator when nobody was ahead, so the panel went blank exactly when she
+  was leading. It now runs the solver with an empty candidate list.
+- **The comp panel leads with one number**: *"Chance of winning the comp: 46% — 1 behind
+  Claire, 3 rounds left · tipping favourites the rest of the way: 44%"*, with one priced
+  line per armed split beneath it. The old line led with top 4 and top 3, which are not
+  the objective and invite the wrong decision.
+- The Model tab's third stat tile is now **comp place · chance of 1st** instead of the
+  Roosters' W-L.
+- **Workflow**: four finals-shaped cron slots added (Sat 15:35 and 19:07, Sun 15:35 and
+  18:45 AEST). Finals kickoffs are earlier and doubled up — the regular-season Saturday
+  slot at 16:33 AEST fires *after* the first final has already started, which is the
+  difference between a tip frozen on live market prices and one frozen an hour stale.
+- `smoke_test.mjs` and `tips_compare.mjs` had their Roosters assertions replaced (the
+  smoke test now asserts the positive: every game's tip *is* the model's own favourite).
+  `sw.js` CACHE → v23.
+
+### 6. Validation
+
+`reference_finals_solver.py` is a standalone Python implementation of the same maths,
+written the same day, kept in the repo as the reference the in-page DP was checked
+against. `reference/crosscheck.mjs` boots the real page in jsdom and compares P(1st) for
+all eight R28 tip vectors against it.
+
+They agree on everything that matters and differ where they should. The best line is
+**DOL / CRO / PEN** in both; the same three lines fill the top three; **every line
+containing the Roosters ranks below every line without one**; no line is more than 3.2
+points apart. The page runs ~2.5 points high across the board because its rival model is
+fitted per-member over the whole season and leaves each rival a little more
+loyalty-driven — and therefore less accurate — than the reference's single global
+market-following fit. The one ordering that moves is 2nd versus 3rd (NZW/NQL/PEN against
+NZW/CRO/PEN, 0.9pt apart in the reference and 1.2pt here), because Claire sits at ~66% on
+the Sharks under the page's fit and ~88% under the reference's.
+
+Freeze verified against both the committed `nrl_comp.js` and a freshly generated one:
+R28 freezes **DOL / CRO / PEN**, with two honest flips recorded (CRO–NQL NQL→CRO as the
+solver declines the second split, PEN–SYD SYD→PEN as the lock disappears). `smoke_test`
+59/59, `test_ios_viewport.py` all 20 green, both validators PASS.
+
+**The bottom line for this weekend:** tipping the Roosters in the Sunday qualifying
+final was worth about −6.5 points of comp-win chance — bigger than any other decision on
+the board, and one the old app could not have made.
+
+### 7. Adversarial audit, same day — six fixes before deploy
+
+An independent audit rebuilt the DP from the brief and compared it against the page's,
+bit for bit, on the real R28 state (all eight lines identical to 1e-16), re-ran the
+absorbing band nine points wider (values bit-identical, so the clamp really is exact),
+hand-derived a one-game Grand Final at deficits 0–4, and walked the bracket for all 256
+week-1..3 outcome paths against the NRL system independently (0 mismatches, hosting
+included — the qualifying-final winners host the preliminary finals, which is what the
+code does and *not* "higher seed hosts", the two differing whenever a seed-1 side loses
+its qualifying final and comes through a semi). Six things came out of it:
+
+1. **A rival she can no longer catch was being deleted from the model.** `finalsCtx()`
+   dropped anyone outside `me ± maxGain` in *both* directions. Dropping the provably
+   beaten is safe; dropping someone provably ahead is not — the DP then saw no threats
+   and returned **1**. Four points behind going into a one-game Grand Final, the panel
+   read "Chance of winning the comp: **100%**". The test is now one-sided: only the
+   provably beaten are dropped, and an out-of-reach leader is kept so the DP's own
+   absorbing band returns the truthful 0. (Repro and fix verified across deficits 0–4:
+   0/1/2/3 match a hand calculation exactly, 4 is now 0%.)
+2. **Tie-break order: favourites now lead, the incumbent frozen tip is second.** The
+   incumbent-first order was borrowed from the Monte-Carlo path, where it stops sampling
+   noise churning the flip feed. The exact DP has no noise — a tie is a real tie,
+   reproducible run to run — so it bought nothing there and did harm in a *decided*
+   comp, where every line prices identically: leading by 30 with three rounds left, it
+   armed three underdogs as splits "worth +0.0 points" and swallowed the cover-mode
+   line. Favourites-first is equally stable and never says anything silly. R28 is
+   unaffected (its eight lines are strictly ordered, so no tie-break is reached).
+3. **A split is armed only when the underdog is strictly worth more** (`vDog > vFav`),
+   so "🎯 … +0.0 pts of win chance" can no longer reach the panel.
+4. **`pctChance()`**, one shared formatter for the chance line and the Model tile: never
+   rounds a live number into a certainty. 99.8% now prints `99.8%` and >99.95% prints
+   `>99.9%`; only a value the solver proved exact prints `100%` or `0%`.
+5. **"0 behind Claire"** — the wording when a rival is level on points but ahead on the
+   countback, which is exactly the state the countback exists to decide — became
+   "level with Claire, behind on the countback".
+6. **`copyTips()` keeps the frozen tip for a game that has kicked off**, the same rule
+   every card obeys. Without it the pasted list contradicted the card and the tiplog the
+   moment a game started.
+
+Also tightened:
+
+- **`planStamp()` now includes the round's results.** It never used to: the Monte-Carlo
+  only cared about standings, and a finished game always moves someone's score. In the
+  finals a result also decides the **bracket** every later round is played on, and the
+  comp poll is on a 15-minute cadence — so between a full-time whistle and the next poll
+  the cached plan was answering a question about a tournament that no longer existed,
+  while the pipeline's freeze computed the fresh one. That is the divergence that churns
+  the flip feed.
+- The boot warning fires on a `COMP_ME` **name** miss, not only on "nobody is me" — a
+  stale me-flag in the file used to let the page play for the previous owner in silence.
+- One more Sunday cron (`45 7 * * 0`). Cron is UTC and Sydney is UTC+10 until DST starts
+  on **Sun 4 Oct 2026 — Grand Final day**, when every Sunday slot lands an hour later
+  locally and the 18:45 one would fire *after* a 19:30 kick-off.
+
+Re-verified after the fixes: independent DP still bit-identical, crosscheck OK in both
+the fallback and the fitted-`beh` configuration, R28 still freezes **DOL / CRO / PEN**
+with zero new flips on a second and third run, `smoke_test` 59/59, `test_ios_viewport.py`
+all green, both validators PASS, and a real headless Chromium render agrees with the
+jsdom freeze to the last bit (`pFirst = 0.49636625379547317` in both) with a clean
+console on all four tabs.
+
+### 8. Two follow-ups from the audit's residual-risk list
+
+**Round-indexed per-member history.** `margins[]`, `scores[]` and `mpreds[]` shipped as
+dense lists with the empty rounds filtered *out*, so members ended up with different
+lengths (observed: 28/25/25/24/23/28 for `mpreds`) — and `finalsTieProbs()` zips them
+**positionally** to get each round's margin-error difference. Her round 6 was being
+compared against a rival's round 8. It had not bitten yet only because `margins[]`
+happened to be complete for all six members; the first missing round would have made the
+countback's standard deviation silently wrong, and the countback is the whole edge.
+All three arrays are now length `round` with index = round−1 and `null` where there is
+nothing to record, both from `cloud_fetch.py` (`_by_round()`) and from the live poll
+(`byRound()`). The payload carries `roundIndexed: true`, and every consumer refuses to
+zip without it: on an old-format file the countback falls back to the season-total mean
+with sd 10, which is merely imprecise instead of quietly wrong. `marginHabit()` steps
+over trailing nulls to find the most recent reading but stops the run at the first gap —
+"in each of the last N rounds" has to be literally true. The herd-rate denominator is now
+a shared `gamesPlayedBy()` that skips a member's null rounds rather than charging them
+games they were never scored over. No number moves today (every `margins[]` is complete);
+Brigitte's habit line correctly reads 7 rounds rather than 9, because three of her
+entries could not be back-solved.
+
+**First paint no longer waits for the solver.** The exact DP is ~330ms in jsdom and
+370–470ms in Chromium, and `compPlan()` is reached synchronously from `tipSide()` during
+the very first `render()` — call it a second of blocked paint on a phone. The page now
+returns a **provisional** plan immediately and queues the real solve on
+`requestIdleCallback` (falling back to `setTimeout(0)`), re-rendering only if the tips
+actually moved. The provisional plan is not a guess: first choice is the last solved plan
+for this exact stamp out of `localStorage` — `planStamp()` now folds in the data
+signature and a `PLAN_VER`, so the plan is a pure function of the stamp and a hit *is*
+the answer; second choice is the pipeline's frozen tiplog, i.e. what the last workflow
+run computed with this same code. Measured in Chromium: **0.7ms to first tips** on a cold
+cache (correct ones — they come from the tiplog), the real solve landing 446ms later with
+no tip change, and **0.2ms and no solve at all** on the next visit. `snapTips()` refuses
+to snapshot a provisional plan, and a *later* re-solve (a refresh or a comp poll moved the
+stamp) re-renders surgically with `ORDER_DIRTY` instead of calling `render()`, which would
+snap any open `<details>` shut — the same rule `pollComp()` follows.
+
+**The freeze must never defer.** `freeze_tips.mjs` publishes to every device; a
+provisional answer there would be the wrong tip everywhere. It sets
+`window.NRL_SYNC_PLAN`, which forces the synchronous path including the page's own boot
+render, and calls `compPlanSync()` before reading tips. `reference/crosscheck.mjs` does
+the same so it measures the real solve. Verified: R28 still freezes **DOL / CRO / PEN**,
+`0 new/changed` on a second run.
+
+### 9. The weekend this shipped for — Finals Week 1, 12 Sep 2026
+
+The whole rebuild existed to answer one question that Saturday morning, so the answer and
+the reasoning are recorded here rather than left in a scratch report. The plain-English
+version, written for Brigitte, is `docs/STRATEGY.md`.
+
+**The position.** Fetched from the live footytips API at 08:35 AEST, after Souths lost the
+Friday-night elimination final 10–20 to Newcastle:
+
+| # | Member | Total | totalMargin | R28 SOU–NEW |
+|---|---|---|---|---|
+| 1 | Claire with an i | 132 | 492 | SOU ✗ |
+| 2 | **Brigitte** | **131** | **476** | SOU ✗ |
+| 3 | Thorners69 | 130 | 515 | SOU ✗ |
+| 4 | Jake | 128 | 492 | SOU ✗ |
+| 5 | Special unit (Josh) | 121 | 506 | NEW ✓ |
+| 6 | Susie loo | 112 | 541 | NEW ✓ |
+
+Nobody in the top-four cluster can take the R28 perfect-round bonus — all four tipped
+Souths. Fourteen points of tipping remain (9 games + 3 possible bonuses, minus the game
+already gone). Susie is mathematically eliminated (112 + 16 = 128 < Brigitte's floor of
+131). Josh is not, *quite* — 121 + 16 = 137 — but he needs a literal 9-from-9 with every
+bonus *and* Brigitte to win ≤6 of her remaining 14; enumerated exactly over all 256 result
+paths, **P(Josh reaches her) = 0.61%**.
+
+**The recommendation: Dolphins / Sharks / Panthers. P(1st) = 44.7%.**
+
+| Game | Kick-off AEST | Tip | Why |
+|---|---|---|---|
+| NZW v DOL | Sat 16:05 (QF2, 2v3) | **Dolphins** | The one genuine split. Near coin-flip (42.5%) and Claire is ~81% to be on the Warriors. |
+| CRO v NQL | Sat 19:50 (EF1, 5v8) | **Sharks** | Favourite. Don't burn a second split on a 34% shot. |
+| PEN v SYD | Sun 16:05 (QF1, 1v4) | **Panthers** | Favourite — and the most important tip of the round. |
+
+All eight commit-now lines, from the Python reference (the page's own solver ranks them
+the same, ~2.5pt higher across the board — see §6):
+
+```
+DOL/CRO/PEN  44.73%   ← recommended
+NZW/NQL/PEN  42.63%   (−2.10)  second-best split
+NZW/CRO/PEN  41.74%   (−2.99)  all favourites
+NZW/CRO/SYD  41.23%   (−3.50)
+DOL/NQL/PEN  39.34%   (−5.39)  two splits — too much
+DOL/CRO/SYD  38.22%   (−6.52)
+NZW/NQL/SYD  36.27%   (−8.46)
+DOL/NQL/SYD  36.13%   (−8.60)
+```
+
+**Every line containing the Roosters ranks below every line without one.** Flipping one
+tip with the others held at their optimum: PEN–SYD swings **6.5 pts**, CRO–NQL 5.4, and
+NZW–DOL only 3.0. The biggest decision of the round was not the clever split — it was
+*not tipping the Roosters on Sunday*, which the app of 24 hours earlier could not do.
+
+**Why the Dolphins.** She is one point behind Claire and — the crux — **she wins the
+countback against everyone**: 476 against Claire 492, Jake 492, Thorners 515. So she does
+not need to *pass* Claire, she needs to *draw level* and stay there. P(she wins a
+final-score tie) = 95.8% vs Claire, ~100% vs Thorners, 76.2% vs Jake (same 16-point
+cushion, but Jake's margin guesses are wild). Taking the Dolphins costs 0.15 of an
+expected point and buys a ~34% chance (0.425 × 0.81) of gaining a full point on the
+leader, in a round where the countback then finishes the job.
+
+**Enter the tips game by game — worth another +0.8 pts.** Her rivals' three tips are
+already in; she is the only one who can still move, and footytips reveals each game's
+picks at its kick-off. Entering DOL before 16:05, then deciding CRO–NQL at ~19:40 and
+PEN–SYD on Sunday morning with the earlier results *and* the revealed picks in hand,
+lifts P(1st) to **45.5%**. The contingency table is in `docs/STRATEGY.md`; the short
+version is *the Sharks unless Claire was on the Warriors, the Warriors won, and at least
+one of Thorners/Jake was on the Dolphins*. Every branch is worth ≤1.2 pts, so if it has
+to be simple: just tip the Sharks. **The app does not model this** — the DP commits all
+of the round's free tips at once. Worth building if it is ever asked to advise "wait".
+
+**The margin habit.** R28's margin game was SOU–NEW, already played and scored — nothing
+to enter. But reconstructing `mpreds` turned up something free:
+
+| Member | Margins entered R24–R28 | Mean error |
+|---|---|---|
+| **Brigitte** | 4, 4, 4, 4, 4 | **12.0** |
+| Claire | 6, 6, 10, 6, 6 | 13.2 |
+| Thorners | 4, 0, 8, 8, 8 | 13.6 |
+| Jake | 14, 8, 22, 16, 12 | 15.2 |
+
+She types **"4" every single week**. It has served her well — best error in the group,
+which is *why* she holds the countback — but it is slightly under the mark: on this
+sample the error-minimising constant is **6** (11.6 vs 12.0), and the model's median
+margins for the possible R29 openers are 4–7. Moving her habit from 4 to 6 is worth ~0.4
+points of error per round, lifts the countback against Claire from 95.8% to 96.7%, and
+P(1st) by about **+0.2 pts**. Small, free, and now surfaced by `marginHabit()`. There is
+no "conservative" margin to play while ahead: the countback is a race on accumulated
+error, so the move that protects a lead *is* the most accurate available prediction.
+
+**Sensitivities — what the recommendation survives, and the one thing it doesn't:**
+
+| Dial | Setting | Best line | P(1st) | Favourites |
+|---|---|---|---|---|
+| Rival strategic awareness | 0.00 | DOL/CRO/PEN | 45.50% | 44.70% |
+| | 0.25 (default) | DOL/CRO/PEN | 44.73% | 41.74% |
+| | 0.50 | DOL/CRO/PEN | 45.93% | 40.71% |
+| `oddsW` | 0.00 (pure Elo) | DOL/CRO/PEN | 45.42% | 42.65% |
+| | 0.75 (default) | DOL/CRO/PEN | 44.73% | 41.74% |
+| | 1.00 (pure market) | DOL/CRO/PEN | 44.40% | 41.36% |
+| Tie-breaks | **she always loses them** | **NZW/CRO/PEN** | **31.63%** | 31.63% |
+| | model (default) | DOL/CRO/PEN | 44.73% | 41.74% |
+| | she always wins them | DOL/CRO/PEN | 45.80% | 42.80% |
+| Rival predictability | **×0.0 (coin flips)** | **NZW/CRO/PEN** | **51.08%** | 51.08% |
+| | ×0.5 | DOL/CRO/PEN | 44.58% | 43.97% |
+| | ×1.0 (as fitted) | DOL/CRO/PEN | 44.73% | 41.74% |
+| Home advantage | 0 pts (learned) | DOL/CRO/PEN | 44.17% | 42.32% |
+| | 2 pts (app default) | DOL/CRO/PEN | 44.73% | 41.74% |
+
+Two readings worth spelling out, because they are the load-bearing assumptions:
+
+1. **Her entire edge is the countback.** If ties went against her, P(1st) falls 44.7% →
+   31.6% and the optimal line reverts to plain favourites — with no countback she has to
+   out-score Claire outright and differentiation stops paying.
+2. **The split only pays because rivals are predictable.** If they were coin flips there
+   would be nothing to split *from* and favourites would be optimal (51.1%). At half the
+   fitted predictability the split is still ahead, but by only 0.6 pts. This is the
+   assumption the recommendation leans on hardest, and it is the weakest link: the fit is
+   on 127 picks from four mostly-lopsided rounds, while the recommendation turns on the
+   model's behaviour at a near-coin-flip (Claire at 81% on a 57.5% favourite).
+
+Strategic awareness is non-monotonic (0.25 is her *worst* setting) because a moderate
+amount of strategic play puts Thorners and Jake on the Dolphins beside her, while a lot of
+it makes them bleed expected points on splits that don't land.
+
+**Known limits, recorded so nobody rediscovers them at 2am:** `beh` is fitted in-sample
+on the market coefficient (hit rates mildly optimistic); `STRAT_AWARE = 0.25` is a
+construction, not an observation; the countback treats tie-break outcomes as independent
+across rivals (a bad margin guess hurts against everyone at once — this overstates P(1st)
+in tied states); Elo is held static through the finals (≤10 points of drift, ~1.5% on a
+win probability); injury adjustments for R28 were back-solved from the app's published
+probabilities and rounds 29–31 carry no injury information at all; `FINALS_MAX_RIVALS = 3`
+overstates by ≤0.61%; and if she entered no tip at all for a locked game the DP assumes
+she tipped the favourite rather than scoring zero (`defaultScoreMethod: Zero`) — she
+always tips, so it is theoretical.
+
+**What to do with more time:** fit the rival model on the full season rather than four
+rounds, and model the margin tie-break *jointly* (one shared actual margin, four
+correlated predictions) instead of as independent normals.
+
+---
+
 ## 2026-09-07 — Finals support: the app rolls into Finals Week 1 (rounds 28–31) instead of sitting on Round 27
 
 Josh, Monday after the last home-and-away round: the ESPN footytips app had moved

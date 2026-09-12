@@ -1,7 +1,52 @@
 # The Model — how a tip is calculated
 
+> **Read §5 first if you are here about the tip itself.** Since 2026-09-12 the model
+> produces a *probability*, and a separate solver turns probabilities into *tips*.
+> Everything between §1 and §4 is the probability. §5 is the decision.
 
-## THE SPLITS ARE NOW PRICED BY SIMULATION (2026-08-13, extended 2026-08-15)
+## THE OBJECTIVE IS P(BRIGITTE FINISHES 1st) — AND NO TEAM IS LOCKED (2026-09-12)
+
+The app belongs to **Brigitte** now (Josh's wife; footytips display name `Brigitte`),
+and it has exactly one objective:
+
+```
+U = P(Brigitte finishes 1st in the footytips comp)
+```
+
+Nothing else. No top-3 term, no top-4 term, no loyalty pick, no accuracy target. In
+code: `util = w.first/SIM_N`. `top3`/`top4` are still *counted* because the panel reads
+better with context, but they never enter the utility. Josh ("Special unit", 10 points
+back at the handover) is modelled as a rival like any other.
+
+**The Roosters lock is gone** — see §5, which used to be the section documenting it.
+`LOCK_MODE = "off"`. Its only other setting, `"tiebreak"`, prefers the Roosters when and
+only when the objective genuinely cannot separate the two options (exact equality of
+P(1st) in the finals solver; `|pHome−0.5| < 0.005` in the fallback). Verified on the R28
+data: flipping it to `"tiebreak"` returns **byte-identical tips** and the same P(1st) to
+six decimals. It is free, and it must stay free.
+
+Why this is not a matter of taste: at Finals Week 1 2026, with Brigitte 2nd on 131 and
+three games left in the round, tipping the Roosters in the Sunday qualifying final was
+worth **−6.5 points of comp-win chance** — a bigger swing than any other decision on the
+board, and one the old app was structurally incapable of making.
+
+**In the finals (rounds 28–31) the split policy is not simulated at all — it is solved
+exactly.** `finalsPlan()` enumerates the whole remaining bracket and does backward
+induction over it: no PRNG, no sampling error, no EPS. `simComp()` below survives as the
+regular-season path and as the fallback if the bracket cannot be resolved. Full detail
+in §5; the plain-English version is in `docs/STRATEGY.md`.
+
+
+## (superseded 2026-09-12) THE SPLITS ARE NOW PRICED BY SIMULATION (2026-08-13, extended 2026-08-15)
+
+> **SUPERSEDED in part.** The objective described below (`U = P(top 4) + P(top 3) +
+> P(1st)`) was replaced by pure P(1st) on 2026-09-12, and "never the Roosters game" is
+> gone with the lock. `simComp()` itself is still the regular-season engine and still
+> works as described; in the finals it is the fallback. `SIM_N` is 8,000 now, not 3,000,
+> and `EPS = max(0.003, 2·sqrt(0.25/SIM_N))` — under a pure-P(1st) utility the old fixed
+> 0.003 was about a third of the Monte-Carlo standard error, so the tie-breaks fired on
+> noise every run.
+
 
 The split-selection layer of the 2026-08-10 policy below was replaced by an
 in-page Monte-Carlo season simulator, `simComp()`. **Objective (2026-08-15):
@@ -30,7 +75,16 @@ the simulator's honest P(1st)/P(top 3), the margin-game median advice, and
 the adherence tally. Full detail in `docs/CHANGELOG.md` 2026-08-13 (night).
 
 
-## THE OBJECTIVE CHANGED (2026-08-10): win the comp, not maximise accuracy
+## (superseded in part 2026-09-12) THE OBJECTIVE CHANGED (2026-08-10): win the comp, not maximise accuracy
+
+> **SUPERSEDED in part.** Step 1 below ("Roosters lock first, always") no longer exists.
+> The need bands in step 3 are now only a *candidate filter* (θ floored at 0.65) and the
+> fallback path; in the finals the split set comes from the exact solver in §5. Step 2's
+> "deficit to the MAX of the rivals at-or-above Josh" is now countback-aware and measured
+> against Brigitte (`cbBeats()` — a rival level on points with a *lower* cumulative
+> margin error is ahead of her). Everything else — the `predict()`/`tipSide()` seam,
+> oddsW 0.75, `oddsWeightLearned`, the per-tip `.mkt` logging, the anti-tilt rule —
+> stands unchanged.
 
 A three-specialist audit (data scientist, professional bettor, behavioural
 psychologist — full findings in `docs/CHANGELOG.md`) rebuilt the DECISION layer.
@@ -138,7 +192,7 @@ else          margin = (effRating(home,'home') - homeInjury)
 Then the margin is squashed:
 
 ```
-modelP = logistic(margin) = 1 / (1 + e^(-margin / scale))    // scale = logisticScale, PINNED at 7 (see §5)
+modelP = logistic(margin) = 1 / (1 + e^(-margin / scale))    // scale = logisticScale, PINNED at 7 (see §4)
 ```
 
 The margin identity the "Show the working" ledger relies on is now simply:
@@ -151,7 +205,9 @@ market = de-vig(closingOdds)              // remove the bookmaker's margin, get 
 pHome  = (1 - oddsWeight) * modelP + oddsWeight * market      // oddsWeight default 0.5
 ```
 
-The favourite (higher `pHome`) is the model's tip — **except** the Roosters game (§5).
+The favourite (higher `pHome`) is the **model's** favourite — `modelFav(p)`. It is not
+necessarily the tip: `tipSide(p)` asks the comp question on top of it (§5). Keep the two
+apart; every reporting surface uses `modelFav`, every tip-naming surface uses `tipSide`.
 
 > **When the model's margin side and the blended favourite differ** (the bookies flip
 > the tip across 50%), every surface must pair each number with its own team — the
@@ -250,42 +306,314 @@ blend naturally discounts it (no double-counting).
   injury penalty and the HGA ~40% more potent at inference than designed. It cannot
   be learned from win/loss outcomes; never re-add it to the grid (see `GOTCHAS.md`).
 - **Backtest:** after fitting, it computes Brier, log-loss and hit-rate over the memory
-  and appends one `{date, games, brier}` history snapshot. It also computes the
-  **loyalty tax walk-forward**: `backtest.lockTax = {games, modelRight, rkWins}`,
-  counted from each Roosters game's *pre-game* Elos. The front-end's "Roosters tax"
-  line reads ONLY this field — if it's absent, it shows nothing rather than a
-  hindsight number (the old front-end computation graded past games with the
-  *current* Elo, which already contained each game's own result).
+  and appends one `{date, games, brier}` history snapshot.
+  > **Removed 2026-09-12: `backtest.lockTax`.** It measured "how many tips has the
+  > forced Roosters pick cost", walk-forward from each Roosters game's pre-game Elos.
+  > With no forced pick there is no tax, so `LOCK_TEAM`, `lock_tax_metrics()` and the
+  > `backtest["lockTax"]` assignment were all deleted from `learn_model.py`.
+  > `validate_learned.py` never required the key, so the publish gate is unchanged.
+  > The *principle* that produced it is still live and still important: **never
+  > recompute a historical grade in the browser from current Elo** — the current Elo
+  > already contains each game's own result. See GOTCHAS 2026-08-02.
 - **Guardrail:** under `LOW_CONFIDENCE_THRESHOLD = 30` games it holds conservative
   defaults instead of grid-search results and sets `lowConfidence = true`; the
   front-end then ignores the learned params entirely (see §1).
 
 ---
 
-## 5. The Roosters lock (the one inviolable rule)
+## 5. No team is locked — the exact finals solver
 
-In the Roosters' own fixture the tip is **forced to `SYD`**, no matter what the model
-computes. The model still runs for that game — the app uses it to tell you honestly
-whether the model agrees with the loyalty pick or not, and tracks a running
-**"Roosters tax"**: how many tips the forced pick has cost versus what the model would
-have chosen. Never remove or "correct" this lock; it's the point of the app.
+*(2026-09-12. This section used to be "The Roosters lock (the one inviolable rule)" and
+described a forced `SYD` tip plus a running "Roosters tax". Both are gone end-to-end.
+The old text is preserved in `docs/CHANGELOG.md` 2026-07-29 and 2026-08-04 if you need
+the archaeology.)*
 
-**Where it lives:** one helper, `tipSide(p)` in `nrl-tipping-guide.html`. It returns the
-Roosters whenever either side is `LOCK`, and `modelFav(p)` otherwise. Every surface that
-names a tip calls it — quicklist, the card's tipline and ★/🔒 badges, **Copy tips**, and
-the ledger's for/against colouring. (Until 2026-07-29 each of those recomputed
-`pHome>=0.5?h:a` independently and only *annotated* the Roosters game, so the lock was
-cosmetic: with the model disagreeing, "Copy tips" pasted the Roosters' **opponent**
-labelled `(locked)`, and the tax measured a rule that wasn't being applied.)
+### 5.0 The seam
 
-`predict()` deliberately does **not** apply the lock — it returns the model's own
-probability, which is what lets `lockHero` say "⚠ Risky this week — the model favours X",
-the ledger print the loyalty-pick line, and the tax be computed at all. If you add a new
-surface: call `tipSide()` for the pick, `modelFav()` only to report what the model thinks.
+```
+predict(fx)   →  an honest probability. Never knows about the comp. Never shaded.
+modelFav(p)   →  the side that probability likes. REPORTING ONLY.
+tipSide(p)    →  the side actually tipped. THE DECISION.
+```
+
+`tipSide()` is one place, and every surface that names a tip calls it (quicklist,
+`cardHTML`, `copyTips`, the ledger's for/against colouring, `freeze_tips.mjs`). Its whole
+body is:
+
+1. Is this game in `compPlan().splits`? → tip the underdog named there.
+2. Is the game an exact coin toss (`|pHome−0.5| < 0.005`) **and** `LOCK_MODE ===
+   'tiebreak'`? → `lockPref()` may prefer the house club. Default `LOCK_MODE = "off"`,
+   so in the shipping configuration this branch never fires.
+3. Otherwise `modelFav(p)`.
+
+Do not move strategy out of `tipSide()` and do not let it leak into `predict()`. The
+freeze, the grading, the flip feed and every card assume that single seam.
+
+### 5.1 Why a split is ever correct
+
+Brigitte cannot pass a rival by making the rival's picks. Points only change hands in
+games where their tips **differ**. A split — tipping the underdog — buys a chance of
+gaining a point on a specific rival, at the cost of expected points. It is worth it only
+when the price is small (a near coin-flip) and the payoff is real (the rival is very
+likely on the other side).
+
+There is a second reason it works in 2026, and it is the reason the answer is as
+aggressive as it is: **footytips breaks a points tie on the lower cumulative margin
+error** (`rankByMargin`), and Brigitte holds that countback against everyone. She does
+not need to *pass* the leader; she needs to *draw level* and stay there. §5.5.
+
+### 5.2 `finalsPlan()` — full enumeration + backward induction
+
+From Finals Week 1 there is no season left to sample: nine games, four rounds, one
+bracket. So the finals rounds are not simulated — they are **solved**.
+
+**The bracket** is derived from the ladder (`teams[]` ships in ladder order, so the seeds
+are its first eight rows) and is the real NRL system, not a generic knockout:
+
+```
+week 1 (r28)  QF1 = 1v4      QF2 = 2v3      EF1 = 5v8      EF2 = 6v7
+week 2 (r29)  SF1 = QF1 loser (HOSTS) v EF1 winner
+              SF2 = QF2 loser (HOSTS) v EF2 winner
+week 3 (r30)  PF1 = QF1 winner (HOSTS) v SF2 winner
+              PF2 = QF2 winner (HOSTS) v SF1 winner
+week 4 (r31)  GF  = PF1 winner v PF2 winner, NEUTRAL venue
+```
+
+**"Higher seed hosts" is wrong for the preliminary finals** and the code does not do it:
+the *qualifying-final winners* host, which differs whenever a seed-1 side loses its QF
+and comes back through a semi. The audit walked all 256 week-1..3 outcome paths against
+an independently-built bracket: 0 matchup mismatches, 0 hosting differences.
+
+Which specific matchup a future round produces is the whole point — a 1v4 qualifying
+final and a 6v7 elimination final are different problems, and *which* one the rivals are
+likely to misread is where the value is. Generic future games would erase that.
+
+Games already played are read out of the results memory (`finalsResultWinner()`), never
+simulated; a missing result means the bracket is unknowable and `finalsCtx()` returns
+null → `finalsPlan()` returns false → the Monte-Carlo path takes over.
+
+**Game probabilities.** The current round uses `predict()` — Elo + injuries + the market
+blend, i.e. exactly the number printed on the card, so the panel and the card can never
+disagree. Future rounds have no odds and no team lists, so they run on Elo + the learned
+home edge only (`finalsEloP()`), with **no home edge at all in the Grand Final**.
+
+**The state** is `(bracket path, three rival score deltas)`. `path` is a bitmask of which
+side won each decided slot; the deltas are `rival.totalScore − me.totalScore`, clamped
+into an **absorbing band** of ±(points still available + 1). The clamp is *exact, not an
+approximation*: once a rival is further ahead than everything still on offer, nothing
+later can change the answer. The audit re-ran the entire solve with the band widened by
+eight points in every dimension and got **bit-identical values to 17 significant
+figures** — that is the proof, and it is worth re-running if anyone touches the band.
+
+Everything memoises into flat `Float64Array`/`Uint8Array` tables keyed by integer (one
+table per future round, ~7 MB for a four-round bracket, thrown away with the plan). Cost:
+**~330 ms** for a Finals Week 1 bracket — 114k memo states, ~18M inner iterations — and
+1–50 ms for the later, smaller rounds. It runs **once per `planStamp`**, not per render.
+
+Optimisation history, so nobody re-treads it: 1108 ms → 590 ms (pooled scratch buffers,
+integer memo keys) → 366 ms (flat typed-array memo, successor read inlined into the hot
+loop) → ~330 ms (hoisted index arithmetic, split the loop-invariant branch), every step
+verified value-identical to six decimals. A Float32 memo bought another 13% and was
+**rejected**: the DP sums thousands of terms and the tie-break compares at 1e-12. The
+only honest lever left is probability-floor pruning, which would make it approximate.
+
+### 5.3 The rival model — `beh`, and `BEH_AFF_K` lockstep
+
+Each rival's pick probability comes from a **per-member logistic fitted in
+`cloud_fetch.py`** and shipped in `nrl_comp.js`:
+
+```
+P(member tips HOME) = sigmoid( a + b·lp + loy·(affShare(home) − affShare(away)) )
+```
+
+- `lp` — the game's Elo logit (`_elo_logit()` mirrors the page's
+  `eloGapToPoints()`/`logistic()` exactly, so both sides see the same covariate).
+- `affShare(team)` — that member's season share of picks in that team's games,
+  **shrunk toward a coin flip by `BEH_AFF_K` pseudo-games** so a two-appearance team
+  can't scream.
+- Fitted by plain Newton with an L2 ridge (`BEH_RIDGE = 0.25`) on a 3×3 system, in pure
+  Python — the workflow runner has only `requests` + `beautifulsoup4`, no numpy. Members
+  with fewer than `BEH_MIN_PICKS = 20` picks ship no fit.
+- Shipped as `beh: {a, b, loy, n, hit}`. 2026 values: `b` 0.31–1.60, `loy` 2.16–5.09,
+  in-sample `hit` 0.70–0.83, `n` 198–204.
+
+> **`BEH_AFF_K` MUST be identical in `cloud_fetch.py` and `nrl-tipping-guide.html`.**
+> The fit and the evaluation must see one and the same covariate. Change it in one file
+> only and the coefficients are being applied to a different variable than they were
+> fitted on — silently, with no error and no obviously wrong output. Both files carry
+> the warning at the constant; keep it there.
+
+> **Why leave-one-out matters.** A member's affinity share for team X is *literally the
+> mean of their own picks in X's games*, so the pick being predicted is inside its own
+> covariate. Fed in raw it is a perfect in-sample predictor and drove the market/form
+> coefficient `b` to **exactly 0.00** for all six members. Each training row therefore
+> uses the share with *that* pick removed, then shrunk. Measured: `b` went from 0.45 to
+> 1.1+ once this was fixed. Do not "simplify" the `_share()` closure.
+
+If no fit shipped (an old `nrl_comp.js`, or too few picks), the page falls back to
+`predictPick()` (the 2026-08-10 loyalty predictor) applied at that member's `herdRate()`.
+Same tips in the R28 test, but `pFirst` reads ~3.5 points higher and splits are priced at
++0.3 instead of +2.0 — see the deploy-ordering note in GOTCHAS.
+
+### 5.4 `STRAT_AWARE` — rivals play strategically too, sometimes
+
+Everyone in a tight finals comp is capable of splitting deliberately. `finalsStratVector()`
+models that: **with probability `STRAT_AWARE` (0.25) a rival plays a comp-aware line for
+the WHOLE round** —
+
+- level with or ahead of the leader → cover with favourites;
+- behind by `d` → take the underdog in the `ceil(d/2)` most winnable games, skipping any
+  underdog below 15% (a hopeless split is worse than useless).
+
+Two properties are load-bearing:
+
+- **The mode is latent and per-round, not per-game.** That is what correlates a rival's
+  picks *within* a round, and correlation is what makes one observed pick informative
+  about their others.
+- **It never overrides a pick that is already visible.** Once a game kicks off footytips
+  reveals what everyone actually tipped; `fixedPicks` pins those, for both the
+  behavioural and the strategic component.
+
+`STRAT_AWARE = 0.25` is a **construction, not an observation** — R24–R27 were
+regular-season rounds with the comp not yet tight, so there is nothing to fit it on. The
+reference solver's sensitivity sweep says the R28 recommendation survives 0.00, 0.25 and
+0.50 (the effect is non-monotonic: a *moderate* amount of strategic play is worst for her,
+because it puts Thorners and Jake on the Dolphins beside her, while a lot of it makes them
+bleed points on splits that don't land). It is a single page constant, easy to retune.
+
+### 5.5 The countback — `finalsTieProbs()`
+
+footytips' `rankByMargin` gives a points tie to the **lower cumulative margin error**
+(`totalMargin` = Σ over rounds of |predicted margin − actual margin of that round's
+designated margin game, which is the round's FIRST game`|`). Brigitte's 476 against
+Claire's 492, Jake's 492 and Thorners' 515 is her entire edge, so a tie is **not** a loss
+here and must never be priced as 0.5.
+
+It is modelled as a race on accumulated error. With `D_r` = (their error − her error) in
+round `r`, she keeps the tie iff `currentLead + Σ D_r > 0` over the margin games still to
+come:
+
+```
+mean per round  = lead / rounds        (from the season totals — 28 rounds of evidence)
+sd              = sd of the per-round differences, floored at 5, default 10
+P(tie kept)     = Φ( (lead + mgLeft·mean) / (sd·√mgLeft) )
+```
+
+Two rules the code enforces and you must not relax:
+
+- **Only zip the per-round histories when `COMP.roundIndexed` is true.** On an old dense
+  file, index *i* is her *i*-th recorded round and his *i*-th, which are different
+  calendar rounds the moment either has a gap. Refusing to zip falls back to the
+  season-total mean with sd 10 — imprecise, but not silently wrong.
+- **Both sides of every pair must be numbers.** Nulls are gaps, not zeroes.
+
+Known simplification: tie-break outcomes are treated as **independent across rivals**. A
+bad margin guess by her hurts against everyone at once, so this slightly overstates
+P(1st) in tied states. Same simplification as the Python reference. An exact dead heat
+(identical cumulative margin) is treated as probability zero; footytips would actually
+show a shared rank.
+
+### 5.6 The bonus, and who gets modelled
+
+- **`allCorrectBonus` +2 applies in finals rounds too.** A one-game Grand Final round
+  pays 1 + 2 = **3**. The audit's hand-computed GF at deficits 0–4 is what proves the
+  page pays it: 2 behind is only survivable *because* a correct one-game round pays 3.
+- **Alive-aware.** A wrong tip in a game already played this round kills that tipper's
+  bonus for the round (`myBonus` / `rivBonus[]`). An *unknown* tip is treated as broken.
+- **`FINALS_MAX_RIVALS = 3`.** The DP is exact in three rival deltas; a fourth costs
+  ~25× the state space and will not run in a browser. Rivals are taken
+  highest-score-first among the mathematically alive, so truncating can only
+  **overstate** P(1st) — and the Python reference enumerated exactly how much, over all
+  256 remaining result paths, for the one truncated 2026 rival (Josh, who needs a literal
+  9-from-9 with every bonus): **0.61%**. Every P(1st) the app prints is therefore high by
+  at most that. In a tighter comp with four genuinely live rivals this is the constant to
+  worry about first.
+- **The aliveness filter is ONE-SIDED, deliberately.** Only the provably beaten
+  (`m.totalScore + maxGain < me.totalScore`) are dropped. See GOTCHAS "the one-sided
+  aliveness filter" — dropping an out-of-reach *leader* made the DP see no threats and
+  return **1**, printing "Chance of winning the comp: 100%" while she was mathematically
+  eliminated.
+
+### 5.7 Reading the answer off, and arming a split
+
+`playRound()` returns the value of every admissible tip vector for the round. Then:
+
+- **Tie-breaks, in order: favourites → the incumbent frozen tip → `LOCK_MODE`.** Exact
+  equality only (`EQ = 1e-12`), so this can never cost win probability. Favourites lead
+  because the exact DP has no sampling noise — a tie is a *real* tie, reproducible run to
+  run — so incumbency buys nothing here and does harm in a decided comp, where every line
+  prices identically and "the incumbent" is whatever the tiplog last held. (Leading by 30
+  with three rounds left, incumbent-first armed three underdogs as splits "worth +0.0
+  points" and swallowed the cover-mode sentence.) Incumbency stays *first* in the
+  Monte-Carlo path, where it exists to stop noise churning the flip feed.
+- **A split is armed only when the underdog is strictly worth more** (`vDog > vFav + EQ`).
+  Each game's price is computed honestly: the best achievable P(1st) with that game pinned
+  to the favourite, versus pinned to the underdog. That difference is the number the panel
+  prints ("+2.0 pts of win chance"), and it is in **win probability**, not expected tips.
+- The "tipping favourites the rest of the way" baseline pins her *locked* games to what
+  she actually entered — it is an honest "tip chalk from here", not a rewrite of history.
+
+### 5.8 The boot path — provisional plan, idle solve
+
+A ~330 ms synchronous solve on first paint is ~1 s of blocked paint on a phone, and Josh's
+rule is that the app just works with no narration. So `compPlan()` is a **front door that
+always returns synchronously**:
+
+1. the in-memory plan, if it is for this stamp and not provisional; else
+2. `planCacheRead()` — the last solved plan for **this exact stamp** out of
+   `localStorage` (`nrl_plan_v1`). This is an *answer*, not a guess, because
+   `planStamp()` is `PLAN_VER | COMP_STAMP | round | lockedMask | results |
+   dataSig(SRC) | gamesLearned | TIPLOG.length` — the plan is a pure function of it; else
+3. `planFromTiplog()` — the pipeline's frozen tips read back as a split set, i.e. what
+   the last workflow run computed **with this same code**, marked `provisional`; else
+4. straight favourites.
+
+The real solve is queued by `schedulePlanSolve()` on `requestIdleCallback` (timeout 400 ms,
+`setTimeout(0)` fallback) and re-renders only if `splitSig()` changed. Measured in
+headless Chromium: **0.7 ms to correct tips** cold, solve landing 446 ms later with no
+change; **0.2 ms and no solve at all** on a return visit.
+
+Three guards, all load-bearing:
+
+- **`PLAN_VER` (`'dp1'`) must be bumped whenever the solver's maths changes**, or a
+  returning device reuses the previous model's cached plan.
+- **`snapTips()` refuses to snapshot a provisional plan.** The local snapshot is the
+  "what this browser actually showed pre-kickoff" grading backup; a tip that stood for one
+  frame is not that.
+- **A *later* re-solve re-renders surgically** (`renderCompBits()` + `renderStratBits()` +
+  `ORDER_DIRTY`), never `render()`, which would snap open `<details>` shut. Only the first
+  solve of the session does a full render. Same rule `pollComp()` follows.
+
+**The freeze must never defer.** `freeze_tips.mjs` publishes to every device; a
+provisional answer there is the wrong tip everywhere. It sets `window.NRL_SYNC_PLAN`
+before the page's scripts (forcing the sync path in the page's own boot render too) and
+calls `compPlanSync()` before reading tips. `reference/crosscheck.mjs` does the same.
+
+### 5.9 Verifying a change to any of this
+
+1. `node reference/crosscheck.mjs` — boots the real page in jsdom and compares P(1st) for
+   every R28 tip vector against `reference_finals_solver.py`. `COMPFILE=…` points it at a
+   `nrl_comp.js` with fitted `beh` (the shipping configuration).
+2. `node freeze_tips.mjs` **twice** — the second run must report `0 new/changed`.
+3. `node smoke_test.mjs` (59/59) and `python3 test_ios_viewport.py` (20 green).
+4. Compare a real headless Chromium render against the jsdom freeze: `pFirst` must match
+   to the last bit.
+
+Expect the page and the Python reference to differ by up to ~3.2 points *uniformly* — the
+reference fits one global no-intercept logistic over R24–R27 (strongly market-following,
+therefore accurate rivals), the page fits per-member over the whole season (more
+loyalty-driven, therefore slightly less accurate rivals, therefore a uniformly higher
+P(1st) for her). What must **not** differ: the best line, and the ordering of
+Roosters-containing lines below non-Roosters ones.
 
 ---
 
-## Glossary
+## 6. Glossary
+
+*(Numbered 2026-09-12. Several code comments and docs used to point at "docs/MODEL.md
+§6" when there was no §6 — §5 was the lock and the glossary was unnumbered. The dangling
+references in `nrl-tipping-guide.html` were cleaned up in the same batch; this heading
+exists so any that survive in old notes resolve to something.)*
 
 - **Margin** — predicted/actual home points minus away points. The model's native unit.
 - **Elo** — a self-correcting rating; teams gain/lose points based on results vs

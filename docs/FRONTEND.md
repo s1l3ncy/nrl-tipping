@@ -38,6 +38,58 @@ sample data" banner; no learned params; flat injury fallback.
 - Accuracy history: key `nrl_acc_v3`. Comp-format setting: `nrl_compformat_v1`.
 - **Do not** introduce `sessionStorage` or external storage; `localStorage` only.
 
+**The full key list, with the 2026-09-12 bumps:**
+
+| Key | Holds | Note |
+|---|---|---|
+| `nrl_v3_<season>_<round>_<updated>_<sig>` | user edits (logged results, tweaked stats) | pruned on save |
+| `nrl_acc_v3` | accuracy history | |
+| `nrl_compformat_v1` | comp-format setting (win / margin / confidence) | |
+| `nrl_tab_v1` | which tab was last open | |
+| **`nrl_snap_v2`** | this browser's pre-kickoff tip snapshots (grading backup) | **bumped from `_v1` 2026-09-12** — the `_v1` snapshots hold the *old locked* tips and would grade a game against a rule that no longer exists |
+| **`nrl_adh_v2`** | "You vs the machine" adherence counts, per device | **bumped from `_v1` 2026-09-12** — the accumulated rounds on `_v1` are the *previous owner's* adherence; carrying them forward would make the tally lie |
+| **`nrl_plan_v1`** | **NEW 2026-09-12** — the last solved comp plan, keyed by `planStamp()` | see the boot path below |
+| `nrl_compstrat_v1` | dead (strategy has been always-on since 2026-08-10) | |
+| ~~`nrl_compstrat_hist_v1`~~ | the old client-side affinity cache | superseded by `nrl_comp.js` |
+
+**`nrl_plan_v1` is a cache of an answer, not a guess.** `planStamp()` is
+`PLAN_VER | COMP_STAMP | round | lockedMask | results | dataSig(SRC) | gamesLearned |
+TIPLOG.length`, so the plan is a pure function of it and a hit on the same stamp *is*
+the same answer. **`PLAN_VER` (`'dp1'`) must be bumped whenever the solver's maths
+changes**, or a returning device will happily reuse the previous model's plan.
+
+### The boot path — first paint never waits for the solver (2026-09-12)
+
+The exact finals solver costs ~330 ms in jsdom and 370–470 ms in Chromium (call it a
+second of blocked paint on a phone), and `compPlan()` is reached synchronously from
+`tipSide()` during the very first `render()`. Josh's rule is that the app just works with
+no narration of background jobs, so:
+
+1. **`compPlan()` always returns synchronously.** In-memory plan for this stamp →
+   `planCacheRead()` (localStorage, same stamp) → `planFromTiplog()` (the pipeline's
+   frozen tips read back as a split set, marked `provisional`) → straight favourites.
+2. **`schedulePlanSolve()` queues the real solve** on `requestIdleCallback` (timeout
+   400 ms, `setTimeout(0)` fallback). `compPlanSolve()` is the old synchronous body and
+   writes the cache on all three success exits.
+3. **It re-renders only if `splitSig()` changed.** The *first* solve of the session may
+   call `render()` — nothing is unfolded yet. Any *later* one (a data refresh or a comp
+   poll moved the stamp) must go surgical: `renderCompBits()` + `renderStratBits()` +
+   `ORDER_DIRTY`, because a full `render()` snaps every open `<details>` shut. Same rule
+   `pollComp()` follows.
+
+Measured in headless Chromium: **0.7 ms to correct tips** on a cold cache (they come from
+the tiplog), the real solve landing 446 ms later with no change; **0.2 ms and no solve at
+all** on the next visit; 409 ms for the forced synchronous path.
+
+Two guards:
+- **`snapTips()` refuses to snapshot a provisional plan.** The snapshot is the "what this
+  browser actually showed pre-kickoff" grading backup; a tip that stood for one frame is
+  not that.
+- **The freeze must never defer.** `freeze_tips.mjs` sets `window.NRL_SYNC_PLAN` ahead of
+  the page's scripts — forcing the sync path in the page's own boot render too — and calls
+  `compPlanSync()` before reading tips. `reference/crosscheck.mjs` does the same so it
+  measures the real solve.
+
 ### Staying fresh (rebuilt 2026-08-04 — the app now auto-updates while open)
 The data files load via `<script src>` for instant paint and offline use.
 `refreshFromNetwork()` re-pulls all five data files with a `?v=<ts>` cache-buster and
@@ -82,14 +134,15 @@ JSON does not, so a static page cannot read it). Search `pollLive` in the file.
   non-empty (a fixture 10 min before kick-off → ~3h20 after, with no pipeline
   result yet). Any other time it's a no-op — zero network for most of the week.
   Foreground return forces an immediate check (`pollLive(true)`).
-- **Display-only overlay**: the card, lock hero, quick list and schedule rows read
+- **Display-only overlay**: the card, quick list and schedule rows read
   it; the results memory, tip log, grading and model never do. `fixtureResult()`
   is checked FIRST at every call site, so the pipeline's official result always
   beats a lingering ESPN entry, and an ESPN `post` merely bridges the hours until
   the pipeline appends the real one.
 - **`renderLiveBits()` — not `render()` — handles score ticks.** It replaces only
   the live cards (which are foldless like the FT card, so in-place replacement is
-  safe) and redraws `lockHero` / `quicklist` / `weekAhead`. Calling `render()`
+  safe) and redraws `quicklist` / `weekAhead` (and `lockHero` until it was removed
+  2026-08-08). Calling `render()`
   here would collapse open folds every 45s — the exact bug `contentStamp()`
   exists to prevent. The quick list lives in `renderQuicklist(preds)` so this
   partial path and `render()` share one implementation.
@@ -100,7 +153,10 @@ JSON does not, so a static page cannot read it). Search `pollLive` in the file.
 
 ### Friends' comp tips (2026-08-09 — footytips, fetched by the open page)
 
-Josh's ESPN footytips comp ("Family Feud") renders on the Tips screen: a
+The family's ESPN footytips comp ("Family Feud", `COMP_ID` 1372189, ladder 381260129)
+renders on the Tips screen. *(It was Josh's comp when this was written; since 2026-09-12
+the page plays for **Brigitte** and Josh — "Special unit" — is one of the rivals in it.)*
+It shows: a
 **Comp strip** on every LOCKED game's card, and a **mini comp ladder**
 (`#compPanel`, under the Quick list / in the ≥1280px rail). Search `pollComp`
 in the file. **Since 2026-08-13 the strip is grouped by SIDE and rendered as
@@ -121,8 +177,20 @@ slightly faded) shares the same anatomy. No `.cpick` pills remain. Key facts:
   node (a locked pre-game card can have an open fold) + `renderCompPanel()`.
   Full renders embed the strip via `compStripHTML(p)` in all three card states.
 - Config: `COMP_ID` / `COMP_LADDER` / `COMP_ME` constants (`COMP_ID=0`
-  disables the feature; `COMP_ME` marks "(you)" because the anonymous API
-  never sets `currentUser`). Display names only — never surnames.
+  disables the feature). Display names only — never surnames.
+- **`COMP_ME` is the single source of truth for identity (2026-09-12).** It marks
+  "(you)", and `compFromFile()` now **re-derives `me` from it by name**, using the
+  file's own `me` flag only when no name matches. Without that, a stale `nrl_comp.js`
+  (the committed one said `Special unit` for a while) silently makes the jsdom freeze
+  tip for one person while browsers tip for another. `pollComp()` also dropped
+  `!!u.currentUser||` from its `me` test: that flag is server-side and always false on
+  our anonymous fetch, but a stray footytips session cookie would mark a *different*
+  member as "me" on each family member's phone. Its lockstep partner is
+  `FOOTYTIPS_ME` in `cloud_fetch.py` — change both or neither.
+- **A `COMP_ME` that names nobody warns loudly** (`console.warn` on boot, stderr
+  WARNING in `build_comp_js`) and says whose flag it fell back to. It used to warn only
+  when *nobody* carried the flag, which let a stale flag run the page for the previous
+  owner in total silence. Non-fatal — the comp is never a publish gate.
 - Strips are strictly locked-only (`compLocked()`): footytips seals a
   round's tips server-side until the round starts, so there is nothing to
   show earlier anyway (a short-lived "early picks" toggle was removed
@@ -140,7 +208,44 @@ comp panel (`renderCompPanel`) now also carries: a **chances line** inside
 round, median play), and the **adherence line** (`.adhline`, "You vs the
 machine": entered/matched/deviation cost, localStorage counts per device).
 
+**Panel wording, rewritten 2026-09-12.** `.stratline` now leads with the one number
+that is the objective:
+
+> `Chance of winning the comp: 46% — 1 behind Claire, 3 rounds left · tipping favourites
+> the rest of the way: 44%`
+
+and beneath it **one `.stratline.sub` per armed split** (new CSS rule, amber, 4px top
+margin), each priced:
+
+> `🎯 Dolphins over Warriors: +2.0 pts of win chance (Claire ~78% on NZW)`
+
+Rules baked into that copy — keep them:
+- The old line led with P(top 4) and P(top 3). Those are not the objective and invite
+  the wrong decision. One number, and the honest floor beside it.
+- **"N rounds left" counts rounds still to COME** (`roundsAhead()`), so the current
+  round only counts while it still has a game in it.
+- **A rival level on points but ahead on the countback prints "level with Claire, behind
+  on the countback"**, never "0 behind Claire" — `plan.d` is 0 in exactly the state the
+  countback exists to decide (2026-09-12 audit).
+- **While the idle solve is still running** there is no honest percentage, so the line
+  reads `… · working out the comp odds…` rather than printing a number it doesn't have.
+  It is the only place the app admits to a background job, and it is one clause long.
+- With no splits armed: `· cover mode: straight favourites, make them chase.` when
+  leading, `· no split raises the win chance right now — tipping straight.` when not.
+- `.stratline.sub` only renders when `plan.sim.perGame` exists, i.e. on the exact finals
+  solver. The Monte-Carlo path falls back to the plain 🎯 count.
+- `marginHabit()` appends to `.mgline`: *"You've entered 4 in each of the last 7 rounds
+  — the number above is the one to beat."* It reads round-indexed `mpreds[]`, steps over
+  trailing nulls to find the most recent entry but **stops the run at the first gap** —
+  "in each of the last N rounds" has to be literally true. Needs a run of ≥4.
+
 ### Comp-aware tips (2026-08-10 audit rebuild — the tip IS the strategy)
+
+> **Updated 2026-09-12.** Still true that the tip *is* the strategy; what changed is the
+> objective (pure P(1st)), the removal of the lock step, and that in rounds 28–31
+> `compPlan()` calls the **exact** solver `finalsPlan()` instead of `simComp()`. The
+> need bands survive as a candidate filter and the fallback. `MODEL.md` §5 is the
+> current description; `docs/STRATEGY.md` is the plain-English one.
 
 `tipSide()` now IS the comp policy (see MODEL.md "THE OBJECTIVE CHANGED"):
 `compPlan()` (lazy, stamped on standings+round+locked-set) picks ≤cap splits
@@ -153,6 +258,14 @@ and preserves file-shipped `aff` by name. A comp change sets `ORDER_DIRTY`
 `nrl_comp.js`, so frozen tips are byte-identical to browser tips.
 
 ### (superseded) Comp strategy mode (2026-08-10 — always on)
+
+> **Also superseded 2026-09-12:** "never the Roosters game" is gone with the lock (that
+> game turned out to be the most valuable decision on the board), and in the finals
+> rivals are predicted by the per-member fitted logistic `beh` plus the `STRAT_AWARE`
+> strategic layer rather than by loyalty alone — `predictPick()` survives as the
+> fallback when no `beh` shipped. Strategy stays always on; the reader is Brigitte now,
+> so the original rationale ("nobody else will see this page") is weaker but the answer
+> is the same — the page shows *her* plan and Josh is a rival in it.
 
 ALWAYS ON (Josh, 2026-08-10: "nobody else will see this page. it doesnt
 need a toggle" — re-gate via `getStrat()` if that ever changes). Active: `fetchCompHistory()` pulls every completed round once and
@@ -199,19 +312,27 @@ i.e. the user just opened the app mid-game and nothing is mid-read).
 | `normName`, `playerImpact`, `injuryPenalty`, `namedSquad` | Position×rating injury weighting (uses `PLAYERS` + `LINEUPS`). The round's team list both cancels a named player's injury entry AND upgrades an unnamed doubt to a full-weight NOT NAMED absence (2026-07-30). `LINEUPS` is a `let` and re-read by `hydrateData()` (2026-08-04) so a refreshed team list takes effect without a full reload. |
 | `resolveOdds`, `marketProb` | Odds `{open,close}` handling + de-vig to a home prob. |
 | `predict(fx)` | Assembles margin → `modelP` → blends odds → returns the per-game prediction object. |
-| `rationale`, `bandFor`, `whySummary`, `whyHTML` | The plain-English "why this tip" lead, the 1–2 sentence driver summary (2026-07-30), and the itemised ledger folded behind "Show the working" (lock line stays outside the fold). (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
-| `modelFav(p)` / `tipSide(p)` | **Keep these apart.** `modelFav` = the side the numbers like (reporting only). `tipSide` = the side actually tipped, and it returns the Roosters in their own game. Anything that names a tip must call `tipSide`. |
+| `rationale`, `bandFor`, `whySummary`, `whyHTML` | The plain-English "why this tip" lead, the 1–2 sentence driver summary (2026-07-30), and the itemised ledger folded behind "Show the working" (the loyalty-pick line used to sit outside the fold; since 2026-09-12 it is a priced comp-split line instead — "Comp split: the tip here is Dolphins, not the favourite. It is worth about +2.0 points of comp-win chance. Claire is ~78% to be on NZW."). (`injurySentence` was deleted in 2026-07: the ledger replaced it, and it was the file's last unescaped interpolation of scraped player names.) |
+| `modelFav(p)` / `tipSide(p)` | **Keep these apart.** `modelFav` = the side the numbers like (reporting only). `tipSide` = the side actually tipped: a comp split from `compPlan().splits` if there is one, else the model's favourite. **No team is force-tipped** (2026-09-12; it used to return the Roosters in their own game). Anything that names a tip must call `tipSide`. |
+| `compPlan`, `compPlanSolve`, `compPlanSync`, `schedulePlanSolve`, `planStamp`, `planCacheRead/Write`, `planFromTiplog`, `splitSig` | The plan front door + the provisional/idle-solve boot path (2026-09-12). See "The boot path" above. |
+| `finalsPlan`, `finalsCtx`, `playRound`, `V`, `rivalGains`, `geo`, `pairFor` | The exact finals solver: bracket, backward induction, memo tables. `MODEL.md` §5. |
+| `finalsEloP`, `finalsResultWinner`, `finalsStratVector`, `finalsTieProbs`, `behPHome`, `affShare`, `herdRate`, `gamesPlayedBy`, `normCdf`, `cbBeats`, `roundsAhead`, `byRound` | Its inputs: future-round probabilities, played results, the strategic layer, the margin countback, the fitted rival model, the round-indexed history helpers. |
+| `pctChance`, `marginHabit`, `lockPref` | Panel formatting (never rounds a live number into a certainty), the margin-habit hint, and the free-only house tie-break (`LOCK_MODE`, default off). |
 | `render` | Master render: fills every section by element ID. |
 | `pollLive`, `liveScore`, `liveFinal`, `renderLiveBits`, `renderQuicklist`, `weekOrder` | Live in-play scores (2026-08-08): ESPN poll → `LIVE` map → surgical redraw of the score surfaces only. `weekOrder` = the kickoff-asc order shared by the quick list + `copyTips` (2026-08-08 later). See "Live scores" above. |
 | `copyTips`, `flash` | "Copy tips" button. |
 | `resetState`, `loadState`, `saveState`, `resetAll` | Local state lifecycle. |
 
 `predict()` returns (roughly): `{h, a, margin, modelP, mkt, pHome, blended, hInj, aInj,
-wx, useElo, parts}`. The Roosters lock is applied at pick time, in **one** place —
+wx, useElo, parts}`. The comp decision is applied at pick time, in **one** place —
 `tipSide()` — which every tip-naming surface calls (quicklist, `cardHTML`, `copyTips`,
-the ledger's for/against colouring). `predict()` itself stays honest: it returns the
-model's own probability, so `lockHero`, the odds box and the ledger lead can still say
-when the model disagrees with the lock.
+the ledger's for/against colouring, and `freeze_tips.mjs`). `predict()` itself stays
+honest: it returns the model's own probability, which is what lets the odds box and the
+ledger lead say when the tip is deliberately *not* the favourite.
+
+*(Until 2026-09-12 this paragraph described the Roosters lock being applied there. Same
+seam, different decision: the lock is gone, and what `tipSide()` now consults is
+`compPlan().splits`.)*
 
 ---
 
@@ -245,7 +366,8 @@ displays override `.screen.active{display:block}` by ID specificity.
 `freeze_tips.mjs` records a **flip** whenever a run's pre-kick-off tip differs
 from the frozen one (`NRL_TIPLOG.flips`, hydrated into `FLIPS`). `chgList()`
 appends them as category `tip`, sev 3 — `CHG_ORDER` ranks `tip` first, the ★ row
-and the card badge use the gold lock colour (`c-tip`/`b-tip`) — with text like
+and the card badge use the gold accent (`c-tip`/`b-tip` — it was the lock colour, it
+now means "tip change") — with text like
 "Tip changed: now Raiders (55%) — was Knights (52%). Built on …" (the `why` is
 the flip-time `whySummary()`, plain-texted). `contentStamp()` includes
 `FLIPS.length` + last flip ts so a refresh carrying a new flip re-renders.
@@ -271,7 +393,8 @@ the cards' `#game-…`), and a **"This round's schedule"** panel (`#weekAhead`):
 every fixture in kickoff order under day headers, crest dots, ground-local
 time-only kickoff via the local `kt()` formatter (NEVER a locale tz abbreviation —
 "GMT+10" truncated every row; the venue box still carries the fully-zoned time),
-the tipped side as a pill (gold = SYD only), FT scores once played, and the bye
+the tipped side as a pill (gold now means **a comp split**, not SYD — 2026-09-12),
+FT scores once played, and the bye
 line. `renderNewScreen(preds,fxList)` is called from `render()` unconditionally.
 Fixture group headers in the feed carry crest dots + a "view game →" link.
 `renderChanges()` toggles `.long` on `#changeFeed` when >6 visible today-rows;
@@ -284,7 +407,9 @@ A fixture with a score in the results memory (`fixtureResult()`) renders the
 FULL TIME state instead — score, winner pill, tip verdict — and the hero and
 quick list follow suit. The verdict grades the PRE-KICK-OFF tip — never a recomputed one — in strict
 precedence: the pipeline's `nrl_tiplog.js` (server-frozen, identical on every
-device), then this browser's `nrl_snap_v1` snapshot, then the lock rule. See the
+device), then this browser's `nrl_snap_v2` snapshot — and then **nothing**: with the
+lock gone (2026-09-12) a resolved game with neither is honestly ungraded ("final — no
+pre-game tip on record") rather than graded against a rule. See the
 2026-08-02 entries in `GOTCHAS.md` before touching this. The change feed displays TODAY (Sydney) only; the data
 file still carries the rolling 36h window.
 
@@ -307,7 +432,7 @@ with `parse_nrl.py`.
 
 ```
 roundPill, metaline, dataBanners, games, quicklist, copied,
-accYou, accModel, accLock, accNote, rkTax, learningSection, learningBody,
+accYou, accModel, accComp, accNote, learningSection, learningBody,
 ladderNote, ladder, hga, formW, oddsW, compMode, howItWorks, foot,
 changesSection, changeFeed, chgCount, tabNewBadge,
 newMeta, weekAhead, ptr, compPanel
@@ -317,6 +442,15 @@ newMeta, weekAhead, ptr, compPanel
 Roosters card sits in normal bucket order; `freshBtn`/`freshLabel` — the ↻ chip is
 gone, pull-to-refresh + the auto-refresh triggers remain and `setFresh()` self-
 no-ops on the missing element.)*
+
+*(Changed 2026-09-12 with the Roosters lock: **`rkTax` is GONE** — the "Roosters tax"
+figure and its whole render block were deleted, along with `learn_model.py`'s
+`backtest.lockTax` that fed it. `accLock` (the lock-accuracy tile) had already gone.
+**`accComp` is NEW** — the Model tab's third stat tile, "Comp place · chance of 1st",
+rendering as e.g. `2 · 46%` from `COMP.members.find(m=>m.me).rank` and
+`compPlan().sim.pFirst` through the shared `pctChance()` formatter. It null-guards
+`plan.sim`, which is legitimately absent for a few hundred ms while the solver runs on
+an idle callback — anything new that reads `plan.sim` must do the same.)*
 
 - `games` / `quicklist` — the per-game cards and the compact tip list. The quick
   list runs in WEEK order (kickoff asc via `weekOrder()`, TBC last), NOT the
@@ -328,7 +462,10 @@ no-ops on the missing element.)*
 - `compMode` — comp-format selector (win / margin / confidence).
 - `learningSection` / `learningBody` — the "what it's learned" panel (Elo ladder,
   params, backtest, low-confidence badge).
-- `rkTax` — the "Roosters tax" figure.
+- `accComp` — "Comp place · chance of 1st". Never prints a certainty from a live
+  number: `pctChance()` gives `100%`/`0%` only when the solver proved it exact, and
+  `>99.9%` / `<0.1%` at the edges (2026-09-12 audit — 99.77% was printing as "100%").
+  *(The `rkTax` "Roosters tax" figure used to be listed here. Deleted 2026-09-12.)*
 
 ---
 
@@ -369,7 +506,8 @@ no-ops on the missing element.)*
 ---
 
 ## When you change the front-end
-1. Preserve the element IDs above and the Roosters lock.
+1. Preserve the element IDs above and the `predict()` / `modelFav()` / `tipSide()`
+   seam. *(This used to read "and the Roosters lock" — removed 2026-09-12.)*
 2. Keep it single-file and dependency-free.
 2b. If the change is anywhere near layout, the viewport meta or the `--sa*` vars, run
    `python3 test_ios_viewport.py` and keep it green (see Styling / UX notes).

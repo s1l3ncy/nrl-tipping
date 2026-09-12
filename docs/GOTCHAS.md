@@ -4,6 +4,167 @@ Real problems encountered on this project and how to avoid repeating them.
 
 ---
 
+# 2026-09-12 — the Brigitte rebuild. Read this block first.
+
+Nine entries from the night the app changed owner, lost its lock and gained an exact
+finals solver. The four older sections marked **SUPERSEDED** further down were written
+about the app as it was; this block is what is true now.
+
+## The lock is gone and the objective is P(1st) — do not "restore" either
+
+- **`LOCK_MODE = "off"`, and no team is ever force-tipped.** `tipSide()` is: comp split
+  → (`LOCK_MODE==='tiebreak'` only) house preference on an exact coin toss →
+  `modelFav()`. The `'tiebreak'` setting was verified to produce **byte-identical tips
+  and the same P(1st) to six decimals** on the R28 data, which is the only reason it is
+  allowed to exist. If it ever costs anything, delete it.
+- **The utility is `w.first/SIM_N` — pure P(1st).** `top3`/`top4` are still counted for
+  display and must never re-enter the utility. A safety term is not free: it buys a
+  podium at the cost of the only outcome anyone cares about.
+- **`EPS` must be derived from `SIM_N`, not fixed.** Under the old three-tier utility,
+  utilities ran 0.02–0.05 and `EPS = 0.003` was sane. Under pure P(1st) they run
+  0.15–0.35, where the Monte-Carlo standard error at 3,000 samples (~0.8pp) is **three
+  times** EPS — the tie-breaks then fire on noise every run and churn the flip feed. It
+  is now `max(0.003, 2·sqrt(0.25/SIM_N))` with `SIM_N = 8,000`. (20,000 was measured at
+  ~820 ms on an 8-game round in jsdom — too much for a first paint. 8,000 is ~355 ms and
+  still cuts the standard error ~40%.) Finals rounds do not sample at all.
+- **`predict()` stays strategy-free.** Everything comp-aware lives behind `tipSide()`.
+
+## `myResolvedOK` — the invisible regression that comes with deleting a lock
+
+- Deleting `gradedTip()`'s last-resort "if the Roosters are in this game the tip is SYD"
+  is correct (a game with no frozen tip and no snapshot must be honestly ungraded). But
+  `simComp()`'s `myResolvedOK` read `g.known && g.short === winner`, so an **ungraded**
+  resolved game evaluated to `false` and the +2 perfect-round bonus was modelled as
+  **dead for the whole round**. It now skips unknowns and only breaks on a *known wrong*
+  tip.
+- Why this is the entry rather than a footnote: it is completely invisible when it
+  happens. No error, no wrong-looking tip — just a systematically pessimistic plan. Any
+  future change to what `gradedTip()` can return must re-check every consumer that
+  treats "not known" as "not correct".
+
+## `BEH_AFF_K` must be identical in `cloud_fetch.py` and the page
+
+- The rival model is `P(tips home) = sigmoid(a + b·lp + loy·(affShare(home) −
+  affShare(away)))`. `affShare()` shrinks a member's season affinity toward a coin flip
+  by **`BEH_AFF_K` pseudo-games**. Python fits the coefficients against one definition of
+  that covariate; the page evaluates them against its own. **Change one file only and the
+  coefficients are being applied to a different variable than they were fitted on** —
+  silently, with no error and nothing obviously wrong on screen. Both files carry the
+  warning at the constant. Keep it there and keep the value in step.
+- **The loyalty covariate is leave-one-out in Python and must stay that way.** A
+  member's affinity share for team X is literally the mean of their own picks in X's
+  games, so the pick being predicted sits inside its own covariate: fed in raw it is a
+  perfect in-sample predictor and drove the market/form coefficient `b` to **exactly
+  0.00** for all six members. With LOO + shrinkage, `b` is 0.31–1.60 and `loy` 2.16–5.09.
+  Do not "simplify" the `_share()` closure.
+- `beh` is still **fitted in-sample** on the market coefficient, so its reported `hit`
+  (0.70–0.83) is mildly optimistic. The reference solver's sweep says the R28
+  recommendation survives halving rival predictability.
+
+## Per-member history arrays are ROUND-INDEXED — never zip dense lists
+
+- `margins[]`, `scores[]` and `mpreds[]` originally shipped as dense lists with empty
+  rounds filtered *out*, so members had different lengths (observed: 28/25/25/24/23/28
+  for `mpreds`). **`finalsTieProbs()` zips them positionally** to get each round's margin
+  difference — so her round 6 was being compared against a rival's round 8. It had not
+  bitten only because `margins[]` happened to be complete for all six; the first missing
+  round would have made the countback's standard deviation silently wrong, **and the
+  countback is her entire edge**.
+- All three arrays are now length `round`, index = round−1, `null` where absent — from
+  `cloud_fetch.py` (`_by_round()`) and from the live poll (`byRound()`, which mirrors it
+  exactly). The payload carries **`roundIndexed: true`**, and that flag is load-bearing:
+  the two formats are indistinguishable by inspection when no round happens to be
+  missing. `finalsTieProbs()` **refuses to zip without it** and falls back to the
+  season-total mean with sd 10 — imprecise rather than quietly wrong.
+- Every consumer must skip nulls explicitly: `marginHabit()` steps over trailing nulls to
+  find the most recent entry but **stops the run at the first gap** ("in each of the last
+  N rounds" has to be literally true); `herdRate()` and the MC herd fit share
+  `gamesPlayedBy()`, which skips a member's null score rounds instead of charging them
+  games they were never scored over.
+
+## The aliveness filter is ONE-SIDED — the 100%-while-eliminated bug
+
+- `finalsCtx()` used to drop any rival outside `me ± maxGain` **in both directions**.
+  Dropping the provably beaten is safe. Dropping someone provably *ahead* is not: with
+  the leader deleted from the model the DP sees no threats and returns **1**. Four points
+  behind going into a one-game Grand Final, the panel read **"Chance of winning the comp:
+  100%"**. The truth was 0%.
+- The test is now `m.totalScore + maxGain >= me.totalScore` — only the provably beaten
+  are dropped. An out-of-reach leader is **kept**, and the DP's own absorbing band
+  returns 0 for that dimension, which is the honest answer. Verified against hand
+  arithmetic at deficits 0/1/2/3/4.
+- Related, and the reason the bug was survivable elsewhere: **`pctChance()` is the one
+  formatter for any chance surface.** It prints `100%`/`0%` only for a value the solver
+  proved exact, `>99.9%` / `<0.1%` at the edges, and 1 d.p. in both tails. Before it,
+  99.77% rounded to "100%" — a certainty claim about a comp with three rounds left.
+- And: **a split is armed only when the underdog is strictly worth more** (`vDog > vFav`).
+  In a decided comp every line prices identically, and without this the panel printed
+  `🎯 … +0.0 pts of win chance`, which is not advice. The **tie-break order is
+  favourites → incumbent → LOCK_MODE**, not incumbent-first: the exact DP has no sampling
+  noise, so incumbency buys nothing there and, leading by 30 with three rounds left, it
+  armed three underdogs and swallowed the cover-mode line. Incumbency stays first in the
+  Monte-Carlo path, where it exists to stop noise churning the flip feed.
+
+## The cold-load transient: old tiplog tips flash for ~450 ms
+
+- `compPlan()` returns a **provisional** plan immediately and solves on an idle callback.
+  On a cold cache the provisional plan comes from the pipeline's frozen tiplog — which is
+  normally correct, because the last workflow run computed it with this same code.
+- **On the very first cold load after a deploy but before the first workflow run, it is
+  not.** The committed tiplog still holds the *pre-rebuild* tips, so the page briefly
+  showed `CRO-NQL→NQL  PEN-SYD→SYD` for ~450 ms before the solve corrected it. Measured,
+  reproducible, self-correcting, and gone as soon as the pipeline runs once.
+- It is harmless because `snapTips()` **refuses to snapshot a provisional plan** and the
+  tiplog is unaffected. Do not "fix" it by making the first paint synchronous — that is a
+  second of blocked paint on a phone, and Josh's rule is that the app just works with no
+  narration. Do fix it by running the workflow promptly after a deploy (see below).
+- **`PLAN_VER` (`'dp1'`) must be bumped whenever the solver's maths changes**, or a
+  returning device reuses the previous model's cached plan out of `nrl_plan_v1`.
+- `plan.provisional` is a state the old code did not have: anything that reads `plan.sim`
+  must tolerate its absence for a few hundred milliseconds. The three current readers
+  (`renderStratBits`, the `accComp` tile, the ledger split line) all null-guard it.
+
+## Deploy ordering: `cloud_fetch.py` must run before `freeze_tips.mjs`
+
+- The live `nrl_comp.js` has no `beh` until `cloud_fetch.py` runs with the new code. With
+  the fallback rival model the tips are the **same**, but `pFirst` reads ~50% instead of
+  ~46% and a split is priced at +0.3 rather than +2.0 — i.e. the *numbers on screen* are
+  wrong-ish for one cycle even though the *decisions* are right.
+- The workflow already orders it correctly (cloud_fetch → parse → learn → freeze). Verify
+  it stays that way after any workflow edit. The freeze is safe either way because the
+  page derives identity from `COMP_ME` rather than trusting the file's `me` flag — but
+  don't lean on that.
+
+## Finals cron slots, and the AEDT shift on Grand Final day
+
+- Finals kickoffs are **earlier and doubled up** (R28: Sat 16:05 and 19:50, Sun 16:05),
+  so the regular-season Saturday slot at 16:33 AEST fires *after* the first final has
+  started — the difference between a tip frozen on live market prices and one frozen an
+  hour stale. Four finals slots were added: Sat 15:35, Sat 19:07, Sun 15:35, Sun 18:45
+  AEST (`35 5 * * 6`, `7 9 * * 6`, `35 5 * * 0`, `45 8 * * 0` in UTC).
+- **Cron is UTC and Sydney is UTC+10 only until DST starts on Sun 4 Oct 2026 — which is
+  Grand Final day.** Every Sunday line lands an hour later locally that day, and the
+  "18:45" slot becomes 19:45, i.e. *after* a 19:30 kick-off. A fifth line (`45 7 * * 0`,
+  17:45 AEST / 18:45 AEDT) covers it. Any future Sunday slot needs the same arithmetic —
+  and if a schedule change crosses midnight, the day-of-week field has to move too.
+
+## "Higher seed hosts" is WRONG for the preliminary finals
+
+- The brief said "higher-ranked team is home in weeks 1–3". That is an approximation. The
+  real NRL system, and what the code implements, is: **semi-finals hosted by the
+  qualifying-final LOSERS, preliminary finals hosted by the qualifying-final WINNERS,
+  Grand Final neutral.** The two differ whenever a seed-1 side loses its qualifying final
+  and comes back through a semi.
+- The audit walked all 256 week-1..3 outcome paths against an independently-built
+  bracket: **0 matchup mismatches, 0 hosting differences.** It costs nothing this season
+  (`homeAdv` is 0), but the code path is right and must stay right — a wrong host is a
+  wrong probability in every downstream round.
+- Related invariant, worth re-running if anyone touches the DP: **the absorbing band is
+  exact, not an approximation.** Re-running the whole solve with the band widened by
+  eight points in every dimension gives bit-identical values to 17 significant figures.
+
+---
+
 ## Deploy / hosting
 
 - **The live site is `index.html`, a *copy* of `nrl-tipping-guide.html`.** Editing the
@@ -179,10 +340,23 @@ Real problems encountered on this project and how to avoid repeating them.
 - **Display names only.** The API carries members' full surnames; nothing in
   this app may render or store them.
 - **`currentUser` is always false on anonymous calls** — "(you)" comes from
-  the `COMP_ME` display-name constant, not the API.
+  the `COMP_ME` display-name constant, not the API. Since 2026-09-12 `COMP_ME` is the
+  *only* source of identity: `compFromFile()` re-derives `me` by name and falls back to
+  the file's flag only on a miss, and a name miss warns loudly. `pollComp()` dropped
+  `!!u.currentUser||` from its test — a stray session cookie would otherwise mark a
+  different member as "me" on each family member's phone, which is exactly the
+  browser/freeze divergence class this app is built to avoid. Lockstep partner:
+  `FOOTYTIPS_ME` in `cloud_fetch.py`.
 - **Comp IDs live in the public repo.** Anyone reading the site source can
   fetch the comp's data (first names + picks + scores). Josh accepted this;
   if the comp ever objects, set `COMP_ID=0` and the feature vanishes.
+- **Scoring, verified from `ladder.customScoringOptions` (2026-09-12)**: 1 point per
+  correct tip; `allCorrectBonus {applyTo: Season, modifier: 2}` — +2 for a perfect
+  round, **in finals rounds too**, so a one-game Grand Final round pays 3;
+  `defaultScoreMethod: Zero` (no tip = 0); `rankByMargin: true` — a points tie goes to
+  the **LOWER** cumulative margin error. The round's designated margin game is its
+  **FIRST** game, checked against every member's published error in R24–R28. Don't
+  re-derive any of this from the UI; read the API.
 
 ## Finals are rounds 28–31 — sources NAME them differently, the pipeline NUMBERS them (2026-09-07)
 
@@ -271,7 +445,15 @@ Real problems encountered on this project and how to avoid repeating them.
   freeze in the page console with `TIPLOG=[]; SNAPS={}; COMP_PLAN=null` and
   recompute `compPlan()` — if the splits change, it's this class of bug.
 
-## The comp simulator — perfect-round bonus & the top-4 objective (2026-08-15)
+## (SUPERSEDED 2026-09-12, in part) The comp simulator — perfect-round bonus & the top-4 objective (2026-08-15)
+
+> **SUPERSEDED 2026-09-12.** The objective is now **pure P(1st)** — the top-4 and top-3
+> terms are gone, so "don't drop top 4 back out" no longer applies. There is no lock, so
+> "Josh's unlocked Roosters pick is `g.lock`" is history (and Josh is a *rival* now). In
+> the finals `simComp()` is not what runs at all — `finalsPlan()` solves the bracket
+> exactly. **What still stands, and matters more than ever:** the `bonusLive` gate, the
+> "a perfect round covers the whole round including games already played" rule, and the
+> `bwins` baseline. The finals solver reproduces all three exactly.
 
 - **The +2 perfect-round bonus is modelled for the current round ONLY while it
   is in progress** (`bonusLive = cur.length>0`). A finished round's +2 is
@@ -335,7 +517,16 @@ Real problems encountered on this project and how to avoid repeating them.
   for that loss. Don't "correct" it up to the model margin. It assumes
   footytips puts the margin on the round's FIRST game.
 
-## The comp-WIN objective (2026-08-10 audit rebuild)
+## (SUPERSEDED 2026-09-12, in part) The comp-WIN objective (2026-08-10 audit rebuild)
+
+> **SUPERSEDED 2026-09-12.** "Roosters lock first" is gone from `tipSide()`; the need
+> bands are only a candidate filter (θ floored at 0.65) and the Monte-Carlo fallback;
+> and P(win) is no longer "honestly ~0.1–1%" — Brigitte sits at ~45% in Finals Week 1,
+> because she is one point off the lead with the countback in her favour. **Everything
+> else in this entry is still live and still load-bearing:** the `predict()`/`tipSide()`
+> seam, the determinism rule (everything the tip depends on ships in a data file), the
+> anti-tilt rule, matched-split exclusion, oddsW 0.75 + `oddsWeightLearned`, and the
+> `.mkt` logging.
 - **`tipSide()` is now a DECISION POLICY, `predict()` stays an honest
   estimator — never blur that line.** Don't shade `pHome` to justify a split,
   and don't move strategy out of `tipSide()`: the freeze, grading, every
@@ -356,7 +547,17 @@ Real problems encountered on this project and how to avoid repeating them.
 - **P(win) is honestly ~0.1-1%.** The policy is ~10× better than straight
   favourites, not a miracle. UI shows need/splits, never promises.
 
-## (superseded) Comp strategy mode (2026-08-10)
+## (SUPERSEDED 2026-08-13, and again 2026-09-12) Comp strategy mode (2026-08-10)
+
+> **SUPERSEDED 2026-09-12.** "The 🎯 note never touches the Roosters game" is exactly
+> backwards now — in R28 the Roosters game was the single most valuable decision on the
+> board (−6.5 pts of win chance to tip them). The ≤2-splits cap is gone too: the exact
+> solver arms whatever set maximises P(1st), which is usually 0 or 1 splits and is
+> priced, not capped. `predictPick()` survives only as the **fallback** rival model when
+> `nrl_comp.js` ships no fitted `beh`. **Keep the Brigitte/Claire loyalty example below
+> for a different reason than it was written**: it is now a record of *the user's own*
+> tipping history (she tipped SYD 24/24 in 2026), which is why the app must tip *for*
+> her rather than *as* her — her affinities are deliberately not an input to the tip.
 - **Strategy is ALWAYS ON at Josh's direction** ("nobody else will see this
   page") — every surface still checks `getStrat()`, so re-gating is a
   one-line change if a family member ever finds the URL.
@@ -400,9 +601,11 @@ Real problems encountered on this project and how to avoid repeating them.
   tip that was never shown (BRI v NEW R22: pre-game blend said Broncos, post-game
   recompute said Knights, Knights won, card claimed "got it"). Any ✓/✗ must come from
   the **pre-kick-off snapshot** (`nrl_snap_v1` in localStorage, written by `snapTips()`
-  on every render before kick-off) or from the lock rule (the Roosters tip needs no
-  snapshot — it's a constant). No snapshot, no lock → say "no pre-game tip on record",
-  never guess.
+  on every render before kick-off) — key `nrl_snap_v2` since 2026-09-12. There is no
+  third fallback any more: the lock rule used to be one ("the Roosters tip needs no
+  snapshot — it's a constant"), and it is gone. **No tiplog entry and no snapshot → say
+  "final — no pre-game tip on record", never guess.** See the `myResolvedOK` entry at
+  the top of this file for the trap that hides inside that deletion.
 - **Freeze server-side, and never by reimplementing the model.** `freeze_tips.mjs`
   exists so the frozen tip is the same on every device — and it deliberately runs
   the REAL page in jsdom rather than mirroring the math in Python/Node, because a
@@ -415,7 +618,16 @@ Real problems encountered on this project and how to avoid repeating them.
   kick-off. Presenting any of them as one of the others reads as a bug to the user —
   because it is one.
 
-## The Roosters lock and the change feed (2026-07-29)
+## (SUPERSEDED 2026-09-12) The Roosters lock and the change feed (2026-07-29)
+
+> **SUPERSEDED 2026-09-12 — the lock no longer exists.** Kept because three of its five
+> bullets are about other things and are still true, and because the *shape* of the
+> first bug (a rule that four surfaces only annotated instead of applying) is the reason
+> `tipSide()` is still the single seam. Read it as: **the DECISION is applied in exactly
+> one place, `tipSide()`, and every surface that names a tip must call it.** The team
+> list, change-feed sort-order, "never emit a change the model can't feel" and
+> line-move-attribution bullets are untouched by the lock's removal. "`predict()` must
+> stay lock-free" generalises to **`predict()` must stay strategy-free**.
 - **The lock is applied in exactly ONE place: `tipSide()`.** Any surface that names a tip
   must call it. Four of them once recomputed `pHome>=0.5?h:a` and only *annotated* the
   Roosters game, so `copyTips()` pasted `Cowboys v Roosters → Cowboys (locked)` whenever
@@ -465,8 +677,11 @@ Real problems encountered on this project and how to avoid repeating them.
   collapses every open fold — 45-second polling would make folds unusable. Only
   `renderLiveBits()` (live cards are foldless, replaced in place) plus the
   fold-free surfaces. Corollary: don't add a `<details>` fold to the live card.
-- **The live tip pill shows the FROZEN tip** (`gradedTip`: tiplog → snapshot →
-  lock), falling back to `tipSide()` only when no frozen tip exists. A mid-game
+- **The live tip pill shows the FROZEN tip** (`gradedTip`: tiplog → snapshot; the
+  third step, the lock, was removed 2026-09-12), falling back to `tipSide()` only when
+  no frozen tip exists. Same rule now applies to `copyTips()`, which used to re-derive
+  a kicked-off game's tip with `tipSide()` and so contradicted the card and the tiplog
+  the moment a game started (2026-09-12 audit). A mid-game
   `tipSide()` recompute is contaminated (odds vanish at kick-off) — same rule as
   full-time grading.
 - **`pollLive` must stay guarded on `typeof fetch`.** `freeze_tips.mjs` boots the
@@ -508,7 +723,9 @@ Real problems encountered on this project and how to avoid repeating them.
   It's the iOS double-tap-zoom fix. A selector list misses tappable surfaces and the
   zoom comes back; `user-scalable=no`/`maximum-scale=1` in the viewport meta is NOT an
   acceptable substitute — it kills pinch zoom (accessibility).
-- **Preserve the render element IDs and the Roosters lock** (see `FRONTEND.md`).
+- **Preserve the render element IDs** and the `predict()`/`modelFav()`/`tipSide()` seam
+  (see `FRONTEND.md`). *(This used to say "and the Roosters lock" — removed
+  2026-09-12. `rkTax` is out of the ID list; `accComp` is in.)*
 - **The service worker is network-first on purpose.** `sw.js` tries the network first and
   only falls back to cache when offline, so it can't get "stuck" serving a stale shell —
   the classic cache-first SW trap that this was built to avoid. To nuke all caches, bump
@@ -563,12 +780,17 @@ Real problems encountered on this project and how to avoid repeating them.
   false, and the "Line moved / Bookies (open)" UI could never fire. Full mode now
   inherits the previous published `open` for the same round + fixture pair
   (orientation-corrected); it seeds `open = fresh` only on first sighting.
-- **The loyalty tax must come from `backtest.lockTax` (walk-forward, computed
-  server-side from pre-game Elos) — never recompute it in the browser.** The old
-  front-end `modelFavoursHome()` graded past Roosters games with the CURRENT Elo,
-  which already contains each game's own result — the exact hindsight pattern the
-  2026-08-02 entry above bans. That function is deleted; if `lockTax` is absent the
-  UI shows nothing.
+- **(SUPERSEDED 2026-09-12) The loyalty tax must come from `backtest.lockTax`**
+  (walk-forward, computed server-side from pre-game Elos) — never recompute it in the
+  browser. The old front-end `modelFavoursHome()` graded past Roosters games with the
+  CURRENT Elo, which already contains each game's own result — the exact hindsight
+  pattern the 2026-08-02 entry above bans. That function is deleted; if `lockTax` was
+  absent the UI showed nothing.
+  > **`lockTax` itself is gone as of 2026-09-12** (with `LOCK_TEAM` and
+  > `lock_tax_metrics()` in `learn_model.py`, and `#rkTax` in the page) — there is no
+  > forced pick left to tax. `validate_learned.py` never required the key, so the
+  > publish gate is unchanged. **The principle survives and still binds every future
+  > stat: never grade a past game in the browser from current Elo.**
 - **Injury names must be plausible names.** A Panthers stats table (`P | W | L`
   cells) was scraped as player "P", reason "W", return "L" — a live phantom entry
   worth real model points, and the NOT-NAMED rule would have upgraded it to full
