@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-12",
+  "updated": "2026-09-13",
   "season": 2026,
   "round": 28,
   "roundName": "Finals Week 1",
@@ -517,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T22:48:36+10:00",
+  "generatedAt": "2026-09-13T01:32:30+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
