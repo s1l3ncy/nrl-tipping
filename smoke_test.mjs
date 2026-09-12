@@ -20,8 +20,8 @@
  * What is asserted:
  *   1. A tip is produced for every fixture in the round.
  *   2. Win probabilities are always within [0, 1].
- *   3. The Roosters (SYD) are always the tip in their own game (locked pick),
- *      regardless of what the model itself would have favoured.
+ *   3. A tip is produced for every game from the model alone — no team is ever
+ *      force-tipped (the Roosters lock was removed on 2026-09-12).
  *   4. Bye weeks are handled (a team with no fixture doesn't crash anything,
  *      and is reported as the bye, not as a game).
  *   5. The model does not crash when the season match-log (`results[]`) is
@@ -45,16 +45,13 @@
  *
  * >>> NOTE ON FRONT-END CHANGES (draws-as-push, accuracy tracker): the HTML
  * >>> is gaining a result-logger scoring change where a drawn game counts as
- * >>> a "push" (neither a hit nor a miss) when comparing the model's tip (or
- * >>> the Roosters lock) against the final score, plus an accuracy tracker
- * >>> that compares model-vs-lock hit rates on the same denominator. If Dev B
+ * >>> a "push" (neither a hit nor a miss) when comparing the model's tip
+ * >>> against the final score, plus an accuracy tracker. If Dev B
  * >>> changes that scoring logic in nrl-tipping-guide.html, the scoreResult()
  * >>> mirror below MUST be kept in sync, the same as rating()/prob().
  */
 
 // ---- Mirrors nrl-tipping-guide.html's rating()/prob() (avg margin + form) ----
-const LOCK = "SYD"; // Roosters always tipped, per SPEC.md
-
 function rating(t, formWeight = 1.2) {
   const base = (t.PF - t.PA) / Math.max(1, t.P);
   const form = (t.last5 - 2.5) * formWeight;
@@ -67,11 +64,10 @@ function prob(margin) {
 
 /**
  * Compute tips for a round. Mirrors the per-game loop inside render() in
- * the HTML: predicted margin = home rating - away rating + HGA; higher-rated
- * side (after HGA) is the model tip; the Roosters game's *displayed* tip is
- * always overridden to SYD regardless of what the model favours (that's the
- * "locked pick" feature), while modelAgrees records whether the model's own
- * unlocked pick matched.
+ * the HTML: predicted margin = home rating - away rating + HGA, and the
+ * higher-rated side (after HGA) is the tip. Nothing overrides it — the app's
+ * real tipSide() may still take a deliberate comp SPLIT on top of this, which
+ * this mirror deliberately does not model (see the header note).
  */
 function computeTips({ teams, fixtures, byeTeams = [] }, { hga = 3, formWeight = 1.2 } = {}) {
   const byShort = Object.fromEntries(teams.map((t) => [t.short, t]));
@@ -90,8 +86,7 @@ function computeTips({ teams, fixtures, byeTeams = [] }, { hga = 3, formWeight =
     const homeFav = margin >= 0;
     const modelTip = homeFav ? h.short : a.short;
 
-    const isLockGame = h.short === LOCK || a.short === LOCK;
-    const finalTip = isLockGame ? LOCK : modelTip;
+    const finalTip = modelTip;               // no team is ever force-tipped
 
     tips.push({
       home: h.short,
@@ -100,8 +95,6 @@ function computeTips({ teams, fixtures, byeTeams = [] }, { hga = 3, formWeight =
       pAway: 1 - pHome,
       modelTip,
       finalTip,
-      isLockGame,
-      modelAgreesWithLock: isLockGame ? modelTip === LOCK : null,
     });
   }
 
@@ -196,7 +189,7 @@ const sampleFixtures = [
 ];
 const sampleBye = ["NZW"];
 
-// Test 1-3: tip produced for every game, probabilities in range, Roosters locked
+// Test 1-3: tip produced for every game, probabilities in range, no forced tip
 {
   const { tips, unaccounted } = computeTips(
     { teams: sampleTeams, fixtures: sampleFixtures, byeTeams: sampleBye },
@@ -217,11 +210,10 @@ const sampleBye = ["NZW"];
     assert(!!t.finalTip, `a non-empty tip exists for ${t.home} v ${t.away}`);
   }
 
-  const roostersGame = tips.find((t) => t.home === "SYD" || t.away === "SYD");
-  assert(!!roostersGame, "Roosters game found in fixture list");
+  // the model's own favourite IS the tip in every game — nothing is overridden
   assert(
-    roostersGame && roostersGame.finalTip === "SYD",
-    "Roosters (SYD) are always the tip in their own game, regardless of model favourite"
+    tips.every((t) => t.finalTip === t.modelTip),
+    "no team is force-tipped: every game's tip is the model's own favourite"
   );
 
   // bye handling: NZW has no fixture and is declared as bye -> should not be "unaccounted"
@@ -231,7 +223,7 @@ const sampleBye = ["NZW"];
   );
 }
 
-// Test 4: bye weeks handled even when Roosters themselves are on bye (no lock game that round)
+// Test 4: bye weeks handled when several teams (SYD included) are on bye
 {
   const teamsNoSyd = sampleTeams.filter((t) => t.short !== "SYD");
   // Rebuild fixtures without SYD, byeTeams includes SYD
@@ -249,9 +241,9 @@ const sampleBye = ["NZW"];
   } catch (e) {
     threw = true;
   }
-  assert(!threw, "computing tips for a round where Roosters are on bye does not crash");
-  const hasLockGame = result && result.tips.some((t) => t.isLockGame);
-  assert(!hasLockGame, "no locked-pick game exists when Roosters have the bye");
+  assert(!threw, "computing tips for a round with several teams on bye does not crash");
+  assert(result && result.tips.length === fixturesNoBye.length,
+    "every fixture in a bye-heavy round still gets a tip");
 }
 
 // Test 5: model does not crash when results[] (season match-log) is absent
@@ -527,11 +519,12 @@ try {
     const html = fs.readFileSync(htmlPath, "utf8");
     const hasBaseFormula = html.includes("(t.PF - t.PA)");
     const hasLogistic = html.includes("Math.exp(-margin/7)") || html.includes("Math.exp(-margin / 7)");
-    const hasLock = html.includes('LOCK = "SYD"') || html.includes("LOCK='SYD'");
-    if (!hasBaseFormula || !hasLogistic || !hasLock) {
+    // (a `hasLock` check lived here; it looked for a constant whose spelling it
+    //  never actually matched, and the lock itself is gone as of 2026-09-12)
+    if (!hasBaseFormula || !hasLogistic) {
       console.log(
         "WARN: nrl-tipping-guide.html's formulas may have drifted from the ones " +
-          "replicated in smoke_test.mjs — update rating()/prob()/LOCK here to match."
+          "replicated in smoke_test.mjs — update rating()/prob() here to match."
       );
     }
   }

@@ -1,4 +1,10 @@
 // Replicates the app's heuristic tip model to compare old vs new tips.
+//
+// MANUAL DEV TOOL ONLY — not in the workflow, not in any test. It does NOT
+// reflect tipSide(): there is no comp policy, no split selection and no finals
+// solver here, so it answers "what does the raw model like this week", never
+// "what will the app tip". Use freeze_tips.mjs (which drives the real page) for
+// that. The Roosters block was removed on 2026-09-12 with the lock itself.
 import fs from 'fs';
 function load(path){
   const src = fs.readFileSync(path,'utf8');
@@ -8,7 +14,6 @@ function load(path){
 function loadData(path){ const s=fs.readFileSync(path,'utf8'); return eval('('+s.slice(s.indexOf('{'), s.lastIndexOf('}')+1)+')'); }
 const LEARNED = loadData(process.argv[3]);
 const learnedActive = !!(LEARNED && LEARNED.lowConfidence!==true);
-const LOCK='SYD';
 function tipsFor(dataPath){
   const D = loadData(dataPath);
   const teams=D.teams, T=s=>teams.find(t=>t.short===s);
@@ -36,8 +41,3 @@ newT.forEach((n,i)=>{
   const changed=(!o||o.tipShort!==n.tipShort||Math.abs(o.conf-n.conf)>=3)?'*** YES':'no';
   console.log(`${n.g} | ${o?o.tip+' '+o.conf+'%':'-'} | ${n.tip} ${n.conf}% | ${changed}`);
 });
-// Roosters lock
-const rk=newT.find(t=>t.home===LOCK||t.away===LOCK);
-if(rk){const rkProb=rk.home===LOCK?rk.pHome:100-rk.pHome;const opp=rk.home===LOCK?rk.away:rk.home;
-  console.log(`\nROOSTERS lock: vs ${opp} (${rk.home===LOCK?'home':'away'}) — win chance ${rkProb.toFixed(0)}% -> ${rkProb>=50?'SAFE':'RISKY'} (model tips ${rk.tipShort===LOCK?'Roosters':rk.tip})`);
-} else console.log('\nROOSTERS: bye this round');
