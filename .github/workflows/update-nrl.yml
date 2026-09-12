@@ -34,6 +34,20 @@ on:
     - cron: "7 9 * * 5"      # 19:07 Sydney Friday — before the 20:05 game
     - cron: "33 6 * * 6"     # 16:33 Sydney Saturday — before the 17:30 game
     - cron: "7 3 * * 0"      # 13:07 Sydney Sunday — before the 14:00 game
+    # FINALS slots (2026-09-12). Finals kickoffs are earlier and doubled up
+    # (R28: Sat 16:05 and 19:50, Sun 16:05), so the regular-season Saturday slot
+    # at 16:33 AEST actually fires AFTER the first final has started and the
+    # Sunday slot fires two hours early. These four cover both finals games on
+    # each weekend day. Harmless out of season — they just add four more runs.
+    - cron: "35 5 * * 6"     # 15:35 Sydney Saturday — before the 16:05 final
+    - cron: "7 9 * * 6"      # 19:07 Sydney Saturday — before the 19:50 final
+    - cron: "35 5 * * 0"     # 15:35 Sydney Sunday — before the 16:05 final
+    - cron: "45 8 * * 0"     # 18:45 Sydney Sunday — before an evening final
+    # Cron is UTC and Sydney is UTC+10 until DST starts on Sun 4 Oct 2026, which
+    # is GRAND FINAL DAY: every Sunday line above lands an hour later in local
+    # time that day (the 18:45 one at 19:45, i.e. AFTER a 19:30 kick-off). This
+    # slot is 17:45 AEST / 18:45 AEDT, so the GF is covered either way.
+    - cron: "45 7 * * 0"     # 18:45 Sydney Sunday once DST starts — the GF slot
   workflow_dispatch: {}
 
 concurrency:
@@ -97,7 +111,7 @@ jobs:
       # can never drift from what users see. This is what makes full-time grading
       # identical on every device and immune to hindsight (docs/GOTCHAS.md,
       # 2026-08-02). Best-effort: a failure keeps the committed log and the run
-      # continues — the front-end falls back to local snapshots + the lock rule.
+      # continues — the front-end falls back to its local snapshots.
       - name: Freeze pre-kick-off tips
         run: |
           npm install --no-save jsdom >/dev/null 2>&1 || true
