@@ -485,8 +485,8 @@ window.NRL_DATA = {
           "away": 2.35
         },
         "close": {
-          "home": 1.62,
-          "away": 2.3
+          "home": 1.66,
+          "away": 2.25
         }
       },
       "weather": null,
@@ -505,8 +505,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.42,
-          "away": 2.9
+          "home": 1.43,
+          "away": 2.87
         }
       },
       "weather": null,
@@ -535,7 +535,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T14:05:28+10:00",
+  "generatedAt": "2026-09-12T14:35:06+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
@@ -751,6 +751,30 @@ window.NRL_DATA = {
       "text": "Sam Mcintyre (Prop) named in the Cowboys 17.",
       "pts": 0.8,
       "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-NZW-DOL-line-1.66-2.25",
+      "fixture": "NZW-DOL",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.62 → $1.66, Dolphins $2.30 → $2.25. Market now 58% Warriors (was 59%).",
+      "pts": null,
+      "ts": "2026-09-12T14:35:06+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-CRO-NQL-line-1.43-2.87",
+      "fixture": "CRO-NQL",
+      "team": "NQL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Sharks $1.42 → $1.43, Cowboys $2.90 → $2.87. Market now 67% Sharks (was 67%).",
+      "pts": null,
+      "ts": "2026-09-12T14:35:06+10:00",
       "rnd": 28
     },
     {
