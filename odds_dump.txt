@@ -1,6 +1,6 @@
 # Round 28 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-12T14:05:07. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-12T14:34:43. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (33 book quotes across 3 fixtures).
-Warriors v Dolphins: 1.62 / 2.30
-Sharks v Cowboys: 1.42 / 2.90
+Warriors v Dolphins: 1.66 / 2.25
+Sharks v Cowboys: 1.43 / 2.87
 Panthers v Roosters: 1.35 / 3.35
