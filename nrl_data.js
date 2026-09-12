@@ -131,13 +131,13 @@ window.NRL_DATA = {
       "L": 10,
       "PF": 672,
       "PA": 523,
-      "last5": 1,
+      "last5": 2,
       "home": {
-        "P": 12,
-        "W": 8,
+        "P": 13,
+        "W": 9,
         "L": 4,
-        "PF": 362,
-        "PA": 246
+        "PF": 388,
+        "PA": 262
       },
       "away": {
         "P": 12,
@@ -218,11 +218,11 @@ window.NRL_DATA = {
         "PA": 367
       },
       "away": {
-        "P": 12,
+        "P": 13,
         "W": 6,
-        "L": 6,
-        "PF": 274,
-        "PA": 285
+        "L": 7,
+        "PF": 290,
+        "PA": 311
       },
       "news": "Murray Taulagi (Concussion)"
     },
@@ -487,9 +487,9 @@ window.NRL_DATA = {
     {
       "home": "CRO",
       "away": "NQL",
-      "venue": "",
+      "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-09-12T19:50:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -517,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T21:11:28+10:00",
+  "generatedAt": "2026-09-12T22:10:42+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
