@@ -476,19 +476,10 @@ window.NRL_DATA = {
     {
       "home": "NZW",
       "away": "DOL",
-      "venue": "Go Media Stadium",
+      "venue": "",
       "city": "Auckland",
-      "kickoff": "2026-09-12T18:05:00+12:00",
-      "odds": {
-        "open": {
-          "home": 1.58,
-          "away": 2.35
-        },
-        "close": {
-          "home": 1.66,
-          "away": 2.25
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Pacific/Auckland"
@@ -505,8 +496,8 @@ window.NRL_DATA = {
           "away": 2.85
         },
         "close": {
-          "home": 1.43,
-          "away": 2.87
+          "home": 1.42,
+          "away": 2.9
         }
       },
       "weather": null,
@@ -526,7 +517,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.35,
-          "away": 3.35
+          "away": 3.25
         }
       },
       "weather": null,
@@ -535,7 +526,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-12T14:35:06+10:00",
+  "generatedAt": "2026-09-12T17:43:56+10:00",
   "changes": [
     {
       "id": "r28-SOU-inj-cody-walker",
@@ -547,6 +538,30 @@ window.NRL_DATA = {
       "text": "Rabbitohs: Cody Walker (Calf) — new on the injury list.",
       "pts": 2.8,
       "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-DOL-in-tevita-naufahu",
+      "fixture": "NZW-DOL",
+      "team": "DOL",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Tevita Naufahu (Winger) named in the Dolphins 17.",
+      "pts": 1.4,
+      "ts": "2026-09-12T17:43:56+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-DOL-out-felise-kaufusi",
+      "fixture": "NZW-DOL",
+      "team": "DOL",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Felise Kaufusi (Prop) is out of the Dolphins 17.",
+      "pts": 1.1,
+      "ts": "2026-09-12T17:43:56+10:00",
       "rnd": 28
     },
     {
@@ -751,6 +766,18 @@ window.NRL_DATA = {
       "text": "Sam Mcintyre (Prop) named in the Cowboys 17.",
       "pts": 0.8,
       "ts": "2026-09-11T22:50:07+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-PEN-SYD-line-1.35-3.25",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.35 → $1.35, Roosters $3.35 → $3.25. Market now 71% Panthers (was 71%).",
+      "pts": null,
+      "ts": "2026-09-12T17:43:56+10:00",
       "rnd": 28
     },
     {
