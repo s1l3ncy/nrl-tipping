@@ -42,12 +42,7 @@ window.NRL_LEARNED = {
     "brier": 0.2358,
     "logloss": 0.6654,
     "hit": 0.6195,
-    "marketBrier": null,
-    "lockTax": {
-      "games": 24,
-      "modelRight": 15,
-      "rkWins": 16
-    }
+    "marketBrier": null
   },
   "history": [
     {
