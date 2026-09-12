@@ -1371,10 +1371,30 @@ function schedulePlanSolve(stamp){
     }catch(e){}
     PLAN_FIRST=false;
   };
+  /* Two timers, both guarded by PLAN_QUEUED===stamp so whichever fires first
+     wins and the other no-ops. requestIdleCallback is preferred (yields to
+     paint), but Chrome defers it INDEFINITELY in a hidden/background tab — its
+     400ms timeout only counts down while the tab is visible — so a page that
+     loads in a background tab would never fill in the win%. The setTimeout is
+     the belt-and-braces backstop that fires regardless of visibility, and the
+     visibilitychange listener below solves the moment a tab that loaded hidden
+     is first shown (2026-09-12 follow-up 2). */
   try{
     if(typeof requestIdleCallback==='function') requestIdleCallback(go,{timeout:400});
-    else setTimeout(go,0);
-  }catch(e){ setTimeout(go,0); }
+  }catch(e){}
+  try{ setTimeout(go,250); }catch(e){}
+}
+/* One-shot: a tab that loaded hidden (requestIdleCallback parked) solves as soon
+   as it becomes visible. Re-derives the current stamp so it targets whatever is
+   on screen now, and schedulePlanSolve() de-dupes against any timer already
+   pending for it. Guarded so it only ever attaches once. */
+let PLAN_VIS_WIRED=false;
+function wirePlanVisibility(){
+  if(PLAN_VIS_WIRED||typeof document==='undefined'||!document.addEventListener) return;
+  PLAN_VIS_WIRED=true;
+  try{ document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden && COMP_PLAN && COMP_PLAN.provisional) schedulePlanSolve(planStamp());
+  }); }catch(e){}
 }
 /* ---------- Monte-Carlo season simulator (2026-08-13; objective simplified to
    pure P(1st) on 2026-09-12). REGULAR-SEASON ROUNDS ONLY — finals go through
@@ -2325,11 +2345,28 @@ function compPlan(){
   const hit=planCacheRead(stamp);
   if(hit){ COMP_PLAN=hit; return hit; }                      // same inputs → same answer
   const prov={stamp:stamp, mode:'off', splits:{}, provisional:true};
-  if(COMP&&COMP.members&&COMP.members.some(m=>m.me)){
-    prov.mode='chase';
+  const me=COMP&&COMP.members&&COMP.members.find(m=>m.me);
+  if(me&&me.totalScore!==null){
+    /* The provisional line reports STANDINGS ("1 behind Claire, 3 rounds left"),
+       which are cheap and need no DP — only the win% waits for the solver. These
+       three fields must be computed here too, or renderStratBits() falls through
+       to "level with the leader, behind on the countback · this is the last
+       round", which is factually inverted while she is actually 1 behind with 3
+       to play (2026-09-12 follow-up 2). Mirror EXACTLY what compPlanSolve() sets
+       for mode/d/leader/roundsAhead so the line doesn't jump when the real
+       number lands. */
+    const ahead=COMP.members.filter(m=>!m.me&&m.totalScore!==null&&
+      (m.totalScore>me.totalScore||(m.totalScore===me.totalScore&&cbBeats(m,me))));
+    prov.roundsLeft=Math.max(1,((COMP.finishRound)||31)-SRC.round+1);
+    prov.roundsAhead=roundsAhead();
+    if(ahead.length){
+      const top=ahead.slice().sort((x,y)=>y.totalScore-x.totalScore)[0];
+      prov.mode='chase'; prov.d=top.totalScore-me.totalScore; prov.leader=top.name;
+    }else{ prov.mode='cover'; prov.d=0; prov.leader=null; }
     try{ planFromTiplog(prov); }catch(e){}
   }
   COMP_PLAN=prov;
+  wirePlanVisibility();
   schedulePlanSolve(stamp);
   return prov;
 }
