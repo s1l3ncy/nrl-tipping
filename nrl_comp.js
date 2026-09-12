@@ -8,7 +8,7 @@ window.NRL_COMP = {
  "round": 28,
  "roundIndexed": true,
  "finishRound": 31,
- "fetched": "2026-09-12T04:34:57+00:00",
+ "fetched": "2026-09-12T07:43:47+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -179,7 +179,8 @@ window.NRL_COMP = {
     6
    ],
    "picks": {
-    "NEW-SOU": "SOU"
+    "NEW-SOU": "SOU",
+    "DOL-NZW": "DOL"
    },
    "beh": {
     "a": 0.6701,
@@ -358,7 +359,8 @@ window.NRL_COMP = {
     4
    ],
    "picks": {
-    "NEW-SOU": "SOU"
+    "NEW-SOU": "SOU",
+    "DOL-NZW": "DOL"
    },
    "beh": {
     "a": 0.1132,
@@ -537,7 +539,8 @@ window.NRL_COMP = {
     8
    ],
    "picks": {
-    "NEW-SOU": "SOU"
+    "NEW-SOU": "SOU",
+    "DOL-NZW": "NZW"
    },
    "beh": {
     "a": 0.3645,
@@ -716,7 +719,8 @@ window.NRL_COMP = {
     12
    ],
    "picks": {
-    "NEW-SOU": "SOU"
+    "NEW-SOU": "SOU",
+    "DOL-NZW": "NZW"
    },
    "beh": {
     "a": 0.5245,
@@ -895,7 +899,8 @@ window.NRL_COMP = {
     2
    ],
    "picks": {
-    "NEW-SOU": "NEW"
+    "NEW-SOU": "NEW",
+    "DOL-NZW": "DOL"
    },
    "beh": {
     "a": 0.3628,
@@ -1074,7 +1079,8 @@ window.NRL_COMP = {
     4
    ],
    "picks": {
-    "NEW-SOU": "NEW"
+    "NEW-SOU": "NEW",
+    "DOL-NZW": "DOL"
    },
    "beh": {
     "a": 0.4896,
