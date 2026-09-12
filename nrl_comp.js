@@ -8,7 +8,7 @@ window.NRL_COMP = {
  "round": 28,
  "roundIndexed": true,
  "finishRound": 31,
- "fetched": "2026-09-12T09:33:02+00:00",
+ "fetched": "2026-09-12T11:11:18+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -180,14 +180,15 @@ window.NRL_COMP = {
    ],
    "picks": {
     "NEW-SOU": "SOU",
-    "DOL-NZW": "DOL"
+    "DOL-NZW": "DOL",
+    "CRO-NQL": "CRO"
    },
    "beh": {
-    "a": 0.6701,
-    "b": 0.8067,
-    "loy": 3.8922,
+    "a": 0.6711,
+    "b": 0.8006,
+    "loy": 3.906,
     "n": 204,
-    "hit": 0.7745
+    "hit": 0.7794
    }
   },
   {
@@ -360,14 +361,15 @@ window.NRL_COMP = {
    ],
    "picks": {
     "NEW-SOU": "SOU",
-    "DOL-NZW": "DOL"
+    "DOL-NZW": "DOL",
+    "CRO-NQL": "CRO"
    },
    "beh": {
-    "a": 0.1132,
-    "b": 1.5981,
-    "loy": 3.7546,
+    "a": 0.1128,
+    "b": 1.4719,
+    "loy": 3.9138,
     "n": 201,
-    "hit": 0.8308
+    "hit": 0.8209
    }
   },
   {
@@ -540,14 +542,15 @@ window.NRL_COMP = {
    ],
    "picks": {
     "NEW-SOU": "SOU",
-    "DOL-NZW": "NZW"
+    "DOL-NZW": "NZW",
+    "CRO-NQL": "NQL"
    },
    "beh": {
-    "a": 0.3645,
-    "b": 0.8675,
-    "loy": 2.164,
+    "a": 0.3647,
+    "b": 0.8484,
+    "loy": 2.2112,
     "n": 201,
-    "hit": 0.7015
+    "hit": 0.7065
    }
   },
   {
@@ -720,14 +723,15 @@ window.NRL_COMP = {
    ],
    "picks": {
     "NEW-SOU": "SOU",
-    "DOL-NZW": "NZW"
+    "DOL-NZW": "NZW",
+    "CRO-NQL": "NQL"
    },
    "beh": {
-    "a": 0.5245,
-    "b": 1.2466,
-    "loy": 2.925,
+    "a": 0.5231,
+    "b": 1.227,
+    "loy": 2.9644,
     "n": 198,
-    "hit": 0.7626
+    "hit": 0.7525
    }
   },
   {
@@ -900,12 +904,13 @@ window.NRL_COMP = {
    ],
    "picks": {
     "NEW-SOU": "NEW",
-    "DOL-NZW": "DOL"
+    "DOL-NZW": "DOL",
+    "CRO-NQL": "CRO"
    },
    "beh": {
-    "a": 0.3628,
-    "b": 0.931,
-    "loy": 3.6493,
+    "a": 0.3618,
+    "b": 0.8952,
+    "loy": 3.72,
     "n": 198,
     "hit": 0.7727
    }
@@ -1080,14 +1085,15 @@ window.NRL_COMP = {
    ],
    "picks": {
     "NEW-SOU": "NEW",
-    "DOL-NZW": "DOL"
+    "DOL-NZW": "DOL",
+    "CRO-NQL": "NQL"
    },
    "beh": {
-    "a": 0.4896,
-    "b": 0.3134,
-    "loy": 5.0863,
+    "a": 0.4899,
+    "b": 0.3207,
+    "loy": 5.0763,
     "n": 204,
-    "hit": 0.8088
+    "hit": 0.8137
    }
   }
  ]
