@@ -517,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-13T23:19:04+10:00",
+  "generatedAt": "2026-09-13T23:28:48+10:00",
   "changes": [
     {
       "id": "r28-SYD-inj-egan-butcher",
