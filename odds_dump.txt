@@ -1,5 +1,5 @@
 # Round 29 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-14T07:43:00. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-14T08:24:42. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 10 Australian bookmaker(s) per price (20 book quotes across 2 fixtures).
-Roosters v Sharks: 1.41 / 2.94
-Warriors v Knights: 1.46 / 2.70
+Roosters v Sharks: 1.42 / 2.88
+Warriors v Knights: 1.48 / 2.70
