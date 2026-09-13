@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-13T10:35:38.036Z",
+ "updated": "2026-09-13T12:51:14.350Z",
  "tips": [
   {
    "season": 2026,
@@ -533,18 +533,6 @@ window.NRL_TIPLOG = {
   }
  ],
  "flips": [
-  {
-   "season": 2026,
-   "round": 28,
-   "home": "CRO",
-   "away": "NQL",
-   "from": "CRO",
-   "to": "NQL",
-   "fromProb": 63,
-   "toProb": 37,
-   "why": "Built on Cowboys being without Murray Taulagi (not named), plus Sharks rating the stronger side. Sharks missing Jesse Ramien and 2 more pulls it back. The bookies read it the same way.",
-   "ts": "2026-09-11T12:50:10.104Z"
-  },
   {
    "season": 2026,
    "round": 28,
