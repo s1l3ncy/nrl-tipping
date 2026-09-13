@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Jackson Ford (Ankle); Leka Halasima (Hamstring); Dallin Watene-Zelezniak (Collarbone) — back Finals; Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Jackson Ford (Ankle); Leka Halasima (Hamstring); Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Angus Crichton (Foot); Reece Foley (Head knock); Toby Rodwell (Head knock); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
+      "news": "Egan Butcher (Head knock); Angus Crichton (Foot); Reece Foley (Head knock); Toby Rodwell (Head knock); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -517,8 +517,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-13T20:35:34+10:00",
+  "generatedAt": "2026-09-13T22:51:11+10:00",
   "changes": [
+    {
+      "id": "r28-SYD-inj-egan-butcher",
+      "fixture": "PEN-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Roosters: Egan Butcher (Head knock) — new on the injury list.",
+      "pts": 1.6,
+      "ts": "2026-09-13T22:51:11+10:00",
+      "rnd": 28
+    },
     {
       "id": "r28-PEN-inj-luke-garner",
       "fixture": "PEN-SYD",
