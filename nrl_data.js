@@ -27,13 +27,13 @@ window.NRL_DATA = {
       "L": 6,
       "PF": 683,
       "PA": 347,
-      "last5": 3,
+      "last5": 4,
       "home": {
-        "P": 12,
-        "W": 10,
+        "P": 13,
+        "W": 11,
         "L": 2,
-        "PF": 348,
-        "PA": 154
+        "PF": 367,
+        "PA": 166
       },
       "away": {
         "P": 12,
@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
+      "news": "Luke Garner (Groin); Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
     },
     {
       "name": "Warriors",
@@ -105,7 +105,7 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 619,
       "PA": 501,
-      "last5": 2,
+      "last5": 1,
       "home": {
         "P": 12,
         "W": 8,
@@ -114,11 +114,11 @@ window.NRL_DATA = {
         "PA": 231
       },
       "away": {
-        "P": 12,
+        "P": 13,
         "W": 8,
-        "L": 4,
-        "PF": 348,
-        "PA": 270
+        "L": 5,
+        "PF": 360,
+        "PA": 289
       },
       "news": "Angus Crichton (Foot); Reece Foley (Head knock); Toby Rodwell (Head knock); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
     },
@@ -517,8 +517,44 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-13T14:48:43+10:00",
+  "generatedAt": "2026-09-13T18:14:17+10:00",
   "changes": [
+    {
+      "id": "r28-PEN-inj-luke-garner",
+      "fixture": "PEN-SYD",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Panthers: Luke Garner (Groin) — new on the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-13T18:14:17+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-PEN-out-luke-garner",
+      "fixture": "PEN-SYD",
+      "team": "PEN",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Luke Garner (Second-row) is out of the Panthers 17.",
+      "pts": 1.8,
+      "ts": "2026-09-13T18:14:17+10:00",
+      "rnd": 28
+    },
+    {
+      "id": "r28-PEN-in-jesse-mclean",
+      "fixture": "PEN-SYD",
+      "team": "PEN",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jesse Mclean (Winger) named in the Panthers 17.",
+      "pts": 1.6,
+      "ts": "2026-09-13T18:14:17+10:00",
+      "rnd": 28
+    },
     {
       "id": "r28-NZW-inj-jackson-ford",
       "fixture": "NZW-DOL",
