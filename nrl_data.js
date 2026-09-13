@@ -517,7 +517,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-13T18:14:17+10:00",
+  "generatedAt": "2026-09-13T20:35:34+10:00",
   "changes": [
     {
       "id": "r28-PEN-inj-luke-garner",
@@ -818,31 +818,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-12T13:52:18+10:00",
       "rnd": 28
-    },
-    {
-      "id": "r28-CRO-NQL-line-1.42-2.90",
-      "fixture": "CRO-NQL",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Sharks $1.43 → $1.42, Cowboys $2.85 → $2.90. Market now 67% Sharks (was 67%).",
-      "pts": null,
-      "ts": "2026-09-12T07:56:53+10:00",
-      "rnd": 28
-    },
-    {
-      "id": "r28-PEN-SYD-line-1.34-3.35",
-      "fixture": "PEN-SYD",
-      "team": "PEN",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Panthers $1.35 → $1.34, Roosters $3.35 → $3.35. Market now 71% Panthers (was 71%).",
-      "pts": null,
-      "ts": "2026-09-12T07:56:53+10:00",
-      "rnd": 28
     }
   ],
-  "changesSince": "2026-09-12T07:56:53+10:00"
+  "changesSince": "2026-09-12T13:52:18+10:00"
 };

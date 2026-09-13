@@ -1,9 +1,9 @@
 {
   "state": "ok",
   "httpStatus": 200,
-  "remaining": 423,
-  "used": 77,
-  "fetched": "2026-09-13T18:13:40",
+  "remaining": 422,
+  "used": 78,
+  "fetched": "2026-09-13T20:35:10",
   "eventsReturned": 2,
   "fixturesPriced": 0,
   "bookQuotes": 0,
