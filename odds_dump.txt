@@ -1,4 +1,4 @@
 # Round 28 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-13T08:17:51. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-13T14:48:20. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (11 book quotes across 1 fixtures).
-Panthers v Roosters: 1.35 / 3.30
+Panthers v Roosters: 1.37 / 3.15
