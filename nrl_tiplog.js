@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-14T04:57:34.760Z",
+ "updated": "2026-09-14T15:02:00.859Z",
  "tips": [
   {
    "season": 2026,
@@ -541,7 +541,7 @@ window.NRL_TIPLOG = {
    "mkt": 64,
    "why": "Built on Knights missing Dylan Brown and 4 more, plus Warriors rating the stronger side. Warriors missing Tanah Boyd and 4 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-20T18:05:00+12:00",
-   "ts": "2026-09-14T04:57:34.760Z"
+   "ts": "2026-09-14T15:02:00.859Z"
   },
   {
    "season": 2026,
@@ -553,21 +553,8 @@ window.NRL_TIPLOG = {
    "mkt": 66,
    "why": "Built on Sharks missing Jesse Ramien and 2 more, plus Roosters rating the stronger side. Roosters sweating on Sam Walker and 5 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-19T19:50:00+10:00",
-   "ts": "2026-09-14T04:57:34.760Z"
+   "ts": "2026-09-14T15:02:00.859Z"
   }
  ],
- "flips": [
-  {
-   "season": 2026,
-   "round": 28,
-   "home": "PEN",
-   "away": "SYD",
-   "from": "PEN",
-   "to": "SYD",
-   "fromProb": 68,
-   "toProb": 32,
-   "why": "Built on Roosters being without Sam Walker (not named) and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) and 1 more pulls it back. The bookies read it the same way.",
-   "ts": "2026-09-12T12:10:46.187Z"
-  }
- ]
+ "flips": []
 };
