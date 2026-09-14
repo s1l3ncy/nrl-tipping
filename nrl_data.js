@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.48,
-          "away": 2.65
+          "home": 1.5,
+          "away": 2.63
         }
       },
       "weather": null,
@@ -504,8 +504,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-15T06:19:03+10:00",
+  "generatedAt": "2026-09-15T08:45:26+10:00",
   "changes": [
+    {
+      "id": "r29-NZW-NEW-line-1.50-2.63",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.48 → $1.50, Knights $2.65 → $2.63. Market now 64% Warriors (was 64%).",
+      "pts": null,
+      "ts": "2026-09-15T08:45:26+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-SYD-CRO-line-1.44-2.80",
       "fixture": "SYD-CRO",
