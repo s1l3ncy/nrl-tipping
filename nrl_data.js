@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-16T05:42:25+10:00",
+  "generatedAt": "2026-09-16T08:26:42+10:00",
   "changes": [
     {
       "id": "r29-SYD-fit-reece-foley",
