@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Jackson Ford (Ankle); Leka Halasima (Hamstring); Luke Metcalf (Hamstring) — back Finals; Dallin Watene-Zelezniak (Collarbone) — back Finals; Tanah Boyd (ACL) — back Next Season"
+      "news": "Jackson Ford (Ankle); Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season; Dallin Watene-Zelezniak (Collarbone) — back Finals Week 2; Leka Halasima (Hamstring) — back Finals Week 2"
     },
     {
       "name": "Dolphins",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Reece Foley (Head knock); Egan Butcher (Head knock); Angus Crichton (Foot); Toby Rodwell (Head knock); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
+      "news": "Sam Walker (Ankle); Egan Butcher (Concussion); Blake Steep (ACL) — back Next Season; Angus Crichton (Foot) — back Finals Week 2; Toby Rodwell (Head knock) — back Finals Week 2"
     },
     {
       "name": "Sharks",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 310,
         "PA": 277
       },
-      "news": "Hohepa Puru (Illness); Mawene Hiroti (Ribs); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
+      "news": "Hohepa Puru (Illness); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season; Mawene Hiroti (Ribs) — back Finals Week 2"
     },
     {
       "name": "Rabbitohs",
@@ -474,7 +474,7 @@ window.NRL_DATA = {
           "away": 2.94
         },
         "close": {
-          "home": 1.46,
+          "home": 1.45,
           "away": 2.75
         }
       },
@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.48,
-          "away": 2.65
+          "home": 1.5,
+          "away": 2.6
         }
       },
       "weather": null,
@@ -504,8 +504,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-15T14:55:35+10:00",
+  "generatedAt": "2026-09-15T21:56:02+10:00",
   "changes": [
+    {
+      "id": "r29-SYD-fit-reece-foley",
+      "fixture": "SYD-CRO",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Reece Foley is off the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-15T21:56:02+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-NEW-fit-brodie-jones",
       "fixture": "NZW-NEW",
@@ -516,6 +528,30 @@ window.NRL_DATA = {
       "text": "Knights: Brodie Jones is off the injury list.",
       "pts": 1.2,
       "ts": "2026-09-15T14:55:35+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-SYD-CRO-line-1.45-2.75",
+      "fixture": "SYD-CRO",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.46 → $1.45, Sharks $2.75 → $2.75. Market now 65% Roosters (was 65%).",
+      "pts": null,
+      "ts": "2026-09-15T21:56:02+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-NEW-line-1.50-2.60",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.48 → $1.50, Knights $2.65 → $2.60. Market now 63% Warriors (was 64%).",
+      "pts": null,
+      "ts": "2026-09-15T21:56:02+10:00",
       "rnd": 29
     },
     {
@@ -577,31 +613,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-14T14:57:31+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-SYD-CRO-line-1.42-2.88",
-      "fixture": "SYD-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.41 → $1.42, Sharks $2.94 → $2.88. Market now 67% Roosters (was 68%).",
-      "pts": null,
-      "ts": "2026-09-14T08:25:25+10:00",
-      "rnd": 29
-    },
-    {
-      "id": "r29-NZW-NEW-line-1.48-2.70",
-      "fixture": "NZW-NEW",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Warriors $1.46 → $1.48, Knights $2.70 → $2.70. Market now 65% Warriors (was 65%).",
-      "pts": null,
-      "ts": "2026-09-14T08:25:25+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-14T08:25:25+10:00"
+  "changesSince": "2026-09-14T14:57:31+10:00"
 };
