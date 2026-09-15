@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Egan Butcher (Head knock); Angus Crichton (Foot); Reece Foley (Head knock); Toby Rodwell (Head knock); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
+      "news": "Reece Foley (Head knock); Egan Butcher (Head knock); Angus Crichton (Foot); Toby Rodwell (Head knock); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 310,
         "PA": 277
       },
-      "news": "Mawene Hiroti (Ribs); Hohepa Puru (Illness); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
+      "news": "Hohepa Puru (Illness); Mawene Hiroti (Ribs); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 370,
         "PA": 298
       },
-      "news": "Brodie Jones (Hamstring) — back Finals; Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
+      "news": "Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.94
         },
         "close": {
-          "home": 1.44,
-          "away": 2.8
+          "home": 1.46,
+          "away": 2.75
         }
       },
       "weather": null,
@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.5,
-          "away": 2.63
+          "home": 1.48,
+          "away": 2.65
         }
       },
       "weather": null,
@@ -504,8 +504,32 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-15T08:45:26+10:00",
+  "generatedAt": "2026-09-15T14:55:35+10:00",
   "changes": [
+    {
+      "id": "r29-NEW-fit-brodie-jones",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Brodie Jones is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-15T14:55:35+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-SYD-CRO-line-1.46-2.75",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.44 → $1.46, Sharks $2.80 → $2.75. Market now 65% Roosters (was 66%).",
+      "pts": null,
+      "ts": "2026-09-15T14:55:35+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-NZW-NEW-line-1.50-2.63",
       "fixture": "NZW-NEW",
