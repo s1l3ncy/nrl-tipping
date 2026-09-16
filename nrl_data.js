@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.5,
-          "away": 2.6
+          "home": 1.48,
+          "away": 2.65
         }
       },
       "weather": null,
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-16T14:49:56+10:00",
+  "generatedAt": "2026-09-16T23:30:45+10:00",
   "changes": [
     {
       "id": "r29-SYD-fit-reece-foley",
@@ -528,6 +528,18 @@ window.NRL_DATA = {
       "text": "Knights: Brodie Jones is off the injury list.",
       "pts": 1.2,
       "ts": "2026-09-15T14:55:35+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-NEW-line-1.48-2.65",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.50 → $1.48, Knights $2.60 → $2.65. Market now 64% Warriors (was 63%).",
+      "pts": null,
+      "ts": "2026-09-16T23:30:45+10:00",
       "rnd": 29
     },
     {
@@ -565,19 +577,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-15T14:55:35+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-NZW-NEW-line-1.50-2.63",
-      "fixture": "NZW-NEW",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.48 → $1.50, Knights $2.65 → $2.63. Market now 64% Warriors (was 64%).",
-      "pts": null,
-      "ts": "2026-09-15T08:45:26+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-15T08:45:26+10:00"
+  "changesSince": "2026-09-15T14:55:35+10:00"
 };
