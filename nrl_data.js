@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-16T08:54:24+10:00",
+  "generatedAt": "2026-09-16T14:49:56+10:00",
   "changes": [
     {
       "id": "r29-SYD-fit-reece-foley",
@@ -577,19 +577,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-15T08:45:26+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-SYD-CRO-line-1.44-2.80",
-      "fixture": "SYD-CRO",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.45 → $1.44, Sharks $2.80 → $2.80. Market now 66% Roosters (was 66%).",
-      "pts": null,
-      "ts": "2026-09-15T01:01:57+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-15T01:01:57+10:00"
+  "changesSince": "2026-09-15T08:45:26+10:00"
 };
