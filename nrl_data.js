@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.49,
-          "away": 2.63
+          "home": 1.48,
+          "away": 2.65
         }
       },
       "weather": null,
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-17T08:20:20+10:00",
+  "generatedAt": "2026-09-17T08:56:48+10:00",
   "changes": [
     {
       "id": "r29-SYD-fit-reece-foley",
