@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-16",
+  "updated": "2026-09-17",
   "season": 2026,
   "round": 29,
   "roundName": "Finals Week 2",
@@ -494,8 +494,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.48,
-          "away": 2.65
+          "home": 1.49,
+          "away": 2.63
         }
       },
       "weather": null,
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-16T23:30:45+10:00",
+  "generatedAt": "2026-09-17T05:34:14+10:00",
   "changes": [
     {
       "id": "r29-SYD-fit-reece-foley",
@@ -519,15 +519,15 @@ window.NRL_DATA = {
       "rnd": 29
     },
     {
-      "id": "r29-NEW-fit-brodie-jones",
+      "id": "r29-NZW-NEW-line-1.49-2.63",
       "fixture": "NZW-NEW",
       "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
+      "cat": "line",
+      "sev": 1,
       "dir": "up",
-      "text": "Knights: Brodie Jones is off the injury list.",
-      "pts": 1.2,
-      "ts": "2026-09-15T14:55:35+10:00",
+      "text": "Line moved — Warriors $1.48 → $1.49, Knights $2.65 → $2.63. Market now 64% Warriors (was 64%).",
+      "pts": null,
+      "ts": "2026-09-17T05:34:14+10:00",
       "rnd": 29
     },
     {
@@ -565,19 +565,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-15T21:56:02+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-SYD-CRO-line-1.46-2.75",
-      "fixture": "SYD-CRO",
-      "team": "CRO",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.44 → $1.46, Sharks $2.80 → $2.75. Market now 65% Roosters (was 66%).",
-      "pts": null,
-      "ts": "2026-09-15T14:55:35+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-15T14:55:35+10:00"
+  "changesSince": "2026-09-15T21:56:02+10:00"
 };
