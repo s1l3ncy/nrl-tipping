@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-18T05:44:12+10:00",
+  "generatedAt": "2026-09-18T08:26:07+10:00",
   "changes": [
     {
       "id": "r29-NZW-NEW-line-1.48-2.70",
