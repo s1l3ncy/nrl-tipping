@@ -495,7 +495,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.48,
-          "away": 2.7
+          "away": 2.65
         }
       },
       "weather": null,
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-17T14:53:47+10:00",
+  "generatedAt": "2026-09-17T23:28:31+10:00",
   "changes": [
     {
       "id": "r29-NZW-NEW-line-1.48-2.70",
