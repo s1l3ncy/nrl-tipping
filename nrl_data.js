@@ -495,7 +495,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.48,
-          "away": 2.65
+          "away": 2.7
         }
       },
       "weather": null,
@@ -504,18 +504,18 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-17T08:56:48+10:00",
+  "generatedAt": "2026-09-17T14:53:47+10:00",
   "changes": [
     {
-      "id": "r29-SYD-fit-reece-foley",
-      "fixture": "SYD-CRO",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Reece Foley is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-15T21:56:02+10:00",
+      "id": "r29-NZW-NEW-line-1.48-2.70",
+      "fixture": "NZW-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Warriors $1.48 → $1.48, Knights $2.65 → $2.70. Market now 65% Warriors (was 64%).",
+      "pts": null,
+      "ts": "2026-09-17T14:53:47+10:00",
       "rnd": 29
     },
     {
@@ -541,31 +541,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-16T23:30:45+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-SYD-CRO-line-1.45-2.75",
-      "fixture": "SYD-CRO",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.46 → $1.45, Sharks $2.75 → $2.75. Market now 65% Roosters (was 65%).",
-      "pts": null,
-      "ts": "2026-09-15T21:56:02+10:00",
-      "rnd": 29
-    },
-    {
-      "id": "r29-NZW-NEW-line-1.50-2.60",
-      "fixture": "NZW-NEW",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.48 → $1.50, Knights $2.65 → $2.60. Market now 63% Warriors (was 64%).",
-      "pts": null,
-      "ts": "2026-09-15T21:56:02+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-15T21:56:02+10:00"
+  "changesSince": "2026-09-16T23:30:45+10:00"
 };
