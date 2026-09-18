@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-18",
+  "updated": "2026-09-19",
   "season": 2026,
   "round": 29,
   "roundName": "Finals Week 2",
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-18T23:33:53+10:00",
+  "generatedAt": "2026-09-19T05:02:32+10:00",
   "changes": [
     {
       "id": "r29-CRO-in-niwhai-puru",
@@ -541,19 +541,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-18T14:44:26+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-NZW-NEW-line-1.48-2.70",
-      "fixture": "NZW-NEW",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Warriors $1.48 → $1.48, Knights $2.65 → $2.70. Market now 65% Warriors (was 64%).",
-      "pts": null,
-      "ts": "2026-09-17T14:53:47+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-17T14:53:47+10:00"
+  "changesSince": "2026-09-18T14:44:26+10:00"
 };
