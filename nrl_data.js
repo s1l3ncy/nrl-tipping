@@ -504,8 +504,32 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-18T14:44:26+10:00",
+  "generatedAt": "2026-09-18T22:58:42+10:00",
   "changes": [
+    {
+      "id": "r29-CRO-in-niwhai-puru",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Niwhai Puru (Halfback) named in the Sharks 17.",
+      "pts": 2.0,
+      "ts": "2026-09-18T22:58:42+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-CRO-out-jayden-berrell",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Jayden Berrell (Hooker) is out of the Sharks 17.",
+      "pts": 2.0,
+      "ts": "2026-09-18T22:58:42+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-SYD-CRO-line-1.44-2.80",
       "fixture": "SYD-CRO",
@@ -529,19 +553,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-17T14:53:47+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-NZW-NEW-line-1.49-2.63",
-      "fixture": "NZW-NEW",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Warriors $1.48 → $1.49, Knights $2.65 → $2.63. Market now 64% Warriors (was 64%).",
-      "pts": null,
-      "ts": "2026-09-17T05:34:14+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-17T05:34:14+10:00"
+  "changesSince": "2026-09-17T14:53:47+10:00"
 };
