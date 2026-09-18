@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-19T05:02:32+10:00",
+  "generatedAt": "2026-09-19T07:52:51+10:00",
   "changes": [
     {
       "id": "r29-CRO-in-niwhai-puru",
