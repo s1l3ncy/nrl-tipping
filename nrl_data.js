@@ -485,7 +485,7 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.49,
+          "home": 1.5,
           "away": 2.6
         }
       },
@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-20T07:46:08+10:00",
+  "generatedAt": "2026-09-20T08:20:14+10:00",
   "changes": [
     {
       "id": "r29-CRO-inj-mawene-hiroti",
@@ -711,6 +711,18 @@ window.NRL_DATA = {
       "text": "Jayden Berrell (Hooker) is out of the Sharks 17.",
       "pts": 2.0,
       "ts": "2026-09-18T22:58:42+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-NEW-line-1.50-2.60",
+      "fixture": "NZW-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Warriors $1.49 → $1.50, Knights $2.60 → $2.60. Market now 63% Warriors (was 64%).",
+      "pts": null,
+      "ts": "2026-09-20T08:20:14+10:00",
       "rnd": 29
     },
     {
