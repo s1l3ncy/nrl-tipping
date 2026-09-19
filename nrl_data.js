@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Sam Walker (Ankle); Egan Butcher (Concussion); Blake Steep (ACL) — back Next Season; Angus Crichton (Foot) — back Finals Week 2; Toby Rodwell (Head knock) — back Finals Week 2"
+      "news": "Egan Butcher (Concussion); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 310,
         "PA": 277
       },
-      "news": "Hohepa Puru (Illness); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season; Mawene Hiroti (Ribs) — back Finals Week 2"
+      "news": "Hohepa Puru (Illness); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 370,
         "PA": 298
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Dylan Lucas (Ankle) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
+      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Dylan Lucas (Ankle) — back Finals Week 2"
     },
     {
       "name": "Cowboys",
@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.94
         },
         "close": {
-          "home": 1.44,
-          "away": 2.8
+          "home": 1.45,
+          "away": 2.75
         }
       },
       "weather": null,
@@ -494,7 +494,7 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.48,
+          "home": 1.47,
           "away": 2.7
         }
       },
@@ -504,8 +504,140 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-19T14:38:22+10:00",
+  "generatedAt": "2026-09-19T19:42:15+10:00",
   "changes": [
+    {
+      "id": "r29-SYD-fit-angus-crichton",
+      "fixture": "SYD-CRO",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Angus Crichton is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-SYD-fit-toby-rodwell",
+      "fixture": "SYD-CRO",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Toby Rodwell is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-CRO-fit-mawene-hiroti",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Sharks: Mawene Hiroti is off the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-CRO-in-mawene-hiroti",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Mawene Hiroti (Centre) named in the Sharks 17.",
+      "pts": 1.2,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-CRO-out-toby-rudolf",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Toby Rudolf (Prop) is out of the Sharks 17.",
+      "pts": 1.0,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NEW-in-dylan-lucas",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dylan Lucas (Second-row) named in the Knights 17 — was on the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NEW-out-toby-winter",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Toby Winter is out of the Knights 17.",
+      "pts": 0.6,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-in-leka-halasima",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Leka Halasima (Second-row) named in the Warriors 17 — was on the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-out-jett-cleary",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Jett Cleary is out of the Warriors 17.",
+      "pts": 0.6,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-SYD-in-toby-rodwell",
+      "fixture": "SYD-CRO",
+      "team": "SYD",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Toby Rodwell (Halfback) named in the Roosters 17.",
+      "pts": 2.0,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-SYD-out-tommy-talau",
+      "fixture": "SYD-CRO",
+      "team": "SYD",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Tommy Talau (Centre) is out of the Roosters 17.",
+      "pts": 1.5,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-CRO-in-niwhai-puru",
       "fixture": "SYD-CRO",
@@ -528,6 +660,30 @@ window.NRL_DATA = {
       "text": "Jayden Berrell (Hooker) is out of the Sharks 17.",
       "pts": 2.0,
       "ts": "2026-09-18T22:58:42+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-SYD-CRO-line-1.45-2.75",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.44 → $1.45, Sharks $2.80 → $2.75. Market now 65% Roosters (was 66%).",
+      "pts": null,
+      "ts": "2026-09-19T19:42:15+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-NEW-line-1.47-2.70",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.48 → $1.47, Knights $2.70 → $2.70. Market now 65% Warriors (was 65%).",
+      "pts": null,
+      "ts": "2026-09-19T19:42:15+10:00",
       "rnd": 29
     },
     {
