@@ -3,8 +3,13 @@
   "season": 2026,
   "round": 29,
   "source": "nrl.com",
-  "fetched": "2026-09-19T21:24:06",
+  "fetched": "2026-09-19T22:30:02",
   "fixtures": {
+    "SYD-CRO": {
+      "venue": "Allianz Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-09-19T09:50:00Z"
+    },
     "NZW-NEW": {
       "venue": "Eden Park",
       "city": "Auckland",
