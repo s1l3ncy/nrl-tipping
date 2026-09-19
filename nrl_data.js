@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Jackson Ford (Ankle); Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season; Dallin Watene-Zelezniak (Collarbone) — back Finals Week 2; Leka Halasima (Hamstring) — back Finals Week 2"
+      "news": "Jackson Ford (Ankle); Luke Metcalf (Hamstring) — back Finals; Tanah Boyd (ACL) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Egan Butcher (Concussion); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
+      "news": "Sam Walker (Ankle); Egan Butcher (Concussion); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 370,
         "PA": 298
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Dylan Lucas (Ankle) — back Finals Week 2"
+      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -465,19 +465,10 @@ window.NRL_DATA = {
     {
       "home": "SYD",
       "away": "CRO",
-      "venue": "Allianz Stadium",
+      "venue": "",
       "city": "Sydney",
-      "kickoff": "2026-09-19T19:50:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.41,
-          "away": 2.94
-        },
-        "close": {
-          "home": 1.45,
-          "away": 2.75
-        }
-      },
+      "kickoff": "",
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Sydney"
@@ -495,7 +486,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.47,
-          "away": 2.7
+          "away": 2.8
         }
       },
       "weather": null,
@@ -504,8 +495,44 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-19T19:42:15+10:00",
+  "generatedAt": "2026-09-19T21:24:38+10:00",
   "changes": [
+    {
+      "id": "r29-NZW-fit-dallin-watene-zelezniak",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Warriors: Dallin Watene-Zelezniak is off the injury list.",
+      "pts": 1.9,
+      "ts": "2026-09-19T21:24:38+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-fit-leka-halasima",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Warriors: Leka Halasima is off the injury list.",
+      "pts": 2.1,
+      "ts": "2026-09-19T21:24:38+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NEW-fit-dylan-lucas",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Knights: Dylan Lucas is off the injury list.",
+      "pts": 2.0,
+      "ts": "2026-09-19T21:24:38+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-SYD-fit-angus-crichton",
       "fixture": "SYD-CRO",
@@ -660,6 +687,18 @@ window.NRL_DATA = {
       "text": "Jayden Berrell (Hooker) is out of the Sharks 17.",
       "pts": 2.0,
       "ts": "2026-09-18T22:58:42+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-NEW-line-1.47-2.80",
+      "fixture": "NZW-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Warriors $1.47 → $1.47, Knights $2.70 → $2.80. Market now 66% Warriors (was 65%).",
+      "pts": null,
+      "ts": "2026-09-19T21:24:38+10:00",
       "rnd": 29
     },
     {
