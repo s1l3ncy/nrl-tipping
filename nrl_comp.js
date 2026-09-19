@@ -8,7 +8,7 @@ window.NRL_COMP = {
  "round": 29,
  "roundIndexed": true,
  "finishRound": 31,
- "fetched": "2026-09-19T11:24:27+00:00",
+ "fetched": "2026-09-19T12:30:16+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -85,9 +85,9 @@ window.NRL_COMP = {
    },
    "rank": 1,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 135,
-   "totalMargin": 492,
+   "roundScore": 1,
+   "totalScore": 136,
+   "totalMargin": 516,
    "margins": [
     16,
     14,
@@ -117,7 +117,7 @@ window.NRL_COMP = {
     16,
     20,
     16,
-    null
+    24
    ],
    "scores": [
     5,
@@ -148,7 +148,7 @@ window.NRL_COMP = {
     6,
     5,
     3,
-    null
+    1
    ],
    "mpreds": [
     6,
@@ -179,7 +179,7 @@ window.NRL_COMP = {
     10,
     6,
     6,
-    null
+    60
    ],
    "picks": {
     "CRO-SYD": "SYD"
@@ -267,9 +267,9 @@ window.NRL_COMP = {
    },
    "rank": 2,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 133,
-   "totalMargin": 476,
+   "roundScore": 1,
+   "totalScore": 134,
+   "totalMargin": 510,
    "margins": [
     14,
     8,
@@ -299,7 +299,7 @@ window.NRL_COMP = {
     22,
     18,
     14,
-    null
+    34
    ],
    "scores": [
     5,
@@ -330,7 +330,7 @@ window.NRL_COMP = {
     6,
     3,
     2,
-    null
+    1
    ],
    "mpreds": [
     4,
@@ -361,7 +361,7 @@ window.NRL_COMP = {
     4,
     4,
     4,
-    null
+    70
    ],
    "picks": {
     "CRO-SYD": "SYD"
@@ -451,7 +451,7 @@ window.NRL_COMP = {
    "mv": "",
    "roundScore": 0,
    "totalScore": 131,
-   "totalMargin": 515,
+   "totalMargin": 555,
    "margins": [
     20,
     23,
@@ -481,7 +481,7 @@ window.NRL_COMP = {
     18,
     22,
     18,
-    null
+    40
    ],
    "scores": [
     4,
@@ -512,7 +512,7 @@ window.NRL_COMP = {
     6,
     4,
     1,
-    null
+    0
    ],
    "mpreds": [
     10,
@@ -543,7 +543,7 @@ window.NRL_COMP = {
     8,
     8,
     8,
-    null
+    4
    ],
    "picks": {
     "CRO-SYD": "CRO"
@@ -631,9 +631,9 @@ window.NRL_COMP = {
    },
    "rank": 4,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 129,
-   "totalMargin": 492,
+   "roundScore": 1,
+   "totalScore": 130,
+   "totalMargin": 516,
    "margins": [
     10,
     35,
@@ -663,7 +663,7 @@ window.NRL_COMP = {
     4,
     30,
     22,
-    null
+    24
    ],
    "scores": [
     4,
@@ -694,7 +694,7 @@ window.NRL_COMP = {
     6,
     4,
     1,
-    null
+    1
    ],
    "mpreds": [
     null,
@@ -725,7 +725,7 @@ window.NRL_COMP = {
     22,
     16,
     12,
-    null
+    60
    ],
    "picks": {
     "CRO-SYD": "SYD"
@@ -813,9 +813,9 @@ window.NRL_COMP = {
    },
    "rank": 5,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 126,
-   "totalMargin": 506,
+   "roundScore": 1,
+   "totalScore": 127,
+   "totalMargin": 538,
    "margins": [
     16,
     20,
@@ -845,7 +845,7 @@ window.NRL_COMP = {
     21,
     22,
     8,
-    null
+    32
    ],
    "scores": [
     4,
@@ -876,7 +876,7 @@ window.NRL_COMP = {
     6,
     5,
     6,
-    null
+    1
    ],
    "mpreds": [
     6,
@@ -907,7 +907,7 @@ window.NRL_COMP = {
     5,
     8,
     2,
-    null
+    68
    ],
    "picks": {
     "CRO-SYD": "SYD"
@@ -997,7 +997,7 @@ window.NRL_COMP = {
    "mv": "",
    "roundScore": 0,
    "totalScore": 114,
-   "totalMargin": 541,
+   "totalMargin": 581,
    "margins": [
     6,
     18,
@@ -1027,7 +1027,7 @@ window.NRL_COMP = {
     30,
     18,
     6,
-    null
+    40
    ],
    "scores": [
     5,
@@ -1058,7 +1058,7 @@ window.NRL_COMP = {
     4,
     4,
     3,
-    null
+    0
    ],
    "mpreds": [
     16,
@@ -1089,7 +1089,7 @@ window.NRL_COMP = {
     4,
     4,
     4,
-    null
+    4
    ],
    "picks": {
     "CRO-SYD": "CRO"
