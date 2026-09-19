@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-19T09:42:19.186Z",
+ "updated": "2026-09-19T11:24:40.840Z",
  "tips": [
   {
    "season": 2026,
@@ -537,11 +537,11 @@ window.NRL_TIPLOG = {
    "home": "NZW",
    "away": "NEW",
    "tip": "NZW",
-   "prob": 63,
-   "mkt": 65,
+   "prob": 64,
+   "mkt": 66,
    "why": "Built on Knights missing Dylan Brown and 2 more, plus Warriors rating the stronger side. Warriors being without Luke Metcalf (not named) and 2 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-20T18:05:00+12:00",
-   "ts": "2026-09-19T09:42:19.186Z"
+   "ts": "2026-09-19T11:24:40.840Z"
   },
   {
    "season": 2026,
