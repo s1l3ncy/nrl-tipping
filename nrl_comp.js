@@ -8,7 +8,7 @@ window.NRL_COMP = {
  "round": 29,
  "roundIndexed": true,
  "finishRound": 31,
- "fetched": "2026-09-19T09:42:03+00:00",
+ "fetched": "2026-09-19T11:24:27+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -181,7 +181,9 @@ window.NRL_COMP = {
     6,
     null
    ],
-   "picks": {},
+   "picks": {
+    "CRO-SYD": "SYD"
+   },
    "beh": {
     "a": 0.674,
     "b": 0.8356,
@@ -361,7 +363,9 @@ window.NRL_COMP = {
     4,
     null
    ],
-   "picks": {},
+   "picks": {
+    "CRO-SYD": "SYD"
+   },
    "beh": {
     "a": 0.1022,
     "b": 1.3823,
@@ -541,7 +545,9 @@ window.NRL_COMP = {
     8,
     null
    ],
-   "picks": {},
+   "picks": {
+    "CRO-SYD": "CRO"
+   },
    "beh": {
     "a": 0.3687,
     "b": 0.8876,
@@ -721,7 +727,9 @@ window.NRL_COMP = {
     12,
     null
    ],
-   "picks": {},
+   "picks": {
+    "CRO-SYD": "SYD"
+   },
    "beh": {
     "a": 0.5219,
     "b": 1.2355,
@@ -901,7 +909,9 @@ window.NRL_COMP = {
     2,
     null
    ],
-   "picks": {},
+   "picks": {
+    "CRO-SYD": "SYD"
+   },
    "beh": {
     "a": 0.3334,
     "b": 0.9239,
@@ -1081,7 +1091,9 @@ window.NRL_COMP = {
     4,
     null
    ],
-   "picks": {},
+   "picks": {
+    "CRO-SYD": "CRO"
+   },
    "beh": {
     "a": 0.4488,
     "b": 0.338,
