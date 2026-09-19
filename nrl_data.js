@@ -107,11 +107,11 @@ window.NRL_DATA = {
       "PA": 501,
       "last5": 1,
       "home": {
-        "P": 12,
-        "W": 8,
+        "P": 13,
+        "W": 9,
         "L": 4,
-        "PF": 271,
-        "PA": 231
+        "PF": 317,
+        "PA": 241
       },
       "away": {
         "P": 13,
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Sam Walker (Ankle); Egan Butcher (Concussion); Blake Steep (ACL) — back Next Season"
+      "news": "Egan Butcher (Concussion); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -140,13 +140,13 @@ window.NRL_DATA = {
         "PA": 262
       },
       "away": {
-        "P": 12,
+        "P": 13,
         "W": 6,
-        "L": 6,
-        "PF": 310,
-        "PA": 277
+        "L": 7,
+        "PF": 320,
+        "PA": 323
       },
-      "news": "Hohepa Puru (Illness); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
+      "news": "Hohepa Puru (Illness); Nicho Hynes (Head knock); Mawene Hiroti (Knee); Michael Gabrael (Suspension) — back Finals; Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Rabbitohs",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 370,
         "PA": 298
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
+      "news": "Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -465,9 +465,9 @@ window.NRL_DATA = {
     {
       "home": "SYD",
       "away": "CRO",
-      "venue": "",
+      "venue": "Allianz Stadium",
       "city": "Sydney",
-      "kickoff": "",
+      "kickoff": "2026-09-19T19:50:00+10:00",
       "odds": null,
       "weather": null,
       "h2h": null,
@@ -485,8 +485,8 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.47,
-          "away": 2.8
+          "home": 1.48,
+          "away": 2.7
         }
       },
       "weather": null,
@@ -495,8 +495,32 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-19T21:24:38+10:00",
+  "generatedAt": "2026-09-19T22:30:24+10:00",
   "changes": [
+    {
+      "id": "r29-CRO-inj-mawene-hiroti",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Mawene Hiroti (Knee) — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-09-19T22:30:24+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-CRO-inj-nicho-hynes",
+      "fixture": "SYD-CRO",
+      "team": "CRO",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Sharks: Nicho Hynes (Head knock) — new on the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-19T22:30:24+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-NZW-fit-dallin-watene-zelezniak",
       "fixture": "NZW-NEW",
@@ -687,6 +711,18 @@ window.NRL_DATA = {
       "text": "Jayden Berrell (Hooker) is out of the Sharks 17.",
       "pts": 2.0,
       "ts": "2026-09-18T22:58:42+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-NEW-line-1.48-2.70",
+      "fixture": "NZW-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Warriors $1.47 → $1.48, Knights $2.80 → $2.70. Market now 65% Warriors (was 66%).",
+      "pts": null,
+      "ts": "2026-09-19T22:30:24+10:00",
       "rnd": 29
     },
     {
