@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-19T22:30:24+10:00",
+  "generatedAt": "2026-09-19T23:03:31+10:00",
   "changes": [
     {
       "id": "r29-CRO-inj-mawene-hiroti",
