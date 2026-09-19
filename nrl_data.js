@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "season": 2026,
   "round": 29,
   "roundName": "Finals Week 2",
@@ -485,7 +485,7 @@ window.NRL_DATA = {
           "away": 2.7
         },
         "close": {
-          "home": 1.48,
+          "home": 1.47,
           "away": 2.7
         }
       },
@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-19T23:03:31+10:00",
+  "generatedAt": "2026-09-20T04:37:25+10:00",
   "changes": [
     {
       "id": "r29-CRO-inj-mawene-hiroti",
@@ -760,19 +760,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-19T19:42:15+10:00",
       "rnd": 29
-    },
-    {
-      "id": "r29-SYD-CRO-line-1.44-2.80",
-      "fixture": "SYD-CRO",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.45 → $1.44, Sharks $2.75 → $2.80. Market now 66% Roosters (was 65%).",
-      "pts": null,
-      "ts": "2026-09-18T14:44:26+10:00",
-      "rnd": 29
     }
   ],
-  "changesSince": "2026-09-18T14:44:26+10:00"
+  "changesSince": "2026-09-18T22:58:42+10:00"
 };
