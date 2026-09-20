@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-20T13:14:17.281Z",
+ "updated": "2026-09-20T18:48:01.536Z",
  "tips": [
   {
    "season": 2026,
@@ -554,6 +554,30 @@ window.NRL_TIPLOG = {
    "why": "Built on Sharks missing Jesse Ramien and 1 more, plus Roosters rating the stronger side. Roosters being without Sam Walker (not named) and 2 more pulls it back. The bookies lean the other way, which reins the tip in.",
    "ko": "2026-09-19T19:50:00+10:00",
    "ts": "2026-09-19T09:42:19.186Z"
+  },
+  {
+   "season": 2026,
+   "round": 30,
+   "home": "DOL",
+   "away": "SYD",
+   "tip": "DOL",
+   "prob": 60,
+   "mkt": 57,
+   "why": "Built on Dolphins rating the stronger side, plus Roosters sweating on Sam Walker and 2 more. The bookies read it the same way.",
+   "ko": "2026-09-25T19:50:00+10:00",
+   "ts": "2026-09-20T18:48:01.536Z"
+  },
+  {
+   "season": 2026,
+   "round": 30,
+   "home": "PEN",
+   "away": "NEW",
+   "tip": "PEN",
+   "prob": 72,
+   "mkt": 75,
+   "why": "Built on Knights missing Dylan Brown and 2 more, plus Panthers rating the stronger side. Panthers sweating on Nathan Cleary and 3 more pulls it back. The bookies read it the same way.",
+   "ko": "2026-09-27T16:00:00+10:00",
+   "ts": "2026-09-20T18:48:01.536Z"
   }
  ],
  "flips": []
