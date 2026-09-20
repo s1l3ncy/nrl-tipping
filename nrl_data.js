@@ -53,13 +53,13 @@ window.NRL_DATA = {
       "L": 6,
       "PF": 728,
       "PA": 418,
-      "last5": 4,
+      "last5": 3,
       "home": {
-        "P": 13,
+        "P": 14,
         "W": 10,
-        "L": 3,
-        "PF": 373,
-        "PA": 248
+        "L": 4,
+        "PF": 383,
+        "PA": 260
       },
       "away": {
         "P": 12,
@@ -192,11 +192,11 @@ window.NRL_DATA = {
         "PA": 303
       },
       "away": {
-        "P": 13,
-        "W": 7,
+        "P": 14,
+        "W": 8,
         "L": 6,
-        "PF": 370,
-        "PA": 298
+        "PF": 382,
+        "PA": 308
       },
       "news": "Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
     },
@@ -495,8 +495,32 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-20T14:54:29+10:00",
+  "generatedAt": "2026-09-20T18:30:22+10:00",
   "changes": [
+    {
+      "id": "r29-NZW-in-dallin-watene-zelezniak",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dallin Watene Zelezniak (Winger) named in the Warriors 17.",
+      "pts": 1.9,
+      "ts": "2026-09-20T18:30:22+10:00",
+      "rnd": 29
+    },
+    {
+      "id": "r29-NZW-out-morgan-gannon",
+      "fixture": "NZW-NEW",
+      "team": "NZW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Morgan Gannon (Second-row) is out of the Warriors 17.",
+      "pts": 1.2,
+      "ts": "2026-09-20T18:30:22+10:00",
+      "rnd": 29
+    },
     {
       "id": "r29-CRO-inj-mawene-hiroti",
       "fixture": "SYD-CRO",

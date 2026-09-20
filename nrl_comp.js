@@ -8,7 +8,7 @@ window.NRL_COMP = {
  "round": 29,
  "roundIndexed": true,
  "finishRound": 31,
- "fetched": "2026-09-20T04:54:20+00:00",
+ "fetched": "2026-09-20T08:30:12+00:00",
  "members": [
   {
    "name": "Claire with an i",
@@ -182,7 +182,8 @@ window.NRL_COMP = {
     60
    ],
    "picks": {
-    "CRO-SYD": "SYD"
+    "CRO-SYD": "SYD",
+    "NEW-NZW": "NZW"
    },
    "beh": {
     "a": 0.6751,
@@ -364,7 +365,8 @@ window.NRL_COMP = {
     70
    ],
    "picks": {
-    "CRO-SYD": "SYD"
+    "CRO-SYD": "SYD",
+    "NEW-NZW": "NZW"
    },
    "beh": {
     "a": 0.1083,
@@ -546,7 +548,8 @@ window.NRL_COMP = {
     4
    ],
    "picks": {
-    "CRO-SYD": "CRO"
+    "CRO-SYD": "CRO",
+    "NEW-NZW": "NZW"
    },
    "beh": {
     "a": 0.3715,
@@ -728,7 +731,8 @@ window.NRL_COMP = {
     60
    ],
    "picks": {
-    "CRO-SYD": "SYD"
+    "CRO-SYD": "SYD",
+    "NEW-NZW": "NZW"
    },
    "beh": {
     "a": 0.5276,
@@ -910,7 +914,8 @@ window.NRL_COMP = {
     68
    ],
    "picks": {
-    "CRO-SYD": "SYD"
+    "CRO-SYD": "SYD",
+    "NEW-NZW": "NZW"
    },
    "beh": {
     "a": 0.3374,
@@ -995,8 +1000,8 @@ window.NRL_COMP = {
    },
    "rank": 6,
    "mv": "",
-   "roundScore": 0,
-   "totalScore": 114,
+   "roundScore": 1,
+   "totalScore": 115,
    "totalMargin": 581,
    "margins": [
     6,
@@ -1058,7 +1063,7 @@ window.NRL_COMP = {
     4,
     4,
     3,
-    0
+    1
    ],
    "mpreds": [
     16,
@@ -1092,7 +1097,8 @@ window.NRL_COMP = {
     4
    ],
    "picks": {
-    "CRO-SYD": "CRO"
+    "CRO-SYD": "CRO",
+    "NEW-NZW": "NEW"
    },
    "beh": {
     "a": 0.4491,
