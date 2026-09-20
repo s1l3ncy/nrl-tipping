@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-20T20:04:27+10:00",
+  "generatedAt": "2026-09-20T22:37:38+10:00",
   "changes": [
     {
       "id": "r29-NZW-in-dallin-watene-zelezniak",
