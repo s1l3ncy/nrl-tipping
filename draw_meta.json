@@ -1,19 +1,19 @@
 {
   "_comment": "Venue / host city / kick-off for the round below, from nrl.com's own draw payload. kickoffUtc is a UTC instant; parse_nrl.py converts it to the ground's local time and emits fixture.tz. Regenerated every run by cloud_fetch.py — do not hand-edit.",
   "season": 2026,
-  "round": 29,
+  "round": 30,
   "source": "nrl.com",
-  "fetched": "2026-09-20T23:13:37",
+  "fetched": "2026-09-21T04:47:49",
   "fixtures": {
-    "SYD-CRO": {
-      "venue": "Allianz Stadium",
-      "city": "Sydney",
-      "kickoffUtc": "2026-09-19T09:50:00Z"
+    "DOL-SYD": {
+      "venue": "Suncorp Stadium",
+      "city": "Brisbane",
+      "kickoffUtc": "2026-09-25T09:50:00Z"
     },
-    "NZW-NEW": {
-      "venue": "Eden Park",
-      "city": "Auckland",
-      "kickoffUtc": "2026-09-20T06:05:00Z"
+    "PEN-NEW": {
+      "venue": "Accor Stadium",
+      "city": "Sydney",
+      "kickoffUtc": "2026-09-27T06:00:00Z"
     }
   }
 }
