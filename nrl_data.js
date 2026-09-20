@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-21T07:50:49+10:00",
+  "generatedAt": "2026-09-21T08:26:47+10:00",
   "changes": [
     {
       "id": "r30-PEN-inj-jack-cogger",
