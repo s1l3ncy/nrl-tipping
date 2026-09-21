@@ -474,7 +474,7 @@ window.NRL_DATA = {
           "away": 2.2
         },
         "close": {
-          "home": 1.72,
+          "home": 1.7,
           "away": 2.15
         }
       },
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-22T06:25:56+10:00",
+  "generatedAt": "2026-09-22T08:50:03+10:00",
   "changes": [
     {
       "id": "r30-PEN-inj-jack-cogger",
@@ -576,6 +576,18 @@ window.NRL_DATA = {
       "text": "Dolphins: Tom Flegler (Concussion) — new on the injury list.",
       "pts": 0.6,
       "ts": "2026-09-21T04:47:57+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-DOL-SYD-line-1.70-2.15",
+      "fixture": "DOL-SYD",
+      "team": "DOL",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.72 → $1.70, Roosters $2.15 → $2.15. Market now 56% Dolphins (was 56%).",
+      "pts": null,
+      "ts": "2026-09-22T08:50:03+10:00",
       "rnd": 30
     },
     {
