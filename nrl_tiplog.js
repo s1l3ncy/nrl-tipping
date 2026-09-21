@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-21T04:56:44.208Z",
+ "updated": "2026-09-21T15:06:57.505Z",
  "tips": [
   {
    "season": 2026,
@@ -561,11 +561,11 @@ window.NRL_TIPLOG = {
    "home": "DOL",
    "away": "SYD",
    "tip": "DOL",
-   "prob": 60,
-   "mkt": 57,
+   "prob": 59,
+   "mkt": 56,
    "why": "Built on Dolphins rating the stronger side, plus Roosters sweating on Sam Walker and 2 more. The bookies read it the same way.",
    "ko": "2026-09-25T19:50:00+10:00",
-   "ts": "2026-09-21T04:56:44.208Z"
+   "ts": "2026-09-21T15:06:57.505Z"
   },
   {
    "season": 2026,
@@ -577,7 +577,7 @@ window.NRL_TIPLOG = {
    "mkt": 75,
    "why": "Built on Knights missing Dylan Brown and 2 more, plus Panthers rating the stronger side. Panthers sweating on Nathan Cleary and 3 more pulls it back. The bookies read it the same way.",
    "ko": "2026-09-27T16:00:00+10:00",
-   "ts": "2026-09-21T04:56:44.208Z"
+   "ts": "2026-09-21T15:06:57.505Z"
   }
  ],
  "flips": []

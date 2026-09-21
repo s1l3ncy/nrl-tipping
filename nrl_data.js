@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-21",
+  "updated": "2026-09-22",
   "season": 2026,
   "round": 30,
   "roundName": "Finals Week 3",
@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.2
         },
         "close": {
-          "home": 1.68,
-          "away": 2.2
+          "home": 1.72,
+          "away": 2.15
         }
       },
       "weather": null,
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-21T14:56:37+10:00",
+  "generatedAt": "2026-09-22T01:06:52+10:00",
   "changes": [
     {
       "id": "r30-PEN-inj-jack-cogger",
@@ -576,6 +576,18 @@ window.NRL_DATA = {
       "text": "Dolphins: Tom Flegler (Concussion) — new on the injury list.",
       "pts": 0.6,
       "ts": "2026-09-21T04:47:57+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-DOL-SYD-line-1.72-2.15",
+      "fixture": "DOL-SYD",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.68 → $1.72, Roosters $2.20 → $2.15. Market now 56% Dolphins (was 57%).",
+      "pts": null,
+      "ts": "2026-09-22T01:06:52+10:00",
       "rnd": 30
     },
     {
