@@ -17,7 +17,7 @@
  * file (file://) bypasses this entirely and uses the baked-in data, exactly as
  * before — so the offline-as-a-local-file guarantee is preserved.
  */
-const CACHE = 'nrl-tips-v25';  // v25: 2026-09-12 solve chases stamp churn so the win% always lands
+const CACHE = 'nrl-tips-v26';  // v26: 2026-09-21 countback-aware margin advice (+MPRED_MAX guard)
 const CORE = ['./', './index.html', './nrl_data.js', './nrl_learned.js', './nrl_players.js',
               './nrl_lineups.js', './nrl_tiplog.js', './nrl_comp.js', './apple-touch-icon.png', './favicon-32.png'];
 
