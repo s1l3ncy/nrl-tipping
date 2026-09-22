@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Egan Butcher (Concussion); Sam Walker (Ankle); Blake Steep (ACL) — back Next Season"
+      "news": "Egan Butcher (Concussion); Blake Steep (ACL) — back Next Season; Sam Walker (Ankle) — back Finals Week 3"
     },
     {
       "name": "Sharks",
@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.2
         },
         "close": {
-          "home": 1.7,
-          "away": 2.15
+          "home": 1.68,
+          "away": 2.2
         }
       },
       "weather": null,
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-22T08:50:03+10:00",
+  "generatedAt": "2026-09-22T14:57:17+10:00",
   "changes": [
     {
       "id": "r30-PEN-inj-jack-cogger",
