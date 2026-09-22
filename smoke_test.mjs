@@ -510,6 +510,106 @@ function walkForwardBrier(results, { k = 20, hga = 50, initial = 1500 } = {}) {
   );
 }
 
+// Test 13 (2026-09-21): the countback-aware margin advice. Static checks on
+// the page source (always), plus a real jsdom boot with the committed data
+// files when jsdom is resolvable from the repo root (it is: freeze_tips.mjs
+// needs it). The boot asserts the shape and determinism of window.marginPlan()
+// and that the MPRED_MAX guard makes a wrong-root entry (> 40) invisible.
+{
+  const fs = await import("node:fs");
+  const path = await import("node:path");
+  const root = new URL(".", import.meta.url).pathname;
+  const htmlPath = path.join(root, "nrl-tipping-guide.html");
+  if (fs.existsSync(htmlPath)) {
+    const html = fs.readFileSync(htmlPath, "utf8");
+    assert(!/Math\.random/.test(html), "page has no Math.random (browser == jsdom freeze determinism)");
+    assert(/const MPRED_MAX=40;/.test(html), "MPRED_MAX = 40 is defined (wrong-root guard on mpreds)");
+    assert(/function tieStats\(me,r\)/.test(html) && /function attachMarginPlan\(plan\)/.test(html),
+      "tieStats() and attachMarginPlan() exist (one countback code path for the DP and the advice)");
+    assert(/window\.marginPlan=function/.test(html), "window.marginPlan() is exposed for tests");
+    let JSDOM = null;
+    try {
+      const { createRequire } = await import("node:module");
+      ({ JSDOM } = createRequire(path.join(root, "package.json"))("jsdom"));
+    } catch { /* no jsdom here: the boot checks are skipped, not failed */ }
+    const data = ["nrl_data.js", "nrl_learned.js", "nrl_players.js", "nrl_lineups.js", "nrl_comp.js", "nrl_tiplog.js"];
+    if (JSDOM && data.every((f) => fs.existsSync(path.join(root, f)) || f === "nrl_lineups.js")) {
+      let page = html;
+      for (const f of data) {
+        const tag = new RegExp(`<script src="${f.replace(".", "\\.")}"></script>`);
+        const src = path.join(root, f);
+        page = page.replace(tag, `<script>${fs.existsSync(src) ? fs.readFileSync(src, "utf8") : ""}</script>`);
+      }
+      page = page.replace("<script>", "<script>window.NRL_SYNC_PLAN=true;</script><script>");
+      const boot = () => {
+        const dom = new JSDOM(page, { url: "https://localhost/", runScripts: "dangerously", pretendToBeVisual: true });
+        const out = JSON.parse(dom.window.eval(`(function(){
+          COMP_PLAN=null; const pl=compPlanSync();
+          const mp=window.marginPlan();
+          const mg=document.querySelector('#compPanel .mgline');
+          // MPRED_MAX guard: a synthetic member whose last entries are wrong roots
+          const fake={mpreds:[4,4,4,4,70,60,80]};
+          const dist=rivalEntryDist(fake);
+          const habitBefore=marginHabit();
+          // the override hooks: pinning her tips to the plan (no result pinned) must
+          // reproduce the plan's own P(1st) exactly; pinning the margin game's result
+          // both ways must average back to it
+          let pinnedTipsSame=true;
+          try{ if(pl.sim&&pl.sim.exact&&pl.sim.perGame&&mp){
+            const myTips={}; Object.keys(pl.sim.perGame).forEach(k=>{ if(!pl.sim.perGame[k].locked) myTips[k]=pl.sim.perGame[k].tipShort; });
+            const s0={splits:{}}; finalsPlan(s0,{tie:pl.sim.tie, myTips:myTips});
+            const key=Object.keys(pl.sim.perGame).find(k=>!pl.sim.perGame[k].locked&&k.split('-').indexOf(mp.side)>=0)||null;
+            let avg=null;
+            if(key){ const fx=fixtures.find(f=>liveKey(f.home,f.away)===key); const p=predict(fx);
+              const s1={splits:{}}, s2={splits:{}}; const pin1={}, pin2={}; pin1[key]=1; pin2[key]=0;
+              finalsPlan(s1,{tie:pl.sim.tie, myTips:myTips, pin:pin1}); finalsPlan(s2,{tie:pl.sim.tie, myTips:myTips, pin:pin2});
+              avg=p.pHome*s1.sim.pBest+(1-p.pHome)*s2.sim.pBest; }
+            pinnedTipsSame=Math.abs(s0.sim.pBest-pl.sim.pFirst)<1e-12&&(avg===null||Math.abs(avg-pl.sim.pFirst)<1e-9);
+          } }catch(e){ pinnedTipsSame=false; }
+          return JSON.stringify({pFirst:pl.sim&&pl.sim.pFirst, advice:pl.marginAdvice, mp:mp, pinnedTipsSame:pinnedTipsSame,
+            mgline:mg?mg.textContent:null, dist:dist, habit:habitBefore,
+            tips:fixtures.filter(f=>T(f.home)&&T(f.away)).map(f=>tipSide(predict(f)).short)});
+        })()`));
+        dom.window.close();
+        return out;
+      };
+      const a = boot();
+      const b = boot();
+      assert(typeof a.advice === "string", "plan.marginAdvice is a string after a synchronous solve (freeze path does not throw)");
+      assert(JSON.stringify(a) === JSON.stringify(b), "two jsdom boots give byte-identical advice, marginPlan() and tips (deterministic)");
+      if (a.mp) {
+        assert(Number.isInteger(a.mp.m) && a.mp.m >= 1 && a.mp.m <= 40, `marginPlan().m is an integer in 1..40 (got ${a.mp.m})`);
+        assert(typeof a.mp.side === "string" && a.mp.side.length === 3, `marginPlan().side is a team short (got ${a.mp.side})`);
+        assert(Number.isInteger(a.mp.med) && a.mp.med >= 1, `marginPlan().med is a positive integer (got ${a.mp.med})`);
+        assert(Object.keys(a.mp.J).length === 40 && Object.values(a.mp.J).every((v) => typeof v === "number" && Number.isFinite(v)),
+          "marginPlan().J has a finite value for every m in 1..40");
+        assert(Array.isArray(a.mp.rivals) && a.mp.rivals.length >= 1 &&
+          a.mp.rivals.every((r) => typeof r.name === "string" && r.w >= 0 && (r.P === null || (r.P >= 0 && r.P <= 1))),
+          "marginPlan().rivals carry name, w >= 0 and P in [0,1]");
+        const bestJ = Math.max(...Object.values(a.mp.J));
+        assert(Math.abs(a.mp.J[a.mp.m] - bestJ) < 1e-12, "the advised m maximises J");
+        assert(a.advice.includes(`by ${a.mp.m}`), `the advice line names the advised number (${a.advice})`);
+        // audit 2026-09-21: the weight is split by the margin game's result and the
+        // halves add up; on the DP path wWon/wLost come from pinned solves
+        assert(a.mp.rivals.every((r) => Math.abs(r.wWon + r.wLost - r.w) < 1e-12 && r.wWon >= 0 && r.wLost >= 0),
+          "marginPlan().rivals: wWon + wLost == w (the countback weight is split by the game's result)");
+        assert(a.mp.med === 1 || a.mp.dir * a.mp.E > 0,
+          "the pure-accuracy call is on HER side (1 when she tips the underdog)");
+        assert(!/Math\.random/.test(html) && typeof a.pinnedTipsSame === "boolean" && a.pinnedTipsSame,
+          "a solve with her tips pinned to the plan and no result pinned reproduces the plan's P(1st) (the pin hooks are inert on the normal path)");
+        assert(a.mgline === null || a.mgline.includes(a.advice), "the rendered .mgline carries plan.marginAdvice");
+      } else {
+        assert(a.advice === "", "no marginPlan (margin game closed) => empty advice");
+      }
+      assert(a.dist.mags.every((x) => x[0] <= 40) && a.dist.n === 4 && a.dist.lo === 4 && a.dist.hi === 4,
+        `rivalEntryDist skips wrong-root values > MPRED_MAX (got ${JSON.stringify(a.dist)})`);
+      assert(!/entered (4|6|8|10|12)0 in each/.test(a.habit), "marginHabit never reports a wrong-root number");
+    } else {
+      console.log("note: jsdom or the data files are not available here — margin-advice boot checks skipped");
+    }
+  }
+}
+
 // ---- Best-effort drift check against nrl-tipping-guide.html (warn-only) ----
 try {
   const fs = await import("node:fs");
