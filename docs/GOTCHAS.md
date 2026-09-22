@@ -4,6 +4,80 @@ Real problems encountered on this project and how to avoid repeating them.
 
 ---
 
+# 2026-09-21 — the margin back-solver picked the far root; the advice is countback-aware
+
+## `_margin_pred()` returned "Brigitte entered 70" — |entered − actual| has two roots
+
+- footytips publishes only the **error** on the round's margin game. `err = |entered −
+  actual|` has two solutions, `actual ± err`; the number typed is the one whose sign
+  agrees with the side they tipped. **When the tipper backed the winner and err <
+  |actual| — every blow-out — both roots share that sign**, and the old code returned
+  the first candidate, `actual + err`, the far root. R29 (SYD 46–10 CRO, actual +36):
+  Claire err 24 → 60, not 12; Brigitte err 34 → 70, not 2. The live `nrl_comp.js` had
+  Claire on 30, 58, 36, 78, 34, 60 and Brigitte on 34, 60, 42, 80, 40, 70 for the season's
+  blow-out rounds, and `marginHabit()` had gone quiet (her last entry read 70, run of 1).
+- Fix: when both candidates agree in sign, **the smaller magnitude** (nobody types 60).
+  Exactly-one-match and no-match keep their old behaviour. `python3 cloud_fetch.py
+  --selftest` runs the worked examples; a real `build_comp_js(30)` now gives R29 =
+  12 / 2 / 4 / 12 / 4 for Claire / Brigitte / Thorners / Jake / Josh.
+- **`MPRED_MAX = 40` in the page**: until the fixed pipeline has run, the committed file
+  still carries the far roots, so every consumer (`marginHabit()`, `rivalEntryDist()`)
+  treats any `mpreds` value above 40 as unrecoverable — a **gap**, like a null — never
+  as evidence. Keep that guard even after the file is clean; the far root is one
+  sign-convention slip away from coming back.
+
+## The margin advice runs WITH the plan solve — never per render, never in `tipSide()`
+
+- `attachMarginPlan()` costs six extra DP solves (three rivals × tie forced to 1 and to
+  0). It runs from `planFinish()` — the single exit every solved plan takes — so it
+  lands on the idle callback with the win %, or synchronously in the freeze.
+  `renderCompPanel()` reads `plan.marginAdvice`; `marginAdvice()` must stay a reader.
+  Calling it per render would cost ~2 s per frame on a Finals Week 1 bracket.
+- It reads her side from the **given** plan (`marginSideOf(plan, p)`), not through
+  `tipSide()` → `compPlan()`. Same answer; but the plan is being finished at that moment
+  and re-entering the front door from inside it is how you get a recursive solve.
+- `finalsPlan(plan, tieOverride)` exists **only** for the weights. The normal path passes
+  nothing; the override solves write to a scratch `{splits:{}}` plan. The proof that the
+  normal path is untouched is byte equality of `pFirst`, `tie` and every DP line before
+  and after — re-run that (`reference/crosscheck.mjs` prints them; the smoke test boots
+  twice) after touching either.
+- `planCacheRead()` rejects a cached plan with no `marginAdvice` string, so a device
+  returning after this deploy re-solves once. That is the only cache change; `PLAN_VER`
+  is still `dp1` because no tip can move.
+- Naming the rival: **not** the largest weight. Thorners' tie is worth the most to the DP
+  (he is 3 behind on points) but his P(countback kept) is flat in `m` at a 45-point
+  cushion — the line names the rival whose `w·(P(m) − P(med))` moved the answer. See
+  MODEL.md §5.10.
+
+## The countback only decides in SPECIFIC worlds — condition on them (audit, same day)
+
+- The first cut scored the margin entry against the *unconditional* distribution of the
+  game's result. But "she ends level with r" is a specific score combination, and the
+  margin game is one of the games in it. R30, her tips DOL + PEN, Claire 2 ahead: the
+  only route to level is Brigitte 0 / Claire 1 this weekend then +3 in the GF, and
+  Brigitte 0 means **the Roosters won the margin game**. In every world where that
+  countback is consulted her error is `m + |A|` whatever Claire typed — so the
+  "shadow Claire's 6" answer (5) was strictly worse than 1, by ≈0.1 points of P(1st).
+  An objective that treats the margin game's result as independent of "the countback
+  matters" will make this mistake whenever the deficit can only be closed by the rival
+  dropping points on that game.
+- Fix: `marginRivalWeights()` re-solves with the result pinned (`finalsPlan(plan,
+  {tie, pin, myTips})`) and splits each weight into `wWon`/`wLost`; the objective scores
+  `A | result` separately for each half. **Her current-round tips must be pinned in
+  those solves** (`myTips`) or the DP re-tips with hindsight ("the Roosters win for
+  sure → tip the Roosters") and prices a different policy. The rival's *side* is still
+  unconditional (`behPHome`) — an approximation that changes the printed P but not the
+  argmax; in R30's level worlds Claire is on the Roosters ~80% of the time, not 15%.
+- `MARGIN_DP_MAX_ROUNDS = 2`: the DP weights (now 12 solves) run only with ≤ 2 rounds
+  left. On a Finals Week 1 bracket the original six solves took **5.3 s in jsdom** —
+  "on the idle callback" is still the main thread, and a 3–5 s frozen UI is exactly the
+  narration-of-machinery Josh's rule 4 forbids. Earlier weeks use the gap weights.
+- `MARGIN_VER` (`'cb2'`) is stored on the plan and checked by `planCacheRead()`. Bump it
+  whenever the advice maths changes, or a device keeps the old string for the life of
+  the stamp.
+
+---
+
 # 2026-09-12 — the Brigitte rebuild. Read this block first.
 
 Nine entries from the night the app changed owner, lost its lock and gained an exact
@@ -104,6 +178,30 @@ about the app as it was; this block is what is true now.
   noise, so incumbency buys nothing there and, leading by 30 with three rounds left, it
   armed three underdogs and swallowed the cover-mode line. Incumbency stays first in the
   Monte-Carlo path, where it exists to stop noise churning the flip feed.
+
+## The strategic layer does NOT condition on picks already revealed this round (2026-09-13)
+
+`finalsStratVector()` puts a rival in "strategic mode" with probability `STRAT_AWARE` for
+the whole round. Once some of a round's games have kicked off, that rival's revealed picks
+are pinned (`fixedPicks`), but the *posterior* probability that they are in strategic mode
+is **not** updated from those picks. For the last game of a partly-played round the page
+therefore still lumps 25% on the strategic side for the remaining game even when the
+revealed picks are inconsistent with any strategic line (R28 PEN–SYD: Thorners 53% PEN and
+Jake 67% PEN on the page vs 92%/97% in the reference, which conditions and gets posterior
+P(strategic)=0). Measured at +0.3 pts of P(1st) on 2026-09-13 — immaterial to the tip, but
+the numbers on the panel are slightly off whenever a round is half played. If it is ever
+fixed: compute P(strategic | revealed picks) per rival by Bayes over the two components and
+use that in place of `STRAT_AWARE` for the remaining games. See
+`session-notes/2026-09-13-pen-syd-decision/ref/solver.py` (`r28_rival_mode`).
+
+## The frozen reference solver silently falls back to default rival coefficients (2026-09-13)
+
+`reference_finals_solver.py` reads the footytips API dumps from `REPORTS = ../reports`,
+i.e. **outside the repo**. When they are missing it prints nothing alarming and fits nothing:
+the rival model runs on `a=b=2.0` defaults. The 2026-09-13 session copy fetches the dumps
+into `./reports` and warns if they are absent; the frozen copy in the repo root does not.
+If you re-run the frozen one, fetch `rounds/24..28?view=tips` into `reports/` first (see the
+session copy for the exact filenames).
 
 ## The cold-load transient: old tiplog tips flash for ~450 ms
 

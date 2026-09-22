@@ -234,10 +234,19 @@ Rules baked into that copy — keep them:
   leading, `· no split raises the win chance right now — tipping straight.` when not.
 - `.stratline.sub` only renders when `plan.sim.perGame` exists, i.e. on the exact finals
   solver. The Monte-Carlo path falls back to the plain 🎯 count.
+- `.mgline` (2026-09-21) reads `plan.marginAdvice`, e.g. *"Margin game (first of the
+  round): Dolphins by 1 — keep it small: the countback only comes into it against Claire
+  if the Dolphins lose this one, and then every extra point is extra error; the
+  pure-accuracy call is 2."* (the first cut said "by 5 — shadows Claire's usual number";
+  the same-day audit reversed it — CHANGELOG 2026-09-21 §3). It lands with the idle
+  solve (`schedulePlanSolve` re-renders the panel); before that the median-play line
+  shows.
 - `marginHabit()` appends to `.mgline`: *"You've entered 4 in each of the last 7 rounds
   — the number above is the one to beat."* It reads round-indexed `mpreds[]`, steps over
   trailing nulls to find the most recent entry but **stops the run at the first gap** —
-  "in each of the last N rounds" has to be literally true. Needs a run of ≥4.
+  "in each of the last N rounds" has to be literally true. Needs a run of ≥4. If a
+  trailing wrong-root value (> `MPRED_MAX`) was stepped over it says "the last N rounds
+  we could read" instead (that round WAS entered, just unreadably).
 
 ### Comp-aware tips (2026-08-10 audit rebuild — the tip IS the strategy)
 
@@ -317,7 +326,8 @@ i.e. the user just opened the app mid-game and nothing is mid-read).
 | `compPlan`, `compPlanSolve`, `compPlanSync`, `schedulePlanSolve`, `planStamp`, `planCacheRead/Write`, `planFromTiplog`, `splitSig` | The plan front door + the provisional/idle-solve boot path (2026-09-12). See "The boot path" above. |
 | `finalsPlan`, `finalsCtx`, `playRound`, `V`, `rivalGains`, `geo`, `pairFor` | The exact finals solver: bracket, backward induction, memo tables. `MODEL.md` §5. |
 | `finalsEloP`, `finalsResultWinner`, `finalsStratVector`, `finalsTieProbs`, `behPHome`, `affShare`, `herdRate`, `gamesPlayedBy`, `normCdf`, `cbBeats`, `roundsAhead`, `byRound` | Its inputs: future-round probabilities, played results, the strategic layer, the margin countback, the fitted rival model, the round-indexed history helpers. |
-| `pctChance`, `marginHabit`, `lockPref` | Panel formatting (never rounds a live number into a certainty), the margin-habit hint, and the free-only house tie-break (`LOCK_MODE`, default off). |
+| `pctChance`, `marginHabit`, `lockPref` | Panel formatting (never rounds a live number into a certainty), the margin-habit hint (skips `mpreds` values above `MPRED_MAX`), and the free-only house tie-break (`LOCK_MODE`, default off). |
+| `attachMarginPlan`, `planFinish`, `marginRivalWeights`, `rivalEntryDist`, `rivalPHome`, `marginSideOf`, `marginGameOpen`, `marginSd`, `tieStats`, `marginAdvice`, `window.marginPlan` | The countback-aware margin-game advice (2026-09-21): computed once per plan solve in `planFinish()` and stored as `plan.marginAdvice` / `plan.marginPlan`; `marginAdvice()` is a reader (the old median line stands in while a provisional plan is on screen). `tieStats` is the one countback code path shared with `finalsTieProbs`. `MODEL.md` §5.10. |
 | `render` | Master render: fills every section by element ID. |
 | `pollLive`, `liveScore`, `liveFinal`, `renderLiveBits`, `renderQuicklist`, `weekOrder` | Live in-play scores (2026-08-08): ESPN poll → `LIVE` map → surgical redraw of the score surfaces only. `weekOrder` = the kickoff-asc order shared by the quick list + `copyTips` (2026-08-08 later). See "Live scores" above. |
 | `copyTips`, `flash` | "Copy tips" button. |

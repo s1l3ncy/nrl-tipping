@@ -5,6 +5,130 @@ understands the reasoning, not just the diff. Newest first.
 
 ---
 
+## 2026-09-21 — Countback-aware margin advice, and the back-solver's wrong root
+
+Finals Week 3. Brigitte is 2nd, 2 behind Claire, with two margin games left (R30's
+first game DOL v SYD on Friday, then the Grand Final), and her countback cushion is down
+to **6** over both Claire and Jake (510 v 516). Two changes, both about the margin game.
+
+### 1. `cloud_fetch.py` — `_margin_pred()` picked the far root
+
+The API publishes only `err = |entered − actual|`; the entry is the root of `actual ± err`
+whose sign matches the side tipped. When the tipper backed the winner in a blow-out
+**both** roots match, and the code returned `actual + err`. The live file had Claire
+entering 30, 58, 36, 78, 34, 60 and Brigitte 34, 60, 42, 80, 40, 70 — nobody types 70.
+Now: both roots agree in sign → the smaller magnitude. `python3 cloud_fetch.py --selftest`
+carries the R29 worked examples (SYD 46–10 CRO: Claire err 24 → 12, Brigitte err 34 → 2,
+Thorners tipped CRO err 40 → 4); a real `build_comp_js(30)` gives R29 = 12 / 2 / 4 / 12 / 4
+for Claire / Brigitte / Thorners / Jake / Josh. Defensively, the page now has
+**`MPRED_MAX = 40`**: every `mpreds` consumer treats a value above it as unrecoverable.
+(Side effect: `marginHabit()` had gone silent because her latest entry read 70; it is
+back — "You've entered 4 in each of the last 7 rounds".)
+
+### 2. The page — `marginAdvice()` optimises the countback, not her error
+
+The old line recommended the model median (0.85 × expected margin), which minimises her
+error in isolation — right with a 16-point cushion. With 6, the fact that matters is that
+on one game the most either tipper can gain on the other is |her entry − theirs|, so a
+number next to the rival's likely entry locks the lead in while the median (2) sits
+under Claire's habitual 6–10 and exposes it.
+
+`attachMarginPlan(plan)` now runs once per plan solve (idle callback / synchronous in the
+freeze) and stores `plan.marginAdvice` + `plan.marginPlan`; the panel only reads. It
+maximises `J(m) = Σ_r w_r · P_r(m)` over entries 1..40, where `P_r` is P(she still holds
+the countback against r at the end) — the actual margin on a ±60 grid (mean = the model's
+expected margin, sd from the results memory floored 10 / capped 18), the rival's entry
+from their own `mpreds` history over the last 10 readable rounds, their side from `beh`,
+the remaining margin games priced by the same `tieStats()` the DP uses — and `w_r` is the
+DP's own marginal value of the countback against r (`finalsPlan(plan, tieOverride)`,
+tie forced to 1 and to 0, difference in best P(1st)). Factored `tieStats(me, r)` out of
+`finalsTieProbs()` so both read one code path. `window.marginPlan()` exposes the workings.
+
+**R30 result, as first implemented:** *Dolphins by 5 — shadows Claire's usual number
+(6–10)…* — **superseded the same day by the audit (below).**
+
+### 3. Audit (same day, independent exact enumeration): the objective conditioned on nothing
+
+The spec's `Σ_A Σ_E P(A)P(E)…` treats the margin game's result as independent of the
+event "the countback decides". It is not: with her tips DOL + PEN, Claire 2 ahead and
+Jake 4 behind, the *only* way to finish level with either is to score 0 in R30 — i.e.
+the Roosters win the margin game. In every such world her error is `m + |A|` regardless
+of what Claire typed, so P(1st) is monotone decreasing in `m` (exact: 0.36444 at 1,
+0.36416 at 2, 0.36336 at 5). "Dolphins by 5" cost ≈0.1 points of P(1st); the old median
+line was closer. Fix: `marginRivalWeights()` also re-solves with the margin game's
+result pinned to "her side loses" and her current-round tips pinned to the plan
+(`finalsPlan(plan, {tie, pin, myTips})` — the normal path still passes nothing and is
+byte-identical), splitting each rival's weight into `wWon`/`wLost`; the objective scores
+the two halves with `A` conditional on the result. Also: `med` on her side (1 when she
+tips the underdog), the DP weights only with ≤ 2 rounds left (`MARGIN_DP_MAX_ROUNDS`;
+the six solves took 5.3 s in jsdom on a Week-1 bracket), `MARGIN_VER` on the cached
+plan, and `marginHabit()` says "the last N rounds we could read" when a trailing
+unreadable entry was stepped over (R29 = 2 was being reported as part of a run of 4s).
+**R30 line now:** *Dolphins by 1 — keep it small: the countback only comes into it
+against Claire if the Dolphins lose this one, and then every extra point is extra
+error; the pure-accuracy call is 2.* Tips byte-identical in every state tried; freeze
+twice 0 changed; Chromium == jsdom; smoke 78/78; iOS 20/20.
+
+**Tips unchanged, proven:** `pFirst`, `tie` and every DP line byte-identical before and
+after in jsdom; `freeze_tips.mjs` twice → 0 new/changed; headless Chromium == jsdom for
+`pFirst`, the tips, the advice string and `marginPlan()`; `smoke_test.mjs` 75/75 (16 new
+checks incl. a double boot for determinism and the MPRED_MAX guard);
+`test_ios_viewport.py` 20 green. `reference/crosscheck.mjs`'s two R28-specific
+assertions ("best line is DOL/CRO/PEN", "same three lines") fail on R30 data exactly as
+they did before the change — the round has moved on — while the values it prints are
+identical. `PLAN_VER` stays `dp1`; `planCacheRead()` rejects advice-less cached plans.
+`sw.js` CACHE v26. Cost: +13 ms on the R30 solve (six extra DP solves); ~2 s on a Finals
+Week 1 bracket, on the idle callback.
+
+---
+
+## 2026-09-13 — R28 decision check: the Roosters tip verified by three solvers (no code change)
+
+After Saturday's games the freeze flipped PEN–SYD from **Panthers to Roosters**
+(`nrl_tiplog.js` flip at 2026-09-12T12:10Z). Josh asked for that to be confirmed rather
+than trusted: the Roosters were a 29–32% shot and the day before the same solver had priced
+the Roosters at **−6.5 points**.
+
+**State that produced the flip.** Dolphins and Sharks both won, and Claire tipped both — so
+the Dolphins "split" never split (the model had her 81% Warriors). Claire 134 / 492,
+**Brigitte 133 / 476**, Thorners 130 / 515, Jake 128 / 492, with one game left in the round
+and no R28 bonus alive for any of the four.
+
+**Three solvers, one answer — tip the Roosters:**
+
+| Solver | tip PEN | tip SYD | edge | flips if P(PEN) ≥ |
+|---|---|---|---|---|
+| live page DP (jsdom, live data) | 46.2% | 48.3% | +2.1 | ~0.74 |
+| `reference_finals_solver.py` brought to the live state | 43.2% | 47.8% | +4.6 | ~0.81 |
+| clean-room DP written from the rules only | 45.9% | 48.8% | +2.8 | ~0.80 |
+
+**Why**: the value function after today is a step, not a slope. Level with Claire ≈ 77–80%
+(she owns the countback and just covers); 1 behind ≈ 42–46%; 2 behind ≈ 34–37%. Because
+every later round moves in threes (+2 bonus; a 3-point Grand Final), 1-behind and 2-behind
+are the same problem ("one split still has to land") while level is a different world. A
+~30% shot at +30 points against a ~70% risk of −9 is worth +3ish. Yesterday's −6.5 was a
+different state: three games left and a cheaper split (the Dolphins) still on the board.
+
+Josh's priors were tested: "Claire will certainly tip Panthers" *strengthens* the case
+(forcing her to 100% PEN → +2.7); "tip Panthers and split next week" is dominated (from 1
+behind, every R29 split is worse than chalk, and every 1-behind plan tops out ≈46% < 48%).
+Flips only for P(PEN) ≥ 0.74–0.81 (market 0.71), P(Claire on PEN) ≤ ~0.81–0.87 (fitted
+0.94–0.98), or no countback edge. The finals bonus was also checked: the comp's
+`allCorrectBonus.applyTo` is `Season` (one of footytips' three options: all rounds /
+regular season only / finals only), and Josh's R28 score of 6 from 4 games proved it live.
+
+**Outcome:** Panthers 19–12. The split did not land; she went to 2 behind. R29 all four
+tipped SYD/NZW (Roosters 46–10, Knights 12–10) — no movement.
+
+**Not changed, logged** (session-notes/2026-09-13-pen-syd-decision/REPORT.md §"Model warts"):
+the frozen reference solver's `REPORTS` path silently falls back to default rival coefficients
+when the API dumps are absent; the in-page strategic layer does not condition on picks already
+revealed in the round (+0.3 that day, immaterial); reference `margin_stats` uses 5 rounds of sd
+where the API offers 28. Full artefacts (all three solvers, outputs, live data snapshot) in
+`session-notes/2026-09-13-pen-syd-decision/`.
+
+---
+
 ## 2026-09-12 — The Brigitte rebuild: new owner, no Roosters lock, and an exact finals solver
 
 Josh handed the app to his wife **Brigitte** (footytips display name `Brigitte`), with

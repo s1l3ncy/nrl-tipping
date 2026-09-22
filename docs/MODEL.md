@@ -507,6 +507,12 @@ Two rules the code enforces and you must not relax:
   season-total mean with sd 10 — imprecise, but not silently wrong.
 - **Both sides of every pair must be numbers.** Nulls are gaps, not zeroes.
 
+Since 2026-09-21 the per-rival statistics (`lead`, `mean`, `sd`) come from one helper,
+**`tieStats(me, r)`**, which `finalsTieProbs()` maps over the rival slots and the
+margin-game advice (§5.10) reads directly — one code path, so the advice prices exactly
+the race the DP prices. The refactor is arithmetic-identical (verified: `pFirst`, `tie`
+and every line byte-identical before/after).
+
 Known simplification: tie-break outcomes are treated as **independent across rivals**. A
 bad margin guess by her hurts against everyone at once, so this slightly overstates
 P(1st) in tied states. Same simplification as the Python reference. An exact dead heat
@@ -606,6 +612,104 @@ loyalty-driven, therefore slightly less accurate rivals, therefore a uniformly h
 P(1st) for her). What must **not** differ: the best line, and the ordering of
 Roosters-containing lines below non-Roosters ones.
 
+### 5.10 The margin game — countback-aware advice (2026-09-21)
+
+Every round footytips asks for a predicted margin on the round's **first** game and
+accumulates |entered − actual| all season as the tie-break (§5.5). Until 2026-09-21 the
+panel's advice was the model **median** — `round(0.85 · 7 · ln(pf/(1−pf)))` — the number
+that minimises *her* expected error in isolation. That is the right objective with a
+16-point cushion. Going into Finals Week 3 her cushion over Claire and Jake was **6**
+(510 v 516) with two margin games left, and a different fact dominates:
+
+> On one game, the most either tipper can gain on the other is
+> **|her entry − their entry|**, because both errors are measured against the *same*
+> actual margin. Entering a number close to the rival's likely entry locks the lead in;
+> the median play (2–4) sits below Claire's habitual 6–12 and exposes it.
+
+So the objective is now **P(she still holds the countback at the end)**, weighted by what
+the countback against each rival is worth to P(1st). It is computed by
+`attachMarginPlan(plan)` — once per plan solve (idle callback, or synchronously in the
+freeze), never per render — and stored as `plan.marginAdvice` (the string) and
+`plan.marginPlan` (the workings, `window.marginPlan()`). `renderCompPanel()` only reads.
+
+**Inputs, in order:**
+
+1. **Her side** = the tip she will enter for that game (`marginSideOf(plan, p)`, the
+   plan's split if armed else the model favourite — the same rule as `tipSide()`).
+   `dir = +1` when she tips home, −1 away; her entry is `dir · m`.
+2. **Actual margin** `A` (home − away): normal on an integer grid −60..60 (`MARGIN_GRID`),
+   mean `E = 7 · ln(pHome/(1−pHome))` — the model's expected margin, *without* the 0.85
+   (that factor belongs to the median play, `med = round(0.85·|E|)`, not to the
+   distribution) — sd `marginSd()`: the season's sd of `hs − as` over `LEARNED.results`,
+   floored at 10 and **capped at 18**, 13 with no memory. (The 2026 raw sd is 20.7, so the
+   cap binds. The residual sd around the model's expectation would be lower and is not
+   available client-side; the answer below is unchanged at sd 10, 13 or 18.)
+3. **Rivals and weights.** The DP's own rival set and order (`finalsCtx().rivals`).
+   `w_r` = the marginal value of the countback against r: `finalsPlan()` re-run on a
+   scratch plan with `tie[r]` forced to 1 and to 0 (`finalsPlan(plan, tieOverride)`),
+   difference in the best P(1st) — `marginRivalWeights(C)`. The normal solve never
+   passes an override and is untouched. Outside the finals (or if a solve fails):
+   every rival still within reach, `w_r = 1/(1+|Δpoints|)`.
+4. **What each rival will enter** (`rivalEntryDist(r)`): the empirical distribution of
+   the magnitudes in their round-indexed `mpreds[]` over the last 10 readable rounds
+   (nulls and wrong-root values > `MPRED_MAX` skipped); `{6: ½, 8: ¼, 10: ¼}` with fewer
+   than 3. Their side: `behPHome()` when a fit shipped, else `predictPick()` at their
+   herd rate (the DP's own fallback), else `pHome`. Their "usual number" in the line is
+   the min–max of the last 6 readable entries.
+5. **Objective.** For `m` in 1..40 and each rival,
+   `P_r(m) = Σ_A Σ_E P(A)·P(E) · Φ( (lead_r + (|E−A| − |dir·m − A|) + (mgLeft−1)·mean_r) / (sd_r·√(mgLeft−1)) )`
+   with `lead_r`, `mean_r`, `sd_r` from `tieStats(me, r)` and the indicator `x > 0` when
+   `mgLeft − 1 = 0` (this is the last margin game). `mgLeft` is `finalsCtx()`'s (it
+   includes this game). Choose `m` maximising `J(m) = Σ_r w_r · P_r(m)`; exact ties go
+   to the `m` nearest the median play, then the smaller.
+6. **The line** names the rival the number is *for* — the largest contributor
+   `w_r · (P_r(m) − P_r(med))` to the move away from the median play (not simply the
+   largest `w_r`: with a 45-point cushion Thorners' tie is worth a lot to the DP but his
+   `P_r` is flat in `m`, and "shadows Thorners' number to protect your 45-point lead"
+   would be nonsense). Three shapes: *shadows X's usual number (lo–hi) to protect your
+   N-point countback lead; the pure-accuracy call is med* / *behind X on the countback,
+   so a number away from theirs* when `lead ≤ 0` / *the median play (also the
+   countback-safe choice)* when `m = med`. `marginHabit()` is appended as before.
+
+**Audit correction (same day, independent exact enumeration).** The objective above,
+as first shipped, drew `A` and the rival's side *unconditionally* — as if the countback
+mattered in a random sample of worlds. It does not: the worlds where she ends level with
+a rival are specific score combinations, and the margin game is one of the games that
+produces them. In R30 (her tips DOL + PEN, Claire 2 ahead, Jake 4 behind) **every** world
+level with Claire or Jake has the Dolphins losing the margin game, so her error there is
+`m + |A|` whatever the rival typed and P(1st) is monotone *decreasing* in `m`: the exact
+P(1st) is 0.36444 at m = 1, 0.36416 at the old median 2, 0.36336 at the shipped 5. The
+"shadow Claire's 6" answer cost ≈0.1 points. Fixed by splitting each `w_r` by the margin
+game's result: `marginRivalWeights()` also re-solves with the result pinned to "her side
+loses" (`finalsPlan(plan, {tie, pin, myTips})`, her current-round tips pinned to the plan
+so the conditional solve cannot re-tip with hindsight) → `wLost_r`, `wWon_r = w_r − wLost_r`,
+and the objective becomes `J(m) = Σ_r [wWon_r · P_r(m | her side won) + wLost_r · P_r(m |
+it did not)]` with `A` drawn from the grid conditional on the result. The rival's *side*
+is still `behPHome` unconditional (an approximation: in the level worlds Claire is on the
+Roosters ~80% of the time, not 15%), which changes the printed probabilities but not the
+argmax. `med` is now on *her* side (1 when she tips the underdog). The R30 line reads
+**Dolphins by 1 — keep it small: the countback only comes into it against Claire if the
+Dolphins lose this one, and then every extra point is extra error; the pure-accuracy call
+is 2.** `MARGIN_VER` (`'cb2'`) on the plan invalidates cached advice when this maths
+changes; `PLAN_VER` is untouched because no tip changes.
+
+**Cost.** Twelve extra DP solves (three rivals × {tie 1, tie 0} × {unpinned, pinned})
+per plan solve: ~20 ms in R30, ~0 in the GF. On a Finals Week 1 bracket the audit measured
+5.3 s in jsdom for the original six — an idle callback still runs on the main thread, so
+that would have been seconds of frozen UI — hence `MARGIN_DP_MAX_ROUNDS = 2`: the DP
+weights run only with ≤ 2 rounds left (PF + GF); earlier finals weeks use the points-gap
+weights like a regular round.
+
+**Guards.** `MPRED_MAX = 40`: any `mpreds` value above it is the back-solver's wrong root
+(GOTCHAS "The margin back-solver picked the far root") and every consumer treats it as
+null. `planCacheRead()` rejects a cached plan without `marginAdvice` so the first load
+after this deploy re-solves once; `PLAN_VER` stays `dp1` because no tip can change.
+
+**Verifying it.** `node smoke_test.mjs` (75/75, including a double jsdom boot asserting
+byte-identical advice), the §5.9 list, and a headless Chromium boot compared against
+the jsdom freeze: `pFirst`, every line, the advice string and `marginPlan()` must be
+identical. `marginAdvice()` must still read `''` once the game has kicked off.
+
 ---
 
 ## 6. Glossary
@@ -616,6 +720,12 @@ references in `nrl-tipping-guide.html` were cleaned up in the same batch; this h
 exists so any that survive in old notes resolve to something.)*
 
 - **Margin** — predicted/actual home points minus away points. The model's native unit.
+- **Margin game / countback** — the round's first game, on which footytips asks every
+  tipper for a predicted margin; Σ|entered − actual| over the season breaks points ties
+  (lower wins). `mpreds[]` = what each member entered, back-solved by `cloud_fetch.py`;
+  `MPRED_MAX` (40) = the ceiling above which a back-solved value is the wrong root.
+- **Median play** — `round(0.85 · |expected margin|)`: the entry that minimises her own
+  expected error. The advice's baseline, not (since 2026-09-21) necessarily its answer.
 - **Elo** — a self-correcting rating; teams gain/lose points based on results vs
   expectations. Base 400 is the standard probability scale.
 - **HGA / homeAdv** — home-ground advantage, in points, added to the home side.

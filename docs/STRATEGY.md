@@ -267,12 +267,103 @@ Sharks.**
 
 ---
 
-## 6. The margin game, and Brigitte's habit
+## 6. The margin game — protect the countback (rewritten 21 Sep 2026)
 
-Every round, footytips asks for a predicted margin on the round's **first** game, and the
-error accumulates all season as the tie-break. Reconstructing what each member actually
-typed (the API publishes only the error; the number is recoverable because the sign has to
-agree with the side they tipped) turned up something useful:
+*The history is kept below; read this part first.*
+
+Every round, footytips asks for a predicted margin on the round's **first** game, and
+the error accumulates all season as the tie-break: lower total error wins a points tie.
+Going into Finals Week 3 Brigitte is 2nd, 2 points behind Claire, and her countback
+cushion is **6** over Claire (510 v 516), **6** over Jake (516) and 45 over Thorners.
+Two margin games are left: **Dolphins v Roosters, Friday 25 September** (first game of
+the round) and the Grand Final.
+
+### The one fact that matters
+
+On a single game, the most either tipper can gain on the other is the gap between the
+two numbers they typed. Both errors are measured against the *same* actual margin, so if
+Brigitte enters 5 and Claire enters 6, the countback moves by at most 1 whatever the
+Dolphins do. If Brigitte enters 2 and Claire enters 10, it can move by 8 — more than the
+cushion. The accurate number and the safe number are no longer the same thing.
+
+So the advice line now asks a different question from the one it asked a week ago. It
+used to ask *"what number minimises her error?"* (the model's median margin, ×0.85 of
+the expected margin — right when the cushion was 16). It now asks **"what number gives
+her the best chance of still holding the countback at the end?"**, weighted by how much
+the countback against each rival is actually worth to winning the comp — a number the
+finals solver already knows, because it re-solves with the countback against that rival
+forced won and forced lost and takes the difference.
+
+The ingredients, in plain terms:
+
+- **What the Dolphins will win by.** The model's expected margin (about 3 for a 60%
+  favourite) with a wide spread — NRL margins are noisy.
+- **What each rival will type.** Their own history: the number each of them entered on
+  every margin game this season, back-solved from the published error. Claire has typed
+  6 or 10 in 16 of her last 17 readable rounds (12 in R29). Jake ranges 8–22. Thorners
+  4–10. Josh 2–8. And their side, from the same behavioural model the solver uses for
+  their tips.
+- **Which rivals matter.** Claire (2 ahead on points, cushion 6) and Jake (4 behind,
+  cushion 6) are the two the countback can decide; Thorners is 45 away on the countback
+  and his tie is safe whatever she types.
+- **The Grand Final's margin game is still to come**, so Friday is not the whole race:
+  the model carries the usual per-round swing against each rival (sd 7.5 v Claire, 10.9
+  v Jake) into the last game.
+
+### What it says for Friday (corrected by the 21 Sep audit)
+
+> **Margin game (first of the round): Dolphins by 1 — keep it small: the countback only
+> comes into it against Claire if the Dolphins lose this one, and then every extra point
+> is extra error; the pure-accuracy call is 2.**
+
+*The first version of this section said "Dolphins by 5 — shadows Claire's usual number".
+The independent audit the same day (an exact enumeration of every way the last two rounds
+can go) showed that was the wrong way round, and the page now prints the line above.*
+
+The reasoning in "the one fact that matters" is right as far as it goes — but it asks
+"what number keeps the lead?" as if the Dolphins were 60% to win. The question that
+actually matters is: **in the worlds where the countback decides the comp, who won the
+margin game?** Brigitte is 2 behind Claire and tips the Dolphins and the Panthers. Work
+through the scoring (a game is 1 point, a perfect round +2, the Grand Final 1 + 2) and
+there is exactly one way she and Claire finish level: Brigitte scores 0 this weekend,
+Claire scores 1, and Brigitte then beats her by 3 in the Grand Final. Brigitte scoring 0
+means **the Roosters won the margin game**. The same holds for Jake (4 behind). So every
+world in which her countback cushion over Claire or Jake is ever consulted is a world
+where the Dolphins lost — and in those worlds her margin error is *her number plus the
+Roosters' winning margin*, whatever Claire typed. Every point she adds is a point of
+error; 1 is the best entry, and shadowing Claire's 6 costs about 0.1 points of comp-win
+chance rather than gaining anything. (Thorners is the exception — some of his level
+worlds have the Dolphins winning — but his cushion is 45 and nothing she types can move
+that.)
+
+The page now splits each rival's countback weight by the margin game's result (the
+solver re-run with the result pinned, her tips held to the plan's) and scores the two
+halves separately: when her side loses, small wins; when it wins, sitting near the
+rival's number caps what they can gain. This week the "loses" half is all of it. In the
+Grand Final it depends on the state — if she is level with someone going in, the
+countback decides only when they tip the same side, and the line will say so.
+
+The line always prints the pure-accuracy call too (2 this week), and if the two coincide
+it says *"the median play (also the countback-safe choice)"*. If she is *behind* on the
+countback it says *"behind X on the countback, so a number away from theirs"*.
+
+### Why the earlier numbers looked wrong
+
+The R29 entries in the previous version of this table read Claire 60, Brigitte 70,
+Thorners 4. The API publishes the *error*, and error = |entered − actual| has two roots.
+When a tipper backs the winner in a blow-out, both roots are on the winner's side and the
+old code took the far one — nobody types 70. Fixed 21 Sep (`cloud_fetch.py`
+`_margin_pred`: when both roots agree in sign, the smaller magnitude). The corrected R29
+row is Claire 12, Brigitte 2, Thorners 4, Jake 12, Josh 4. Until the pipeline has run, the
+page treats any recorded entry above 40 as unreadable rather than as evidence.
+
+---
+
+### History — 12 Sep 2026 (Finals Week 1): Brigitte's habit
+
+Reconstructing what each member actually typed (the API publishes only the error; the
+number is recoverable because the sign has to agree with the side they tipped) turned up
+something useful:
 
 | Member | Margins entered, R24–R28 | Mean error |
 |---|---|---|
@@ -288,10 +379,10 @@ model's median margins for the possible R29 openers are 4–7 points. Moving fro
 worth about 0.4 points of error per round; it lifts the countback against Claire from
 95.8% to 96.7% and P(1st) by about **+0.2 pts**. Free money, if a small pile of it.
 
-The app now says so: the margin line under the panel reads *"You've entered 4 in each of
-the last 7 rounds — the number above is the one to beat."*
+The app says so: the margin line under the panel reads *"You've entered 4 in each of
+the last 7 rounds — the number above is the one to beat."* (She entered 2 in R29.)
 
-**Recommended R29 calls**, by whichever matchup ends up first on the card:
+**Recommended R29 calls**, by whichever matchup ended up first on the card:
 
 | Matchup | Call |
 |---|---|
@@ -302,12 +393,10 @@ the last 7 rounds — the number above is the one to beat."*
 | SYD v NQL | Roosters by 5 |
 | SYD v CRO | Roosters by 4 |
 
-**Should she play the margin safe to protect the lead?** No — there is no such thing. The
-countback is a race on *accumulated error*, so the move that protects a 16-point cushion
-is simply the most accurate number available, which is the model's median margin. (The
-app's advice deliberately sits slightly *below* the mean margin — ×0.85 — because margins
-are right-skewed and the median beats the mean for an absolute-error loss.) There is no
-variance trade worth making while she is ahead on countback against all three rivals.
+*Should she play the margin safe to protect the lead?* The 12 Sep answer was "no — there
+is no such thing: the move that protects a 16-point cushion is simply the most accurate
+number available." That was right at 16. At 6 it is not, for the reason at the top of
+this section, and the advice changed with the cushion on 21 Sep.
 
 ---
 
@@ -406,6 +495,31 @@ A short, ordered checklist. Most of it is confirming the pipeline did its job.
 
 ---
 
+## 8b. Worked example — why the answer can flip mid-round (R28, Sun 13 Sep)
+
+Saturday morning the solver priced tipping the Roosters at **−6.5 points**. Saturday night,
+after the Dolphins and Sharks both won *and Claire tipped both*, it flipped the tip **to
+the Roosters**. Both were right. What changed was the state, and the shape of what was left:
+
+| After today she is… | P(1st) |
+|---|---|
+| level with Claire | 77–80% |
+| 1 behind (tip Panthers) | 42–46% |
+| 2 behind | 34–37% |
+
+Level is worth +30 over 1-behind; 2-behind costs only −9 more. Every remaining round moves
+in threes (two-game rounds with the bonus pay 4, the GF pays 3), so 1-behind and 2-behind
+are the same problem — one split still has to land — while level means she covers and the
+countback wins it. A ±1 split that lands exactly on "level" is the cheapest ticket on the
+board, and the Sunday game was the last one. Three independent solvers put the edge at
++2 to +5 points; it flips only if the Panthers are ≥74–81% (market: 71%) or Claire is
+≤~85% to be on them. Full write-up: `session-notes/2026-09-13-pen-syd-decision/REPORT.md`.
+(It didn't land — Panthers 19–12 — but it was the right bet.)
+
+The general lesson for the checklist above: **re-read the value function, not just the
+tip.** When "level" is a cliff and "behind by k" is flat, a cheap split into level is
+right even at long odds; when the value function is a slope, it isn't.
+
 ## 9. If you're Brigitte and you just want to know what to do
 
 - Open the app. The Tips screen tells you who to tip.
@@ -417,6 +531,8 @@ A short, ordered checklist. Most of it is confirming the pipeline did its job.
 - If you can, **enter each tip closer to its kick-off** rather than all at once — you get
   to see what everyone else picked in the earlier games first, and that's worth about a
   point of win chance.
-- On the round's **first** game, enter the margin the app suggests. You've typed "4" every
-  week for two months; it's been good, but 6 is very slightly better, and the margin is
-  what wins you a tie — which is the most likely way you win this thing.
+- On the round's **first** game, enter the margin the app suggests — **exactly that
+  number**. Since 21 Sep it is no longer just "the most accurate guess": with your
+  countback lead over Claire down to 6, the app picks the number that keeps that lead
+  safest (it sits next to what Claire usually types), and the margin is what wins you a
+  tie — which is the most likely way you win this thing. Section 6 explains.

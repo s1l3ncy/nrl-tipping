@@ -281,11 +281,16 @@ so `build_comp_js` prints a stderr **WARNING** when the name matches nobody and 
   deviation of the per-round margin-error difference) and the exact per-member accuracy.
 - **`mpreds[]`** — the margin each member *actually entered* per round, **back-solved**.
   footytips publishes only `|predicted − actual|`; the candidate whose sign agrees with
-  the side they tipped is the number they typed (`_margin_pred()`). The round's
-  designated margin game is its **first** game — verified against every member's
-  published error in R24–R28. This drives the habit hint on the margin line, and it is
-  how the app found that Brigitte enters **"4" every single week**. `null` where it
-  could not be recovered.
+  the side they tipped is the number they typed (`_margin_pred()`). **When both
+  candidates agree in sign** (the tipper backed the winner in a blow-out) it is the one
+  with the smaller magnitude — until 2026-09-21 the far root shipped ("Brigitte entered
+  70"; GOTCHAS 2026-09-21), and the page guards against a file built before the fix with
+  `MPRED_MAX = 40`. The round's designated margin game is its **first** game — verified
+  against every member's published error in R24–R28. This drives the habit hint on the
+  margin line, the rivals' entry distributions in the countback-aware margin advice
+  (MODEL.md §5.10), and it is how the app found that Brigitte enters **"4" every single
+  week**. `null` where it could not be recovered. `python3 cloud_fetch.py --selftest`
+  runs the back-solver's worked examples without network.
 - **`beh: {a, b, loy, n, hit}`** — the per-member behavioural pick model,
   `P(tips home) = sigmoid(a + b·lp + loy·(affShare(home) − affShare(away)))`, where `lp`
   is the game's Elo logit. Fitted by plain Newton with an L2 ridge (`BEH_RIDGE = 0.25`)
