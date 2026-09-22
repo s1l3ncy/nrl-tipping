@@ -5,11 +5,11 @@
    forever. Empty/stale is safe: the model just falls back to the
    injury table alone. */
 window.NRL_LINEUPS = {
-  "round": 29,
+  "round": 30,
   "teams": {
-    "CRO": ["William Kennedy", "Sione Katoa", "Sione Katoa 2", "Kayal Iro", "Mawene Hiroti", "Ronaldo Mulitalo", "Braydon Trindall", "Nicholas Hynes", "Addin Fonua-Blake", "Addin Fonua Blake", "Blayke Brailey", "Jesse Colquhoun", "Briton Nikora", "Teig Wilton", "Cameron McInnes", "Cameron Mcinnes", "Siosifa Talakai", "Billy Burns", "Thomas Hazelton", "Niwhai Puru", "Riley Jones", "Oregon Kaufusi"],
-    "NEW": ["Kalyn Ponga", "Dominic Young", "Dane Gagai", "Bradman Best", "Greg Marzhew", "Fletcher Sharpe", "Sandon Smith", "Tyson Frizell", "Phoenix Crossland", "Cody Hopwood", "Jermaine McEwen", "Jermaine Mcewen", "Francis Manuleleua", "Mat Croker", "Harrison Graham", "Lachlan Crouch", "Pasami Saulo", "Dylan Lucas", "Thomas Cant", "Fletcher Hunt"],
-    "NZW": ["Taine Tuaupiki", "Charnze Nicoll-Klokstad", "Charnze Nicoll Klokstad", "Ali Leiataua", "Leka Halasima", "Dallin Watene-Zelezniak", "Dallin Watene Zelezniak", "Chanel Harris-Tavita", "Chanel Harris Tavita", "Te Maire Martin", "James Fisher-Harris", "James Fisher Harris", "Wayde Egan", "Mitchell Barnett", "Kurt Capewell", "Jacob Laban", "Erin Clark", "Alofiana Khan-Pereira", "Alofiana Khan Pereira", "Tanner Stowers-Smith", "Tanner Stowers Smith", "Demitric Vaimauga", "Eddie Ieremia-Toeava", "Eddie Ieremia Toeava", "Adam Pompey", "Samuel Healey"],
-    "SYD": ["James Tedesco", "Daniel Tupou", "Billy Smith", "Robert Toia", "Mark Nawaqanitawase", "Hugo Savala", "Daly Cherry-Evans", "Daly Cherry Evans", "Naufahu Whyte", "Reece Robson", "Lindsay Collins", "Salesi Foketi", "Siua Wong", "Victor Radley", "Connor Watson", "Spencer Leniu", "Nat Butcher", "Angus Crichton", "Cody Ramsey", "Toby Rodwell"]
+    "DOL": ["Hamiso Tabuai-Fidow", "Hamiso Tabuai Fidow", "Jamayne Isaako", "Jack Bostock", "Herbie Farnworth", "Selwyn Cobbo", "Kodi Nikorima", "Isaiya Katoa", "Thomas Flegler", "Jeremy Marshall-King", "Jeremy Marshall King", "Tom Gilbert", "Max Plath", "Kulikefu Finefeuiaki", "Morgan Knowles", "Kurt Donoghoe", "Ray Stone", "Francis Molo", "Connelly Lemuelu", "Felise Kaufusi", "Brad Schneider"],
+    "NEW": ["Kalyn Ponga", "Dominic Young", "Dane Gagai", "Bradman Best", "Greg Marzhew", "Fletcher Sharpe", "Sandon Smith", "Tyson Frizell", "Phoenix Crossland", "Cody Hopwood", "Jermaine McEwen", "Jermaine Mcewen", "Francis Manuleleua", "Mat Croker", "Harrison Graham", "Lachlan Crouch", "Pasami Saulo", "Dylan Lucas", "Fletcher Hunt", "Thomas Cant"],
+    "PEN": ["Dylan Edwards", "Thomas Jenkins", "Blaize Talagi", "Casey McLean", "Casey Mclean", "Brian To'o", "Brian Too", "Jack Cole", "Nathan Cleary", "Moses Leota", "Mitch Kenny", "Lindsay Smith", "Isaiah Papali'i", "Isaiah Papalii", "Liam Martin", "Isaah Yeo", "Jack Cogger", "Scott Sorensen", "Liam Henry", "Billy Phillips", "Luke Garner", "Billy Scott"],
+    "SYD": ["James Tedesco", "Daniel Tupou", "Billy Smith", "Robert Toia", "Mark Nawaqanitawase", "Daly Cherry-Evans", "Daly Cherry Evans", "Sam Walker", "Naufahu Whyte", "Reece Robson", "Lindsay Collins", "Salesi Foketi", "Siua Wong", "Victor Radley", "Connor Watson", "Angus Crichton", "Nat Butcher", "Spencer Leniu", "Hugo Savala", "Cody Ramsey"]
   }
 };
