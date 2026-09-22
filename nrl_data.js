@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Nathan Cleary (Foot); Luke Garner (Groin); Izack Tago (Knee) — back Finals; Jack Cogger (Suspension) — back Finals; Paul Alamoti (Hamstring) — back Finals"
+      "news": "Paul Alamoti (Hamstring) — back Finals; Izack Tago (Knee) — back Finals Week 3; Luke Garner (Groin) — back Finals Week 3; Jack Cogger (Suspension) — back Finals Week 3; Nathan Cleary (Foot) — back Finals Week 3"
     },
     {
       "name": "Warriors",
@@ -94,7 +94,7 @@ window.NRL_DATA = {
         "PF": 344,
         "PA": 207
       },
-      "news": "Tom Flegler (Concussion)"
+      "news": "Tom Flegler (Concussion) — back Finals Week 3"
     },
     {
       "name": "Roosters",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 360,
         "PA": 289
       },
-      "news": "Egan Butcher (Concussion); Blake Steep (ACL) — back Next Season; Sam Walker (Ankle) — back Finals Week 3"
+      "news": "Blake Steep (ACL) — back Next Season; Sam Walker (Ankle) — back Finals Week 3; Egan Butcher (Concussion) — back Finals Week 3"
     },
     {
       "name": "Sharks",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 382,
         "PA": 308
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
+      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -504,80 +504,8 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-22T14:57:17+10:00",
+  "generatedAt": "2026-09-22T18:33:42+10:00",
   "changes": [
-    {
-      "id": "r30-PEN-inj-jack-cogger",
-      "fixture": "PEN-NEW",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Panthers: Jack Cogger (Suspension) — back Finals — new on the injury list.",
-      "pts": 2.5,
-      "ts": "2026-09-21T04:47:57+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-PEN-inj-nathan-cleary",
-      "fixture": "PEN-NEW",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Panthers: Nathan Cleary (Foot) — new on the injury list.",
-      "pts": 4.3,
-      "ts": "2026-09-21T04:47:57+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-PEN-inj-izack-tago",
-      "fixture": "PEN-NEW",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Panthers: Izack Tago (Knee) — back Finals — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-21T04:47:57+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-PEN-inj-luke-garner",
-      "fixture": "PEN-NEW",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Panthers: Luke Garner (Groin) — new on the injury list.",
-      "pts": 1.8,
-      "ts": "2026-09-21T04:47:57+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-PEN-inj-paul-alamoti",
-      "fixture": "PEN-NEW",
-      "team": "PEN",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Panthers: Paul Alamoti (Hamstring) — back Finals — new on the injury list.",
-      "pts": 1.9,
-      "ts": "2026-09-21T04:47:57+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-DOL-inj-tom-flegler",
-      "fixture": "DOL-SYD",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Dolphins: Tom Flegler (Concussion) — new on the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-21T04:47:57+10:00",
-      "rnd": 30
-    },
     {
       "id": "r30-DOL-SYD-line-1.70-2.15",
       "fixture": "DOL-SYD",
@@ -615,5 +543,5 @@ window.NRL_DATA = {
       "rnd": 30
     }
   ],
-  "changesSince": "2026-09-21T04:47:57+10:00"
+  "changesSince": "2026-09-21T14:56:37+10:00"
 };
