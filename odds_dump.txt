@@ -1,5 +1,5 @@
 # Round 30 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-23T05:44:29. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-23T08:24:54. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (22 book quotes across 2 fixtures).
 Dolphins v Roosters: 1.68 / 2.20
 Panthers v Knights: 1.27 / 3.80
