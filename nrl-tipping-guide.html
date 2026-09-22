@@ -1317,6 +1317,10 @@ function planCacheRead(stamp){
     if(!raw) return null;
     const p=JSON.parse(raw);
     if(!p||p.stamp!==stamp||!p.splits) return null;
+    /* A plan solved before 2026-09-21 carries no margin advice; treat it as a
+       miss so the idle solve computes one (the tips it holds are unchanged —
+       PLAN_VER stays put — this only re-derives the advice string). */
+    if(typeof p.marginAdvice!=='string'||p.marginVer!==MARGIN_VER) return null;
     return p;
   }catch(e){ return null; }
 }
@@ -1377,7 +1381,7 @@ function schedulePlanSolve(stamp){
       if(splitSig(plan)!==before){
         if(PLAN_FIRST) render();
         else{ renderCompBits(); renderStratBits(); ORDER_DIRTY=true; }
-      } else renderStratBits();
+      } else{ renderCompPanel(); renderStratBits(); }   // panel too: the margin line lands with the solve (2026-09-21)
     }catch(e){}
     PLAN_FIRST=false;
   };
@@ -1622,7 +1626,10 @@ function finalsStratVector(deficit,probs){
    round from the season totals (28 rounds of evidence); sd from whatever
    per-round history nrl_comp.js shipped, floored at 5 (small sample) and
    defaulting to 10 when there is none. */
-function finalsTieProbs(me,rivals,mgLeft){
+/* The per-rival countback statistics, ONE code path (factored out 2026-09-21 so
+   the margin-game advice prices the same race the DP does): {lead, mean, sd} or
+   null when either cumulative margin is unknown. lead > 0 → she is ahead. */
+function tieStats(me,r){
   const myTM=(typeof me.totalMargin==='number')?me.totalMargin:compMarginOf(me.name);
   /* Only zip the per-round histories when the pipeline says they are
      ROUND-INDEXED. On an old dense file index i is her i-th RECORDED round and
@@ -1634,23 +1641,29 @@ function finalsTieProbs(me,rivals,mgLeft){
   let played=0;
   if(myH) myH.forEach(x=>{ if(typeof x==='number') played++; });
   const rounds=Math.max(1,played||SRC.round);
+  const rTM=(typeof r.totalMargin==='number')?r.totalMargin:compMarginOf(r.name);
+  if(rTM===null||rTM===undefined||myTM===null||myTM===undefined) return null;
+  const lead=rTM-myTM;                       // >0 → she is ahead on countback
+  const rH=(indexed&&Array.isArray(r.margins))?r.margins:null;
+  let sd=10, mean=lead/rounds, diffs=[];
+  if(myH&&rH){ const n=Math.min(myH.length,rH.length);
+    for(let i=0;i<n;i++){ const b=myH[i], a=rH[i];       // same ROUND on both sides
+      if(typeof a==='number'&&typeof b==='number') diffs.push(a-b); } }
+  if(diffs.length>=2){
+    let m=0; diffs.forEach(x=>m+=x); m/=diffs.length;
+    let v=0; diffs.forEach(x=>v+=(x-m)*(x-m)); v/=(diffs.length-1);
+    sd=Math.max(5,Math.sqrt(v));
+  }
+  return {lead:lead, mean:mean, sd:sd, n:diffs.length};
+}
+function finalsTieProbs(me,rivals,mgLeft){
   return rivals.map(r=>{
     if(!r) return 1;
-    const rTM=(typeof r.totalMargin==='number')?r.totalMargin:compMarginOf(r.name);
-    if(rTM===null||rTM===undefined||myTM===null||myTM===undefined) return 0.5;
-    const lead=rTM-myTM;                       // >0 → she is ahead on countback
+    const s=tieStats(me,r);
+    if(!s) return 0.5;
+    const lead=s.lead;
     if(!mgLeft) return lead>0?1:(lead<0?0:0.5);
-    const rH=(indexed&&Array.isArray(r.margins))?r.margins:null;
-    let sd=10, mean=lead/rounds, diffs=[];
-    if(myH&&rH){ const n=Math.min(myH.length,rH.length);
-      for(let i=0;i<n;i++){ const b=myH[i], a=rH[i];       // same ROUND on both sides
-        if(typeof a==='number'&&typeof b==='number') diffs.push(a-b); } }
-    if(diffs.length>=2){
-      let m=0; diffs.forEach(x=>m+=x); m/=diffs.length;
-      let v=0; diffs.forEach(x=>v+=(x-m)*(x-m)); v/=(diffs.length-1);
-      sd=Math.max(5,Math.sqrt(v));
-    }
-    const mu=lead+mgLeft*mean, sig=sd*Math.sqrt(mgLeft);
+    const mu=lead+mgLeft*s.mean, sig=s.sd*Math.sqrt(mgLeft);
     if(sig<=0) return mu>0?1:(mu<0?0:0.5);
     return Math.min(1,Math.max(0,normCdf(mu/sig)));
   });
@@ -1740,11 +1753,21 @@ function finalsCtx(){
 }
 
 /* The whole solve. Returns false when the bracket cannot be resolved, in which
-   case compPlan() falls back to the Monte-Carlo path. */
-function finalsPlan(plan){
+   case compPlan() falls back to the Monte-Carlo path.
+   `override` (2026-09-21, margin advice only) — either a tie vector (array) or
+   {tie, pin, myTips}: `tie` replaces finalsCtx().tie; `pin` = {gameKey: 1|0}
+   forces a CURRENT-round game's result (1 = the fixture's home side wins, 0 =
+   it does not) so the solve is conditional on it; `myTips` = {gameKey: short} pins her tips for the
+   current round's open games to the already-solved plan, so a conditional
+   solve cannot re-tip with hindsight. The normal path passes nothing and is
+   untouched; marginRivalWeights() re-runs the solve on SCRATCH plans to price
+   what the countback against each rival is worth, and in which worlds. Nothing
+   else may pass it. */
+function finalsPlan(plan,override){
   const t0=(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
   const C=finalsCtx(); if(!C) return false;
-  const me=C.me, rivals=C.rivals, fin=C.fin, tie=C.tie;
+  const ov=Array.isArray(override)?{tie:override}:(override||null);
+  const me=C.me, rivals=C.rivals, fin=C.fin, tie=(ov&&ov.tie)||C.tie;
 
   /* ---- round geometry, cached per (round, path) ------------------------- */
   const geoMemo=new Map();
@@ -1889,11 +1912,13 @@ function finalsPlan(plan){
     const g2=rivalGains(r,path,2,Math.max(-1,Math.min(cap,lead-d2)),ctxCur&&ctxCur.rivFixed[2],bA?bA[2]:true);
     const S=scr(r,nv,n), pOc=S.pOc, nxt=S.nxt, CV=S.cv, CF=S.cf;
     CF.fill(0,0,nv*(n+3));
+    const pin=G.pin||null;                     // margin advice's conditional solves only
     for(let oc=0;oc<nv;oc++){
       let p=1, np=path;
       for(let i=0;i<n;i++){
         const home=(oc>>i)&1;
-        p*= home?probs[i]:1-probs[i];
+        if(pin&&pin[i]!==null&&pin[i]!==undefined) p*=(home===pin[i])?1:0;
+        else p*= home?probs[i]:1-probs[i];
         const si=FINALS_SLOTI[G.slots[i]];
         if(si!==undefined&&home) np|=1<<si;
       }
@@ -1982,7 +2007,7 @@ function finalsPlan(plan){
   let path0=C.basePath;
   const myFixed=new Array(n0).fill(null);
   const rivFixed=[new Array(n0).fill(null),new Array(n0).fill(null),new Array(n0).fill(null)];
-  const resolvedBit=new Array(n0).fill(null);
+  const resolvedBit=new Array(n0).fill(null), pinBit=new Array(n0).fill(null);
   const freeIdx=[], keyOf=new Array(n0);
   let myBonus=true; const rivBonus=[true,true,true];
   for(let i=0;i<n0;i++){
@@ -2017,7 +2042,19 @@ function finalsPlan(plan){
       rivals.forEach((r,ri)=>{ if(!r) return;
         const pk=r.picks&&r.picks[key];
         if(pk) rivFixed[ri][i]=(pk===h)?1:0; });
-    } else freeIdx.push(i);
+    } else{
+      freeIdx.push(i);
+      // margin advice's conditional solves only (see the header): her tip pinned
+      if(ov&&ov.myTips&&ov.myTips[key]) myFixed[i]=(ov.myTips[key]===h)?1:0;
+    }
+    // …and a pinned RESULT for one game (1 = the FIXTURE's home side wins,
+    // translated here to the bracket's orientation, which can differ): only
+    // the outcome enumeration sees it — the rivals' pick model keeps the real
+    // probability, they tip before the game and do not know the result
+    if(ov&&ov.pin&&ov.pin[key]!==undefined){
+      const fxHomeWins=ov.pin[key]?1:0;
+      pinBit[i]=(p.h.short===h)?fxHomeWins:1-fxHomeWins;
+    }
   }
   // Resolved games are folded into the bracket path, so the round the DP plays
   // is the UNRESOLVED subset. Rebuild the geometry over exactly those games.
@@ -2039,7 +2076,8 @@ function finalsPlan(plan){
   // Sub-geometry: the live games only, in fixture order, with real probabilities
   const subSlots=[], subGames=[], subProbs=[];
   live.forEach(i=>{ subSlots.push(G0.slots[i]); subGames.push(G0.games[i]); subProbs.push(G0.probs[i]); });
-  geoMemo.set(SRC.round*4096+path0,{slots:subSlots, games:subGames, probs:subProbs, n:live.length});
+  geoMemo.set(SRC.round*4096+path0,{slots:subSlots, games:subGames, probs:subProbs, n:live.length,
+                                      pin:(ov&&ov.pin)?live.map(i=>pinBit[i]):null});
   const sub=k=>live.map(i=>k[i]);
   const curCtx={ myFixed:sub(myFixed), myBonus:myBonus, rivBonus:rivBonus,
                  rivFixed:[sub(rivFixed[0]),sub(rivFixed[1]),sub(rivFixed[2])],
@@ -2414,7 +2452,7 @@ function compPlanSolve(stamp){
     plan.roundsAhead=roundsAhead();
     plan.leader=ahead.length?ahead.slice().sort((x,y)=>y.totalScore-x.totalScore)[0].name:null;
     plan.need=plan.d/roundsLeft; plan.cap=0; plan.theta=0;
-    try{ if(finalsPlan(plan)){ planCacheWrite(plan); return plan; } }
+    try{ if(finalsPlan(plan)) return planFinish(plan); }
     catch(e){ if(typeof console!=='undefined') console.warn('[comp] finals solver failed —',e&&e.message); }
     plan.splits={};
   }
@@ -2425,8 +2463,7 @@ function compPlanSolve(stamp){
     plan.mode='cover'; plan.need=0; plan.d=0; plan.roundsLeft=roundsLeft; plan.T=Tg;
     plan.roundsAhead=roundsAhead();
     try{ simComp(plan,[]); }catch(e){}
-    planCacheWrite(plan);
-    return plan;
+    return planFinish(plan);
   }
   const d=Math.max.apply(null,ahead.map(m=>m.totalScore))-me.totalScore;
   const need=d/roundsLeft;
@@ -2464,6 +2501,17 @@ function compPlanSolve(stamp){
   // the 2026-08-10 need bands select instead — never leave the round unplanned.
   try{ simComp(plan,cands); }
   catch(e){ cands.slice(0,cap).forEach(c=>{ plan.splits[c.key]=c; }); }
+  return planFinish(plan);
+}
+/* Every solved plan leaves through here (2026-09-21): attach the margin-game
+   advice — which needs the solved plan and, in the finals, extra DP solves —
+   then cache. It runs WITH the solve (idle callback, or synchronously for the
+   freeze), never per render; renderCompPanel() only reads plan.marginAdvice.
+   Wrapped: the advice is a courtesy, the plan is not allowed to fail on it. */
+function planFinish(plan){
+  try{ attachMarginPlan(plan); }
+  catch(e){ plan.marginAdvice=''; plan.marginPlan=null;
+    if(typeof console!=='undefined') console.warn('[comp] margin advice failed —',e&&e.message); }
   planCacheWrite(plan);
   return plan;
 }
@@ -3281,11 +3329,45 @@ function compStripHTML(p){
   if(!chips) return '';
   return `<div class="compstrip"><span class="cst">Comp</span>${chips}</div>`;
 }
-/* Margin game (2026-08-13): footytips puts the round's margin entry on the
-   FIRST game. The advised number is deliberately BELOW the model's expected
-   margin (×0.85, logistic-inverted from the blended prob): margins are
-   right-skewed, cumulative margin error is countback currency (LOWER wins
-   ties), and the median play beats the mean play for that loss function. */
+/* ---------- the margin game (rewritten 2026-09-21: countback-aware) ----------
+   footytips puts the round's margin entry on the FIRST game, and the cumulative
+   |entered − actual| is the countback that breaks a points tie (LOWER wins).
+   Until 2026-09-21 the advice was the model MEDIAN (0.85 × expected margin):
+   the number that minimises HER error in isolation, which is right with a big
+   countback cushion. With a 6-point cushion the right objective is
+   P(she still holds the countback at the end), and the dominant fact is that
+   on ONE game the most either tipper can gain on the other is
+   |her entry − their entry| (both errors are measured against the same actual
+   margin). Entering a number close to the rival's likely entry LOCKS IN the
+   lead; the median play sits below Claire's habitual 6–12 and exposes it.
+   The maths and the string live in attachMarginPlan(); it runs WITH the plan
+   solve (idle callback / synchronously for the freeze), never per render, and
+   marginAdvice() only reads plan.marginAdvice. See docs/MODEL.md §5.10. */
+const MARGIN_VER='cb2';  /* bump when the margin-advice maths changes: a cached plan
+                            carrying an older advice string is re-solved once
+                            (planCacheRead). cb1 = 2026-09-21 unconditional
+                            objective; cb2 = audit fix, conditional on the result */
+const MPRED_MAX=40;   /* a back-solved entry above this is the wrong root of
+                         |entered − actual| (cloud_fetch.py picked actual+err
+                         until 2026-09-21 — "Brigitte entered 70"); every
+                         consumer treats it as unrecoverable, i.e. null */
+const MARGIN_GRID=60; // the actual-margin distribution is discretised on −60..60
+function mpredOK(x){ return typeof x==='number'&&isFinite(x)&&x>=0&&x<=MPRED_MAX; }
+/* sd of the actual (home − away) margin. The residual sd around the model's
+   expectation is not available client-side, so this is the season's raw sd of
+   hs − as from the results memory, floored at 10 and capped at 18; 13 with no
+   memory. (Raw sd overstates the residual sd — the cap is what keeps it
+   honest.) Deterministic and cheap: one pass over LEARNED.results. */
+function marginSd(){
+  const res=(LEARNED&&Array.isArray(LEARNED.results))?LEARNED.results:[];
+  const xs=[];
+  res.forEach(r=>{ if(!r||(r.season||2026)!==SRC.season) return;
+    if(typeof r.hs==='number'&&typeof r.as==='number') xs.push(r.hs-r.as); });
+  if(xs.length<20) return 13;
+  let m=0; xs.forEach(x=>m+=x); m/=xs.length;
+  let v=0; xs.forEach(x=>v+=(x-m)*(x-m)); v/=(xs.length-1);
+  return Math.max(10,Math.min(18,Math.sqrt(v)));
+}
 function marginGameFx(){
   let best=null, bt=Infinity;
   fixtures.forEach(f=>{ if(!T(f.home)||!T(f.away)) return;
@@ -3293,17 +3375,255 @@ function marginGameFx(){
     if(tt<bt){ bt=tt; best=f; } });
   return best;
 }
-function marginAdvice(){
-  const fx=marginGameFx(); if(!fx) return '';
+/* The margin game while it can still be entered: {fx, p}, else null. */
+function marginGameOpen(){
+  const fx=marginGameFx(); if(!fx) return null;
   const p=predict(fx);
-  if(fixtureResult(p)) return '';
+  if(fixtureResult(p)) return null;
   const ko=Date.parse(fx.kickoff||'');
-  if((!isNaN(ko)&&Date.now()>=ko)||liveEntry(p)) return '';   // locked — too late
-  const fav=p.pHome>=0.5?p.h:p.a;
+  if((!isNaN(ko)&&Date.now()>=ko)||liveEntry(p)) return null;   // locked — too late
+  return {fx:fx, p:p};
+}
+/* Her side for the margin game, read off a GIVEN plan (tipSide() would go
+   through compPlan() — same answer, but this never re-enters the solver). */
+function marginSideOf(plan,p){
+  const c=plan&&plan.splits&&plan.splits[liveKey(p.h.short,p.a.short)];
+  if(c){ const t=T(c.dog); if(t) return t; }
+  if(Math.abs(p.pHome-0.5)<0.005){ const pref=lockPref(p.h,p.a); if(pref) return pref; }
+  return modelFav(p);
+}
+/* What a rival is likely to ENTER: the empirical distribution of the
+   magnitudes they typed over their last 10 recorded rounds (round-indexed
+   mpreds; nulls and wrong-root values > MPRED_MAX skipped), a fixed prior
+   {6: ½, 8: ¼, 10: ¼} when fewer than 3 are readable. `lo–hi` is their range
+   over the last 6 recorded entries — the "usual number" in the advice line. */
+function rivalEntryDist(r){
+  const mp=(r&&Array.isArray(r.mpreds))?r.mpreds:[];
+  const vals=[];
+  for(let i=mp.length-1;i>=0&&vals.length<10;i--) if(mpredOK(mp[i])) vals.push(mp[i]);
+  let mags;
+  if(vals.length<3) mags=[[6,0.5],[8,0.25],[10,0.25]];
+  else{
+    const cnt={}; vals.forEach(v=>{ cnt[v]=(cnt[v]||0)+1; });
+    mags=Object.keys(cnt).map(k=>[+k,cnt[k]/vals.length]).sort((a,b)=>a[0]-b[0]);
+  }
+  const last6=vals.slice(0,6);
+  const lo=last6.length?Math.min.apply(null,last6):null;
+  const hi=last6.length?Math.max.apply(null,last6):null;
+  return {mags:mags, n:vals.length, lo:lo, hi:hi, prior:vals.length<3};
+}
+/* P(rival r enters a HOME-signed number) for the margin game: the fitted
+   logistic when it shipped, else the fallback predictor at their herd rate
+   (exactly the DP's own fallback), else the model's pHome. */
+function rivalPHome(r,p){
+  const q=behPHome(r,p.h.short,p.a.short,p.pHome);
+  if(q!==null) return Math.min(0.999,Math.max(0.001,q));
+  try{
+    const pick=predictPick(r.name,p);
+    if(pick){ const h=(r.herd===undefined)?herdRate(r):r.herd;
+      return (pick===p.h.short)?h:1-h; }
+  }catch(e){}
+  return p.pHome;
+}
+/* The value of the countback against each modelled rival, and IN WHICH WORLDS
+   it is worth it. w = the DP re-solved with that rival's tie entry forced to 1
+   and to 0, difference in the best P(1st) — i.e. the probability mass of the
+   worlds where she ends LEVEL with that rival and the countback decides. Those
+   worlds are not a random sample of the season (audit 2026-09-21): they are the
+   specific score combinations that leave the two level, and the margin game is
+   one of the games that produces them. In R30 (her tips DOL + PEN, Claire 2
+   ahead) EVERY world level with Claire or Jake has the Dolphins LOSING the
+   margin game — so a "shadowing" number, chosen as if the Dolphins were 60% to
+   win, was the wrong way round. So the mass is split by the margin game's
+   result: wLost = the same difference with the result pinned to "her side
+   loses" (× its probability) and her current-round tips pinned to the plan's
+   (no hindsight re-tipping), wWon = w − wLost. Aligned with C.rivals (null for
+   a pad slot). Returns null if any solve fails — the caller falls back to the
+   points-gap weights, unconditioned. Cost: four DP solves per rival. */
+function marginRivalWeights(C,plan,mkey,herWinsBit,pWin){
+  const myTips={};
+  const pg=plan.sim&&plan.sim.perGame;
+  if(pg) Object.keys(pg).forEach(k=>{ if(!pg[k].locked&&pg[k].tipShort) myTips[k]=pg[k].tipShort; });
+  const solve=(t,pin)=>{
+    const sp={splits:{}}, ov={tie:t, myTips:myTips};
+    if(pin!==null) ov.pin={}; if(pin!==null) ov.pin[mkey]=pin;
+    if(!finalsPlan(sp,ov)||!sp.sim) return null;
+    return (typeof sp.sim.pBest==='number')?sp.sim.pBest:sp.sim.pFirst;
+  };
+  const out=[];
+  for(let ri=0;ri<C.rivals.length;ri++){
+    if(!C.rivals[ri]){ out.push(null); continue; }
+    const t1=C.tie.slice(), t0=C.tie.slice(); t1[ri]=1; t0[ri]=0;
+    const a1=solve(t1,null), a0=solve(t0,null);
+    const l1=solve(t1,1-herWinsBit), l0=solve(t0,1-herWinsBit);
+    if(a1===null||a0===null||l1===null||l0===null) return null;
+    const w=Math.max(0,a1-a0);
+    const wLost=Math.min(w,Math.max(0,(1-pWin)*(l1-l0)));
+    out.push({w:w, wLost:wLost, wWon:w-wLost});
+  }
+  return out;
+}
+/* Compute the margin-game advice for a SOLVED plan and store it on the plan:
+   plan.marginAdvice (the line renderCompPanel prints, '' when there is nothing
+   to say) and plan.marginPlan (what window.marginPlan() returns for tests).
+   Deterministic: no PRNG anywhere — the same inputs give the same string in a
+   browser and in the jsdom freeze. */
+const MARGIN_DP_MAX_ROUNDS=2;  /* the conditional DP weights cost ~12 solves; on a
+                                  4-round bracket that is seconds of blocked main
+                                  thread (audit 2026-09-21: 5.3 s in jsdom for 6),
+                                  so they run only with ≤ 2 rounds left (PF + GF,
+                                  ~2 ms a solve). Earlier finals weeks use the
+                                  points-gap weights like a regular round. */
+function attachMarginPlan(plan){
+  const t0=(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
+  plan.marginAdvice=''; plan.marginPlan=null; plan.marginMs=0; plan.marginVer=MARGIN_VER;
+  const o=marginGameOpen(); if(!o) return;
+  const me=(COMP&&COMP.members)?COMP.members.find(m=>m.me):null;
+  if(!me||me.totalScore===null) return;
+  const p=o.p, side=marginSideOf(plan,p);
+  const dir=(side===p.h)?1:-1;
+  const mkey=liveKey(p.h.short,p.a.short);
+  /* 1. the actual-margin distribution: mean = the model's expected margin
+        (logistic inverted at scale 7 — the 0.85 belongs to the MEDIAN play,
+        not to the distribution), sd = marginSd(), on an integer grid. The
+        pure-accuracy call is on HER side: 0.85·|E| when she is on the
+        favourite, else the smallest number there is. */
+  const q=Math.min(0.999999,Math.max(0.000001,p.pHome));
+  const E=7*Math.log(q/(1-q));
+  const sdA=marginSd();
+  const med=(dir*E>0)?Math.max(1,Math.round(0.85*Math.abs(E))):1;
+  const pWin=(dir>0)?p.pHome:1-p.pHome;               // P(her side wins the game)
+  const A=[], PA=[]; let tot=0;
+  for(let a=-MARGIN_GRID;a<=MARGIN_GRID;a++){ const w=Math.exp(-(a-E)*(a-E)/(2*sdA*sdA)); A.push(a); PA.push(w); tot+=w; }
+  for(let i=0;i<PA.length;i++) PA[i]/=tot;
+  // the same grid conditional on her side winning / not winning (a draw is "not")
+  const won=A.map(a=>dir*a>0), PAw=[], PAl=[]; let tw=0, tl=0;
+  for(let i=0;i<A.length;i++){ if(won[i]) tw+=PA[i]; else tl+=PA[i]; }
+  for(let i=0;i<A.length;i++){ PAw.push(won[i]&&tw>0?PA[i]/tw:0); PAl.push(!won[i]&&tl>0?PA[i]/tl:0); }
+  /* 2. rivals + weights: the DP's own rival set and order, weighted by what
+        the countback against each is worth and in which worlds (extra DP
+        solves, cheap only near the end); otherwise everyone still within
+        reach, weighted 1/(1+|Δpoints|) and split by the game's own odds */
+  let rivals=[], weights=null, source='';
+  const fin=(COMP.finishRound)||31;
+  const C=(plan.sim&&plan.sim.exact&&(fin-SRC.round+1)<=MARGIN_DP_MAX_ROUNDS)?finalsCtx():null;
+  if(C){
+    const w=marginRivalWeights(C,plan,mkey,dir>0?1:0,pWin);
+    if(w){ rivals=[]; weights=[];
+      C.rivals.forEach((r,i)=>{ if(r){ rivals.push(r); weights.push(w[i]); } });
+      source='dp'; }
+  }
+  if(!weights){
+    const reach=gamesLeftInComp()+2*Math.max(1,fin-SRC.round+1);
+    rivals=COMP.members.filter(m=>!m.me&&m.totalScore!==null&&m.totalScore+reach>=me.totalScore)
+      .sort((x,y)=>(y.totalScore-x.totalScore)||(x.rank-y.rank));
+    weights=rivals.map(r=>{ const w=1/(1+Math.abs(r.totalScore-me.totalScore));
+      return {w:w, wWon:w*pWin, wLost:w*(1-pWin)}; });
+    source='gap';
+  }
+  if(!rivals.length) return;
+  const mgLeft=(plan.sim&&typeof plan.sim.mgLeft==='number')?plan.sim.mgLeft
+    :(C?C.mgLeft:Math.max(1,fin-SRC.round+1));
+  const later=Math.max(0,mgLeft-1);                   // margin games AFTER this one
+  /* 3. per rival: entry distribution and the countback race stats */
+  const R=rivals.map((r,i)=>{
+    const st=tieStats(me,r);
+    const ed=rivalEntryDist(r);
+    const ph=rivalPHome(r,p);
+    const ent=[];                                     // [signed entry, prob]
+    ed.mags.forEach(mq=>{ ent.push([mq[0],mq[1]*ph]); ent.push([-mq[0],mq[1]*(1-ph)]); });
+    return {r:r, w:weights[i].w, wWon:weights[i].wWon, wLost:weights[i].wLost, st:st, ed:ed, ph:ph, ent:ent};
+  });
+  /* 4. objective: J(m) = Σ_r [ wWon_r · P_r(m | her side won) + wLost_r · P_r(m | it
+        did not) ], P_r = P(lead_r + gain_r(m) + the later games' drift > 0),
+        gain = |E_r − A| − |dir·m − A|, A drawn from the grid conditional on
+        the result. The two pieces pull opposite ways: when her side loses her
+        error is m + |A| whatever the rival typed, so small m wins; when it
+        wins, sitting near the rival's number caps what they can gain. */
+  const J={}, PR={};
+  let bestM=med, bestJ=-Infinity;
+  const EQ=1e-12;
+  R.forEach(x=>{
+    if(!x.st) return;
+    const sig=x.st.sd*Math.sqrt(later), mu0=x.st.lead+later*x.st.mean;
+    x.phi=d=>{ const v=mu0+d; return later?normCdf(v/sig):(v>0?1:0); };
+  });
+  for(let m=1;m<=40;m++){
+    const em=dir*m;
+    let j=0; const pr=[];
+    R.forEach(x=>{
+      if(!x.st){ pr.push(null); return; }
+      let Pw=0, Pl=0;
+      for(let i=0;i<A.length;i++){
+        const a=A[i], herr=Math.abs(em-a);
+        let acc=0;
+        for(let k=0;k<x.ent.length;k++){ const pe=x.ent[k][1]; if(pe<=0) continue;
+          acc+=pe*x.phi(Math.abs(x.ent[k][0]-a)-herr); }
+        Pw+=PAw[i]*acc; Pl+=PAl[i]*acc;
+      }
+      const P=x.wWon*Pw+x.wLost*Pl;                  // already weighted
+      pr.push({won:Pw, lost:Pl, wP:P}); j+=P;
+    });
+    J[m]=j; PR[m]=pr;
+    if(j>bestJ+EQ){ bestJ=j; bestM=m; }
+    else if(Math.abs(j-bestJ)<=EQ){                 // tie → nearest the median play, then smaller
+      const dNew=Math.abs(m-med), dOld=Math.abs(bestM-med);
+      if(dNew<dOld) bestM=m;
+    }
+  }
+  /* 5. the line. Name the rival this number is FOR: the largest contributor
+        to the move away from the median play (when nothing moves, the largest
+        w_r), and say WHY in terms of the world the countback decides in. */
+  let top=-1, topW=-Infinity;
+  R.forEach((x,i)=>{ if(!x.st) return;
+    const gain=(bestM!==med&&PR[med])?(PR[bestM][i].wP-PR[med][i].wP):0;
+    const key=gain>EQ?1e6+gain:x.w;
+    if(key>topW){ topW=key; top=i; } });
+  const mp={m:bestM, side:side.short, dir:dir, med:med, E:E, sd:sdA, mgLeft:mgLeft, pWin:pWin,
+            source:source, J:J,
+            rivals:R.map((x,i)=>({name:x.r.name, w:x.w, wWon:x.wWon, wLost:x.wLost, lead:x.st?x.st.lead:null,
+                                  mean:x.st?x.st.mean:null, sd:x.st?x.st.sd:null,
+                                  pHome:x.ph, entries:x.ed.mags, usual:[x.ed.lo,x.ed.hi], nEntries:x.ed.n,
+                                  // P = P(she keeps the countback | it decides), at the advised m and at the median play
+                                  P:(PR[bestM][i]&&x.w>0)?PR[bestM][i].wP/x.w:null, Pwon:PR[bestM][i]?PR[bestM][i].won:null,
+                                  Plost:PR[bestM][i]?PR[bestM][i].lost:null, Pmed:(PR[med]&&PR[med][i]&&x.w>0)?PR[med][i].wP/x.w:null}))};
+  let line=`Margin game (first of the round): ${esc(side.name)} by ${bestM}`;
+  if(top<0) line+=` — the median play.`;
+  else{
+    const x=R[top], nm=esc(x.r.name.split(' ')[0]);
+    const usual=(x.ed.lo===null)?'':(x.ed.lo===x.ed.hi?`${x.ed.lo}`:`${x.ed.lo}–${x.ed.hi}`);
+    if(bestM===med) line+=` — the median play (also the countback-safe choice).`;
+    else if(x.wLost>x.wWon)
+      line+=` — keep it small: the countback only comes into it against ${nm} if the ${esc(side.name)} lose this one, and then every extra point is extra error; the pure-accuracy call is ${med}.`;
+    else if(x.st.lead<=0)
+      line+=` — behind ${nm} on the countback, so a number away from theirs`+
+            (usual?` (their usual is ${usual})`:'')+`; the pure-accuracy call is ${med}.`;
+    else
+      line+=` — shadows ${nm}'s usual number`+(usual?` (${usual})`:'')+
+            ` to protect your ${x.st.lead}-point countback lead; the pure-accuracy call is ${med}.`;
+  }
+  plan.marginAdvice=line; plan.marginPlan=mp;
+  plan.marginMs=Math.round(((typeof performance!=='undefined'&&performance.now)?performance.now():Date.now())-t0);
+}
+/* Read-only: the panel prints what the solve stored. Before the first solve of
+   a fresh stamp the provisional plan has no advice, so the old median line
+   stands in and is replaced when the solve lands (schedulePlanSolve re-renders
+   the panel). */
+function marginAdvice(){
+  const o=marginGameOpen(); if(!o) return '';
+  const plan=compPlan();
+  if(typeof plan.marginAdvice==='string') return plan.marginAdvice;
+  const p=o.p, fav=p.pHome>=0.5?p.h:p.a;
   const pf=Math.max(p.pHome,1-p.pHome);
   const med=Math.max(1,Math.min(28,Math.round(0.85*7*Math.log(pf/(1-pf)))));
   return `Margin game (first of the round): ${esc(fav.name)} by ${med} — the median play; blow-out numbers poison the countback.`;
 }
+/* For tests and the console: what the advice was built from. null until a
+   plan with advice has been solved (or when the margin game is closed). */
+if(typeof window!=='undefined') window.marginPlan=function(){
+  const plan=COMP_PLAN&&typeof COMP_PLAN.marginAdvice==='string'?COMP_PLAN:compPlan();
+  return (plan&&plan.marginPlan)||null;
+};
 /* Margin habit (2026-09-12): cloud_fetch.py back-solves the number each member
    actually ENTERED for every round's margin game (mpreds). If she has typed the
    same number every week, say so next to the advice — it is the cheapest
@@ -3316,15 +3636,20 @@ function marginHabit(){
      back-solved — NOT a round she skipped and not a different number. Trailing
      nulls are stepped over to find the most recent reading, but the run itself
      stops at the first gap: "in each of the last N rounds" has to be literally
-     true, and it cannot be across a round we could not read. */
-  let i=mp.length-1;
-  while(i>=0&&typeof mp[i]!=='number') i--;
+     true, and it cannot be across a round we could not read. A value above
+     MPRED_MAX is the back-solver's wrong root (2026-09-21) and counts as a
+     gap too. */
+  let i=mp.length-1, skipped=0;
+  while(i>=0&&!mpredOK(mp[i])){ if(mp[i]!==null&&mp[i]!==undefined) skipped++; i--; }
   if(i<0) return '';
   const last=mp[i];
   let run=0;
   while(i>=0&&mp[i]===last){ run++; i--; }   // a null !== last, so a gap ends it
   if(run<4) return '';                       // not a habit, just a coincidence
-  return ` You've entered ${last} in each of the last ${run} rounds — the number above is the one to beat.`;
+  /* A trailing wrong-root value is a round she DID enter (just not readably), so
+     "each of the last N rounds" would be false — say what is true (audit 2026-09-21). */
+  const span=skipped?`the last ${run} rounds we could read`:`the last ${run} rounds`;
+  return ` You've entered ${last} in each of ${span} — the number above is the one to beat.`;
 }
 /* You vs the machine (2026-08-13): once games lock, footytips shows what was
    ACTUALLY entered — compare it against the frozen machine tips. Counts only

@@ -1520,13 +1520,30 @@ def _margin_pred(entered_err, actual_signed, tipped_home):
     """Back-solve the margin a member actually ENTERED.
 
     footytips publishes only err = |predicted - actual| on the SIGNED (home -
-    away) margin of the round's FIRST game. Two candidates solve that; the one
-    whose sign agrees with the side they tipped is the number they typed.
+    away) margin of the round's FIRST game. Two candidates solve that,
+    actual ± err; the one whose sign agrees with the side they tipped is the
+    number they typed.
+
+    ROOT CHOICE (fixed 2026-09-21). When the member tipped the WINNING side and
+    err < |actual| — every blow-out — BOTH candidates carry the tipped side's
+    sign, and the old code returned the first one, actual + err: the implausible
+    far root. That is how the live file came to say Claire entered 30, 58, 36,
+    78, 34 and 60 and Brigitte 34, 60, 42, 80, 40, 70 on the blow-out rounds.
+    Nobody types 60. When both candidates agree in sign, the SMALLER magnitude
+    is the entry. Exactly-one-match keeps the old behaviour; the fallback when
+    neither matches is unchanged too.
+
+    Worked examples (R29 2026, SYD 46-10 CRO, actual = +36):
+      Claire   tipped SYD, err 24 -> {60, 12}  -> 12  (was 60)
+      Brigitte tipped SYD, err 34 -> {70,  2}  ->  2  (was 70)
+      Thorners tipped CRO, err 40 -> {76, -4}  ->  4  (only -4 is away-signed)
     """
     cands = [actual_signed + entered_err, actual_signed - entered_err]
     if tipped_home is None:
         return None
     ok = [x for x in cands if (x > 0) == bool(tipped_home)]
+    if len(ok) > 1:
+        return min(abs(x) for x in ok)
     return abs(ok[0]) if ok else abs(cands[0])
 
 
@@ -1980,5 +1997,32 @@ def main():
               f"Normal on Mon/Tue morning: lists drop ~4pm Tuesday AEST.", file=sys.stderr)
 
 
+def _selftest():
+    """`python3 cloud_fetch.py --selftest` — no network. Guards the margin
+    back-solver's root choice (2026-09-21) with the R29 worked examples."""
+    cases = [  # (err, actual, tipped_home, expected)
+        (24, 36, True, 12),    # Claire, R29: both roots home-signed -> the near one
+        (34, 36, True, 2),     # Brigitte, R29
+        (40, 36, False, 4),    # Thorners tipped CRO: only -4 is away-signed
+        (10, 36, True, 26),    # ordinary: {46, 26} -> 26
+        (50, 36, True, 86),    # tipped home, err > actual: {86, -14} -> 86
+        (50, 36, False, 14),   # tipped away, err > actual: {86, -14} -> 14
+        (6, -20, False, 14),   # away win, tipped away: {-14, -26} -> 14
+        (6, -20, True, 14),    # away win, tipped home: neither matches -> |cands[0]|
+        (6, 20, None, None),   # no pick -> unrecoverable
+    ]
+    bad = 0
+    for err, actual, th, want in cases:
+        got = _margin_pred(err, actual, th)
+        ok = got == want
+        bad += 0 if ok else 1
+        print(f"[selftest] _margin_pred(err={err}, actual={actual}, tipped_home={th}) "
+              f"= {got!r}  expected {want!r}  {'ok' if ok else 'FAIL'}")
+    print(f"[selftest] {'PASS' if not bad else 'FAIL'} ({len(cases) - bad}/{len(cases)})")
+    return bad == 0
+
+
 if __name__ == "__main__":
+    if "--selftest" in sys.argv[1:]:
+        sys.exit(0 if _selftest() else 1)
     main()

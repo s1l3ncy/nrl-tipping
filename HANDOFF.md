@@ -134,7 +134,22 @@ See `docs/DEPLOY_AND_OPS.md`.
 
 ## 6. Current state (as of the last update in this pack)
 
-*(Reviewed 2026-09-12 — Finals Week 1, the Brigitte rebuild.)*
+*(Reviewed 2026-09-21 — Finals Week 3.)*
+
+- **2026-09-21: the margin advice protects the countback.** Her cushion over Claire and
+  Jake is down to 6, so `marginAdvice()` now maximises P(she still holds the countback)
+  — weighted by what each rival's tie is worth to P(1st), which the DP prices by
+  re-solving with that tie forced won/lost (`finalsPlan(plan, tieOverride)`;
+  `tieStats()` factored out of `finalsTieProbs()`). Computed once per plan solve
+  (`planFinish()` → `attachMarginPlan()`), stored on the plan, read by the panel;
+  `window.marginPlan()` shows the workings. Same day: `cloud_fetch.py`'s margin
+  back-solver picked the far root on blow-outs ("Brigitte entered 70") — fixed, with
+  `MPRED_MAX = 40` guarding the page until the pipeline reruns. R30 line: *Dolphins by
+  1 — keep it small: the countback only comes into it against Claire if the Dolphins
+  lose this one…* (the first cut said "by 5"; the same-day audit showed every world
+  where that countback decides has the Roosters winning the margin game — CHANGELOG
+  2026-09-21 §3). Tips unchanged and proven so. `sw.js` v26. MODEL.md §5.10,
+  STRATEGY.md §6, GOTCHAS 2026-09-21.
 
 - **2026-09-12: the app is Brigitte's, and it solves the finals exactly.** New
   objective — **pure P(1st)**, no top-3/top-4 terms. `COMP_ME`/`FOOTYTIPS_ME` =

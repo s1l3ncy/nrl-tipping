@@ -141,7 +141,26 @@ the heuristic path is the fallback. Injuries move the tip (position × rating); 
 round's team list both clears named players and rules out unnamed doubts — all
 before the odds blend. Weather is gone. **The 2026 finals are on** (rounds 28–31 =
 Finals Week 1–3 + Grand Final; footytips comp ends round 31). **The app plays for
-Brigitte and optimises P(1st) exactly** — no team is locked.
+Brigitte and optimises P(1st) exactly** — no team is locked. Since 2026-09-21 the
+margin-game line protects her countback lead rather than chasing pure accuracy.
+
+**Changed 2026-09-21 — countback-aware margin advice + back-solver fix** (full detail in
+`docs/CHANGELOG.md` 2026-09-21, `docs/MODEL.md` §5.10, `docs/STRATEGY.md` §6):
+- `cloud_fetch.py` `_margin_pred()` returned the FAR root of |entered − actual| whenever
+  the tipper backed the winner in a blow-out ("Brigitte entered 70"). Both roots agree in
+  sign → the smaller magnitude. `python3 cloud_fetch.py --selftest`. Page guard
+  **`MPRED_MAX = 40`**: every `mpreds` consumer treats a larger value as a gap.
+- `marginAdvice()` no longer recommends the model median; with a 6-point countback
+  cushion it maximises P(she still holds the countback) weighted by the DP's own value of
+  each rival's tie (`finalsPlan(plan, tieOverride)`, `tieStats()` factored out of
+  `finalsTieProbs()`). Computed once per plan solve in `attachMarginPlan()` via
+  `planFinish()`, stored as `plan.marginAdvice`; `window.marginPlan()` for tests.
+  **Audit the same day**: the countback only decides in worlds where her side LOST the
+  margin game (R30: every world level with Claire/Jake has the Roosters winning), so the
+  weights are split by the result (`finalsPlan(plan, {tie, pin, myTips})`) and R30 reads
+  **Dolphins by 1** (the shipped-first "by 5" cost ≈0.1 pts). DP weights only with ≤ 2
+  rounds left (`MARGIN_DP_MAX_ROUNDS`). Tips byte-identical, freeze 0-change, smoke
+  75/75, iOS 20/20, Chromium == jsdom. `sw.js` CACHE v26; `PLAN_VER` unchanged.
 
 **Changed 2026-09-12 — THE BRIGITTE REBUILD** (full detail in `docs/CHANGELOG.md`
 2026-09-12 and `docs/STRATEGY.md`; this block supersedes every objective/lock claim
