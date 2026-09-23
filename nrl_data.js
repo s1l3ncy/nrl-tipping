@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.2
         },
         "close": {
-          "home": 1.68,
-          "away": 2.2
+          "home": 1.7,
+          "away": 2.18
         }
       },
       "weather": null,
@@ -504,8 +504,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-23T08:57:25+10:00",
+  "generatedAt": "2026-09-23T14:45:46+10:00",
   "changes": [
+    {
+      "id": "r30-DOL-SYD-line-1.70-2.18",
+      "fixture": "DOL-SYD",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Dolphins $1.68 → $1.70, Roosters $2.20 → $2.18. Market now 56% Dolphins (was 57%).",
+      "pts": null,
+      "ts": "2026-09-23T14:45:46+10:00",
+      "rnd": 30
+    },
     {
       "id": "r30-DOL-SYD-line-1.70-2.15",
       "fixture": "DOL-SYD",
@@ -517,19 +529,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-22T08:50:03+10:00",
       "rnd": 30
-    },
-    {
-      "id": "r30-DOL-SYD-line-1.72-2.15",
-      "fixture": "DOL-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.68 → $1.72, Roosters $2.20 → $2.15. Market now 56% Dolphins (was 57%).",
-      "pts": null,
-      "ts": "2026-09-22T01:06:52+10:00",
-      "rnd": 30
     }
   ],
-  "changesSince": "2026-09-22T01:06:52+10:00"
+  "changesSince": "2026-09-22T08:50:03+10:00"
 };
