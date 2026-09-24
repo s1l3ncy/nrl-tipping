@@ -1,8 +1,8 @@
 {
-  "sydney": "2026-09-24 08:57:37 AEST",
-  "utc": "2026-09-23T22:57:37+00:00",
+  "sydney": "2026-09-24 14:51:38 AEST",
+  "utc": "2026-09-24T04:51:38+00:00",
   "trigger": "schedule",
-  "runNumber": "402",
+  "runNumber": "403",
   "playersRated": 525,
   "playersRatedFullName": 525,
   "clubsWithLineups": 4,
@@ -17,8 +17,8 @@
   "changesSince": "2026-09-23T14:45:46+10:00",
   "dataRound": 30,
   "oddsApiState": "ok",
-  "oddsApiRemaining": 356,
-  "oddsApiUsed": 144,
+  "oddsApiRemaining": 355,
+  "oddsApiUsed": 145,
   "oddsApiHttp": 200,
   "oddsApiBookQuotes": 22
 }
