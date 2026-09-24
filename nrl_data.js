@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "season": 2026,
   "round": 30,
   "roundName": "Finals Week 3",
@@ -504,7 +504,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-24T23:47:42+10:00",
+  "generatedAt": "2026-09-25T06:00:05+10:00",
   "changes": [
     {
       "id": "r30-DOL-SYD-line-1.70-2.17",
@@ -529,19 +529,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-23T23:39:09+10:00",
       "rnd": 30
-    },
-    {
-      "id": "r30-DOL-SYD-line-1.70-2.18",
-      "fixture": "DOL-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.68 → $1.70, Roosters $2.20 → $2.18. Market now 56% Dolphins (was 57%).",
-      "pts": null,
-      "ts": "2026-09-23T14:45:46+10:00",
-      "rnd": 30
     }
   ],
-  "changesSince": "2026-09-23T14:45:46+10:00"
+  "changesSince": "2026-09-23T23:39:09+10:00"
 };
