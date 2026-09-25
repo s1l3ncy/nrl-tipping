@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-25",
+  "updated": "2026-09-26",
   "season": 2026,
   "round": 30,
   "roundName": "Finals Week 3",
@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-25T23:48:23+10:00",
+  "generatedAt": "2026-09-26T00:34:23+10:00",
   "changes": [
     {
       "id": "r30-SYD-inj-connor-watson",
