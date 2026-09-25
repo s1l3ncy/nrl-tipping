@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Paul Alamoti (Hamstring) — back Finals; Izack Tago (Knee) — back Finals Week 3; Luke Garner (Groin) — back Finals Week 3; Jack Cogger (Suspension) — back Finals Week 3; Nathan Cleary (Foot) — back Finals Week 3"
+      "news": "Paul Alamoti (Hamstring) — back Finals; Nathan Cleary (Foot) — back Finals Week 3; Jack Cogger (Suspension) — back Finals Week 3; Luke Garner (Groin) — back Finals Week 3; Izack Tago (Knee) — back Finals Week 3"
     },
     {
       "name": "Warriors",
@@ -79,13 +79,13 @@ window.NRL_DATA = {
       "L": 7,
       "PF": 662,
       "PA": 506,
-      "last5": 5,
+      "last5": 4,
       "home": {
-        "P": 12,
+        "P": 13,
         "W": 8,
-        "L": 4,
-        "PF": 344,
-        "PA": 315
+        "L": 5,
+        "PF": 364,
+        "PA": 351
       },
       "away": {
         "P": 13,
@@ -94,7 +94,7 @@ window.NRL_DATA = {
         "PF": 344,
         "PA": 207
       },
-      "news": "Tom Flegler (Concussion) — back Finals Week 3"
+      "news": null
     },
     {
       "name": "Roosters",
@@ -105,7 +105,7 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 619,
       "PA": 501,
-      "last5": 1,
+      "last5": 2,
       "home": {
         "P": 13,
         "W": 9,
@@ -114,13 +114,13 @@ window.NRL_DATA = {
         "PA": 241
       },
       "away": {
-        "P": 13,
-        "W": 8,
+        "P": 14,
+        "W": 9,
         "L": 5,
-        "PF": 360,
-        "PA": 289
+        "PF": 396,
+        "PA": 309
       },
-      "news": "Blake Steep (ACL) — back Next Season; Sam Walker (Ankle) — back Finals Week 3; Egan Butcher (Concussion) — back Finals Week 3"
+      "news": "Connor Watson (Head knock); Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 382,
         "PA": 308
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
+      "news": "Jacob Saifiti (Suspension) — back Next Season; Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -468,16 +468,7 @@ window.NRL_DATA = {
       "venue": "Suncorp Stadium",
       "city": "Brisbane",
       "kickoff": "2026-09-25T19:50:00+10:00",
-      "odds": {
-        "open": {
-          "home": 1.67,
-          "away": 2.2
-        },
-        "close": {
-          "home": 1.7,
-          "away": 2.15
-        }
-      },
+      "odds": null,
       "weather": null,
       "h2h": null,
       "tz": "Australia/Brisbane"
@@ -504,8 +495,80 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-25T14:59:01+10:00",
+  "generatedAt": "2026-09-25T23:48:23+10:00",
   "changes": [
+    {
+      "id": "r30-SYD-inj-connor-watson",
+      "fixture": "DOL-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Roosters: Connor Watson (Head knock) — new on the injury list.",
+      "pts": 3.2,
+      "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-DOL-fit-tom-flegler",
+      "fixture": "DOL-SYD",
+      "team": "DOL",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Dolphins: Tom Flegler is off the injury list.",
+      "pts": 0.6,
+      "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-SYD-fit-egan-butcher",
+      "fixture": "DOL-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Egan Butcher is off the injury list.",
+      "pts": 1.6,
+      "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-SYD-fit-sam-walker",
+      "fixture": "DOL-SYD",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Sam Walker is off the injury list.",
+      "pts": 3.2,
+      "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-DOL-in-jake-averillo",
+      "fixture": "DOL-SYD",
+      "team": "DOL",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Jake Averillo (Centre) named in the Dolphins 17.",
+      "pts": 1.9,
+      "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-DOL-out-felise-kaufusi",
+      "fixture": "DOL-SYD",
+      "team": "DOL",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Felise Kaufusi (Prop) is out of the Dolphins 17.",
+      "pts": 1.1,
+      "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
     {
       "id": "r30-DOL-SYD-line-1.70-2.15",
       "fixture": "DOL-SYD",
