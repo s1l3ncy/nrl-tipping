@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-26T06:02:01+10:00",
+  "generatedAt": "2026-09-26T08:50:07+10:00",
   "changes": [
     {
       "id": "r30-SYD-inj-connor-watson",
