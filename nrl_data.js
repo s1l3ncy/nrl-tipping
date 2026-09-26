@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-26T09:18:39+10:00",
+  "generatedAt": "2026-09-26T14:58:45+10:00",
   "changes": [
     {
       "id": "r30-SYD-inj-connor-watson",
@@ -580,19 +580,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-09-25T14:59:01+10:00",
       "rnd": 30
-    },
-    {
-      "id": "r30-DOL-SYD-line-1.70-2.17",
-      "fixture": "DOL-SYD",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Dolphins $1.70 → $1.70, Roosters $2.20 → $2.17. Market now 56% Dolphins (was 56%).",
-      "pts": null,
-      "ts": "2026-09-24T23:33:53+10:00",
-      "rnd": 30
     }
   ],
-  "changesSince": "2026-09-24T23:33:53+10:00"
+  "changesSince": "2026-09-25T14:59:01+10:00"
 };
