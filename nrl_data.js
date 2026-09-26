@@ -485,8 +485,8 @@ window.NRL_DATA = {
           "away": 3.8
         },
         "close": {
-          "home": 1.27,
-          "away": 3.8
+          "home": 1.28,
+          "away": 3.75
         }
       },
       "weather": null,
@@ -495,8 +495,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-26T14:58:45+10:00",
+  "generatedAt": "2026-09-26T20:11:21+10:00",
   "changes": [
+    {
+      "id": "r30-PEN-in-freddy-lussick",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "in",
+      "sev": 3,
+      "dir": "up",
+      "text": "Freddy Lussick (Hooker) named in the Panthers 17.",
+      "pts": 2.8,
+      "ts": "2026-09-26T20:11:21+10:00",
+      "rnd": 30
+    },
     {
       "id": "r30-SYD-inj-connor-watson",
       "fixture": "DOL-SYD",
@@ -507,6 +519,18 @@ window.NRL_DATA = {
       "text": "Roosters: Connor Watson (Head knock) — new on the injury list.",
       "pts": 3.2,
       "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-out-billy-scott",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Billy Scott (Hooker) is out of the Panthers 17.",
+      "pts": 2.0,
+      "ts": "2026-09-26T20:11:21+10:00",
       "rnd": 30
     },
     {
@@ -567,6 +591,18 @@ window.NRL_DATA = {
       "text": "Felise Kaufusi (Prop) is out of the Dolphins 17.",
       "pts": 1.1,
       "ts": "2026-09-25T23:48:23+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-NEW-line-1.28-3.75",
+      "fixture": "PEN-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.27 → $1.28, Knights $3.80 → $3.75. Market now 75% Panthers (was 75%).",
+      "pts": null,
+      "ts": "2026-09-26T20:11:21+10:00",
       "rnd": 30
     },
     {
