@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-26T21:43:13+10:00",
+  "generatedAt": "2026-09-26T23:06:15+10:00",
   "changes": [
     {
       "id": "r30-PEN-in-freddy-lussick",
