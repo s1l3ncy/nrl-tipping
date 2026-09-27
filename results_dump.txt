@@ -240,3 +240,4 @@ Roosters 46 - Sharks 10
 Warriors 10 - Knights 12
 Round 30
 Dolphins 20 - Roosters 36
+Panthers 14 - Knights 22
