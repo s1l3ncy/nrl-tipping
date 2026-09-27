@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Paul Alamoti (Hamstring) — back Finals; Izack Tago (Knee) — back Finals Week 3"
+      "news": "Blaize Talagi (Achilles); Nathan Cleary (Leg); Paul Alamoti (Hamstring) — back Finals; Jack Cogger (Suspension) — back Finals Week 3; Luke Garner (Groin) — back Finals Week 3; Izack Tago (Knee) — back Finals Week 3"
     },
     {
       "name": "Warriors",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 404,
         "PA": 322
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
+      "news": "Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -495,8 +495,44 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-27T19:10:16+10:00",
+  "generatedAt": "2026-09-27T20:42:53+10:00",
   "changes": [
+    {
+      "id": "r30-PEN-inj-blaize-talagi",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Panthers: Blaize Talagi (Achilles) — new on the injury list.",
+      "pts": 2.8,
+      "ts": "2026-09-27T20:42:53+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-inj-jack-cogger",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Panthers: Jack Cogger (Suspension) — back Finals Week 3 — new on the injury list.",
+      "pts": 2.5,
+      "ts": "2026-09-27T20:42:53+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-inj-nathan-cleary",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Panthers: Nathan Cleary (Leg) — new on the injury list.",
+      "pts": 4.3,
+      "ts": "2026-09-27T20:42:53+10:00",
+      "rnd": 30
+    },
     {
       "id": "r30-PEN-in-freddy-lussick",
       "fixture": "PEN-NEW",
@@ -507,6 +543,18 @@ window.NRL_DATA = {
       "text": "Freddy Lussick (Hooker) named in the Panthers 17.",
       "pts": 2.8,
       "ts": "2026-09-26T20:11:21+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-inj-luke-garner",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Panthers: Luke Garner (Groin) — back Finals Week 3 — new on the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-27T20:42:53+10:00",
       "rnd": 30
     },
     {
