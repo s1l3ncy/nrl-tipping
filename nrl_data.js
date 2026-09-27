@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-09-27",
+  "updated": "2026-09-28",
   "season": 2026,
   "round": 30,
   "roundName": "Finals Week 3",
@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-27T23:59:18+10:00",
+  "generatedAt": "2026-09-28T00:18:54+10:00",
   "changes": [
     {
       "id": "r30-PEN-inj-blaize-talagi",
