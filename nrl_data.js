@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Paul Alamoti (Hamstring) — back Finals; Nathan Cleary (Foot) — back Finals Week 3; Jack Cogger (Suspension) — back Finals Week 3; Luke Garner (Groin) — back Finals Week 3; Izack Tago (Knee) — back Finals Week 3"
+      "news": "Paul Alamoti (Hamstring) — back Finals; Izack Tago (Knee) — back Finals Week 3"
     },
     {
       "name": "Warriors",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 382,
         "PA": 308
       },
-      "news": "Jacob Saifiti (Suspension) — back Next Season; Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season"
+      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
     },
     {
       "name": "Cowboys",
@@ -485,8 +485,8 @@ window.NRL_DATA = {
           "away": 3.8
         },
         "close": {
-          "home": 1.28,
-          "away": 3.75
+          "home": 1.41,
+          "away": 2.95
         }
       },
       "weather": null,
@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-27T08:51:51+10:00",
+  "generatedAt": "2026-09-27T15:19:13+10:00",
   "changes": [
     {
       "id": "r30-PEN-in-freddy-lussick",
@@ -510,15 +510,51 @@ window.NRL_DATA = {
       "rnd": 30
     },
     {
-      "id": "r30-SYD-inj-connor-watson",
-      "fixture": "DOL-SYD",
-      "team": "SYD",
+      "id": "r30-PEN-NEW-line-1.41-2.95",
+      "fixture": "PEN-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 2,
+      "dir": "up",
+      "text": "Line moved — Panthers $1.28 → $1.41, Knights $3.75 → $2.95. Market now 68% Panthers (was 75%).",
+      "pts": null,
+      "ts": "2026-09-27T15:19:13+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-fit-jack-cogger",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
       "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Roosters: Connor Watson (Head knock) — new on the injury list.",
-      "pts": 3.2,
-      "ts": "2026-09-25T23:48:23+10:00",
+      "sev": 2,
+      "dir": "up",
+      "text": "Panthers: Jack Cogger is off the injury list.",
+      "pts": 2.5,
+      "ts": "2026-09-27T15:19:13+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-fit-luke-garner",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Panthers: Luke Garner is off the injury list.",
+      "pts": 1.8,
+      "ts": "2026-09-27T15:19:13+10:00",
+      "rnd": 30
+    },
+    {
+      "id": "r30-PEN-fit-nathan-cleary",
+      "fixture": "PEN-NEW",
+      "team": "PEN",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Panthers: Nathan Cleary is off the injury list.",
+      "pts": 4.3,
+      "ts": "2026-09-27T15:19:13+10:00",
       "rnd": 30
     },
     {
@@ -534,66 +570,6 @@ window.NRL_DATA = {
       "rnd": 30
     },
     {
-      "id": "r30-DOL-fit-tom-flegler",
-      "fixture": "DOL-SYD",
-      "team": "DOL",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Dolphins: Tom Flegler is off the injury list.",
-      "pts": 0.6,
-      "ts": "2026-09-25T23:48:23+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-SYD-fit-egan-butcher",
-      "fixture": "DOL-SYD",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Egan Butcher is off the injury list.",
-      "pts": 1.6,
-      "ts": "2026-09-25T23:48:23+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-SYD-fit-sam-walker",
-      "fixture": "DOL-SYD",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Roosters: Sam Walker is off the injury list.",
-      "pts": 3.2,
-      "ts": "2026-09-25T23:48:23+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-DOL-in-jake-averillo",
-      "fixture": "DOL-SYD",
-      "team": "DOL",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Jake Averillo (Centre) named in the Dolphins 17.",
-      "pts": 1.9,
-      "ts": "2026-09-25T23:48:23+10:00",
-      "rnd": 30
-    },
-    {
-      "id": "r30-DOL-out-felise-kaufusi",
-      "fixture": "DOL-SYD",
-      "team": "DOL",
-      "cat": "out",
-      "sev": 2,
-      "dir": "down",
-      "text": "Felise Kaufusi (Prop) is out of the Dolphins 17.",
-      "pts": 1.1,
-      "ts": "2026-09-25T23:48:23+10:00",
-      "rnd": 30
-    },
-    {
       "id": "r30-PEN-NEW-line-1.28-3.75",
       "fixture": "PEN-NEW",
       "team": "NEW",
@@ -606,5 +582,5 @@ window.NRL_DATA = {
       "rnd": 30
     }
   ],
-  "changesSince": "2026-09-25T23:48:23+10:00"
+  "changesSince": "2026-09-26T20:11:21+10:00"
 };
