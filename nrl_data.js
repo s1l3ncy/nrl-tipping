@@ -29,11 +29,11 @@ window.NRL_DATA = {
       "PA": 347,
       "last5": 4,
       "home": {
-        "P": 13,
+        "P": 14,
         "W": 11,
-        "L": 2,
-        "PF": 367,
-        "PA": 166
+        "L": 3,
+        "PF": 381,
+        "PA": 188
       },
       "away": {
         "P": 12,
@@ -192,11 +192,11 @@ window.NRL_DATA = {
         "PA": 303
       },
       "away": {
-        "P": 14,
-        "W": 8,
+        "P": 15,
+        "W": 9,
         "L": 6,
-        "PF": 382,
-        "PA": 308
+        "PF": 404,
+        "PA": 322
       },
       "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
     },
@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-27T15:19:13+10:00",
+  "generatedAt": "2026-09-27T19:10:16+10:00",
   "changes": [
     {
       "id": "r30-PEN-in-freddy-lussick",
