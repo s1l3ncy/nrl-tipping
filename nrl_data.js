@@ -495,7 +495,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-27T23:18:07+10:00",
+  "generatedAt": "2026-09-27T23:59:18+10:00",
   "changes": [
     {
       "id": "r30-PEN-inj-blaize-talagi",

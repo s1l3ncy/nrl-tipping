@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-27T13:18:11.083Z",
+ "updated": "2026-09-27T13:59:24.826Z",
  "tips": [
   {
    "season": 2026,
@@ -580,18 +580,5 @@ window.NRL_TIPLOG = {
    "ts": "2026-09-27T05:19:16.842Z"
   }
  ],
- "flips": [
-  {
-   "season": 2026,
-   "round": 30,
-   "home": "PEN",
-   "away": "NEW",
-   "from": "PEN",
-   "to": "NEW",
-   "fromProb": 74,
-   "toProb": 26,
-   "why": "Built on Knights missing Dylan Brown and 2 more, plus Panthers rating the stronger side. Panthers being without Paul Alamoti (not named) pulls it back. The bookies read it the same way.",
-   "ts": "2026-09-25T13:48:26.770Z"
-  }
- ]
+ "flips": []
 };
