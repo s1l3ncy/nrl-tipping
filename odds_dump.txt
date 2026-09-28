@@ -1,4 +1,4 @@
 # Round 31 head-to-head odds, median of the Australian books via The Odds API.
-# Fetched 2026-09-29T02:45:30. Decimal odds; a fixture is omitted entirely until its market opens.
+# Fetched 2026-09-29T09:56:56. Decimal odds; a fixture is omitted entirely until its market opens.
 # Median of 11 Australian bookmaker(s) per price (11 book quotes across 1 fixtures).
 Roosters v Knights: 1.44 / 2.80
