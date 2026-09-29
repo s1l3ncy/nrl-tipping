@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 404,
         "PA": 322
       },
-      "news": "Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season"
+      "news": "Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
     {
       "name": "Cowboys",
@@ -484,7 +484,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-29T20:41:45+10:00",
-  "changes": [],
-  "changesSince": "2026-09-29T10:22:41+10:00"
+  "generatedAt": "2026-09-29T23:10:22+10:00",
+  "changes": [
+    {
+      "id": "r31-NEW-inj-phoenix-crossland",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Knights: Phoenix Crossland (Suspension) — back World Cup — new on the injury list.",
+      "pts": 3.2,
+      "ts": "2026-09-29T23:10:22+10:00",
+      "rnd": 31
+    }
+  ],
+  "changesSince": "2026-09-29T20:41:45+10:00"
 };
