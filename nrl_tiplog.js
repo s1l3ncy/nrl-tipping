@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-09-28T23:57:24.320Z",
+ "updated": "2026-09-29T00:22:43.964Z",
  "tips": [
   {
    "season": 2026,
@@ -589,7 +589,7 @@ window.NRL_TIPLOG = {
    "mkt": 34,
    "why": "Mostly Knights missing Dylan Brown and 2 more, plus Roosters rating the stronger side. Roosters sweating on Connor Watson and 1 more pulls it back. The bookies read it the same way.",
    "ko": "2026-10-04T19:30:00+11:00",
-   "ts": "2026-09-28T23:57:24.320Z"
+   "ts": "2026-09-29T00:22:43.964Z"
   }
  ],
  "flips": []
