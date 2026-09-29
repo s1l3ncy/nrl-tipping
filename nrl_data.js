@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-29T10:22:41+10:00",
+  "generatedAt": "2026-09-29T20:41:45+10:00",
   "changes": [],
-  "changesSince": "2026-09-29T09:57:21+10:00"
+  "changesSince": "2026-09-29T10:22:41+10:00"
 };
