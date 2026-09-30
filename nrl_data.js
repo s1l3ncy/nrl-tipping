@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-01T06:49:41+10:00",
+  "generatedAt": "2026-10-01T09:12:58+10:00",
   "changes": [
     {
       "id": "r31-NEW-inj-phoenix-crossland",
