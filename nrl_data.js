@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.44,
-          "away": 2.8
+          "away": 2.85
         }
       },
       "weather": null,
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-09-30T09:44:03+10:00",
+  "generatedAt": "2026-09-30T15:33:14+10:00",
   "changes": [
     {
       "id": "r31-NEW-inj-phoenix-crossland",
@@ -496,6 +496,18 @@ window.NRL_DATA = {
       "text": "Knights: Phoenix Crossland (Suspension) — back World Cup — new on the injury list.",
       "pts": 3.2,
       "ts": "2026-09-29T23:10:22+10:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-SYD-NEW-line-1.44-2.85",
+      "fixture": "SYD-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Roosters $1.44 → $1.44, Knights $2.80 → $2.85. Market now 66% Roosters (was 66%).",
+      "pts": null,
+      "ts": "2026-09-30T15:33:14+10:00",
       "rnd": 31
     }
   ],
