@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-02T01:27:49+10:00",
+  "generatedAt": "2026-10-02T01:40:45+10:00",
   "changes": [
     {
       "id": "r31-SYD-NEW-line-1.44-2.85",
