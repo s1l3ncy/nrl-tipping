@@ -484,20 +484,8 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-01T09:12:58+10:00",
+  "generatedAt": "2026-10-01T15:54:31+10:00",
   "changes": [
-    {
-      "id": "r31-NEW-inj-phoenix-crossland",
-      "fixture": "SYD-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Knights: Phoenix Crossland (Suspension) — back World Cup — new on the injury list.",
-      "pts": 3.2,
-      "ts": "2026-09-29T23:10:22+10:00",
-      "rnd": 31
-    },
     {
       "id": "r31-SYD-NEW-line-1.44-2.85",
       "fixture": "SYD-NEW",
@@ -511,5 +499,5 @@ window.NRL_DATA = {
       "rnd": 31
     }
   ],
-  "changesSince": "2026-09-29T23:10:22+10:00"
+  "changesSince": "2026-09-30T15:33:14+10:00"
 };
