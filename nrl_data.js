@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-02",
+  "updated": "2026-10-03",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 404,
         "PA": 322
       },
-      "news": "Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
+      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
     {
       "name": "Cowboys",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-02T15:37:50+10:00",
+  "generatedAt": "2026-10-03T00:44:54+10:00",
   "changes": [
     {
       "id": "r31-SYD-NEW-line-1.45-2.80",
