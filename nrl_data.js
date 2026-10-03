@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.44,
-          "away": 2.8
+          "home": 1.45,
+          "away": 2.85
         }
       },
       "weather": null,
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-04T09:26:31+11:00",
+  "generatedAt": "2026-10-04T10:05:12+11:00",
   "changes": [
     {
       "id": "r31-NEW-out-phoenix-crossland",
@@ -532,6 +532,18 @@ window.NRL_DATA = {
       "text": "Benaiah Ioelu (Hooker) named in the Roosters 17.",
       "pts": 2.0,
       "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-SYD-NEW-line-1.45-2.85",
+      "fixture": "SYD-NEW",
+      "team": null,
+      "cat": "line",
+      "sev": 1,
+      "dir": "neutral",
+      "text": "Line moved — Roosters $1.44 → $1.45, Knights $2.80 → $2.85. Market now 66% Roosters (was 66%).",
+      "pts": null,
+      "ts": "2026-10-04T10:05:12+11:00",
       "rnd": 31
     },
     {
