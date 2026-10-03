@@ -7,7 +7,7 @@
 window.NRL_LINEUPS = {
   "round": 31,
   "teams": {
-    "NEW": ["Kalyn Ponga", "Dominic Young", "Dane Gagai", "Bradman Best", "Greg Marzhew", "Fletcher Sharpe", "Sandon Smith", "Tyson Frizell", "Phoenix Crossland", "Cody Hopwood", "Jermaine McEwen", "Jermaine Mcewen", "Francis Manuleleua", "Mat Croker", "Harrison Graham", "Lachlan Crouch", "Pasami Saulo", "Dylan Lucas", "Fletcher Hunt", "Thomas Cant"],
-    "SYD": ["James Tedesco", "Daniel Tupou", "Billy Smith", "Robert Toia", "Mark Nawaqanitawase", "Daly Cherry-Evans", "Daly Cherry Evans", "Sam Walker", "Naufahu Whyte", "Reece Robson", "Lindsay Collins", "Salesi Foketi", "Siua Wong", "Victor Radley", "Connor Watson", "Angus Crichton", "Nat Butcher", "Spencer Leniu", "Hugo Savala", "Cody Ramsey"]
+    "NEW": ["Kalyn Ponga", "Dominic Young", "Dane Gagai", "Bradman Best", "Greg Marzhew", "Fletcher Sharpe", "Sandon Smith", "Tyson Frizell", "Harrison Graham", "Cody Hopwood", "Jermaine McEwen", "Jermaine Mcewen", "Francis Manuleleua", "Mat Croker", "Lachlan Crouch", "Pasami Saulo", "Dylan Lucas", "Fletcher Hunt", "Thomas Cant", "Kyle McCarthy", "Kyle Mccarthy"],
+    "SYD": ["James Tedesco", "Daniel Tupou", "Billy Smith", "Robert Toia", "Mark Nawaqanitawase", "Daly Cherry-Evans", "Daly Cherry Evans", "Sam Walker", "Naufahu Whyte", "Reece Robson", "Lindsay Collins", "Salesi Foketi", "Siua Wong", "Victor Radley", "Angus Crichton", "Nat Butcher", "Spencer Leniu", "Hugo Savala", "Cody Ramsey", "Benaiah Ioelu"]
   }
 };

@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.44,
-          "away": 2.85
+          "away": 2.8
         }
       },
       "weather": null,
@@ -484,8 +484,68 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-04T06:14:11+11:00",
+  "generatedAt": "2026-10-04T09:26:31+11:00",
   "changes": [
+    {
+      "id": "r31-NEW-out-phoenix-crossland",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "out",
+      "sev": 3,
+      "dir": "down",
+      "text": "Phoenix Crossland (Hooker) is out of the Knights 17.",
+      "pts": 3.2,
+      "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-SYD-out-connor-watson",
+      "fixture": "SYD-NEW",
+      "team": "SYD",
+      "cat": "out",
+      "sev": 3,
+      "dir": "down",
+      "text": "Connor Watson (Hooker) is out of the Roosters 17.",
+      "pts": 3.2,
+      "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-NEW-in-kyle-mccarthy",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Kyle Mccarthy (Centre) named in the Knights 17.",
+      "pts": 1.2,
+      "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-SYD-in-benaiah-ioelu",
+      "fixture": "SYD-NEW",
+      "team": "SYD",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Benaiah Ioelu (Hooker) named in the Roosters 17.",
+      "pts": 2.0,
+      "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-SYD-NEW-line-1.44-2.80",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.44 → $1.44, Knights $2.85 → $2.80. Market now 66% Roosters (was 66%).",
+      "pts": null,
+      "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
     {
       "id": "r31-SYD-NEW-line-1.44-2.85",
       "fixture": "SYD-NEW",
