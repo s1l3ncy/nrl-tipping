@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -474,7 +474,7 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.45,
+          "home": 1.44,
           "away": 2.85
         }
       },
@@ -484,8 +484,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-03T23:23:34+10:00",
+  "generatedAt": "2026-10-04T00:16:05+10:00",
   "changes": [
+    {
+      "id": "r31-SYD-NEW-line-1.44-2.85",
+      "fixture": "SYD-NEW",
+      "team": "SYD",
+      "cat": "line",
+      "sev": 1,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.45 → $1.44, Knights $2.85 → $2.85. Market now 66% Roosters (was 66%).",
+      "pts": null,
+      "ts": "2026-10-04T00:16:05+10:00",
+      "rnd": 31
+    },
     {
       "id": "r31-SYD-NEW-line-1.45-2.80",
       "fixture": "SYD-NEW",
