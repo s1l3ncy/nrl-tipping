@@ -475,7 +475,7 @@ window.NRL_DATA = {
         },
         "close": {
           "home": 1.45,
-          "away": 2.8
+          "away": 2.85
         }
       },
       "weather": null,
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-03T15:19:28+10:00",
+  "generatedAt": "2026-10-03T20:34:38+10:00",
   "changes": [
     {
       "id": "r31-SYD-NEW-line-1.45-2.80",
