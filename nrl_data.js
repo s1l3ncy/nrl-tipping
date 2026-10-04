@@ -474,8 +474,8 @@ window.NRL_DATA = {
           "away": 2.8
         },
         "close": {
-          "home": 1.42,
-          "away": 3.0
+          "home": 1.7,
+          "away": 2.13
         }
       },
       "weather": null,
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-04T16:53:58+11:00",
+  "generatedAt": "2026-10-04T20:37:54+11:00",
   "changes": [
     {
       "id": "r31-NEW-out-phoenix-crossland",
@@ -508,6 +508,42 @@ window.NRL_DATA = {
       "text": "Connor Watson (Hooker) is out of the Roosters 17.",
       "pts": 3.2,
       "ts": "2026-10-04T09:26:31+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-SYD-NEW-line-1.70-2.13",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "line",
+      "sev": 2,
+      "dir": "up",
+      "text": "Line moved — Roosters $1.42 → $1.70, Knights $3.00 → $2.13. Market now 56% Roosters (was 68%).",
+      "pts": null,
+      "ts": "2026-10-04T20:37:54+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-NEW-out-kyle-mccarthy",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "out",
+      "sev": 2,
+      "dir": "down",
+      "text": "Kyle Mccarthy (Centre) is out of the Knights 17.",
+      "pts": 1.2,
+      "ts": "2026-10-04T20:37:54+11:00",
+      "rnd": 31
+    },
+    {
+      "id": "r31-NEW-in-diesel-hagan",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "in",
+      "sev": 2,
+      "dir": "up",
+      "text": "Diesel Hagan named in the Knights 17.",
+      "pts": 0.6,
+      "ts": "2026-10-04T20:37:54+11:00",
       "rnd": 31
     },
     {
