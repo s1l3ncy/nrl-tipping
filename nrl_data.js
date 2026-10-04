@@ -105,13 +105,13 @@ window.NRL_DATA = {
       "L": 8,
       "PF": 619,
       "PA": 501,
-      "last5": 2,
+      "last5": 3,
       "home": {
-        "P": 13,
-        "W": 9,
+        "P": 14,
+        "W": 10,
         "L": 4,
-        "PF": 317,
-        "PA": 241
+        "PF": 336,
+        "PA": 259
       },
       "away": {
         "P": 14,
@@ -192,11 +192,11 @@ window.NRL_DATA = {
         "PA": 303
       },
       "away": {
-        "P": 15,
+        "P": 16,
         "W": 9,
-        "L": 6,
-        "PF": 404,
-        "PA": 322
+        "L": 7,
+        "PF": 422,
+        "PA": 341
       },
       "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-04T20:37:54+11:00",
+  "generatedAt": "2026-10-04T22:16:09+11:00",
   "changes": [
     {
       "id": "r31-NEW-out-phoenix-crossland",
