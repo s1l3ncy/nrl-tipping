@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-05",
+  "updated": "2026-10-06",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -484,32 +484,8 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-05T16:41:13+11:00",
+  "generatedAt": "2026-10-06T04:09:23+11:00",
   "changes": [
-    {
-      "id": "r31-NEW-out-phoenix-crossland",
-      "fixture": "SYD-NEW",
-      "team": "NEW",
-      "cat": "out",
-      "sev": 3,
-      "dir": "down",
-      "text": "Phoenix Crossland (Hooker) is out of the Knights 17.",
-      "pts": 3.2,
-      "ts": "2026-10-04T09:26:31+11:00",
-      "rnd": 31
-    },
-    {
-      "id": "r31-SYD-out-connor-watson",
-      "fixture": "SYD-NEW",
-      "team": "SYD",
-      "cat": "out",
-      "sev": 3,
-      "dir": "down",
-      "text": "Connor Watson (Hooker) is out of the Roosters 17.",
-      "pts": 3.2,
-      "ts": "2026-10-04T09:26:31+11:00",
-      "rnd": 31
-    },
     {
       "id": "r31-SYD-NEW-line-1.70-2.13",
       "fixture": "SYD-NEW",
@@ -547,30 +523,6 @@ window.NRL_DATA = {
       "rnd": 31
     },
     {
-      "id": "r31-NEW-in-kyle-mccarthy",
-      "fixture": "SYD-NEW",
-      "team": "NEW",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Kyle Mccarthy (Centre) named in the Knights 17.",
-      "pts": 1.2,
-      "ts": "2026-10-04T09:26:31+11:00",
-      "rnd": 31
-    },
-    {
-      "id": "r31-SYD-in-benaiah-ioelu",
-      "fixture": "SYD-NEW",
-      "team": "SYD",
-      "cat": "in",
-      "sev": 2,
-      "dir": "up",
-      "text": "Benaiah Ioelu (Hooker) named in the Roosters 17.",
-      "pts": 2.0,
-      "ts": "2026-10-04T09:26:31+11:00",
-      "rnd": 31
-    },
-    {
       "id": "r31-SYD-NEW-line-1.42-3.00",
       "fixture": "SYD-NEW",
       "team": "SYD",
@@ -581,31 +533,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-10-04T16:53:58+11:00",
       "rnd": 31
-    },
-    {
-      "id": "r31-SYD-NEW-line-1.45-2.85",
-      "fixture": "SYD-NEW",
-      "team": null,
-      "cat": "line",
-      "sev": 1,
-      "dir": "neutral",
-      "text": "Line moved — Roosters $1.44 → $1.45, Knights $2.80 → $2.85. Market now 66% Roosters (was 66%).",
-      "pts": null,
-      "ts": "2026-10-04T10:05:12+11:00",
-      "rnd": 31
-    },
-    {
-      "id": "r31-SYD-NEW-line-1.44-2.80",
-      "fixture": "SYD-NEW",
-      "team": "NEW",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.44 → $1.44, Knights $2.85 → $2.80. Market now 66% Roosters (was 66%).",
-      "pts": null,
-      "ts": "2026-10-04T09:26:31+11:00",
-      "rnd": 31
     }
   ],
-  "changesSince": "2026-10-04T09:26:31+11:00"
+  "changesSince": "2026-10-04T16:53:58+11:00"
 };
