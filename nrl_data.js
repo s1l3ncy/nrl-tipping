@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-05T10:11:00+11:00",
+  "generatedAt": "2026-10-05T16:41:13+11:00",
   "changes": [
     {
       "id": "r31-NEW-out-phoenix-crossland",
@@ -605,19 +605,7 @@ window.NRL_DATA = {
       "pts": null,
       "ts": "2026-10-04T09:26:31+11:00",
       "rnd": 31
-    },
-    {
-      "id": "r31-SYD-NEW-line-1.44-2.85",
-      "fixture": "SYD-NEW",
-      "team": "SYD",
-      "cat": "line",
-      "sev": 1,
-      "dir": "up",
-      "text": "Line moved — Roosters $1.45 → $1.44, Knights $2.85 → $2.85. Market now 66% Roosters (was 66%).",
-      "pts": null,
-      "ts": "2026-10-04T00:16:05+10:00",
-      "rnd": 31
     }
   ],
-  "changesSince": "2026-10-04T00:16:05+10:00"
+  "changesSince": "2026-10-04T09:26:31+11:00"
 };
