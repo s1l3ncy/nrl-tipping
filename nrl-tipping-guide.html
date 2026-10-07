@@ -3031,8 +3031,10 @@ function renderLiveBits(){
    app must never display a pick for a game whose kick-off hasn't passed —
    don't "fix" the strip to show upcoming picks, that's cheating by API bug.
    Display names only — never surname fields the API also carries. */
-const COMP_ID=0, COMP_LADDER=0;   // the comp · set COMP_ID=0 to disable the feature
-const COMP_ME='the player';                        // the owner's footytips display name. Must match the API's
+const COMP_ID=0, COMP_LADDER=0;   // live poll off: the comp IDs are private (Actions secrets), so the page reads nrl_comp.js only
+const COMP_ON=true;               // comp-aware strategy on/off (used to be !!COMP_ID)
+const COMP_ME='';                                // empty: "me" is the me-flag the pipeline writes into nrl_comp.js
+                                                 // (from the FOOTYTIPS_ME secret). Was: must match the API's
                                                  // displayName EXACTLY and stay in lockstep with FOOTYTIPS_ME in
                                                  // cloud_fetch.py — the API's currentUser flag is always false on
                                                  // anonymous calls, so "you" is resolved by name.
@@ -3080,7 +3082,7 @@ let COMP=compFromFile(), COMP_STAMP=COMP?JSON.stringify(COMP):'', COMP_LAST=0, C
    carries a stale me-flag the page silently plays for that person instead, and
    the tips are then optimised for the wrong protagonist with nothing on screen
    to say so (2026-09-12 audit). */
-if(COMP&&COMP.members&&COMP.members.length&&!COMP.members.some(m=>m.name===COMP_ME))
+if(COMP_ME&&COMP&&COMP.members&&COMP.members.length&&!COMP.members.some(m=>m.name===COMP_ME))
   console.warn('[comp] COMP_ME="'+COMP_ME+'" matches no ladder member ('+
     COMP.members.map(m=>m.name).join(', ')+') — '+
     (COMP.members.some(m=>m.me)
@@ -3199,7 +3201,7 @@ function predictPick(name,p){
    changes for either: it shows HER plan. To re-gate strategy surfaces, make
    this read a setting again — every surface checks it. Rival profiles ship
    inside nrl_comp.js (pipeline-computed); no client-side history fetching. */
-function getStrat(){ return !!COMP_ID; }
+function getStrat(){ return COMP_ON; }
 /* Predicted picks, one chip per SIDE with first names — shown on pre-kick-off
    cards only (once a game locks the REAL picks strip takes over), and only in
    strategy mode. Grouped by side so five rivals never need five chips. */

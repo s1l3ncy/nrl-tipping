@@ -1379,14 +1379,18 @@ def existing_odds_round(path):
 #     pick they have made this season: P(tips home) = sigmoid(a + b*logit(pHome)
 #     + loy*(loyaltyHome - loyaltyAway)). The page evaluates the fitted numbers;
 #     it never fits. Absent => the page falls back to predictPick().
-FOOTYTIPS_COMP_ID = 0
-FOOTYTIPS_LADDER_ID = 0
+# The comp IDs and the owner's display name are repo SECRETS, not code: the
+# footytips API is unauthenticated, so publishing the IDs would publish every
+# member's full name. Unset => the comp fetch is skipped and the committed
+# nrl_comp.js is kept.
+FOOTYTIPS_COMP_ID = int(os.environ.get("FOOTYTIPS_COMP_ID") or 0)
+FOOTYTIPS_LADDER_ID = int(os.environ.get("FOOTYTIPS_LADDER_ID") or 0)
 # The owner's footytips display name — must match the API's displayName EXACTLY
 # and must stay in lockstep with COMP_ME in nrl-tipping-guide.html, or the page
 # and this file disagree about who "me" is and the freeze tips for the wrong
 # person. (The page defends itself: compFromFile() re-derives `me` from COMP_ME
 # by name and only falls back to this flag when no name matches.)
-FOOTYTIPS_ME = "the player"              # anonymous API never sets currentUser
+FOOTYTIPS_ME = os.environ.get("FOOTYTIPS_ME", "")   # anonymous API never sets currentUser
 FOOTYTIPS_URL = ("https://api.footytips.espn.com.au/competitions/{comp}/sports/"
                  "rugby-league/leagues/nrl/game-types/tipping/ladders/{lad}/rounds/{rnd}?view=tips")
 LEARNED_FILE = "nrl_learned.js"
@@ -1930,7 +1934,7 @@ def main():
     # freeze step read the same snapshot. The front-end still live-refreshes
     # between runs via its own poll of the same endpoint.
     try:
-        comp_js = build_comp_js(rnd)
+        comp_js = build_comp_js(rnd) if (FOOTYTIPS_COMP_ID and FOOTYTIPS_LADDER_ID) else None
         if comp_js:
             write("nrl_comp.js", comp_js)
             print("[cloud_fetch] wrote nrl_comp.js")

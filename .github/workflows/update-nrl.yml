@@ -86,6 +86,11 @@ jobs:
       - name: Fetch source pages
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          # The footytips comp IDs + owner display name are secrets so they never
+          # appear in the public code. Unset => comp refresh skipped (non-fatal).
+          FOOTYTIPS_COMP_ID: ${{ secrets.FOOTYTIPS_COMP_ID }}
+          FOOTYTIPS_LADDER_ID: ${{ secrets.FOOTYTIPS_LADDER_ID }}
+          FOOTYTIPS_ME: ${{ secrets.FOOTYTIPS_ME }}
         run: python cloud_fetch.py
 
       # Weather was retired 2026-08-04 (audit): the model no longer reads it and
