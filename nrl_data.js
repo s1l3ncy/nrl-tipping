@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-08T02:35:55+11:00",
+  "generatedAt": "2026-10-08T08:21:01+11:00",
   "changes": [
     {
       "id": "r31-SYD-inj-lindsay-collins",
