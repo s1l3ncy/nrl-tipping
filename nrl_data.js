@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 396,
         "PA": 309
       },
-      "news": "Blake Steep (ACL) — back Next Season; Connor Watson (Concussion) — back Next Season"
+      "news": "Lindsay Collins (Foot) — back Next Season; Blake Steep (ACL) — back Next Season; Connor Watson (Concussion) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -484,7 +484,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-07T10:49:02+11:00",
-  "changes": [],
-  "changesSince": "2026-10-07T10:16:30+11:00"
+  "generatedAt": "2026-10-07T16:55:17+11:00",
+  "changes": [
+    {
+      "id": "r31-SYD-inj-lindsay-collins",
+      "fixture": "SYD-NEW",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "down",
+      "text": "Roosters: Lindsay Collins (Foot) — back Next Season — new on the injury list.",
+      "pts": 1.2,
+      "ts": "2026-10-07T16:55:17+11:00",
+      "rnd": 31
+    }
+  ],
+  "changesSince": "2026-10-07T10:49:02+11:00"
 };
