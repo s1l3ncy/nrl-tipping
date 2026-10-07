@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-07",
+  "updated": "2026-10-08",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-07T16:55:17+11:00",
+  "generatedAt": "2026-10-08T02:35:55+11:00",
   "changes": [
     {
       "id": "r31-SYD-inj-lindsay-collins",
@@ -499,5 +499,5 @@ window.NRL_DATA = {
       "rnd": 31
     }
   ],
-  "changesSince": "2026-10-07T10:49:02+11:00"
+  "changesSince": "2026-10-07T16:55:17+11:00"
 };
