@@ -484,20 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-09T02:53:00+11:00",
-  "changes": [
-    {
-      "id": "r31-SYD-inj-lindsay-collins",
-      "fixture": "SYD-NEW",
-      "team": "SYD",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "down",
-      "text": "Roosters: Lindsay Collins (Foot) — back Next Season — new on the injury list.",
-      "pts": 1.2,
-      "ts": "2026-10-07T16:55:17+11:00",
-      "rnd": 31
-    }
-  ],
-  "changesSince": "2026-10-07T16:55:17+11:00"
+  "generatedAt": "2026-10-09T08:22:34+11:00",
+  "changes": [],
+  "changesSince": "2026-10-09T02:53:00+11:00"
 };
