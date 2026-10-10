@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-10",
+  "updated": "2026-10-11",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-10T23:59:11+11:00",
+  "generatedAt": "2026-10-11T01:30:22+11:00",
   "changes": [],
-  "changesSince": "2026-10-10T22:20:49+11:00"
+  "changesSince": "2026-10-10T23:59:11+11:00"
 };
