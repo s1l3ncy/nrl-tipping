@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-15",
+  "updated": "2026-10-16",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 320,
         "PA": 323
       },
-      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Toby Rudolf (Knee) — back Pre-Season Challenge; Braydon Trindall (Shoulder) — back Pre-Season Challenge"
+      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Braydon Trindall (Shoulder) — back Pre-Season Challenge; Toby Rudolf (Knee) — back Pre-Season Challenge"
     },
     {
       "name": "Rabbitohs",
@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Ashton Ward (Hamstring) — back Next Season; Cody Walker (Calf) — back Next Season; Euan Aitken (Shoulder) — back Next Season"
+      "news": "Euan Aitken (Shoulder) — back Next Season; Cody Walker (Calf) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Knights",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 422,
         "PA": 341
       },
-      "news": "Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
+      "news": "Kalyn Ponga (Arm); Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Jacob Saifiti (Suspension) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
     {
       "name": "Cowboys",
@@ -276,7 +276,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 302
       },
-      "news": "Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Jahrome Hughes (Hamstring) — back World Cup"
+      "news": "Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season"
+      "news": "Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -354,7 +354,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
+      "news": "Mitchell Moses (Calf); Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
     },
     {
       "name": "Broncos",
@@ -380,7 +380,7 @@ window.NRL_DATA = {
         "PF": 235,
         "PA": 326
       },
-      "news": "Cory Paix (Shoulder) — back Next Season; Blake Mozer (Head knock) — back Next Season; Brendan Piakura (Concussion) — back Next Season; Preston Riki (Ankle) — back Next Season; Reece Walsh (Ankle) — back World Cup"
+      "news": "Cory Paix (Shoulder) — back Next Season; Preston Riki (Ankle) — back Next Season; Brendan Piakura (Concussion) — back Next Season; Blake Mozer (Head knock) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -458,7 +458,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Valentine Holmes (Ankle) — back World Cup; Jaydn Su'A (Pectoral) — back World Cup"
+      "news": "Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Hayden Buchanan (Shoulder) — back Next Season; Valentine Holmes (Ankle) — back World Cup; Jaydn Su'A (Pectoral) — back World Cup"
     }
   ],
   "fixtures": [
@@ -484,7 +484,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-15T15:48:02+11:00",
-  "changes": [],
-  "changesSince": "2026-10-15T10:18:17+11:00"
+  "generatedAt": "2026-10-16T00:29:23+11:00",
+  "changes": [
+    {
+      "id": "r31-NEW-inj-kalyn-ponga",
+      "fixture": "SYD-NEW",
+      "team": "NEW",
+      "cat": "injury",
+      "sev": 3,
+      "dir": "down",
+      "text": "Knights: Kalyn Ponga (Arm) — new on the injury list.",
+      "pts": 3.7,
+      "ts": "2026-10-16T00:29:23+11:00",
+      "rnd": 31
+    }
+  ],
+  "changesSince": "2026-10-15T15:48:02+11:00"
 };
