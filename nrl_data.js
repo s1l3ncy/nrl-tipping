@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-17T06:35:24+11:00",
+  "generatedAt": "2026-10-17T09:12:26+11:00",
   "changes": [
     {
       "id": "r31-NEW-inj-kalyn-ponga",
