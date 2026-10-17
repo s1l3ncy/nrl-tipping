@@ -484,20 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-17T09:53:47+11:00",
-  "changes": [
-    {
-      "id": "r31-NEW-inj-kalyn-ponga",
-      "fixture": "SYD-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 3,
-      "dir": "down",
-      "text": "Knights: Kalyn Ponga (Arm) — new on the injury list.",
-      "pts": 3.7,
-      "ts": "2026-10-16T00:29:23+11:00",
-      "rnd": 31
-    }
-  ],
-  "changesSince": "2026-10-16T00:29:23+11:00"
+  "generatedAt": "2026-10-17T15:34:49+11:00",
+  "changes": [],
+  "changesSince": "2026-10-17T09:53:47+11:00"
 };
