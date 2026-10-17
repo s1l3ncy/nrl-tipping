@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-17T23:14:40+11:00",
+  "generatedAt": "2026-10-17T23:55:40+11:00",
   "changes": [
     {
       "id": "r31-NEW-fit-jacob-saifiti",
