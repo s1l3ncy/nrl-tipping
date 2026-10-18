@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-18",
+  "updated": "2026-10-19",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-18T23:48:44+11:00",
+  "generatedAt": "2026-10-19T05:40:40+11:00",
   "changes": [
     {
       "id": "r31-NEW-fit-jacob-saifiti",
