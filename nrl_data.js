@@ -484,20 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-19T09:27:56+11:00",
-  "changes": [
-    {
-      "id": "r31-NEW-fit-jacob-saifiti",
-      "fixture": "SYD-NEW",
-      "team": "NEW",
-      "cat": "injury",
-      "sev": 2,
-      "dir": "up",
-      "text": "Knights: Jacob Saifiti is off the injury list.",
-      "pts": 1.1,
-      "ts": "2026-10-17T22:07:59+11:00",
-      "rnd": 31
-    }
-  ],
-  "changesSince": "2026-10-17T22:07:59+11:00"
+  "generatedAt": "2026-10-19T15:48:15+11:00",
+  "changes": [],
+  "changesSince": "2026-10-19T09:27:56+11:00"
 };
