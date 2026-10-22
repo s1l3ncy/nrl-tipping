@@ -94,7 +94,7 @@ window.NRL_DATA = {
         "PF": 344,
         "PA": 207
       },
-      "news": null
+      "news": "Isaiya Katoa (Ankle) — back World Cup"
     },
     {
       "name": "Roosters",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 320,
         "PA": 323
       },
-      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Braydon Trindall (Shoulder) — back Pre-Season Challenge; Toby Rudolf (Knee) — back Pre-Season Challenge"
+      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Toby Rudolf (Knee) — back Pre-Season Challenge; Braydon Trindall (Shoulder) — back Pre-Season Challenge"
     },
     {
       "name": "Rabbitohs",
@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Euan Aitken (Shoulder) — back Next Season; Cody Walker (Calf) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
+      "news": "Ashton Ward (Hamstring) — back Next Season; Cody Walker (Calf) — back Next Season; Euan Aitken (Shoulder) — back Next Season"
     },
     {
       "name": "Knights",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Savelio Tamale (Knee) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season"
+      "news": "Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -354,7 +354,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "Mitchell Moses (Calf) — back Next Season; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
+      "news": "J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season; Mitchell Moses (Calf) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
     },
     {
       "name": "Broncos",
@@ -458,7 +458,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Jaydn Su'A (Pectoral) — back World Cup; Valentine Holmes (Ankle) — back World Cup"
+      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Valentine Holmes (Ankle) — back World Cup; Jaydn Su'A (Pectoral) — back World Cup"
     }
   ],
   "fixtures": [
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-22T10:25:40+11:00",
+  "generatedAt": "2026-10-22T15:56:20+11:00",
   "changes": [],
-  "changesSince": "2026-10-22T09:45:36+11:00"
+  "changesSince": "2026-10-22T10:25:40+11:00"
 };
