@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-10-23",
+  "updated": "2026-10-24",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 396,
         "PA": 309
       },
-      "news": "Lindsay Collins (Foot) — back Next Season; Blake Steep (ACL) — back Next Season; Connor Watson (Concussion) — back Next Season"
+      "news": "Lindsay Collins (Foot) — back Next Season; Blake Steep (ACL) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 320,
         "PA": 323
       },
-      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Toby Rudolf (Knee) — back Pre-Season Challenge; Braydon Trindall (Shoulder) — back Pre-Season Challenge"
+      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Braydon Trindall (Shoulder) — back Pre-Season Challenge; Toby Rudolf (Knee) — back Pre-Season Challenge"
     },
     {
       "name": "Rabbitohs",
@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Ashton Ward (Hamstring) — back Next Season; Cody Walker (Calf) — back Next Season; Euan Aitken (Shoulder) — back Next Season"
+      "news": "Euan Aitken (Shoulder) — back Next Season; Cody Walker (Calf) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Knights",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season"
+      "news": "Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -458,7 +458,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Valentine Holmes (Ankle) — back World Cup; Jaydn Su'A (Pectoral) — back World Cup"
+      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Jaydn Su'A (Pectoral) — back World Cup; Valentine Holmes (Ankle) — back World Cup"
     }
   ],
   "fixtures": [
@@ -484,7 +484,20 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-23T15:58:34+11:00",
-  "changes": [],
-  "changesSince": "2026-10-23T10:27:01+11:00"
+  "generatedAt": "2026-10-24T00:30:43+11:00",
+  "changes": [
+    {
+      "id": "r31-SYD-fit-connor-watson",
+      "fixture": "SYD-NEW",
+      "team": "SYD",
+      "cat": "injury",
+      "sev": 2,
+      "dir": "up",
+      "text": "Roosters: Connor Watson is off the injury list.",
+      "pts": 3.2,
+      "ts": "2026-10-24T00:30:43+11:00",
+      "rnd": 31
+    }
+  ],
+  "changesSince": "2026-10-23T15:58:34+11:00"
 };
