@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season"
+      "news": "Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -354,7 +354,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season; Mitchell Moses (Calf) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
+      "news": "Jack de Belin (Back); J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season; Mitchell Moses (Calf) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
     },
     {
       "name": "Broncos",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-24T15:43:19+11:00",
+  "generatedAt": "2026-10-24T20:45:36+11:00",
   "changes": [
     {
       "id": "r31-SYD-fit-connor-watson",
