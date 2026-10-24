@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-24T22:29:51+11:00",
+  "generatedAt": "2026-10-24T23:44:28+11:00",
   "changes": [
     {
       "id": "r31-SYD-fit-connor-watson",
