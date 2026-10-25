@@ -276,7 +276,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 302
       },
-      "news": "Will Warbrick (Achilles) — back Next Season; Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season"
+      "news": "Jack Howarth (Shoulder) — back Next Season; Xavier Coates (Achilles) — back Next Season; Will Warbrick (Achilles) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season"
+      "news": "Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -354,7 +354,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "Jack de Belin (Ribs); Mitchell Moses (Calf) — back Next Season; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
+      "news": "Jack de Belin (Ribs); J'maine Hopgood (ACL) — back Next Season; Matt Doorey (Knee) — back Next Season; Mitchell Moses (Calf) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
     },
     {
       "name": "Broncos",
@@ -458,7 +458,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Jaydn Su'A (Pectoral) — back World Cup"
+      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Jaydn Su'A (Pectoral) — back World Cup; Valentine Holmes (Ankle) — back World Cup"
     }
   ],
   "fixtures": [
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-25T15:49:13+11:00",
+  "generatedAt": "2026-10-25T19:19:17+11:00",
   "changes": [],
-  "changesSince": "2026-10-25T09:32:24+11:00"
+  "changesSince": "2026-10-25T15:49:13+11:00"
 };
