@@ -42,7 +42,7 @@ window.NRL_DATA = {
         "PF": 335,
         "PA": 193
       },
-      "news": "Blaize Talagi (Achilles); Nathan Cleary (Leg); Jack Cogger (Suspension) — back Finals Week 3"
+      "news": "Nathan Cleary (Leg) — back Next Season; Blaize Talagi (Achilles) — back Next Season"
     },
     {
       "name": "Warriors",
@@ -94,7 +94,7 @@ window.NRL_DATA = {
         "PF": 344,
         "PA": 207
       },
-      "news": "Isaiya Katoa (Ankle) — back World Cup"
+      "news": null
     },
     {
       "name": "Roosters",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 320,
         "PA": 323
       },
-      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Toby Rudolf (Knee) — back Pre-Season Challenge; Braydon Trindall (Shoulder) — back Pre-Season Challenge"
+      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Braydon Trindall (Shoulder) — back Pre-Season Challenge; Toby Rudolf (Knee) — back Pre-Season Challenge"
     },
     {
       "name": "Rabbitohs",
@@ -172,7 +172,7 @@ window.NRL_DATA = {
         "PF": 326,
         "PA": 304
       },
-      "news": "Ashton Ward (Hamstring) — back Next Season; Cody Walker (Calf) — back Next Season; Euan Aitken (Shoulder) — back Next Season"
+      "news": "Euan Aitken (Shoulder) — back Next Season; Cody Walker (Calf) — back Next Season; Ashton Ward (Hamstring) — back Next Season"
     },
     {
       "name": "Knights",
@@ -276,7 +276,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 302
       },
-      "news": "Jack Howarth (Shoulder) — back Next Season; Xavier Coates (Achilles) — back Next Season; Will Warbrick (Achilles) — back Next Season"
+      "news": "Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Will Warbrick (Achilles) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season"
+      "news": "Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -328,7 +328,7 @@ window.NRL_DATA = {
         "PF": 252,
         "PA": 308
       },
-      "news": "Kurt Mann (Groin) — back Next Season; Sitili Tupouniua (Hamstring) — back World Cup"
+      "news": "Kurt Mann (Groin) — back Next Season"
     },
     {
       "name": "Eels",
@@ -354,7 +354,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "Matt Doorey (Knee) — back Next Season; Jack de Belin (Ribs) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Mitchell Moses (Calf) — back Next Season; Isaiah Iongi (Knee) — back World Cup"
+      "news": "Jack de Belin (Ribs) — back Next Season; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Mitchell Moses (Calf) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -458,7 +458,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season; Valentine Holmes (Ankle) — back World Cup; Jaydn Su'A (Pectoral) — back World Cup"
+      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season"
     }
   ],
   "fixtures": [
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-27T08:03:42+11:00",
+  "generatedAt": "2026-10-27T10:21:51+11:00",
   "changes": [],
-  "changesSince": "2026-10-27T02:15:09+11:00"
+  "changesSince": "2026-10-27T08:03:42+11:00"
 };
