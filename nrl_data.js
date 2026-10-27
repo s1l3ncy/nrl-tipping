@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 422,
         "PA": 341
       },
-      "news": "Kalyn Ponga (Arm); Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
+      "news": "Kalyn Ponga (Arm); Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
     {
       "name": "Cowboys",
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 290,
         "PA": 311
       },
-      "news": "Thomas Mikaele (Hamstring) — back World Cup"
+      "news": null
     },
     {
       "name": "Sea Eagles",
@@ -406,7 +406,7 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 360
       },
-      "news": "Latu Fainu (Pectoral); Adam Doueihi (Shoulder) — back Next Season; Royce Hunt (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": "Adam Doueihi (Shoulder) — back Next Season; Royce Hunt (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season"
     },
     {
       "name": "Titans",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-27T10:21:51+11:00",
+  "generatedAt": "2026-10-27T16:12:36+11:00",
   "changes": [],
-  "changesSince": "2026-10-27T08:03:42+11:00"
+  "changesSince": "2026-10-27T10:21:51+11:00"
 };
