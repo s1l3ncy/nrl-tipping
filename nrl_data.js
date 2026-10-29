@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 422,
         "PA": 341
       },
-      "news": "Kalyn Ponga (Arm); Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
+      "news": "Kalyn Ponga (Arm); Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
     {
       "name": "Cowboys",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Corey Horsburgh (Shoulder) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
+      "news": "Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -380,7 +380,7 @@ window.NRL_DATA = {
         "PF": 235,
         "PA": 326
       },
-      "news": "Cory Paix (Shoulder) — back Next Season; Brendan Piakura (Concussion) — back Next Season; Preston Riki (Ankle) — back Next Season; Blake Mozer (Head knock) — back Next Season"
+      "news": "Blake Mozer (Head knock) — back Next Season; Cory Paix (Shoulder) — back Next Season; Brendan Piakura (Concussion) — back Next Season; Preston Riki (Ankle) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-10-29T10:34:06+11:00",
+  "generatedAt": "2026-10-29T16:54:24+11:00",
   "changes": [],
-  "changesSince": "2026-10-29T08:09:14+11:00"
+  "changesSince": "2026-10-29T10:34:06+11:00"
 };
