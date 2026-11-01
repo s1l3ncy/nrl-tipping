@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-11-01",
+  "updated": "2026-11-02",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Tanah Boyd (ACL) — back Next Season; Jackson Ford (Ankle) — back Next Season"
+      "news": "Chanel Harris-Tavita (Hamstring); Tanah Boyd (ACL) — back Next Season; Jackson Ford (Ankle) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -120,7 +120,7 @@ window.NRL_DATA = {
         "PF": 396,
         "PA": 309
       },
-      "news": "Lindsay Collins (Foot) — back Next Season; Blake Steep (ACL) — back Next Season"
+      "news": "Blake Steep (ACL) — back Next Season; Lindsay Collins (Foot) — back Next Season"
     },
     {
       "name": "Sharks",
@@ -198,7 +198,7 @@ window.NRL_DATA = {
         "PF": 422,
         "PA": 341
       },
-      "news": "Kalyn Ponga (Arm); Dylan Brown (ACL) — back Next Season; Trey Mooney (Shoulder) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
+      "news": "Kalyn Ponga (Arm); Trey Mooney (Shoulder) — back Next Season; Dylan Brown (ACL) — back Next Season; Phoenix Crossland (Suspension) — back World Cup"
     },
     {
       "name": "Cowboys",
@@ -302,7 +302,7 @@ window.NRL_DATA = {
         "PF": 289,
         "PA": 344
       },
-      "news": "Hudson Young (Achilles) — back Next Season; Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season"
+      "news": "Zac Hosking (Hamstring) — back Next Season; Savelio Tamale (Knee) — back Next Season; Hudson Young (Achilles) — back Next Season"
     },
     {
       "name": "Bulldogs",
@@ -380,7 +380,7 @@ window.NRL_DATA = {
         "PF": 235,
         "PA": 326
       },
-      "news": "Blake Mozer (Head knock) — back Next Season; Cory Paix (Shoulder) — back Next Season; Brendan Piakura (Concussion) — back Next Season; Preston Riki (Ankle) — back Next Season"
+      "news": "Cory Paix (Shoulder) — back Next Season; Brendan Piakura (Concussion) — back Next Season; Preston Riki (Ankle) — back Next Season; Blake Mozer (Head knock) — back Next Season"
     },
     {
       "name": "Wests Tigers",
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-11-01T22:59:41+11:00",
+  "generatedAt": "2026-11-02T01:31:44+11:00",
   "changes": [],
-  "changesSince": "2026-11-01T21:21:14+11:00"
+  "changesSince": "2026-11-01T22:59:41+11:00"
 };
