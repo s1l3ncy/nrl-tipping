@@ -39,6 +39,7 @@ Anything that can't be parsed confidently is left as the previous committed
 file (never wipes good data). Network access is fine here (GitHub servers).
 """
 import datetime
+import hashlib
 import html as html_mod
 import json
 import math
@@ -1391,6 +1392,27 @@ FOOTYTIPS_LADDER_ID = int(os.environ.get("FOOTYTIPS_LADDER_ID") or 0)
 # person. (The page defends itself: compFromFile() re-derives `me` from COMP_ME
 # by name and only falls back to this flag when no name matches.)
 FOOTYTIPS_ME = os.environ.get("FOOTYTIPS_ME", "")   # anonymous API never sets currentUser
+# Published nicknames (2026-11-17). The repo and the page are public, so no
+# member's real display name is ever written to nrl_comp.js: each is swapped for
+# a nickname on the way out. The map is a repo SECRET (JSON: {"display name":
+# "nickname", ...}). A display name the map does not know (a new member, or
+# someone renaming themselves) gets a stable opaque label instead — never the
+# raw name. FOOTYTIPS_ME is still matched against the RAW name, before aliasing.
+try:
+    FOOTYTIPS_ALIASES = json.loads(os.environ.get("FOOTYTIPS_ALIASES") or "{}")
+    if not isinstance(FOOTYTIPS_ALIASES, dict):
+        FOOTYTIPS_ALIASES = {}
+except ValueError:
+    FOOTYTIPS_ALIASES = {}
+
+
+def _alias(name):
+    """The public nickname for a footytips display name (never the name itself)."""
+    nick = FOOTYTIPS_ALIASES.get(name)
+    if isinstance(nick, str) and nick.strip():
+        return nick.strip()[:20]
+    digest = hashlib.sha256(f"{FOOTYTIPS_COMP_ID}:{name}".encode("utf-8")).hexdigest()
+    return "Tipper-" + digest[:4]
 FOOTYTIPS_URL = ("https://api.footytips.espn.com.au/competitions/{comp}/sports/"
                  "rugby-league/leagues/nrl/game-types/tipping/ladders/{lad}/rounds/{rnd}?view=tips")
 LEARNED_FILE = "nrl_learned.js"
@@ -1695,7 +1717,7 @@ def build_comp_js(rnd):
         rd = m.get("round") or {}
         rounds = m.get("rounds") or []
         entry = {
-            "name": name, "me": name == FOOTYTIPS_ME,
+            "name": _alias(name), "me": name == FOOTYTIPS_ME,
             "aff": aff.get(name, {}),
             "rank": m.get("rank") or 0,
             "mv": m.get("movement") if m.get("movement") in ("up", "down") else "",

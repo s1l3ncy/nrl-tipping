@@ -91,6 +91,8 @@ jobs:
           FOOTYTIPS_COMP_ID: ${{ secrets.FOOTYTIPS_COMP_ID }}
           FOOTYTIPS_LADDER_ID: ${{ secrets.FOOTYTIPS_LADDER_ID }}
           FOOTYTIPS_ME: ${{ secrets.FOOTYTIPS_ME }}
+          # display name -> public nickname map (JSON); real names never reach the repo
+          FOOTYTIPS_ALIASES: ${{ secrets.FOOTYTIPS_ALIASES }}
         run: python cloud_fetch.py
 
       # Weather was retired 2026-08-04 (audit): the model no longer reads it and
