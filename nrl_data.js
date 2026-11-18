@@ -11,7 +11,7 @@
 // Time-sensitive fields (odds, news) stay null unless the optional
 // --odds/--injuries dumps are supplied that week.
 window.NRL_DATA = {
-  "updated": "2026-11-18",
+  "updated": "2026-11-19",
   "season": 2026,
   "round": 31,
   "roundName": "Grand Final",
@@ -68,7 +68,7 @@ window.NRL_DATA = {
         "PF": 371,
         "PA": 196
       },
-      "news": "Chanel Harris-Tavita (Hamstring); Tanah Boyd (ACL) — back Next Season; Jackson Ford (Ankle) — back Next Season"
+      "news": "Chanel Harris-Tavita (Hamstring); Will Warbrick (Achilles) — back Next Season; Tanah Boyd (ACL) — back Next Season; Jackson Ford (Ankle) — back Next Season"
     },
     {
       "name": "Dolphins",
@@ -146,7 +146,7 @@ window.NRL_DATA = {
         "PF": 320,
         "PA": 323
       },
-      "news": "Mawene Hiroti (Knee) — back Next Season; Nicho Hynes (Concussion) — back Next Season; Jesse Ramien (Pectoral) — back Next Season; Braydon Trindall (Shoulder) — back Pre-Season Challenge; Toby Rudolf (Knee) — back Pre-Season Challenge"
+      "news": "Nicho Hynes (Concussion) — back Next Season; Braydon Trindall (Shoulder) — back Pre-Season Challenge"
     },
     {
       "name": "Rabbitohs",
@@ -224,7 +224,7 @@ window.NRL_DATA = {
         "PF": 290,
         "PA": 311
       },
-      "news": null
+      "news": "Jesse Ramien (Pectoral) — back Next Season"
     },
     {
       "name": "Sea Eagles",
@@ -276,7 +276,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 302
       },
-      "news": "Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season; Will Warbrick (Achilles) — back Next Season"
+      "news": "Xavier Coates (Achilles) — back Next Season; Jack Howarth (Shoulder) — back Next Season"
     },
     {
       "name": "Raiders",
@@ -328,7 +328,7 @@ window.NRL_DATA = {
         "PF": 252,
         "PA": 308
       },
-      "news": "Kurt Mann (Groin) — back Next Season"
+      "news": null
     },
     {
       "name": "Eels",
@@ -354,7 +354,7 @@ window.NRL_DATA = {
         "PF": 239,
         "PA": 364
       },
-      "news": "Jack de Belin (Ribs) — back Next Season; Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Mitchell Moses (Calf) — back Next Season"
+      "news": "Matt Doorey (Knee) — back Next Season; J'maine Hopgood (ACL) — back Next Season; Mitchell Moses (Calf) — back Next Season"
     },
     {
       "name": "Broncos",
@@ -406,7 +406,7 @@ window.NRL_DATA = {
         "PF": 167,
         "PA": 360
       },
-      "news": "Adam Doueihi (Shoulder) — back Next Season; Royce Hunt (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season"
+      "news": "Adam Doueihi (Shoulder) — back Next Season; Royce Hunt (Pectoral) — back Next Season; Taylan May (Shoulder) — back Next Season; Kurt Mann (Groin) — back Next Season"
     },
     {
       "name": "Titans",
@@ -432,7 +432,7 @@ window.NRL_DATA = {
         "PF": 272,
         "PA": 311
       },
-      "news": "Jaylan De Groot (Knee) — back Next Season; Brock Gray (ACL) — back Next Season; Zane Harrison (Hamstring) — back Next Season; Jaimin Jolliffe (Knee) — back Next Season; Oliver Pascoe (Concussion) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
+      "news": "Mawene Hiroti (Knee) — back Next Season; Jaylan De Groot (Knee) — back Next Season; Brock Gray (ACL) — back Next Season; Zane Harrison (Hamstring) — back Next Season; Oliver Pascoe (Concussion) — back Next Season; Jensen Taumoepeau (Ankle) — back Next Season"
     },
     {
       "name": "Dragons",
@@ -458,7 +458,7 @@ window.NRL_DATA = {
         "PF": 190,
         "PA": 317
       },
-      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season; Hame Sele (Achilles) — back Next Season"
+      "news": "Hayden Buchanan (Shoulder) — back Next Season; Clinton Gutherson (Knee) — back Next Season"
     }
   ],
   "fixtures": [
@@ -484,7 +484,7 @@ window.NRL_DATA = {
     }
   ],
   "byeTeams": [],
-  "generatedAt": "2026-11-18T13:28:44+11:00",
+  "generatedAt": "2026-11-19T00:09:32+11:00",
   "changes": [],
-  "changesSince": "2026-11-18T12:52:58+11:00"
+  "changesSince": "2026-11-18T13:28:44+11:00"
 };
