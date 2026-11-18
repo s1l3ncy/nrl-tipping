@@ -3,7 +3,7 @@
  * full-time grading is identical on every device and can never use hindsight.
  * An entry stops changing the moment its game kicks off. */
 window.NRL_TIPLOG = {
- "updated": "2026-11-18T13:09:36.050Z",
+ "updated": "2026-11-18T22:58:22.983Z",
  "tips": [
   {
    "season": 2026,
