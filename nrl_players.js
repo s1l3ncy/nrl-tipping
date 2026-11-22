@@ -20,7 +20,7 @@ window.NRL_PLAYERS = {
   "alofiana khan pereira": {"pos": "Winger", "pct": 56.8},
   "alofiana khan-pereira": {"pos": "Winger", "pct": 56.8},
   "angus crichton": {"pos": "Second-row", "pct": 69.9},
-  "antonio verhoeven": {"pos": "Winger", "pct": 20.1},
+  "antonio verhoeven": {"pos": "Winger", "pct": 20.0},
   "apisai koroisau": {"pos": "Hooker", "pct": 64.1},
   "arama hau": {"pos": "Second-row", "pct": 43.1},
   "archie mesritz": {"pos": "Fullback", "pct": 0.0},
