@@ -114,7 +114,7 @@ window.NRL_PLAYERS = {
   "davvy moale": {"pos": "Prop", "pct": 38.2},
   "de la salle va'a": {"pos": "Prop", "pct": 27.8},
   "de la salle vaa": {"pos": "Prop", "pct": 27.8},
-  "deine mariner": {"pos": "Winger", "pct": 55.9},
+  "deine mariner": {"pos": "Winger", "pct": 55.6},
   "delouise hoeter": {"pos": "Centre", "pct": 26.0},
   "demitric vaimauga": {"pos": "Prop", "pct": 57.1},
   "dominic young": {"pos": "Winger", "pct": 59.0},
