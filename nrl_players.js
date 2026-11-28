@@ -500,7 +500,7 @@ window.NRL_PLAYERS = {
   "tyran wishart": {"pos": "Halfback", "pct": 57.7},
   "tyrell sloan": {"pos": "Fullback", "pct": 41.1},
   "tyrone munro": {"pos": "Winger", "pct": 43.7},
-  "tyson frizell": {"pos": "Prop", "pct": 64.7},
+  "tyson frizell": {"pos": "Prop", "pct": 64.4},
   "tyson gamble": {"pos": "Five-eighth", "pct": 36.8},
   "valentine holmes": {"pos": "Centre", "pct": 58.2},
   "vena patuki case": {"pos": "Prop", "pct": 21.1},
